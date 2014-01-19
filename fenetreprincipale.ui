@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FenetrePrincipale</class>
+ <widget class="QMainWindow" name="FenetrePrincipale">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1012</width>
+    <height>574</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>FenetrePrincipale</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="tabShape">
+       <enum>QTabWidget::Rounded</enum>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="OngletMp3" name="tab">
+       <attribute name="title">
+        <string>Mp3</string>
+       </attribute>
+      </widget>
+      <widget class="OngletPhys" name="tab_2">
+       <attribute name="title">
+        <string>Physiques</string>
+       </attribute>
+      </widget>
+      <widget class="OngletPlaylist" name="tab_3">
+       <attribute name="title">
+        <string>Playlist</string>
+       </attribute>
+      </widget>
+     </widget>
+    </item>
+    <item>
+     <widget class="BarreAvancement" name="widget" native="true"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1012</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuGestion">
+    <property name="title">
+     <string>Vider</string>
+    </property>
+    <addaction name="actionViderBDD"/>
+    <addaction name="actionViderPhysiques"/>
+    <addaction name="actionViderMP3"/>
+   </widget>
+   <widget class="QMenu" name="menuGestion_2">
+    <property name="title">
+     <string>Supports Physiques</string>
+    </property>
+    <addaction name="actionAjouter_Album"/>
+    <addaction name="actionAjouter_Liste_Albums"/>
+    <addaction name="separator"/>
+    <addaction name="actionExporter_Liste_Physique"/>
+    <addaction name="separator"/>
+    <addaction name="actionChanger_Tag_Album"/>
+   </widget>
+   <widget class="QMenu" name="menuExporter">
+    <property name="title">
+     <string>Exporter...</string>
+    </property>
+    <addaction name="actionEn_HTML_Supports_Physiques"/>
+    <addaction name="actionAlbums"/>
+    <addaction name="actionCompils_Singles"/>
+   </widget>
+   <widget class="QMenu" name="menuSupports_Mp3">
+    <property name="title">
+     <string>Supports Mp3</string>
+    </property>
+    <addaction name="actionActualiser_Mp3"/>
+    <addaction name="separator"/>
+    <addaction name="actionChanger_Tags_Mp3"/>
+   </widget>
+   <widget class="QMenu" name="menuOutils">
+    <property name="title">
+     <string>Outils</string>
+    </property>
+    <addaction name="actionArtistes_Inverses"/>
+   </widget>
+   <widget class="QMenu" name="menuPlaylist">
+    <property name="title">
+     <string>Playlist</string>
+    </property>
+    <addaction name="actionChanger_Image_Playlist"/>
+    <addaction name="actionChanger_Nom_Playlist"/>
+   </widget>
+   <addaction name="menuGestion"/>
+   <addaction name="menuGestion_2"/>
+   <addaction name="menuExporter"/>
+   <addaction name="menuSupports_Mp3"/>
+   <addaction name="menuOutils"/>
+   <addaction name="menuPlaylist"/>
+  </widget>
+  <action name="actionVider_base_donn_es">
+   <property name="text">
+    <string>Vider base données...</string>
+   </property>
+  </action>
+  <action name="actionImporter_liste">
+   <property name="text">
+    <string>Importer liste...</string>
+   </property>
+  </action>
+  <action name="actionSupports_physiques">
+   <property name="text">
+    <string>Supports physiques...</string>
+   </property>
+  </action>
+  <action name="actionSupports_num_riques">
+   <property name="text">
+    <string>Supports numériques...</string>
+   </property>
+  </action>
+  <action name="actionTout">
+   <property name="text">
+    <string>Tout...</string>
+   </property>
+  </action>
+  <action name="actionAjouter_album">
+   <property name="text">
+    <string>Ajouter album...</string>
+   </property>
+  </action>
+  <action name="actionAlbum">
+   <property name="text">
+    <string>Albums</string>
+   </property>
+  </action>
+  <action name="actionCompilations_singles">
+   <property name="text">
+    <string>Compilations / singles</string>
+   </property>
+  </action>
+  <action name="actionTout_2">
+   <property name="text">
+    <string>Tout</string>
+   </property>
+  </action>
+  <action name="actionSauvegarder_liste">
+   <property name="text">
+    <string>Sauvegarder liste...</string>
+   </property>
+  </action>
+  <action name="actionViderBDD">
+   <property name="text">
+    <string>Tout</string>
+   </property>
+  </action>
+  <action name="actionViderPhysiques">
+   <property name="text">
+    <string>Physiques</string>
+   </property>
+  </action>
+  <action name="actionViderMP3">
+   <property name="text">
+    <string>MP3</string>
+   </property>
+  </action>
+  <action name="actionAjouter_Album">
+   <property name="text">
+    <string>Ajouter Album</string>
+   </property>
+  </action>
+  <action name="actionExporter_Liste_Physique">
+   <property name="text">
+    <string>Sauvegarder Liste</string>
+   </property>
+  </action>
+  <action name="actionEn_HTML_Supports_Physiques">
+   <property name="text">
+    <string>Tout</string>
+   </property>
+  </action>
+  <action name="actionAlbums">
+   <property name="text">
+    <string>Albums</string>
+   </property>
+  </action>
+  <action name="actionChanger_Tag_Album">
+   <property name="text">
+    <string>Changer Tag Album</string>
+   </property>
+  </action>
+  <action name="actionCompils_Singles">
+   <property name="text">
+    <string>Compils/Singles</string>
+   </property>
+  </action>
+  <action name="actionAjouter_Liste_Albums">
+   <property name="text">
+    <string>Ajouter Liste Albums</string>
+   </property>
+  </action>
+  <action name="actionArtistes_Inverses">
+   <property name="text">
+    <string>Artistes Inversés</string>
+   </property>
+  </action>
+  <action name="actionActualiser_Mp3">
+   <property name="text">
+    <string>Actualiser Mp3</string>
+   </property>
+  </action>
+  <action name="actionChanger_Tags_Mp3">
+   <property name="text">
+    <string>Changer Tags Mp3</string>
+   </property>
+  </action>
+  <action name="actionChanger_Image_Playlist">
+   <property name="text">
+    <string>Changer Image Playlist</string>
+   </property>
+  </action>
+  <action name="actionChanger_Nom_Playlist">
+   <property name="text">
+    <string>Changer Nom Playlist</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>OngletMp3</class>
+   <extends>QWidget</extends>
+   <header location="global">ongletmp3.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>OngletPhys</class>
+   <extends>QWidget</extends>
+   <header location="global">ongletphys.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>OngletPlaylist</class>
+   <extends>QWidget</extends>
+   <header location="global">ongletplaylist.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>BarreAvancement</class>
+   <extends>QWidget</extends>
+   <header location="global">barreavancement.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

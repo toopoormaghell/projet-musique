@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>OngletPhys</class>
+ <widget class="QWidget" name="OngletPhys">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1037</width>
+    <height>559</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item alignment="Qt::AlignLeft|Qt::AlignTop">
+      <widget class="QListView" name="Categories"/>
+     </item>
+     <item alignment="Qt::AlignTop">
+      <widget class="QListView" name="Artistes"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTableView" name="Albums"/>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
