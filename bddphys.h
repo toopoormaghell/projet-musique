@@ -1,10 +1,18 @@
 #ifndef BDDPHYS_H
 #define BDDPHYS_H
 
-class BDDPhys
+#include <QObject>
+#include "BDDcommun.h"
+#include <QStringList>
+#include "util.h"
+
+class BDDPhys : public BDDCommun
 {
+
 public:
-    BDDPhys();
+    explicit BDDPhys(QObject *parent = 0);
+    void AjouterAlbum(AlbumGestion album);
+
 };
 
 #endif // BDDPHYS_H

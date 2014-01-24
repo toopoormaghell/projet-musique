@@ -316,7 +316,17 @@ void BDDCommun::supprimerPoch(const QString& IdPoch)
         query2 = madatabase.exec(queryStri);
     }
 }
-
+QString BDDCommun::AjouterPochette(AlbumGestion album)
+{
+    EnleverAccents(album.Artiste);
+    EnleverAccents(album.Album);
+    QDir dossier;
+    QString chemin="./Pochettes/"+album.Artiste;
+    dossier.mkdir(chemin);
+    chemin+="/"+album.Album+".jpg";
+    album.pochette.save(chemin);
+    return chemin;
+}
 void BDDCommun::enregistrerObservateur(BarreAvancement *obs)
 {
     obs->init();
@@ -336,4 +346,47 @@ void BDDCommun::notifierObservateurs(const QString &chemin, const float pourcent
         qDebug() << chemin << " " << pourcentage;
         obs->notifierPouah( chemin, pourcentage );
     }
+}
+/*******************************************************
+ *Permet de récupérer le chemin de la pochette
+ *
+ ******************************************************/
+QString BDDCommun::afficherPochette(const QString &Id,const QString &Type)
+{
+    QString queryStr;
+    if (Type=="Album")
+    {
+        queryStr="SELECT P.Chemin FROM Album Al,Pochette P WHERE Al.Id_Pochette=P.Id_Pochette AND Al.Id_Album='"+Id+"'";
+    }
+    if (Type=="Artiste")
+    {
+        queryStr="SELECT P.Chemin FROM Artiste Ar,Pochette P WHERE Ar.Id_Pochette=P.Id_Pochette AND Ar.Id_Artiste='"+Id+"'";
+    }
+    if (Type=="Titre")
+    {
+        queryStr="SELECT P.Chemin FROM Titre T,Pochette P WHERE T.Id_Pochette=T.Id_Pochette AND T.Id_Titre='"+Id+"'";
+    }
+
+    QSqlQuery query= madatabase.exec(queryStr);
+    QString Chemin;
+    while (query.next() ) {
+        QSqlRecord rec=query.record();
+
+        Chemin=rec.value("Chemin").toString();
+    }
+    return Chemin;
+}
+
+bool BDDCommun::verifierTitreMp3Phys(QString Id_Titre)
+{
+    bool TitreenMp3etPhys=false;
+
+    QString queryStri =  "SELECT T.Titre FROM MP3 M, Titre T, Phys P WHERE M.Id_Titre=T.Id_Titre AND T.Id_Album=P.Id_Album AND T.Id_Titre="+Id_Titre;
+    QSqlQuery  query = madatabase.exec(queryStri);
+
+    //si la requête ne renvoie pas de résultat, on efface du coup la pochette
+    if (query.first()) {
+        TitreenMp3etPhys=true;
+    }
+    return TitreenMp3etPhys;
 }

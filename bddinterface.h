@@ -20,6 +20,12 @@ public:
     void desenregistrerObservateur( BarreAvancement* obs );
 
 
+    QStringList listeArtistesMp3(QString Categorie);
+    QString afficherPochette(const QString &Album, const QString &Type);
+    QStringList listeCategoriesMp3();
+    QStringList listeAlbumsMp3(QString Id_Artiste);
+    QStringList listeTitresAlbumMp3(QString Id_Album);
+    void ajouterAlbumPhysique(AlbumGestion album);
 private:
     BDDCommun myCommun;
     BDDMp3 myMp3;

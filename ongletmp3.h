@@ -16,7 +16,12 @@ public:
     ~OngletMp3();
 
     void afficherListeArtiste();
-    
+    void afficherListeCategories();
+    void afficherListeAlbum();
+    void afficherTitresAlbum(QString Album);
+    void afficherInfosTitre();
+public slots:
+    void on_Artistes_currentTextChanged(const QString &arg1);
 private:
     Ui::OngletMp3 *ui;
     BDDInterface m_bddInterface;

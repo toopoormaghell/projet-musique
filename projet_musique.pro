@@ -34,7 +34,9 @@ SOURCES += main.cpp\
     bddmp3.cpp \
     util.cpp \
     bddsingleton.cpp \
-    barreavancement.cpp
+    barreavancement.cpp \
+    importationlistephysiques.cpp \
+    discogs.cpp
 
 HEADERS  += fenetreprincipale.h \
     ongletmp3.h \
@@ -46,10 +48,13 @@ HEADERS  += fenetreprincipale.h \
     bddmp3.h \
     util.h \
     bddsingleton.h \
-    barreavancement.h
+    barreavancement.h \
+    importationlistephysiques.h \
+    discogs.h
 
 FORMS    += fenetreprincipale.ui \
     ongletmp3.ui \
     ongletphys.ui \
     ongletplaylist.ui \
-    barreavancement.ui
+    barreavancement.ui \
+    importationlistephysiques.ui

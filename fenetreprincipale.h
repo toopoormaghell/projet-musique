@@ -15,11 +15,13 @@ class FenetrePrincipale : public QMainWindow
 public:
     explicit FenetrePrincipale(QWidget *parent = 0);
     ~FenetrePrincipale();
-    
+
 
 private slots:
      void on_actionActualiser_Mp3_triggered();
      void on_actionViderBDD_triggered();
+     void on_actionAjouter_Liste_Albums_triggered();
+     void on_actionAjouter_Album_triggered();
 
 private:
     Ui::FenetrePrincipale *ui;

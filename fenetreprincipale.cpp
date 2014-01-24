@@ -3,6 +3,8 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QDebug>
+#include "importationlistephysiques.h"
+#include "discogs.h"
 
 FenetrePrincipale::FenetrePrincipale(QWidget *parent) :
     QMainWindow(parent),
@@ -24,4 +26,22 @@ void FenetrePrincipale::on_actionActualiser_Mp3_triggered()
 void FenetrePrincipale::on_actionViderBDD_triggered()
 {
     m_bddInterface.ViderBDD();
+
+}
+void FenetrePrincipale::on_actionAjouter_Liste_Albums_triggered()
+{
+    QString fileName = QFileDialog::getOpenFileName( this,
+                                                     "Ouvrir le fichier contenant une liste de CD",
+                                                     "F:/",
+                                                     "Fichier texte (*.txt)" );
+    ImportationListePhysiques tmp( this );
+    tmp.initFromFile( fileName );
+    tmp.exec();
+}
+void FenetrePrincipale::on_actionAjouter_Album_triggered()
+{
+Discogs temp;
+
+QString resultat=temp.RequeteAlbums("731454733823");
+AlbumGestion *album= temp.RequeteInfosAlbum(resultat);
 }

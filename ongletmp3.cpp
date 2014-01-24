@@ -7,7 +7,10 @@ OngletMp3::OngletMp3(QWidget *parent) :
     ui(new Ui::OngletMp3)
 {
     ui->setupUi(this);
+
+    afficherListeCategories();
     afficherListeArtiste();
+    afficherListeAlbum();
 }
 
 OngletMp3::~OngletMp3()
@@ -16,44 +19,105 @@ OngletMp3::~OngletMp3()
 }
 void OngletMp3::afficherListeArtiste()
 {
-QStringList artistes;
-artistes << "Alex" << "Nico" << "titou" << "dlkdlk"<<"lddkfd"<<"nnnn"<<"dkjd";
-
-for (int cpt=0;cpt<artistes.count();cpt++) {
-
-    QListWidgetItem *mediaCell = new  QListWidgetItem ();
-    QPixmap* pixmap = new QPixmap();
-
- /*   if (ui->ListeTypes->currentRow()==0)
+    //Choix de la Categorie des Mp3 à afficher
+    QListWidgetItem *item=ui->Categories->currentItem();
+    if (item==NULL)
     {
-        QString Chemin=m_bddInterface.afficherPochette(artistes[cpt+1],"Artiste");
-        //On s'occupe de la pochette
-
-        QImage* image=new QImage(Chemin);
-
-
-        pixmap->convertFromImage(*image);
-        mediaCell->setIcon(QIcon(*pixmap));
-        mediaCell->setData(Qt::UserRole,artistes[cpt+1]);
-    } else
-    {
-*/
-    QImage * image=new QImage("./Pochettes/def.jpg");
-        pixmap->convertFromImage(*image);
-        mediaCell->setIcon(QIcon(*pixmap));
-        mediaCell->setData(Qt::UserRole,artistes[cpt]);
-
-//    }
-    mediaCell->setText(artistes[cpt]);
-
-    ui->Artistes->addItem(mediaCell);
-    ui->Artistes->item(0)->setSelected(true);
-/*    if (ui->ListeTypes->currentRow()==0)
-    {
-        cpt++;
+        item=ui->Categories->item(0);
     }
-*/
+    QString Categorie=item->text();
+
+    //Affichage des artistes
+    QStringList artistes=m_bddInterface.listeArtistesMp3(Categorie);
+
+    for (int cpt=0;cpt<artistes.count();cpt=cpt+2) {
+
+        QListWidgetItem *mediaCell = new  QListWidgetItem ();
+        QPixmap* pixmap = new QPixmap();
+
+        //On s'occupe de la pochette
+        QString Chemin=m_bddInterface.afficherPochette(artistes[cpt+1],"Artiste");
+        QImage* image=new QImage(Chemin);
+        pixmap->convertFromImage(*image);
+        mediaCell->setIcon(QIcon(*pixmap));
+        //On s'occupe du nom de l'artiste
+        mediaCell->setData(Qt::UserRole,artistes[cpt+1]);
+        mediaCell->setText(artistes[cpt]);
+
+        ui->Artistes->addItem(mediaCell);
+        ui->Artistes->item(0)->setSelected(true);
+
+    }
 }
+void OngletMp3::afficherListeCategories()
+{
+    QStringList categories=m_bddInterface.listeCategoriesMp3();
+    for (int cpt=0;cpt<categories.count();cpt++) {
+        QListWidgetItem *mediaCell = new  QListWidgetItem ();
+        QPixmap* pixmap = new QPixmap();
+        QImage* image=new QImage("./Pochettes/def.jpg");
+        pixmap->convertFromImage(*image);
+        mediaCell->setIcon(QIcon(*pixmap));
+        //On s'occupe du nom de l'artiste
+        mediaCell->setText(categories[cpt]);
+
+        ui->Categories->addItem(mediaCell);
+        ui->Categories->item(0)->setSelected(true);
+    }
+}
+void OngletMp3::afficherListeAlbum()
+{
+    //Choix de l'Artiste des Albums à afficher
+    QListWidgetItem *item=ui->Artistes->currentItem();
+    if (item==NULL)
+    {
+        item=ui->Artistes->item(0);
+    }
+    QString Artiste=item->data(Qt::UserRole).toString();
+
+    //Affichage des albums
+    QStringList albums=m_bddInterface.listeAlbumsMp3(Artiste);
+
+    for (int cpt=0;cpt<albums.count();cpt=cpt+2) {
+
+        QListWidgetItem *mediaCell = new  QListWidgetItem ();
+        QPixmap* pixmap = new QPixmap();
+
+        //On s'occupe de la pochette
+        QString Chemin=m_bddInterface.afficherPochette(albums[cpt+1],"Album");
+        QImage* image=new QImage(Chemin);
+        pixmap->convertFromImage(*image);
+        mediaCell->setIcon(QIcon(*pixmap));
+        //On s'occupe du nom de l'album
+        mediaCell->setFlags(Qt::ItemIsEnabled );
+        mediaCell->setText(albums[cpt]);
+
+        ui->Albums->addItem(mediaCell);
+        afficherTitresAlbum(albums[cpt+1]);
+        ui->Albums->item(1)->setSelected(true);
+
+    }
+}
+void OngletMp3::afficherTitresAlbum(QString Album)
+{
+    QStringList titres=m_bddInterface.listeTitresAlbumMp3(Album);
+
+    for (int cpt=0;cpt<titres.count();cpt=cpt+2)
+    {
+        QListWidgetItem *item=new QListWidgetItem();
+        item->setData(Qt::UserRole,titres[cpt+1]);
+        item->setText(titres[cpt]);
+        ui->Albums->addItem(item);
+    }
+
+}
+void OngletMp3::afficherInfosTitre()
+{
+
 }
 
-
+void OngletMp3::on_Artistes_currentTextChanged(const QString &arg1)
+{
+    ui->Albums->clear();
+    afficherListeAlbum();
+}

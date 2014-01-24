@@ -4,30 +4,24 @@
 #include <QImage>
 #include <QStringList>
 
+
+struct TitreGestion
+{
+    QString Num_Piste;
+    QString Duree;
+    QString Titre;
+};
+typedef struct TitreGestion TitreGestion;
 struct AlbumGestion
 {
     QImage pochette;
-    QStringList titres;
+    QList<TitreGestion> titres;
     QString Artiste;
     QString Album;
     QString Type;
     QString Annee;
 };
 typedef struct AlbumGestion AlbumGestion;
-struct TitreGestion
-{
-    QImage pochette;
-    QString Artiste;
-    QString Album;
-    QString Annee;
-    QString Duree;
-    QString Titre;
-    QString Type;
-    QString Phys;
-
-
-};
-typedef struct TitreGestion TitreGestion;
 
 // Enlève les accents présents dans une QString
 void EnleverAccents ( QString& Nom );
