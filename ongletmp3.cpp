@@ -1,16 +1,20 @@
 #include "ongletmp3.h"
 #include "ui_ongletmp3.h"
 #include <QStringListModel>
+#include <phonon>
 
 OngletMp3::OngletMp3(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::OngletMp3)
 {
     ui->setupUi(this);
-
     afficherListeCategories();
-    afficherListeArtiste();
-    afficherListeAlbum();
+    if (ui->Categories->count()>0)
+    {
+        ui->Artistes->clear();
+        afficherListeArtiste();
+        afficherListeAlbum();
+    }
 }
 
 OngletMp3::~OngletMp3()
@@ -36,10 +40,10 @@ void OngletMp3::afficherListeArtiste()
         QPixmap* pixmap = new QPixmap();
 
         //On s'occupe de la pochette
-        QString Chemin=m_bddInterface.afficherPochette(artistes[cpt+1],"Artiste");
-        QImage* image=new QImage(Chemin);
-        pixmap->convertFromImage(*image);
-        mediaCell->setIcon(QIcon(*pixmap));
+        QImage image=m_bddInterface.afficherPochette(artistes[cpt+1],"Artiste");
+        pixmap->convertFromImage(image);
+        QPixmap pixmapscaled= pixmap->scaled(150,150,Qt::IgnoreAspectRatio,Qt::FastTransformation);
+        mediaCell->setIcon(QIcon(pixmapscaled));
         //On s'occupe du nom de l'artiste
         mediaCell->setData(Qt::UserRole,artistes[cpt+1]);
         mediaCell->setText(artistes[cpt]);
@@ -84,10 +88,11 @@ void OngletMp3::afficherListeAlbum()
         QPixmap* pixmap = new QPixmap();
 
         //On s'occupe de la pochette
-        QString Chemin=m_bddInterface.afficherPochette(albums[cpt+1],"Album");
-        QImage* image=new QImage(Chemin);
-        pixmap->convertFromImage(*image);
-        mediaCell->setIcon(QIcon(*pixmap));
+
+        QImage image=m_bddInterface.afficherPochette(albums[cpt+1],"Album");
+        pixmap->convertFromImage(image);
+        QPixmap pixmapscaled= pixmap->scaled(150,150,Qt::IgnoreAspectRatio,Qt::FastTransformation);
+        mediaCell->setIcon(QIcon(pixmapscaled));
         //On s'occupe du nom de l'album
         mediaCell->setFlags(Qt::ItemIsEnabled );
         mediaCell->setText(albums[cpt]);
@@ -114,10 +119,45 @@ void OngletMp3::afficherTitresAlbum(QString Album)
 void OngletMp3::afficherInfosTitre()
 {
 
-}
 
+
+
+}
+void OngletMp3::lectureMp3(bool lect)
+{
+    QString fileName("F:/Albums/Jenifer/06 - Je Danse.mp3");
+    Phonon::MediaObject* media = new Phonon::MediaObject(this);
+    createPath(media, new Phonon::AudioOutput(Phonon::MusicCategory, this));
+    media->setCurrentSource(fileName);
+    if(lect)
+    {
+        media->play();
+    } else
+    {
+        media->stop();
+    }
+}
 void OngletMp3::on_Artistes_currentTextChanged(const QString &arg1)
 {
     ui->Albums->clear();
     afficherListeAlbum();
+    afficherInfosTitre();
+}
+void OngletMp3::on_Categories_currentTextChanged(const QString &currentText)
+{
+    if (ui->Categories->count()>0)
+    {
+        ui->Artistes->clear();
+        afficherListeArtiste();
+        afficherListeAlbum();
+    }
+}
+void OngletMp3::on_Lecture_clicked()
+{
+    lectureMp3(true);
+}
+
+void OngletMp3::on_Stop_clicked()
+{
+    lectureMp3(false);
 }

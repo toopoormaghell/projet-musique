@@ -10,8 +10,8 @@ class Discogs : public QObject
 public:
     explicit Discogs(QObject *parent = 0);
 
-    QString RequeteAlbums(QString rech);
-    AlbumGestion *RequeteInfosAlbum(QString chemin);
+    QStringList RequeteAlbums(QString rech);
+    AlbumGestion *RequeteInfosAlbum(QString chemin, QString type);
     QString accents(QString nom);
 signals:
 

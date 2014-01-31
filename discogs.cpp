@@ -13,14 +13,14 @@ Discogs::Discogs(QObject *parent) :
 {
 }
 
-QString Discogs::RequeteAlbums(QString rech)
+QStringList Discogs::RequeteAlbums(QString rech)
 {
     QString adresse= "http://api.discogs.com/database/search?barcode="+rech;
     const QUrl url = QUrl(adresse);
     const QNetworkRequest requete(url);
     QNetworkAccessManager *m = new QNetworkAccessManager;
     QNetworkReply *r = m->get(requete);
-
+    QStringList resultat;
     //on attend que le signal finished soit reçu
     QEventLoop loop;
     QObject::connect(r, SIGNAL(finished()), &loop, SLOT(quit()));
@@ -29,16 +29,32 @@ QString Discogs::RequeteAlbums(QString rech)
     //on va lire ligne par ligne, jusqu'à trouver l'id
     while (!r->atEnd()) {
         QString pageWeb=r->readLine();
-        QStringList parsing=pageWeb.split("\"id\": ");
-        QStringList pars=parsing[1].split("}");
-       return pars[0];
+        QStringList parsing=pageWeb.split("\"master\", \"id\": ");
+
+        if (parsing.count()!=1)
+        {
+            QStringList pars=parsing[1].split("}");
+            resultat<< pars[0];
+            resultat<<"masters";
+        } else{
+            parsing=pageWeb.split("\"release\", \"id\": ");
+            if(parsing.count()!=1)
+{            QStringList pars=parsing[1].split("}");
+            resultat<< pars[0];
+            resultat<<"releases";
+            }
+        }
+
+
     }
+
+    return resultat;
 }
-AlbumGestion* Discogs::RequeteInfosAlbum(QString chemin)
+AlbumGestion* Discogs::RequeteInfosAlbum(QString chemin,QString type)
 {
     AlbumGestion* album = new AlbumGestion;
 
-    QString adresse= "http://api.discogs.com/masters/"+chemin;
+    QString adresse= "http://api.discogs.com/"+type+"/"+chemin;
     const QUrl url = QUrl(adresse);
     const QNetworkRequest requete(url);
     QNetworkAccessManager *m = new QNetworkAccessManager;
@@ -82,12 +98,12 @@ AlbumGestion* Discogs::RequeteInfosAlbum(QString chemin)
             loop.exec();
             QImage image;
             image.loadFromData((r->readAll()));
-            album->pochette=image;
+            album->Pochette=image;
         }
         //On récupère les titres
         QStringList Web=pageWeb.split("tracklist");
         parsing=Web[1].split("\"title\": \"");
-        int cpt=2;
+        int cpt=1;
         //Et la durée de chaque titre
         QString duree;
         QStringList durr=parsing[1].split("duration\": \"");
@@ -107,16 +123,17 @@ AlbumGestion* Discogs::RequeteInfosAlbum(QString chemin)
 
             TitreGestion titre;
             titre.Duree=duree;
-            titre.Num_Piste=cpt-2;
+            titre.Num_Piste=cpt;
             titre.Titre=titreLisible;
 
             album->titres << titre;
 
-          //  album->titres << titreLisible << duree;
+            //  album->titres << titreLisible << duree;
             duree=titre1[4];
             cpt++;
         }
     }
+
     return album;
 }
 QString Discogs::accents(QString nom)
@@ -136,6 +153,8 @@ QString Discogs::accents(QString nom)
     temp=temp.replace("\\u00ee","î");
     temp=temp.replace("\\u00f9","ù");
     temp=temp.replace("\\u00c7","ç");
+    temp=temp.replace("\\u00ef","ï");
+    temp=temp.replace("\\u00e7","ç");
 
     nomretravaille=temp.replace("\\u00e8","è");
 

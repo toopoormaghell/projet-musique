@@ -35,10 +35,9 @@ QStringList BDDInterface::listeArtistesMp3(QString Categorie)
     liste=myMp3.listeArtistes(Categorie);
     return liste;
 }
-QString BDDInterface::afficherPochette(const QString &Album,const QString &Type)
+QImage BDDInterface::afficherPochette(const QString &Album,const QString &Type)
 {
-    QString image;
-    image=myCommun.afficherPochette(Album,Type);
+    QImage image=myCommun.afficherPochette(Album,Type);
     return image;
 }
 QStringList BDDInterface::listeCategoriesMp3()
@@ -61,5 +60,34 @@ QStringList BDDInterface::listeTitresAlbumMp3(QString Id_Album)
 }
 void BDDInterface::ajouterAlbumPhysique(AlbumGestion album)
 {
-
+myPhys.AjouterAlbum(album);
 }
+QStringList BDDInterface::listeArtistesPhys(QString Categorie)
+{
+    QStringList liste;
+    liste=myPhys.listeArtistes(Categorie);
+    return liste;
+}
+QStringList BDDInterface::listeCategoriesPhys()
+{
+    QStringList list;
+    list=myPhys.listeCategories();
+    return list;
+}
+QStringList BDDInterface::listeAlbumsPhys(QString Id_Artiste,QString Categorie)
+{
+    QStringList list;
+    list=myPhys.listeAlbums(Id_Artiste,Categorie);
+    return list;
+}
+QList<TitreGestion> BDDInterface::listeTitresAlbumPhys(QString Id_Album)
+{
+   QList<TitreGestion> list;
+    list=myPhys.listeTitresAlbum(Id_Album);
+    return list;
+}
+ AlbumGestion BDDInterface::InfosAlbumPhys(QString Id_Album)
+ {
+     AlbumGestion album=myPhys.InfosAlbum(Id_Album);
+     return album;
+ }

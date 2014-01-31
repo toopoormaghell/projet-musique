@@ -19,13 +19,17 @@ public:
     void enregistrerObservateur( BarreAvancement* obs );
     void desenregistrerObservateur( BarreAvancement* obs );
 
-
     QStringList listeArtistesMp3(QString Categorie);
-    QString afficherPochette(const QString &Album, const QString &Type);
+    QImage afficherPochette(const QString &Album, const QString &Type);
     QStringList listeCategoriesMp3();
     QStringList listeAlbumsMp3(QString Id_Artiste);
     QStringList listeTitresAlbumMp3(QString Id_Album);
     void ajouterAlbumPhysique(AlbumGestion album);
+    QStringList listeArtistesPhys(QString Categorie);
+    QStringList listeCategoriesPhys();
+    QStringList listeAlbumsPhys(QString Id_Artiste, QString Categorie);
+    QList<TitreGestion> listeTitresAlbumPhys(QString Id_Album);
+    AlbumGestion InfosAlbumPhys(QString Id_Album);
 private:
     BDDCommun myCommun;
     BDDMp3 myMp3;

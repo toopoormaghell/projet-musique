@@ -20,8 +20,14 @@ public:
     void afficherListeAlbum();
     void afficherTitresAlbum(QString Album);
     void afficherInfosTitre();
+    void lectureMp3(bool lect);
 public slots:
     void on_Artistes_currentTextChanged(const QString &arg1);
+private slots:
+    void on_Categories_currentTextChanged(const QString &currentText);
+    void on_Lecture_clicked();
+    void on_Stop_clicked();
+
 private:
     Ui::OngletMp3 *ui;
     BDDInterface m_bddInterface;

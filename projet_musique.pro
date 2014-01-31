@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui sql network
-
+QT += phonon
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = projet_musique
@@ -36,7 +36,9 @@ SOURCES += main.cpp\
     bddsingleton.cpp \
     barreavancement.cpp \
     importationlistephysiques.cpp \
-    discogs.cpp
+    discogs.cpp \
+    dialogueajouterphysique.cpp \
+    affichagecommun.cpp
 
 HEADERS  += fenetreprincipale.h \
     ongletmp3.h \
@@ -50,11 +52,14 @@ HEADERS  += fenetreprincipale.h \
     bddsingleton.h \
     barreavancement.h \
     importationlistephysiques.h \
-    discogs.h
+    discogs.h \
+    dialogueajouterphysique.h \
+    affichagecommun.h
 
 FORMS    += fenetreprincipale.ui \
     ongletmp3.ui \
     ongletphys.ui \
     ongletplaylist.ui \
     barreavancement.ui \
-    importationlistephysiques.ui
+    importationlistephysiques.ui \
+    dialogueajouterphysique.ui

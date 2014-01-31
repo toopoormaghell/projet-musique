@@ -85,13 +85,11 @@ bool BDDCommun::removeDir(const QString &dirPath, const bool remove, const QStri
     }
     return true;
 }
-/*******************************************************
- *Récupère l'Id de la pochette
- *
- ******************************************************/
-QString BDDCommun::lireIDPoch(const QString &ArtAlb)
+//Récupère l'Id de la pochette
+int BDDCommun::lireIDPoch(const QString &ArtAlb)
 {
-    QString IdPoch;
+    int IdPoch;
+
     //On vérifie si la pochette existe ou non
     QString queryStr = "Select Id_Pochette As 'Poch' from Pochette WHERE Chemin='" + ArtAlb+"'" ;
     QSqlQuery  query = madatabase.exec(queryStr);
@@ -106,19 +104,15 @@ QString BDDCommun::lireIDPoch(const QString &ArtAlb)
     }
 
     QSqlRecord rec = query.record();
-    IdPoch = rec.value( "Poch" ).toString();
+    IdPoch = rec.value( "Poch" ).toInt();
     return IdPoch;
 }
-/*******************************************************
- *Récupère l'Id de l'artiste
- *
- ******************************************************/
-QString BDDCommun::lireIDArtiste(const QStringList &Artiste)
+//Récupère l'Id de l'artiste
+int BDDCommun::lireIDArtiste(const QString &Artiste,const int &IdPoch)
 {
-    QString NomArt = Artiste[0];
-    QString IdPoch = Artiste[1];
-    QString IdArtiste;
-    QString SansAccents = NomArt;
+
+    int IdArtiste;
+    QString SansAccents = Artiste;
     EnleverAccents(SansAccents);
     QString Echange=EchangerArtiste(SansAccents);
     //On vérifie si l'artiste existe ou non
@@ -126,7 +120,7 @@ QString BDDCommun::lireIDArtiste(const QStringList &Artiste)
     QSqlQuery  query = madatabase.exec(queryStr);
 
     if (!query.first()) {
-        queryStr="INSERT INTO Artiste VALUES (null,'" + NomArt+ "','" + IdPoch + "','" + SansAccents +"')";
+        queryStr="INSERT INTO Artiste VALUES (null,'" + Artiste+ "','" + QString::number(IdPoch) + "','" + SansAccents +"')";
         query = madatabase.exec(queryStr);
 
         queryStr = "Select Id_Artiste As 'Artiste' from Artiste WHERE NomSSAccents='" + SansAccents+"'" ;
@@ -134,7 +128,7 @@ QString BDDCommun::lireIDArtiste(const QStringList &Artiste)
         query.next();
     }
     QSqlRecord  rec = query.record();
-    IdArtiste = rec.value( "Artiste" ).toString();
+    IdArtiste = rec.value( "Artiste" ).toInt();
 
     return IdArtiste;
 }
@@ -142,31 +136,26 @@ QString BDDCommun::lireIDArtiste(const QStringList &Artiste)
  *Récupère l'Id de l'album
  *
  ******************************************************/
-QString BDDCommun::lireIDAlbum(const QStringList &Album)
+int BDDCommun::lireIDAlbum(const QString &Album, int Id_Poch, int Id_Artiste, QString Annee, QString Type)
 {
-    QString NomAlb = Album[0];
-    QString IdPoch = Album[2];
-    QString IdArtiste = Album[1];
-    QString Annee= Album[4];
-    QString IdAlbum;
-    QString Albssaccent = NomAlb;
+    int IdAlbum;
+    QString Albssaccent = Album;
     EnleverAccents(Albssaccent);
-    QString Type="Album";
 
     //On vérifie si l'album existe ou non
-    QString queryStr =  " Select Id_Album As 'Album' from Album WHERE NomSSAccents='" + Albssaccent+"' AND Id_Artiste='"+ IdArtiste+"'" ;
+    QString queryStr =  " Select Id_Album As 'Album' from Album WHERE NomSSAccents='" + Albssaccent+"' AND Id_Artiste='"+ QString::number(Id_Artiste)+"'" ;
     QSqlQuery  query = madatabase.exec(queryStr);
 
     if (!query.first()) {
-        queryStr="INSERT INTO Album VALUES (null,'"+ NomAlb+ "','" + IdArtiste + "','" + IdPoch + "','" + Albssaccent +"','" + Annee+"','"+Type+"')";
+        queryStr="INSERT INTO Album VALUES (null,'"+ Album+ "','" +QString::number(Id_Artiste) + "','" +QString::number(Id_Poch) + "','" + Albssaccent +"','" + Annee+"','"+Type+"')";
         query = madatabase.exec(queryStr);
 
-        queryStr = " Select Id_Album As 'Album' from Album WHERE NomSSAccents='" + Albssaccent+"' AND Id_Artiste='"+ IdArtiste+"'" ;
+        queryStr = " Select Id_Album As 'Album' from Album WHERE NomSSAccents='" + Albssaccent+"' AND Id_Artiste='"+ QString::number(Id_Artiste)+"'" ;
         query = madatabase.exec(queryStr);
         query.next();
     }
     QSqlRecord rec = query.record();
-    IdAlbum = rec.value( "Album" ).toString();
+    IdAlbum = rec.value( "Album" ).toInt();
 
     return IdAlbum;
 }
@@ -174,145 +163,122 @@ QString BDDCommun::lireIDAlbum(const QStringList &Album)
  *Récupère l'Id du titre
  *
  ******************************************************/
-QString BDDCommun::lireIDTitre(const QStringList& Titre)
+int BDDCommun::lireIDTitre(const QString &Titre, int IdAlb, int IdArtiste, int IdPoch,int NumPiste, QString Duree)
 {
-    QString Tit= Titre[0];
-    Tit.replace("'","$");
-    QString NomTitre = Tit;
-    EnleverAccents(NomTitre);
-    QString IdAlb = Titre[1];
-    QString IdArtiste = Titre[2];
-    QString IdPoch = Titre[3];
-    QString NumPiste= Titre[4];
-    QString Duree=Titre[5];
-    QString IdTitre;
-
+    QString TitreSSAccents = Titre;
+    EnleverAccents(TitreSSAccents);
+    int IdTitre;
 
     //On vérifie si l'album existe ou non
-    QString queryStr =  "Select Id_Titre As 'Titre' from Titre WHERE TitreSSAccents='" + NomTitre +"' AND Id_Artiste='"+ IdArtiste+"' AND Id_Album='"+ IdAlb+"'" ;
+    QString queryStr =  "Select Id_Titre As 'Titre' from Titre WHERE TitreSSAccents='" + TitreSSAccents +"' AND Id_Artiste='"+QString::number(IdArtiste)+"' AND Id_Album='"+QString::number(IdAlb)+"'" ;
     QSqlQuery  query = madatabase.exec(queryStr);
 
     if (!query.first()) {
-        queryStr="INSERT INTO Titre VALUES (null,'"+ Tit+ "','"+ IdArtiste +"','"+ NumPiste +"','"+ IdPoch +"','"+ IdAlb +"','"+ NomTitre+"','"+ Duree +"')";
+        queryStr="INSERT INTO Titre VALUES (null,'"+ Titre+ "','"+QString::number(IdArtiste) +"','"+QString::number(NumPiste) +"','"+QString::number(IdPoch) +"','"+QString::number(IdAlb) +"','"+ TitreSSAccents+"','"+ Duree +"')";
         query = madatabase.exec(queryStr);
 
-        queryStr = "Select Id_Titre As 'Titre' from Titre WHERE TitreSSAccents='" + NomTitre +"' AND Id_Artiste='"+ IdArtiste+"' AND Id_Album='"+ IdAlb+"'" ;
+        queryStr = "Select Id_Titre As 'Titre' from Titre WHERE TitreSSAccents='" + TitreSSAccents +"' AND Id_Artiste='"+QString::number(IdArtiste)+"' AND Id_Album='"+ QString::number(IdAlb)+"'" ;
         query = madatabase.exec(queryStr);
         query.next();
     }
 
     QSqlRecord rec = query.record();
-    IdTitre = rec.value( "Titre" ).toString();
+    IdTitre = rec.value( "Titre" ).toInt();
 
     return IdTitre;
 }
 /****************************************************
  *La fonction va vérifier si l'album a encore des
  *titres présents dans la BDD ou non
- *Param[0]= Id de l'album
- *Param[1]= Chemin de la pochette
  **************************************************/
-void BDDCommun::supprimerAlbum( const QStringList& Param)
+bool BDDCommun::supprimerAlbum(const int &Id_Alb, const QString &Chemin)
 {
+    bool supprimer=false;
     //On vérifie si l'album existe ou non dans la table des titres
-    QString queryStri =  "Select Id_Titre As 'Titre' from Titre WHERE Id_Album='"+ Param[0]+"'" ;
+    QString queryStri =  "Select Id_Titre As 'Titre' from Titre WHERE Id_Album='"+QString::number(Id_Alb)+"'" ;
     QSqlQuery  query2 = madatabase.exec(queryStri);
 
     //si la deuxième requête ne renvoie pas de résultat, on efface du coup l'album
     if (!query2.first()) {
 
-        queryStri =  "DELETE FROM Album WHERE Id_Album='"+Param[0]+"'";
+        queryStri =  "DELETE FROM Album WHERE Id_Album='"+QString::number(Id_Alb)+"'";
         query2 = madatabase.exec(queryStri);
 
-        bool valid = QFile::remove(Param[1]);
+        bool valid = QFile::remove(Chemin);
+        supprimer=true;
     }
+    return supprimer;
 }
 /****************************************************
  *La fonction va vérifier si l'artiste a encore des
  *albums présents dans la BDD
- *Param[0]=Id de l'artiste
- *Param[1]=Nom de l'artiste
  **************************************************/
-void BDDCommun::supprimerArtiste(const QStringList &Param)
+bool BDDCommun::supprimerArtiste(const int &Id_Artiste, const QString artiste)
 {
-
+    bool supprimer=false;
     //On vérifie si l'artiste existe ou non dans la table des albums
-    QString queryStri =  "Select Id_Album As 'Alb' from Titre WHERE Id_Artiste='"+ Param[0]+"'" ;
+    QString queryStri =  "Select Id_Album As 'Alb' from Titre WHERE Id_Artiste='"+QString::number(Id_Artiste)+"'" ;
     QSqlQuery  query2 = madatabase.exec(queryStri);
 
     //si la requête ne renvoie pas de résultat, on efface du coup l'artiste
     if (!query2.first()) {
 
-        queryStri =  "DELETE FROM Artiste WHERE Id_Artiste='"+Param[0]+"'";
+        queryStri =  "DELETE FROM Artiste WHERE Id_Artiste='"+QString::number(Id_Artiste)+"'";
         query2 = madatabase.exec(queryStri);
 
-        QString nomArtiste( Param[1] );
-        EnleverAccents( nomArtiste );
-        QString artiste="./Pochettes/"+nomArtiste;
-        qDebug() << artiste;
         QDir().rmdir(artiste);
+
+        supprimer=true;
     }
+    return supprimer;
 }
 /****************************************************
  *La fonction va vérifier si le logiciel peut effacer
  *le titre sans poser de soucis.
- *Selon, la source de la suppression, les infos à transmettre seront différentes:
- *-----------Si le titre vient d'un MP3 viré-------------
- *infos[1]=Id_Titre
- *infos[2]=Id_Album
- *infos[0]= MP3
- *----------Si le titre vient d'un album Phys viré-----------
- *infos[1]=Id_Titre
- *infos[0]= Phys
  **************************************************/
-void BDDCommun::supprimerTitre( const QStringList& infos)
+bool BDDCommun::supprimerTitre( const int Id_Titre)
 {
-    QString Id_Titre = infos[1];
-    QString Param = infos[0];
-
-    if (Param=="MP3") {
-        QString Id_Alb=infos[2];
-        //On va faire une première requête qui va donner les ID des artistes
-        QString queryStr =  "Select Id_Phys As 'Id' from Phys WHERE Id_Album='"+Id_Alb+"'" ;
-        QSqlQuery  query = madatabase.exec(queryStr);
-        if (!query.first()) {
-
-            queryStr =  "DELETE FROM Titre WHERE Id_Titre='"+Id_Titre+"'";
-
-            query = madatabase.exec(queryStr);
-
-            queryStr="DELETE FROM TitresPlaylist WHERE Id_Titre='"+Id_Titre+"'";
-        }
+    bool supprimer=false;
+    //On va faire une première requête qui va donner les ID des artistes
+    QString queryStr =  "Select Id_MP3 As 'Id' from MP3 WHERE Id_Titre='"+QString::number(Id_Titre)+"'" ;
+    QSqlQuery  query = madatabase.exec(queryStr);
+    if (!query.first()) {
+        queryStr =  "DELETE FROM Titre WHERE Id_Titre='"+QString::number(Id_Titre)+"'";
+        query = madatabase.exec(queryStr);
+        supprimer=true;
     }
-    if (Param=="Phys") {
-
-        //On va faire une première requête qui va donner les ID des artistes
-        QString queryStr =  "Select Id_MP3 As 'Id' from MP3 WHERE Id_Titre='"+Id_Titre+"'" ;
-        QSqlQuery  query = madatabase.exec(queryStr);
-        if (!query.first()) {
-
-            queryStr =  "DELETE FROM Titre WHERE Id_Titre='"+Id_Titre+"'";
-
-            query = madatabase.exec(queryStr);
-
-        }
+    return supprimer;
+}
+bool BDDCommun::supprimerTitre(const int Id_Album,const int Id_Titre)
+{
+    bool supprimer=false;
+    //On va faire une première requête qui va donner les ID des artistes
+    QString queryStr =  "Select Id_Phys from Phys WHERE Id_Album='"+QString::number(Id_Album)+"'" ;
+    QSqlQuery  query = madatabase.exec(queryStr);
+    if (!query.first()) {
+        queryStr =  "DELETE FROM Titre WHERE Id_Titre='"+QString::number(Id_Titre)+"'";
+        query = madatabase.exec(queryStr);
+        queryStr="DELETE FROM TitresPlaylist WHERE Id_Titre='"+QString::number(Id_Titre)+"'";
+        query = madatabase.exec(queryStr);
+        supprimer=true;
     }
+    return supprimer;
 }
 
 /****************************************************
  *La fonction va vérifier si la pochette a encore des
  *titres présents dans la BDD
  **************************************************/
-void BDDCommun::supprimerPoch(const QString& IdPoch)
+void BDDCommun::supprimerPoch(const int& IdPoch)
 {
     //On vérifie si l'artiste existe ou non dans la table des albums
-    QString queryStri =  "Select Id_Titre As 'Tit' from Titre WHERE Id_Pochette='"+ IdPoch+"'" ;
+    QString queryStri =  "Select Id_Titre As 'Tit' from Titre WHERE Id_Pochette='"+QString::number(IdPoch)+"'" ;
     QSqlQuery  query2 = madatabase.exec(queryStri);
 
     //si la requête ne renvoie pas de résultat, on efface du coup la pochette
     if (!query2.first()) {
 
-        queryStri =  "DELETE FROM Pochette WHERE Id_Pochette='"+IdPoch+"'";
+        queryStri =  "DELETE FROM Pochette WHERE Id_Pochette='"+QString::number(IdPoch)+"'";
         query2 = madatabase.exec(queryStri);
     }
 }
@@ -321,10 +287,21 @@ QString BDDCommun::AjouterPochette(AlbumGestion album)
     EnleverAccents(album.Artiste);
     EnleverAccents(album.Album);
     QDir dossier;
-    QString chemin="./Pochettes/"+album.Artiste;
+    QString chemin="./pochettes/"+album.Artiste;
     dossier.mkdir(chemin);
     chemin+="/"+album.Album+".jpg";
-    album.pochette.save(chemin);
+    album.Pochette.save(chemin);
+    return chemin;
+}
+QString BDDCommun::AjouterPochette(MP3Gestion mp3)
+{
+    EnleverAccents(mp3.Artiste);
+    EnleverAccents(mp3.Album);
+    QDir dossier;
+    QString chemin="./pochettes/"+mp3.Artiste;
+    dossier.mkdir(chemin);
+    chemin+="/"+mp3.Album+".jpg";
+    mp3.Pochette.save(chemin);
     return chemin;
 }
 void BDDCommun::enregistrerObservateur(BarreAvancement *obs)
@@ -343,15 +320,15 @@ void BDDCommun::notifierObservateurs(const QString &chemin, const float pourcent
 {
     foreach ( BarreAvancement* obs, m_observateurs )
     {
-        qDebug() << chemin << " " << pourcentage;
+     //   qDebug() << chemin << " " << pourcentage;
         obs->notifierPouah( chemin, pourcentage );
     }
 }
 /*******************************************************
- *Permet de récupérer le chemin de la pochette
+ *Permet de récupérer la pochette
  *
  ******************************************************/
-QString BDDCommun::afficherPochette(const QString &Id,const QString &Type)
+QImage BDDCommun::afficherPochette(const QString &Id,const QString &Type)
 {
     QString queryStr;
     if (Type=="Album")
@@ -368,16 +345,17 @@ QString BDDCommun::afficherPochette(const QString &Id,const QString &Type)
     }
 
     QSqlQuery query= madatabase.exec(queryStr);
-    QString Chemin;
-    while (query.next() ) {
-        QSqlRecord rec=query.record();
 
-        Chemin=rec.value("Chemin").toString();
-    }
-    return Chemin;
+    query.next();
+    QSqlRecord rec=query.record();
+
+    QString Chemin=rec.value("Chemin").toString();
+    QImage* image2=new QImage(Chemin);
+    QImage image=*image2;
+    return image;
 }
 
-bool BDDCommun::verifierTitreMp3Phys(QString Id_Titre)
+bool BDDCommun::verifierTitreMp3Phys(int Id_Titre)
 {
     bool TitreenMp3etPhys=false;
 

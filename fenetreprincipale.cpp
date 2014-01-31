@@ -5,6 +5,8 @@
 #include <QDebug>
 #include "importationlistephysiques.h"
 #include "discogs.h"
+#include "dialogueajouterphysique.h"
+
 
 FenetrePrincipale::FenetrePrincipale(QWidget *parent) :
     QMainWindow(parent),
@@ -40,8 +42,6 @@ void FenetrePrincipale::on_actionAjouter_Liste_Albums_triggered()
 }
 void FenetrePrincipale::on_actionAjouter_Album_triggered()
 {
-Discogs temp;
-
-QString resultat=temp.RequeteAlbums("731454733823");
-AlbumGestion *album= temp.RequeteInfosAlbum(resultat);
+    DialogueAjouterPhysique tmpDialog( this );
+    tmpDialog.exec();           
 }

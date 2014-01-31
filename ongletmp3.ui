@@ -18,6 +18,12 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item alignment="Qt::AlignLeft|Qt::AlignTop">
       <widget class="QListWidget" name="Categories">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>140</height>
+        </size>
+       </property>
        <property name="iconSize">
         <size>
          <width>50</width>
@@ -40,6 +46,12 @@
      </item>
      <item alignment="Qt::AlignTop">
       <widget class="QListWidget" name="Artistes">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>140</height>
+        </size>
+       </property>
        <property name="contextMenuPolicy">
         <enum>Qt::DefaultContextMenu</enum>
        </property>
@@ -115,6 +127,11 @@
        <property name="sortingEnabled">
         <bool>false</bool>
        </property>
+       <item>
+        <property name="text">
+         <string>Pas de MP3 enregistré</string>
+        </property>
+       </item>
       </widget>
      </item>
     </layout>
@@ -157,6 +174,24 @@
        </item>
        <item>
         <widget class="QTableWidget" name="Similaires"/>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QPushButton" name="Lecture">
+           <property name="text">
+            <string>&gt;</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="Stop">
+           <property name="text">
+            <string>||</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </item>

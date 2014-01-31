@@ -16,22 +16,26 @@ public:
 
     bool removeDir(const QString& dirPath, const bool remove = true, const QString fichier = "def.jpg");
 
-    QString lireIDArtiste( const QStringList& Artiste);
-    QString lireIDAlbum( const QStringList& Album);
-    QString lireIDTitre( const QStringList& Titre);
-    QString lireIDPoch( const QString& ArtAlb);
+    int lireIDPoch(const QString &ArtAlb);
+    int lireIDArtiste( const QString &Artiste,const int &IdPoch);
+    int lireIDAlbum( const QString &Album, int Id_Poch, int Id_Artiste, QString Annee, QString Type);
+    int lireIDTitre( const QString &Titre, int IdAlb, int IdArtiste, int IdPoch,int NumPiste, QString Duree);
 
-    void supprimerArtiste( const QStringList& Param);
-    void supprimerAlbum( const QStringList& Param);
-    void supprimerTitre( const QStringList& infos);
-    void supprimerPoch( const QString& IdPoch);
+    bool supprimerArtiste(const int &Id_Artiste, const QString artiste);
+    bool supprimerAlbum(const int &Id_Alb, const QString &Chemin);
+    bool supprimerTitre(const int Id_Titre);
+    void supprimerPoch(const int &IdPoch);
 
     void enregistrerObservateur( BarreAvancement* obs );
     void desenregistrerObservateur( BarreAvancement* obs );
 
-    QString afficherPochette(const QString &Id, const QString &Type);
-    bool verifierTitreMp3Phys(QString Id_Titre);
+    QImage afficherPochette(const QString &Id, const QString &Type);
+    bool verifierTitreMp3Phys(int Id_Titre);
+
+    QString AjouterPochette(MP3Gestion mp3);
     QString AjouterPochette(AlbumGestion album);
+
+    bool supprimerTitre(const int Id_Album, const int Id_Titre);
 protected:
     void notifierObservateurs( const QString& chemin, const float pourcentage );
 
