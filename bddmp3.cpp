@@ -298,3 +298,12 @@ MP3Gestion BDDMp3::RecupererInfosMp3(int Id_Titre)
 
     return mp3;
 }
+
+QString BDDMp3::getPathFromIdMp3(const QString &mp3Id)
+{
+    QString queryStr="Select Chemin From Mp3 where id_titre=" + mp3Id;
+    QSqlQuery query = madatabase.exec(queryStr);
+    query.next();
+    QSqlRecord rec = query.record();
+    return rec.value( "Chemin" ).toString().replace( "$", "'" );
+}

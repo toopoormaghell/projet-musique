@@ -38,7 +38,8 @@ SOURCES += main.cpp\
     importationlistephysiques.cpp \
     discogs.cpp \
     dialogueajouterphysique.cpp \
-    affichagecommun.cpp
+    affichagecommun.cpp \
+    player.cpp
 
 HEADERS  += fenetreprincipale.h \
     ongletmp3.h \
@@ -54,7 +55,8 @@ HEADERS  += fenetreprincipale.h \
     importationlistephysiques.h \
     discogs.h \
     dialogueajouterphysique.h \
-    affichagecommun.h
+    affichagecommun.h \
+    player.h
 
 FORMS    += fenetreprincipale.ui \
     ongletmp3.ui \
@@ -62,4 +64,5 @@ FORMS    += fenetreprincipale.ui \
     ongletplaylist.ui \
     barreavancement.ui \
     importationlistephysiques.ui \
-    dialogueajouterphysique.ui
+    dialogueajouterphysique.ui \
+    player.ui

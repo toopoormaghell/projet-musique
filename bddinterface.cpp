@@ -91,3 +91,8 @@ QList<TitreGestion> BDDInterface::listeTitresAlbumPhys(QString Id_Album)
      AlbumGestion album=myPhys.InfosAlbum(Id_Album);
      return album;
  }
+
+ QString BDDInterface::getPathFromIdMp3(const QString &mp3Id)
+ {
+     return myMp3.getPathFromIdMp3( mp3Id );
+ }

@@ -21,6 +21,8 @@ public:
     void afficherTitresAlbum(QString Album);
     void afficherInfosTitre();
     void lectureMp3(bool lect);
+
+    QString getSelectedTitleId() const;
 public slots:
     void on_Artistes_currentTextChanged(const QString &arg1);
 private slots:

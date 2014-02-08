@@ -24,6 +24,7 @@ public:
     int lireIdMp3(int IdTitre, QString cheminBDD, QString type);
     void SupprimerMp3(int Id_Titre, int Id_Mp3);
     MP3Gestion RecupererInfosMp3(int Id_Titre);
+    QString getPathFromIdMp3( const QString& mp3Id );
 };
 
 #endif // BDDMP3_H
