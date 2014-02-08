@@ -6,7 +6,7 @@
 #include "importationlistephysiques.h"
 #include "discogs.h"
 #include "dialogueajouterphysique.h"
-
+#include "dialogueartistesinverses.h"
 
 FenetrePrincipale::FenetrePrincipale(QWidget *parent) :
     QMainWindow(parent),
@@ -43,5 +43,26 @@ void FenetrePrincipale::on_actionAjouter_Liste_Albums_triggered()
 void FenetrePrincipale::on_actionAjouter_Album_triggered()
 {
     DialogueAjouterPhysique tmpDialog( this );
-    tmpDialog.exec();           
+    tmpDialog.exec();
+}
+
+void FenetrePrincipale::on_actionEn_HTML_Supports_Physiques_triggered()
+{
+      m_bddInterface.ExporterHTML("Tout");
+}
+
+void FenetrePrincipale::on_actionAlbums_triggered()
+{
+     m_bddInterface.ExporterHTML("Album");
+}
+
+void FenetrePrincipale::on_actionCompils_Singles_triggered()
+{
+    m_bddInterface.ExporterHTML("Single");
+}
+
+void FenetrePrincipale::on_actionArtistes_Inverses_triggered()
+{
+    DialogueArtistesInverses tmp(this);
+    tmp.exec();
 }

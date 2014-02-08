@@ -128,7 +128,7 @@ AlbumGestion* Discogs::RequeteInfosAlbum(QString chemin,QString type)
 
             album->titres << titre;
 
-            //  album->titres << titreLisible << duree;
+
             duree=titre1[4];
             cpt++;
         }

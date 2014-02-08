@@ -21,6 +21,8 @@ public:
     AlbumGestion InfosAlbum(QString Id_Album);
     QString choixCategorie(QString Categorie);
     int lireIDPhys(int Id_Album, QString Type);
+    QStringList ListeAlbumArtisteExport(QString Type);
+    void ExporterHTML(QString Type);
 };
 
 #endif // BDDPHYS_H

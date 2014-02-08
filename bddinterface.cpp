@@ -60,7 +60,7 @@ QStringList BDDInterface::listeTitresAlbumMp3(QString Id_Album)
 }
 void BDDInterface::ajouterAlbumPhysique(AlbumGestion album)
 {
-myPhys.AjouterAlbum(album);
+    myPhys.AjouterAlbum(album);
 }
 QStringList BDDInterface::listeArtistesPhys(QString Categorie)
 {
@@ -82,12 +82,26 @@ QStringList BDDInterface::listeAlbumsPhys(QString Id_Artiste,QString Categorie)
 }
 QList<TitreGestion> BDDInterface::listeTitresAlbumPhys(QString Id_Album)
 {
-   QList<TitreGestion> list;
+    QList<TitreGestion> list;
     list=myPhys.listeTitresAlbum(Id_Album);
     return list;
 }
- AlbumGestion BDDInterface::InfosAlbumPhys(QString Id_Album)
- {
-     AlbumGestion album=myPhys.InfosAlbum(Id_Album);
-     return album;
- }
+AlbumGestion BDDInterface::InfosAlbumPhys(QString Id_Album)
+{
+    AlbumGestion album=myPhys.InfosAlbum(Id_Album);
+    return album;
+}
+void BDDInterface::ExporterHTML(QString Type)
+{
+    myPhys.ExporterHTML(Type);
+}
+QStringList BDDInterface::ListeArtistes()
+{
+    QStringList temp=myCommun.ListeArtistes();
+    return temp;
+}
+QStringList BDDInterface::ListeArtistesInvers()
+{
+    QStringList temp=myCommun.ListeArtistesInvers();
+    return temp;
+}

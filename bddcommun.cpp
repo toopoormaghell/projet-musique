@@ -320,7 +320,7 @@ void BDDCommun::notifierObservateurs(const QString &chemin, const float pourcent
 {
     foreach ( BarreAvancement* obs, m_observateurs )
     {
-     //   qDebug() << chemin << " " << pourcentage;
+        //   qDebug() << chemin << " " << pourcentage;
         obs->notifierPouah( chemin, pourcentage );
     }
 }
@@ -367,4 +367,43 @@ bool BDDCommun::verifierTitreMp3Phys(int Id_Titre)
         TitreenMp3etPhys=true;
     }
     return TitreenMp3etPhys;
+}
+QStringList BDDCommun::ListeArtistes()
+{
+    QStringList liste;
+    QString queryStri ="SELECT Id_Artiste, Artiste FROM Artiste";
+    QSqlQuery query= madatabase.exec(queryStri);
+
+    while( query.next() )
+    {
+        QSqlRecord rec=query.record();
+        liste << rec.value("Artiste").toString().replace("$","'");
+        liste << rec.value("Id_Artiste").toString();
+    }
+    QStringList liste2mots=Artistea2mots(liste);
+    return liste2mots;
+}
+QStringList BDDCommun::Artistea2mots(QStringList Artistes)
+{
+    QStringList art2mots;
+
+    for(int cpt=0;cpt<Artistes.count();cpt=cpt+2)
+    {
+        QStringList temp=Artistes[cpt].split(" ");
+        if (temp.size()==2)
+        {
+            art2mots << Artistes[cpt] << Artistes[cpt+1];
+        }
+    }
+    return art2mots;
+}
+QStringList BDDCommun::ListeArtistesInvers()
+{
+    QStringList liste=ListeArtistes();
+    QStringList resultat;
+    for(int cpt=0;cpt<liste.count();cpt=cpt+2)
+    {
+        resultat << EchangerArtiste(liste[cpt]) << liste[cpt+1];
+    }
+    return resultat;
 }

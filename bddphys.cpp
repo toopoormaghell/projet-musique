@@ -5,8 +5,6 @@ BDDPhys::BDDPhys(QObject *parent):
     BDDCommun(parent)
 {
 }
-
-
 void BDDPhys::AjouterAlbum(AlbumGestion album)
 {
     QString CheminPochette= AjouterPochette(album).replace("'","$");
@@ -19,7 +17,7 @@ void BDDPhys::AjouterAlbum(AlbumGestion album)
     // On s'occupe des titres
     for(int cpt=0;cpt<album.titres.count();cpt++)
     {
-        album.titres[cpt].Id_Titre = lireIDTitre(album.titres[cpt].Titre,album.Id_Album,album.Id_Artiste,album.Id_Poch,album.titres[cpt].Num_Piste,album.titres[cpt].Duree);
+        album.titres[cpt].Id_Titre = lireIDTitre(album.titres[cpt].Titre.replace("'","$"),album.Id_Album,album.Id_Artiste,album.Id_Poch,album.titres[cpt].Num_Piste,album.titres[cpt].Duree);
     }
 }
 
@@ -45,7 +43,6 @@ int BDDPhys::lireIDPhys(int Id_Album,QString Type)
 QStringList  BDDPhys::listeArtistes(QString Categorie)
 {
     QStringList liste;
-
 
     Categorie=choixCategorie(Categorie);
 
@@ -138,5 +135,42 @@ AlbumGestion BDDPhys::InfosAlbum(QString Id_Album)
         album.titres=listeTitresAlbum(Id_Album);
     }
     return album;
+}
+void BDDPhys::ExporterHTML(QString Type)
+{
+    QStringList albart=ListeAlbumArtisteExport(Type);
 
+    QString chemin = "F:/"+Type+".html";
+    //Récupère le fichier et l'ouvre avec lecture lignes par lignes
+    QString fileName = chemin;
+    QFile fichier(fileName);
+    fichier.open(QIODevice::WriteOnly | QIODevice::Text);
+    // Création d'un objet QTextStream à partir de notre objet QFile
+    QTextStream flux(&fichier);
+    // On choisit le codec correspondant au jeu de caractère que l'on souhaite ; ici, UTF-8
+    flux.setCodec("UTF-8");
+
+    for(int cpt=0;cpt<albart.count();cpt=cpt+2)
+    {
+        flux << albart[cpt]<< " " << albart[cpt+1] << "<br>"<< endl;
+    }
+}
+QStringList BDDPhys::ListeAlbumArtisteExport(QString Type)
+{
+    QStringList albart;
+    QString queryType;
+    if (Type!="Tout")
+    {
+        queryType="AND P.Categorie='"+Type+"'";
+    }
+    QString QueryStr="SELECT Al.Album, Ar.Artiste FROM Phys P,Album Al, Artiste Ar WHERE P.Id_Album=Al.Id_Album AND Al.Id_Artiste = Ar.Id_Artiste "+queryType+" ORDER BY Ar.Artiste";
+    QSqlQuery query=madatabase.exec(QueryStr);
+
+    while(query.next())
+    {
+        QSqlRecord rec=query.record();
+
+        albart << rec.value("Album").toString().replace("$","'") << rec.value("Artiste").toString().replace("$","'");
+    }
+    return albart;
 }

@@ -36,6 +36,9 @@ public:
     QString AjouterPochette(AlbumGestion album);
 
     bool supprimerTitre(const int Id_Album, const int Id_Titre);
+    QStringList ListeArtistes();
+    QStringList Artistea2mots(QStringList Artistes);
+    QStringList ListeArtistesInvers();
 protected:
     void notifierObservateurs( const QString& chemin, const float pourcentage );
 

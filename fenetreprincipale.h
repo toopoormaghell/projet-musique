@@ -22,6 +22,13 @@ private slots:
      void on_actionViderBDD_triggered();
      void on_actionAjouter_Liste_Albums_triggered();
      void on_actionAjouter_Album_triggered();
+     void on_actionEn_HTML_Supports_Physiques_triggered();
+
+     void on_actionAlbums_triggered();
+
+     void on_actionCompils_Singles_triggered();
+
+     void on_actionArtistes_Inverses_triggered();
 
 private:
     Ui::FenetrePrincipale *ui;

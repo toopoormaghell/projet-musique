@@ -16,7 +16,7 @@ INCLUDEPATH += ./taglib/inc/toolkit
 INCLUDEPATH += ./taglib/inc/mpeg/id3v2/
 INCLUDEPATH += ./taglib/inc/mpeg/
 INCLUDEPATH += ./taglib/inc/mpeg/id3v2/frames
-LIBS += -ltaglib -L../projet_musique_2/taglib/lib
+LIBS += -ltaglib -L../projet-musique/taglib/lib
 
 message($$LIBS)
 
@@ -38,7 +38,8 @@ SOURCES += main.cpp\
     importationlistephysiques.cpp \
     discogs.cpp \
     dialogueajouterphysique.cpp \
-    affichagecommun.cpp
+    affichagecommun.cpp \
+    dialogueartistesinverses.cpp
 
 HEADERS  += fenetreprincipale.h \
     ongletmp3.h \
@@ -54,7 +55,8 @@ HEADERS  += fenetreprincipale.h \
     importationlistephysiques.h \
     discogs.h \
     dialogueajouterphysique.h \
-    affichagecommun.h
+    affichagecommun.h \
+    dialogueartistesinverses.h
 
 FORMS    += fenetreprincipale.ui \
     ongletmp3.ui \
@@ -62,4 +64,5 @@ FORMS    += fenetreprincipale.ui \
     ongletplaylist.ui \
     barreavancement.ui \
     importationlistephysiques.ui \
-    dialogueajouterphysique.ui
+    dialogueajouterphysique.ui \
+    dialogueartistesinverses.ui

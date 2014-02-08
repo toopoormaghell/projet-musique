@@ -30,6 +30,9 @@ public:
     QStringList listeAlbumsPhys(QString Id_Artiste, QString Categorie);
     QList<TitreGestion> listeTitresAlbumPhys(QString Id_Album);
     AlbumGestion InfosAlbumPhys(QString Id_Album);
+    void ExporterHTML(QString Type);
+    QStringList ListeArtistes();
+    QStringList ListeArtistesInvers();
 private:
     BDDCommun myCommun;
     BDDMp3 myMp3;
