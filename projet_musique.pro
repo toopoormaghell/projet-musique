@@ -16,7 +16,7 @@ INCLUDEPATH += ./taglib/inc/toolkit
 INCLUDEPATH += ./taglib/inc/mpeg/id3v2/
 INCLUDEPATH += ./taglib/inc/mpeg/
 INCLUDEPATH += ./taglib/inc/mpeg/id3v2/frames
-LIBS += -ltaglib -L../projet_musique_2/taglib/lib
+LIBS += -ltaglib -L../projet-musique/taglib/lib
 
 message($$LIBS)
 
