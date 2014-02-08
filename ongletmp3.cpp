@@ -15,6 +15,8 @@ OngletMp3::OngletMp3(QWidget *parent) :
         afficherListeArtiste();
         afficherListeAlbum();
     }
+
+    ui->m_player->setParentTab( *this );
 }
 
 OngletMp3::~OngletMp3()
@@ -160,4 +162,13 @@ void OngletMp3::on_Lecture_clicked()
 void OngletMp3::on_Stop_clicked()
 {
     lectureMp3(false);
+}
+
+QString OngletMp3::getSelectedTitleId() const
+{
+    QString valueToReturn;
+    const QListWidgetItem* const selectedSong = ui->Albums->currentItem();
+    if ( selectedSong != NULL )
+        valueToReturn = selectedSong->data( Qt::UserRole ).toString();
+    return valueToReturn;
 }

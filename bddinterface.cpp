@@ -105,3 +105,8 @@ QStringList BDDInterface::ListeArtistesInvers()
     QStringList temp=myCommun.ListeArtistesInvers();
     return temp;
 }
+
+QString BDDInterface::getPathFromIdMp3(const QString &mp3Id)
+{
+    return myMp3.getPathFromIdMp3( mp3Id );
+}

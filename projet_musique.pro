@@ -39,7 +39,8 @@ SOURCES += main.cpp\
     discogs.cpp \
     dialogueajouterphysique.cpp \
     affichagecommun.cpp \
-    dialogueartistesinverses.cpp
+    dialogueartistesinverses.cpp \
+    player.cpp
 
 HEADERS  += fenetreprincipale.h \
     ongletmp3.h \
@@ -56,7 +57,8 @@ HEADERS  += fenetreprincipale.h \
     discogs.h \
     dialogueajouterphysique.h \
     affichagecommun.h \
-    dialogueartistesinverses.h
+    dialogueartistesinverses.h \
+    player.h
 
 FORMS    += fenetreprincipale.ui \
     ongletmp3.ui \
@@ -65,4 +67,5 @@ FORMS    += fenetreprincipale.ui \
     barreavancement.ui \
     importationlistephysiques.ui \
     dialogueajouterphysique.ui \
-    dialogueartistesinverses.ui
+    dialogueartistesinverses.ui \
+    player.ui

@@ -33,6 +33,7 @@ public:
     void ExporterHTML(QString Type);
     QStringList ListeArtistes();
     QStringList ListeArtistesInvers();
+    QString getPathFromIdMp3( const QString& mp3Id );
 private:
     BDDCommun myCommun;
     BDDMp3 myMp3;
