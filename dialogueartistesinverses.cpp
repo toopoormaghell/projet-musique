@@ -6,9 +6,12 @@ DialogueArtistesInverses::DialogueArtistesInverses(QWidget *parent) :
     ui(new Ui::DialogueArtistesInverses)
 {
     ui->setupUi(this);
-    QStringList Liste;
-    GererListeArtistes(Liste);
-    GererListeArtistesInvers(Liste);
+    QStringList Liste= InitialiserListeArtistes();
+    AfficherListeArtistes(Liste);
+    QStringList Invers=InitialiserListeArtistesInverses();
+    AfficherListeInversee(Invers);
+
+
 }
 DialogueArtistesInverses::~DialogueArtistesInverses()
 {
@@ -25,29 +28,25 @@ void DialogueArtistesInverses::AfficherListeArtistes(QStringList ListeArtistes)
         item->setData(Qt::UserRole,ListeArtistes[cpt+1]);
         ui->ListeArtistes->addItem(item);
     }
+    ui->ListeArtistes->setCurrentRow(0);
 }
 QStringList DialogueArtistesInverses::InitialiserListeArtistes()
 {
     QStringList ListeArtistes=m_bddInterface.ListeArtistes();
     return ListeArtistes;
 }
-void DialogueArtistesInverses::EchangerListeArtistes(QStringList& Liste,int Position,QString Changement)
+void DialogueArtistesInverses::EchangerListeArtistes()
 {
-    Liste.replace(Position,Changement);
-}
-void DialogueArtistesInverses::GererListeArtistes(QStringList Liste)
-{
-    if(Liste.count()==0)
+    QListWidgetItem* listItem = ui->ListeArtistes->currentItem();
+    QListWidgetItem* listInvers = ui->ListeInversee->currentItem();
+    if ( ( listItem != NULL ) && ( listInvers != NULL ) )
     {
-        Liste=InitialiserListeArtistes();
-    } else{
-        int cpt = ui->ListeArtistes->currentRow()*2;
-        QListWidgetItem *item = ui->ListeInversee->item(cpt);
-        QString chang=item->text();
-        EchangerListeArtistes(Liste,cpt,chang);
-   }
-    AfficherListeArtistes(Liste);
+        const QString temp = listItem->text();
+        listItem->setText( listInvers->text() );
+        listInvers->setText( temp );
+    }
 }
+
 void DialogueArtistesInverses::AfficherListeInversee(QStringList ListeArtistes)
 {
     ui->ListeInversee->clear();
@@ -58,6 +57,7 @@ void DialogueArtistesInverses::AfficherListeInversee(QStringList ListeArtistes)
         item->setData(Qt::UserRole,ListeArtistes[cpt+1]);
         ui->ListeInversee->addItem(item);
     }
+    ui->ListeInversee->setCurrentRow(0);
 }
 QStringList DialogueArtistesInverses::InitialiserListeArtistesInverses()
 {
@@ -65,36 +65,21 @@ QStringList DialogueArtistesInverses::InitialiserListeArtistesInverses()
     return ListeArtistes;
 }
 
-void DialogueArtistesInverses::GererListeArtistesInvers(QStringList Liste)
-{
-    if(Liste.count()==0)
-    {
-        Liste=InitialiserListeArtistesInverses();
-    } else{
-        int cpt=0;
-        QString chang="Essai";
-        EchangerListeArtistes(Liste,cpt,chang);
-    }
-    AfficherListeInversee(Liste);
-}
-
 void DialogueArtistesInverses::on_ListeArtistes_currentRowChanged(int currentRow)
 {
-    ui->ListeInversee->item(currentRow)->setSelected(true);
+//    ui->ListeInversee->item(currentRow)->setSelected(true);
+    ui->ListeInversee->setCurrentRow( currentRow );
 }
 
 void DialogueArtistesInverses::on_ListeInversee_currentRowChanged(int currentRow)
 {
-    ui->ListeArtistes->item(currentRow)->setSelected(true);
+//    ui->ListeArtistes->item(currentRow)->setSelected(true);
+    ui->ListeArtistes->setCurrentRow( currentRow );
 }
 
 void DialogueArtistesInverses::on_Inversion_clicked()
 {
-    QStringList Liste=RecupererListeArtiste();
-    GererListeArtistes(Liste);
-    Liste.clear();
-    Liste = RecupererListeArtisteInvers();
-    GererListeArtistesInvers(Liste);
+    EchangerListeArtistes();
 }
 QStringList DialogueArtistesInverses::RecupererListeArtiste()
 {

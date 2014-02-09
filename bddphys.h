@@ -20,7 +20,7 @@ public:
     QList<TitreGestion> listeTitresAlbum(QString Id_Album);
     AlbumGestion InfosAlbum(QString Id_Album);
     QString choixCategorie(QString Categorie);
-    int lireIDPhys(int Id_Album, QString Type);
+    int lireIDPhys(int Id_Album, QString Type, QString CodeBarres);
     QStringList ListeAlbumArtisteExport(QString Type);
     void ExporterHTML(QString Type);
 };

@@ -12,7 +12,7 @@ void BDDPhys::AjouterAlbum(AlbumGestion album)
     album.Id_Artiste=lireIDArtiste(album.Artiste,album.Id_Poch);
     album.Id_Album=lireIDAlbum(album.Album,album.Id_Poch,album.Id_Artiste,album.Annee,album.Type);
 
-    int IdPhys = lireIDPhys(album.Id_Album,album.Type);
+    int IdPhys = lireIDPhys(album.Id_Album,album.Type,album.CodeBarres);
 
     // On s'occupe des titres
     for(int cpt=0;cpt<album.titres.count();cpt++)
@@ -21,14 +21,14 @@ void BDDPhys::AjouterAlbum(AlbumGestion album)
     }
 }
 
-int BDDPhys::lireIDPhys(int Id_Album,QString Type)
+int BDDPhys::lireIDPhys(int Id_Album,QString Type,QString CodeBarres)
 {
     //On vérifie si l'album existe dans la table Phys ou non
     QString queryStr = "Select Id_Phys As 'Phys' from Phys WHERE Id_Album='" +QString::number(Id_Album)+ "'";
     QSqlQuery  query = madatabase.exec(queryStr);
 
     if (!query.first()) {
-        queryStr="INSERT INTO Phys VALUES (null,'"+QString::number(Id_Album)+"','"+Type+"')";
+        queryStr="INSERT INTO Phys VALUES (null,'"+QString::number(Id_Album)+"','"+Type+"','"+CodeBarres+"')";
         query = madatabase.exec(queryStr);
 
         queryStr = "Select Id_Phys As 'Phys' from Phys WHERE Id_Album='" +QString::number(Id_Album)+"'";

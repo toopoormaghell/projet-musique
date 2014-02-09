@@ -19,7 +19,7 @@ public:
 
     QStringList InitialiserListeArtistes();
     QStringList InitialiserListeArtistesInverses();
-    void EchangerListeArtistes(QStringList &Liste, int Position, QString Changement);
+    void EchangerListeArtistes();
     void GererListeArtistes(QStringList Liste);
     QStringList RecupererListeArtiste();
     QStringList RecupererListeArtisteInvers();

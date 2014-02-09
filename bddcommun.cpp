@@ -33,7 +33,7 @@ void BDDCommun::viderBDD()
     tables << "CREATE TABLE Artiste ('Id_Artiste' INTEGER PRIMARY KEY,'Artiste' VARCHAR(255),'Id_Pochette' INTEGER, 'NomSSAccents' VARCHAR(255))";
     tables << "CREATE TABLE Album ('Id_Album' INTEGER PRIMARY KEY,'Album' VARCHAR(255),'Id_Artiste' INTEGER,'Id_Pochette' INTEGER,'NomSSAccents' VARCHAR(255),'Annee' VARCHAR(255), 'Type' VARCHAR(255))";
     tables << "CREATE TABLE Titre ('Id_Titre' INTEGER PRIMARY KEY,'Titre' VARCHAR(255),'Id_Artiste' INTEGER,'Num_Piste' TINYINT,'Id_Pochette' INTEGER,'Id_Album' INTEGER,'TitreSSAccents' VARCHAR(255),'Duree' VARCHAR(255))";
-    tables << "CREATE TABLE Phys ('Id_Phys' INTEGER PRIMARY KEY,'Id_Album' SMALLINT,'Categorie' VARCHAR(255))";
+    tables << "CREATE TABLE Phys ('Id_Phys' INTEGER PRIMARY KEY,'Id_Album' SMALLINT,'Categorie' VARCHAR(255),'CodeBarres' VARCHAR(255))";
     tables << "CREATE TABLE TitresPlaylist ('Id_Playlist' SMALLINT,'Id_Titre' SMALLINT, 'Num_Piste' TINYINT)";
     tables << "CREATE TABLE InfosPlaylist ('Id_Playlist' INTEGER PRIMARY KEY,'Nom' VARCHAR(255),'Type' VARCHAR(255),'NomAlbum' VARCHAR(255),'Id_Pochette' SMALLINT)";
     tables << "CREATE TABLE Pochette ('Id_Pochette' INTEGER PRIMARY KEY,'Chemin' VARCHAR(512))";

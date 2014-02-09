@@ -87,7 +87,7 @@ void DialogueAjouterPhysique::on_AjouterTitre_clicked()
 }
 void DialogueAjouterPhysique::listeNumeros()
 {
-   ui->NumeroPiste->clear();
+    ui->NumeroPiste->clear();
     for (int i=1;i<ui->Titres->count()+1;i++)
     {
         ui->NumeroPiste->addItem(new QListWidgetItem(QString::number(i).rightJustified(2,'0')+" - "));
@@ -108,7 +108,7 @@ void DialogueAjouterPhysique::on_Supprimer_clicked()
             }
         }
     }
-listeNumeros();
+    listeNumeros();
 }
 
 void DialogueAjouterPhysique::on_ChangerPochette_clicked()
@@ -135,6 +135,7 @@ void DialogueAjouterPhysique::ajouterAlbum()
     album.Album=ui->Album->text();
     album.Annee=ui->Annee->text();
     album.Artiste=ui->Artiste->text();
+    album.CodeBarres=getCodeBarre();
 
     const QPixmap* pixmap =ui->Pochette->pixmap();
     QImage image = pixmap->toImage();

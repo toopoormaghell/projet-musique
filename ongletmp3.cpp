@@ -51,8 +51,7 @@ void OngletMp3::afficherListeArtiste()
         mediaCell->setText(artistes[cpt]);
 
         ui->Artistes->addItem(mediaCell);
-        ui->Artistes->item(0)->setSelected(true);
-
+        ui->Artistes->setCurrentRow(0);
     }
 }
 void OngletMp3::afficherListeCategories()
@@ -68,7 +67,7 @@ void OngletMp3::afficherListeCategories()
         mediaCell->setText(categories[cpt]);
 
         ui->Categories->addItem(mediaCell);
-        ui->Categories->item(0)->setSelected(true);
+        ui->Categories->setCurrentRow(0);
     }
 }
 void OngletMp3::afficherListeAlbum()
@@ -101,9 +100,8 @@ void OngletMp3::afficherListeAlbum()
 
         ui->Albums->addItem(mediaCell);
         afficherTitresAlbum(albums[cpt+1]);
-        ui->Albums->item(1)->setSelected(true);
-
     }
+    ui->Albums->setCurrentRow(1);
 }
 void OngletMp3::afficherTitresAlbum(QString Album)
 {
@@ -125,20 +123,7 @@ void OngletMp3::afficherInfosTitre()
 
 
 }
-void OngletMp3::lectureMp3(bool lect)
-{
-    QString fileName("F:/Albums/Jenifer/06 - Je Danse.mp3");
-    Phonon::MediaObject* media = new Phonon::MediaObject(this);
-    createPath(media, new Phonon::AudioOutput(Phonon::MusicCategory, this));
-    media->setCurrentSource(fileName);
-    if(lect)
-    {
-        media->play();
-    } else
-    {
-        media->stop();
-    }
-}
+
 void OngletMp3::on_Artistes_currentTextChanged(const QString &arg1)
 {
     ui->Albums->clear();
@@ -154,15 +139,7 @@ void OngletMp3::on_Categories_currentTextChanged(const QString &currentText)
         afficherListeAlbum();
     }
 }
-void OngletMp3::on_Lecture_clicked()
-{
-    lectureMp3(true);
-}
 
-void OngletMp3::on_Stop_clicked()
-{
-    lectureMp3(false);
-}
 
 QString OngletMp3::getSelectedTitleId() const
 {
