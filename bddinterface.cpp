@@ -110,3 +110,7 @@ QString BDDInterface::getPathFromIdMp3(const QString &mp3Id)
 {
     return myMp3.getPathFromIdMp3( mp3Id );
 }
+void BDDInterface::SauvegarderAlbums()
+{
+    myPhys.SauvegarderAlbums();
+}

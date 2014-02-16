@@ -66,3 +66,8 @@ void FenetrePrincipale::on_actionArtistes_Inverses_triggered()
     DialogueArtistesInverses tmp(this);
     tmp.exec();
 }
+
+void FenetrePrincipale::on_actionExporter_Liste_Physique_triggered()
+{
+    m_bddInterface.SauvegarderAlbums();
+}

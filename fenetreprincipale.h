@@ -30,6 +30,8 @@ private slots:
 
      void on_actionArtistes_Inverses_triggered();
 
+     void on_actionExporter_Liste_Physique_triggered();
+
 private:
     Ui::FenetrePrincipale *ui;
  BDDInterface m_bddInterface;

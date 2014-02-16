@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui sql network
-QT += phonon
+QT       += phonon
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 # include(../projet-musique/kqoauth/kqoauth.prl)
@@ -47,7 +47,8 @@ SOURCES += main.cpp\
     dialogueajouterphysique.cpp \
     affichagecommun.cpp \
     dialogueartistesinverses.cpp \
-    player.cpp
+    player.cpp \
+    autorisationdiscogs.cpp
 
 HEADERS  += fenetreprincipale.h \
     ongletmp3.h \
@@ -65,7 +66,8 @@ HEADERS  += fenetreprincipale.h \
     dialogueajouterphysique.h \
     affichagecommun.h \
     dialogueartistesinverses.h \
-    player.h
+    player.h \
+    autorisationdiscogs.h
 
 FORMS    += fenetreprincipale.ui \
     ongletmp3.ui \

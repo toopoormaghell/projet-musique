@@ -8,10 +8,14 @@
 #include "util.h"
 #include "BDDcommun.h"
 #include <QDebug>
+
+
 Discogs::Discogs(QObject *parent) :
     QObject(parent)
 {
+
 }
+
 
 QStringList Discogs::RequeteAlbums(QString rech)
 {
@@ -55,6 +59,7 @@ AlbumGestion* Discogs::RequeteInfosAlbum(QString chemin,QString type)
     AlbumGestion* album = new AlbumGestion;
 
     QString adresse= "http://api.discogs.com/"+type+"/"+chemin;
+    qDebug() << adresse;
     const QUrl url = QUrl(adresse);
     const QNetworkRequest requete(url);
     QNetworkAccessManager *m = new QNetworkAccessManager;
@@ -88,7 +93,9 @@ AlbumGestion* Discogs::RequeteInfosAlbum(QString chemin,QString type)
 
         //On récupère la pochette
         if (parsing.size()>1) {
+
             QStringList images=parsing[1].split("\"");
+
             QNetworkRequest toto( QUrl::fromEncoded( images[0].toAscii() ) );
             toto.setAttribute( QNetworkRequest::User, images[0] );
             QNetworkReply* r = m->get( toto );
@@ -127,7 +134,6 @@ AlbumGestion* Discogs::RequeteInfosAlbum(QString chemin,QString type)
             titre.Titre=titreLisible;
 
             album->titres << titre;
-
 
             duree=titre1[4];
             cpt++;

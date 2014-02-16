@@ -23,6 +23,8 @@ public:
     int lireIDPhys(int Id_Album, QString Type, QString CodeBarres);
     QStringList ListeAlbumArtisteExport(QString Type);
     void ExporterHTML(QString Type);
+    QStringList ListeAlbumSauvegarde();
+    void SauvegarderAlbums();
 };
 
 #endif // BDDPHYS_H

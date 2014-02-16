@@ -169,8 +169,40 @@ QStringList BDDPhys::ListeAlbumArtisteExport(QString Type)
     while(query.next())
     {
         QSqlRecord rec=query.record();
-
         albart << rec.value("Album").toString().replace("$","'") << rec.value("Artiste").toString().replace("$","'");
     }
     return albart;
+}
+QStringList BDDPhys::ListeAlbumSauvegarde()
+{
+    QStringList resultat;
+
+    QString QueryStr="SELECT Al.Album, Ar.Artiste, P.Categorie, P.CodeBarres FROM Phys P,Album Al, Artiste Ar WHERE P.Id_Album=Al.Id_Album AND Al.Id_Artiste = Ar.Id_Artiste ORDER BY Ar.Artiste";
+    QSqlQuery query=madatabase.exec(QueryStr);
+
+    while(query.next())
+    {
+        QSqlRecord rec=query.record();
+        resultat << rec.value("Album").toString().replace("$","'") << rec.value("Artiste").toString().replace("$","'") << rec.value("Categorie").toString() << rec.value("CodeBarres").toString();
+    }
+    return resultat;
+}
+void BDDPhys::SauvegarderAlbums()
+{
+    QStringList resultat=ListeAlbumSauvegarde();
+
+    QString chemin = "H:/Codebarres.txt";
+    //Récupère le fichier et l'ouvre avec lecture lignes par lignes
+    QString fileName = chemin;
+    QFile fichier(fileName);
+    fichier.open(QIODevice::WriteOnly | QIODevice::Text);
+    // Création d'un objet QTextStream à partir de notre objet QFile
+    QTextStream flux(&fichier);
+    // On choisit le codec correspondant au jeu de caractère que l'on souhaite ; ici, UTF-8
+    flux.setCodec("UTF-8");
+
+    for(int cpt=0;cpt<resultat.count();cpt=cpt+4)
+    {
+        flux << resultat[cpt]<< " " << resultat[cpt+1] << " " << resultat[cpt+2] << " " << resultat[cpt+3] << endl;
+    }
 }
