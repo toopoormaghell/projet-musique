@@ -1,2 +1,5 @@
 # do not commit *.user files: they are not cross-computer
 *.user
+
+# do not commit what is in kqoauth/build-*: these are temporary files
+kqoauth/build-*
