@@ -8,15 +8,22 @@ QT       += core gui sql network
 QT += phonon
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+# include(../projet-musique/kqoauth/kqoauth.prl)
+
 TARGET = projet_musique
 TEMPLATE = app
+
+CONFIG += kqoauth
 
 INCLUDEPATH += ./taglib/inc
 INCLUDEPATH += ./taglib/inc/toolkit
 INCLUDEPATH += ./taglib/inc/mpeg/id3v2/
 INCLUDEPATH += ./taglib/inc/mpeg/
 INCLUDEPATH += ./taglib/inc/mpeg/id3v2/frames
+INCLUDEPATH += ./kqoauth/src/
+LIBS += -L../projet-musique/kqoauth/lib -lkqoauthd0
 LIBS += -ltaglib -L../projet-musique/taglib/lib
+
 
 message($$LIBS)
 
