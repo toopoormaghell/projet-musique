@@ -1,9 +1,10 @@
 #include "bddsingleton.h"
 #include <QDebug>
 
-BDDSingleton BDDSingleton::singleton;
+BDDSingleton BDDSingleton::s_singleton;
 
-BDDSingleton::BDDSingleton()
+BDDSingleton::BDDSingleton():
+    m_database()
 {
     m_database = QSqlDatabase::addDatabase("QSQLITE");
     m_database.setHostName("localhost");
@@ -16,13 +17,15 @@ BDDSingleton::BDDSingleton()
         qDebug() << "Impossible d'ouvrir la base de données !";
     }
 }
+
 BDDSingleton::~BDDSingleton()
 {
     m_database.close();
 }
+
 BDDSingleton& BDDSingleton::getInstance()
 {
-    return singleton;
+    return s_singleton;
 }
 
 QSqlDatabase &BDDSingleton::getDataBase()
