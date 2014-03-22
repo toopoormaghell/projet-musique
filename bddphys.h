@@ -13,7 +13,6 @@ public:
     explicit BDDPhys(QObject *parent = 0);
     void AjouterAlbum(AlbumGestion album);
 
-
     QStringList listeArtistes(QString Categorie);
     QStringList listeCategories();
     QStringList listeAlbums(QString Id_Artiste, QString Categorie);

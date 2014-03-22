@@ -38,6 +38,7 @@ void BDDCommun::viderBDD()
     tables << "CREATE TABLE InfosPlaylist ('Id_Playlist' INTEGER PRIMARY KEY,'Nom' VARCHAR(255),'Type' VARCHAR(255),'NomAlbum' VARCHAR(255),'Id_Pochette' SMALLINT)";
     tables << "CREATE TABLE Pochette ('Id_Pochette' INTEGER PRIMARY KEY,'Chemin' VARCHAR(512))";
     tables << "INSERT INTO Pochette VALUES (01,'def.jpg')";
+    tables << "INSERT INTO Artiste VALUES (01,'Divers','01','divers')";
 
     for (int i=0;i<tables.size();i++)
     {
@@ -85,6 +86,16 @@ bool BDDCommun::removeDir(const QString &dirPath, const bool remove, const QStri
     }
     return true;
 }
+QString BDDCommun::getdossierpardef()
+{
+    QString queryStr = "Select Valeur from Configuration WHERE Intitule='DossierParDef'" ;
+    QSqlQuery  query = madatabase.exec(queryStr);
+    query.next();
+    QSqlRecord rec = query.record();
+
+    return rec.value("Valeur").toString();
+}
+
 //Récupère l'Id de la pochette
 int BDDCommun::lireIDPoch(const QString &ArtAlb)
 {
@@ -110,7 +121,6 @@ int BDDCommun::lireIDPoch(const QString &ArtAlb)
 //Récupère l'Id de l'artiste
 int BDDCommun::lireIDArtiste(const QString &Artiste,const int &IdPoch)
 {
-
     int IdArtiste;
     QString SansAccents = Artiste;
     EnleverAccents(SansAccents);
@@ -264,7 +274,6 @@ bool BDDCommun::supprimerTitre(const int Id_Album,const int Id_Titre)
     }
     return supprimer;
 }
-
 /****************************************************
  *La fonction va vérifier si la pochette a encore des
  *titres présents dans la BDD
@@ -301,21 +310,31 @@ QString BDDCommun::AjouterPochette(MP3Gestion mp3)
     QString chemin="./pochettes/"+mp3.Artiste;
     dossier.mkdir(chemin);
     chemin+="/"+mp3.Album+".jpg";
+    qDebug() << chemin;
     mp3.Pochette.save(chemin);
     return chemin;
+}
+QString BDDCommun::AjouterPochette(QString Type,QString Nom,QImage Image)
+{
+    EnleverAccents(Nom);
+    QDir dossier;
+    QString chemin="./pochettes/"+Type;
+    dossier.mkdir(chemin);
+    chemin+="/"+Nom+".jpg";
+    Image.save(chemin);
+    int temp= lireIDPoch(chemin);
+    return QString::number(temp);
 }
 void BDDCommun::enregistrerObservateur(BarreAvancement *obs)
 {
     obs->init();
     m_observateurs.insert( obs );
 }
-
 void BDDCommun::desenregistrerObservateur(BarreAvancement *obs)
 {
     m_observateurs.remove( obs );
     obs->init();
 }
-
 void BDDCommun::notifierObservateurs(const QString &chemin, const float pourcentage)
 {
     foreach ( BarreAvancement* obs, m_observateurs )
@@ -341,7 +360,11 @@ QImage BDDCommun::afficherPochette(const QString &Id,const QString &Type)
     }
     if (Type=="Titre")
     {
-        queryStr="SELECT P.Chemin FROM Titre T,Pochette P WHERE T.Id_Pochette=T.Id_Pochette AND T.Id_Titre='"+Id+"'";
+        queryStr="SELECT P.Chemin FROM Titre T,Pochette P WHERE T.Id_Pochette=P.Id_Pochette AND T.Id_Titre='"+Id+"'";
+    }
+    if (Type=="Pochette")
+    {
+        queryStr="SELECT Chemin FROM Pochette WHERE Id_Pochette='"+Id+"'";
     }
 
     QSqlQuery query= madatabase.exec(queryStr);
@@ -350,16 +373,16 @@ QImage BDDCommun::afficherPochette(const QString &Id,const QString &Type)
     QSqlRecord rec=query.record();
 
     QString Chemin=rec.value("Chemin").toString();
+
     QImage* image2=new QImage(Chemin);
     QImage image=*image2;
     return image;
 }
-
 bool BDDCommun::verifierTitreMp3Phys(int Id_Titre)
 {
     bool TitreenMp3etPhys=false;
 
-    QString queryStri =  "SELECT T.Titre FROM MP3 M, Titre T, Phys P WHERE M.Id_Titre=T.Id_Titre AND T.Id_Album=P.Id_Album AND T.Id_Titre="+Id_Titre;
+    QString queryStri =  "SELECT T.Titre FROM MP3 M, Titre T, Phys P WHERE M.Id_Titre=T.Id_Titre AND T.Id_Album=P.Id_Album AND T.Id_Titre="+QString::number(Id_Titre);
     QSqlQuery  query = madatabase.exec(queryStri);
 
     //si la requête ne renvoie pas de résultat, on efface du coup la pochette
@@ -371,7 +394,7 @@ bool BDDCommun::verifierTitreMp3Phys(int Id_Titre)
 QStringList BDDCommun::ListeArtistes()
 {
     QStringList liste;
-    QString queryStri ="SELECT Id_Artiste, Artiste FROM Artiste";
+    QString queryStri ="SELECT Id_Artiste, Artiste FROM Artiste ORDER BY NomSSAccents";
     QSqlQuery query= madatabase.exec(queryStri);
 
     while( query.next() )
@@ -406,4 +429,66 @@ QStringList BDDCommun::ListeArtistesInvers()
         resultat << EchangerArtiste(liste[cpt]) << liste[cpt+1];
     }
     return resultat;
+}
+void BDDCommun::EnregistrerDossierParDef(QString doss)
+{
+    QString queryStri ="Update Configuration SET Valeur='"+doss+"' WHERE Intitule='DossierParDef'";
+    QSqlQuery query= madatabase.exec(queryStri);
+}
+void BDDCommun::CopierBDD()
+{
+    QString cheminBDD="./Musique.db";
+    QFile temp(cheminBDD);
+    QString cheminCopie="../Musique.db";
+    temp.copy(cheminCopie);
+}
+void BDDCommun::ChargerBDD()
+{
+    QString cheminBDD="../Musique.db";
+    QFile temp(cheminBDD);
+    QString cheminCopie="./Musique.db";
+    temp.copy(cheminCopie);
+}
+QList<Pochette> BDDCommun::ListePochettes()
+{
+    QList<Pochette> liste;
+
+    Pochette poch;
+
+    //Ajout de la pochette par défaut, au début de la liste
+    poch.Id_Poch=1;
+    poch.Nom="def.jpg";
+    poch.Pochette=afficherPochette(QString::number(poch.Id_Poch),"Pochette");
+    liste << poch;
+
+    QString queryStr="SELECT Id_Pochette, Chemin FROM Pochette WHERE Id_Pochette!='1' ORDER BY Chemin";
+    QSqlQuery query=madatabase.exec(queryStr);
+
+    while (query.next())
+    {
+        QSqlRecord rec=query.record();
+
+        poch;
+        poch.Id_Poch = rec.value("Id_Pochette").toInt();
+        QStringList temp=(rec.value("Chemin").toString()).split("./pochettes/");
+        poch.Nom=temp[1];
+        poch.Pochette=afficherPochette(QString::number(poch.Id_Poch),"Pochette");
+
+        liste << poch;
+    }
+    return liste;
+}
+void BDDCommun::EchangerArtistes(QString Artiste, QString Id_Artiste)
+{
+    QString SansAccents = Artiste;
+    EnleverAccents(SansAccents);
+
+    QString queryStr="SELECT Id_Artiste from Artiste WHERE NomSSAccents='"+ SansAccents+"'";
+    QSqlQuery query= madatabase.exec(queryStr);
+
+    if(!query.first())
+    {
+        queryStr="UPDATE Artiste SET NomSSAccents='"+SansAccents+"', Artiste='"+Artiste+"' WHERE Id_Artiste="+Id_Artiste;
+        query =madatabase.exec(queryStr);
+    }
 }

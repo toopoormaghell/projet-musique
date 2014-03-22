@@ -13,6 +13,7 @@ public:
 
     QListWidgetItem *afficherPochetteList(QImage* image);
     QTableWidgetItem *afficherPochetteTable(QImage *image);
+    QPixmap afficherPochetteLabel(QImage *image);
 };
 
 #endif // AFFICHAGECOMMUN_H

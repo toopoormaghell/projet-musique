@@ -16,10 +16,10 @@ Discogs::Discogs(QObject *parent) :
 
 }
 
-
 QStringList Discogs::RequeteAlbums(QString rech)
 {
     QString adresse= "http://api.discogs.com/database/search?barcode="+rech;
+
     const QUrl url = QUrl(adresse);
     const QNetworkRequest requete(url);
     QNetworkAccessManager *m = new QNetworkAccessManager;
@@ -34,7 +34,7 @@ QStringList Discogs::RequeteAlbums(QString rech)
     while (!r->atEnd()) {
         QString pageWeb=r->readLine();
         QStringList parsing=pageWeb.split("\"master\", \"id\": ");
-
+        qDebug() << pageWeb;
         if (parsing.count()!=1)
         {
             QStringList pars=parsing[1].split("}");
@@ -43,13 +43,12 @@ QStringList Discogs::RequeteAlbums(QString rech)
         } else{
             parsing=pageWeb.split("\"release\", \"id\": ");
             if(parsing.count()!=1)
-{            QStringList pars=parsing[1].split("}");
-            resultat<< pars[0];
-            resultat<<"releases";
+            {
+                QStringList pars=parsing[1].split("}");
+                resultat<< pars[0];
+                resultat<<"releases";
             }
         }
-
-
     }
 
     return resultat;

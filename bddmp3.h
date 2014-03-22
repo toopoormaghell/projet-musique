@@ -25,6 +25,18 @@ public:
     void SupprimerMp3(int Id_Titre, int Id_Mp3);
     MP3Gestion RecupererInfosMp3(int Id_Titre);
     QString getPathFromIdMp3( const QString& mp3Id );
+    QMap<int, MP3Gestion> similaires(QString Id);
+    bool ActualiserAlbums();
+    bool ActualiserCompil();
+    bool ActualiserLives();
+    void EnregistrerActuAlbums(bool check);
+    void EnregistrerActuCompil(bool check);
+    void EnregistrerActuLives(bool check);
+    QList<int> ListeMp3Compil(QString annee);
+    PlaylistGestion RecupererInfosPlaylist(QString Id);
+    QList<MP3Gestion> RecupererPistesPlaylist(QString Id);
+    QList<PlaylistGestion> ListesPlaylist();
+    QString CreerPlaylist(PlaylistGestion play);
 };
 
 #endif // BDDMP3_H

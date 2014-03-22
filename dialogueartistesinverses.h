@@ -22,15 +22,17 @@ public:
     void EchangerListeArtistes();
     void GererListeArtistes(QStringList Liste);
     QStringList RecupererListeArtiste();
-    QStringList RecupererListeArtisteInvers();
     void GererListeArtistesInvers(QStringList Liste);
     void AfficherListeInversee(QStringList ListeArtistes);
+    void EnregistrerArtistes();
 private slots:
     void on_ListeArtistes_currentRowChanged(int currentRow);
 
     void on_ListeInversee_currentRowChanged(int currentRow);
 
     void on_Inversion_clicked();
+
+    void on_buttonBox_accepted();
 
 private:
     Ui::DialogueArtistesInverses *ui;

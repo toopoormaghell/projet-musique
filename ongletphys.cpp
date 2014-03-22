@@ -168,7 +168,7 @@ void OngletPhys::on_Categories_currentTextChanged(const QString &currentText)
 {
     if (ui->Categories->count()>1)
     {
-          ui->Artistes->clear();
+        ui->Artistes->clear();
         afficherListeArtiste();
         afficherListeAlbum();
     }

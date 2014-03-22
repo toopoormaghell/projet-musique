@@ -4,8 +4,6 @@
 #include <QObject>
 #include <QSqlDatabase>
 
-
-
 class BDDSingleton
 {
 public:
@@ -17,7 +15,7 @@ public:
     QSqlDatabase& getDataBase();
 
 
-
+    void creationBase();
 private:
     // Constructeur privé : singleton
     BDDSingleton();

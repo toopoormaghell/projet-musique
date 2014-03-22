@@ -34,11 +34,19 @@ public:
 
     QString AjouterPochette(MP3Gestion mp3);
     QString AjouterPochette(AlbumGestion album);
+    QString AjouterPochette(QString Type, QString Nom, QImage Image);
 
     bool supprimerTitre(const int Id_Album, const int Id_Titre);
     QStringList ListeArtistes();
     QStringList Artistea2mots(QStringList Artistes);
     QStringList ListeArtistesInvers();
+    QString getdossierpardef();
+    void EnregistrerDossierParDef(QString doss);
+    void CopierBDD();
+    void ChargerBDD();
+    QList<Pochette> ListePochettes();
+
+    void EchangerArtistes(QString Artiste, QString Id_Artiste);
 protected:
     void notifierObservateurs( const QString& chemin, const float pourcentage );
 

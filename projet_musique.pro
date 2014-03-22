@@ -48,7 +48,12 @@ SOURCES += main.cpp\
     affichagecommun.cpp \
     dialogueartistesinverses.cpp \
     player.cpp \
-    autorisationdiscogs.cpp
+    autorisationdiscogs.cpp \
+    dialogdossierpardef.cpp \
+    dialogajoutplaylist.cpp \
+    dialogchangerpochette.cpp \
+    dialogajouterplaylistmp3.cpp \
+    deezer.cpp
 
 HEADERS  += fenetreprincipale.h \
     ongletmp3.h \
@@ -67,7 +72,12 @@ HEADERS  += fenetreprincipale.h \
     affichagecommun.h \
     dialogueartistesinverses.h \
     player.h \
-    autorisationdiscogs.h
+    autorisationdiscogs.h \
+    dialogdossierpardef.h \
+    dialogajoutplaylist.h \
+    dialogchangerpochette.h \
+    dialogajouterplaylistmp3.h \
+    deezer.h
 
 FORMS    += fenetreprincipale.ui \
     ongletmp3.ui \
@@ -77,4 +87,8 @@ FORMS    += fenetreprincipale.ui \
     importationlistephysiques.ui \
     dialogueajouterphysique.ui \
     dialogueartistesinverses.ui \
-    player.ui
+    player.ui \
+    dialogdossierpardef.ui \
+    dialogajoutplaylist.ui \
+    dialogchangerpochette.ui \
+    dialogajouterplaylistmp3.ui

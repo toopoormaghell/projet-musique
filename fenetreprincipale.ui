@@ -100,6 +100,7 @@
      <string>Outils</string>
     </property>
     <addaction name="actionArtistes_Inverses"/>
+    <addaction name="actionChanger_Pochettes"/>
    </widget>
    <widget class="QMenu" name="menuPlaylist">
     <property name="title">
@@ -108,12 +109,22 @@
     <addaction name="actionChanger_Image_Playlist"/>
     <addaction name="actionChanger_Nom_Playlist"/>
    </widget>
+   <widget class="QMenu" name="menuConfig">
+    <property name="title">
+     <string>Config</string>
+    </property>
+    <addaction name="actionDossier_par_d_faut"/>
+    <addaction name="actionCopier_BDD"/>
+    <addaction name="separator"/>
+    <addaction name="actionCharger_BDD"/>
+   </widget>
    <addaction name="menuGestion"/>
    <addaction name="menuGestion_2"/>
    <addaction name="menuExporter"/>
    <addaction name="menuSupports_Mp3"/>
    <addaction name="menuOutils"/>
    <addaction name="menuPlaylist"/>
+   <addaction name="menuConfig"/>
   </widget>
   <action name="actionVider_base_donn_es">
    <property name="text">
@@ -238,6 +249,26 @@
   <action name="actionChanger_Nom_Playlist">
    <property name="text">
     <string>Changer Nom Playlist</string>
+   </property>
+  </action>
+  <action name="actionDossier_par_d_faut">
+   <property name="text">
+    <string>Configurer Actualiser MP3</string>
+   </property>
+  </action>
+  <action name="actionCopier_BDD">
+   <property name="text">
+    <string>Copier BDD</string>
+   </property>
+  </action>
+  <action name="actionCharger_BDD">
+   <property name="text">
+    <string>Charger BDD</string>
+   </property>
+  </action>
+  <action name="actionChanger_Pochettes">
+   <property name="text">
+    <string>Changer Pochettes</string>
    </property>
   </action>
  </widget>

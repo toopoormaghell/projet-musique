@@ -32,6 +32,14 @@ private slots:
 
      void on_actionExporter_Liste_Physique_triggered();
 
+     void on_actionDossier_par_d_faut_triggered();
+
+     void on_actionCopier_BDD_triggered();
+
+     void on_actionCharger_BDD_triggered();
+
+     void on_actionChanger_Pochettes_triggered();
+
 private:
     Ui::FenetrePrincipale *ui;
  BDDInterface m_bddInterface;

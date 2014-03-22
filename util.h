@@ -46,7 +46,25 @@ struct MP3Gestion
     QString CheminFichier;
 };
 typedef struct MP3Gestion MP3Gestion;
-
+struct PlaylistGestion
+{
+    QImage Pochette;
+    QString Titre;
+    bool ChangerAlbum;
+    QString AlbumChanger;
+    int Id_Poch;
+    int Id_Playlist;
+    int NombrePistes;
+    QList<MP3Gestion> titres;
+};
+typedef struct PlaylistGestion PlaylistGestion;
+struct Pochette
+{
+QImage Pochette;
+int Id_Poch;
+QString Nom;
+};
+typedef struct Pochette Pochette;
 // Enlève les accents présents dans une QString
 void EnleverAccents ( QString& Nom );
 QString EchangerArtiste(QString Artiste);

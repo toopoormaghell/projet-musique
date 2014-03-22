@@ -46,7 +46,6 @@ void DialogueArtistesInverses::EchangerListeArtistes()
         listInvers->setText( temp );
     }
 }
-
 void DialogueArtistesInverses::AfficherListeInversee(QStringList ListeArtistes)
 {
     ui->ListeInversee->clear();
@@ -67,13 +66,11 @@ QStringList DialogueArtistesInverses::InitialiserListeArtistesInverses()
 
 void DialogueArtistesInverses::on_ListeArtistes_currentRowChanged(int currentRow)
 {
-//    ui->ListeInversee->item(currentRow)->setSelected(true);
     ui->ListeInversee->setCurrentRow( currentRow );
 }
 
 void DialogueArtistesInverses::on_ListeInversee_currentRowChanged(int currentRow)
 {
-//    ui->ListeArtistes->item(currentRow)->setSelected(true);
     ui->ListeArtistes->setCurrentRow( currentRow );
 }
 
@@ -94,16 +91,17 @@ QStringList DialogueArtistesInverses::RecupererListeArtiste()
     }
     return Liste;
 }
-QStringList DialogueArtistesInverses::RecupererListeArtisteInvers()
+void DialogueArtistesInverses::EnregistrerArtistes()
 {
-    QStringList Liste;
-    QListWidgetItem *item = NULL;
-    for(int i = 0 ; i < ui->ListeInversee->count() ; i++)
+    QStringList Liste=RecupererListeArtiste();
+
+    for (int cpt=0;cpt<Liste.count();cpt=cpt+2)
     {
-        item = ui->ListeInversee->item(i);
-
-        Liste << item->text() << item->data(Qt::UserRole).toString();
-
+        m_bddInterface.EchangerArtiste(Liste[cpt],Liste[cpt+1]);
     }
-    return Liste;
+}
+
+void DialogueArtistesInverses::on_buttonBox_accepted()
+{
+    EnregistrerArtistes();
 }

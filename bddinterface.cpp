@@ -10,10 +10,100 @@ BDDInterface::BDDInterface(QObject *parent) : QObject(parent),
     myPhys()
 {
 }
-//Actualise la liste MP3
 void BDDInterface::actualiserMP3()
 {
-    myMp3.actualiserMp3("Album");
+    if (ActualiserAlbums())
+    {
+        myMp3.actualiserMp3("Albums");
+    }
+    if (ActualiserCompil())
+    {
+        myMp3.actualiserMp3("Compil");
+    }
+    if (ActualiserLives())
+    {
+        myMp3.actualiserMp3("Lives");
+    }
+}
+QStringList BDDInterface::listeArtistesMp3(QString Categorie)
+{
+    return myMp3.listeArtistes(Categorie);
+}
+QStringList BDDInterface::listeCategoriesMp3()
+{
+    return myMp3.listeCategories();
+}
+QStringList BDDInterface::listeAlbumsMp3(QString Id_Artiste)
+{
+    return myMp3.listeAlbums(Id_Artiste);
+}
+QStringList BDDInterface::listeTitresAlbumMp3(QString Id_Album)
+{
+    return myMp3.listeTitresAlbum(Id_Album);
+}
+MP3Gestion BDDInterface::RecupererInfosMp3(int Id_Titre)
+{
+    return myMp3.RecupererInfosMp3(Id_Titre);
+}
+bool BDDInterface::ActualiserAlbums()
+{
+    return myMp3.ActualiserAlbums();
+}
+bool BDDInterface::ActualiserCompil()
+{
+    return myMp3.ActualiserCompil();
+}
+bool BDDInterface::ActualiserLives()
+{
+    return myMp3.ActualiserLives();
+}
+QList<int> BDDInterface::ListeMp3Compil(QString annee)
+{
+  return myMp3.ListeMp3Compil(annee);
+}
+void BDDInterface::EnregistrerActuAlbums(bool check)
+{
+    myMp3.EnregistrerActuAlbums(check);
+}
+void BDDInterface::EnregistrerActuCompil(bool check)
+{
+    myMp3.EnregistrerActuCompil(check);
+}
+void BDDInterface::EnregistrerActuLives(bool check)
+{
+    myMp3.EnregistrerActuLives(check);
+}
+QMap<int, MP3Gestion> BDDInterface::similaires(QString Id)
+{
+    return myMp3.similaires(Id);
+}
+void BDDInterface::ajouterAlbumPhysique(AlbumGestion album)
+{
+    myPhys.AjouterAlbum(album);
+}
+QStringList BDDInterface::listeArtistesPhys(QString Categorie)
+{
+    return myPhys.listeArtistes(Categorie);
+}
+QStringList BDDInterface::listeCategoriesPhys()
+{
+    return myPhys.listeCategories();
+}
+QStringList BDDInterface::listeAlbumsPhys(QString Id_Artiste,QString Categorie)
+{
+    return myPhys.listeAlbums(Id_Artiste,Categorie);
+}
+QList<TitreGestion> BDDInterface::listeTitresAlbumPhys(QString Id_Album)
+{
+    return myPhys.listeTitresAlbum(Id_Album);
+}
+AlbumGestion BDDInterface::InfosAlbumPhys(QString Id_Album)
+{
+    return myPhys.InfosAlbum(Id_Album);
+}
+void BDDInterface::ExporterHTML(QString Type)
+{
+    myPhys.ExporterHTML(Type);
 }
 void BDDInterface::ViderBDD()
 {
@@ -29,83 +119,18 @@ void BDDInterface::desenregistrerObservateur(BarreAvancement *obs)
     myCommun.desenregistrerObservateur( obs );
     myMp3.desenregistrerObservateur( obs );
 }
-QStringList BDDInterface::listeArtistesMp3(QString Categorie)
-{
-    QStringList liste;
-    liste=myMp3.listeArtistes(Categorie);
-    return liste;
-}
 QImage BDDInterface::afficherPochette(const QString &Album,const QString &Type)
 {
-    QImage image=myCommun.afficherPochette(Album,Type);
-    return image;
-}
-QStringList BDDInterface::listeCategoriesMp3()
-{
-    QStringList list;
-    list=myMp3.listeCategories();
-    return list;
-}
-QStringList BDDInterface::listeAlbumsMp3(QString Id_Artiste)
-{
-    QStringList list;
-    list=myMp3.listeAlbums(Id_Artiste);
-    return list;
-}
-QStringList BDDInterface::listeTitresAlbumMp3(QString Id_Album)
-{
-    QStringList list;
-    list=myMp3.listeTitresAlbum(Id_Album);
-    return list;
-}
-void BDDInterface::ajouterAlbumPhysique(AlbumGestion album)
-{
-    myPhys.AjouterAlbum(album);
-}
-QStringList BDDInterface::listeArtistesPhys(QString Categorie)
-{
-    QStringList liste;
-    liste=myPhys.listeArtistes(Categorie);
-    return liste;
-}
-QStringList BDDInterface::listeCategoriesPhys()
-{
-    QStringList list;
-    list=myPhys.listeCategories();
-    return list;
-}
-QStringList BDDInterface::listeAlbumsPhys(QString Id_Artiste,QString Categorie)
-{
-    QStringList list;
-    list=myPhys.listeAlbums(Id_Artiste,Categorie);
-    return list;
-}
-QList<TitreGestion> BDDInterface::listeTitresAlbumPhys(QString Id_Album)
-{
-    QList<TitreGestion> list;
-    list=myPhys.listeTitresAlbum(Id_Album);
-    return list;
-}
-AlbumGestion BDDInterface::InfosAlbumPhys(QString Id_Album)
-{
-    AlbumGestion album=myPhys.InfosAlbum(Id_Album);
-    return album;
-}
-void BDDInterface::ExporterHTML(QString Type)
-{
-    myPhys.ExporterHTML(Type);
+    return myCommun.afficherPochette(Album,Type);
 }
 QStringList BDDInterface::ListeArtistes()
 {
-    QStringList temp=myCommun.ListeArtistes();
-    return temp;
+    return myCommun.ListeArtistes();
 }
 QStringList BDDInterface::ListeArtistesInvers()
 {
-    QStringList temp=myCommun.ListeArtistesInvers();
-    return temp;
+    return myCommun.ListeArtistesInvers();
 }
-
 QString BDDInterface::getPathFromIdMp3(const QString &mp3Id)
 {
     return myMp3.getPathFromIdMp3( mp3Id );
@@ -113,4 +138,40 @@ QString BDDInterface::getPathFromIdMp3(const QString &mp3Id)
 void BDDInterface::SauvegarderAlbums()
 {
     myPhys.SauvegarderAlbums();
+}
+QString BDDInterface::getdossierpardef()
+{
+    return myCommun.getdossierpardef();
+}
+void BDDInterface::EnregistrerDossierParDef(QString doss)
+{
+    myCommun.EnregistrerDossierParDef(doss);
+}
+void BDDInterface::CopierBDD()
+{
+    myCommun.CopierBDD();
+}
+void BDDInterface::ChargerBDD()
+{
+    myCommun.ChargerBDD();
+}
+void BDDInterface::EchangerArtiste(QString Artiste, QString Id_Artiste)
+{
+    return myCommun.EchangerArtistes(Artiste,Id_Artiste);
+}
+PlaylistGestion BDDInterface::RecupererInfosPlaylist(QString Id)
+{
+    return myMp3.RecupererInfosPlaylist(Id);
+}
+QList<PlaylistGestion> BDDInterface::ListesPlaylist()
+{
+    return myMp3.ListesPlaylist();
+}
+QString BDDInterface::CreerPlaylist(PlaylistGestion play)
+{
+    return myMp3.CreerPlaylist(play);
+}
+QList<Pochette> BDDInterface::ListePochettes()
+{
+    return myCommun.ListePochettes();
 }

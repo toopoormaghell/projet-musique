@@ -24,6 +24,18 @@ public:
     QStringList listeCategoriesMp3();
     QStringList listeAlbumsMp3(QString Id_Artiste);
     QStringList listeTitresAlbumMp3(QString Id_Album);
+    QMap<int, MP3Gestion> similaires(QString Id);
+    MP3Gestion RecupererInfosMp3(int Id_Titre);
+    bool ActualiserAlbums();
+    bool ActualiserCompil();
+    bool ActualiserLives();
+    void EnregistrerActuAlbums(bool check);
+    void EnregistrerActuCompil(bool check);
+    void EnregistrerActuLives(bool check);
+    QList<int> ListeMp3Compil(QString annee);
+    PlaylistGestion RecupererInfosPlaylist(QString Id);
+    QList<PlaylistGestion> ListesPlaylist();
+    QString CreerPlaylist(PlaylistGestion play);
 
     //Phys
     QStringList listeArtistesPhys(QString Categorie);
@@ -40,8 +52,13 @@ public:
     QStringList ListeArtistes();
     QStringList ListeArtistesInvers();
     QImage afficherPochette(const QString &Album, const QString &Type);
+    QString getdossierpardef();
+    void EnregistrerDossierParDef(QString doss);
+    void CopierBDD();
+    void ChargerBDD();
+ void EchangerArtiste(QString Artiste, QString Id_Artiste);
 
-
+    QList<Pochette> ListePochettes();
 private:
     BDDCommun myCommun;
     BDDMp3 myMp3;
