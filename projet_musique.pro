@@ -48,7 +48,8 @@ SOURCES += main.cpp\
     affichagecommun.cpp \
     dialogueartistesinverses.cpp \
     player.cpp \
-    autorisationdiscogs.cpp
+    autorisationdiscogs.cpp \
+    kqoauthsingleton.cpp
 
 HEADERS  += fenetreprincipale.h \
     ongletmp3.h \
@@ -67,7 +68,8 @@ HEADERS  += fenetreprincipale.h \
     affichagecommun.h \
     dialogueartistesinverses.h \
     player.h \
-    autorisationdiscogs.h
+    autorisationdiscogs.h \
+    kqoauthsingleton.h
 
 FORMS    += fenetreprincipale.ui \
     ongletmp3.ui \

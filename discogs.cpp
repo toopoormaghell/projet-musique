@@ -8,6 +8,7 @@
 #include "util.h"
 #include "BDDcommun.h"
 #include <QDebug>
+#include "kqoauthsingleton.h"
 
 
 Discogs::Discogs(QObject *parent) :
@@ -96,16 +97,18 @@ AlbumGestion* Discogs::RequeteInfosAlbum(QString chemin,QString type)
 
             QStringList images=parsing[1].split("\"");
 
-            QNetworkRequest toto( QUrl::fromEncoded( images[0].toAscii() ) );
-            toto.setAttribute( QNetworkRequest::User, images[0] );
-            QNetworkReply* r = m->get( toto );
-            //on attend que le signal finished soit reçu
-            QEventLoop loop;
-            QObject::connect(r, SIGNAL(finished()), &loop, SLOT(quit()));
-            loop.exec();
-            QImage image;
-            image.loadFromData((r->readAll()));
-            album->Pochette=image;
+            album->Pochette = theOAuthSingleton.getPochette( QUrl::fromEncoded( images[0].toAscii() ) );
+
+//            QNetworkRequest toto( QUrl::fromEncoded( images[0].toAscii() ) );
+//            toto.setAttribute( QNetworkRequest::User, images[0] );
+//            QNetworkReply* r = m->get( toto );
+//            //on attend que le signal finished soit reçu
+//            QEventLoop loop;
+//            QObject::connect(r, SIGNAL(finished()), &loop, SLOT(quit()));
+//            loop.exec();
+//            QImage image;
+//            image.loadFromData((r->readAll()));
+//            album->Pochette=image;
         }
         //On récupère les titres
         QStringList Web=pageWeb.split("tracklist");

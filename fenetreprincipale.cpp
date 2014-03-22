@@ -8,6 +8,7 @@
 #include "dialogueajouterphysique.h"
 #include "dialogueartistesinverses.h"
 
+
 FenetrePrincipale::FenetrePrincipale(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::FenetrePrincipale)
