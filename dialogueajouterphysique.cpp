@@ -42,34 +42,35 @@ void DialogueAjouterPhysique::AffichageArtistesCompil()
 void DialogueAjouterPhysique::on_Codebarres_clicked()
 {
     Discogs temp;
-    QStringList resultat;
-    resultat = temp.RequeteAlbums( getCodeBarre() );
 
-    if (!resultat.isEmpty()) {
-        ui->Interaction->setText("CD trouvé. Vérifiez les informations.");
-        AlbumGestion *album = temp.RequeteInfosAlbum(resultat[0],resultat[1]);
-        album->Type = getType();
+    AlbumGestion album = temp.RequeteAlbums( getCodeBarre() );
 
-        ui->Album->setText(album->Album);
-        ui->Annee->setText(album->Annee);
-        ui->Artiste->setText(album->Artiste);
+    if (!album.Album.isNull()) {
+      ui->Interaction->setText("CD trouvé. Vérifiez les informations.");
 
-        QPixmap* pixmap = new QPixmap();
-        pixmap->convertFromImage(album->Pochette);
+
+      album.Type = getType();
+
+        ui->Album->setText(album.Album);
+        ui->Annee->setText(album.Annee);
+        ui->Artiste->setText(album.Artiste);
+
+       QPixmap* pixmap = new QPixmap();
+        pixmap->convertFromImage(album.Pochette);
 
         QPixmap imageScaled = pixmap->scaled(150,150,Qt::IgnoreAspectRatio,Qt::FastTransformation);
         ui->Pochette->setPixmap(imageScaled);
-        ui->Titres->clear();
-        for(int cpt=0;cpt<album->titres.count();cpt++)
+       ui->Titres->clear();
+        for(int cpt=0;cpt<album.titres.count();cpt++)
         {
-            TitreGestion titre=album->titres[cpt];
-            titre.Num_Piste=cpt+1;
-            QListWidgetItem *item=new QListWidgetItem();
-            item->setText(titre.Titre+"("+titre.Duree+")");
-            ui->Titres->addItem(item);
-        }
+           TitreGestion titre=album.titres[cpt];
+           titre.Num_Piste=cpt+1;
+           QListWidgetItem *item=new QListWidgetItem();
+         item->setText(titre.Titre+"("+titre.Duree+")");
+           ui->Titres->addItem(item);
+       }
 
-        listeNumeros();
+       listeNumeros();
     } else {
 
         ui->Interaction->setText("Le code de barres n'a pas été trouvé. Le CD doit être rentré manuellement.");

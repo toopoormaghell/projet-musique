@@ -206,3 +206,35 @@ void BDDPhys::SauvegarderAlbums()
         flux << resultat[cpt]<< " " << resultat[cpt+1] << " " << resultat[cpt+2] << " " << resultat[cpt+3] << endl;
     }
 }
+QString BDDPhys::getjetonAcces()
+{
+    QString QueryStr="SELECT Valeur FROM Configuration WHERE Intitule='JetonAcces'";
+    QSqlQuery query=madatabase.exec(QueryStr);
+
+    while (query.next())
+    {
+        QSqlRecord rec=query.record();
+        return rec.value("Valeur").toString();
+    }
+}
+QString BDDPhys::getjetonSecret()
+{
+    QString QueryStr="SELECT Valeur FROM Configuration WHERE Intitule='JetonSecret'";
+    QSqlQuery query=madatabase.exec(QueryStr);
+
+    while (query.next())
+    {
+        QSqlRecord rec=query.record();
+        return rec.value("Valeur").toString();
+    }
+}
+void BDDPhys::changerjetonAcces(QString jeton)
+{
+    QString QueryStr="UPDATE Configuration SET Valeur='"+jeton+"' WHERE Intitule='JetonAcces'";
+    QSqlQuery query=madatabase.exec(QueryStr);
+}
+void BDDPhys::changerjetonSecret(QString jeton)
+{
+    QString QueryStr="UPDATE Configuration SET Valeur='"+jeton+"' WHERE Intitule='JetonSecret'";
+    QSqlQuery query=madatabase.exec(QueryStr);
+}

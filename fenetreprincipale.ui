@@ -101,6 +101,7 @@
     </property>
     <addaction name="actionArtistes_Inverses"/>
     <addaction name="actionChanger_Pochettes"/>
+    <addaction name="actionTokens_API"/>
    </widget>
    <widget class="QMenu" name="menuPlaylist">
     <property name="title">
@@ -254,6 +255,11 @@
   <action name="actionDossier_par_d_faut">
    <property name="text">
     <string>Configurer Actualiser MP3</string>
+   </property>
+  </action>
+  <action name="actionTokens_API">
+   <property name="text">
+    <string>Tokens API...</string>
    </property>
   </action>
   <action name="actionCopier_BDD">

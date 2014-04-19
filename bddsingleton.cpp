@@ -2,9 +2,11 @@
 #include <QDebug>
 #include <QStringList>
 #include <QSqlQuery>
-BDDSingleton BDDSingleton::singleton;
 
-BDDSingleton::BDDSingleton()
+BDDSingleton BDDSingleton::s_singleton;
+
+BDDSingleton::BDDSingleton():
+    m_database()
 {
     m_database = QSqlDatabase::addDatabase("QSQLITE");
     m_database.setHostName("localhost");
@@ -23,13 +25,15 @@ BDDSingleton::BDDSingleton()
         creationBase();
     }
 }
+
 BDDSingleton::~BDDSingleton()
 {
     m_database.close();
 }
+
 BDDSingleton& BDDSingleton::getInstance()
 {
-    return singleton;
+    return s_singleton;
 }
 QSqlDatabase &BDDSingleton::getDataBase()
 {

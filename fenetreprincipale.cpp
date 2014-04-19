@@ -10,6 +10,9 @@
 #include "dialogdossierpardef.h"
 #include "dialogchangerpochette.h"
 #include "dialogvidermp3.h"
+#include "saisietokensapi.h"
+#include "apimusicpro.h"
+#include "kqoauthsingleton.h"
 
 FenetrePrincipale::FenetrePrincipale(QWidget *parent) :
     QMainWindow(parent),
@@ -103,6 +106,22 @@ void FenetrePrincipale::on_actionExporter_Liste_Physique_triggered()
 {
     m_bddInterface.SauvegarderAlbums();
 }
+
+void FenetrePrincipale::on_actionTokens_API_triggered()
+{
+    // lire les tokens dans la base de données
+    const QString jetonAccesFromDB( m_bddInterface.getjetonAcces() );
+    const QString jetonSecretFromBD( m_bddInterface.getjetonSecret() );
+
+    SaisieTokensAPI tokenListe( jetonAccesFromDB, jetonSecretFromBD, this );
+    if ( tokenListe.exec() == QDialog::Accepted )
+    {
+        if ( QMessageBox::question( this, "Confirmation", "Êtes-vous sûr de vouloir modifier les tokens ?", QMessageBox::Ok, QMessageBox::Cancel ) == QMessageBox::Ok )
+        {
+            m_bddInterface.changerjetonAcces(tokenListe.getJetonAcces());
+           m_bddInterface.changerjetonSecret(tokenListe.getJetonSecret());
+        }
+    }
 void FenetrePrincipale::on_actionDossier_par_d_faut_triggered()
 {
     DialogDossierParDef tmp(this);

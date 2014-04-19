@@ -37,6 +37,8 @@ private slots:
     //Support Config
     void on_actionDossier_par_d_faut_triggered();
     void on_actionCopier_BDD_triggered();
+     void on_actionTokens_API_triggered();
+
     void on_actionCharger_BDD_triggered();
 private:
     Ui::FenetrePrincipale *ui;

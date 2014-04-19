@@ -188,3 +188,22 @@ QStringList BDDInterface::listePlaylistMp3(QString Id)
 {
     return myPlay.listePlaylistMP3(Id);
 }
+QString BDDInterface::getjetonAcces()
+{
+    return myPhys.getjetonAcces();
+}
+QString BDDInterface::getjetonSecret()
+{
+    return myPhys.getjetonSecret();
+}
+
+void BDDInterface::changerjetonSecret(QString jeton)
+{
+    myPhys.changerjetonSecret(jeton);
+}
+
+void BDDInterface::changerjetonAcces(QString jeton)
+{
+    myPhys.changerjetonAcces(jeton);
+}
+
