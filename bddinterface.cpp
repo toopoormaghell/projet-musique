@@ -114,3 +114,22 @@ void BDDInterface::SauvegarderAlbums()
 {
     myPhys.SauvegarderAlbums();
 }
+QString BDDInterface::getjetonAcces()
+{
+    return myPhys.getjetonAcces();
+}
+QString BDDInterface::getjetonSecret()
+{
+    return myPhys.getjetonSecret();
+}
+
+void BDDInterface::changerjetonSecret(QString jeton)
+{
+    myPhys.changerjetonSecret(jeton);
+}
+
+void BDDInterface::changerjetonAcces(QString jeton)
+{
+    myPhys.changerjetonAcces(jeton);
+}
+

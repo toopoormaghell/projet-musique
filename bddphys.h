@@ -13,7 +13,6 @@ public:
     explicit BDDPhys(QObject *parent = 0);
     void AjouterAlbum(AlbumGestion album);
 
-
     QStringList listeArtistes(QString Categorie);
     QStringList listeCategories();
     QStringList listeAlbums(QString Id_Artiste, QString Categorie);
@@ -25,6 +24,10 @@ public:
     void ExporterHTML(QString Type);
     QStringList ListeAlbumSauvegarde();
     void SauvegarderAlbums();
+    QString getjetonAcces();
+    QString getjetonSecret();
+    void changerjetonSecret(QString jeton);
+    void changerjetonAcces(QString jeton);
 };
 
 #endif // BDDPHYS_H

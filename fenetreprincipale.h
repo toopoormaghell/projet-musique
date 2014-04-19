@@ -32,6 +32,8 @@ private slots:
 
      void on_actionExporter_Liste_Physique_triggered();
 
+     void on_actionTokens_API_triggered();
+
 private:
     Ui::FenetrePrincipale *ui;
  BDDInterface m_bddInterface;

@@ -100,6 +100,7 @@
      <string>Outils</string>
     </property>
     <addaction name="actionArtistes_Inverses"/>
+    <addaction name="actionTokens_API"/>
    </widget>
    <widget class="QMenu" name="menuPlaylist">
     <property name="title">
@@ -238,6 +239,11 @@
   <action name="actionChanger_Nom_Playlist">
    <property name="text">
     <string>Changer Nom Playlist</string>
+   </property>
+  </action>
+  <action name="actionTokens_API">
+   <property name="text">
+    <string>Tokens API...</string>
    </property>
   </action>
  </widget>

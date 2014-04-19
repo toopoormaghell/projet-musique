@@ -7,7 +7,9 @@
 #include "discogs.h"
 #include "dialogueajouterphysique.h"
 #include "dialogueartistesinverses.h"
-
+#include "saisietokensapi.h"
+#include "apimusicpro.h"
+#include "kqoauthsingleton.h"
 
 FenetrePrincipale::FenetrePrincipale(QWidget *parent) :
     QMainWindow(parent),
@@ -45,6 +47,8 @@ void FenetrePrincipale::on_actionAjouter_Album_triggered()
 {
     DialogueAjouterPhysique tmpDialog( this );
     tmpDialog.exec();
+//ApiMusicPro api;
+//api.Requete();
 }
 
 void FenetrePrincipale::on_actionEn_HTML_Supports_Physiques_triggered()
@@ -71,4 +75,21 @@ void FenetrePrincipale::on_actionArtistes_Inverses_triggered()
 void FenetrePrincipale::on_actionExporter_Liste_Physique_triggered()
 {
     m_bddInterface.SauvegarderAlbums();
+}
+
+void FenetrePrincipale::on_actionTokens_API_triggered()
+{
+    // lire les tokens dans la base de données
+    const QString jetonAccesFromDB( m_bddInterface.getjetonAcces() );
+    const QString jetonSecretFromBD( m_bddInterface.getjetonSecret() );
+
+    SaisieTokensAPI tokenListe( jetonAccesFromDB, jetonSecretFromBD, this );
+    if ( tokenListe.exec() == QDialog::Accepted )
+    {
+        if ( QMessageBox::question( this, "Confirmation", "Êtes-vous sûr de vouloir modifier les tokens ?", QMessageBox::Ok, QMessageBox::Cancel ) == QMessageBox::Ok )
+        {
+            m_bddInterface.changerjetonAcces(tokenListe.getJetonAcces());
+           m_bddInterface.changerjetonSecret(tokenListe.getJetonSecret());
+        }
+    }
 }

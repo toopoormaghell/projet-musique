@@ -34,6 +34,10 @@ public:
     void ajouterAlbumPhysique(AlbumGestion album);
     void ExporterHTML(QString Type);
     void SauvegarderAlbums();
+    QString getjetonAcces();
+    QString getjetonSecret();
+    void changerjetonSecret(QString jeton);
+    void changerjetonAcces(QString jeton);
 
     //Commun
     void ViderBDD();

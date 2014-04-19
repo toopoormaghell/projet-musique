@@ -9,6 +9,8 @@
 #include "BDDcommun.h"
 #include <QDebug>
 #include "kqoauthsingleton.h"
+#include <QtXml/QDomDocument>
+#include <QtXml/qdom.h>
 
 
 Discogs::Discogs(QObject *parent) :
@@ -16,157 +18,327 @@ Discogs::Discogs(QObject *parent) :
 {
 
 }
-
-
-QStringList Discogs::RequeteAlbums(QString rech)
+AlbumGestion Discogs::RequeteAlbums(QString rech)
 {
-    QString adresse= "http://api.discogs.com/database/search?barcode="+rech;
-    const QUrl url = QUrl(adresse);
-    const QNetworkRequest requete(url);
-    QNetworkAccessManager *m = new QNetworkAccessManager;
-    QNetworkReply *r = m->get(requete);
-    QStringList resultat;
+    theOAuthSingleton.makeRequest( "release/search", "ean", rech );
+
     //on attend que le signal finished soit reçu
     QEventLoop loop;
-    QObject::connect(r, SIGNAL(finished()), &loop, SLOT(quit()));
+    QObject::connect(&theOAuthSingleton, SIGNAL(finished( QByteArray )), &loop, SLOT(quit()));
     loop.exec();
 
-    //on va lire ligne par ligne, jusqu'à trouver l'id
-    while (!r->atEnd()) {
-        QString pageWeb=r->readLine();
-        QStringList parsing=pageWeb.split("\"master\", \"id\": ");
+    AlbumGestion alb= LectureXMLSearch(theOAuthSingleton.getResponse());
 
-        if (parsing.count()!=1)
-        {
-            QStringList pars=parsing[1].split("}");
-            resultat<< pars[0];
-            resultat<<"masters";
-        } else{
-            parsing=pageWeb.split("\"release\", \"id\": ");
-            if(parsing.count()!=1)
-{            QStringList pars=parsing[1].split("}");
-            resultat<< pars[0];
-            resultat<<"releases";
-            }
-        }
+    //On récupère l'artiste
+    QString req="release/"+QString::number(alb.Id_Album)+"/artists";
+    theOAuthSingleton.makeRequest(req);
+    QObject::connect(&theOAuthSingleton, SIGNAL(finished( QByteArray )), &loop, SLOT(quit()));
+    loop.exec();
+    alb.Artiste=LectureXMLArtiste(theOAuthSingleton.getResponse());
 
+    //On récupère la pochette
+    req="release/"+QString::number(alb.Id_Album)+"/pictures";
+    theOAuthSingleton.makeRequest(req);
+    QObject::connect(&theOAuthSingleton, SIGNAL(finished( QByteArray )), &loop, SLOT(quit()));
+    loop.exec();
+    alb.Pochette=LectureXMLPochette(theOAuthSingleton.getResponse());
 
+    //On récupère les titres
+    req="release/"+QString::number(alb.Id_Album)+"/tracks";
+    theOAuthSingleton.makeRequest(req);
+    QObject::connect(&theOAuthSingleton, SIGNAL(finished( QByteArray )), &loop, SLOT(quit()));
+    loop.exec();
+    alb.titres=LectureXMLTitres(theOAuthSingleton.getResponse());
+
+    int cpt=LectureXMLPages(theOAuthSingleton.getResponse());
+    int compteur=1;
+    while(cpt-compteur>0)
+    {
+        theOAuthSingleton.makeRequest(req,"page",QString::number(compteur+1));
+        QObject::connect(&theOAuthSingleton, SIGNAL(finished( QByteArray )), &loop, SLOT(quit()));
+        loop.exec();
+        alb.titres<<LectureXMLTitres(theOAuthSingleton.getResponse());
+        compteur++;
     }
 
-    return resultat;
+    return alb;
 }
-AlbumGestion* Discogs::RequeteInfosAlbum(QString chemin,QString type)
+int Discogs::LectureXMLPages(QByteArray fich)
 {
-    AlbumGestion* album = new AlbumGestion;
+    int cpt;
+    QDomDocument doc;
 
-    QString adresse= "http://api.discogs.com/"+type+"/"+chemin;
-    qDebug() << adresse;
-    const QUrl url = QUrl(adresse);
-    const QNetworkRequest requete(url);
-    QNetworkAccessManager *m = new QNetworkAccessManager;
-    QNetworkReply *r = m->get(requete);
+    // Ajoute le contenu du Qstring XML dans un QDomDocument et dit au QDomDocument de ne pas tenir compte des namespaces
+    doc.setContent(fich,false);
 
-    //on attend que le signal finished soit reçu
-    QEventLoop loop;
-    QObject::connect(r, SIGNAL(finished()), &loop, SLOT(quit()));
-    loop.exec();
-    //Le parsing débute ici: le résultat va être lu ligne par ligne
-    while (!r->atEnd()) {
+    // Ici, racine pointe sur l'élément <root> de notre document
+    QDomElement racine = doc.documentElement();
 
-        QString pageWeb=r->readLine();
+    // Ici, racine pointe sur une fils de <root> c'est à dire <site>
+    racine = racine.firstChildElement();
 
-        //On récupère le titre de l'album
-        QStringList pars=pageWeb.split("title\": \"");
-        QStringList par2=pars[1].split("\"");
-        album->Album= accents(par2[0]);
-
-        //On récupère le nom de l'artiste
-        pars=pageWeb.split("artists\": [{\"join\": \"\", \"name\": \"");
-        par2=pars[1].split("\"");
-        album->Artiste=accents(par2[0]);
-
-        QStringList parsing=pageWeb.split("\"images\": [{\"uri\": \"");
-
-        //On récupère l'année
-        QStringList temp=parsing[0].split("\"year\": ");
-        QStringList temp1=temp[1].split(",");
-        album->Annee= temp1[0];
-
-        //On récupère la pochette
-        if (parsing.size()>1) {
-
-            QStringList images=parsing[1].split("\"");
-
-            album->Pochette = theOAuthSingleton.getPochette( QUrl::fromEncoded( images[0].toAscii() ) );
-
-//            QNetworkRequest toto( QUrl::fromEncoded( images[0].toAscii() ) );
-//            toto.setAttribute( QNetworkRequest::User, images[0] );
-//            QNetworkReply* r = m->get( toto );
-//            //on attend que le signal finished soit reçu
-//            QEventLoop loop;
-//            QObject::connect(r, SIGNAL(finished()), &loop, SLOT(quit()));
-//            loop.exec();
-//            QImage image;
-//            image.loadFromData((r->readAll()));
-//            album->Pochette=image;
-        }
-        //On récupère les titres
-        QStringList Web=pageWeb.split("tracklist");
-        parsing=Web[1].split("\"title\": \"");
-        int cpt=1;
-        //Et la durée de chaque titre
-        QString duree;
-        QStringList durr=parsing[1].split("duration\": \"");
-        if(durr.size()!=0) {
-            QStringList dure=durr[1].split("\"");
-            duree = dure[0];
-        }
-        while (cpt<parsing.size())
+    //Boucle permettant la navigation dans le fichier XML
+    while(!racine.isNull())
+    {
+        // Si on pointe sur un élément de type <site>
+        if(racine.tagName() == "pageCount")
         {
-            QStringList titre1 = parsing[cpt].split("\"");
-            QString titreLisible = accents(titre1[0]);
+            cpt=racine.text().toInt();
+        }
+        racine=racine.nextSiblingElement();
+    }
 
-            if(duree=="")
+   return cpt;
+
+}
+
+AlbumGestion Discogs::LectureXMLSearch(QByteArray fich)
+{
+    QDomDocument doc;
+    AlbumGestion alb;
+
+    // Ajoute le contenu du Qstring XML dans un QDomDocument et dit au QDomDocument de ne pas tenir compte des namespaces
+    doc.setContent(fich,false);
+
+    // Ici, racine pointe sur l'élément <root> de notre document
+    QDomElement racine = doc.documentElement();
+
+    // Ici, racine pointe sur une fils de <root> c'est à dire <site>
+    racine = racine.firstChildElement();
+
+    //Boucle permettant la navigation dans le fichier XML
+    while(!racine.isNull())
+    {
+        // Si on pointe sur un élément de type <site>
+        if(racine.tagName() == "data")
+        {
+            // On récupère le premier enfant de l'élément site c'est a dire <nom> ou <url>
+            QDomElement unElement = racine.firstChildElement();
+
+            // On parcourt tous les enfants de l'élément <site>
+            while(!unElement.isNull())
             {
-                duree="0:00";
+                // Si l'enfant de l'élément site est l'élément <nom>
+                if(unElement.tagName() == "item")
+                {
+                    QDomElement donnees = unElement.firstChildElement();
+
+                    while(!donnees.isNull())
+                    {
+                        if(donnees.tagName()=="id")
+                        {
+                            alb.Id_Album= donnees.text().toInt();
+                        }
+                        if(donnees.tagName()=="title")
+                        {
+                            alb.Album=donnees.text();
+                        }
+                        if(donnees.tagName()=="release_date")
+                        {
+                            alb.Annee=donnees.text();
+                        }
+                        donnees =donnees.nextSiblingElement();
+                    }
+                }
+                // Permet d'aller au prochain enfant de <site> et de poursuivre la boucle
+                unElement = unElement.nextSiblingElement();
             }
-
-            TitreGestion titre;
-            titre.Duree=duree;
-            titre.Num_Piste=cpt;
-            titre.Titre=titreLisible;
-
-            album->titres << titre;
-
-            duree=titre1[4];
-            cpt++;
         }
+        // On va à l'élément fils de <root> suivant
+        racine = racine.nextSiblingElement();
     }
 
-    return album;
+    return alb;
 }
-QString Discogs::accents(QString nom)
+QList<TitreGestion> Discogs::LectureXMLTitres(QByteArray fich)
 {
-    QString nomretravaille;
 
-    QString temp= nom.toUtf8().replace("\\u00e9", "é");
-    temp=temp.replace("\\u00ea","ê");
-    temp=temp.replace("\\u00e0","à");
-    temp=temp.replace("\\u0153","oe");
-    temp=temp.replace("\\u00c2","â");
-    temp=temp.replace("\\u00c0","à");
-    temp=temp.replace("\\u00c9","é");
-    temp=temp.replace("\\u00c8","è");
-    temp=temp.replace("\\u00ca","ê");
-    temp=temp.replace("\\u00f4","ô");
-    temp=temp.replace("\\u00ee","î");
-    temp=temp.replace("\\u00f9","ù");
-    temp=temp.replace("\\u00c7","ç");
-    temp=temp.replace("\\u00ef","ï");
-    temp=temp.replace("\\u00e7","ç");
+    QList<TitreGestion> Titres;
+    QDomDocument doc;
 
-    nomretravaille=temp.replace("\\u00e8","è");
+    // Ajoute le contenu du Qstring XML dans un QDomDocument et dit au QDomDocument de ne pas tenir compte des namespaces
+    doc.setContent(fich,false);
 
-    return nomretravaille;
+    // Ici, racine pointe sur l'élément <root> de notre document
+    QDomElement racine = doc.documentElement();
+
+    // Ici, racine pointe sur une fils de <root> c'est à dire <site>
+    racine = racine.firstChildElement();
+
+    //Boucle permettant la navigation dans le fichier XML
+    while(!racine.isNull())
+    {
+        // Si on pointe sur un élément de type <data>
+        if(racine.tagName() == "data")
+        {
+            // On récupère le premier enfant de l'élément site c'est a dire <nom> ou <url>
+            QDomElement unElement = racine.firstChildElement();
+
+            // On parcourt tous les enfants de l'élément <data>
+            while(!unElement.isNull())
+            {
+                // Si l'enfant de l'élément site est l'élément <item>
+                if(unElement.tagName() == "item")
+                {
+
+                    TitreGestion titre;
+                    QDomElement donnees = unElement.firstChildElement();
+                    while(!donnees.isNull())
+                    {
+                        if(donnees.tagName()=="track_number")
+                        {
+                            titre.Num_Piste=donnees.text().toInt();
+                        }
+                        if(donnees.tagName()=="title")
+                        {
+                            titre.Titre=donnees.text();
+                        }
+                        if(donnees.tagName()=="length")
+                        {
+                            titre.Duree=donnees.text();
+                        }
+                        donnees =donnees.nextSiblingElement();
+
+                    }
+                    Titres<<titre;
+                }
+                // Permet d'aller au prochain enfant de <site> et de poursuivre la boucle
+                unElement = unElement.nextSiblingElement();
+
+            }
+        }
+        // On va à l'élément fils de <root> suivant
+        racine = racine.nextSiblingElement();
+    }
+    return Titres;
 }
 
+QString Discogs::LectureXMLArtiste(QByteArray fich)
+{
+    QDomDocument doc;
+    QString Artiste;
+
+    // Ajoute le contenu du Qstring XML dans un QDomDocument et dit au QDomDocument de ne pas tenir compte des namespaces
+    doc.setContent(fich,false);
+
+    // Ici, racine pointe sur l'élément <root> de notre document
+    QDomElement racine = doc.documentElement();
+
+    // Ici, racine pointe sur une fils de <root> c'est à dire <site>
+    racine = racine.firstChildElement();
+
+    //Boucle permettant la navigation dans le fichier XML
+    while(!racine.isNull())
+    {
+        // Si on pointe sur un élément de type <data>
+        if(racine.tagName() == "data")
+        {
+            // On récupère le premier enfant de l'élément site c'est a dire <nom> ou <url>
+            QDomElement unElement = racine.firstChildElement();
+
+            // On parcourt tous les enfants de l'élément <data>
+            while(!unElement.isNull())
+            {
+                // Si l'enfant de l'élément site est l'élément <item>
+                if(unElement.tagName() == "item")
+                {
+                    QDomElement donnees = unElement.firstChildElement();
+                    QString Nom;
+                    while(!donnees.isNull())
+                    {
+
+                        if(donnees.tagName()=="name")
+                        {
+                            Nom= donnees.text();
+
+                        }
+                        if(donnees.tagName()=="link")
+                        {
+                            QDomElement link=donnees.firstChildElement();
+                            while(!link.isNull())
+                            {
+                                if(link.tagName()=="item")
+                                {
+                                    if(link.text()=="Main")
+                                    {
+                                        Artiste= Nom;
+                                    }
+                                }
+                                link=link.nextSiblingElement();
+                            }
+                        }
+
+                        donnees =donnees.nextSiblingElement();
+                    }
+                }
+                // Permet d'aller au prochain enfant de <site> et de poursuivre la boucle
+                unElement = unElement.nextSiblingElement();
+            }
+        }
+        // On va à l'élément fils de <root> suivant
+        racine = racine.nextSiblingElement();
+    }
+    return Artiste;
+}
+QImage Discogs::LectureXMLPochette(QByteArray fich)
+{
+    QDomDocument doc;
+    QImage poch;
+
+    // Ajoute le contenu du Qstring XML dans un QDomDocument et dit au QDomDocument de ne pas tenir compte des namespaces
+    doc.setContent(fich,false);
+
+    // Ici, racine pointe sur l'élément <root> de notre document
+    QDomElement racine = doc.documentElement();
+
+    // Ici, racine pointe sur une fils de <root> c'est à dire <site>
+    racine = racine.firstChildElement();
+
+    //Boucle permettant la navigation dans le fichier XML
+    while(!racine.isNull())
+    {
+        // Si on pointe sur un élément de type <data>
+        if(racine.tagName() == "data")
+        {
+            // On récupère le premier enfant de l'élément site c'est a dire <nom> ou <url>
+            QDomElement unElement = racine.firstChildElement();
+
+            // On parcourt tous les enfants de l'élément <data>
+            while(!unElement.isNull())
+            {
+                // Si l'enfant de l'élément site est l'élément <item>
+                if(unElement.tagName() == "item")
+                {
+                    QDomElement donnees = unElement.firstChildElement();
+                    QString Nom;
+                    while(!donnees.isNull())
+                    {
+                        if(donnees.tagName()=="url")
+                        {
+                            poch= RecupererPochette(donnees.text());
+                        }
+                        donnees = donnees.nextSiblingElement();
+                    }
+                }
+                unElement = unElement.nextSiblingElement();
+            }
+        }
+        racine=racine.nextSiblingElement();
+    }
+    return poch;
+}
+QImage Discogs::RecupererPochette(QString lien)
+{
+    QImage poch;
+    QNetworkRequest toto (QUrl::fromEncoded(lien.toAscii()));
+    toto.setAttribute(QNetworkRequest::User,lien);
+    QNetworkAccessManager *m=new QNetworkAccessManager;
+    QNetworkReply* r= m->get(toto);
+    //on attend que le signal finished soit recu
+    QEventLoop loop;
+    QObject::connect(r,SIGNAL(finished()),&loop,SLOT(quit()));
+    loop.exec();
+    poch.loadFromData(r->readAll());
+
+    return poch;
+}
