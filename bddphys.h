@@ -11,15 +11,20 @@ class BDDPhys : public BDDCommun
 
 public:
     explicit BDDPhys(QObject *parent = 0);
-    void AjouterAlbum(AlbumGestion album);
 
+    //En rapport avec la BDD ( ajout, modification, suppression)
+    void AjouterAlbum(AlbumGestion album);
+    int lireIDPhys(int Id_Album, QString Type, QString CodeBarres);
+
+    //Affichage des Albums
     QStringList listeArtistes(QString Categorie);
     QStringList listeCategories();
     QStringList listeAlbums(QString Id_Artiste, QString Categorie);
     QList<TitreGestion> listeTitresAlbum(QString Id_Album);
     AlbumGestion InfosAlbum(QString Id_Album);
     QString choixCategorie(QString Categorie);
-    int lireIDPhys(int Id_Album, QString Type, QString CodeBarres);
+
+    //Exportation (et sauvegarde)
     QStringList ListeAlbumArtisteExport(QString Type);
     void ExporterHTML(QString Type);
     QStringList ListeAlbumSauvegarde();

@@ -24,32 +24,35 @@ public:
     bool supprimerArtiste(const int &Id_Artiste, const QString artiste);
     bool supprimerAlbum(const int &Id_Alb, const QString &Chemin);
     bool supprimerTitre(const int Id_Titre);
-    void supprimerPoch(const int &IdPoch);
+    void supprimerPoch(const int &IdPoch, const QString Artiste, const QString Album);
+    bool supprimerTitre(const int Id_Album, const int Id_Titre);
 
     void enregistrerObservateur( BarreAvancement* obs );
     void desenregistrerObservateur( BarreAvancement* obs );
 
-    QImage afficherPochette(const QString &Id, const QString &Type);
     bool verifierTitreMp3Phys(int Id_Titre);
 
+    QImage afficherPochette(const QString &Id, const QString &Type);
     QString AjouterPochette(MP3Gestion mp3);
     QString AjouterPochette(AlbumGestion album);
     QString AjouterPochette(QString Type, QString Nom, QImage Image);
+    QList<Pochette> ListePochettes();
 
-    bool supprimerTitre(const int Id_Album, const int Id_Titre);
+    //Artistes
     QStringList ListeArtistes();
     QStringList Artistea2mots(QStringList Artistes);
     QStringList ListeArtistesInvers();
+    void EchangerArtistes(QString Artiste, QString Id_Artiste);
+
+
+    //Confguration du projet
     QString getdossierpardef();
     void EnregistrerDossierParDef(QString doss);
     void CopierBDD();
     void ChargerBDD();
-    QList<Pochette> ListePochettes();
 
-    void EchangerArtistes(QString Artiste, QString Id_Artiste);
 protected:
     void notifierObservateurs( const QString& chemin, const float pourcentage );
-
 private:
     QSet<BarreAvancement*> m_observateurs;
 };

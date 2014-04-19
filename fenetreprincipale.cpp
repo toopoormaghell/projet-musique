@@ -9,6 +9,7 @@
 #include "dialogueartistesinverses.h"
 #include "dialogdossierpardef.h"
 #include "dialogchangerpochette.h"
+#include "dialogvidermp3.h"
 
 FenetrePrincipale::FenetrePrincipale(QWidget *parent) :
     QMainWindow(parent),
@@ -26,7 +27,42 @@ void FenetrePrincipale::on_actionActualiser_Mp3_triggered()
     m_bddInterface.enregistrerObservateur( ui->widget );
     m_bddInterface.actualiserMP3();
     m_bddInterface.desenregistrerObservateur( ui->widget );
+    ActualiserOngletMp3();
+
 }
+void FenetrePrincipale::ActualiserOngletMp3()
+{
+    ui->tab->vider("Categories");
+    ui->tab->afficherListeCategories();
+
+    QString choixCat= ui->tab->choixCategorie();
+
+    if (choixCat!="Compil")
+    {
+        ui->tab->vider("Artiste");
+        ui->tab->afficherListeArtiste();
+        ui->tab->vider("Albums");
+
+    } else
+    {
+        ui->tab->vider("Artiste");
+        ui->tab->afficherListeAnnees();
+        ui->tab->vider("Albums");
+
+    }
+
+    ui->tab->afficherListeAlbum();
+}
+
+void FenetrePrincipale::ActualiserOngletPhys()
+{
+    ui->tab_2->afficherListeCategories();
+
+ //   QString choixCat= ui->tab_2->choixCategorie();
+
+   ui->tab_2->afficherListeArtiste();
+}
+
 void FenetrePrincipale::on_actionViderBDD_triggered()
 {
     m_bddInterface.ViderBDD();
@@ -48,11 +84,11 @@ void FenetrePrincipale::on_actionAjouter_Album_triggered()
 }
 void FenetrePrincipale::on_actionEn_HTML_Supports_Physiques_triggered()
 {
-      m_bddInterface.ExporterHTML("Tout");
+    m_bddInterface.ExporterHTML("Tout");
 }
 void FenetrePrincipale::on_actionAlbums_triggered()
 {
-     m_bddInterface.ExporterHTML("Album");
+    m_bddInterface.ExporterHTML("Album");
 }
 void FenetrePrincipale::on_actionCompils_Singles_triggered()
 {
@@ -84,5 +120,11 @@ void FenetrePrincipale::on_actionCharger_BDD_triggered()
 void FenetrePrincipale::on_actionChanger_Pochettes_triggered()
 {
     DialogChangerPochette tmp(this);
+    tmp.exec();
+}
+
+void FenetrePrincipale::on_actionViderMP3_triggered()
+{
+    DialogViderMp3 tmp(this);
     tmp.exec();
 }

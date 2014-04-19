@@ -5,6 +5,7 @@
 #include "BDDcommun.h"
 #include "BDDmp3.h"
 #include "BDDphys.h"
+#include "bddplaylist.h"
 #include "util.h"
 class BarreAvancement;
 
@@ -26,16 +27,27 @@ public:
     QStringList listeTitresAlbumMp3(QString Id_Album);
     QMap<int, MP3Gestion> similaires(QString Id);
     MP3Gestion RecupererInfosMp3(int Id_Titre);
+    QList<int> ListeMp3Compil(QString annee);
+    void ViderMp3(QString Type);
+
+    //Configuration du projet
     bool ActualiserAlbums();
     bool ActualiserCompil();
     bool ActualiserLives();
     void EnregistrerActuAlbums(bool check);
     void EnregistrerActuCompil(bool check);
     void EnregistrerActuLives(bool check);
-    QList<int> ListeMp3Compil(QString annee);
+    QString getdossierpardef();
+    void EnregistrerDossierParDef(QString doss);
+    void CopierBDD();
+    void ChargerBDD();
+
+    //Playliste
     PlaylistGestion RecupererInfosPlaylist(QString Id);
     QList<PlaylistGestion> ListesPlaylist();
     QString CreerPlaylist(PlaylistGestion play);
+    void AjouterMP3dansPlaylist(int IdMp3, int IdPlay);
+    QStringList listePlaylistMp3(QString Id);
 
     //Phys
     QStringList listeArtistesPhys(QString Categorie);
@@ -52,17 +64,14 @@ public:
     QStringList ListeArtistes();
     QStringList ListeArtistesInvers();
     QImage afficherPochette(const QString &Album, const QString &Type);
-    QString getdossierpardef();
-    void EnregistrerDossierParDef(QString doss);
-    void CopierBDD();
-    void ChargerBDD();
- void EchangerArtiste(QString Artiste, QString Id_Artiste);
-
+    void EchangerArtiste(QString Artiste, QString Id_Artiste);
     QList<Pochette> ListePochettes();
+
 private:
     BDDCommun myCommun;
     BDDMp3 myMp3;
     BDDPhys myPhys;
+    BDDPlaylist myPlay;
 };
 
 #endif // BDDINTERFACE_H

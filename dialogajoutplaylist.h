@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "bddinterface.h"
+#include "affichagecommun.h"
 namespace Ui {
 class DialogAjoutPlaylist;
 }
@@ -19,12 +20,11 @@ public:
 
 private slots:
     void on_buttonBox_accepted();
-
     void on_pushButton_clicked();
-
 private:
     Ui::DialogAjoutPlaylist *ui;
     BDDInterface m_bddInterface;
+   AffichageCommun affi;
 };
 
 #endif // DIALOGAJOUTPLAYLIST_H

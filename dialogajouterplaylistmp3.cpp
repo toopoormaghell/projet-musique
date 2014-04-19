@@ -1,15 +1,16 @@
 #include "dialogajouterplaylistmp3.h"
 #include "ui_dialogajouterplaylistmp3.h"
 #include "dialogajoutplaylist.h"
-
-DialogAjouterPlaylistMp3::DialogAjouterPlaylistMp3(QWidget *parent) :
+#include <QDebug>
+DialogAjouterPlaylistMp3::DialogAjouterPlaylistMp3(QString Id_Mp3, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogAjouterPlaylistMp3)
 {
     ui->setupUi(this);
     afficherListePlaylists();
-}
+    Mp3= Id_Mp3;
 
+}
 DialogAjouterPlaylistMp3::~DialogAjouterPlaylistMp3()
 {
     delete ui;
@@ -30,10 +31,30 @@ void DialogAjouterPlaylistMp3::afficherListePlaylists()
     }
     ui->ListePlaylists->setCurrentRow(0);
 }
-
 void DialogAjouterPlaylistMp3::on_NouvellePlaylist_clicked()
 {
     DialogAjoutPlaylist temp(this);
     temp.exec();
     afficherListePlaylists();
+}
+void DialogAjouterPlaylistMp3::ajouterMp3dansPlaylist()
+{
+
+m_bddInterface.AjouterMP3dansPlaylist(Mp3.toInt(),choixPlaylist().toInt());
+
+}
+QString DialogAjouterPlaylistMp3::choixPlaylist()
+{
+    QListWidgetItem *item=ui->ListePlaylists->currentItem();
+    if (item==NULL)
+    {
+        item=ui->ListePlaylists->item(0);
+    }
+    return item != NULL ? item->data(Qt::UserRole).toString() : QString();
+}
+
+void DialogAjouterPlaylistMp3::on_buttonBox_accepted()
+{
+    ajouterMp3dansPlaylist();
+
 }

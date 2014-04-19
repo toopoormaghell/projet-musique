@@ -16,15 +16,15 @@ public:
     explicit DialogDossierParDef(QWidget *parent = 0);
     ~DialogDossierParDef();
     
+    //Affichage
     void AfficherDossierParDef();
-    void EnregistrerDossierParDef();
     void AfficherActu();
+    //Actions
+    void EnregistrerDossierParDef();
     void EnregistrerActualiser();
 private slots:
-   void on_pushButton_clicked();
-
-   void on_buttonBox_accepted();
-
+    void on_pushButton_clicked();
+    void on_buttonBox_accepted();
 private:
     Ui::DialogDossierParDef *ui;
     BDDInterface m_bddInterface;

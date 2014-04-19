@@ -3,9 +3,10 @@
 #include <QtSql>
 #include <QDir>
 
-BDDMp3::BDDMp3(QObject *parent) :
-    BDDCommun( parent )
+BDDMp3::BDDMp3(QObject *parent):
+    BDDCommun(parent)
 {
+
 }
 // *****************************************************************
 // *****************************************************************
@@ -20,7 +21,7 @@ void BDDMp3::actualiserMp3(QString type)
 
     QString selectDir;
 
-    if (type=="Album")
+    if (type=="Albums")
     {
         selectDir = getdossierpardef();
     }
@@ -130,8 +131,6 @@ QMap<int,QStringList> BDDMp3::recupererMp3(QString Type)
     }
     return Chemins;
 }
-
-
 QImage BDDMp3::ImageAlbum(const char* encodedName)
 {
     //On s'occupe de la pochette de l'album qu'on enregistre
@@ -143,6 +142,7 @@ QImage BDDMp3::ImageAlbum(const char* encodedName)
 
     return Image;
 }
+
 void BDDMp3::ArtisteParChemin(TagLib::String &artist, QString chemin)
 {
     if (chemin.contains("BOF"))
@@ -205,7 +205,7 @@ QStringList BDDMp3::listeCategories()
 QStringList BDDMp3::listeAlbums(QString Id_Artiste)
 {
     QStringList albums;
-    QSqlQuery query=madatabase.exec("SELECT DISTINCT Al.Album, Al.Annee, Al.Id_Album FROM Album Al, MP3 M,Titre T WHERE Al.Id_Artiste="+Id_Artiste+" AND Al.Id_Album = T.Id_Album AND M.Id_Titre = T.Id_Titre ORDER BY Al.Annee");
+    QSqlQuery query=madatabase.exec("SELECT DISTINCT Al.Album, Al.Annee, Al.Id_Album FROM Album Al, MP3 M,Titre T WHERE Al.Id_Artiste="+Id_Artiste+" AND Al.Id_Album = T.Id_Album AND M.Id_Titre = T.Id_Titre ORDER BY Al.Annee DESC");
 
     while (query.next() ) {
         QSqlRecord rec=query.record();
@@ -284,11 +284,27 @@ void BDDMp3::SupprimerMp3(int Id_Titre,int Id_Mp3)
             bool artiste=supprimerArtiste(mp3.Id_Artiste,CheminArtiste);
             if(artiste)
             {
-                supprimerPoch(mp3.Id_Poch);
+                supprimerPoch(mp3.Id_Poch,CheminArtiste,Chemin);
             }
         }
     }
 }
+void BDDMp3::ViderMp3(QString Type)
+{
+    QString queryStr= "SELECT Id_Mp3, Id_Titre FROM MP3 WHERE Categorie='"+Type+"'";
+
+    QSqlQuery query= madatabase.exec(queryStr);
+
+    while (query.next())
+    {
+        QSqlRecord rec= query.record();
+        int Id_Titre=rec.value("Id_Titre").toInt();
+        int Id_Mp3=rec.value("Id_Mp3").toInt();
+
+        SupprimerMp3(Id_Titre,Id_Mp3);
+    }
+}
+
 MP3Gestion BDDMp3::RecupererInfosMp3(int Id_Titre)
 {
     MP3Gestion mp3;
@@ -327,12 +343,27 @@ QMap<int, MP3Gestion> BDDMp3::similaires(QString Id)
 
     int cpt=0;
     QString queryStr;
-    queryStr="SELECT DISTINCT Id_Titre FROM Titre  WHERE Id_Titre!="+Id+"  AND (TitreSSAccents LIKE (SELECT TitreSSAccents FROM Titre WHERE Id_Titre="+Id+")||'%mix%' OR TitreSSAccents LIKE (SELECT TitreSSAccents FROM Titre WHERE Id_Titre="+Id+"))";
+
+    //Première étape: on récupère le TitreSSAccents, et on voit si on peut en tirer un titre sans titre de remix
+    queryStr="SELECT TitreSSAccents FROM Titre WHERE Id_Titre='"+Id+"'";
     QSqlQuery query = madatabase.exec((queryStr));
+    query.next();
+    QSqlRecord rec=query.record();
+    QString TitreSSAccents= rec.value("TitreSSAccents").toString();
+
+    QStringList tmp=TitreSSAccents.split(" (");
+    TitreSSAccents=tmp.at(0);
+    tmp=TitreSSAccents.split("[");
+    TitreSSAccents=tmp.at(0);
+
+
+    //Deuxième étape: on essaie de trouver les titres similaires
+    queryStr="SELECT DISTINCT Id_Titre FROM Titre  WHERE Id_Titre!="+Id+"  AND (TitreSSAccents LIKE '"+TitreSSAccents+"%mix%' OR TitreSSAccents LIKE '"+TitreSSAccents+"%')";
+    query = madatabase.exec((queryStr));
     while (query.next())
     {
         MP3Gestion Titre;
-        QSqlRecord rec=query.record();
+        rec=query.record();
         Titre= RecupererInfosMp3(rec.value("Id_Titre").toInt());
         simi.insert(cpt,Titre);
         cpt++;
@@ -437,90 +468,4 @@ QList<int> BDDMp3::ListeMp3Compil(QString annee)
     }
     return listeMp3;
 }
-PlaylistGestion BDDMp3::RecupererInfosPlaylist(QString Id)
-{
-    PlaylistGestion playlist;
-    QString queryStr="SELECT Nom,Type,NomAlbum,Id_Pochette FROM InfosPlaylist WHERE Id_Playlist="+Id;
-    QSqlQuery query=madatabase.exec(queryStr);
-    query.next();
-    QSqlRecord rec=query.record();
 
-    playlist.Titre=rec.value("Nom").toString();
-    playlist.Id_Poch=rec.value("Id_Pochette").toInt();
-    playlist.AlbumChanger=rec.value("NomAlbum").toString();
-    playlist.Id_Playlist=Id.toInt();
-    playlist.Pochette=afficherPochette(QString::number(playlist.Id_Poch),"Titre");
-
-    if(rec.value("Type").toString()=="Changement")
-    {
-        playlist.ChangerAlbum=true;
-    } else
-    {
-        playlist.ChangerAlbum=false;
-    }
-    playlist.titres=RecupererPistesPlaylist(Id);
-    playlist.NombrePistes=playlist.titres.count();
-    return playlist;
-}
-QList<MP3Gestion> BDDMp3::RecupererPistesPlaylist(QString Id)
-{
-    QList<MP3Gestion> liste;
-
-    QString queryStr="SELECT Id_Titre, Num_Piste From TitresPlaylist WHERE Id_Playlist='"+Id+"' ORDER BY Num_Piste";
-    QSqlQuery query=madatabase.exec(queryStr);
-    while (query.next() ) {
-        QSqlRecord rec=query.record();
-        MP3Gestion mp3;
-        mp3=RecupererInfosMp3(rec.value("Id_Titre").toInt());
-        mp3.Num_Piste=rec.value("Num_Piste").toInt();
-        liste << mp3;
-    }
-    return liste;
-}
-QList<PlaylistGestion> BDDMp3::ListesPlaylist()
-{
-    QList<PlaylistGestion> liste;
-
-    QString queryStr="SELECT DISTINCT Id_Playlist FROM InfosPlaylist";
-    QSqlQuery query=madatabase.exec(queryStr);
-    while (query.next() ) {
-        QSqlRecord rec=query.record();
-        PlaylistGestion playlist=RecupererInfosPlaylist(rec.value("Id_Playlist").toString());
-        liste << playlist;
-    }
-    return liste;
-}
-QString BDDMp3::CreerPlaylist(PlaylistGestion play)
-{
-    bool verif=true;
-    QString message;
-    QString type;
-    if(play.ChangerAlbum)
-    {
-        type="Changement";
-
-    } else
-    {
-        type="Non";
-    }
-
-    QString queryStr="SELECT DISTINCT Nom FROM InfosPlaylist";
-    QSqlQuery query=madatabase.exec(queryStr);
-    while (query.next())
-    {
-
-        QSqlRecord rec=query.record();
-        if(rec.value("Nom").toString()==play.Titre)
-        {
-            verif=false;
-            message="meme nom";
-        }
-    }
-    if (verif)
-    {
-        queryStr="INSERT INTO InfosPlaylist VALUES (null,'"+play.Titre+"','"+type+"','"+play.AlbumChanger+"','"+QString::number(play.Id_Poch)+"')";
-        query=madatabase.exec(queryStr);
-        message="fait";
-    }
-    return message;
-}

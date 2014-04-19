@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DialogAjoutPlaylist</class>
- <widget class="QDialog" name="DialogAjoutPlaylist">
+ <class>DialogViderMp3</class>
+ <widget class="QDialog" name="DialogViderMp3">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -32,107 +32,69 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>140</x>
      <y>10</y>
-     <width>281</width>
-     <height>16</height>
+     <width>221</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>11</pointsize>
+     <pointsize>12</pointsize>
      <weight>75</weight>
-     <italic>false</italic>
      <bold>true</bold>
-     <underline>true</underline>
     </font>
    </property>
    <property name="text">
-    <string>Créer une nouvelle playlist</string>
+    <string>VIDER MP3</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="Titre">
+  <widget class="QCheckBox" name="Albums">
    <property name="geometry">
     <rect>
-     <x>170</x>
+     <x>20</x>
      <y>80</y>
-     <width>211</width>
+     <width>161</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>Nom de la playlist</string>
+    <string>Vider tous les albums</string>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="Pochette">
+  <widget class="QCheckBox" name="Compil">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>70</y>
-     <width>150</width>
-     <height>150</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
-   </property>
-   <property name="text">
-    <string>Pochette</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="AlbumChanger">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>180</y>
-     <width>211</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Titre Album à changer</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>250</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Parcourir</string>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="PlaylistenAlbum">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>130</y>
+     <x>20</x>
+     <y>120</y>
      <width>181</width>
      <height>17</height>
     </rect>
    </property>
    <property name="text">
-    <string>Playlist utilisée comme un Album</string>
+    <string>Vider toute la compil</string>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="Id_Poch">
+  <widget class="QCheckBox" name="Lives">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>230</y>
-     <width>46</width>
-     <height>13</height>
+     <x>20</x>
+     <y>160</y>
+     <width>121</width>
+     <height>17</height>
     </rect>
    </property>
    <property name="text">
-    <string/>
+    <string>Vider tous les lives</string>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
    </property>
   </widget>
  </widget>
@@ -141,7 +103,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>DialogAjoutPlaylist</receiver>
+   <receiver>DialogViderMp3</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -157,7 +119,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>DialogAjoutPlaylist</receiver>
+   <receiver>DialogViderMp3</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

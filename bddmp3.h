@@ -12,31 +12,35 @@ class BDDMp3 : public BDDCommun
 {
 public:
     explicit BDDMp3(QObject *parent = 0);
+
+    //En rapport avec la BDD (ajout, modification, suppression)
     void actualiserMp3(QString type);
+    int ajouterMp3(MP3Gestion mp3);
+    int lireIdMp3(int IdTitre, QString cheminBDD, QString type);
+    void SupprimerMp3(int Id_Titre, int Id_Mp3);
+    QImage ImageAlbum(const char *encodedName); //récupère l'image du MP3 pour pouvoir l'enregistrer
+    void ArtisteParChemin(TagLib::String &artist, QString chemin); //Change les artistes selon si c'est un chemin générique
+    void ViderMp3(QString Type);
+
+    //Pour afficher les MP3
     QStringList listeArtistes(QString Categorie);
     QStringList listeCategories();
     QStringList listeAlbums(QString Id_Artiste);
     QStringList listeTitresAlbum(QString Id_Album);
     QMap<int, QStringList> recupererMp3(QString Type);
-    QImage ImageAlbum(const char *encodedName);
-    void ArtisteParChemin(TagLib::String &artist, QString chemin);
-    int ajouterMp3(MP3Gestion mp3);
-    int lireIdMp3(int IdTitre, QString cheminBDD, QString type);
-    void SupprimerMp3(int Id_Titre, int Id_Mp3);
-    MP3Gestion RecupererInfosMp3(int Id_Titre);
-    QString getPathFromIdMp3( const QString& mp3Id );
+    MP3Gestion RecupererInfosMp3(int Id_Titre); //récupère les infos du mp3 sélectionné
+    QString getPathFromIdMp3( const QString& mp3Id ); //récupère le chemin du mp3 sélectionné
     QMap<int, MP3Gestion> similaires(QString Id);
+    QList<int> ListeMp3Compil(QString annee);
+
+    //COnfiguration de l'actualiser MP3
     bool ActualiserAlbums();
     bool ActualiserCompil();
     bool ActualiserLives();
     void EnregistrerActuAlbums(bool check);
     void EnregistrerActuCompil(bool check);
     void EnregistrerActuLives(bool check);
-    QList<int> ListeMp3Compil(QString annee);
-    PlaylistGestion RecupererInfosPlaylist(QString Id);
-    QList<MP3Gestion> RecupererPistesPlaylist(QString Id);
-    QList<PlaylistGestion> ListesPlaylist();
-    QString CreerPlaylist(PlaylistGestion play);
+
 };
 
 #endif // BDDMP3_H

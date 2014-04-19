@@ -9,6 +9,7 @@ DialogueAjouterPhysique::DialogueAjouterPhysique(QWidget *parent) :
     ui(new Ui::DialogueAjouterPhysique)
 {
     ui->setupUi(this);
+    AffichageArtistesCompil();
 }
 
 DialogueAjouterPhysique::~DialogueAjouterPhysique()
@@ -25,8 +26,20 @@ QString DialogueAjouterPhysique::getType() const
 {
     return ui->m_type->currentText();
 }
+void DialogueAjouterPhysique::AffichageArtistesCompil()
+{
+    if (getType()!="Compil")
+    {
+        ui->ArtistesTitres->setHidden(true);
+    }
+    else
+    {
+        ui->ArtistesTitres->setHidden(false);
+    }
+}
 
-void DialogueAjouterPhysique::on_pushButton_clicked()
+
+void DialogueAjouterPhysique::on_Codebarres_clicked()
 {
     Discogs temp;
     QStringList resultat;
@@ -168,3 +181,9 @@ void DialogueAjouterPhysique::on_AjouterTitre_2_clicked()
     ui->m_codeBarre->clear();
     ui->Pochette->clear();
 }
+
+void DialogueAjouterPhysique::on_m_type_currentIndexChanged(const QString &arg1)
+{
+    AffichageArtistesCompil();
+}
+

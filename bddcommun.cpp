@@ -37,7 +37,7 @@ void BDDCommun::viderBDD()
     tables << "CREATE TABLE TitresPlaylist ('Id_Playlist' SMALLINT,'Id_Titre' SMALLINT, 'Num_Piste' TINYINT)";
     tables << "CREATE TABLE InfosPlaylist ('Id_Playlist' INTEGER PRIMARY KEY,'Nom' VARCHAR(255),'Type' VARCHAR(255),'NomAlbum' VARCHAR(255),'Id_Pochette' SMALLINT)";
     tables << "CREATE TABLE Pochette ('Id_Pochette' INTEGER PRIMARY KEY,'Chemin' VARCHAR(512))";
-    tables << "INSERT INTO Pochette VALUES (01,'def.jpg')";
+    tables << "INSERT INTO Pochette VALUES (01,'./pochettes/def.jpg')";
     tables << "INSERT INTO Artiste VALUES (01,'Divers','01','divers')";
 
     for (int i=0;i<tables.size();i++)
@@ -94,6 +94,7 @@ QString BDDCommun::getdossierpardef()
     QSqlRecord rec = query.record();
 
     return rec.value("Valeur").toString();
+
 }
 
 //Récupère l'Id de la pochette
@@ -214,7 +215,6 @@ bool BDDCommun::supprimerAlbum(const int &Id_Alb, const QString &Chemin)
         queryStri =  "DELETE FROM Album WHERE Id_Album='"+QString::number(Id_Alb)+"'";
         query2 = madatabase.exec(queryStri);
 
-        bool valid = QFile::remove(Chemin);
         supprimer=true;
     }
     return supprimer;
@@ -236,8 +236,6 @@ bool BDDCommun::supprimerArtiste(const int &Id_Artiste, const QString artiste)
         queryStri =  "DELETE FROM Artiste WHERE Id_Artiste='"+QString::number(Id_Artiste)+"'";
         query2 = madatabase.exec(queryStri);
 
-        QDir().rmdir(artiste);
-
         supprimer=true;
     }
     return supprimer;
@@ -255,6 +253,9 @@ bool BDDCommun::supprimerTitre( const int Id_Titre)
     if (!query.first()) {
         queryStr =  "DELETE FROM Titre WHERE Id_Titre='"+QString::number(Id_Titre)+"'";
         query = madatabase.exec(queryStr);
+        queryStr =  "DELETE FROM TitresPlaylist WHERE Id_Titre='"+QString::number(Id_Titre)+"'";
+        query = madatabase.exec(queryStr);
+
         supprimer=true;
     }
     return supprimer;
@@ -278,7 +279,7 @@ bool BDDCommun::supprimerTitre(const int Id_Album,const int Id_Titre)
  *La fonction va vérifier si la pochette a encore des
  *titres présents dans la BDD
  **************************************************/
-void BDDCommun::supprimerPoch(const int& IdPoch)
+void BDDCommun::supprimerPoch(const int& IdPoch, const QString Artiste, const QString Album)
 {
     //On vérifie si l'artiste existe ou non dans la table des albums
     QString queryStri =  "Select Id_Titre As 'Tit' from Titre WHERE Id_Pochette='"+QString::number(IdPoch)+"'" ;
@@ -289,6 +290,18 @@ void BDDCommun::supprimerPoch(const int& IdPoch)
 
         queryStri =  "DELETE FROM Pochette WHERE Id_Pochette='"+QString::number(IdPoch)+"'";
         query2 = madatabase.exec(queryStri);
+
+        queryStri="SELECT Nom from InfosPlaylist WHERE Id_Pochette='"+QString::number(IdPoch)+"'";
+        query2 = madatabase.exec(queryStri);
+
+        if (!query2.first())
+        {
+            bool valid = QFile::remove(Album);
+
+            QDir().rmdir(Artiste);
+        }
+
+
     }
 }
 QString BDDCommun::AjouterPochette(AlbumGestion album)
@@ -310,7 +323,6 @@ QString BDDCommun::AjouterPochette(MP3Gestion mp3)
     QString chemin="./pochettes/"+mp3.Artiste;
     dossier.mkdir(chemin);
     chemin+="/"+mp3.Album+".jpg";
-    qDebug() << chemin;
     mp3.Pochette.save(chemin);
     return chemin;
 }

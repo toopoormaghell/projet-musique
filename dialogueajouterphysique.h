@@ -20,18 +20,16 @@ public:
     
     void ajouterAlbum();
     void listeNumeros();
+    void AffichageArtistesCompil();
+
 private slots:
-    void on_pushButton_clicked();
-
     void on_AjouterTitre_clicked();
-
     void on_Supprimer_clicked();
-
     void on_ChangerPochette_clicked();
-
     void on_buttonBox_accepted();
-
     void on_AjouterTitre_2_clicked();
+    void on_m_type_currentIndexChanged(const QString &arg1);
+    void on_Codebarres_clicked();
 
 private:
     Ui::DialogueAjouterPhysique *ui;

@@ -59,7 +59,12 @@ bool BDDInterface::ActualiserLives()
 }
 QList<int> BDDInterface::ListeMp3Compil(QString annee)
 {
-  return myMp3.ListeMp3Compil(annee);
+    return myMp3.ListeMp3Compil(annee);
+}
+
+void BDDInterface::ViderMp3(QString Type)
+{
+    myMp3.ViderMp3(Type);
 }
 void BDDInterface::EnregistrerActuAlbums(bool check)
 {
@@ -161,17 +166,25 @@ void BDDInterface::EchangerArtiste(QString Artiste, QString Id_Artiste)
 }
 PlaylistGestion BDDInterface::RecupererInfosPlaylist(QString Id)
 {
-    return myMp3.RecupererInfosPlaylist(Id);
+    return myPlay.RecupererInfosPlaylist(Id);
 }
 QList<PlaylistGestion> BDDInterface::ListesPlaylist()
 {
-    return myMp3.ListesPlaylist();
+    return myPlay.ListesPlaylist();
 }
 QString BDDInterface::CreerPlaylist(PlaylistGestion play)
 {
-    return myMp3.CreerPlaylist(play);
+    return myPlay.CreerPlaylist(play);
+}
+void BDDInterface::AjouterMP3dansPlaylist(int IdMp3, int IdPlay)
+{
+    myPlay.AjouterMP3dansPlaylist(IdMp3,IdPlay);
 }
 QList<Pochette> BDDInterface::ListePochettes()
 {
     return myCommun.ListePochettes();
+}
+QStringList BDDInterface::listePlaylistMp3(QString Id)
+{
+    return myPlay.listePlaylistMP3(Id);
 }

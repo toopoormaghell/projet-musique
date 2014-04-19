@@ -36,6 +36,10 @@ public:
     void afficherListeAnnees();
     void afficherListeMp3Compil();
     QString AnneesSwitch(int annee);
+
+    void Playlist();
+    void vider(QString Type);
+
 public slots:
     void on_Artistes_currentTextChanged(const QString &arg1);
 private slots:
@@ -51,6 +55,6 @@ private:
     Ui::OngletMp3 *ui;
     BDDInterface m_bddInterface;
     AffichageCommun temp;
-};
+    };
 
 #endif // ONGLETMP3_H

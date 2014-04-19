@@ -74,15 +74,24 @@
     </layout>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="Recherch">
-     <item>
-      <widget class="QPushButton" name="pushButton">
-       <property name="text">
-        <string>Recherche</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    <widget class="QFrame" name="">
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <item>
+       <widget class="QPushButton" name="Codebarres">
+        <property name="text">
+         <string>Recherche par Code-Barres</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="RechercheTitre">
+        <property name="text">
+         <string>Recherche par Titre</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </item>
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -196,6 +205,15 @@
          <item>
           <property name="text">
            <string>Liste des Titres</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QListWidget" name="ArtistesTitres">
+         <item>
+          <property name="text">
+           <string>Artistes</string>
           </property>
          </item>
         </widget>

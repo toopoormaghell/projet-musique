@@ -287,7 +287,7 @@ QString OngletMp3::AnneesSwitch(int annee)
 }
 void OngletMp3::on_Artistes_currentTextChanged(const QString &arg1)
 {
-    ui->Albums->clear();
+    vider("Albums");
     if (choixCategorie()!="Compil")
     {
         afficherListeAlbum();
@@ -299,20 +299,36 @@ void OngletMp3::on_Categories_currentTextChanged(const QString &currentText)
 {
     if (ui->Categories->count()>0)
     {
+        vider("Artiste");
         if (choixCategorie()!="Compil")
         {
-            ui->Artistes->clear();
             afficherListeArtiste();
         } else
         {
-            ui->Artistes->clear();
             afficherListeAnnees();
         }
     }
 }
+void OngletMp3::vider(QString Type)
+{
+    if (Type=="Artiste")
+    {
+        ui->Artistes->clear();
+    }
+    if (Type=="Categories")
+    {
+        ui->Categories->clear();
+    }
+    if (Type=="Albums")
+    {
+        ui->Albums->clear();
+    }
+}
+
 void OngletMp3::on_Albums_currentRowChanged(int currentRow)
 {
     afficherInfosTitre();
+    Playlist();
     afficherSimilaires();
 }
 QString OngletMp3::getSelectedTitleId() const
@@ -327,9 +343,41 @@ void OngletMp3::on_Similaires_doubleClicked(const QModelIndex &index)
 {
     changerMp3();
 }
-
 void OngletMp3::on_Bouton_Playlist_clicked()
 {
-    DialogAjouterPlaylistMp3 temp(this);
+    DialogAjouterPlaylistMp3 temp(choixMp3(),this);
     temp.exec();
+    Playlist();
+}
+void OngletMp3::Playlist()
+{
+
+    QString mp3choisi = choixMp3();
+
+    ui->Playlists->clear();
+    QStringList resultat(m_bddInterface.listePlaylistMp3(mp3choisi));
+    if ( resultat.size()==0) {
+        ui->Playlists->addItem(new QListWidgetItem("Pas de playlist"));
+    } else
+    {
+        int cpt=0;
+        while (cpt<resultat.size()/2)
+        {
+            //On s'occupe de la pochette
+
+            QPixmap* pixmap = new QPixmap();
+            QImage* image=new QImage(resultat[cpt+1]);
+            pixmap->convertFromImage(*image);
+
+            QListWidgetItem *mediaCell = new QListWidgetItem();
+            mediaCell->setIcon(QIcon(*pixmap));
+            mediaCell->setText(resultat[cpt]);
+            mediaCell->setTextAlignment(Qt::AlignCenter );
+
+
+            ui->Playlists->addItem(mediaCell);
+            cpt++;
+            cpt++;
+        }
+    }
 }
