@@ -122,6 +122,7 @@ void FenetrePrincipale::on_actionTokens_API_triggered()
            m_bddInterface.changerjetonSecret(tokenListe.getJetonSecret());
         }
     }
+}
 void FenetrePrincipale::on_actionDossier_par_d_faut_triggered()
 {
     DialogDossierParDef tmp(this);
