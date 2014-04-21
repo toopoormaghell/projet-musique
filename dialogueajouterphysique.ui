@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1184</width>
-    <height>761</height>
+    <height>777</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -74,7 +74,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QFrame" name="">
+    <widget class="QFrame" name="frame">
      <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
        <widget class="QPushButton" name="Codebarres">
@@ -196,8 +196,11 @@
          <property name="autoFillBackground">
           <bool>true</bool>
          </property>
+         <property name="dragDropMode">
+          <enum>QAbstractItemView::InternalMove</enum>
+         </property>
          <property name="selectionMode">
-          <enum>QAbstractItemView::MultiSelection</enum>
+          <enum>QAbstractItemView::SingleSelection</enum>
          </property>
          <property name="movement">
           <enum>QListView::Free</enum>

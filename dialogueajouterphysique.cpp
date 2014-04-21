@@ -19,6 +19,7 @@ DialogueAjouterPhysique::~DialogueAjouterPhysique()
 
 QString DialogueAjouterPhysique::getCodeBarre() const
 {
+
     return ui->m_codeBarre->text();
 }
 
@@ -41,9 +42,11 @@ void DialogueAjouterPhysique::AffichageArtistesCompil()
 
 void DialogueAjouterPhysique::on_Codebarres_clicked()
 {
+    ui->Interaction->setText("Interrogation de l'API...");
     Discogs temp;
-
-    AlbumGestion album = temp.RequeteAlbums( getCodeBarre() );
+QString codeBarres= getCodeBarre();
+if ( codeBarres.size()==13) {
+    AlbumGestion album = temp.RequeteAlbums( codeBarres );
 
     if (!album.Album.isNull()) {
       ui->Interaction->setText("CD trouvé. Vérifiez les informations.");
@@ -73,9 +76,12 @@ void DialogueAjouterPhysique::on_Codebarres_clicked()
        listeNumeros();
     } else {
 
-        ui->Interaction->setText("Le code de barres n'a pas été trouvé. Le CD doit être rentré manuellement.");
+        ui->Interaction->setText("Le code-barres n'a pas été trouvé. Le CD doit être rentré manuellement.");
     }
-
+} else
+{
+    ui->Interaction->setText("Le code barres n'est pas valable. Veuillez tapez 13 chiffres.");
+}
 }
 void DialogueAjouterPhysique::on_AjouterTitre_clicked()
 {
