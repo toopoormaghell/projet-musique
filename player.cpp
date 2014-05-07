@@ -37,6 +37,8 @@ void Player::on_m_playPause_clicked()
         if ( !filePath.isEmpty() )
         {
             m_mediaObject.stop();
+            updateTime( 0 );
+            updateSlider( 0 );
             m_mediaObject.setCurrentSource( filePath );
             m_mediaObject.play();
             m_mediaObject.setTickInterval( 1000 );
