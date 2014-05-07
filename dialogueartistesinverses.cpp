@@ -81,10 +81,9 @@ void DialogueArtistesInverses::on_Inversion_clicked()
 QStringList DialogueArtistesInverses::RecupererListeArtiste()
 {
     QStringList Liste;
-    QListWidgetItem *item = NULL;
     for(int i = 0 ; i < ui->ListeArtistes->count() ; i++)
     {
-        item = ui->ListeArtistes->item(i);
+        QListWidgetItem *item = ui->ListeArtistes->item(i);
 
         Liste << item->text() << item->data(Qt::UserRole).toString();
 

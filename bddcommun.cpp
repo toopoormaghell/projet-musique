@@ -108,7 +108,7 @@ int BDDCommun::lireIDPoch(const QString &ArtAlb)
 
     if (!query.first()) {
         queryStr="INSERT INTO Pochette VALUES (null,'" + ArtAlb+"')";
-        query = madatabase.exec(queryStr);
+        madatabase.exec(queryStr);
 
         queryStr = "Select Id_Pochette As 'Poch' from Pochette WHERE Chemin='" + ArtAlb+"'" ;
         query = madatabase.exec(queryStr);
@@ -132,7 +132,7 @@ int BDDCommun::lireIDArtiste(const QString &Artiste,const int &IdPoch)
 
     if (!query.first()) {
         queryStr="INSERT INTO Artiste VALUES (null,'" + Artiste+ "','" + QString::number(IdPoch) + "','" + SansAccents +"')";
-        query = madatabase.exec(queryStr);
+        madatabase.exec(queryStr);
 
         queryStr = "Select Id_Artiste As 'Artiste' from Artiste WHERE NomSSAccents='" + SansAccents+"'" ;
         query = madatabase.exec(queryStr);
@@ -159,7 +159,7 @@ int BDDCommun::lireIDAlbum(const QString &Album, int Id_Poch, int Id_Artiste, QS
 
     if (!query.first()) {
         queryStr="INSERT INTO Album VALUES (null,'"+ Album+ "','" +QString::number(Id_Artiste) + "','" +QString::number(Id_Poch) + "','" + Albssaccent +"','" + Annee+"','"+Type+"')";
-        query = madatabase.exec(queryStr);
+        madatabase.exec(queryStr);
 
         queryStr = " Select Id_Album As 'Album' from Album WHERE NomSSAccents='" + Albssaccent+"' AND Id_Artiste='"+ QString::number(Id_Artiste)+"'" ;
         query = madatabase.exec(queryStr);
@@ -186,7 +186,7 @@ int BDDCommun::lireIDTitre(const QString &Titre, int IdAlb, int IdArtiste, int I
 
     if (!query.first()) {
         queryStr="INSERT INTO Titre VALUES (null,'"+ Titre+ "','"+QString::number(IdArtiste) +"','"+QString::number(NumPiste) +"','"+QString::number(IdPoch) +"','"+QString::number(IdAlb) +"','"+ TitreSSAccents+"','"+ Duree +"')";
-        query = madatabase.exec(queryStr);
+        madatabase.exec(queryStr);
 
         queryStr = "Select Id_Titre As 'Titre' from Titre WHERE TitreSSAccents='" + TitreSSAccents +"' AND Id_Artiste='"+QString::number(IdArtiste)+"' AND Id_Album='"+ QString::number(IdAlb)+"'" ;
         query = madatabase.exec(queryStr);
@@ -252,7 +252,7 @@ bool BDDCommun::supprimerTitre( const int Id_Titre)
     QSqlQuery  query = madatabase.exec(queryStr);
     if (!query.first()) {
         queryStr =  "DELETE FROM Titre WHERE Id_Titre='"+QString::number(Id_Titre)+"'";
-        query = madatabase.exec(queryStr);
+        madatabase.exec(queryStr);
         queryStr =  "DELETE FROM TitresPlaylist WHERE Id_Titre='"+QString::number(Id_Titre)+"'";
         query = madatabase.exec(queryStr);
 
@@ -268,7 +268,7 @@ bool BDDCommun::supprimerTitre(const int Id_Album,const int Id_Titre)
     QSqlQuery  query = madatabase.exec(queryStr);
     if (!query.first()) {
         queryStr =  "DELETE FROM Titre WHERE Id_Titre='"+QString::number(Id_Titre)+"'";
-        query = madatabase.exec(queryStr);
+        madatabase.exec(queryStr);
         queryStr="DELETE FROM TitresPlaylist WHERE Id_Titre='"+QString::number(Id_Titre)+"'";
         query = madatabase.exec(queryStr);
         supprimer=true;
@@ -289,14 +289,14 @@ void BDDCommun::supprimerPoch(const int& IdPoch, const QString Artiste, const QS
     if (!query2.first()) {
 
         queryStri =  "DELETE FROM Pochette WHERE Id_Pochette='"+QString::number(IdPoch)+"'";
-        query2 = madatabase.exec(queryStri);
+        madatabase.exec(queryStri);
 
         queryStri="SELECT Nom from InfosPlaylist WHERE Id_Pochette='"+QString::number(IdPoch)+"'";
         query2 = madatabase.exec(queryStri);
 
         if (!query2.first())
         {
-            bool valid = QFile::remove(Album);
+            QFile::remove(Album);
 
             QDir().rmdir(Artiste);
         }

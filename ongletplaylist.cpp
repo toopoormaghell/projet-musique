@@ -69,8 +69,7 @@ QString OngletPlaylist::choixPlaylist()
 
 void OngletPlaylist::afficherTitrePlaylist(MP3Gestion mp3)
 {
-    QListWidgetItem *mediaCell =new QListWidgetItem();
-    mediaCell= affi.afficherPochetteList(&mp3.Pochette);
+    QListWidgetItem *mediaCell= affi.afficherPochetteList(&mp3.Pochette);
     //On s'occupe du nom du mp3
     if(mp3.Type=="Album")
     {
@@ -89,8 +88,7 @@ void OngletPlaylist::afficherListePlaylists()
     for(int cpt=0;cpt<liste.count();cpt++)
     {
         PlaylistGestion play=liste[cpt];
-        QListWidgetItem *mediaCell=new QListWidgetItem;
-        mediaCell=affi.afficherPochetteList(&play.Pochette);
+        QListWidgetItem *mediaCell=affi.afficherPochetteList(&play.Pochette);
         //On s'occupe du nom
         mediaCell->setText(play.Titre);
         mediaCell->setData(Qt::UserRole,play.Id_Playlist);

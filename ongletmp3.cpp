@@ -22,11 +22,8 @@ void OngletMp3::afficherListeCategories()
 {
     QStringList categories=m_bddInterface.listeCategoriesMp3();
     for (int cpt=0;cpt<categories.count();cpt++) {
-
-        QListWidgetItem *mediaCell = new  QListWidgetItem ();
-
         QImage* image=new QImage("./Pochettes/def.jpg");
-        mediaCell=temp.afficherPochetteList(image);
+        QListWidgetItem *mediaCell=temp.afficherPochetteList(image);
         //On s'occupe du nom de l'artiste
         mediaCell->setText(categories[cpt]);
 
@@ -43,12 +40,9 @@ void OngletMp3::afficherListeArtiste()
     QStringList artistes=m_bddInterface.listeArtistesMp3(Categorie);
 
     for (int cpt=0;cpt<artistes.count();cpt=cpt+2) {
-
-        QListWidgetItem *mediaCell = new  QListWidgetItem ();
-
         //On s'occupe de la pochette
         QImage image=m_bddInterface.afficherPochette(artistes[cpt+1],"Artiste");
-        mediaCell=temp.afficherPochetteList(&image);
+        QListWidgetItem *mediaCell=temp.afficherPochetteList(&image);
 
         //On s'occupe du nom de l'artiste
         mediaCell->setData(Qt::UserRole,artistes[cpt+1]);
@@ -67,12 +61,9 @@ void OngletMp3::afficherListeAlbum()
     QStringList albums=m_bddInterface.listeAlbumsMp3(Artiste);
 
     for (int cpt=0;cpt<albums.count();cpt=cpt+2) {
-
-        QListWidgetItem *mediaCell = new  QListWidgetItem ();
-
         //On s'occupe de la pochette
         QImage image=m_bddInterface.afficherPochette(albums[cpt+1],"Album");
-        mediaCell=temp.afficherPochetteList(&image);
+        QListWidgetItem *mediaCell=temp.afficherPochetteList(&image);
         //On s'occupe du nom de l'album
         mediaCell->setFlags(Qt::ItemIsEnabled );
         mediaCell->setText(albums[cpt]);
@@ -131,13 +122,10 @@ void OngletMp3::afficherSimilaires()
     QMap<int, MP3Gestion> simi=m_bddInterface.similaires(mp3choisi);
     QMap<int,MP3Gestion>::const_iterator iterateur;
 
-    for (iterateur = simi.constBegin();iterateur != simi.constEnd();iterateur ++)
+    for (iterateur = simi.constBegin();iterateur != simi.constEnd();++iterateur)
     {
-        int cle = iterateur.key();
-
         MP3Gestion mp3 = iterateur.value();
-        QListWidgetItem *mediaCell= new QListWidgetItem ();
-        mediaCell= temp.afficherPochetteList(&mp3.Pochette);
+        QListWidgetItem *mediaCell= temp.afficherPochetteList(&mp3.Pochette);
         //On s'occupe du nom du mp3
         mediaCell->setText(mp3.Titre+" de "+mp3.Artiste+("(")+mp3.Album+")");
         mediaCell->setData(Qt::UserRole,mp3.Id_Titre);

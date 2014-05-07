@@ -22,8 +22,7 @@ void DialogAjouterPlaylistMp3::afficherListePlaylists()
     for(int cpt=0;cpt<liste.count();cpt++)
     {
         PlaylistGestion play=liste[cpt];
-        QListWidgetItem *mediaCell=new QListWidgetItem;
-        mediaCell=affi.afficherPochetteList(&play.Pochette);
+        QListWidgetItem *mediaCell=affi.afficherPochetteList(&play.Pochette);
         //On s'occupe du nom
         mediaCell->setText(play.Titre);
         mediaCell->setData(Qt::UserRole,play.Id_Playlist);

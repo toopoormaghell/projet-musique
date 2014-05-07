@@ -85,8 +85,7 @@ if ( codeBarres.size()==13) {
 }
 void DialogueAjouterPhysique::on_AjouterTitre_clicked()
 {
-    QListWidgetItem *item=new QListWidgetItem();
-    item= ui->Titres->item(0);
+    QListWidgetItem *item= ui->Titres->item(0);
 
     if(item->text()=="Liste des Titres")
     {

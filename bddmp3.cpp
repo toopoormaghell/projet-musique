@@ -95,7 +95,7 @@ void BDDMp3::actualiserMp3(QString type)
     //On parcourt la Map des chemins pour trouver ceux qui n'ont jamais été trouvés.
     QMap < int, QStringList >::const_iterator iterateur;
 
-    for (iterateur = Chemins.constBegin(); iterateur != Chemins.constEnd() ; iterateur++)
+    for (iterateur = Chemins.constBegin(); iterateur != Chemins.constEnd() ; ++iterateur)
     {
         int cle = iterateur.key ();
 
@@ -250,7 +250,7 @@ int BDDMp3::lireIdMp3(int IdTitre,QString cheminBDD,QString type)
 
     if (!query.first()) {
         queryStr="INSERT INTO MP3 VALUES (null,'"+temp + "','"+ cheminBDD +"','"+ type+"')";
-        query = madatabase.exec(queryStr);
+        madatabase.exec(queryStr);
 
 
         //On vérifie si le titre existe dans la table MP3 ou non

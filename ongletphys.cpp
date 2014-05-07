@@ -28,10 +28,9 @@ void OngletPhys::afficherListeArtiste()
     //Affichage des artistes
     QStringList artistes=m_bddInterface.listeArtistesPhys(Categorie);
     for (int cpt=0;cpt<artistes.count();cpt=cpt+2) {
-        QListWidgetItem *mediaCell = new  QListWidgetItem ();
         //On s'occupe de la pochette
         QImage image=m_bddInterface.afficherPochette(artistes[cpt+1],"Artiste");
-        mediaCell = temp.afficherPochetteList(&image);
+        QListWidgetItem *mediaCell = temp.afficherPochetteList(&image);
         //On s'occupe du nom de l'artiste et de son Id caché
         mediaCell->setData(Qt::UserRole,artistes[cpt+1]);
         mediaCell->setText(artistes[cpt]);
@@ -52,7 +51,6 @@ void OngletPhys::afficherListeCategories()
     //On s'occupe des autres catégories
     QStringList categories=m_bddInterface.listeCategoriesPhys();
     for (int cpt=0;cpt<categories.count();cpt++) {
-        mediaCell = new  QListWidgetItem ();
         mediaCell=temp.afficherPochetteList(image);
         //On s'occupe du nom de l'artiste
         mediaCell->setText(categories[cpt]);
@@ -144,8 +142,7 @@ int OngletPhys::AfficherAlbum(AlbumGestion album, int Colonne, int Ligne)
 {
     AffichageCommun temp;
     //Première chose à afficher: la pochette
-    QTableWidgetItem *mediaCell= new QTableWidgetItem();
-    mediaCell=temp.afficherPochetteTable(&album.Pochette);
+    QTableWidgetItem *mediaCell=temp.afficherPochetteTable(&album.Pochette);
     ui->Albums->setItem(Ligne,Colonne,mediaCell);
     ui->Albums->setItem(Ligne+1,Colonne,new QTableWidgetItem(album.Album.toUpper()));
 

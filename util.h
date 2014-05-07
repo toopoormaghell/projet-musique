@@ -26,6 +26,19 @@ struct AlbumGestion
     int Id_Album;
     int Id_Artiste;
     QString CodeBarres;
+
+    AlbumGestion():
+        Pochette(),
+        titres(),
+        Artiste(),
+        Album(),
+        Type(),
+        Annee(),
+        Id_Poch( 0 ),
+        Id_Album( 0 ),
+        Id_Artiste( 0 ),
+        CodeBarres()
+    {}
 };
 typedef struct AlbumGestion AlbumGestion;
 struct MP3Gestion
@@ -44,6 +57,23 @@ struct MP3Gestion
     int Id_Artiste;
     int Id_Album;
     QString CheminFichier;
+
+    MP3Gestion():
+        Pochette(),
+        Artiste(),
+        Album(),
+        Type(),
+        Annee(),
+        Num_Piste( 0 ),
+        Duree(),
+        Titre(),
+        Id_Titre(),
+        TitreenMp3etPhys( false ),
+        Id_Poch( 0 ),
+        Id_Artiste( 0 ),
+        Id_Album( 0 ),
+        CheminFichier()
+    {}
 };
 typedef struct MP3Gestion MP3Gestion;
 struct PlaylistGestion
@@ -56,6 +86,17 @@ struct PlaylistGestion
     int Id_Playlist;
     int NombrePistes;
     QList<MP3Gestion> titres;
+
+    PlaylistGestion():
+        Pochette(),
+        Titre(),
+        ChangerAlbum( false ),
+        AlbumChanger(),
+        Id_Poch( 0 ),
+        Id_Playlist( 0 ),
+        NombrePistes( 0 ),
+        titres()
+    {}
 };
 typedef struct PlaylistGestion PlaylistGestion;
 struct Pochette
