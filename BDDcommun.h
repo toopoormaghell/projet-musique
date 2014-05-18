@@ -22,7 +22,7 @@ public:
     int lireIDTitre( const QString &Titre, int IdAlb, int IdArtiste, int IdPoch,int NumPiste, QString Duree);
 
     bool supprimerArtiste(const int &Id_Artiste, const QString artiste);
-    bool supprimerAlbum(const int &Id_Alb, const QString &Chemin);
+    bool supprimerAlbum(const int &Id_Alb);
     bool supprimerTitre(const int Id_Titre);
     void supprimerPoch(const int &IdPoch, const QString Artiste, const QString Album);
     bool supprimerTitre(const int Id_Album, const int Id_Titre);

@@ -26,6 +26,8 @@ struct AlbumGestion
     int Id_Album;
     int Id_Artiste;
     QString CodeBarres;
+    bool ErreurPochette;
+    QString Chem_Poch_Alt;
 };
 typedef struct AlbumGestion AlbumGestion;
 struct MP3Gestion

@@ -2,7 +2,7 @@
 #include "ui_ongletphys.h"
 #include <QDebug>
 #include "affichagecommun.h"
-
+#include "QMessageBox"
 OngletPhys::OngletPhys(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::OngletPhys)
@@ -42,6 +42,7 @@ void OngletPhys::afficherListeArtiste()
 }
 void OngletPhys::afficherListeCategories()
 {
+    //   ui->Categories->clear();
     AffichageCommun temp;
     //Categorie "Tout"
     QImage* image=new QImage("./Pochettes/def.jpg");
@@ -98,7 +99,7 @@ void OngletPhys::afficherListeAlbum()
     for ( int compteurAlbums = 0; compteurAlbums < albums.count(); compteurAlbums++ )
     {
         AlbumGestion album = m_bddInterface.InfosAlbumPhys( albums[compteurAlbums] );
-
+        album.Id_Album = albums[compteurAlbums].toInt();
         if ( categorieCourante != album.Type )
         {
             Ligne = MaxLignes;
@@ -146,15 +147,23 @@ int OngletPhys::AfficherAlbum(AlbumGestion album, int Colonne, int Ligne)
     //Première chose à afficher: la pochette
     QTableWidgetItem *mediaCell= new QTableWidgetItem();
     mediaCell=temp.afficherPochetteTable(&album.Pochette);
+    mediaCell->setData(Qt::UserRole,album.Id_Album);
     ui->Albums->setItem(Ligne,Colonne,mediaCell);
-    ui->Albums->setItem(Ligne+1,Colonne,new QTableWidgetItem(album.Album.toUpper()));
+    //On affiche le nom de l'album (en majuscule)
+    QTableWidgetItem *cell=new QTableWidgetItem();
+    cell->setData(Qt::UserRole,album.Id_Album);
+    cell->setText(album.Album.toUpper());
+    ui->Albums->setItem(Ligne+1,Colonne,cell);
 
     //On affiche les titres
     for(int i=0;i<album.titres.count();i++)
     {
         TitreGestion Titre=album.titres[i];
         QString temp=QString::number(Titre.Num_Piste).rightJustified(2,'0')+ " - " + Titre.Titre+ "(" +Titre.Duree+ ")";
-        ui->Albums->setItem(Ligne+2+i,Colonne,new QTableWidgetItem(temp));
+        QTableWidgetItem *CellTitre=new QTableWidgetItem();
+        CellTitre->setText(temp);
+        CellTitre->setData(Qt::UserRole,album.Id_Album);
+        ui->Albums->setItem(Ligne+2+i,Colonne,CellTitre);
     }
     return album.titres.count()+2+Ligne;
 }
@@ -172,5 +181,17 @@ void OngletPhys::on_Categories_currentTextChanged(const QString &currentText)
         afficherListeArtiste();
         afficherListeAlbum();
     }
-
 }
+
+void OngletPhys::on_Albums_itemDoubleClicked(QTableWidgetItem *item)
+{
+    QString Id_Album = item->data(Qt::UserRole).toString();
+    AlbumGestion album = m_bddInterface.InfosAlbumPhys(Id_Album);
+    QMessageBox::StandardButton clickedButton = QMessageBox::information(0,"Confirmation","Etes-vous sûr de vouloir supprimer cet album:\n  "+album.Album.toUpper()+" de  "+album.Artiste+" ?",QMessageBox::Ok | QMessageBox::Cancel);
+    if (clickedButton == QMessageBox::Ok)
+    {
+        m_bddInterface.SupprimerAlbumPhys(Id_Album);
+    }
+    afficherListeArtiste();
+}
+

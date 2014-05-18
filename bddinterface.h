@@ -42,7 +42,7 @@ public:
     void CopierBDD();
     void ChargerBDD();
 
-    //Playliste
+    //Playlist
     PlaylistGestion RecupererInfosPlaylist(QString Id);
     QList<PlaylistGestion> ListesPlaylist();
     QString CreerPlaylist(PlaylistGestion play);
@@ -62,6 +62,7 @@ public:
     QString getjetonSecret();
     void changerjetonSecret(QString jeton);
     void changerjetonAcces(QString jeton);
+    void SupprimerAlbumPhys(QString Id_Album);
 
     //Commun
     void ViderBDD();

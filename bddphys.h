@@ -15,6 +15,9 @@ public:
     //En rapport avec la BDD ( ajout, modification, suppression)
     void AjouterAlbum(AlbumGestion album);
     int lireIDPhys(int Id_Album, QString Type, QString CodeBarres);
+    void SupprimerAlbumPhys(QString Id_Album);
+    void AjouterErreur(AlbumGestion album);
+
     //Affichage des Albums
     QStringList listeArtistes(QString Categorie);
     QStringList listeCategories();
@@ -28,10 +31,13 @@ public:
     void ExporterHTML(QString Type);
     QStringList ListeAlbumSauvegarde();
     void SauvegarderAlbums();
+
+    //En rapport avec l'API
     QString getjetonAcces();
     QString getjetonSecret();
     void changerjetonSecret(QString jeton);
     void changerjetonAcces(QString jeton);
+
 };
 
 #endif // BDDPHYS_H

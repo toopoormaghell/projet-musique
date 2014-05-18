@@ -44,44 +44,44 @@ void DialogueAjouterPhysique::on_Codebarres_clicked()
 {
     ui->Interaction->setText("Interrogation de l'API...");
     Discogs temp;
-QString codeBarres= getCodeBarre();
-if ( codeBarres.size()==13) {
-    AlbumGestion album = temp.RequeteAlbums( codeBarres );
+    QString codeBarres= getCodeBarre();
+    if ( codeBarres.size()==13) {
+        album = temp.RequeteAlbums( codeBarres );
 
-    if (!album.Album.isNull()) {
-      ui->Interaction->setText("CD trouvé. Vérifiez les informations.");
+        if (album.Album!="Non trouvé") {
+            ui->Interaction->setText("CD trouvé. Vérifiez les informations.");
 
 
-      album.Type = getType();
+            album.Type = getType();
 
-        ui->Album->setText(album.Album);
-        ui->Annee->setText(album.Annee);
-        ui->Artiste->setText(album.Artiste);
+            ui->Album->setText(album.Album);
+            ui->Annee->setText(album.Annee);
+            ui->Artiste->setText(album.Artiste);
 
-       QPixmap* pixmap = new QPixmap();
-        pixmap->convertFromImage(album.Pochette);
+            QPixmap* pixmap = new QPixmap();
+            pixmap->convertFromImage(album.Pochette);
 
-        QPixmap imageScaled = pixmap->scaled(150,150,Qt::IgnoreAspectRatio,Qt::FastTransformation);
-        ui->Pochette->setPixmap(imageScaled);
-       ui->Titres->clear();
-        for(int cpt=0;cpt<album.titres.count();cpt++)
-        {
-           TitreGestion titre=album.titres[cpt];
-           titre.Num_Piste=cpt+1;
-           QListWidgetItem *item=new QListWidgetItem();
-         item->setText(titre.Titre+"("+titre.Duree+")");
-           ui->Titres->addItem(item);
-       }
+            QPixmap imageScaled = pixmap->scaled(150,150,Qt::IgnoreAspectRatio,Qt::FastTransformation);
+            ui->Pochette->setPixmap(imageScaled);
+            ui->Titres->clear();
+            for(int cpt=0;cpt<album.titres.count();cpt++)
+            {
+                TitreGestion titre=album.titres[cpt];
+                titre.Num_Piste=cpt+1;
+                QListWidgetItem *item=new QListWidgetItem();
+                item->setText(titre.Titre+"("+titre.Duree+")");
+                ui->Titres->addItem(item);
+            }
 
-       listeNumeros();
-    } else {
+            listeNumeros();
+        } else {
 
-        ui->Interaction->setText("Le code-barres n'a pas été trouvé. Le CD doit être rentré manuellement.");
+            ui->Interaction->setText("Le code-barres n'a pas été trouvé. Le CD doit être rentré manuellement.");
+        }
+    } else
+    {
+        ui->Interaction->setText("Le code barres n'est pas valable. Veuillez tapez 13 chiffres.");
     }
-} else
-{
-    ui->Interaction->setText("Le code barres n'est pas valable. Veuillez tapez 13 chiffres.");
-}
 }
 void DialogueAjouterPhysique::on_AjouterTitre_clicked()
 {
@@ -104,6 +104,9 @@ void DialogueAjouterPhysique::on_AjouterTitre_clicked()
     ui->Titres->addItem(item);
 
     listeNumeros();
+
+    ui->TitreAjout->clear();
+
 }
 void DialogueAjouterPhysique::listeNumeros()
 {
@@ -146,11 +149,27 @@ void DialogueAjouterPhysique::on_ChangerPochette_clicked()
 
 void DialogueAjouterPhysique::on_buttonBox_accepted()
 {
+    if (ui->Artiste->text()!="")
+    {
     ajouterAlbum();
+    emit AlbumAjoute();
+
+    ui->Titres->clear();
+    ui->Album->clear();
+    ui->Annee->clear();
+    ui->Artiste->clear();
+    ui->m_codeBarre->clear();
+    ui->Pochette->clear();
+    ui->DureeAjout->clear();
+    ui->TitreAjout->clear();
+    ui->NumeroPiste->clear();
+} else {
+        ui->Interaction->setText("Il manque des informations pour enregistrer l'album.");
+    }
 }
 void DialogueAjouterPhysique::ajouterAlbum()
 {
-    AlbumGestion album;
+
     album.Type=getType();
     album.Album=ui->Album->text();
     album.Annee=ui->Annee->text();
@@ -161,6 +180,7 @@ void DialogueAjouterPhysique::ajouterAlbum()
     QImage image = pixmap->toImage();
     album.Pochette=image;
 
+    album.titres.clear();
     for (int i=0;i<ui->Titres->count();i++)
     {
         TitreGestion titre;
@@ -180,13 +200,22 @@ void DialogueAjouterPhysique::ajouterAlbum()
 
 void DialogueAjouterPhysique::on_AjouterTitre_2_clicked()
 {
-    ajouterAlbum();
-    ui->Titres->clear();
-    ui->Album->clear();
-    ui->Annee->clear();
-    ui->Artiste->clear();
-    ui->m_codeBarre->clear();
-    ui->Pochette->clear();
+    if (!ui->Artiste->text().isNull() || !ui->Album->text().isNull())
+    {
+        ajouterAlbum();
+        ui->Titres->clear();
+        ui->Album->clear();
+        ui->Annee->clear();
+        ui->Artiste->clear();
+        ui->m_codeBarre->clear();
+        ui->Pochette->clear();
+        ui->DureeAjout->clear();
+        ui->TitreAjout->clear();
+        ui->NumeroPiste->clear();
+    } else
+    {
+        ui->Interaction->setText("Il manque des informations pour enregistrer l'album.");
+    }
 }
 
 void DialogueAjouterPhysique::on_m_type_currentIndexChanged(const QString &arg1)

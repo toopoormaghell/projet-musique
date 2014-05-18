@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "bddinterface.h"
+#include "dialogueajouterphysique.h"
 
 namespace Ui {
 class FenetrePrincipale;
@@ -37,12 +38,14 @@ private slots:
     //Support Config
     void on_actionDossier_par_d_faut_triggered();
     void on_actionCopier_BDD_triggered();
-     void on_actionTokens_API_triggered();
-
+    void on_actionTokens_API_triggered();
     void on_actionCharger_BDD_triggered();
+
+    void dialogAjouterPhysique_Accepted();
 private:
     Ui::FenetrePrincipale *ui;
     BDDInterface m_bddInterface;
+   DialogueAjouterPhysique tmpDialog;
 };
 
 #endif // FENETREPRINCIPALE_H

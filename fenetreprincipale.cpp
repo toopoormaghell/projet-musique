@@ -16,9 +16,10 @@
 
 FenetrePrincipale::FenetrePrincipale(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::FenetrePrincipale)
+    ui(new Ui::FenetrePrincipale),tmpDialog(this)
 {
     ui->setupUi(this);
+    QObject::connect( &tmpDialog, SIGNAL( AlbumAjoute() ), this, SLOT( dialogAjouterPhysique_Accepted() ) );
 }
 
 FenetrePrincipale::~FenetrePrincipale()
@@ -59,9 +60,6 @@ void FenetrePrincipale::ActualiserOngletMp3()
 
 void FenetrePrincipale::ActualiserOngletPhys()
 {
-    ui->tab_2->afficherListeCategories();
-
- //   QString choixCat= ui->tab_2->choixCategorie();
 
    ui->tab_2->afficherListeArtiste();
 }
@@ -82,8 +80,7 @@ void FenetrePrincipale::on_actionAjouter_Liste_Albums_triggered()
 }
 void FenetrePrincipale::on_actionAjouter_Album_triggered()
 {
-    DialogueAjouterPhysique tmpDialog( this );
-    tmpDialog.exec();
+    tmpDialog.show();
 }
 void FenetrePrincipale::on_actionEn_HTML_Supports_Physiques_triggered()
 {
@@ -137,12 +134,15 @@ void FenetrePrincipale::on_actionCharger_BDD_triggered()
     m_bddInterface.ChargerBDD();
 }
 
+void FenetrePrincipale::dialogAjouterPhysique_Accepted()
+{
+    ActualiserOngletPhys();
+}
 void FenetrePrincipale::on_actionChanger_Pochettes_triggered()
 {
     DialogChangerPochette tmp(this);
     tmp.exec();
 }
-
 void FenetrePrincipale::on_actionViderMP3_triggered()
 {
     DialogViderMp3 tmp(this);

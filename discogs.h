@@ -17,6 +17,15 @@ public:
     QImage RecupererPochette(QString lien);
     QList<TitreGestion> LectureXMLTitres(QByteArray fich);
     int LectureXMLPages(QByteArray fich);
+    QList<TitreGestion> RecupererTitres(QString Id_Album);
+    QString RecupererArtistes(QString Id_Album);
+
+    bool LectureErreurPochette(QByteArray fich);
+    QString RecupererId_Album(QString Id_Album);
+    QString LectureXMLId_Album(QByteArray fich);
+    QList<TitreGestion> RecupererTitresAlbums(QString Id_Album);
+    QStringList LectureXMLReleases(QByteArray fich);
+    QByteArray LirePochette(QString Id_Album);
 signals:
 
 };
