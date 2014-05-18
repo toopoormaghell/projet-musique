@@ -9,12 +9,12 @@ void EnleverAccents ( QString& Nom )
     Nom.replace( "à", "a" );
     Nom.replace( "ê", "e" );
     Nom.replace(":"," ");
-    Nom.replace("'","\'");
     Nom.replace("\\"," ");
     Nom.replace("?"," ");
     Nom.replace("!"," ");
     Nom.replace("/"," ");
     Nom.replace("â","a");
+    Nom.replace("'","$");
     Nom=  Nom.toLower();
 }
 

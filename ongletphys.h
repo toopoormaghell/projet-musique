@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "bddinterface.h"
+#include "QTableWidgetItem"
 namespace Ui {
 class OngletPhys;
 }
@@ -27,6 +28,8 @@ public slots:
     void on_Artistes_currentTextChanged(const QString &arg1);
 private slots:
     void on_Categories_currentTextChanged(const QString &currentText);
+
+    void on_Albums_itemDoubleClicked(QTableWidgetItem *item);
 
 private:
     Ui::OngletPhys *ui;

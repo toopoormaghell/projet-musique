@@ -277,7 +277,7 @@ void BDDMp3::SupprimerMp3(int Id_Titre,int Id_Mp3)
         EnleverAccents(mp3.Artiste);
         EnleverAccents(mp3.Album);
         QString Chemin="./Pochettes/"+mp3.Artiste+"/"+mp3.Album+".jpg";
-        bool album=supprimerAlbum(mp3.Id_Album,Chemin);
+        bool album=supprimerAlbum(mp3.Id_Album);
         if (album)
         {
             QString CheminArtiste="./Pochettes/"+mp3.Artiste;

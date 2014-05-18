@@ -41,6 +41,9 @@ kQOAuthSingleton &kQOAuthSingleton::getInstance()
 
 void kQOAuthSingleton::makeRequest( const QString& category, const QString& paramKey, const QString& paramValue )
 {
+    disconnect( m_manager, SIGNAL( requestReady( QByteArray ) ),
+        this, SLOT( onRequestReady( QByteArray ) ) );
+
     m_request->setEnableDebugOutput(true);
     m_request->initRequest( KQOAuthRequest::AuthorizedRequest, s_baseAdress + "/" + category );
     m_request->setHttpMethod( KQOAuthRequest::GET );
@@ -60,6 +63,9 @@ void kQOAuthSingleton::makeRequest( const QString& category, const QString& para
 }
 void kQOAuthSingleton::makeRequest( const QString& category )
 {
+    disconnect( m_manager, SIGNAL( requestReady( QByteArray ) ),
+        this, SLOT( onRequestReady( QByteArray ) ) );
+
     m_request->setEnableDebugOutput(true);
     m_request->initRequest( KQOAuthRequest::AuthorizedRequest, s_baseAdress + "/" + category );
     m_request->setHttpMethod( KQOAuthRequest::GET );

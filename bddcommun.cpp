@@ -39,7 +39,7 @@ void BDDCommun::viderBDD()
     tables << "CREATE TABLE Pochette ('Id_Pochette' INTEGER PRIMARY KEY,'Chemin' VARCHAR(512))";
     tables << "INSERT INTO Pochette VALUES (01,'./pochettes/def.jpg')";
     tables << "INSERT INTO Artiste VALUES (01,'Divers','01','divers')";
-
+    tables << "CREATE TABLE ErreurPochettes('Id_Erreur' INTEGER PRIMARY KEY,'Id_Pochette' SMALLINT,'Chemin' VARCHAR(255))";
     for (int i=0;i<tables.size();i++)
     {
         query = madatabase.exec(tables[i]);
@@ -202,7 +202,7 @@ int BDDCommun::lireIDTitre(const QString &Titre, int IdAlb, int IdArtiste, int I
  *La fonction va vérifier si l'album a encore des
  *titres présents dans la BDD ou non
  **************************************************/
-bool BDDCommun::supprimerAlbum(const int &Id_Alb, const QString &Chemin)
+bool BDDCommun::supprimerAlbum(const int &Id_Alb)
 {
     bool supprimer=false;
     //On vérifie si l'album existe ou non dans la table des titres

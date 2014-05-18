@@ -179,7 +179,7 @@
         <widget class="QListWidget" name="NumeroPiste">
          <property name="maximumSize">
           <size>
-           <width>25</width>
+           <width>30</width>
            <height>16777215</height>
           </size>
          </property>
@@ -227,6 +227,9 @@
       <widget class="QPushButton" name="Supprimer">
        <property name="text">
         <string>Supprimer Elements Sélectionnés</string>
+       </property>
+       <property name="shortcut">
+        <string>Del</string>
        </property>
       </widget>
      </item>

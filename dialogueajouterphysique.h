@@ -21,7 +21,8 @@ public:
     void ajouterAlbum();
     void listeNumeros();
     void AffichageArtistesCompil();
-
+signals:
+    void AlbumAjoute();
 private slots:
     void on_AjouterTitre_clicked();
     void on_Supprimer_clicked();
@@ -33,7 +34,8 @@ private slots:
 
 private:
     Ui::DialogueAjouterPhysique *ui;
-  BDDInterface m_bddInterface;
+    BDDInterface m_bddInterface;
+    AlbumGestion album;
 };
 
 #endif // DIALOGUEAJOUTERPHYSIQUE_H

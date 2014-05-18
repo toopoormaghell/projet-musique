@@ -207,3 +207,8 @@ void BDDInterface::changerjetonAcces(QString jeton)
     myPhys.changerjetonAcces(jeton);
 }
 
+void BDDInterface::SupprimerAlbumPhys(QString Id_Album)
+{
+    myPhys.SupprimerAlbumPhys(Id_Album);
+}
+
