@@ -11,7 +11,6 @@
 #include "dialogchangerpochette.h"
 #include "dialogvidermp3.h"
 #include "saisietokensapi.h"
-#include "apimusicpro.h"
 #include "kqoauthsingleton.h"
 
 FenetrePrincipale::FenetrePrincipale(QWidget *parent) :

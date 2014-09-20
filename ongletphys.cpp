@@ -3,6 +3,8 @@
 #include <QDebug>
 #include "affichagecommun.h"
 #include "QMessageBox"
+#include "dialogmodifieralbum.h"
+
 OngletPhys::OngletPhys(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::OngletPhys)
@@ -184,11 +186,28 @@ void OngletPhys::on_Albums_itemDoubleClicked(QTableWidgetItem *item)
 {
     QString Id_Album = item->data(Qt::UserRole).toString();
     AlbumGestion album = m_bddInterface.InfosAlbumPhys(Id_Album);
-    QMessageBox::StandardButton clickedButton = QMessageBox::information(0,"Confirmation","Etes-vous sûr de vouloir supprimer cet album:\n  "+album.Album.toUpper()+" de  "+album.Artiste+" ?",QMessageBox::Ok | QMessageBox::Cancel);
-    if (clickedButton == QMessageBox::Ok)
+album.Id_Album= Id_Album.toInt();
+    QMessageBox clickedButton;
+    clickedButton.setInformativeText("Voulez-vous supprimer ou modifier l'album?");
+    clickedButton.setText("L'album "+album.Album.toUpper()+" de  "+album.Artiste+" a été sélectionné.");
+    clickedButton.addButton("Modifier",QMessageBox::DestructiveRole);
+    clickedButton.addButton("Supprimer",QMessageBox::AcceptRole);
+
+    int ret = clickedButton.exec();
+
+    switch (ret)
     {
+    case 1 :
+        //On supprime
         m_bddInterface.SupprimerAlbumPhys(Id_Album);
+        afficherListeArtiste();
+        break;
+    case 0 :
+        DialogModifierAlbum temp(album,this);
+        temp.exec();
+        afficherListeArtiste();
+        break;
     }
-    afficherListeArtiste();
+
 }
 

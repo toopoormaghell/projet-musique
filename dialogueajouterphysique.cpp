@@ -38,7 +38,34 @@ void DialogueAjouterPhysique::AffichageArtistesCompil()
         ui->ArtistesTitres->setHidden(false);
     }
 }
+void DialogueAjouterPhysique::ChargerCompil()
+{
+    ui->Titres->clear();
+    ui->ArtistesTitres->clear();
+    ui->Artiste->setText("Divers");
+    ui->Album->setText(compil.Album);
+    ui->Annee->setText(compil.Annee);
 
+    QPixmap* pixmap = new QPixmap();
+    pixmap->convertFromImage(compil.Pochette);
+
+    QPixmap imageScaled = pixmap->scaled(150,150,Qt::IgnoreAspectRatio,Qt::FastTransformation);
+    ui->Pochette->setPixmap(imageScaled);
+
+    for(int cpt=0;cpt<compil.titres.count();cpt++)
+    {
+        MP3Gestion titre=compil.titres[cpt];
+        titre.Num_Piste=cpt+1;
+        QListWidgetItem *item=new QListWidgetItem();
+        item->setText(titre.Titre+"("+titre.Duree+")");
+        ui->Titres->addItem(item);
+        QListWidgetItem *item2=new QListWidgetItem();
+        item2->setText(titre.Artiste);
+        ui->ArtistesTitres->addItem(item2);
+    }
+
+    listeNumeros();
+}
 
 void DialogueAjouterPhysique::on_Codebarres_clicked()
 {
@@ -46,39 +73,55 @@ void DialogueAjouterPhysique::on_Codebarres_clicked()
     Discogs temp;
     QString codeBarres= getCodeBarre();
     if ( codeBarres.size()==13) {
-        album = temp.RequeteAlbums( codeBarres );
 
-        if (album.Album!="Non trouvé") {
+        if (getType()=="Compil")
+        {
+            compil=temp.RequeteCompil( codeBarres );
+
+        } else {
+            album = temp.RequeteAlbums( codeBarres );
+
+        }
+
+
+        if (album.Album!="Non trouvé" || compil.Album!="Non trouvé")
+        {
             ui->Interaction->setText("CD trouvé. Vérifiez les informations.");
 
-
-            album.Type = getType();
-
-            ui->Album->setText(album.Album);
-            ui->Annee->setText(album.Annee);
-            ui->Artiste->setText(album.Artiste);
-
-            QPixmap* pixmap = new QPixmap();
-            pixmap->convertFromImage(album.Pochette);
-
-            QPixmap imageScaled = pixmap->scaled(150,150,Qt::IgnoreAspectRatio,Qt::FastTransformation);
-            ui->Pochette->setPixmap(imageScaled);
-            ui->Titres->clear();
-            for(int cpt=0;cpt<album.titres.count();cpt++)
+            if (getType()=="Compil")
             {
-                TitreGestion titre=album.titres[cpt];
-                titre.Num_Piste=cpt+1;
-                QListWidgetItem *item=new QListWidgetItem();
-                item->setText(titre.Titre+"("+titre.Duree+")");
-                ui->Titres->addItem(item);
-            }
+                ChargerCompil();
+            } else
+            {
 
-            listeNumeros();
+                ui->Artiste->setText(album.Artiste);
+                album.Type = getType();
+
+                ui->Album->setText(album.Album);
+                ui->Annee->setText(album.Annee);
+
+                QPixmap* pixmap = new QPixmap();
+                pixmap->convertFromImage(album.Pochette);
+
+                QPixmap imageScaled = pixmap->scaled(150,150,Qt::IgnoreAspectRatio,Qt::FastTransformation);
+                ui->Pochette->setPixmap(imageScaled);
+                ui->Titres->clear();
+                for(int cpt=0;cpt<album.titres.count();cpt++)
+                {
+                    TitreGestion titre=album.titres[cpt];
+                    titre.Num_Piste=cpt+1;
+                    QListWidgetItem *item=new QListWidgetItem();
+                    item->setText(titre.Titre+"("+titre.Duree+")");
+                    ui->Titres->addItem(item);
+                }
+
+                listeNumeros();
+            }
         } else {
 
             ui->Interaction->setText("Le code-barres n'a pas été trouvé. Le CD doit être rentré manuellement.");
-        }
-    } else
+        } }
+    else
     {
         ui->Interaction->setText("Le code barres n'est pas valable. Veuillez tapez 13 chiffres.");
     }
@@ -150,19 +193,29 @@ void DialogueAjouterPhysique::on_buttonBox_accepted()
 {
     if (ui->Artiste->text()!="")
     {
-    ajouterAlbum();
-    emit AlbumAjoute();
+        if(getType()=="Compil")
+        {
+            ajouterCompil();
+        } else
+        {
+            ajouterAlbum();
+        }
+        emit AlbumAjoute();
 
-    ui->Titres->clear();
-    ui->Album->clear();
-    ui->Annee->clear();
-    ui->Artiste->clear();
-    ui->m_codeBarre->clear();
-    ui->Pochette->clear();
-    ui->DureeAjout->clear();
-    ui->TitreAjout->clear();
-    ui->NumeroPiste->clear();
-} else {
+        ui->Titres->clear();
+        ui->Album->clear();
+        ui->Annee->clear();
+        ui->Artiste->clear();
+        ui->m_codeBarre->clear();
+        ui->Pochette->clear();
+        ui->DureeAjout->clear();
+        ui->TitreAjout->clear();
+        ui->NumeroPiste->clear();
+        album.Album="Non trouvé";
+        compil.Album="Non trouvé";
+
+
+    } else {
         ui->Interaction->setText("Il manque des informations pour enregistrer l'album.");
     }
 }
@@ -194,6 +247,38 @@ void DialogueAjouterPhysique::ajouterAlbum()
         album.titres << titre;
     }
     m_bddInterface.ajouterAlbumPhysique(album);
+    ui->Interaction->setText("CD entré dans la BDD");
+}
+void DialogueAjouterPhysique::ajouterCompil()
+{
+    compil.Type=getType();
+    compil.Album=ui->Album->text();
+    compil.Annee=ui->Annee->text();
+    compil.Artiste=ui->Artiste->text();
+    compil.CodeBarres=getCodeBarre();
+
+    const QPixmap* pixmap =ui->Pochette->pixmap();
+    QImage image = pixmap->toImage();
+    compil.Pochette=image;
+
+    compil.titres.clear();
+    for (int i=0;i<ui->Titres->count();i++)
+    {
+        MP3Gestion titre;
+        QListWidgetItem *item= ui->Titres->item(i);
+        QStringList parsing = item->text().split("(");
+        titre.Titre=parsing[0];
+
+        QStringList parsing2 = parsing[1].split(")");
+        titre.Duree=parsing2[0];
+        titre.Num_Piste=i+1;
+
+        QListWidgetItem *art=ui->ArtistesTitres->item(i);
+        titre.Artiste=art->text();
+
+        compil.titres << titre;
+    }
+    m_bddInterface.ajouterCompilPhysique(compil);
     ui->Interaction->setText("CD entré dans la BDD");
 }
 

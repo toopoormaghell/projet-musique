@@ -11,7 +11,7 @@ public:
     explicit Discogs(QObject *parent = 0);
 
     AlbumGestion RequeteAlbums(QString rech);
-    AlbumGestion LectureXMLSearch(QByteArray fich);
+    CompilGestion LectureXMLSearchCompil(QByteArray fich);
     QString LectureXMLArtiste(QByteArray fich);
     QImage LectureXMLPochette(QByteArray fich);
     QImage RecupererPochette(QString lien);
@@ -26,6 +26,11 @@ public:
     QList<TitreGestion> RecupererTitresAlbums(QString Id_Album);
     QStringList LectureXMLReleases(QByteArray fich);
     QByteArray LirePochette(QString Id_Album);
+    CompilGestion RequeteCompil(QString rech);
+    QList<MP3Gestion> RecupererTitresCompil(QString Id_Album);
+    QList<MP3Gestion> LectureXMLTitresCompil(QByteArray fich);
+    AlbumGestion LectureXMLSearch(QByteArray fich);
+    QString RecupererArtisteTitre(QString Id_Titre);
 signals:
 
 };

@@ -4,7 +4,6 @@
 #include <QImage>
 #include <QStringList>
 
-
 struct TitreGestion
 {
     int Num_Piste;
@@ -12,12 +11,51 @@ struct TitreGestion
     QString Titre;
     int Id_Titre;
     bool TitreenMp3etPhys;
+int Id_Relation;
+
+    TitreGestion():
+        Num_Piste(0),
+        Duree(),
+        Titre(),
+        Id_Titre(0),
+        TitreenMp3etPhys(false),
+    Id_Relation(0)
+    {}
 };
 typedef struct TitreGestion TitreGestion;
-struct AlbumGestion
+struct MP3Gestion: public TitreGestion
 {
     QImage Pochette;
-    QList<TitreGestion> titres;
+    QString Artiste;
+    QString Album;
+    QString Type;
+    QString Annee;
+    int Id_Poch;
+    int Id_Artiste;
+    int Id_Album;
+    QString CheminFichier;
+    int Id_Relation;
+
+    MP3Gestion():
+        TitreGestion(),
+        Pochette(),
+        Artiste(),
+        Album(),
+        Type(),
+        Annee(),
+        Id_Poch( 0 ),
+        Id_Artiste( 0 ),
+        Id_Album( 0 ),
+        CheminFichier(),
+        Id_Relation( 0 )
+    {}
+};
+typedef struct MP3Gestion MP3Gestion;
+template <class T>
+struct CDGestion
+{
+    QImage Pochette;
+    QList<T> titres;
     QString Artiste;
     QString Album;
     QString Type;
@@ -28,8 +66,9 @@ struct AlbumGestion
     QString CodeBarres;
     bool ErreurPochette;
     QString Chem_Poch_Alt;
+    int Id_Relation;
 
-    AlbumGestion():
+    CDGestion():
         Pochette(),
         titres(),
         Artiste(),
@@ -39,45 +78,14 @@ struct AlbumGestion
         Id_Poch( 0 ),
         Id_Album( 0 ),
         Id_Artiste( 0 ),
-        CodeBarres()
+        CodeBarres(),
+        Id_Relation( 0)
     {}
 };
-typedef struct AlbumGestion AlbumGestion;
-struct MP3Gestion
-{
-    QImage Pochette;
-    QString Artiste;
-    QString Album;
-    QString Type;
-    QString Annee;
-    int Num_Piste;
-    QString Duree;
-    QString Titre;
-    int Id_Titre;
-    bool TitreenMp3etPhys;
-    int Id_Poch;
-    int Id_Artiste;
-    int Id_Album;
-    QString CheminFichier;
+typedef struct CDGestion <TitreGestion> AlbumGestion;
+typedef struct CDGestion <MP3Gestion> CompilGestion;
 
-    MP3Gestion():
-        Pochette(),
-        Artiste(),
-        Album(),
-        Type(),
-        Annee(),
-        Num_Piste( 0 ),
-        Duree(),
-        Titre(),
-        Id_Titre(),
-        TitreenMp3etPhys( false ),
-        Id_Poch( 0 ),
-        Id_Artiste( 0 ),
-        Id_Album( 0 ),
-        CheminFichier()
-    {}
-};
-typedef struct MP3Gestion MP3Gestion;
+
 struct PlaylistGestion
 {
     QImage Pochette;
@@ -103,9 +111,9 @@ struct PlaylistGestion
 typedef struct PlaylistGestion PlaylistGestion;
 struct Pochette
 {
-QImage Pochette;
-int Id_Poch;
-QString Nom;
+    QImage Pochette;
+    int Id_Poch;
+    QString Nom;
 };
 typedef struct Pochette Pochette;
 // Enlève les accents présents dans une QString

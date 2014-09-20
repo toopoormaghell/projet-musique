@@ -17,6 +17,7 @@ public:
     int lireIDPhys(int Id_Album, QString Type, QString CodeBarres);
     void SupprimerAlbumPhys(QString Id_Album);
     void AjouterErreur(AlbumGestion album);
+    void ModifierAlbum(AlbumGestion album);
 
     //Affichage des Albums
     QStringList listeArtistes(QString Categorie);
@@ -38,6 +39,8 @@ public:
     void changerjetonSecret(QString jeton);
     void changerjetonAcces(QString jeton);
 
+    void AjouterCompil(CompilGestion album);
+    void AjouterErreur(CompilGestion album);
 };
 
 #endif // BDDPHYS_H

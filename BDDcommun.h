@@ -20,12 +20,14 @@ public:
     int lireIDArtiste( const QString &Artiste,const int &IdPoch);
     int lireIDAlbum( const QString &Album, int Id_Poch, int Id_Artiste, QString Annee, QString Type);
     int lireIDTitre( const QString &Titre, int IdAlb, int IdArtiste, int IdPoch,int NumPiste, QString Duree);
+    int lireIDRelation(const int &Id_Alb, const int &Id_Artiste, const int &Id_Titre, const int &Id_Pochette );
 
-    bool supprimerArtiste(const int &Id_Artiste, const QString artiste);
+    bool supprimerArtiste(const int &Id_Artiste);
     bool supprimerAlbum(const int &Id_Alb);
-    bool supprimerTitre(const int Id_Titre);
+    bool supprimerTitredePhys(const int &Id_Titre,const int &Id_Relation);
     void supprimerPoch(const int &IdPoch, const QString Artiste, const QString Album);
-    bool supprimerTitre(const int Id_Album, const int Id_Titre);
+    bool supprimerTitredeMp3(const int Id_Album, const int Id_Titre,const int Id_Relation);
+    void supprimerRelation(const int &Id_Relation);
 
     void enregistrerObservateur( BarreAvancement* obs );
     void desenregistrerObservateur( BarreAvancement* obs );
@@ -51,6 +53,8 @@ public:
     void CopierBDD();
     void ChargerBDD();
 
+
+    QString AjouterPochette(CompilGestion album);
 protected:
     void notifierObservateurs( const QString& chemin, const float pourcentage );
 private:

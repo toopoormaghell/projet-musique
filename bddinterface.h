@@ -63,6 +63,8 @@ public:
     void changerjetonSecret(QString jeton);
     void changerjetonAcces(QString jeton);
     void SupprimerAlbumPhys(QString Id_Album);
+    void ajouterCompilPhysique(CompilGestion compil);
+    void ModifierAlbumPhys(AlbumGestion album);
 
     //Commun
     void ViderBDD();
@@ -71,6 +73,8 @@ public:
     QImage afficherPochette(const QString &Album, const QString &Type);
     void EchangerArtiste(QString Artiste, QString Id_Artiste);
     QList<Pochette> ListePochettes();
+
+
 
 private:
     BDDCommun myCommun;

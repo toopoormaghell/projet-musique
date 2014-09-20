@@ -37,13 +37,15 @@ AlbumGestion Discogs::RequeteAlbums(QString rech)
         //On récupère la pochette
         QByteArray Poch = LirePochette(QString::number(alb.Id_Album));
         alb.ErreurPochette = LectureErreurPochette(Poch);
+
+
         if (alb.ErreurPochette)
         {
             alb.Chem_Poch_Alt="release/"+QString::number(alb.Id_Album)+"/pictures";
             QImage image("./Pochettes/def.jpg");
             alb.Pochette= image;
         } else {
-            alb.Pochette=LectureXMLPochette(Poch);
+          alb.Pochette=LectureXMLPochette(Poch);
         }
 
         //On récupère les titres
@@ -187,6 +189,33 @@ QList<TitreGestion> Discogs::RecupererTitres(QString Id_Album)
         QObject::connect(&theOAuthSingleton, SIGNAL(finished( QByteArray )), &loop, SLOT(quit()));
         loop.exec();
         titres<<LectureXMLTitres(theOAuthSingleton.getResponse());
+        compteur++;
+    }
+    return titres;
+}
+QList<MP3Gestion> Discogs::RecupererTitresCompil(QString Id_Album)
+{
+    QList<MP3Gestion> titres;
+    QString req="release/"+Id_Album+"/tracks";
+    theOAuthSingleton.makeRequest(req);
+    QEventLoop loop;
+    QObject::connect(&theOAuthSingleton, SIGNAL(finished( QByteArray )), &loop, SLOT(quit()));
+    loop.exec();
+    titres=LectureXMLTitresCompil(theOAuthSingleton.getResponse());
+
+    theOAuthSingleton.makeRequest(req);
+    loop;
+    QObject::connect(&theOAuthSingleton, SIGNAL(finished( QByteArray )), &loop, SLOT(quit()));
+    loop.exec();
+    int cpt=LectureXMLPages(theOAuthSingleton.getResponse());
+
+    int compteur=1;
+    while(cpt-compteur>0)
+    {
+        theOAuthSingleton.makeRequest(req,"page",QString::number(compteur+1));
+        QObject::connect(&theOAuthSingleton, SIGNAL(finished( QByteArray )), &loop, SLOT(quit()));
+        loop.exec();
+        titres<<LectureXMLTitresCompil(theOAuthSingleton.getResponse());
         compteur++;
     }
     return titres;
@@ -336,6 +365,70 @@ AlbumGestion Discogs::LectureXMLSearch(QByteArray fich)
 
     return alb;
 }
+CompilGestion Discogs::LectureXMLSearchCompil(QByteArray fich)
+{
+    QDomDocument doc;
+    CompilGestion alb;
+
+    // Ajoute le contenu du Qstring XML dans un QDomDocument et dit au QDomDocument de ne pas tenir compte des namespaces
+    doc.setContent(fich,false);
+
+    // Ici, racine pointe sur l'élément <root> de notre document
+    QDomElement racine = doc.documentElement();
+
+    // Ici, racine pointe sur une fils de <root> c'est à dire <site>
+    racine = racine.firstChildElement();
+
+    //Boucle permettant la navigation dans le fichier XML
+    while(!racine.isNull())
+    {
+        // Si on pointe sur un élément de type <site>
+        if(racine.tagName() == "data")
+        {
+            // On récupère le premier enfant de l'élément site c'est a dire <nom> ou <url>
+            QDomElement unElement = racine.firstChildElement();
+
+            // On parcourt tous les enfants de l'élément <site>
+            while(!unElement.isNull())
+            {
+                // Si l'enfant de l'élément site est l'élément <nom>
+                if(unElement.tagName() == "item")
+                {
+                    QDomElement donnees = unElement.firstChildElement();
+
+                    while(!donnees.isNull())
+                    {
+                        if(donnees.tagName()=="id")
+                        {
+                            alb.Id_Album= donnees.text().toInt();
+                        }
+                        if(donnees.tagName()=="title")
+                        {
+                            alb.Album=donnees.text();
+                        }
+                        if(donnees.tagName()=="release_date")
+                        {
+                            QString temp = donnees.text();
+                            temp.resize(4);
+                            alb.Annee=temp;
+                        }
+                        donnees =donnees.nextSiblingElement();
+                    }
+                }
+                // Permet d'aller au prochain enfant de <site> et de poursuivre la boucle
+                unElement = unElement.nextSiblingElement();
+            }
+        }
+        // On va à l'élément fils de <root> suivant
+        racine = racine.nextSiblingElement();
+    }
+    if (alb.Album.isNull())
+    {
+        alb.Album="Non trouvé";
+    }
+
+    return alb;
+}
 QList<TitreGestion> Discogs::LectureXMLTitres(QByteArray fich)
 {
 
@@ -386,6 +479,75 @@ QList<TitreGestion> Discogs::LectureXMLTitres(QByteArray fich)
                         donnees =donnees.nextSiblingElement();
 
                     }
+                    Titres<<titre;
+                }
+                // Permet d'aller au prochain enfant de <site> et de poursuivre la boucle
+                unElement = unElement.nextSiblingElement();
+
+            }
+        }
+        // On va à l'élément fils de <root> suivant
+        racine = racine.nextSiblingElement();
+    }
+    return Titres;
+}
+QList<MP3Gestion> Discogs::LectureXMLTitresCompil(QByteArray fich)
+{
+    QList<MP3Gestion> Titres;
+    QDomDocument doc;
+
+    // Ajoute le contenu du Qstring XML dans un QDomDocument et dit au QDomDocument de ne pas tenir compte des namespaces
+    doc.setContent(fich,false);
+
+    // Ici, racine pointe sur l'élément <root> de notre document
+    QDomElement racine = doc.documentElement();
+
+    // Ici, racine pointe sur une fils de <root> c'est à dire <site>
+    racine = racine.firstChildElement();
+
+    //Boucle permettant la navigation dans le fichier XML
+    while(!racine.isNull())
+    {
+        // Si on pointe sur un élément de type <data>
+        if(racine.tagName() == "data")
+        {
+            // On récupère le premier enfant de l'élément site c'est a dire <nom> ou <url>
+            QDomElement unElement = racine.firstChildElement();
+
+            // On parcourt tous les enfants de l'élément <data>
+            while(!unElement.isNull())
+            {
+                // Si l'enfant de l'élément site est l'élément <item>
+                if(unElement.tagName() == "item")
+                {
+
+                    MP3Gestion titre;
+                    QDomElement donnees = unElement.firstChildElement();
+
+                    while(!donnees.isNull())
+                    {
+                        if (donnees.tagName()=="id")
+                        {
+                            titre.Artiste=RecupererArtisteTitre(donnees.text());
+
+                        }
+                        if(donnees.tagName()=="track_number")
+                        {
+                            titre.Num_Piste=donnees.text().toInt();
+                        }
+                        if(donnees.tagName()=="title")
+                        {
+                            titre.Titre=donnees.text();
+                        }
+                        if(donnees.tagName()=="length")
+                        {
+                            titre.Duree=donnees.text();
+                        }
+
+                        donnees =donnees.nextSiblingElement();
+
+                    }
+
                     Titres<<titre;
                 }
                 // Permet d'aller au prochain enfant de <site> et de poursuivre la boucle
@@ -506,6 +668,11 @@ QString Discogs::LectureXMLArtiste(QByteArray fich)
 
                         donnees =donnees.nextSiblingElement();
                     }
+                    if(!Nom.isNull() && Artiste.isNull())
+                    {
+                        Artiste=Nom;
+                    }
+                    return Artiste;
                 }
                 // Permet d'aller au prochain enfant de <site> et de poursuivre la boucle
                 unElement = unElement.nextSiblingElement();
@@ -514,7 +681,16 @@ QString Discogs::LectureXMLArtiste(QByteArray fich)
         // On va à l'élément fils de <root> suivant
         racine = racine.nextSiblingElement();
     }
-    return Artiste;
+
+}
+QString Discogs::RecupererArtisteTitre(QString Id_Titre)
+{
+    QString req="track/"+Id_Titre+"/artists";
+    theOAuthSingleton.makeRequest(req);
+    QEventLoop loop3;
+    QObject::connect(&theOAuthSingleton, SIGNAL(finished( QByteArray )), &loop3, SLOT(quit()));
+    loop3.exec();
+    return LectureXMLArtiste(theOAuthSingleton.getResponse());
 }
 QImage Discogs::LectureXMLPochette(QByteArray fich)
 {
@@ -577,4 +753,44 @@ QImage Discogs::RecupererPochette(QString lien)
     poch.loadFromData(r->readAll());
 
     return poch;
+}
+CompilGestion Discogs::RequeteCompil(QString rech)
+{
+    theOAuthSingleton.makeRequest( "release/search", "ean", rech );
+
+    //on attend que le signal finished soit reçu
+    QEventLoop loop;
+    QObject::connect(&theOAuthSingleton, SIGNAL(finished( QByteArray )), &loop, SLOT(quit()));
+    loop.exec();
+
+    CompilGestion compil= LectureXMLSearchCompil(theOAuthSingleton.getResponse());
+    if ( compil.Album!="Non trouvé")
+    {
+
+        /*    //On récupère la pochette
+      QByteArray Poch = LirePochette(QString::number(alb.Id_Album));
+        alb.ErreurPochette = LectureErreurPochette(Poch);
+*/
+        compil.ErreurPochette=true;
+        if (compil.ErreurPochette)
+        {
+            compil.Chem_Poch_Alt="release/"+QString::number(compil.Id_Album)+"/pictures";
+            QImage image("./Pochettes/def.jpg");
+            compil.Pochette= image;
+        } else {
+            //     compil.Pochette=LectureXMLPochette(Poch);
+        }
+
+        //On récupère les titres
+        compil.titres=RecupererTitresCompil(QString::number(compil.Id_Album));
+
+        /*     if(compil.titres.isEmpty())
+        {
+            QString Id_Album = RecupererId_Album(QString::number(compil.Id_Album));
+            compil.titres=RecupererTitresAlbums(Id_Album);
+        }
+        */
+
+    }
+    return compil;
 }

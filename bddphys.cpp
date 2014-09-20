@@ -17,30 +17,109 @@ void BDDPhys::AjouterAlbum(AlbumGestion album)
     for(int cpt=0;cpt<album.titres.count();cpt++)
     {
         album.titres[cpt].Id_Titre = lireIDTitre(album.titres[cpt].Titre.replace("'","$"),album.Id_Album,album.Id_Artiste,album.Id_Poch,album.titres[cpt].Num_Piste,album.titres[cpt].Duree);
+        lireIDRelation(album.Id_Album,album.Id_Artiste,album.titres[cpt].Id_Titre,album.Id_Poch);
     }
 
     if (album.ErreurPochette==true)
     {
-      AjouterErreur(album);
+        AjouterErreur(album);
+    }
+}
+void BDDPhys::AjouterCompil(CompilGestion album)
+{
+    QString CheminPochette= AjouterPochette(album).replace("'","$");
+    album.Id_Poch= lireIDPoch(CheminPochette);
+    album.Id_Artiste=lireIDArtiste(album.Artiste,album.Id_Poch);
+    album.Id_Album=lireIDAlbum(album.Album.replace("'","$"),album.Id_Poch,album.Id_Artiste,album.Annee,album.Type);
+    lireIDPhys(album.Id_Album,album.Type,album.CodeBarres);
 
+    //On s'occupe des titres et des artistes concernés
+    for(int cpt=0;cpt<album.titres.count();cpt++)
+    {
+        MP3Gestion titre=album.titres[cpt];
+
+        qDebug() << titre.Artiste;
+        int artiste = lireIDArtiste(titre.Artiste,album.Id_Poch);
+        album.titres[cpt].Id_Titre = lireIDTitre(titre.Titre.replace("'","$"),album.Id_Album,artiste,album.Id_Poch,titre.Num_Piste,titre.Duree);
+        lireIDRelation(album.Id_Album,artiste,album.titres[cpt].Id_Titre,album.Id_Poch);
     }
 
+    if (album.ErreurPochette==true)
+    {
+        AjouterErreur(album);
+    }
 }
+
 void BDDPhys::AjouterErreur(AlbumGestion album)
 {
     QString chemin="./pochettes/"+album.Artiste+"/"+album.Album+".jpg";
-        //On vérifie que la pochette n'est déjà pas encore à faire
+
+    //On vérifie que la pochette n'est déjà pas encore à faire
     QString queryStr="SELECT Id_Pochette FROM Pochette P, ErreurPochettes E WHERE P.Chemin ='"+album.Chem_Poch_Alt+"' OR E.Chemin = '"+chemin+"'";
     QSqlQuery query = madatabase.exec(queryStr);
 
     if(!query.first())
     {
-        qDebug() << "passe là";
+
         queryStr="INSERT INTO ErreurPochettes VALUES(null,'"+QString::number(album.Id_Poch)+"','"+album.Chem_Poch_Alt+"')";
         madatabase.exec(queryStr);
     }
 }
 
+void BDDPhys::ModifierAlbum(AlbumGestion album)
+{
+
+    AlbumGestion AncienAlbum = InfosAlbum(QString::number(album.Id_Album));
+
+    bool ArtisteChange=false;
+
+    //L'année, le type ou le nom de l'album ont changé, on met à jour
+    if (album.Annee!=AncienAlbum.Annee ||  album.Album!=AncienAlbum.Album || album.Type!=AncienAlbum.Type)
+    {
+        QString NomSSAcc=album.Album;
+        EnleverAccents(NomSSAcc);
+        madatabase.exec("UPDATE Album SET Album='"+album.Album+"',AlbumSSAccents='"+NomSSAcc+"',Annee='"+album.Annee+"',Type='"+album.Type+"' WHERE Id_Album='"+QString::number(album.Id_Album)+"'");
+        madatabase.exec("UPDATE Phys SET Categorie='"+album.Type+"' WHERE Id_Album='"+QString::number(album.Id_Album)+"'");
+    }
+
+    if (album.Artiste!=AncienAlbum.Artiste)
+    {
+        album.Id_Artiste= lireIDArtiste(album.Artiste,album.Id_Poch);
+        ArtisteChange=true;
+
+    }
+    for (int cpt=0;cpt<AncienAlbum.titres.count();cpt++)
+    {
+        TitreGestion titre=album.titres[cpt];
+        qDebug() << titre.Id_Titre << titre.Titre;
+        if(ArtisteChange==true)
+        {
+          supprimerRelation(AncienAlbum.titres[cpt].Id_Relation);
+          lireIDRelation(album.Id_Album,album.Id_Artiste,AncienAlbum.titres[cpt].Id_Titre,album.Id_Poch);
+
+          bool test=supprimerArtiste(AncienAlbum.Id_Artiste);
+          qDebug() << test;
+        }
+    }
+
+
+}
+
+void BDDPhys::AjouterErreur(CompilGestion album)
+{
+    QString chemin="./pochettes/Compils/"+album.Album+".jpg";
+
+    //On vérifie que la pochette n'est déjà pas encore à faire
+    QString queryStr="SELECT Id_Pochette FROM Pochette P, ErreurPochettes E WHERE P.Chemin ='"+album.Chem_Poch_Alt+"' OR E.Chemin = '"+chemin+"'";
+    QSqlQuery query = madatabase.exec(queryStr);
+
+    if(!query.first())
+    {
+
+        queryStr="INSERT INTO ErreurPochettes VALUES(null,'"+QString::number(album.Id_Poch)+"','"+album.Chem_Poch_Alt+"')";
+        madatabase.exec(queryStr);
+    }
+}
 int BDDPhys::lireIDPhys(int Id_Album,QString Type,QString CodeBarres)
 {
     //On vérifie si l'album existe dans la table Phys ou non
@@ -71,7 +150,7 @@ void BDDPhys::SupprimerAlbumPhys(QString Id_Album)
 
     for (int cpt=0;cpt<album.titres.count();cpt++)
     {
-        bool supp = supprimerTitre(album.titres[cpt].Id_Titre);
+        bool supp = supprimerTitredePhys(album.titres[cpt].Id_Titre,album.Id_Relation);
 
         if( !supp && titres)
         {
@@ -88,7 +167,7 @@ void BDDPhys::SupprimerAlbumPhys(QString Id_Album)
         if(boolalbum)
         {
             qDebug() << " Album supprimé : " << album.Album;
-            artiste=supprimerArtiste(album.Id_Artiste,album.Artiste);
+            artiste=supprimerArtiste(album.Id_Artiste);
 
             if(artiste)
             {
@@ -105,7 +184,7 @@ QStringList  BDDPhys::listeArtistes(QString Categorie)
 
     Categorie=choixCategorie(Categorie);
 
-    QString queryStr="SELECT DISTINCT Ar.Artiste, Ar.Id_Artiste FROM Artiste Ar, Album Al, Phys P WHERE P.Id_Album=Al.Id_Album AND Al.Id_Artiste = Ar.Id_Artiste AND (P.Categorie="+Categorie+") ORDER BY Ar.Artiste";
+    QString queryStr="SELECT DISTINCT Ar.Artiste, Ar.Id_Artiste FROM Artiste Ar,Relations R, Phys P WHERE P.Id_Album=R.Id_Album AND R.Id_Artiste = Ar.Id_Artiste AND (P.Categorie="+Categorie+") ORDER BY Ar.Artiste";
 
     QSqlQuery query= madatabase.exec(queryStr);
 
@@ -149,8 +228,8 @@ QStringList BDDPhys::listeAlbums(QString Id_Artiste,QString Categorie)
     QStringList albums;
 
     Categorie=choixCategorie(Categorie);
-
-    QSqlQuery query=madatabase.exec("SELECT DISTINCT Al.Id_Album FROM Album Al, Phys P WHERE Al.Id_Artiste="+Id_Artiste+" AND Al.Id_Album = P.Id_Album AND (P.Categorie="+Categorie+") ORDER BY Categorie,Al.Annee");
+    QString queryStr="SELECT DISTINCT Al.Id_Album FROM Album Al, Phys P, Relations R WHERE R.Id_Artiste="+Id_Artiste+" AND R.Id_Album=P.Id_Album AND Al.Id_Album = P.Id_Album AND (P.Categorie="+Categorie+") ORDER BY Categorie,Al.Annee";
+    QSqlQuery query=madatabase.exec(queryStr);
 
     while (query.next() ) {
         QSqlRecord rec=query.record();
@@ -162,8 +241,8 @@ QStringList BDDPhys::listeAlbums(QString Id_Artiste,QString Categorie)
 QList<TitreGestion> BDDPhys::listeTitresAlbum(QString Id_Album)
 {
     QList<TitreGestion> titres;
-
-    QSqlQuery query=madatabase.exec("SELECT DISTINCT Titre, Duree, Num_Piste,Id_Titre FROM Titre WHERE Id_Album="+Id_Album+" ORDER BY Num_Piste");
+    QString queryStr="SELECT DISTINCT Titre, Duree, Num_Piste,T.Id_Titre,R.Id_Relation FROM Titre T, Relations R WHERE R.Id_Album="+Id_Album+" AND T.Id_Titre=R.Id_Titre ORDER BY Num_Piste";
+    QSqlQuery query=madatabase.exec(queryStr);
 
     while (query.next() ) {
         TitreGestion titre;
@@ -173,6 +252,8 @@ QList<TitreGestion> BDDPhys::listeTitresAlbum(QString Id_Album)
         titre.Titre=rec.value("Titre").toString().replace("$","'");
         titre.Duree=rec.value("Duree").toString().replace("$","'");
         titre.Id_Titre=rec.value("Id_Titre").toInt();
+        titre.Id_Relation=rec.value("Id_Relation").toInt();
+
         titres << titre;
     }
     return titres;
@@ -181,7 +262,9 @@ AlbumGestion BDDPhys::InfosAlbum(QString Id_Album)
 {
     AlbumGestion album;
 
-    QSqlQuery query=madatabase.exec("SELECT Al.Album, Annee, P.Categorie, Al.Id_Artiste, Al.Id_Pochette, Ar.Artiste FROM Album Al, Phys P,Artiste Ar WHERE Al.Id_Album=P.Id_Album AND Ar.Id_Artiste = Al.Id_Artiste AND Al.Id_Album="+Id_Album);
+    QString queryStr="SELECT DISTINCT Al.Album, Annee, P.Categorie, R.Id_Artiste, Al.Id_Pochette, Ar.Artiste FROM Album Al, Phys P,Artiste Ar, Relations R WHERE Al.Id_Album=P.Id_Album AND R.Id_Album=P.Id_Album AND  Ar.Id_Artiste = R.Id_Artiste AND Al.Id_Album="+Id_Album;
+
+    QSqlQuery query=madatabase.exec(queryStr);
 
     while (query.next() ) {
         QSqlRecord rec=query.record();
@@ -210,12 +293,20 @@ void BDDPhys::ExporterHTML(QString Type)
     // Création d'un objet QTextStream à partir de notre objet QFile
     QTextStream flux(&fichier);
     // On choisit le codec correspondant au jeu de caractère que l'on souhaite ; ici, UTF-8
-
-
+    flux << "<Table>";
+int compcouleur= 0;
     for(int cpt=0;cpt<albart.count();cpt=cpt+2)
     {
-        flux << QString::number(cpt/2).rightJustified(3,'0') << " - "<< albart[cpt]<< " " << albart[cpt+1] << "<br>"<< endl;
+        if (compcouleur%2==0)
+        {
+        flux << "<tr bgcolor='beige'><td>" << QString::number((cpt/2)+1).rightJustified(3,'0') << "</td><td>"<< albart[cpt+1]<<"</td><td>"  << albart[cpt] << "</td></tr>"<< endl;
+        } else
+        {
+           flux << "<tr bgcolor='coral'><td>" << QString::number(cpt/2+1).rightJustified(3,'0') << "</td><td>"<< albart[cpt+1]<<"</td><td>"  << albart[cpt] << "</td></tr>"<< endl;
+        }
+        compcouleur++;
     }
+    flux << "</Table>";
 }
 QStringList BDDPhys::ListeAlbumArtisteExport(QString Type)
 {
@@ -225,7 +316,7 @@ QStringList BDDPhys::ListeAlbumArtisteExport(QString Type)
     {
         queryType="AND P.Categorie='"+Type+"'";
     }
-    QString QueryStr="SELECT Al.Album, Ar.Artiste FROM Phys P,Album Al, Artiste Ar WHERE P.Id_Album=Al.Id_Album AND Al.Id_Artiste = Ar.Id_Artiste "+queryType+" ORDER BY Ar.Artiste";
+    QString QueryStr="SELECT DISTINCT Al.Album, Ar.Artiste FROM Phys P,Album Al, Artiste Ar, Relations R WHERE P.Id_Album=R.Id_Album AND R.Id_Album=Al.Id_Album AND R.Id_Artiste = Ar.Id_Artiste "+queryType+" ORDER BY Ar.Artiste";
     QSqlQuery query=madatabase.exec(QueryStr);
 
     while(query.next())
@@ -239,7 +330,7 @@ QStringList BDDPhys::ListeAlbumSauvegarde()
 {
     QStringList resultat;
 
-    QString QueryStr="SELECT Al.Album, Ar.Artiste, P.Categorie, P.CodeBarres FROM Phys P,Album Al, Artiste Ar WHERE P.Id_Album=Al.Id_Album AND Al.Id_Artiste = Ar.Id_Artiste ORDER BY Ar.Artiste";
+    QString QueryStr="SELECT Al.Album, Ar.Artiste, P.Categorie, P.CodeBarres FROM Phys P,Album Al, Artiste Ar, Relations R WHERE P.Id_Album=Al.Id_Album AND R.Id_Album=P.Id_Album AND R.Id_Artiste = Ar.Id_Artiste ORDER BY Ar.Artiste";
     QSqlQuery query=madatabase.exec(QueryStr);
 
     while(query.next())

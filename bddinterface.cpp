@@ -86,6 +86,11 @@ void BDDInterface::ajouterAlbumPhysique(AlbumGestion album)
 {
     myPhys.AjouterAlbum(album);
 }
+void BDDInterface::ajouterCompilPhysique(CompilGestion compil)
+{
+    myPhys.AjouterCompil(compil);
+}
+
 QStringList BDDInterface::listeArtistesPhys(QString Categorie)
 {
     return myPhys.listeArtistes(Categorie);
@@ -211,4 +216,7 @@ void BDDInterface::SupprimerAlbumPhys(QString Id_Album)
 {
     myPhys.SupprimerAlbumPhys(Id_Album);
 }
-
+void BDDInterface::ModifierAlbumPhys(AlbumGestion album)
+{
+    myPhys.ModifierAlbum(album);
+}

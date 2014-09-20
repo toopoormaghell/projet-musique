@@ -106,7 +106,7 @@ void BDDMp3::actualiserMp3(QString type)
             QString key;
             key.setNum(cle);
             int Id_Titre=ligne[0].toInt();
-            SupprimerMp3(Id_Titre,cle);
+            SupprimerMp3(Id_Titre);
         }
     }
 }
@@ -121,7 +121,7 @@ QMap<int,QStringList> BDDMp3::recupererMp3(QString Type)
         QStringList infos;
         QSqlRecord rec = query.record();
         const int Mp3 = rec.value( "Id_MP3").toInt();
-        const QString Titre = rec.value( "Id_Titre" ).toString();
+        const QString Titre = rec.value( "Id_Relation" ).toString();
         const QString Chem = rec.value( "Chemin" ).toString();
 
         infos << Titre << Chem << "Pas Trouvé";
@@ -174,7 +174,7 @@ QStringList  BDDMp3::listeArtistes(QString Categorie)
 {
     QStringList liste;
 
-    QString queryStr="SELECT DISTINCT Ar.Artiste, Ar.Id_Artiste FROM Artiste Ar, Album Al, Mp3 M, Titre T WHERE T.Id_Album=Al.Id_Album AND Al.Id_Artiste = Ar.Id_Artiste AND T.Id_Titre=M.Id_Titre AND M.Categorie='"+Categorie+"' ORDER BY Ar.Artiste";
+    QString queryStr="SELECT DISTINCT Ar.Artiste, Ar.Id_Artiste FROM Artiste Ar, Mp3 M, Relations R WHERE R.Id_Artiste = Ar.Id_Artiste AND R.Id_Relation=M.Id_Relation AND M.Categorie='"+Categorie+"' ORDER BY Ar.Artiste";
 
     QSqlQuery query= madatabase.exec(queryStr);
 
@@ -205,7 +205,7 @@ QStringList BDDMp3::listeCategories()
 QStringList BDDMp3::listeAlbums(QString Id_Artiste)
 {
     QStringList albums;
-    QSqlQuery query=madatabase.exec("SELECT DISTINCT Al.Album, Al.Annee, Al.Id_Album FROM Album Al, MP3 M,Titre T WHERE Al.Id_Artiste="+Id_Artiste+" AND Al.Id_Album = T.Id_Album AND M.Id_Titre = T.Id_Titre ORDER BY Al.Annee DESC");
+    QSqlQuery query=madatabase.exec("SELECT DISTINCT Al.Album, Al.Annee, Al.Id_Album FROM Album Al, MP3 M,Relations R WHERE R.Id_Artiste="+Id_Artiste+" AND Al.Id_Album = R.Id_Album AND R.Id_Relation = R.Id_Relation ORDER BY Al.Annee DESC");
 
     while (query.next() ) {
         QSqlRecord rec=query.record();
@@ -218,7 +218,8 @@ QStringList BDDMp3::listeAlbums(QString Id_Artiste)
 QStringList BDDMp3::listeTitresAlbum(QString Id_Album)
 {
     QStringList titres;
-    QSqlQuery query=madatabase.exec("SELECT DISTINCT Titre, Duree, Num_Piste, T.Id_Titre FROM Titre T, Mp3 M WHERE M.Id_Titre = T.Id_Titre AND Id_Album="+Id_Album+" ORDER BY Num_Piste");
+    QString queryStr="SELECT DISTINCT Titre, Duree, Num_Piste, T.Id_Titre FROM Titre T, Mp3 M, Relations R WHERE R.Id_Titre = T.Id_Titre AND R.Id_Album="+Id_Album+" AND R.Id_Relation=M.Id_Relation ORDER BY Num_Piste";
+    QSqlQuery query=madatabase.exec(queryStr);
 
     while (query.next() ) {
         QSqlRecord rec=query.record();
@@ -237,24 +238,24 @@ int BDDMp3::ajouterMp3(MP3Gestion mp3)
     mp3.Id_Artiste=lireIDArtiste(mp3.Artiste,mp3.Id_Poch);
     mp3.Id_Album=lireIDAlbum(mp3.Album,mp3.Id_Poch,mp3.Id_Artiste,mp3.Annee,mp3.Type);
     mp3.Id_Titre=lireIDTitre(mp3.Titre,mp3.Id_Album,mp3.Id_Artiste,mp3.Id_Poch,mp3.Num_Piste,mp3.Duree);
-    int Id_Mp3= lireIdMp3(mp3.Id_Titre,mp3.CheminFichier,mp3.Type);
+    mp3.Id_Relation=lireIDRelation(mp3.Id_Album,mp3.Id_Artiste,mp3.Id_Titre,mp3.Id_Poch);
+    int Id_Mp3= lireIdMp3(mp3.Id_Relation,mp3.CheminFichier,mp3.Type);
 
     return Id_Mp3;
 }
-int BDDMp3::lireIdMp3(int IdTitre,QString cheminBDD,QString type)
+int BDDMp3::lireIdMp3(int IdRelation,QString cheminBDD,QString type)
 {
-    QString temp=QString::number(IdTitre);
+    QString temp=QString::number(IdRelation);
 
-    QString  queryStr = "Select Id_MP3 As 'MP3' from MP3 WHERE Id_Titre='" + temp+"' ";
+    QString  queryStr = "Select Id_MP3 As 'MP3' from MP3 WHERE Id_Relation='" + temp+"' ";
     QSqlQuery query = madatabase.exec(queryStr);
 
     if (!query.first()) {
         queryStr="INSERT INTO MP3 VALUES (null,'"+temp + "','"+ cheminBDD +"','"+ type+"')";
         madatabase.exec(queryStr);
 
-
         //On vérifie si le titre existe dans la table MP3 ou non
-        queryStr = "Select Id_MP3 As 'MP3' from MP3 WHERE  Id_Titre='" + temp+"' ";
+        queryStr = "Select Id_MP3 As 'MP3' from MP3 WHERE  Id_Relation='" + temp+"' ";
         query = madatabase.exec(queryStr);
         query.next();
 
@@ -264,14 +265,16 @@ int BDDMp3::lireIdMp3(int IdTitre,QString cheminBDD,QString type)
 
     return Id_Mp3;
 }
-void BDDMp3::SupprimerMp3(int Id_Titre,int Id_Mp3)
+void BDDMp3::SupprimerMp3(int Id_Titre)
 {
-    QString queryStri =  "DELETE FROM MP3 WHERE Id_Mp3='"+QString::number(Id_Mp3)+"'";
+    MP3Gestion mp3=RecupererInfosMp3(Id_Titre);
+
+    QString queryStri =  "DELETE FROM MP3 WHERE Id_Relation='"+QString::number(mp3.Id_Relation)+"'";
     QSqlQuery query = madatabase.exec(queryStri);
 
-    MP3Gestion mp3=RecupererInfosMp3(Id_Titre);
     qDebug() << "suppression de " << mp3.Titre << " de " << mp3.Artiste << " sur " << mp3.Album;
-    bool titre=supprimerTitre(mp3.Id_Album,mp3.Id_Titre);
+    bool titre=supprimerTitredeMp3(mp3.Id_Album,mp3.Id_Titre,mp3.Id_Relation);
+
     if(titre)
     {
         EnleverAccents(mp3.Artiste);
@@ -281,7 +284,7 @@ void BDDMp3::SupprimerMp3(int Id_Titre,int Id_Mp3)
         if (album)
         {
             QString CheminArtiste="./Pochettes/"+mp3.Artiste;
-            bool artiste=supprimerArtiste(mp3.Id_Artiste,CheminArtiste);
+            bool artiste=supprimerArtiste(mp3.Id_Artiste);
             if(artiste)
             {
                 supprimerPoch(mp3.Id_Poch,CheminArtiste,Chemin);
@@ -291,7 +294,7 @@ void BDDMp3::SupprimerMp3(int Id_Titre,int Id_Mp3)
 }
 void BDDMp3::ViderMp3(QString Type)
 {
-    QString queryStr= "SELECT Id_Mp3, Id_Titre FROM MP3 WHERE Categorie='"+Type+"'";
+    QString queryStr= "SELECT R.Id_Titre As 'Id_Titre' FROM MP3 M, Relations R WHERE M.Categorie='"+Type+"' AND R.Id_Relation=M.Id_Relation";
 
     QSqlQuery query= madatabase.exec(queryStr);
 
@@ -299,16 +302,17 @@ void BDDMp3::ViderMp3(QString Type)
     {
         QSqlRecord rec= query.record();
         int Id_Titre=rec.value("Id_Titre").toInt();
-        int Id_Mp3=rec.value("Id_Mp3").toInt();
 
-        SupprimerMp3(Id_Titre,Id_Mp3);
+        SupprimerMp3(Id_Titre);
     }
 }
 
 MP3Gestion BDDMp3::RecupererInfosMp3(int Id_Titre)
 {
     MP3Gestion mp3;
-    QString queryStr="Select T.Id_Titre As 'Id_Titre',B.Type AS 'Type', T.Id_Artiste As 'Id_Artiste', B.Album As 'Album', T.Id_Pochette As 'Id_Pochette' , T.Id_Album As 'Id_Album', A.Artiste As 'Artiste',T.Duree As 'Duree',T.Num_Piste AS 'Num_Piste', B.Annee As 'Annee',T.Titre AS 'Titre' from Album 'B', Titre 'T', Artiste 'A' WHERE B.Id_Album=T.Id_Album AND T.Id_Artiste= A.Id_Artiste AND T.Id_Titre="+QString::number(Id_Titre);
+
+    QString queryStr="Select T.Id_Titre As 'Id_Titre',B.Type AS 'Type', R.Id_Artiste As 'Id_Artiste', B.Album As 'Album', R.Id_Pochette As 'Id_Pochette' , R.Id_Album As 'Id_Album', A.Artiste As 'Artiste',T.Duree As 'Duree',T.Num_Piste AS 'Num_Piste', B.Annee As 'Annee',T.Titre AS 'Titre', R.Id_Relation AS 'Id_Relation' from Album 'B', Titre 'T', Artiste 'A', Relations R WHERE R.Id_Album=B.Id_Album AND R.Id_Titre=T.Id_Titre AND R.Id_Artiste= A.Id_Artiste AND R.Id_Titre="+QString::number(Id_Titre);
+
     QSqlQuery query =  madatabase.exec(queryStr);
     query.next();
     QSqlRecord rec = query.record();
@@ -324,14 +328,15 @@ MP3Gestion BDDMp3::RecupererInfosMp3(int Id_Titre)
     mp3.Num_Piste=rec.value("Num_Piste").toInt();
     mp3.Type=rec.value("Type").toString();
     mp3.Annee=rec.value("Annee").toString();
-    mp3.Pochette=afficherPochette(QString::number(Id_Titre),"Titre");
+    mp3.Pochette=afficherPochette(QString::number(mp3.Id_Poch),"Pochette");
     mp3.TitreenMp3etPhys=verifierTitreMp3Phys(Id_Titre);
+    mp3.Id_Relation=rec.value("Id_Relation").toInt();
     return mp3;
 }
 
 QString BDDMp3::getPathFromIdMp3(const QString &mp3Id)
 {
-    QString queryStr="Select Chemin From Mp3 where id_titre=" + mp3Id;
+    QString queryStr="Select Chemin From Mp3 M, Relations R where M.Id_Relation=R.Id_Relation AND R.Id_Titre=" + mp3Id;
     QSqlQuery query = madatabase.exec(queryStr);
     query.next();
     QSqlRecord rec = query.record();
@@ -355,7 +360,6 @@ QMap<int, MP3Gestion> BDDMp3::similaires(QString Id)
     TitreSSAccents=tmp.at(0);
     tmp=TitreSSAccents.split("[");
     TitreSSAccents=tmp.at(0);
-
 
     //Deuxième étape: on essaie de trouver les titres similaires
     queryStr="SELECT DISTINCT Id_Titre FROM Titre  WHERE Id_Titre!="+Id+"  AND (TitreSSAccents LIKE '"+TitreSSAccents+"%mix%' OR TitreSSAccents LIKE '"+TitreSSAccents+"%')";
@@ -460,7 +464,7 @@ void BDDMp3::EnregistrerActuLives(bool check)
 QList<int> BDDMp3::ListeMp3Compil(QString annee)
 {
     QList<int> listeMp3;
-    QString queryStr="SELECT T.Id_Titre From Mp3 M,Titre T, Album A WHERE M.Categorie='Compil' AND M.Id_Titre=T.Id_Titre AND A.Id_Album=T.Id_Album AND"+annee+" ORDER BY Annee";
+    QString queryStr="SELECT T.Id_Titre From Mp3 M,Titre T, Album A, Relations R WHERE M.Categorie='Compil' AND R.Id_Titre=T.Id_Titre AND R.Id_Relation=M.Id_Relation AND A.Id_Album=T.Id_Album AND"+annee+" ORDER BY Annee";
     QSqlQuery query=madatabase.exec(queryStr);
     while (query.next() ) {
         QSqlRecord rec=query.record();

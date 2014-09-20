@@ -55,9 +55,9 @@ SOURCES += main.cpp\
     bddplaylist.cpp \
     kqoauthsingleton.cpp \
     saisietokensapi.cpp \
-    apimusicpro.cpp \
     oauthrequestfinisher.cpp \
-    dialogvidermp3.cpp
+    dialogvidermp3.cpp \
+    dialogmodifieralbum.cpp
 
 HEADERS  += fenetreprincipale.h \
     ongletmp3.h \
@@ -83,9 +83,9 @@ HEADERS  += fenetreprincipale.h \
     bddplaylist.h \
     kqoauthsingleton.h \
     saisietokensapi.h \
-    apimusicpro.h \
     oauthrequestfinisher.h \
-    dialogvidermp3.h
+    dialogvidermp3.h \
+    dialogmodifieralbum.h
 
 FORMS    += fenetreprincipale.ui \
     ongletmp3.ui \
@@ -101,4 +101,5 @@ FORMS    += fenetreprincipale.ui \
     dialogajoutplaylist.ui \
     dialogchangerpochette.ui \
     dialogajouterplaylistmp3.ui \
-    dialogvidermp3.ui
+    dialogvidermp3.ui \
+    dialogmodifieralbum.ui
