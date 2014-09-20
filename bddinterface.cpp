@@ -103,6 +103,11 @@ QStringList BDDInterface::listeAlbumsPhys(QString Id_Artiste,QString Categorie)
 {
     return myPhys.listeAlbums(Id_Artiste,Categorie);
 }
+QStringList BDDInterface::listeCompilPhys(QString Annee)
+{
+    return myPhys.listeCompils(Annee);
+}
+
 QList<TitreGestion> BDDInterface::listeTitresAlbumPhys(QString Id_Album)
 {
     return myPhys.listeTitresAlbum(Id_Album);

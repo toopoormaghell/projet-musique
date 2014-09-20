@@ -238,6 +238,24 @@ QStringList BDDPhys::listeAlbums(QString Id_Artiste,QString Categorie)
     }
     return albums;
 }
+QStringList BDDPhys::listeCompils(QString Annee)
+{
+QStringList albums;
+
+QString queryStr="SELECT DISTINCT Al.Id_Album FROM Album Al,Phys P WHERE Al.Annee="+Annee+" AND Al.Id_Album=P.Id_Album AND P.Categorie='Compil' ORDER By Al.Album";
+
+QSqlQuery query=madatabase.exec(queryStr);
+
+while (query.next() ) {
+    QSqlRecord rec=query.record();
+
+    albums << rec.value("Id_Album").toString();
+}
+return albums;
+
+
+}
+
 QList<TitreGestion> BDDPhys::listeTitresAlbum(QString Id_Album)
 {
     QList<TitreGestion> titres;

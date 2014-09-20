@@ -65,6 +65,7 @@ public:
     void SupprimerAlbumPhys(QString Id_Album);
     void ajouterCompilPhysique(CompilGestion compil);
     void ModifierAlbumPhys(AlbumGestion album);
+    QStringList listeCompilPhys(QString Annee);
 
     //Commun
     void ViderBDD();
@@ -73,6 +74,7 @@ public:
     QImage afficherPochette(const QString &Album, const QString &Type);
     void EchangerArtiste(QString Artiste, QString Id_Artiste);
     QList<Pochette> ListePochettes();
+
 
 
 

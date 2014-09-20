@@ -41,6 +41,7 @@ public:
 
     void AjouterCompil(CompilGestion album);
     void AjouterErreur(CompilGestion album);
+    QStringList listeCompils(QString Annee);
 };
 
 #endif // BDDPHYS_H
