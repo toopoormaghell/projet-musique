@@ -13,7 +13,18 @@ DEFINES += MAKE_TAGLIB_LIB
 DEFINES += WITH_ASF
 DEFINES += WITH_MP4
 
-CONFIG += dll
+CONFIG += debug_and_release
+CONFIG(debug,debug|release) {
+    DESTDIR = ../../../bin/debug
+    OBJECTS_DIR = ../../../obj/taglib/debug
+    MOC_DIR = ../../../moc/taglib/debug
+    UI_DIR = ../../../ui/taglib/debug
+} else {
+    DESTDIR = ../../../bin/release
+    OBJECTS_DIR = ../../../obj/taglib/release
+    MOC_DIR = ../../../moc/taglib/release
+    UI_DIR = ../../../ui/taglib/release
+}
 
 SOURCES += \
     audioproperties.cpp \
@@ -207,7 +218,8 @@ HEADERS += \
     xm/xmfile.h \
     xm/xmproperties.h
 
-INCLUDEPATH += ape \
+INCLUDEPATH += . \
+               ape \
                asf \
                flac \
                it \

@@ -10,6 +10,19 @@ QT       += network
 TARGET = kqoauth
 TEMPLATE = lib
 
+CONFIG += debug_and_release
+CONFIG(debug,debug|release) {
+    DESTDIR = ../../../bin/debug
+    OBJECTS_DIR = ../../../obj/kqoauth/debug
+    MOC_DIR = ../../../moc/kqoauth/debug
+    UI_DIR = ../../../ui/kqoauth/debug
+} else {
+    DESTDIR = ../../../bin/release
+    OBJECTS_DIR = ../../../obj/kqoauth/release
+    MOC_DIR = ../../../moc/kqoauth/release
+    UI_DIR = ../../../ui/kqoauth/release
+}
+
 DEFINES += KQOAUTH
 
 SOURCES += \
