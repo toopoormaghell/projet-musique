@@ -2,4 +2,5 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     kqoauth \
-    taglib
+    taglib \
+    core
