@@ -6,8 +6,10 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     QApplication::setStyle("cleanlooks");
+
     FenetrePrincipale w;
-    w.show();
+w.setWindowTitle("Projet Musique");
+      w.show();
 
     return a.exec();
 }

@@ -116,6 +116,11 @@ AlbumGestion BDDInterface::InfosAlbumPhys(QString Id_Album)
 {
     return myPhys.InfosAlbum(Id_Album);
 }
+CompilGestion BDDInterface::InfosCompilPhys(QString Id_Album)
+{
+    return myPhys.InfosCompil(Id_Album);
+}
+
 void BDDInterface::ExporterHTML(QString Type)
 {
     myPhys.ExporterHTML(Type);
@@ -224,4 +229,8 @@ void BDDInterface::SupprimerAlbumPhys(QString Id_Album)
 void BDDInterface::ModifierAlbumPhys(AlbumGestion album)
 {
     myPhys.ModifierAlbum(album);
+}
+void BDDInterface::SupprimerCompilPhys(QString Id_Album)
+{
+    myPhys.SupprimerCompilPhys(Id_Album);
 }

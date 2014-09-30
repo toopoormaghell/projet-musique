@@ -35,9 +35,9 @@ AlbumGestion Discogs::RequeteAlbums(QString rech)
 
 
         //On récupère la pochette
-        QByteArray Poch = LirePochette(QString::number(alb.Id_Album));
-        alb.ErreurPochette = LectureErreurPochette(Poch);
-
+      //  QByteArray Poch = LirePochette(QString::number(alb.Id_Album));
+      //  alb.ErreurPochette = LectureErreurPochette(Poch);
+        alb.ErreurPochette="true";
 
         if (alb.ErreurPochette)
         {
@@ -45,7 +45,7 @@ AlbumGestion Discogs::RequeteAlbums(QString rech)
             QImage image("./Pochettes/def.jpg");
             alb.Pochette= image;
         } else {
-          alb.Pochette=LectureXMLPochette(Poch);
+     //     alb.Pochette=LectureXMLPochette(Poch);
         }
 
         //On récupère les titres
@@ -696,7 +696,7 @@ QImage Discogs::LectureXMLPochette(QByteArray fich)
 {
     QDomDocument doc;
     QImage poch;
-
+ qDebug() <<"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
     // Ajoute le contenu du Qstring XML dans un QDomDocument et dit au QDomDocument de ne pas tenir compte des namespaces
     doc.setContent(fich,false);
 
@@ -727,6 +727,7 @@ QImage Discogs::LectureXMLPochette(QByteArray fich)
                     {
                         if(donnees.tagName()=="url")
                         {
+
                             poch= RecupererPochette(donnees.text());
                         }
                         donnees = donnees.nextSiblingElement();
@@ -767,18 +768,18 @@ CompilGestion Discogs::RequeteCompil(QString rech)
     if ( compil.Album!="Non trouvé")
     {
 
-        /*    //On récupère la pochette
-      QByteArray Poch = LirePochette(QString::number(alb.Id_Album));
-        alb.ErreurPochette = LectureErreurPochette(Poch);
-*/
-        compil.ErreurPochette=true;
+          //On récupère la pochette
+      QByteArray Poch = LirePochette(QString::number(compil.Id_Album));
+       compil.ErreurPochette = LectureErreurPochette(Poch);
+
+     //  compil.ErreurPochette=true;
         if (compil.ErreurPochette)
         {
             compil.Chem_Poch_Alt="release/"+QString::number(compil.Id_Album)+"/pictures";
             QImage image("./Pochettes/def.jpg");
             compil.Pochette= image;
         } else {
-            //     compil.Pochette=LectureXMLPochette(Poch);
+                compil.Pochette=LectureXMLPochette(Poch);
         }
 
         //On récupère les titres

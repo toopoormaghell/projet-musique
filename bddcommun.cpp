@@ -20,7 +20,7 @@ void BDDCommun::viderBDD()
     QStringList tables;
     QSqlQuery query;
     //Vidage de la base de données.
-    tables <<  "MP3" << "Artiste" << "Album" << "Titre" << "Phys"<<"Pochette" << "InfosPlaylist" << "TitresPlaylist" << "Relations";
+    tables <<  "MP3" << "Artiste" << "Album" << "Titre" << "Phys"<<"Pochette" << "InfosPlaylist" << "TitresPlaylist" << "Relations"<< "ErreurPochettes";
     int compt=0;
     while (compt<tables.size())
     {

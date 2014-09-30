@@ -34,6 +34,7 @@ void Player::on_m_playPause_clicked()
     if ( !selectedId.isEmpty() )
     {
         QString filePath = tmp.getPathFromIdMp3( selectedId );
+        qDebug() << filePath;
         if ( !filePath.isEmpty() )
         {
             m_mediaObject.stop();

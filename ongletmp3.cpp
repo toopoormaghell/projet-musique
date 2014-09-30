@@ -107,7 +107,7 @@ void OngletMp3::afficherInfosTitre()
     //on affiche si le mp3 existe en phys
     if(mp3.TitreenMp3etPhys)
     {
-        ui->Mp3Phys->setText("Existe sur Supports Physique");
+        ui->Mp3Phys->setText("Existe sur Support Physique");
     }
     else
     {

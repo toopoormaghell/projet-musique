@@ -45,7 +45,7 @@ private slots:
 private:
     Ui::FenetrePrincipale *ui;
     BDDInterface m_bddInterface;
-   DialogueAjouterPhysique tmpDialog;
+    DialogueAjouterPhysique tmpDialog;
 };
 
 #endif // FENETREPRINCIPALE_H

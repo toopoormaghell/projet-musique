@@ -10,8 +10,17 @@
     <height>566</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Myriad Pro</family>
+    <pointsize>10</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
