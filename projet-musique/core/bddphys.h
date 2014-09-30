@@ -42,6 +42,12 @@ public:
     void AjouterCompil(CompilGestion album);
     void AjouterErreur(CompilGestion album);
     QStringList listeCompils(QString Annee);
+    CompilGestion InfosCompil(QString Id_Album);
+    QList<MP3Gestion> listeTitresCompil(QString Id_Album);
+    void SupprimerCompilPhys(QString Id_Album);
+
+
+    void supprimerPhys(int Id_Album);
 };
 
 #endif // BDDPHYS_H

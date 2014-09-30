@@ -78,6 +78,8 @@ public:
 
 
 
+    CompilGestion InfosCompilPhys(QString Id_Album);
+    void SupprimerCompilPhys(QString Id_Album);
 private:
     BDDCommun myCommun;
     BDDMp3 myMp3;

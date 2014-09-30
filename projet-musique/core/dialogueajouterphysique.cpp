@@ -286,7 +286,13 @@ void DialogueAjouterPhysique::on_AjouterTitre_2_clicked()
 {
     if (!ui->Artiste->text().isNull() || !ui->Album->text().isNull())
     {
-        ajouterAlbum();
+        if(getType()=="Compil")
+        {
+            ajouterCompil();
+        } else
+        {
+            ajouterAlbum();
+        }
         ui->Titres->clear();
         ui->Album->clear();
         ui->Annee->clear();
@@ -296,6 +302,7 @@ void DialogueAjouterPhysique::on_AjouterTitre_2_clicked()
         ui->DureeAjout->clear();
         ui->TitreAjout->clear();
         ui->NumeroPiste->clear();
+        ui->ArtistesTitres->clear();
     } else
     {
         ui->Interaction->setText("Il manque des informations pour enregistrer l'album.");

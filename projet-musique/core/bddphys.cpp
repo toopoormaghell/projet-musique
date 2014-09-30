@@ -94,11 +94,11 @@ void BDDPhys::ModifierAlbum(AlbumGestion album)
         qDebug() << titre.Id_Titre << titre.Titre;
         if(ArtisteChange==true)
         {
-          supprimerRelation(AncienAlbum.titres[cpt].Id_Relation);
-          lireIDRelation(album.Id_Album,album.Id_Artiste,AncienAlbum.titres[cpt].Id_Titre,album.Id_Poch);
+            supprimerRelation(AncienAlbum.titres[cpt].Id_Relation);
+            lireIDRelation(album.Id_Album,album.Id_Artiste,AncienAlbum.titres[cpt].Id_Titre,album.Id_Poch);
 
-          bool test=supprimerArtiste(AncienAlbum.Id_Artiste);
-          qDebug() << test;
+            bool test=supprimerArtiste(AncienAlbum.Id_Artiste);
+            qDebug() << test;
         }
     }
 
@@ -146,11 +146,70 @@ void BDDPhys::SupprimerAlbumPhys(QString Id_Album)
     AlbumGestion album = InfosAlbum(Id_Album);
     album.Id_Album=Id_Album.toInt();
     //Pour chaque titre, on vérifie si on peut effacer les titres
+    int cptnbtitres=0;bool artiste=false;
+
+    for (int cpt=0;cpt<album.titres.count();cpt++)
+    {
+        bool supp = supprimerTitredePhys(album.titres[cpt].Id_Titre,album.titres[cpt].Id_Relation);
+
+        if( supp )
+        {
+            qDebug() << "suppression du Titre" <<   album.titres[cpt].Titre;
+          cptnbtitres++;
+
+
+
+        }
+
+    }
+
+    //Si on élimine tous les titres, on fait l'album et l'artiste, puis la pochette
+    if( cptnbtitres==album.titres.count() )
+    {
+
+        bool suppalb= supprimerAlbum(album.Id_Album);
+        if( suppalb)
+        {
+            supprimerPhys(album.Id_Album);
+            qDebug() << " Album supprimé : " << album.Album;
+            artiste=supprimerArtiste(album.Id_Artiste);
+
+            if(artiste)
+            {
+                qDebug() << " Artiste supprimé : " << album.Artiste;
+                supprimerPoch(album.Id_Poch,album.Artiste,album.Album);
+            }
+        }
+    }
+
+}
+void BDDPhys::supprimerPhys(int Id_Album)
+{
+    QString queryStr = "DELETE FROM Phys WHERE Id_Album='"+QString::number(Id_Album)+"'";
+    madatabase.exec(queryStr);
+
+}
+
+void BDDPhys::SupprimerCompilPhys(QString Id_Album)
+{
+    //On récupère les infos de l'album
+    CompilGestion album = InfosCompil(Id_Album);
+
+    album.Id_Album=Id_Album.toInt();
+    //Pour chaque titre, on vérifie si on peut effacer les titres
     bool titres=true;bool boolalbum=false;bool artiste=false;
 
     for (int cpt=0;cpt<album.titres.count();cpt++)
     {
         bool supp = supprimerTitredePhys(album.titres[cpt].Id_Titre,album.Id_Relation);
+        artiste=supprimerArtiste(album.titres[cpt].Id_Artiste);
+        qDebug() << album.titres[cpt].Id_Artiste;
+        if(artiste)
+        {
+            qDebug() << " Artiste supprimé : " << album.Artiste;
+            supprimerPoch(album.Id_Poch,album.Artiste,album.Album);
+            artiste=false;
+        }
 
         if( !supp && titres)
         {
@@ -164,20 +223,11 @@ void BDDPhys::SupprimerAlbumPhys(QString Id_Album)
     if(titres=true)
     {
         boolalbum = supprimerAlbum(album.Id_Album);
-        if(boolalbum)
-        {
-            qDebug() << " Album supprimé : " << album.Album;
-            artiste=supprimerArtiste(album.Id_Artiste);
 
-            if(artiste)
-            {
-                qDebug() << " Artiste supprimé : " << album.Artiste;
-                supprimerPoch(album.Id_Poch,album.Artiste,album.Album);
-            }
-        }
     }
-
 }
+
+
 QStringList  BDDPhys::listeArtistes(QString Categorie)
 {
     QStringList liste;
@@ -240,20 +290,43 @@ QStringList BDDPhys::listeAlbums(QString Id_Artiste,QString Categorie)
 }
 QStringList BDDPhys::listeCompils(QString Annee)
 {
-QStringList albums;
+    QStringList albums;
 
-QString queryStr="SELECT DISTINCT Al.Id_Album FROM Album Al,Phys P WHERE Al.Annee="+Annee+" AND Al.Id_Album=P.Id_Album AND P.Categorie='Compil' ORDER By Al.Album";
+    QString queryStr="SELECT DISTINCT Al.Id_Album FROM Album Al,Phys P WHERE Al.Annee="+Annee+" AND Al.Id_Album=P.Id_Album AND P.Categorie='Compil' ORDER By Al.Album";
 
-QSqlQuery query=madatabase.exec(queryStr);
+    QSqlQuery query=madatabase.exec(queryStr);
 
-while (query.next() ) {
-    QSqlRecord rec=query.record();
+    while (query.next() ) {
+        QSqlRecord rec=query.record();
 
-    albums << rec.value("Id_Album").toString();
+        albums << rec.value("Id_Album").toString();
+    }
+    return albums;
+
+
 }
-return albums;
+QList<MP3Gestion> BDDPhys::listeTitresCompil(QString Id_Album)
+{
+    QList<MP3Gestion> titres;
 
+    QString queryStr="SELECT DISTINCT Titre, Duree, Num_Piste,T.Id_Titre,R.Id_Relation, R.Id_Artiste, Ar.Artiste FROM Titre T, Relations R, Artiste Ar WHERE R.Id_Album="+Id_Album+" AND T.Id_Titre=R.Id_Titre AND Ar.Id_Artiste=R.Id_Artiste ORDER BY Num_Piste";
+    QSqlQuery query=madatabase.exec(queryStr);
 
+    while (query.next() ) {
+        MP3Gestion titre;
+        QSqlRecord rec=query.record();
+
+        titre.Num_Piste= rec.value("Num_Piste").toInt();
+        titre.Titre=rec.value("Titre").toString().replace("$","'");
+        titre.Duree=rec.value("Duree").toString().replace("$","'");
+        titre.Id_Titre=rec.value("Id_Titre").toInt();
+        titre.Id_Relation=rec.value("Id_Relation").toInt();
+        titre.Artiste = rec.value("Artiste").toString().replace("$","'");
+        titre.Id_Artiste =rec.value("Id_Artiste").toInt();
+
+        titres << titre;
+    }
+    return titres;
 }
 
 QList<TitreGestion> BDDPhys::listeTitresAlbum(QString Id_Album)
@@ -299,6 +372,31 @@ AlbumGestion BDDPhys::InfosAlbum(QString Id_Album)
     }
     return album;
 }
+CompilGestion BDDPhys::InfosCompil(QString Id_Album)
+{
+    CompilGestion compil;
+
+    QString queryStr="SELECT DISTINCT Al.Album, Annee, P.Categorie, R.Id_Artiste, Al.Id_Pochette, Ar.Artiste FROM Album Al, Phys P,Artiste Ar, Relations R WHERE Al.Id_Album=P.Id_Album AND R.Id_Album=P.Id_Album AND  Ar.Id_Artiste = R.Id_Artiste AND Al.Id_Album="+Id_Album;
+
+    QSqlQuery query=madatabase.exec(queryStr);
+
+    while (query.next() ) {
+        QSqlRecord rec=query.record();
+
+        compil.Album=rec.value("Album").toString().replace("$","'");
+        compil.Annee=rec.value("Annee").toString();
+        compil.Pochette=afficherPochette(Id_Album,"Album");
+        compil.Type=rec.value("Categorie").toString();
+        compil.Id_Artiste=rec.value("Id_Artiste").toInt();
+        compil.Id_Poch=rec.value("Id_Pochette").toInt();
+        compil.Artiste=rec.value("Artiste").toString().replace("$","'");
+
+        compil.titres=listeTitresCompil(Id_Album);
+    }
+    return compil;
+
+}
+
 void BDDPhys::ExporterHTML(QString Type)
 {
     QStringList albart=ListeAlbumArtisteExport(Type);
@@ -312,15 +410,15 @@ void BDDPhys::ExporterHTML(QString Type)
     QTextStream flux(&fichier);
     // On choisit le codec correspondant au jeu de caractère que l'on souhaite ; ici, UTF-8
     flux << "<Table>";
-int compcouleur= 0;
+    int compcouleur= 0;
     for(int cpt=0;cpt<albart.count();cpt=cpt+2)
     {
         if (compcouleur%2==0)
         {
-        flux << "<tr bgcolor='beige'><td>" << QString::number((cpt/2)+1).rightJustified(3,'0') << "</td><td>"<< albart[cpt+1]<<"</td><td>"  << albart[cpt] << "</td></tr>"<< endl;
+            flux << "<tr bgcolor='beige'><td>" << QString::number((cpt/2)+1).rightJustified(3,'0') << "</td><td>"<< albart[cpt+1]<<"</td><td>"  << albart[cpt] << "</td></tr>"<< endl;
         } else
         {
-           flux << "<tr bgcolor='coral'><td>" << QString::number(cpt/2+1).rightJustified(3,'0') << "</td><td>"<< albart[cpt+1]<<"</td><td>"  << albart[cpt] << "</td></tr>"<< endl;
+            flux << "<tr bgcolor='coral'><td>" << QString::number(cpt/2+1).rightJustified(3,'0') << "</td><td>"<< albart[cpt+1]<<"</td><td>"  << albart[cpt] << "</td></tr>"<< endl;
         }
         compcouleur++;
     }

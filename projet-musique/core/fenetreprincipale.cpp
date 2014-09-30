@@ -80,6 +80,7 @@ void FenetrePrincipale::on_actionAjouter_Liste_Albums_triggered()
 void FenetrePrincipale::on_actionAjouter_Album_triggered()
 {
     tmpDialog.show();
+
 }
 void FenetrePrincipale::on_actionEn_HTML_Supports_Physiques_triggered()
 {

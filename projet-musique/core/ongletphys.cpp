@@ -29,21 +29,28 @@ void OngletPhys::afficherListeArtiste()
     QString Categorie=choixCategorie();
     //Affichage des artistes
     QStringList artistes=m_bddInterface.listeArtistesPhys(Categorie);
-    for (int cpt=0;cpt<artistes.count();cpt=cpt+2) {
-        //On s'occupe de la pochette
-        QImage image=m_bddInterface.afficherPochette(artistes[cpt+1],"Artiste");
-        QListWidgetItem *mediaCell = temp.afficherPochetteList(&image);
-        //On s'occupe du nom de l'artiste et de son Id caché
-        mediaCell->setData(Qt::UserRole,artistes[cpt+1]);
-        mediaCell->setText(artistes[cpt]);
-        //On affiche le tout
-        ui->Artistes->addItem(mediaCell);
+    if(artistes.size()==0)
+    {
+        ui->Artistes->addItem(new QListWidgetItem("Pas d'Albums Physiques Enregistrés"));
+    } else {
+
+
+        for (int cpt=0;cpt<artistes.count();cpt=cpt+2) {
+            //On s'occupe de la pochette
+            QImage image=m_bddInterface.afficherPochette(artistes[cpt+1],"Artiste");
+            QListWidgetItem *mediaCell = temp.afficherPochetteList(&image);
+            //On s'occupe du nom de l'artiste et de son Id caché
+            mediaCell->setData(Qt::UserRole,artistes[cpt+1]);
+            mediaCell->setText(artistes[cpt]);
+            //On affiche le tout
+            ui->Artistes->addItem(mediaCell);
+        }
     }
     ui->Artistes->item(0)->setSelected(true);
 }
 void OngletPhys::afficherListeCategories()
 {
-    //   ui->Categories->clear();
+      ui->Categories->clear();
     AffichageCommun temp;
     //Categorie "Tout"
     QImage* image=new QImage("./Pochettes/def.jpg");
@@ -83,10 +90,11 @@ QString OngletPhys::choixArtiste()
 
     if (Categorie=="Compil")
     {
-return item->text();
+        return item->text();
     } else {
-    return item->data(Qt::UserRole).toString();
-}}
+        return item->data(Qt::UserRole).toString();
+    }
+}
 void OngletPhys::afficherListeAlbum()
 {
     ui->Albums->clear();
@@ -106,6 +114,7 @@ void OngletPhys::afficherListeAlbum()
     {
         AlbumGestion album = m_bddInterface.InfosAlbumPhys( albums[compteurAlbums] );
         album.Id_Album = albums[compteurAlbums].toInt();
+
         if ( categorieCourante != album.Type )
         {
             Ligne = MaxLignes;
@@ -162,10 +171,10 @@ void OngletPhys::afficherListeCompil()
 
     //Affichage des albums
     QStringList albums = m_bddInterface.listeCompilPhys( Annee );
-    qDebug() << albums[0];
+
     for ( int compteurAlbums = 0; compteurAlbums < albums.count(); compteurAlbums++ )
     {
-        CompilGestion album = m_bddInterface.InfosAlbumPhys( albums[compteurAlbums] );
+        CompilGestion album = m_bddInterface.InfosCompilPhys( albums[compteurAlbums] );
         album.Id_Album = albums[compteurAlbums].toInt();
         if ( categorieCourante != album.Type )
         {
@@ -242,8 +251,8 @@ int OngletPhys::AfficherAlbum(CompilGestion album, int Colonne, int Ligne)
     //On affiche les titres
     for(int i=0;i<album.titres.count();i++)
     {
-        TitreGestion Titre=album.titres[i];
-        QString temp=QString::number(Titre.Num_Piste).rightJustified(2,'0')+ " - " + Titre.Titre+ "(" +Titre.Duree+ ")";
+        MP3Gestion Titre=album.titres[i];
+        QString temp=QString::number(Titre.Num_Piste).rightJustified(2,'0')+ " - " + Titre.Titre+ "(" +Titre.Duree+ ") / "+Titre.Artiste;
         QTableWidgetItem *CellTitre=new QTableWidgetItem();
         CellTitre->setText(temp);
         CellTitre->setData(Qt::UserRole,album.Id_Album);
@@ -275,10 +284,12 @@ void OngletPhys::on_Categories_currentTextChanged(const QString &currentText)
         if (Categorie=="Compil")
         {
             afficherListeAnnees();
+            afficherListeCompil();
         } else {
             afficherListeArtiste();
+            afficherListeAlbum();
         }
-        afficherListeAlbum();
+
     }
 }
 void OngletPhys::afficherListeAnnees()
@@ -294,6 +305,7 @@ void OngletPhys::afficherListeAnnees()
 
 void OngletPhys::on_Albums_itemDoubleClicked(QTableWidgetItem *item)
 {
+    QString Categorie = choixCategorie();
     QString Id_Album = item->data(Qt::UserRole).toString();
     AlbumGestion album = m_bddInterface.InfosAlbumPhys(Id_Album);
     album.Id_Album= Id_Album.toInt();
@@ -309,7 +321,17 @@ void OngletPhys::on_Albums_itemDoubleClicked(QTableWidgetItem *item)
     {
     case 1 :
         //On supprime
-        m_bddInterface.SupprimerAlbumPhys(Id_Album);
+        if (Categorie=="Compil")
+        {
+            m_bddInterface.SupprimerCompilPhys(Id_Album);
+
+        } else
+        {
+            m_bddInterface.SupprimerAlbumPhys(Id_Album);
+
+        }
+        vider("Categories");
+        afficherListeCategories();
         afficherListeArtiste();
         break;
     case 0 :
@@ -320,4 +342,18 @@ void OngletPhys::on_Albums_itemDoubleClicked(QTableWidgetItem *item)
     }
 
 }
-
+void OngletPhys::vider(QString Type)
+{
+    if (Type=="Artiste")
+    {
+        ui->Artistes->clear();
+    }
+    if (Type=="Categories")
+    {
+        ui->Categories->clear();
+    }
+    if (Type=="Albums")
+    {
+        ui->Albums->clear();
+    }
+}

@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>FenetrePrincipale</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(234, 225, 255)</string>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
@@ -23,11 +26,23 @@
         <height>16777215</height>
        </size>
       </property>
+      <property name="font">
+       <font>
+        <family>Book Antiqua</family>
+        <pointsize>11</pointsize>
+        <weight>75</weight>
+        <italic>false</italic>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
       <property name="tabShape">
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="OngletMp3" name="tab">
        <attribute name="title">
@@ -57,10 +72,32 @@
      <x>0</x>
      <y>0</y>
      <width>1012</width>
-     <height>21</height>
+     <height>23</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Book Antiqua</family>
+     <pointsize>10</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 210, 147);
+</string>
+   </property>
+   <property name="inputMethodHints">
+    <set>Qt::ImhNone</set>
+   </property>
    <widget class="QMenu" name="menuGestion">
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
     <property name="title">
      <string>Vider</string>
     </property>
@@ -69,6 +106,9 @@
     <addaction name="actionViderMP3"/>
    </widget>
    <widget class="QMenu" name="menuGestion_2">
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
     <property name="title">
      <string>Supports Physiques</string>
     </property>
@@ -80,6 +120,9 @@
     <addaction name="actionChanger_Tag_Album"/>
    </widget>
    <widget class="QMenu" name="menuExporter">
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
     <property name="title">
      <string>Exporter...</string>
     </property>
@@ -88,6 +131,9 @@
     <addaction name="actionCompils_Singles"/>
    </widget>
    <widget class="QMenu" name="menuSupports_Mp3">
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
     <property name="title">
      <string>Supports Mp3</string>
     </property>

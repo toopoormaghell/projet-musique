@@ -19,7 +19,7 @@ public:
     void afficherListeArtiste();
     void afficherListeAlbum();
     void afficherListeCategories();
-   void afficherListeAnnees();
+    void afficherListeAnnees();
 
     QString choixCategorie();
     QString choixArtiste();
@@ -27,6 +27,8 @@ public:
 
     void afficherListeCompil();
     int AfficherAlbum(CompilGestion album, int Colonne, int Ligne);
+
+    void vider(QString Type);
 public slots:
     void on_Artistes_currentTextChanged(const QString &arg1);
 private slots:
