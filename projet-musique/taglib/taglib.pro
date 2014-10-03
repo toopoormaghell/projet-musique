@@ -117,7 +117,12 @@ SOURCES += \
     wavpack/wavpackfile.cpp \
     wavpack/wavpackproperties.cpp \
     xm/xmfile.cpp \
-    xm/xmproperties.cpp
+    xm/xmproperties.cpp \
+    ogg/opus/opusproperties.cpp \
+    ogg/opus/opusfile.cpp \
+    riff/wav/infotag.cpp \
+    toolkit/tdebuglistener.cpp \
+    toolkit/trefcounter.cpp
 
 HEADERS += \
     audioproperties.h \
@@ -216,7 +221,13 @@ HEADERS += \
     wavpack/wavpackfile.h \
     wavpack/wavpackproperties.h \
     xm/xmfile.h \
-    xm/xmproperties.h
+    xm/xmproperties.h \
+    ogg/opus/opusproperties.h \
+    ogg/opus/opusfile.h \
+    riff/wav/infotag.h \
+    toolkit/tdebuglistener.h \
+    toolkit/trefcounter.h \
+    toolkit/tutils.h
 
 INCLUDEPATH += . \
                ape \
@@ -232,6 +243,7 @@ INCLUDEPATH += . \
                mpeg/id3v2/frames \
                ogg \
                ogg/flac \
+               ogg/opus \
                ogg/speex \
                ogg/vorbis \
                riff \
