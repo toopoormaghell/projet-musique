@@ -80,7 +80,7 @@ void BDDMp3::actualiserMp3(QString type)
         mp3.Duree= QString::number(min)+":"+QString::number(sec).rightJustified(2,'0');
         mp3.Num_Piste=track;
         mp3.Type=type;
-        mp3.Pochette=ImageAlbum(encodedName);
+        mp3.Pochette=ImageAlbum(f);
         mp3.CheminFichier=chemin.replace("'","$");
 
         int IdMp3=ajouterMp3(mp3);
@@ -131,11 +131,11 @@ QMap<int,QStringList> BDDMp3::recupererMp3(QString Type)
     }
     return Chemins;
 }
-QImage BDDMp3::ImageAlbum(const char* encodedName)
+QImage BDDMp3::ImageAlbum(const TagLib::FileRef& f)
 {
     //On s'occupe de la pochette de l'album qu'on enregistre
     QImage Image;
-    TagLib::ID3v2::Tag Tag(TagLib::FileRef(TagLib::FileName(encodedName)).file(),0);
+    TagLib::ID3v2::Tag Tag(f.file(),0);
     TagLib::ID3v2::FrameList Liste = Tag.frameListMap()["APIC"];
     TagLib::ID3v2::AttachedPictureFrame *Pic = static_cast<TagLib::ID3v2::AttachedPictureFrame *>(Liste.front());
     Image.loadFromData((const uchar *) Pic->picture().data(), Pic->picture().size());

@@ -18,7 +18,7 @@ public:
     int ajouterMp3(MP3Gestion mp3);
     int lireIdMp3(int IdRelation, QString cheminBDD, QString type);
     void SupprimerMp3(int Id_Titre);
-    QImage ImageAlbum(const char *encodedName); //récupère l'image du MP3 pour pouvoir l'enregistrer
+    QImage ImageAlbum(const TagLib::FileRef& f); //récupère l'image du MP3 pour pouvoir l'enregistrer
     void ArtisteParChemin(TagLib::String &artist, QString chemin); //Change les artistes selon si c'est un chemin générique
     void ViderMp3(QString Type);
 
