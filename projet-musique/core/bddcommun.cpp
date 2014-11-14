@@ -98,12 +98,33 @@ QString BDDCommun::getdossierpardef()
     return rec.value("Valeur").toString();
 
 }
+//Vérifie si la pochette existe
+bool BDDCommun::verifPoch(const QString &ArtAlb)
+{
+    //On vérifie si la pochette existe ou non
+    QString queryStr = "Select Id_Pochette from Pochette WHERE Chemin='" + ArtAlb+"'" ;
+    QSqlQuery  query = madatabase.exec(queryStr);
+
+    if (!query.first())
+    {
+        return false ;
+    } else
+    {
+        return true;
+    }
+}
+
+void BDDCommun::verifierBDD()
+{
+    //On vérifie si la table MP3 est conforme
+    madatabase.exec("DELETE FROM MP3 WHERE Id_Relation NOT IN (SELECT DISTINCT Id_Relation FROM Relations");
+
+}
+
 
 //Récupère l'Id de la pochette
 int BDDCommun::lireIDPoch(const QString &ArtAlb)
 {
-
-
     //On vérifie si la pochette existe ou non
     QString queryStr = "Select Id_Pochette As 'Poch' from Pochette WHERE Chemin='" + ArtAlb+"'" ;
     QSqlQuery  query = madatabase.exec(queryStr);
@@ -177,7 +198,7 @@ int BDDCommun::lireIDAlbum(const QString &Album, int Id_Poch, int Id_Artiste, QS
 int BDDCommun::lireIDTitre(const QString &Titre, int IdAlb, int IdArtiste, int IdPoch,int NumPiste, QString Duree)
 {
     QString TitreSSAccents = Titre;
-    EnleverAccents(TitreSSAccents);
+    FormaterEntiteBDD(TitreSSAccents);
 
     //On vérifie si l'album existe ou non
     QString queryStr =  "Select T.Id_Titre As 'Titre' from Titre T, Relations R WHERE TitreSSAccents='" + TitreSSAccents +"' AND R.Id_Titre=T.Id_Titre AND R.Id_Artiste='"+QString::number(IdArtiste)+"' AND R.Id_Album='"+QString::number(IdAlb)+"'" ;
@@ -187,9 +208,9 @@ int BDDCommun::lireIDTitre(const QString &Titre, int IdAlb, int IdArtiste, int I
     if (!query.first()) {
         queryStr="INSERT INTO Titre VALUES (null,'"+ Titre+ "','"+QString::number(NumPiste) +"','"+ TitreSSAccents+"','"+ Duree +"')";
 
-         madatabase.exec(queryStr);
+        madatabase.exec(queryStr);
 
-       return query.lastInsertId().toInt();
+        return query.lastInsertId().toInt();
     }
 
     QSqlRecord rec = query.record();

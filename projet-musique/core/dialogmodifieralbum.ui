@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Modifier les infos de l'album</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
@@ -54,11 +54,17 @@
    <property name="dragDropMode">
     <enum>QAbstractItemView::InternalMove</enum>
    </property>
+   <property name="defaultDropAction">
+    <enum>Qt::MoveAction</enum>
+   </property>
    <property name="alternatingRowColors">
     <bool>true</bool>
    </property>
    <property name="movement">
     <enum>QListView::Free</enum>
+   </property>
+   <property name="spacing">
+    <number>5</number>
    </property>
   </widget>
   <widget class="QComboBox" name="m_type">

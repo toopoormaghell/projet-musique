@@ -14,7 +14,16 @@ void EnleverAccents ( QString& Nom )
     Nom.replace("!"," ");
     Nom.replace("/"," ");
     Nom.replace("â","a");
+    Nom.replace("û","u");
+    Nom.replace("Â","a");
     Nom.replace("'","$");
+    Nom.replace(","," ");
+    Nom.replace("ô","o");
+    Nom.replace("$","");
+    Nom.replace(".","");
+    Nom.replace("-","");
+    Nom.replace("À","a");
+
     Nom=  Nom.toLower();
 }
 
@@ -28,4 +37,21 @@ QString EchangerArtiste(QString Artiste)
     }
 
     return Echange;
+}
+
+
+void FormaterEntiteBDD(QString& Entite)
+{
+
+    EnleverAccents(Entite);
+   QString res;
+    QStringList temp = Entite.split(" ");
+
+    for (int cpt=0;cpt<temp.count();cpt++)
+    {
+        res+=temp[cpt];
+    }
+   Entite=res;
+
+
 }

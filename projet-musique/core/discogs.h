@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include "util.h"
-
+#include "bddinterface.h"
 class Discogs : public QObject
 {
     Q_OBJECT
@@ -31,8 +31,9 @@ public:
     QList<MP3Gestion> LectureXMLTitresCompil(QByteArray fich);
     AlbumGestion LectureXMLSearch(QByteArray fich);
     QString RecupererArtisteTitre(QString Id_Titre);
-signals:
 
+private:
+    BDDInterface m_bddInterface;
 };
 
 #endif // DISCOGS_H

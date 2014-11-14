@@ -16,7 +16,7 @@ void DialogViderMp3::on_buttonBox_accepted()
 {
     if (ui->Albums->isChecked())
     {
-        m_bddInterface.ViderMp3("Albums");
+        m_bddInterface.ViderMp3("Album");
     }
     if (ui->Compil->isChecked())
     {

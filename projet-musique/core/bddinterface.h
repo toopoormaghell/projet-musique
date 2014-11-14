@@ -71,11 +71,11 @@ public:
     void ViderBDD();
     QStringList ListeArtistes();
     QStringList ListeArtistesInvers();
-    QImage afficherPochette(const QString &Album, const QString &Type);
+    QImage afficherPochette(const QString &Id, const QString &Type);
     void EchangerArtiste(QString Artiste, QString Id_Artiste);
     QList<Pochette> ListePochettes();
-
-
+    bool VerifPoch(QString &ArtAlb);
+    int lireIDPoch(const QString &ArtAlb);
 
 
     CompilGestion InfosCompilPhys(QString Id_Album);

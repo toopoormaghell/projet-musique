@@ -26,9 +26,11 @@ QTableWidgetItem* AffichageCommun::afficherPochetteTable(QImage* image)
 }
 QPixmap AffichageCommun::afficherPochetteLabel(QImage* image)
 {
+
     QPixmap* pixmap = new QPixmap();
    pixmap->convertFromImage(*image);
    QPixmap imageScaled = pixmap->scaled(150,150,Qt::IgnoreAspectRatio,Qt::FastTransformation);
+
 
    return imageScaled;
 }

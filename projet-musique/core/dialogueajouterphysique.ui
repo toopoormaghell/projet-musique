@@ -179,7 +179,7 @@
         <widget class="QListWidget" name="NumeroPiste">
          <property name="maximumSize">
           <size>
-           <width>30</width>
+           <width>35</width>
            <height>16777215</height>
           </size>
          </property>
@@ -199,6 +199,9 @@
          <property name="dragDropMode">
           <enum>QAbstractItemView::InternalMove</enum>
          </property>
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
          <property name="selectionMode">
           <enum>QAbstractItemView::SingleSelection</enum>
          </property>
@@ -214,6 +217,21 @@
        </item>
        <item>
         <widget class="QListWidget" name="ArtistesTitres">
+         <property name="autoFillBackground">
+          <bool>true</bool>
+         </property>
+         <property name="dragDropMode">
+          <enum>QAbstractItemView::InternalMove</enum>
+         </property>
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::SingleSelection</enum>
+         </property>
+         <property name="movement">
+          <enum>QListView::Free</enum>
+         </property>
          <item>
           <property name="text">
            <string>Artistes</string>
