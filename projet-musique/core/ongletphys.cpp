@@ -9,6 +9,7 @@ OngletPhys::OngletPhys(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::OngletPhys)
 {
+
     ui->setupUi(this);
     afficherListeCategories();
     if (ui->Categories->count()>1)

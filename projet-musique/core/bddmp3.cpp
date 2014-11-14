@@ -21,7 +21,7 @@ void BDDMp3::actualiserMp3(QString type)
 
     QString selectDir;
 
-    if (type=="Albums")
+    if (type=="Album")
     {
         selectDir = getdossierpardef();
     }
@@ -53,7 +53,7 @@ void BDDMp3::actualiserMp3(QString type)
     {
         //Ouverture du fichier MP3
         QString chemin = fileList[copt];
-
+qDebug() << chemin;
         // conversion du QString pour le nom du fichier MP3 ainsi que son chemin
         QByteArray arrFileName = QFile::encodeName(chemin);
         const char *encodedName = arrFileName.constData();
@@ -205,7 +205,7 @@ QStringList BDDMp3::listeCategories()
 QStringList BDDMp3::listeAlbums(QString Id_Artiste)
 {
     QStringList albums;
-    QSqlQuery query=madatabase.exec("SELECT DISTINCT Al.Album, Al.Annee, Al.Id_Album FROM Album Al, MP3 M,Relations R WHERE R.Id_Artiste="+Id_Artiste+" AND Al.Id_Album = R.Id_Album AND R.Id_Relation = R.Id_Relation ORDER BY Al.Annee DESC");
+    QSqlQuery query=madatabase.exec("SELECT DISTINCT Al.Album, Al.Annee, Al.Id_Album FROM Album Al, MP3 M,Relations R WHERE R.Id_Artiste="+Id_Artiste+" AND Al.Id_Album = R.Id_Album AND R.Id_Relation = M.Id_Relation ORDER BY Al.Annee DESC");
 
     while (query.next() ) {
         QSqlRecord rec=query.record();
@@ -362,7 +362,7 @@ QMap<int, MP3Gestion> BDDMp3::similaires(QString Id)
     TitreSSAccents=tmp.at(0);
 
     //Deuxième étape: on essaie de trouver les titres similaires
-    queryStr="SELECT DISTINCT Id_Titre FROM Titre  WHERE Id_Titre!="+Id+"  AND (TitreSSAccents LIKE '"+TitreSSAccents+"%mix%' OR TitreSSAccents LIKE '"+TitreSSAccents+"%')";
+    queryStr="SELECT DISTINCT T.Id_Titre FROM Titre T, MP3 M, Relations R WHERE T.Id_Titre!="+Id+" AND R.Id_Relation=M.Id_Relation AND T.Id_Titre=R.Id_Titre AND (T.TitreSSAccents LIKE '"+TitreSSAccents+"%mix%' OR T.TitreSSAccents LIKE '"+TitreSSAccents+"%')";
     query = madatabase.exec((queryStr));
     while (query.next())
     {
@@ -464,7 +464,9 @@ void BDDMp3::EnregistrerActuLives(bool check)
 QList<int> BDDMp3::ListeMp3Compil(QString annee)
 {
     QList<int> listeMp3;
-    QString queryStr="SELECT T.Id_Titre From Mp3 M,Titre T, Album A, Relations R WHERE M.Categorie='Compil' AND R.Id_Titre=T.Id_Titre AND R.Id_Relation=M.Id_Relation AND A.Id_Album=T.Id_Album AND"+annee+" ORDER BY Annee";
+
+    QString queryStr="SELECT T.Id_Titre From Mp3 M,Titre T, Album A, Relations R WHERE M.Categorie='Compil' AND R.Id_Titre=T.Id_Titre AND R.Id_Relation=M.Id_Relation AND A.Id_Album=R.Id_Album AND"+annee+" ORDER BY Annee";
+
     QSqlQuery query=madatabase.exec(queryStr);
     while (query.next() ) {
         QSqlRecord rec=query.record();

@@ -91,6 +91,19 @@ void OngletMp3::afficherInfosTitre()
 
     MP3Gestion mp3=m_bddInterface.RecupererInfosMp3(cmp3.toInt());
 
+    if (mp3.Titre.isNull())
+    {
+        ui->Pochette->clear();
+        ui->Mp3Phys->clear();
+        ui->NomAlbum->clear();
+        ui->NomArtiste->clear();
+        ui->Playlists->clear();
+        ui->Similaires->clear();
+        ui->Titre->clear();
+        ui->Paroles->clear();
+
+    } else
+    {
     //On affiche la pochette
     ui->Pochette->setPixmap(temp.afficherPochetteLabel(&mp3.Pochette));
 
@@ -112,7 +125,7 @@ void OngletMp3::afficherInfosTitre()
     else
     {
         ui->Mp3Phys->clear();
-    }
+    } }
 }
 void OngletMp3::afficherSimilaires()
 {
@@ -230,10 +243,13 @@ void OngletMp3::afficherListeMp3Compil()
     QString requete= AnneesSwitch(ui->Artistes->currentRow());
     if (requete!="pas bon")
     {
+
         QString annee="0";
         QList<int> listeMp3=m_bddInterface.ListeMp3Compil(requete);
-        for (int cpt=0;cpt<listeMp3.count();cpt++)
+   qDebug() <<listeMp3.count();
+   for (int cpt=0;cpt<listeMp3.count();cpt++)
         {
+
             MP3Gestion mp3=m_bddInterface.RecupererInfosMp3(listeMp3[cpt]);
             if(annee!=mp3.Annee)
             {

@@ -35,19 +35,32 @@ AlbumGestion Discogs::RequeteAlbums(QString rech)
 
 
         //On récupère la pochette
-      //  QByteArray Poch = LirePochette(QString::number(alb.Id_Album));
-      //  alb.ErreurPochette = LectureErreurPochette(Poch);
-        alb.ErreurPochette="true";
 
-        if (alb.ErreurPochette)
+        //On vérifie si la pochette existe encore
+        QString Art=alb.Artiste;
+        QString Album=alb.Album;
+        EnleverAccents(Art);
+        EnleverAccents(Album);
+        QString ArtAlb="./pochettes/"+Art+"/"+Album+".jpg";
+        if (m_bddInterface.VerifPoch(ArtAlb))
         {
-            alb.Chem_Poch_Alt="release/"+QString::number(alb.Id_Album)+"/pictures";
-            QImage image("./Pochettes/def.jpg");
-            alb.Pochette= image;
-        } else {
-     //     alb.Pochette=LectureXMLPochette(Poch);
-        }
+            alb.Id_Poch = m_bddInterface.lireIDPoch(ArtAlb);
+            alb.Pochette = m_bddInterface.afficherPochette(QString::number(alb.Id_Poch),"Pochette");
+        } else
+        {
+            //  QByteArray Poch = LirePochette(QString::number(alb.Id_Album));
+            //  alb.ErreurPochette = LectureErreurPochette(Poch);
+            alb.ErreurPochette="true";
 
+            if (alb.ErreurPochette)
+            {
+                alb.Chem_Poch_Alt="release/"+QString::number(alb.Id_Album)+"/pictures";
+                QImage image("./Pochettes/def.jpg");
+                alb.Pochette= image;
+            } else {
+                //     alb.Pochette=LectureXMLPochette(Poch);
+            }
+        }
         //On récupère les titres
         alb.titres=RecupererTitres(QString::number(alb.Id_Album));
 
@@ -59,6 +72,8 @@ AlbumGestion Discogs::RequeteAlbums(QString rech)
     }
     return alb;
 }
+
+
 QString Discogs::RecupererId_Album(QString Id_Album)
 {
     QString req="release/"+Id_Album+"/album";
@@ -644,11 +659,9 @@ QString Discogs::LectureXMLArtiste(QByteArray fich)
                     QString Nom;
                     while(!donnees.isNull())
                     {
-
                         if(donnees.tagName()=="name")
                         {
                             Nom= donnees.text();
-
                         }
                         if(donnees.tagName()=="link")
                         {
@@ -660,19 +673,18 @@ QString Discogs::LectureXMLArtiste(QByteArray fich)
                                     if(link.text()=="Main")
                                     {
                                         Artiste= Nom;
+                                        qDebug() << Artiste;
                                     }
                                 }
                                 link=link.nextSiblingElement();
                             }
                         }
-
                         donnees =donnees.nextSiblingElement();
                     }
                     if(!Nom.isNull() && Artiste.isNull())
                     {
                         Artiste=Nom;
                     }
-                    return Artiste;
                 }
                 // Permet d'aller au prochain enfant de <site> et de poursuivre la boucle
                 unElement = unElement.nextSiblingElement();
@@ -681,7 +693,7 @@ QString Discogs::LectureXMLArtiste(QByteArray fich)
         // On va à l'élément fils de <root> suivant
         racine = racine.nextSiblingElement();
     }
-
+    return Artiste;
 }
 QString Discogs::RecupererArtisteTitre(QString Id_Titre)
 {
@@ -696,7 +708,7 @@ QImage Discogs::LectureXMLPochette(QByteArray fich)
 {
     QDomDocument doc;
     QImage poch;
- qDebug() <<"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
+    qDebug() <<"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
     // Ajoute le contenu du Qstring XML dans un QDomDocument et dit au QDomDocument de ne pas tenir compte des namespaces
     doc.setContent(fich,false);
 
@@ -768,18 +780,18 @@ CompilGestion Discogs::RequeteCompil(QString rech)
     if ( compil.Album!="Non trouvé")
     {
 
-          //On récupère la pochette
-      QByteArray Poch = LirePochette(QString::number(compil.Id_Album));
-       compil.ErreurPochette = LectureErreurPochette(Poch);
+        //On récupère la pochette
+        QByteArray Poch = LirePochette(QString::number(compil.Id_Album));
+        compil.ErreurPochette = LectureErreurPochette(Poch);
 
-     //  compil.ErreurPochette=true;
+        //  compil.ErreurPochette=true;
         if (compil.ErreurPochette)
         {
             compil.Chem_Poch_Alt="release/"+QString::number(compil.Id_Album)+"/pictures";
             QImage image("./Pochettes/def.jpg");
             compil.Pochette= image;
         } else {
-                compil.Pochette=LectureXMLPochette(Poch);
+            compil.Pochette=LectureXMLPochette(Poch);
         }
 
         //On récupère les titres

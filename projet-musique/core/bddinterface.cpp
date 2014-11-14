@@ -14,7 +14,7 @@ void BDDInterface::actualiserMP3()
 {
     if (ActualiserAlbums())
     {
-        myMp3.actualiserMp3("Albums");
+        myMp3.actualiserMp3("Album");
     }
     if (ActualiserCompil())
     {
@@ -22,7 +22,7 @@ void BDDInterface::actualiserMP3()
     }
     if (ActualiserLives())
     {
-        myMp3.actualiserMp3("Lives");
+        myMp3.actualiserMp3("Live");
     }
 }
 QStringList BDDInterface::listeArtistesMp3(QString Categorie)
@@ -139,9 +139,9 @@ void BDDInterface::desenregistrerObservateur(BarreAvancement *obs)
     myCommun.desenregistrerObservateur( obs );
     myMp3.desenregistrerObservateur( obs );
 }
-QImage BDDInterface::afficherPochette(const QString &Album,const QString &Type)
+QImage BDDInterface::afficherPochette(const QString &Id,const QString &Type)
 {
-    return myCommun.afficherPochette(Album,Type);
+    return myCommun.afficherPochette(Id,Type);
 }
 QStringList BDDInterface::ListeArtistes()
 {
@@ -198,6 +198,16 @@ void BDDInterface::AjouterMP3dansPlaylist(int IdMp3, int IdPlay)
 QList<Pochette> BDDInterface::ListePochettes()
 {
     return myCommun.ListePochettes();
+}
+
+bool BDDInterface::VerifPoch(QString &ArtAlb)
+{
+    return myCommun.verifPoch(ArtAlb);
+}
+
+int BDDInterface::lireIDPoch(const QString &ArtAlb)
+{
+    return myCommun.lireIDPoch(ArtAlb);
 }
 QStringList BDDInterface::listePlaylistMp3(QString Id)
 {

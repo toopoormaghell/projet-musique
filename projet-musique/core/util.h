@@ -119,5 +119,6 @@ typedef struct Pochette Pochette;
 // Enlève les accents présents dans une QString
 void EnleverAccents ( QString& Nom );
 QString EchangerArtiste(QString Artiste);
+void FormaterEntiteBDD(QString& Entite);
 
 #endif // UTIL_H

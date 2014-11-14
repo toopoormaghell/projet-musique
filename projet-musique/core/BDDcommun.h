@@ -55,6 +55,9 @@ public:
 
 
     QString AjouterPochette(CompilGestion album);
+    bool verifPoch(const QString &ArtAlb);
+
+    void verifierBDD();
 protected:
     void notifierObservateurs( const QString& chemin, const float pourcentage );
 private:

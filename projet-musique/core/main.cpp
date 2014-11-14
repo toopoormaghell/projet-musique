@@ -8,8 +8,8 @@ int main(int argc, char *argv[])
     QApplication::setStyle("cleanlooks");
 
     FenetrePrincipale w;
-w.setWindowTitle("Projet Musique");
-      w.show();
+    w.setWindowTitle("Projet Musique");
+    w.show();
 
     return a.exec();
 }

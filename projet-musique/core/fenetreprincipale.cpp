@@ -60,12 +60,16 @@ void FenetrePrincipale::ActualiserOngletMp3()
 void FenetrePrincipale::ActualiserOngletPhys()
 {
 
+    ui->tab_2->afficherListeCategories();
    ui->tab_2->afficherListeArtiste();
 }
 
 void FenetrePrincipale::on_actionViderBDD_triggered()
 {
     m_bddInterface.ViderBDD();
+    ActualiserOngletMp3();
+    ActualiserOngletPhys();
+
 }
 void FenetrePrincipale::on_actionAjouter_Liste_Albums_triggered()
 {
@@ -98,6 +102,8 @@ void FenetrePrincipale::on_actionArtistes_Inverses_triggered()
 {
     DialogueArtistesInverses tmp(this);
     tmp.exec();
+ActualiserOngletMp3();
+ActualiserOngletPhys();
 }
 void FenetrePrincipale::on_actionExporter_Liste_Physique_triggered()
 {
@@ -128,10 +134,14 @@ void FenetrePrincipale::on_actionDossier_par_d_faut_triggered()
 void FenetrePrincipale::on_actionCopier_BDD_triggered()
 {
     m_bddInterface.CopierBDD();
+
 }
 void FenetrePrincipale::on_actionCharger_BDD_triggered()
 {
     m_bddInterface.ChargerBDD();
+    ActualiserOngletMp3();
+    ActualiserOngletPhys();
+
 }
 
 void FenetrePrincipale::dialogAjouterPhysique_Accepted()
@@ -147,4 +157,5 @@ void FenetrePrincipale::on_actionViderMP3_triggered()
 {
     DialogViderMp3 tmp(this);
     tmp.exec();
+    ActualiserOngletMp3();
 }
