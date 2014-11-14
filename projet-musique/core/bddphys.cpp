@@ -146,7 +146,7 @@ void BDDPhys::SupprimerAlbumPhys(QString Id_Album)
     AlbumGestion album = InfosAlbum(Id_Album);
     album.Id_Album=Id_Album.toInt();
     //Pour chaque titre, on vérifie si on peut effacer les titres
-    int cptnbtitres=0;bool artiste=false;
+    int cptnbtitres=0;
 
     for (int cpt=0;cpt<album.titres.count();cpt++)
     {
@@ -172,7 +172,7 @@ void BDDPhys::SupprimerAlbumPhys(QString Id_Album)
         {
             supprimerPhys(album.Id_Album);
             qDebug() << " Album supprimé : " << album.Album;
-            artiste=supprimerArtiste(album.Id_Artiste);
+            bool artiste=supprimerArtiste(album.Id_Artiste);
 
             if(artiste)
             {
@@ -197,12 +197,12 @@ void BDDPhys::SupprimerCompilPhys(QString Id_Album)
 
     album.Id_Album=Id_Album.toInt();
     //Pour chaque titre, on vérifie si on peut effacer les titres
-    bool titres=true;bool boolalbum=false;bool artiste=false;
+    bool titres=true;
 
     for (int cpt=0;cpt<album.titres.count();cpt++)
     {
         bool supp = supprimerTitredePhys(album.titres[cpt].Id_Titre,album.Id_Relation);
-        artiste=supprimerArtiste(album.titres[cpt].Id_Artiste);
+        bool artiste=supprimerArtiste(album.titres[cpt].Id_Artiste);
         qDebug() << album.titres[cpt].Id_Artiste;
         if(artiste)
         {
@@ -220,10 +220,9 @@ void BDDPhys::SupprimerCompilPhys(QString Id_Album)
     }
 
     //Si on élimine tous les titres, on fait l'album et l'artiste, puis la pochette
-    if(titres=true)
+    if(titres)
     {
-        boolalbum = supprimerAlbum(album.Id_Album);
-
+        supprimerAlbum(album.Id_Album);
     }
 }
 

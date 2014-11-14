@@ -4,10 +4,9 @@
 
 DialogModifierAlbum::DialogModifierAlbum(AlbumGestion album_modif, QWidget *parent) :
     QDialog(parent),
+    album(album_modif),
     ui(new Ui::DialogModifierAlbum)
 {
-    album =album_modif;
-
     ui->setupUi(this);
     ui->Album->setText(album.Album);
     ui->Artiste->setText(album.Artiste);

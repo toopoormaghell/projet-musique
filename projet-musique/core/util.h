@@ -11,7 +11,7 @@ struct TitreGestion
     QString Titre;
     int Id_Titre;
     bool TitreenMp3etPhys;
-int Id_Relation;
+    int Id_Relation;
 
     TitreGestion():
         Num_Piste(0),
@@ -19,7 +19,7 @@ int Id_Relation;
         Titre(),
         Id_Titre(0),
         TitreenMp3etPhys(false),
-    Id_Relation(0)
+        Id_Relation(0)
     {}
 };
 typedef struct TitreGestion TitreGestion;
@@ -34,7 +34,6 @@ struct MP3Gestion: public TitreGestion
     int Id_Artiste;
     int Id_Album;
     QString CheminFichier;
-    int Id_Relation;
 
     MP3Gestion():
         TitreGestion(),
@@ -46,8 +45,7 @@ struct MP3Gestion: public TitreGestion
         Id_Poch( 0 ),
         Id_Artiste( 0 ),
         Id_Album( 0 ),
-        CheminFichier(),
-        Id_Relation( 0 )
+        CheminFichier()
     {}
 };
 typedef struct MP3Gestion MP3Gestion;
@@ -78,8 +76,9 @@ struct CDGestion
         Id_Poch( 0 ),
         Id_Album( 0 ),
         Id_Artiste( 0 ),
+        ErreurPochette( false ),
         CodeBarres(),
-        Id_Relation( 0)
+        Id_Relation( 0 )
     {}
 };
 typedef struct CDGestion <TitreGestion> AlbumGestion;
