@@ -14,7 +14,7 @@
    <string>FenetrePrincipale</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(234, 225, 255)</string>
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -42,7 +42,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="OngletMp3" name="tab">
        <attribute name="title">
@@ -57,6 +57,11 @@
       <widget class="OngletPlaylist" name="tab_3">
        <attribute name="title">
         <string>Playlist</string>
+       </attribute>
+      </widget>
+      <widget class="OngletStats" name="tab_4">
+       <attribute name="title">
+        <string>Statistiques</string>
        </attribute>
       </widget>
      </widget>
@@ -88,8 +93,7 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 210, 147);
-</string>
+    <string notr="true"/>
    </property>
    <property name="inputMethodHints">
     <set>Qt::ImhNone</set>
@@ -164,6 +168,8 @@
     <addaction name="actionCopier_BDD"/>
     <addaction name="separator"/>
     <addaction name="actionCharger_BDD"/>
+    <addaction name="separator"/>
+    <addaction name="actionVerifier_BDD"/>
    </widget>
    <addaction name="menuGestion"/>
    <addaction name="menuGestion_2"/>
@@ -323,6 +329,11 @@
     <string>Changer Pochettes</string>
    </property>
   </action>
+  <action name="actionVerifier_BDD">
+   <property name="text">
+    <string>Verifier BDD</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -348,6 +359,12 @@
    <class>BarreAvancement</class>
    <extends>QWidget</extends>
    <header location="global">barreavancement.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>OngletStats</class>
+   <extends>QWidget</extends>
+   <header>ongletstats.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -17,6 +17,7 @@ public:
 
     void ActualiserOngletMp3();
     void ActualiserOngletPhys();
+
 private slots:
     //Vider
     void on_actionViderBDD_triggered();
@@ -41,7 +42,13 @@ private slots:
     void on_actionTokens_API_triggered();
     void on_actionCharger_BDD_triggered();
 
+
     void dialogAjouterPhysique_Accepted();
+
+
+
+    void on_actionVerifier_BDD_triggered();
+
 private:
     Ui::FenetrePrincipale *ui;
     BDDInterface m_bddInterface;

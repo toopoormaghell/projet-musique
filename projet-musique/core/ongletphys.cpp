@@ -11,12 +11,13 @@ OngletPhys::OngletPhys(QWidget *parent) :
 {
 
     ui->setupUi(this);
+
     afficherListeCategories();
     if (ui->Categories->count()>1)
     {
         ui->Artistes->clear();
         afficherListeArtiste();
-        afficherListeAlbum();
+
     }
 }
 OngletPhys::~OngletPhys()
@@ -51,7 +52,7 @@ void OngletPhys::afficherListeArtiste()
 }
 void OngletPhys::afficherListeCategories()
 {
-      ui->Categories->clear();
+    ui->Categories->clear();
     AffichageCommun temp;
     //Categorie "Tout"
     QImage* image=new QImage("./Pochettes/def.jpg");
@@ -96,171 +97,65 @@ QString OngletPhys::choixArtiste()
         return item->data(Qt::UserRole).toString();
     }
 }
+void OngletPhys::afficherNomArtiste()
+{
+    QListWidgetItem *item=ui->Artistes->currentItem();
+    if (item==NULL)
+    {
+        item=ui->Artistes->item(0);
+    }
+
+    ui->Artiste->setText(item->text());
+}
+
 void OngletPhys::afficherListeAlbum()
 {
-    ui->Albums->clear();
-    QString Artiste=choixArtiste();
-    QString Categorie=choixCategorie();
-    const int Nb_Colonnes = 8;
 
-    //on déclare un compteur
-    int Ligne=0;
-    int MaxLignes=0;
-    int Colonne=0;
-    QString categorieCourante;
+    QString Artiste=choixArtiste();
+
+    afficherNomArtiste();
+    QString Categorie=choixCategorie();
+    ui->Albums->clear();
+    ui->Singles->clear();
+    ui->Compil->clear();
 
     //Affichage des albums
     QStringList albums = m_bddInterface.listeAlbumsPhys( Artiste, Categorie );
     for ( int compteurAlbums = 0; compteurAlbums < albums.count(); compteurAlbums++ )
     {
         AlbumGestion album = m_bddInterface.InfosAlbumPhys( albums[compteurAlbums] );
-        album.Id_Album = albums[compteurAlbums].toInt();
 
-        if ( categorieCourante != album.Type )
+        //On s'occupe de la pochette
+        QListWidgetItem *mediaCell=temp.afficherPochetteList(&album.Pochette);
+        //On s'occupe du nom de l'album
+        mediaCell->setFlags(Qt::ItemIsEnabled );
+        mediaCell->setText(album.Album);
+        mediaCell->setData(Qt::UserRole,albums[compteurAlbums]);
+
+
+        if (album.Type=="Album")
         {
-            Ligne = MaxLignes;
-            ui->Albums->setRowCount(MaxLignes+1);
+            ui->Albums->addItem(mediaCell);
 
-            QTableWidgetItem* Cell= new QTableWidgetItem;
-            if ( album.Type == "Album" )
-            {
-                Cell->setText("ALBUMS");
-            }
-            else
-            {
-                Cell->setText("SINGLES");
-            }
-            Cell->setTextAlignment(Qt::AlignCenter);
-            ui->Albums->setItem(Ligne, 0, Cell);
-            ui->Albums->setSpan(Ligne, 0, 1, 8);
+        } else if (album.Type=="Single"){
 
-            categorieCourante = album.Type;
-            Ligne++;
-            Colonne=0;
+            ui->Singles->addItem(mediaCell);
+        } else if (album.Type=="Compil")
+        {
+            ui->Compil->addItem(mediaCell);
         }
 
-        if ( ( compteurAlbums / Nb_Colonnes > 0 ) && ( compteurAlbums % Nb_Colonnes == 0 ) )
-        {
-            Ligne = MaxLignes;
-            Colonne = 0;
-        }
-        if ( MaxLignes < album.titres.count() + Ligne )
-        {
-            MaxLignes = album.titres.count() + 2 + Ligne;
-            ui->Albums->setRowCount( MaxLignes );
-        }
-        AfficherAlbum( album, Colonne, Ligne );
-        Colonne++;
     }
-    //On redimensionne pour que les pochettes s'affichent correctement
-    ui->Albums->resizeColumnsToContents();
-    ui->Albums->resizeRowsToContents();
+
 
 }
 void OngletPhys::afficherListeCompil()
 {
-    ui->Albums->clear();
-    QString Annee=choixArtiste();
-    QString Categorie=choixCategorie();
-    const int Nb_Colonnes = 8;
 
-    //on déclare un compteur
-    int Ligne=0;
-    int MaxLignes=0;
-    int Colonne=0;
-    QString categorieCourante;
 
-    //Affichage des albums
-    QStringList albums = m_bddInterface.listeCompilPhys( Annee );
-
-    for ( int compteurAlbums = 0; compteurAlbums < albums.count(); compteurAlbums++ )
-    {
-        CompilGestion album = m_bddInterface.InfosCompilPhys( albums[compteurAlbums] );
-        album.Id_Album = albums[compteurAlbums].toInt();
-        if ( categorieCourante != album.Type )
-        {
-            Ligne = MaxLignes;
-            ui->Albums->setRowCount(MaxLignes+1);
-
-            QTableWidgetItem* Cell= new QTableWidgetItem;
-
-            Cell->setTextAlignment(Qt::AlignCenter);
-            ui->Albums->setItem(Ligne, 0, Cell);
-            ui->Albums->setSpan(Ligne, 0, 1, 8);
-
-            categorieCourante = album.Type;
-            Ligne++;
-            Colonne=0;
-        }
-
-        if ( ( compteurAlbums / Nb_Colonnes > 0 ) && ( compteurAlbums % Nb_Colonnes == 0 ) )
-        {
-            Ligne = MaxLignes;
-            Colonne = 0;
-        }
-        if ( MaxLignes < album.titres.count() + Ligne )
-        {
-            MaxLignes = album.titres.count() + 2 + Ligne;
-            ui->Albums->setRowCount( MaxLignes );
-        }
-        AfficherAlbum( album, Colonne, Ligne );
-        Colonne++;
-    }
-    //On redimensionne pour que les pochettes s'affichent correctement
-    ui->Albums->resizeColumnsToContents();
-    ui->Albums->resizeRowsToContents();
 
 }
-int OngletPhys::AfficherAlbum(AlbumGestion album, int Colonne, int Ligne)
-{
-    AffichageCommun temp;
-    //Première chose à afficher: la pochette
-    QTableWidgetItem *mediaCell=temp.afficherPochetteTable(&album.Pochette);
-    mediaCell->setData(Qt::UserRole,album.Id_Album);
-    ui->Albums->setItem(Ligne,Colonne,mediaCell);
-    //On affiche le nom de l'album (en majuscule)
-    QTableWidgetItem *cell=new QTableWidgetItem();
-    cell->setData(Qt::UserRole,album.Id_Album);
-    cell->setText(album.Album.toUpper());
-    ui->Albums->setItem(Ligne+1,Colonne,cell);
 
-    //On affiche les titres
-    for(int i=0;i<album.titres.count();i++)
-    {
-        TitreGestion Titre=album.titres[i];
-        QString temp=QString::number(Titre.Num_Piste).rightJustified(2,'0')+ " - " + Titre.Titre+ "(" +Titre.Duree+ ")";
-        QTableWidgetItem *CellTitre=new QTableWidgetItem();
-        CellTitre->setText(temp);
-        CellTitre->setData(Qt::UserRole,album.Id_Album);
-        ui->Albums->setItem(Ligne+2+i,Colonne,CellTitre);
-    }
-    return album.titres.count()+2+Ligne;
-}
-int OngletPhys::AfficherAlbum(CompilGestion album, int Colonne, int Ligne)
-{
-    AffichageCommun temp;
-    //Première chose à afficher: la pochette
-    QTableWidgetItem *mediaCell=temp.afficherPochetteTable(&album.Pochette);
-    mediaCell->setData(Qt::UserRole,album.Id_Album);
-    ui->Albums->setItem(Ligne,Colonne,mediaCell);
-    //On affiche le nom de l'album (en majuscule)
-    QTableWidgetItem *cell=new QTableWidgetItem();
-    cell->setData(Qt::UserRole,album.Id_Album);
-    cell->setText(album.Album.toUpper());
-    ui->Albums->setItem(Ligne+1,Colonne,cell);
-
-    //On affiche les titres
-    for(int i=0;i<album.titres.count();i++)
-    {
-        MP3Gestion Titre=album.titres[i];
-        QString temp=QString::number(Titre.Num_Piste).rightJustified(2,'0')+ " - " + Titre.Titre+ "(" +Titre.Duree+ ") / "+Titre.Artiste;
-        QTableWidgetItem *CellTitre=new QTableWidgetItem();
-        CellTitre->setText(temp);
-        CellTitre->setData(Qt::UserRole,album.Id_Album);
-        ui->Albums->setItem(Ligne+2+i,Colonne,CellTitre);
-    }
-    return album.titres.count()+2+Ligne;
-}
 void OngletPhys::on_Artistes_currentTextChanged(const QString &arg1)
 {
     QString Categorie = choixCategorie();
@@ -272,6 +167,7 @@ void OngletPhys::on_Artistes_currentTextChanged(const QString &arg1)
     {
         afficherListeAlbum();
     }
+
 }
 
 
@@ -304,9 +200,25 @@ void OngletPhys::afficherListeAnnees()
     ui->Artistes->addItem(mediaCell);
 }
 
-void OngletPhys::on_Albums_itemDoubleClicked(QTableWidgetItem *item)
+void OngletPhys::vider(QString Type)
 {
-    QString Categorie = choixCategorie();
+    if (Type=="Artiste")
+    {
+        ui->Artistes->clear();
+    }
+    if (Type=="Categories")
+    {
+        ui->Categories->clear();
+    }
+    if (Type=="Albums")
+    {
+        ui->Albums->clear();
+    }
+}
+
+void OngletPhys::on_pushButton_clicked()
+{
+    /* QString Categorie = choixCategorie();
     QString Id_Album = item->data(Qt::UserRole).toString();
     AlbumGestion album = m_bddInterface.InfosAlbumPhys(Id_Album);
     album.Id_Album= Id_Album.toInt();
@@ -341,20 +253,48 @@ void OngletPhys::on_Albums_itemDoubleClicked(QTableWidgetItem *item)
         afficherListeArtiste();
         break;
     }
-
+    */
 }
-void OngletPhys::vider(QString Type)
+
+void OngletPhys::on_Albums_itemClicked(QListWidgetItem *item)
 {
-    if (Type=="Artiste")
+    QString Id_Album = item->data(Qt::UserRole).toString();
+
+    AlbumGestion album = m_bddInterface.InfosAlbumPhys( Id_Album );
+
+    ui->Annee->setText(album.Annee);
+    ui->NomAlbum->setText(album.Album);
+    ui->Pochette->setPixmap(temp.afficherPochetteLabel(&album.Pochette));
+
+    ui->Titres->clear();
+
+    for (int cpt=0;cpt<album.titres.count();cpt++)
     {
-        ui->Artistes->clear();
+        ui->Titres->addItem(QString::number(album.titres[cpt].Num_Piste).rightJustified(2,'0')+" - "+album.titres[cpt].Titre.toUpper()+"("+album.titres[cpt].Duree+")");
     }
-    if (Type=="Categories")
+}
+
+void OngletPhys::on_Singles_itemClicked(QListWidgetItem *item)
+{
+    QString Id_Album = item->data(Qt::UserRole).toString();
+
+    AlbumGestion album = m_bddInterface.InfosAlbumPhys( Id_Album );
+
+    ui->Annee->setText(album.Annee);
+    ui->NomAlbum->setText(album.Album);
+    ui->Pochette->setPixmap(temp.afficherPochetteLabel(&album.Pochette));
+
+    ui->Titres->clear();
+
+
+    for (int cpt=0;cpt<album.titres.count();cpt++)
     {
-        ui->Categories->clear();
-    }
-    if (Type=="Albums")
-    {
-        ui->Albums->clear();
+
+          QListWidgetItem* mediaCell;
+          mediaCell->setText(QString::number(album.titres[cpt].Num_Piste).rightJustified(2,'0')+" - "+album.titres[cpt].Titre.toUpper()+"("+album.titres[cpt].Duree+")");
+          mediaCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
+mediaCell->setCheckState(Qt::Checked);
+        ui->Titres->insertItem(cpt,mediaCell);
+
     }
 }

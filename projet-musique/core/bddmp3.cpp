@@ -53,7 +53,7 @@ void BDDMp3::actualiserMp3(QString type)
     {
         //Ouverture du fichier MP3
         QString chemin = fileList[copt];
-qDebug() << chemin;
+        qDebug() << chemin;
         // conversion du QString pour le nom du fichier MP3 ainsi que son chemin
         QByteArray arrFileName = QFile::encodeName(chemin);
         const char *encodedName = arrFileName.constData();
@@ -138,7 +138,16 @@ QImage BDDMp3::ImageAlbum(const TagLib::FileRef& f)
     TagLib::ID3v2::Tag Tag(f.file(),0);
     TagLib::ID3v2::FrameList Liste = Tag.frameListMap()["APIC"];
     TagLib::ID3v2::AttachedPictureFrame *Pic = static_cast<TagLib::ID3v2::AttachedPictureFrame *>(Liste.front());
-    Image.loadFromData((const uchar *) Pic->picture().data(), Pic->picture().size());
+
+    if ( ( Pic != NULL ) || Pic->picture().isEmpty() )
+    {
+       Image.fromData("./Pochettes/def.jpg");
+
+    }
+    else
+    {
+       Image.loadFromData((const uchar *) Pic->picture().data(), Pic->picture().size());
+    }
 
     return Image;
 }
@@ -205,7 +214,7 @@ QStringList BDDMp3::listeCategories()
 QStringList BDDMp3::listeAlbums(QString Id_Artiste)
 {
     QStringList albums;
-    QSqlQuery query=madatabase.exec("SELECT DISTINCT Al.Album, Al.Annee, Al.Id_Album FROM Album Al, MP3 M,Relations R WHERE R.Id_Artiste="+Id_Artiste+" AND Al.Id_Album = R.Id_Album AND R.Id_Relation = M.Id_Relation ORDER BY Al.Annee DESC");
+    QSqlQuery query=madatabase.exec("SELECT DISTINCT Al.Album, Al.Annee, Al.Id_Album FROM Album Al, MP3 M,Relations R WHERE R.Id_Artiste="+Id_Artiste+" AND Al.Id_Album = R.Id_Album AND R.Id_Relation = M.Id_Relation AND M.Categorie='Album' ORDER BY Al.Annee DESC");
 
     while (query.next() ) {
         QSqlRecord rec=query.record();
@@ -218,7 +227,7 @@ QStringList BDDMp3::listeAlbums(QString Id_Artiste)
 QStringList BDDMp3::listeTitresAlbum(QString Id_Album)
 {
     QStringList titres;
-    QString queryStr="SELECT DISTINCT Titre, Duree, Num_Piste, T.Id_Titre FROM Titre T, Mp3 M, Relations R WHERE R.Id_Titre = T.Id_Titre AND R.Id_Album="+Id_Album+" AND R.Id_Relation=M.Id_Relation ORDER BY Num_Piste";
+    QString queryStr="SELECT DISTINCT Titre, Duree, Num_Piste, T.Id_Titre FROM Titre T, Mp3 M, Relations R WHERE R.Id_Titre = T.Id_Titre AND R.Id_Album="+Id_Album+" AND R.Id_Relation=M.Id_Relation AND M.Categorie='Album' ORDER BY Num_Piste";
     QSqlQuery query=madatabase.exec(queryStr);
 
     while (query.next() ) {
@@ -474,4 +483,14 @@ QList<int> BDDMp3::ListeMp3Compil(QString annee)
     }
     return listeMp3;
 }
+int BDDMp3::NombreMP3()
+{
+    QString QueryStr="SELECT COUNT(*) AS 'Nb' FROM MP3";
+    QSqlQuery query=madatabase.exec(QueryStr);
 
+    while (query.next())
+    {
+        QSqlRecord rec=query.record();
+        return rec.value("Nb").toInt();
+    }
+}

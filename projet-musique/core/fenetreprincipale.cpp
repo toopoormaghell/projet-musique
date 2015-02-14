@@ -17,6 +17,7 @@ FenetrePrincipale::FenetrePrincipale(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::FenetrePrincipale),tmpDialog(this)
 {
+
     ui->setupUi(this);
     QObject::connect( &tmpDialog, SIGNAL( AlbumAjoute() ), this, SLOT( dialogAjouterPhysique_Accepted() ) );
 }
@@ -61,7 +62,7 @@ void FenetrePrincipale::ActualiserOngletPhys()
 {
 
     ui->tab_2->afficherListeCategories();
-   ui->tab_2->afficherListeArtiste();
+    ui->tab_2->afficherListeArtiste();
 }
 
 void FenetrePrincipale::on_actionViderBDD_triggered()
@@ -102,8 +103,8 @@ void FenetrePrincipale::on_actionArtistes_Inverses_triggered()
 {
     DialogueArtistesInverses tmp(this);
     tmp.exec();
-ActualiserOngletMp3();
-ActualiserOngletPhys();
+    ActualiserOngletMp3();
+    ActualiserOngletPhys();
 }
 void FenetrePrincipale::on_actionExporter_Liste_Physique_triggered()
 {
@@ -122,7 +123,7 @@ void FenetrePrincipale::on_actionTokens_API_triggered()
         if ( QMessageBox::question( this, "Confirmation", "Êtes-vous sûr de vouloir modifier les tokens ?", QMessageBox::Ok, QMessageBox::Cancel ) == QMessageBox::Ok )
         {
             m_bddInterface.changerjetonAcces(tokenListe.getJetonAcces());
-           m_bddInterface.changerjetonSecret(tokenListe.getJetonSecret());
+            m_bddInterface.changerjetonSecret(tokenListe.getJetonSecret());
         }
     }
 }
@@ -158,4 +159,10 @@ void FenetrePrincipale::on_actionViderMP3_triggered()
     DialogViderMp3 tmp(this);
     tmp.exec();
     ActualiserOngletMp3();
+}
+
+void FenetrePrincipale::on_actionVerifier_BDD_triggered()
+{
+m_bddInterface.VerifierBDD();
+qDebug() << "Vérification BDD terminée";
 }

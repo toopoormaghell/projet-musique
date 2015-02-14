@@ -506,3 +506,14 @@ void BDDPhys::changerjetonSecret(QString jeton)
     QString QueryStr="UPDATE Configuration SET Valeur='"+jeton+"' WHERE Intitule='JetonSecret'";
     QSqlQuery query=madatabase.exec(QueryStr);
 }
+int BDDPhys::NombreAlbumsPhys()
+{
+QString QueryStr="SELECT COUNT(*) AS 'Nb' FROM Phys";
+QSqlQuery query=madatabase.exec(QueryStr);
+
+while (query.next())
+{
+    QSqlRecord rec=query.record();
+    return rec.value("Nb").toInt();
+}
+}

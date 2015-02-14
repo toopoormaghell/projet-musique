@@ -40,6 +40,7 @@ public:
     void Playlist();
     void vider(QString Type);
 
+
 public slots:
     void on_Artistes_currentTextChanged(const QString &arg1);
 private slots:

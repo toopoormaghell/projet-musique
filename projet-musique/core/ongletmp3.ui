@@ -138,7 +138,7 @@
        </property>
        <item>
         <property name="text">
-         <string>Pas de MP3 enregistré</string>
+         <string>Pas de MP3 enregistre</string>
         </property>
        </item>
       </widget>
@@ -199,10 +199,99 @@
              <height>150</height>
             </size>
            </property>
+           <property name="styleSheet">
+            <string notr="true">border: 2px solid #259CD8</string>
+           </property>
            <property name="text">
             <string/>
            </property>
           </widget>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <widget class="QLabel" name="Piste">
+             <property name="minimumSize">
+              <size>
+               <width>20</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>20</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="De">
+             <property name="minimumSize">
+              <size>
+               <width>20</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>20</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: black;</string>
+             </property>
+             <property name="text">
+              <string>de</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="Sur">
+             <property name="minimumSize">
+              <size>
+               <width>20</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>20</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: black;</string>
+             </property>
+             <property name="text">
+              <string>sur</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="minimumSize">
+              <size>
+               <width>20</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>20</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -229,6 +318,9 @@
            </item>
            <item>
             <widget class="QLabel" name="Mp3Phys">
+             <property name="styleSheet">
+              <string notr="true">color: #E3FF0B;</string>
+             </property>
              <property name="text">
               <string/>
              </property>
@@ -249,7 +341,13 @@
         </widget>
        </item>
        <item>
-        <widget class="Player" name="m_player" native="true"/>
+        <widget class="Player" name="m_player" native="true">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
@@ -267,8 +365,11 @@
        </item>
        <item>
         <widget class="QPushButton" name="Bouton_Playlist">
+         <property name="styleSheet">
+          <string notr="true">width: 200px;</string>
+         </property>
          <property name="text">
-          <string>Ajouter dans Playlist...</string>
+          <string>Ajouter...</string>
          </property>
         </widget>
        </item>

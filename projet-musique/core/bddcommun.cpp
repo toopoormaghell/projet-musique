@@ -117,8 +117,16 @@ bool BDDCommun::verifPoch(const QString &ArtAlb)
 void BDDCommun::verifierBDD()
 {
     //On vérifie si la table MP3 est conforme
-    madatabase.exec("DELETE FROM MP3 WHERE Id_Relation NOT IN (SELECT DISTINCT Id_Relation FROM Relations");
+    madatabase.exec("DELETE FROM Titre WHERE Titre = ''");
+    madatabase.exec("DELETE FROM Artiste WHERE Artiste = ''");
+    madatabase.exec("DELETE FROM Album WHERE Album = ''");
+    madatabase.exec("DELETE FROM Pochette WHERE Chemin = ''");
 
+    madatabase.exec("DELETE FROM Relations WHERE Id_Album NOT IN (SELECT DISTINCT Id_Album FROM Album) OR Id_Artiste NOT IN ( SELECT DISTINCT Id_Artiste FROM Artiste) OR Id_Titre NOT IN ( SELECT DISTINCT Id_Titre FROM Titre) OR Id_Pochette NOT IN ( SELECT DISTINCT Id_Pochette From Pochette)");
+    madatabase.exec("DELETE FROM Relations WHERE Id_Album NOT IN ( SELECT DISTINCT Id_Album FROM Phys) AND Id_Relation NOT IN ( SELECT DISTINCT Id_Relation FROM MP3) ");
+
+    madatabase.exec("DELETE FROM MP3 WHERE Id_Relation NOT IN (SELECT DISTINCT Id_Relation FROM Relations)");
+    madatabase.exec("DELETE FROM Phys WHERE Id_Album NOT IN (SELECT  Id_Album FROM Relations)");
 }
 
 

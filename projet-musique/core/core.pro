@@ -44,10 +44,13 @@ FORMS += \
     ongletphys.ui \
     ongletplaylist.ui \
     player.ui \
-    saisietokensapi.ui
+    saisietokensapi.ui \
+    OngletStats.ui \
+    ongletstats.ui
 
 OTHER_FILES += \
-    projet_musique.cppcheck
+    projet_musique.cppcheck \
+    ../../../bin/release/default.qss
 
 HEADERS += \
     affichagecommun.h \
@@ -76,7 +79,8 @@ HEADERS += \
     ongletplaylist.h \
     player.h \
     saisietokensapi.h \
-    util.h
+    util.h \
+    ongletstats.h
 
 SOURCES += \
     affichagecommun.cpp \
@@ -106,4 +110,5 @@ SOURCES += \
     ongletplaylist.cpp \
     player.cpp \
     saisietokensapi.cpp \
-    util.cpp
+    util.cpp \
+    ongletstats.cpp
