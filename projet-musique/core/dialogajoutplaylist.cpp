@@ -12,7 +12,7 @@ DialogAjoutPlaylist::DialogAjoutPlaylist(QWidget *parent) :
     ui->Id_Poch->setText(QString::number(1));
 
     QImage poch=m_bddInterface.afficherPochette("1","Pochette");
-    ui->Pochette->setPixmap(affi.afficherPochetteLabel(&poch));
+    ui->Pochette->setPixmap(affi.afficherPochetteLabel(poch));
 }
 DialogAjoutPlaylist::~DialogAjoutPlaylist()
 {
@@ -38,7 +38,7 @@ void DialogAjoutPlaylist::on_pushButton_clicked()
     tmp.exec();
 
     QImage poch=m_bddInterface.afficherPochette(tmp.getId(),"Pochette");
-    ui->Pochette->setPixmap(affi.afficherPochetteLabel(&poch));
+    ui->Pochette->setPixmap(affi.afficherPochetteLabel(poch));
 
     ui->Id_Poch->setText(tmp.getId());
 }

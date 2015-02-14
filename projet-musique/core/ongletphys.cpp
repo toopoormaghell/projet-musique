@@ -40,7 +40,7 @@ void OngletPhys::afficherListeArtiste()
         for (int cpt=0;cpt<artistes.count();cpt=cpt+2) {
             //On s'occupe de la pochette
             QImage image=m_bddInterface.afficherPochette(artistes[cpt+1],"Artiste");
-            QListWidgetItem *mediaCell = temp.afficherPochetteList(&image);
+            QListWidgetItem *mediaCell = temp.afficherPochetteList(image);
             //On s'occupe du nom de l'artiste et de son Id caché
             mediaCell->setData(Qt::UserRole,artistes[cpt+1]);
             mediaCell->setText(artistes[cpt]);
@@ -56,14 +56,14 @@ void OngletPhys::afficherListeCategories()
     AffichageCommun temp;
     //Categorie "Tout"
     QImage* image=new QImage("./Pochettes/def.jpg");
-    QListWidgetItem* mediaCell=temp.afficherPochetteList(image);
+    QListWidgetItem* mediaCell=temp.afficherPochetteList(*image);
     //On s'occupe du nom de l'artiste
     mediaCell->setText("Tout");
     ui->Categories->addItem(mediaCell);
     //On s'occupe des autres catégories
     QStringList categories=m_bddInterface.listeCategoriesPhys();
     for (int cpt=0;cpt<categories.count();cpt++) {
-        mediaCell=temp.afficherPochetteList(image);
+        mediaCell=temp.afficherPochetteList(*image);
         //On s'occupe du nom de l'artiste
         mediaCell->setText(categories[cpt]);
         ui->Categories->addItem(mediaCell);
@@ -126,7 +126,7 @@ void OngletPhys::afficherListeAlbum()
         AlbumGestion album = m_bddInterface.InfosAlbumPhys( albums[compteurAlbums] );
 
         //On s'occupe de la pochette
-        QListWidgetItem *mediaCell=temp.afficherPochetteList(&album.Pochette);
+        QListWidgetItem *mediaCell=temp.afficherPochetteList(album.Pochette);
         //On s'occupe du nom de l'album
         mediaCell->setFlags(Qt::ItemIsEnabled );
         mediaCell->setText(album.Album);
@@ -194,7 +194,7 @@ void OngletPhys::afficherListeAnnees()
     AffichageCommun temp;
     //Categorie "Tout"
     QImage* image=new QImage("./Pochettes/def.jpg");
-    QListWidgetItem* mediaCell=temp.afficherPochetteList(image);
+    QListWidgetItem* mediaCell=temp.afficherPochetteList(*image);
     //On s'occupe du nom de l'artiste
     mediaCell->setText("2013");
     ui->Artistes->addItem(mediaCell);
@@ -264,7 +264,7 @@ void OngletPhys::on_Albums_itemClicked(QListWidgetItem *item)
 
     ui->Annee->setText(album.Annee);
     ui->NomAlbum->setText(album.Album);
-    ui->Pochette->setPixmap(temp.afficherPochetteLabel(&album.Pochette));
+    ui->Pochette->setPixmap(temp.afficherPochetteLabel(album.Pochette));
 
     ui->Titres->clear();
 
@@ -282,7 +282,7 @@ void OngletPhys::on_Singles_itemClicked(QListWidgetItem *item)
 
     ui->Annee->setText(album.Annee);
     ui->NomAlbum->setText(album.Album);
-    ui->Pochette->setPixmap(temp.afficherPochetteLabel(&album.Pochette));
+    ui->Pochette->setPixmap(temp.afficherPochetteLabel(album.Pochette));
 
     ui->Titres->clear();
 

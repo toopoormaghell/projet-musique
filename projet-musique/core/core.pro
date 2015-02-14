@@ -50,7 +50,8 @@ FORMS += \
 
 OTHER_FILES += \
     projet_musique.cppcheck \
-    ../../../bin/release/default.qss
+    ../../../bin/release/default.qss \
+    uml-diagram.uxf
 
 HEADERS += \
     affichagecommun.h \

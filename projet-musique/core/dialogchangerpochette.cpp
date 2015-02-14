@@ -22,7 +22,7 @@ void DialogChangerPochette::AfficherPochette()
     for (int cpt=0;cpt<liste.count();cpt++)
     {
         Pochette poch=liste[cpt];
-        QListWidgetItem *mediaCell= affi.afficherPochetteList(&poch.Pochette);
+        QListWidgetItem *mediaCell= affi.afficherPochetteList(poch.Pochette);
         mediaCell->setText(poch.Nom);
         mediaCell->setData(Qt::UserRole,poch.Id_Poch);
 
@@ -36,7 +36,7 @@ void DialogChangerPochette::on_AjouterPochette_clicked()
                                                      "C:/Users/Nico/Desktop",
                                                      "Images (*.png *.xpm *.jpg *.bmp)" );
    QImage* image=new QImage(fileName);
-    QListWidgetItem *mediaCell = affi.afficherPochetteList(image);
+    QListWidgetItem *mediaCell = affi.afficherPochetteList(*image);
     mediaCell->setText("Ajout");
     ui->ListePoch->insertItem(0,mediaCell);
 }

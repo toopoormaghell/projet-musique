@@ -1,36 +1,35 @@
 #include "affichagecommun.h"
+#include <QListWidgetItem>
+#include <QImage>
+#include <QIcon>
 
-AffichageCommun::AffichageCommun(QObject *parent) :
-    QObject(parent)
+
+
+AffichageCommun::AffichageCommun()
 {
 }
-QListWidgetItem* AffichageCommun::afficherPochetteList(QImage* image)
-{
-    QListWidgetItem *item=new QListWidgetItem;
-    QPixmap* pixmap=new QPixmap;
-    pixmap->convertFromImage(*image);
-    QPixmap pixmapscaled= pixmap->scaled(150,150,Qt::IgnoreAspectRatio,Qt::FastTransformation);
-    item->setIcon(QIcon(pixmapscaled));
 
+
+
+AffichageCommun::~AffichageCommun()
+{
+}
+
+
+
+QListWidgetItem* AffichageCommun::afficherPochetteList( const QImage& image ) const
+{
+    QPixmap pixmapScaled( afficherPochetteLabel( image ) );
+    QListWidgetItem* item = new QListWidgetItem;
+    item->setIcon( QIcon( pixmapScaled ) );
     return item;
 }
-QTableWidgetItem* AffichageCommun::afficherPochetteTable(QImage* image)
+
+
+
+QPixmap AffichageCommun::afficherPochetteLabel( const QImage& image ) const
 {
-    QTableWidgetItem *item=new QTableWidgetItem();
-    QPixmap* pixmap=new QPixmap();
-    pixmap->convertFromImage(*image);
-    QPixmap pixmapscaled=pixmap->scaled(150,150,Qt::IgnoreAspectRatio,Qt::FastTransformation);
-
-    item->setIcon(QIcon(pixmapscaled));
-    return item;
-}
-QPixmap AffichageCommun::afficherPochetteLabel(QImage* image)
-{
-
-    QPixmap* pixmap = new QPixmap();
-   pixmap->convertFromImage(*image);
-   QPixmap imageScaled = pixmap->scaled(150,150,Qt::IgnoreAspectRatio,Qt::FastTransformation);
-
-
-   return imageScaled;
+    QPixmap scaled( QPixmap::fromImage( image ) );
+    scaled = scaled.scaled( 150, 150 );
+    return scaled;
 }

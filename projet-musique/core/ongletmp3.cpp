@@ -23,7 +23,7 @@ void OngletMp3::afficherListeCategories()
    QStringList categories=m_bddInterface.listeCategoriesMp3();
     for (int cpt=0;cpt<categories.count();cpt++) {
         QImage* image=new QImage("./Pochettes/def.jpg");
-        QListWidgetItem *mediaCell=temp.afficherPochetteList(image);
+        QListWidgetItem *mediaCell=temp.afficherPochetteList(*image);
         //On s'occupe du nom de l'artiste
         mediaCell->setText(categories[cpt]);
 
@@ -43,7 +43,7 @@ void OngletMp3::afficherListeArtiste()
     for (int cpt=0;cpt<artistes.count();cpt=cpt+2) {
         //On s'occupe de la pochette
         QImage image=m_bddInterface.afficherPochette(artistes[cpt+1],"Artiste");
-        QListWidgetItem *mediaCell=temp.afficherPochetteList(&image);
+        QListWidgetItem *mediaCell=temp.afficherPochetteList(image);
 
         //On s'occupe du nom de l'artiste
         mediaCell->setData(Qt::UserRole,artistes[cpt+1]);
@@ -67,7 +67,7 @@ void OngletMp3::afficherListeAlbum()
 
         //On s'occupe de la pochette
         QImage image=m_bddInterface.afficherPochette(albums[cpt+1],"Album");
-        QListWidgetItem *mediaCell=temp.afficherPochetteList(&image);
+        QListWidgetItem *mediaCell=temp.afficherPochetteList(image);
         //On s'occupe du nom de l'album
         mediaCell->setFlags(Qt::ItemIsEnabled );
         mediaCell->setText(albums[cpt]);
@@ -111,7 +111,7 @@ void OngletMp3::afficherInfosTitre()
     } else
     {
     //On affiche la pochette
-    ui->Pochette->setPixmap(temp.afficherPochetteLabel(&mp3.Pochette));
+    ui->Pochette->setPixmap(temp.afficherPochetteLabel(mp3.Pochette));
 
     //On affiche le titre
 
@@ -146,7 +146,7 @@ void OngletMp3::afficherSimilaires()
     for (iterateur = simi.constBegin();iterateur != simi.constEnd();++iterateur)
     {
         MP3Gestion mp3 = iterateur.value();
-        QListWidgetItem *mediaCell= temp.afficherPochetteList(&mp3.Pochette);
+        QListWidgetItem *mediaCell= temp.afficherPochetteList(mp3.Pochette);
         //On s'occupe du nom du mp3
         mediaCell->setText(mp3.Titre+" de "+mp3.Artiste+("(")+mp3.Album+")");
         mediaCell->setData(Qt::UserRole,mp3.Id_Titre);
@@ -238,7 +238,7 @@ void OngletMp3::afficherListeAnnees()
 
         QListWidgetItem *mediaCell;
         QImage* image=new QImage("./Pochettes/def.jpg");
-        mediaCell=temp.afficherPochetteList(image);
+        mediaCell=temp.afficherPochetteList(*image);
         //On s'occupe du nom de l'artiste
         mediaCell->setText(ListeAnnees[cpt]);
 
@@ -272,9 +272,9 @@ void OngletMp3::afficherListeMp3Compil()
             if (mp3.Pochette.isNull())
             {
                 QImage* image=new QImage("./Pochettes/def.jpg");
-                mediaCell=temp.afficherPochetteList(image);
+                mediaCell=temp.afficherPochetteList(*image);
             } else {
-                mediaCell = temp.afficherPochetteList(&mp3.Pochette);
+                mediaCell = temp.afficherPochetteList(mp3.Pochette);
             }
 
             mediaCell->setText(mp3.Titre+"("+mp3.Artiste+")");
