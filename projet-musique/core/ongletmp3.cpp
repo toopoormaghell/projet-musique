@@ -10,7 +10,7 @@ OngletMp3::OngletMp3(QWidget *parent) :
     ui(new Ui::OngletMp3)
 {
     ui->setupUi(this);
-    afficherListeCategories();
+  afficherListeCategories();
 
     ui->m_player->setParentTab( *this );
 }
@@ -20,7 +20,7 @@ OngletMp3::~OngletMp3()
 }
 void OngletMp3::afficherListeCategories()
 {
-    QStringList categories=m_bddInterface.listeCategoriesMp3();
+   QStringList categories=m_bddInterface.listeCategoriesMp3();
     for (int cpt=0;cpt<categories.count();cpt++) {
         QImage* image=new QImage("./Pochettes/def.jpg");
         QListWidgetItem *mediaCell=temp.afficherPochetteList(image);
@@ -30,6 +30,7 @@ void OngletMp3::afficherListeCategories()
         ui->Categories->addItem(mediaCell);
         ui->Categories->setCurrentRow(0);
     }
+
 }
 void OngletMp3::afficherListeArtiste()
 {
@@ -51,16 +52,19 @@ void OngletMp3::afficherListeArtiste()
         ui->Artistes->addItem(mediaCell);
         ui->Artistes->setCurrentRow(0);
     }
+
+
 }
 void OngletMp3::afficherListeAlbum()
 {
-    //Choix de l'Artiste des Albums à afficher
+   //Choix de l'Artiste des Albums à afficher
     QString Artiste=choixArtiste();
 
     //Affichage des albums
     QStringList albums=m_bddInterface.listeAlbumsMp3(Artiste);
 
     for (int cpt=0;cpt<albums.count();cpt=cpt+2) {
+
         //On s'occupe de la pochette
         QImage image=m_bddInterface.afficherPochette(albums[cpt+1],"Album");
         QListWidgetItem *mediaCell=temp.afficherPochetteList(&image);
@@ -69,21 +73,23 @@ void OngletMp3::afficherListeAlbum()
         mediaCell->setText(albums[cpt]);
 
         ui->Albums->addItem(mediaCell);
-        afficherTitresAlbum(albums[cpt+1]);
+       afficherTitresAlbum(albums[cpt+1]);
     }
+
     ui->Albums->setCurrentRow(1);
 }
 void OngletMp3::afficherTitresAlbum(QString Album)
 {
     QStringList titres=m_bddInterface.listeTitresAlbumMp3(Album);
 
-    for (int cpt=0;cpt<titres.count();cpt=cpt+2)
+   for (int cpt=0;cpt<titres.count();cpt=cpt+2)
     {
         QListWidgetItem *item=new QListWidgetItem();
         item->setData(Qt::UserRole,titres[cpt+1]);
         item->setText(titres[cpt]);
         ui->Albums->addItem(item);
     }
+
 }
 void OngletMp3::afficherInfosTitre()
 {
@@ -108,14 +114,16 @@ void OngletMp3::afficherInfosTitre()
     ui->Pochette->setPixmap(temp.afficherPochetteLabel(&mp3.Pochette));
 
     //On affiche le titre
-    QString titre=QString::number(mp3.Num_Piste).rightJustified(2,'0')+" - "+mp3.Titre.toUpper()+"("+mp3.Duree+")";
+
+    ui->Piste->setText(QString::number(mp3.Num_Piste).rightJustified(2,'0')+" - ");
+    QString titre=mp3.Titre.toUpper()+"("+mp3.Duree+")";
     ui->Titre->setText(titre);
 
     //On affiche l'artiste
-    ui->NomArtiste->setText("de "+mp3.Artiste.toUpper());
+    ui->NomArtiste->setText(mp3.Artiste.toUpper());
 
     //on affiche l'album
-    ui->NomAlbum->setText("sur "+mp3.Album.toUpper()+"("+mp3.Annee+")");
+    ui->NomAlbum->setText(mp3.Album.toUpper()+"("+mp3.Annee+")");
 
     //on affiche si le mp3 existe en phys
     if(mp3.TitreenMp3etPhys)

@@ -209,6 +209,11 @@ int BDDInterface::lireIDPoch(const QString &ArtAlb)
 {
     return myCommun.lireIDPoch(ArtAlb);
 }
+
+void BDDInterface::VerifierBDD()
+{
+    myCommun.verifierBDD();
+}
 QStringList BDDInterface::listePlaylistMp3(QString Id)
 {
     return myPlay.listePlaylistMP3(Id);
@@ -243,4 +248,12 @@ void BDDInterface::ModifierAlbumPhys(AlbumGestion album)
 void BDDInterface::SupprimerCompilPhys(QString Id_Album)
 {
     myPhys.SupprimerCompilPhys(Id_Album);
+}
+int BDDInterface::NombreAlbumsPhys()
+{
+    return myPhys.NombreAlbumsPhys();
+}
+int BDDInterface::NombreMP3()
+{
+    return myMp3.NombreMP3();
 }

@@ -48,6 +48,7 @@ public:
 
 
     void supprimerPhys(int Id_Album);
+    int NombreAlbumsPhys();
 };
 
 #endif // BDDPHYS_H

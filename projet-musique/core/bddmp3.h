@@ -41,6 +41,7 @@ public:
     void EnregistrerActuCompil(bool check);
     void EnregistrerActuLives(bool check);
 
+    int NombreMP3();
 };
 
 #endif // BDDMP3_H

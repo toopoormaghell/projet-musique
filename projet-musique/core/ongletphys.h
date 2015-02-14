@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "bddinterface.h"
+#include "affichagecommun.h"
 #include "QTableWidgetItem"
 namespace Ui {
 class OngletPhys;
@@ -23,22 +24,31 @@ public:
 
     QString choixCategorie();
     QString choixArtiste();
-    int AfficherAlbum(AlbumGestion album, int Colonne, int Ligne);
+
 
     void afficherListeCompil();
-    int AfficherAlbum(CompilGestion album, int Colonne, int Ligne);
+
 
     void vider(QString Type);
+
+    void afficherNomArtiste();
 public slots:
     void on_Artistes_currentTextChanged(const QString &arg1);
 private slots:
     void on_Categories_currentTextChanged(const QString &currentText);
 
-    void on_Albums_itemDoubleClicked(QTableWidgetItem *item);
+
+
+    void on_pushButton_clicked();
+
+    void on_Albums_itemClicked(QListWidgetItem *item);
+
+    void on_Singles_itemClicked(QListWidgetItem *item);
 
 private:
     Ui::OngletPhys *ui;
     BDDInterface m_bddInterface;
+    AffichageCommun temp;
 };
 
 #endif // ONGLETPHYS_H

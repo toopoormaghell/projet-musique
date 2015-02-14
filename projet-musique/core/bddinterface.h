@@ -76,10 +76,12 @@ public:
     QList<Pochette> ListePochettes();
     bool VerifPoch(QString &ArtAlb);
     int lireIDPoch(const QString &ArtAlb);
-
+void VerifierBDD();
 
     CompilGestion InfosCompilPhys(QString Id_Album);
     void SupprimerCompilPhys(QString Id_Album);
+    int NombreAlbumsPhys();
+    int NombreMP3();
 private:
     BDDCommun myCommun;
     BDDMp3 myMp3;

@@ -24,7 +24,20 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="m_codeBarre"/>
+      <widget class="QLineEdit" name="m_codeBarre">
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>16777215</height>
+        </size>
+       </property>
+      </widget>
      </item>
      <item>
       <spacer name="horizontalSpacer">
@@ -77,18 +90,50 @@
     <widget class="QFrame" name="frame">
      <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
+       <widget class="QLabel" name="label_3">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Rechercher par : </string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="Codebarres">
         <property name="text">
-         <string>Recherche par Code-Barres</string>
+         <string>Code-Barres</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="RechercheTitre">
         <property name="text">
-         <string>Recherche par Titre</string>
+         <string>Titre</string>
         </property>
        </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
     </widget>
@@ -113,6 +158,9 @@
              <height>150</height>
             </size>
            </property>
+           <property name="styleSheet">
+            <string notr="true">border: 2px solid #1EA7EC;</string>
+           </property>
            <property name="frameShape">
             <enum>QFrame::StyledPanel</enum>
            </property>
@@ -136,9 +184,36 @@
        <item>
         <layout class="QVBoxLayout" name="AlbumArtiste">
          <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
           <widget class="QLineEdit" name="Album">
            <property name="text">
             <string>ALBUM</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="Artiste">
+           <property name="text">
+            <string>Artiste</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="Annee">
+           <property name="text">
+            <string>Annee</string>
            </property>
           </widget>
          </item>
@@ -154,20 +229,6 @@
             </size>
            </property>
           </spacer>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="Artiste">
-           <property name="text">
-            <string>Artiste</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="Annee">
-           <property name="text">
-            <string>Annee</string>
-           </property>
-          </widget>
          </item>
         </layout>
        </item>
@@ -244,7 +305,7 @@
      <item>
       <widget class="QPushButton" name="Supprimer">
        <property name="text">
-        <string>Supprimer Elements Sélectionnés</string>
+        <string>Supprimer</string>
        </property>
        <property name="shortcut">
         <string>Del</string>
