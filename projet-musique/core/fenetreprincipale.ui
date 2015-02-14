@@ -42,7 +42,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>3</number>
       </property>
       <widget class="OngletMp3" name="tab">
        <attribute name="title">
@@ -67,7 +67,14 @@
      </widget>
     </item>
     <item>
-     <widget class="BarreAvancement" name="widget" native="true"/>
+     <widget class="BarreAvancement" name="barreAvancement">
+      <property name="value">
+       <number>0</number>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -356,16 +363,15 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>BarreAvancement</class>
-   <extends>QWidget</extends>
-   <header location="global">barreavancement.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>OngletStats</class>
    <extends>QWidget</extends>
    <header>ongletstats.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>BarreAvancement</class>
+   <extends>QProgressBar</extends>
+   <header location="global">barreavancement.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

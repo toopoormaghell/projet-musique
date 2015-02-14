@@ -29,7 +29,6 @@ LIBS += -lkqoauth
 LIBS += -ltaglib
 
 FORMS += \
-    barreavancement.ui \
     dialogajouterplaylistmp3.ui \
     dialogajoutplaylist.ui \
     dialogchangerpochette.ui \

@@ -401,20 +401,20 @@ QString BDDCommun::AjouterPochette(QString Type,QString Nom,QImage Image)
 }
 void BDDCommun::enregistrerObservateur(BarreAvancement *obs)
 {
-    obs->init();
+    obs->reset();
     m_observateurs.insert( obs );
 }
 void BDDCommun::desenregistrerObservateur(BarreAvancement *obs)
 {
     m_observateurs.remove( obs );
-    obs->init();
+    obs->reset();
 }
 void BDDCommun::notifierObservateurs(const QString &chemin, const float pourcentage)
 {
     foreach ( BarreAvancement* obs, m_observateurs )
     {
         //   qDebug() << chemin << " " << pourcentage;
-        obs->notifierPouah( chemin, pourcentage );
+        obs->update( pourcentage, chemin );
     }
 }
 /*******************************************************

@@ -4,9 +4,9 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>400</x>
-      <y>310</y>
-      <w>430</w>
+      <x>410</x>
+      <y>240</y>
+      <w>440</w>
       <h>70</h>
     </coordinates>
     <panel_attributes>AffichageCommun
@@ -41,24 +41,24 @@ QPixmap afficherPochetteLabel(const QImage&amp; image ) const
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>820</x>
+      <x>840</x>
       <y>240</y>
-      <w>180</w>
-      <h>100</h>
+      <w>160</w>
+      <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>160.0;10.0;10.0;80.0</additional_attributes>
+    <additional_attributes>140.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>820</x>
-      <y>290</y>
-      <w>180</w>
-      <h>70</h>
+      <x>840</x>
+      <y>260</y>
+      <w>160</w>
+      <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>160.0;10.0;10.0;50.0</additional_attributes>
+    <additional_attributes>140.0;40.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -74,12 +74,71 @@ QPixmap afficherPochetteLabel(const QImage&amp; image ) const
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>820</x>
-      <y>340</y>
-      <w>180</w>
-      <h>60</h>
+      <x>840</x>
+      <y>300</y>
+      <w>160</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>160.0;10.0;10.0;40.0</additional_attributes>
+    <additional_attributes>140.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>430</x>
+      <y>450</y>
+      <w>440</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Barre avancement
+--
+void reset()
+void update( const float percent, const QString&amp; message = QString() )
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>150</x>
+      <y>440</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>QProgressBar</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>240</x>
+      <y>450</y>
+      <w>210</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;190.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1000</x>
+      <y>460</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>QString</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>860</x>
+      <y>470</y>
+      <w>160</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>140.0;10.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>

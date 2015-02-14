@@ -1,27 +1,30 @@
 #include "barreavancement.h"
-#include "ui_barreavancement.h"
 
-BarreAvancement::BarreAvancement(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::BarreAvancement)
+
+
+BarreAvancement::BarreAvancement( QWidget* parent ):
+    QProgressBar( parent )
 {
-    ui->setupUi(this);
-    init();
+    reset();
 }
+
+
 
 BarreAvancement::~BarreAvancement()
 {
-    delete ui;
 }
 
-void BarreAvancement::notifierPouah(const QString &chemin, const float pourcentage)
+
+
+void BarreAvancement::reset()
 {
-    ui->progressBar->setValue( pourcentage * 100 );
-    ui->progressBar->setFormat( chemin );
+    update( 0.0f );
 }
 
-void BarreAvancement::init()
+
+
+void BarreAvancement::update( const float percent, const QString& message )
 {
-    ui->progressBar->setValue( 0 );
-    ui->progressBar->setFormat( "" );
+    setValue( percent * 100 );
+    setFormat( message );
 }

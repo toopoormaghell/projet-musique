@@ -28,9 +28,9 @@ FenetrePrincipale::~FenetrePrincipale()
 }
 void FenetrePrincipale::on_actionActualiser_Mp3_triggered()
 {
-    m_bddInterface.enregistrerObservateur( ui->widget );
+    m_bddInterface.enregistrerObservateur( ui->barreAvancement );
     m_bddInterface.actualiserMP3();
-    m_bddInterface.desenregistrerObservateur( ui->widget );
+    m_bddInterface.desenregistrerObservateur( ui->barreAvancement );
     ActualiserOngletMp3();
 
 }
