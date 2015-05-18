@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1037</width>
-    <height>637</height>
+    <height>817</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -275,7 +275,7 @@
         <string notr="true">background:#1EA7EC;color:#FFFF96;</string>
        </property>
        <property name="text">
-        <string>SINGLES</string>
+        <string>S&lt;br&gt;I&lt;br&gt;N&lt;br&gt;G&lt;br&gt;L&lt;br&gt;E&lt;br&gt;S</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -334,7 +334,7 @@
         <string notr="true">background:#1EA7EC;color:#FFFF96;</string>
        </property>
        <property name="text">
-        <string>COMPILS</string>
+        <string>C&lt;br&gt;O&lt;br&gt;M&lt;br&gt;P&lt;br&gt;I&lt;br&gt;L&lt;br&gt;S</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -393,7 +393,7 @@
         <string notr="true">background:#1EA7EC;color:#FFFF96;</string>
        </property>
        <property name="text">
-        <string>STATS</string>
+        <string>S&lt;br&gt;T&lt;br&gt;A&lt;br&gt;T&lt;br&gt;S</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -492,7 +492,7 @@
         <enum>QFrame::NoFrame</enum>
        </property>
        <property name="text">
-        <string>ALBUMS</string>
+        <string>A&lt;br&gt;L&lt;br&gt;B&lt;br&gt;U&lt;br&gt;M&lt;br&gt;S</string>
        </property>
        <property name="scaledContents">
         <bool>true</bool>

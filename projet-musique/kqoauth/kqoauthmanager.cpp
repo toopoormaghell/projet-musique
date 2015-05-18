@@ -1,13 +1,13 @@
 /**
  * KQOAuth - An OAuth authentication library for Qt.
  *
- * Author: Johan Paul (johan.paul@d-pointer.com)
- *         http://www.d-pointer.com
+ * Author: Johan Paul (johan.paul@gmail.com)
+ *         http://www.johanpaul.com
  *
- *  KQOAuth is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Lesser General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ *  This library is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public
+ *  License as published by the Free Software Foundation; either
+ *  version 2.1 of the License, or (at your option) any later version.
  *
  *  KQOAuth is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -18,6 +18,10 @@
  *  along with KQOAuth.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <QtCore>
+#include <QtGui/qdesktopservices.h>
+#if QT_VERSION >= 0x050000
+#include <QUrlQuery>
+#endif
 
 #include "kqoauthmanager.h"
 #include "kqoauthmanager_p.h"
@@ -34,6 +38,7 @@ KQOAuthManagerPrivate::KQOAuthManagerPrivate(KQOAuthManager *parent) :
     isVerified(false) ,
     isAuthorized(false) ,
     autoAuth(false),
+    handleAuthPageOpening(true),
     networkManager(new QNetworkAccessManager),
     managerUserSet(false)
 {
@@ -139,6 +144,9 @@ KQOAuthManager::KQOAuthManager(QObject *parent) :
     d_ptr(new KQOAuthManagerPrivate(this))
 {
 
+    qsrand(QTime::currentTime().msec());  // We need to seed the nonce random number with something.
+                                          // However, we cannot do this while generating the nonce since
+                                          // we might get the same seed. So initializing here should be fine.
 }
 
 KQOAuthManager::~KQOAuthManager()
@@ -212,13 +220,20 @@ void KQOAuthManager::executeRequest(KQOAuthRequest *request) {
 
         // Take the original URL and append the query params to it.
         QUrl urlWithParams = networkRequest.url();
+#if QT_VERSION < 0x050000
         urlWithParams.setQueryItems(urlParams);
+#else
+        QUrlQuery query;
+        query.setQueryItems(urlParams);
+        urlWithParams.setQuery(query);
+#endif
         networkRequest.setUrl(urlWithParams);
 
         // Submit the request including the params.
         QNetworkReply *reply = d->networkManager->get(networkRequest);
         connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
                  this, SLOT(slotError(QNetworkReply::NetworkError)));
+        d->requestMap.insert( request, reply );
 
     } else if (request->httpMethod() == KQOAuthRequest::POST) {
 
@@ -237,6 +252,7 @@ void KQOAuthManager::executeRequest(KQOAuthRequest *request) {
 
         connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
                  this, SLOT(slotError(QNetworkReply::NetworkError)));
+        d->requestMap.insert( request, reply );
     }
 
     d->r->requestTimerStart();
@@ -301,21 +317,9 @@ void KQOAuthManager::executeAuthorizedRequest(KQOAuthRequest *request, int id) {
             this, SLOT(onAuthorizedRequestReplyReceived(QNetworkReply*)), Qt::UniqueConnection);
 
     QNetworkReply *reply;
-    if (request->httpMethod() == KQOAuthRequest::GET) {
-        // Get the requested additional params as a list of pairs we can give QUrl
-        QList< QPair<QString, QString> > urlParams = d->createQueryParams(request->additionalParameters());
 
-        // Take the original URL and append the query params to it.
-        QUrl urlWithParams = networkRequest.url();
-        urlWithParams.setQueryItems(urlParams);
-        networkRequest.setUrl(urlWithParams);
 
-        // Submit the request including the params.
-        reply = d->networkManager->get(networkRequest);
-        connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
-                 this, SLOT(slotError(QNetworkReply::NetworkError)));
-
-    } else if (request->httpMethod() == KQOAuthRequest::POST) {
+    if (request->httpMethod() == KQOAuthRequest::POST) {
 
         networkRequest.setHeader(QNetworkRequest::ContentTypeHeader, request->contentType());
 
@@ -333,6 +337,37 @@ void KQOAuthManager::executeAuthorizedRequest(KQOAuthRequest *request, int id) {
 
         connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
                  this, SLOT(slotError(QNetworkReply::NetworkError)));
+        connect(request, SIGNAL(requestTimedout()),
+                 this, SLOT(requestTimeout()));
+        d->requestMap.insert( request, reply );
+    } else {
+        // Get the requested additional params as a list of pairs we can give QUrl
+        QList< QPair<QString, QString> > urlParams = d->createQueryParams(request->additionalParameters());
+
+        // Take the original URL and append the query params to it.
+        QUrl urlWithParams = networkRequest.url();
+#if QT_VERSION < 0x050000
+        urlWithParams.setQueryItems(urlParams);
+#else
+        QUrlQuery query;
+        query.setQueryItems(urlParams);
+        urlWithParams.setQuery(query);
+#endif
+        networkRequest.setUrl(urlWithParams);
+
+        // Submit the request including the params.
+        if (request->httpMethod() == KQOAuthRequest::GET)
+            reply = d->networkManager->get(networkRequest);
+        else if (request->httpMethod() == KQOAuthRequest::HEAD)
+            reply = d->networkManager->head(networkRequest);
+        else if (request->httpMethod() == KQOAuthRequest::DELETE)
+            reply = d->networkManager->deleteResource(networkRequest);
+
+        connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
+                 this, SLOT(slotError(QNetworkReply::NetworkError)));
+        connect(request, SIGNAL(requestTimedout()),
+                 this, SLOT(requestTimeout()));
+        d->requestMap.insert( request, reply );
     }
     d->requestIds.insert(reply, id);
     d->r->requestTimerStart();
@@ -343,6 +378,12 @@ void KQOAuthManager::setHandleUserAuthorization(bool set) {
     Q_D(KQOAuthManager);
 
     d->autoAuth = set;
+}
+
+void KQOAuthManager::setHandleAuthorizationPageOpening(bool set) {
+    Q_D(KQOAuthManager);
+
+    d->handleAuthPageOpening = set;
 }
 
 bool KQOAuthManager::hasTemporaryToken() {
@@ -399,32 +440,41 @@ QNetworkAccessManager * KQOAuthManager::networkManager() const {
 
 //////////// Public convenience API /////////////
 
-QUrl KQOAuthManager::getUserAuthorization(QUrl authorizationEndpoint) {
+void KQOAuthManager::getUserAuthorization(QUrl authorizationEndpoint) {
     Q_D(KQOAuthManager);
 
     if (!d->hasTemporaryToken) {
         qWarning() << "No temporary tokens retreieved. Cannot get user authorization.";
         d->error = KQOAuthManager::RequestUnauthorized;
-        return QString();
+        return;
     }
 
     if (!authorizationEndpoint.isValid()) {
         qWarning() << "Authorization endpoint not valid. Cannot proceed.";
         d->error = KQOAuthManager::RequestEndpointError;
-        return QString();
+        return;
     }
 
     d->error = KQOAuthManager::NoError;
 
     QPair<QString, QString> tokenParam = qMakePair(QString("oauth_token"), QString(d->requestToken));
     QUrl openWebPageUrl(authorizationEndpoint.toString(), QUrl::StrictMode);
+
+#if QT_VERSION < 0x050000
     openWebPageUrl.addQueryItem(tokenParam.first, tokenParam.second);
+#else
+    QUrlQuery query(openWebPageUrl);
+    query.addQueryItem(tokenParam.first, tokenParam.second);
+    openWebPageUrl.setQuery(query);
+#endif
 
-    // Open the user's default browser to the resource authorization page provided
-    // by the service.
-    // QDesktopServices::openUrl(openWebPageUrl);
-
-    return openWebPageUrl;
+    if (d->handleAuthPageOpening) {
+        // Open the user's default browser to the resource authorization page provided
+        // by the service.
+      //  QDesktopServices::openUrl(openWebPageUrl);
+    } else {
+        emit authorizationPageRequested(openWebPageUrl);
+    }
 }
 
 void KQOAuthManager::getUserAccessTokens(QUrl accessTokenEndpoint) {
@@ -451,8 +501,16 @@ void KQOAuthManager::getUserAccessTokens(QUrl accessTokenEndpoint) {
     d->opaqueRequest->setVerifier(d->requestVerifier);
     d->opaqueRequest->setConsumerKey(d->consumerKey);
     d->opaqueRequest->setConsumerSecretKey(d->consumerKeySecret);
+    d->opaqueRequest->setSignatureMethod(d->signatureMethod);
 
     executeRequest(d->opaqueRequest);
+}
+
+void KQOAuthManager::verifyToken(const QString &token, const QString &verifier) {
+    QMultiMap<QString, QString> params;
+    params.insert("oauth_token", token);
+    params.insert("oauth_verifier", verifier);
+    onVerificationReceived(params);
 }
 
 void KQOAuthManager::sendAuthorizedRequest(QUrl requestEndpoint, const KQOAuthParameters &requestParameters) {
@@ -514,8 +572,15 @@ void KQOAuthManager::onRequestReplyReceived( QNetworkReply *reply ) {
     // Read the content of the reply from the network.
     QByteArray networkReply = reply->readAll();
 
-    // Stop any timer we have set on the request.
-    d->r->requestTimerStop();
+    d->r = d->requestMap.key(reply);
+    if( d->r ) {
+        d->requestMap.remove(d->r);
+        disconnect(d->r, SIGNAL(requestTimedout()),
+                this, SLOT(requestTimeout()));
+        // Stop any timer we have set on the request.
+        d->r->requestTimerStop();
+        d->currentRequestType = d->r->requestType();
+    }
 
     // Just don't do anything if we didn't get anything useful.
     if(networkReply.isEmpty()) {
@@ -540,6 +605,7 @@ void KQOAuthManager::onRequestReplyReceived( QNetworkReply *reply ) {
             qDebug() << "Successfully got request tokens.";
             d->consumerKey = d->r->consumerKeyForManager();
             d->consumerKeySecret = d->r->consumerKeySecretForManager();
+            d->signatureMethod = d->r->requestSignatureMethodForManager();
             d->opaqueRequest->setSignatureMethod(KQOAuthRequest::HMAC_SHA1);
             d->opaqueRequest->setCallbackUrl(d->r->callbackUrlForManager());
 
@@ -587,8 +653,19 @@ void KQOAuthManager::onAuthorizedRequestReplyReceived( QNetworkReply *reply ) {
     // Read the content of the reply from the network.
     QByteArray networkReply = reply->readAll();
 
-    // Stop any timer we have set on the request.
-    d->r->requestTimerStop();
+    int id = d->requestIds.take(reply);
+    d->r = d->requestMap.key(reply);
+    if( d->r ) {
+        d->requestMap.remove(d->r);
+        disconnect(d->r, SIGNAL(requestTimedout()),
+                this, SLOT(requestTimeout()));
+
+        // Stop any timer we have set on the request.
+        d->r->requestTimerStop();
+        d->currentRequestType = d->r->requestType();
+    }
+
+
 
     // Just don't do anything if we didn't get anything useful.
     if(networkReply.isEmpty()) {
@@ -609,7 +686,6 @@ void KQOAuthManager::onAuthorizedRequestReplyReceived( QNetworkReply *reply ) {
                 emit authorizedRequestDone();
      }
 
-    int id = d->requestIds.take(reply);
     emit authorizedRequestReady(networkReply, id);
     reply->deleteLater();
 }
@@ -641,11 +717,32 @@ void KQOAuthManager::slotError(QNetworkReply::NetworkError error) {
 
     d->error = KQOAuthManager::NetworkError;
     QByteArray emptyResponse;
-    emit requestReady(emptyResponse);
-    emit authorizedRequestDone();
-
     QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
-    d->requestIds.remove(reply);
+    d->r = d->requestMap.key(reply);
+    d->currentRequestType = d->r->requestType();
+    if( d->requestIds.contains(reply) ) {
+        int id = d->requestIds.value(reply);
+        emit authorizedRequestReady(emptyResponse, id);
+    }
+    else if ( d->currentRequestType == KQOAuthRequest::AuthorizedRequest) {
+        // does this signal always have to be emitted if there is an error
+        // or can is it only valid for KQOAuthRequest::AuthorizedRequest?
+        emit authorizedRequestDone();
+    }
+    else
+        emit requestReady(emptyResponse);
+
     reply->deleteLater();
 }
 
+
+void KQOAuthManager::requestTimeout() {
+    Q_D(KQOAuthManager);
+    KQOAuthRequest *request = qobject_cast<KQOAuthRequest *>(sender());
+    if( d->requestMap.contains(request)) {
+        qWarning() << "KQOAuthManager::requestTimeout: Calling abort";
+        d->requestMap.value(request)->abort();
+    }
+    else
+        qWarning() << "KQOAuthManager::requestTimeout: The KQOAuthRequest was not found";
+}

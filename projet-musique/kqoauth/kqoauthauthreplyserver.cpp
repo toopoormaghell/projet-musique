@@ -1,13 +1,13 @@
 /**
  * KQOAuth - An OAuth authentication library for Qt.
  *
- * Author: Johan Paul (johan.paul@d-pointer.com)
- *         http://www.d-pointer.com
+ * Author: Johan Paul (johan.paul@gmail.com)
+ *         http://www.johanpaul.com
  *
- *  KQOAuth is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Lesser General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ *  This library is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public
+ *  License as published by the Free Software Foundation; either
+ *  version 2.1 of the License, or (at your option) any later version.
  *
  *  KQOAuth is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -20,6 +20,9 @@
 #include <QTcpSocket>
 #include <QStringList>
 #include <QUrl>
+#if QT_VERSION >= 0x050000
+#include <QUrlQuery>
+#endif
 
 #include "kqoauthauthreplyserver.h"
 #include "kqoauthauthreplyserver_p.h"
@@ -73,7 +76,11 @@ QMultiMap<QString, QString> KQOAuthAuthReplyServerPrivate::parseQueryParams(QByt
     splitGetLine.prepend("http://localhost");                      // Now, make it a URL
 
     QUrl getTokenUrl(splitGetLine);
+#if QT_VERSION < 0x050000
     QList< QPair<QString, QString> > tokens = getTokenUrl.queryItems();  // Ask QUrl to do our work.
+#else
+    QList< QPair<QString, QString> > tokens = QUrlQuery(getTokenUrl.query()).queryItems();  // Ask QUrl to do our work.
+#endif
 
     QMultiMap<QString, QString> queryParams;
     QPair<QString, QString> tokenPair;

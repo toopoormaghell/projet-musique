@@ -1,13 +1,13 @@
 /**
  * KQOAuth - An OAuth authentication library for Qt.
  *
- * Author: Johan Paul (johan.paul@d-pointer.com)
- *         http://www.d-pointer.com
+ * Author: Johan Paul (johan.paul@gmail.com)
+ *         http://www.johanpaul.com
  *
- *  KQOAuth is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Lesser General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ *  This library is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public
+ *  License as published by the Free Software Foundation; either
+ *  version 2.1 of the License, or (at your option) any later version.
  *
  *  KQOAuth is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -99,11 +99,18 @@ QString KQOAuthRequestPrivate::oauthSignature()  {
      * The HMAC-SHA1 signature method uses the HMAC-SHA1 signature algorithm as defined in [RFC2104] where the
      * Signature Base String is the text and the key is the concatenated values (each first encoded per Parameter
      * Encoding) of the Consumer Secret and Token Secret, separated by an ‘&’ character (ASCII code 38) even if empty.
+     *
+     * RSA-SHA1 uses RSA to to generate the signature
      **/
     QByteArray baseString = this->requestBaseString();
 
-    QString secret = QString(QUrl::toPercentEncoding(oauthConsumerSecretKey)) + "&" + QString(QUrl::toPercentEncoding(oauthTokenSecret));
-    QString signature = KQOAuthUtils::hmac_sha1(baseString, secret);
+    QString signature;
+    if (this->oauthSignatureMethod == "RSA-SHA1") {
+        signature = KQOAuthUtils::rsa_sha1(baseString, oauthConsumerSecretKey);
+    } else { // Default: Use HMAC-SHA1
+        QString secret = QString(QUrl::toPercentEncoding(oauthConsumerSecretKey)) + "&" + QString(QUrl::toPercentEncoding(oauthTokenSecret));
+        signature = KQOAuthUtils::hmac_sha1(baseString, secret);
+    }
 
     if (debugOutput) {
         qDebug() << "========== KQOAuthRequest has the following signature:";
@@ -199,7 +206,7 @@ QString KQOAuthRequestPrivate::oauthTimestamp() const {
 #if QT_VERSION >= 0x040700
     return QString::number(QDateTime::currentDateTimeUtc().toTime_t());
 #else
-    return QString::number(QDateTime::currentDateTime().toUTC().toTime_t());
+   return QString::number(QDateTime::currentDateTime().toUTC().toTime_t());
 #endif
 
 }
@@ -270,10 +277,9 @@ KQOAuthRequest::KQOAuthRequest(QObject *parent) :
     QObject(parent),
     d_ptr(new KQOAuthRequestPrivate)
 {
+    Q_D(KQOAuthRequest);
     d_ptr->debugOutput = false;  // No debug output by default.
-    qsrand(QTime::currentTime().msec());  // We need to seed the nonce random number with something.
-                                          // However, we cannot do this while generating the nonce since
-                                          // we might get the same seed. So initializing here should be fine.
+    connect(&(d->timer), SIGNAL(timeout()), this, SIGNAL(requestTimedout()));
 }
 
 KQOAuthRequest::~KQOAuthRequest()
@@ -346,6 +352,7 @@ void KQOAuthRequest::setSignatureMethod(KQOAuthRequest::RequestSignatureMethod r
     }
 
     d->oauthSignatureMethod = requestMethodString;
+    d->requestSignatureMethod = requestMethod;
 }
 
 void KQOAuthRequest::setTokenSecret(const QString &tokenSecret) {
@@ -378,6 +385,12 @@ void KQOAuthRequest::setHttpMethod(KQOAuthRequest::RequestHttpMethod httpMethod)
         break;
     case KQOAuthRequest::POST:
         requestHttpMethodString = "POST";
+        break;
+    case KQOAuthRequest::HEAD:
+        requestHttpMethodString = "HEAD";
+        break;
+    case KQOAuthRequest::DELETE:
+        requestHttpMethodString = "DELETE";
         break;
     default:
         qWarning() << "Invalid HTTP method set.";
@@ -570,6 +583,11 @@ QString KQOAuthRequest::consumerKeySecretForManager() const {
     return d->oauthConsumerSecretKey;
 }
 
+KQOAuthRequest::RequestSignatureMethod KQOAuthRequest::requestSignatureMethodForManager() const {
+    Q_D(const KQOAuthRequest);
+    return d->requestSignatureMethod;
+}
+
 QUrl KQOAuthRequest::callbackUrlForManager() const {
     Q_D(const KQOAuthRequest);
     return d->oauthCallbackUrl;
@@ -579,7 +597,6 @@ void KQOAuthRequest::requestTimerStart()
 {
     Q_D(KQOAuthRequest);
     if (d->timeout > 0) {
-        connect(&(d->timer), SIGNAL(timeout()), this, SIGNAL(requestTimedout()));
         d->timer.start(d->timeout);
     }
 }
@@ -587,8 +604,6 @@ void KQOAuthRequest::requestTimerStart()
 void KQOAuthRequest::requestTimerStop()
 {
     Q_D(KQOAuthRequest);
-    if (d->timeout > 0) {
-        disconnect(&(d->timer), SIGNAL(timeout()), this, SIGNAL(requestTimedout()));
+    if( d->timer.isActive() )
         d->timer.stop();
-    }
 }

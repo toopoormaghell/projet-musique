@@ -340,15 +340,6 @@
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="Player" name="m_player" native="true">
-         <property name="font">
-          <font>
-           <pointsize>8</pointsize>
-          </font>
-         </property>
-        </widget>
-       </item>
       </layout>
      </item>
      <item>
@@ -382,14 +373,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>Player</class>
-   <extends>QWidget</extends>
-   <header>player.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

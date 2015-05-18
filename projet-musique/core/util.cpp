@@ -1,32 +1,5 @@
 #include "util.h"
-
-
-void EnleverAccents ( QString& Nom )
-{
-    Nom.toUtf8();
-    Nom.replace( "è", "e" );
-    Nom.replace( "é", "e" );
-    Nom.replace( "à", "a" );
-    Nom.replace( "ê", "e" );
-    Nom.replace(":"," ");
-    Nom.replace("\\"," ");
-    Nom.replace("?"," ");
-    Nom.replace("!"," ");
-    Nom.replace("/"," ");
-    Nom.replace("â","a");
-    Nom.replace("û","u");
-    Nom.replace("Â","a");
-    Nom.replace("'","$");
-    Nom.replace(","," ");
-    Nom.replace("ô","o");
-    Nom.replace("$"," ");
-    Nom.replace("."," ");
-    Nom.replace("-"," ");
-    Nom.replace("À","a");
-
-    Nom=  Nom.toLower();
-}
-
+#include <QStringList>
 QString EchangerArtiste(QString Artiste)
 {
     QString Echange=Artiste;
@@ -38,17 +11,40 @@ QString EchangerArtiste(QString Artiste)
 
     return Echange;
 }
+void EnleverAccents ( QString &Nom)
+{
+    Nom.toUtf8();
+    Nom.replace( "Ã¨", "e" );
+    Nom.replace( "Ã©", "e" );
+    Nom.replace( "Ã ", "a" );
+    Nom.replace( "Ãª", "e" );
+    Nom.replace(":"," ");
+    Nom.replace("\\"," ");
+    Nom.replace("?"," ");
+    Nom.replace("!"," ");
+    Nom.replace("/"," ");
+    Nom.replace("Ã¢","a");
+    Nom.replace("Ã»","u");
+    Nom.replace("Ã‚","a");
+    Nom.replace("'","$");
+    Nom.replace(","," ");
+    Nom.replace("Ã´","o");
+    Nom.replace("$"," ");
+    Nom.replace("."," ");
+    Nom.replace("-"," ");
+    Nom.replace("Ã€","a");
 
-
-void FormaterEntiteBDD(QString& Entite)
+    Nom=  Nom.toLower();
+}
+void FormaterEntiteBDD(QString &Entite)
 {
     EnleverAccents(Entite);
-   QString res;
+    QString res;
     QStringList temp = Entite.split(" ");
 
     for (int cpt=0;cpt<temp.count();cpt++)
     {
         res+=temp[cpt];
     }
-   Entite=res;
+    Entite=res;
 }

@@ -1,13 +1,13 @@
 /**
  * KQOAuth - An OAuth authentication library for Qt.
  *
- * Author: Johan Paul (johan.paul@d-pointer.com)
- *         http://www.d-pointer.com
+ * Author: Johan Paul (johan.paul@gmail.com)
+ *         http://www.johanpaul.com
  *
- *  KQOAuth is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Lesser General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ *  This library is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public
+ *  License as published by the Free Software Foundation; either
+ *  version 2.1 of the License, or (at your option) any later version.
  *
  *  KQOAuth is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -50,7 +50,9 @@ public:
 
     enum RequestHttpMethod {
         GET = 0,
-        POST
+        POST,
+        HEAD,
+        DELETE
     };
 
     /**
@@ -86,8 +88,8 @@ public:
     void setHttpMethod(KQOAuthRequest::RequestHttpMethod = KQOAuthRequest::POST);
     KQOAuthRequest::RequestHttpMethod httpMethod() const;
 
-    // Sets the timeout for this request. If the timeout expires, signal "requestTimedout" will be
-    // emitted from the manager.
+    // Sets the timeout for this request. If the timeout expires, the signal "requestTimedout" will be
+    // emitted.  The KQOAuthManager will then call the abort() function from QNetworkReply associated with this request
     // 0 = If set to zero, timeout is disabled.
     // TODO: Do we need some request ID now?
     void setTimeout(int timeoutMilliseconds);
@@ -130,6 +132,7 @@ private:
     // work with the opaque request.
     QString consumerKeyForManager() const;
     QString consumerKeySecretForManager() const;
+    KQOAuthRequest::RequestSignatureMethod requestSignatureMethodForManager() const;
     QUrl callbackUrlForManager() const;
 
     // This method is for timeout handling by the KQOAuthManager.

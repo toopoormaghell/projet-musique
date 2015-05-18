@@ -2,40 +2,41 @@
 #define BDDMP3_H
 
 #include <QObject>
-#include "BDDcommun.h"
-#include "util.h"
-#include <fileref.h>
-#include <id3v2/frames/attachedpictureframe.h>
-#include <id3v2/id3v2tag.h>
+class BDDArtiste;
+class BDDAlbum;
+class BDDTitre;
+class BDDRelation;
+class BDDType;
 
-class BDDMp3 : public BDDCommun
+class BDDMp3 : public QObject
 {
+    Q_OBJECT
 public:
-    explicit BDDMp3(QObject *parent = 0);
 
-    //En rapport avec la BDD (ajout, modification, suppression)
-    void actualiserMp3(QString type);
-    int ajouterMp3(MP3Gestion mp3);
-    int lireIdMp3(int IdRelation, QString cheminBDD, QString type);
-    void SupprimerMp3(int Id_Titre);
-    QImage ImageAlbum(const TagLib::FileRef& f); //récupère l'image du MP3 pour pouvoir l'enregistrer
-    void ArtisteParChemin(TagLib::String &artist, QString chemin); //Change les artistes selon si c'est un chemin générique
-    void ViderMp3(QString Type);
+    explicit BDDMp3(const QString& Chemin, const BDDRelation& relation, const int&type, QObject *parent = 0);
+    virtual ~BDDMp3();
 
-    //Pour afficher les MP3
-    QStringList listeArtistes(QString Categorie);
-    QStringList listeCategories();
-    QStringList listeAlbums(QString Id_Artiste);
-    QStringList listeTitresAlbum(QString Id_Album);
-    QMap<int, QStringList> recupererMp3(QString Type);
-    MP3Gestion RecupererInfosMp3(int Id_Titre); //récupère les infos du mp3 sélectionné
-    QString getPathFromIdMp3( const QString& mp3Id ); //récupère le chemin du mp3 sélectionné
-    QMap<int, MP3Gestion> similaires(QString Id);
-    QList<int> ListeMp3Compil(QString annee);
+    void updateBDD();
+    void deleteBDD();
+    static BDDMp3* RecupererMp3(const int id);
 
+    BDDAlbum const* m_album;
+    BDDArtiste const* m_artiste;
+    BDDTitre const* m_titre;
+    QString m_chemin;
+    int m_id;
+    BDDRelation const* m_relation;
+    BDDType const* m_type;
+private:
+    // Indique que les membres ont Ã©tÃ© crÃ©Ã©s par RecupererMp3 et doivent donc Ãªtre dÃ©truits explicitement
+    bool m_membersAreSelfCreated;
 
+    void ajouterBDD();
+    void recupererId();
 
-    int NombreMP3();
+    //Constructeur avec une ide
+    BDDMp3(const int id, QObject* parent=NULL);
+
 };
 
 #endif // BDDMP3_H

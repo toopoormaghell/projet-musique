@@ -1,13 +1,13 @@
 /**
  * KQOAuth - An OAuth authentication library for Qt.
  *
- * Author: Johan Paul (johan.paul@d-pointer.com)
- *         http://www.d-pointer.com
+ * Author: Johan Paul (johan.paul@gmail.com)
+ *         http://www.johanpaul.com
  *
- *  KQOAuth is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Lesser General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ *  This library is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public
+ *  License as published by the Free Software Foundation; either
+ *  version 2.1 of the License, or (at your option) any later version.
  *
  *  KQOAuth is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -58,7 +58,7 @@ public:
      * When the request is done it will emit signal requestReady(QByteArray networkReply).
      * NOTE: At the moment there is no timeout for the request.
      */
-    void executeRequest(KQOAuthRequest *request);
+    void executeRequest(KQOAuthRequest *request);    
     void executeAuthorizedRequest(KQOAuthRequest *request, int id);
     /**
      * Indicates to the user that KQOAuthManager should handle user authorization by
@@ -70,6 +70,15 @@ public:
      *       sendAuthorizedRequest().
      */
     void setHandleUserAuthorization(bool set);
+
+    /** Indicates whether the KQOAuthManager should launch the browser with the user
+     * authorization page itself.
+     *
+     * If set to true (the default), the KQOAuthManager uses QDesktopServices::openUrl()
+     * for opening the browser. Otherwise it emits the authorizationPageRequested()
+     * signal which must then be handled by the calling code.
+     */
+    void setHandleAuthorizationPageOpening(bool set);
 
     /**
      * Returns true if the KQOAuthManager has retrieved the oauth_token value. Otherwise
@@ -103,7 +112,7 @@ public:
      * us to access protected resources, the verifier token is stored in KQOAuthManager for further use.
      * In order to use this method, you must set setHandleUserAuthorization() to true.
      */
-    QUrl getUserAuthorization(QUrl authorizationEndpoint);
+    void getUserAuthorization(QUrl authorizationEndpoint);
     /**
      * This is a convenience API for retrieving the access token in exchange for the temporary token and the
      * verifier.
@@ -113,6 +122,12 @@ public:
      * Set setHandleUserAuthorization() to true and retrieve user authorization with void getUserAuthorization.
      */
     void getUserAccessTokens(QUrl accessTokenEndpoint);
+    /**
+     * This is a conveience API for setting the token verifier.
+     * If setHandleUserAuthorization() is set to false you need to call this function before calling
+     * getUserAccessTokens()
+     */
+    void verifyToken(const QString &token, const QString &verifier);
     /**
      * Sends a request to the protected resources. Parameters for the request are service specific and
      * are given to the 'requestParameters' as parameters.
@@ -143,6 +158,10 @@ Q_SIGNALS:
 
     void authorizedRequestReady(QByteArray networkReply, int id);
 
+    // This signal will be emitted when the authorization page should be opened if
+    // setHandleAuthorizationPageOpening() is set to false.
+    void authorizationPageRequested(QUrl pageUrl);
+
     // This signal will be emited when we have an request tokens available
     // (either temporary resource tokens, or authorization tokens).
     void receivedToken(QString oauth_token, QString oauth_token_secret);   // oauth_token, oauth_token_secret
@@ -170,6 +189,7 @@ private Q_SLOTS:
     void onAuthorizedRequestReplyReceived( QNetworkReply *reply );
     void onVerificationReceived(QMultiMap<QString, QString> response);
     void slotError(QNetworkReply::NetworkError error);
+    void requestTimeout();
 
 private:
     KQOAuthManagerPrivate *d_ptr;

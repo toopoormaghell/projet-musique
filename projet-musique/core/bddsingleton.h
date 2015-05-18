@@ -1,30 +1,30 @@
 #ifndef BDDSINGLETON_H
 #define BDDSINGLETON_H
 
-
-
-#include <QSqlDatabase>
+#include <QtSql/QSqlDatabase>
 
 class BDDSingleton
 {
 public:
-    // Destructeur : ferme la base de données
+    // Destructeur : ferme la base de donnÃ©es
     ~BDDSingleton();
-    // Retourne une référence sur l'unique objet de ce type
+    // Retourne une rÃ©fÃ©rence sur l'unique objet de ce type
     static BDDSingleton& getInstance();
-    // Retourne une référence sur la base de données SQL
+    // Retourne une rÃ©fÃ©rence sur la base de donnÃ©es SQL
     QSqlDatabase& getDataBase();
 
 
     void creationBase();
+    void viderBDD();
+    bool removeDir(const QString& dirPath, const bool remove = true, const QString fichier = "def.jpg");
 private:
-    // Constructeur privé : singleton
+    // Constructeur privÃ© : singleton
     BDDSingleton();
-    // Volontairement non implémenté
+    // Volontairement non implÃ©mentÃ©
     BDDSingleton( const BDDSingleton& other );
-    // Volontairement non implémenté
+    // Volontairement non implÃ©mentÃ©
     BDDSingleton& operator=( const BDDSingleton& rhs );
-    // Base de données SQL
+    // Base de donnÃ©es SQL
     QSqlDatabase m_database;
     static BDDSingleton s_singleton;
 };
