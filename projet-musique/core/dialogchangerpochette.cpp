@@ -4,8 +4,9 @@
 #include <QDebug>
 #include <QFileDialog>
 
-DialogChangerPochette::DialogChangerPochette(QWidget *parent) :
+DialogChangerPochette::DialogChangerPochette(int Artiste, QWidget *parent) :
     QDialog(parent),
+    Id_Artiste(Artiste),
     ui(new Ui::DialogChangerPochette)
 {
     ui->setupUi(this);
@@ -18,7 +19,8 @@ DialogChangerPochette::~DialogChangerPochette()
 void DialogChangerPochette::AfficherPochette()
 {
 
-    QList<Pochette> liste=m_bddInterface.ListePochettes();
+
+    QList<Pochette> liste=m_bddInterface.ListePochettes(Id_Artiste);
     for (int cpt=0;cpt<liste.count();cpt++)
     {
         Pochette poch=liste[cpt];
@@ -55,4 +57,10 @@ void DialogChangerPochette::on_buttonBox_accepted()
     } else {
 
     }
+}
+
+void DialogChangerPochette::on_ListePoch_itemDoubleClicked(QListWidgetItem *item)
+{
+  on_buttonBox_accepted();
+
 }

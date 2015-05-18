@@ -33,12 +33,6 @@ public:
     QStringList ListeAlbumSauvegarde();
     void SauvegarderAlbums();
 
-    //En rapport avec l'API
-    QString getjetonAcces();
-    QString getjetonSecret();
-    void changerjetonSecret(QString jeton);
-    void changerjetonAcces(QString jeton);
-
     void AjouterCompil(CompilGestion album);
     void AjouterErreur(CompilGestion album);
     QStringList listeCompils(QString Annee);

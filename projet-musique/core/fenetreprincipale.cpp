@@ -151,8 +151,8 @@ void FenetrePrincipale::dialogAjouterPhysique_Accepted()
 }
 void FenetrePrincipale::on_actionChanger_Pochettes_triggered()
 {
-    DialogChangerPochette tmp(this);
-    tmp.exec();
+ //   DialogChangerPochette tmp(this);
+   // tmp.exec();
 }
 void FenetrePrincipale::on_actionViderMP3_triggered()
 {

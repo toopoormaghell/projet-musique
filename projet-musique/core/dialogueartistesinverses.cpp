@@ -104,3 +104,8 @@ void DialogueArtistesInverses::on_buttonBox_accepted()
 {
     EnregistrerArtistes();
 }
+
+void DialogueArtistesInverses::on_ListeArtistes_itemDoubleClicked(QListWidgetItem *item)
+{
+    EchangerListeArtistes();
+}

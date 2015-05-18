@@ -50,7 +50,10 @@ FORMS += \
 OTHER_FILES += \
     projet_musique.cppcheck \
     ../../../bin/release/default.qss \
-    uml-diagram.uxf
+    uml-diagram.uxf \
+    ../../../moc/core/correct-icone-8516-128.png \
+    ../../../bin/release/mp3phys.png \
+    ../../../bin/release/nonmp3phys.png
 
 HEADERS += \
     affichagecommun.h \
@@ -80,7 +83,8 @@ HEADERS += \
     player.h \
     saisietokensapi.h \
     util.h \
-    ongletstats.h
+    ongletstats.h \
+    bddgeneral.h
 
 SOURCES += \
     affichagecommun.cpp \
@@ -111,4 +115,5 @@ SOURCES += \
     player.cpp \
     saisietokensapi.cpp \
     util.cpp \
-    ongletstats.cpp
+    ongletstats.cpp \
+    bddgeneral.cpp

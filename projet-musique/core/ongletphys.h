@@ -24,7 +24,7 @@ public:
 
     QString choixCategorie();
     QString choixArtiste();
-
+QString choixAlbum();
 
     void afficherListeCompil();
 
@@ -32,18 +32,20 @@ public:
     void vider(QString Type);
 
     void afficherNomArtiste();
+    void afficherInfosAlbum(QListWidgetItem *item);
+
 public slots:
     void on_Artistes_currentTextChanged(const QString &arg1);
 private slots:
     void on_Categories_currentTextChanged(const QString &currentText);
 
-
-
-    void on_pushButton_clicked();
-
     void on_Albums_itemClicked(QListWidgetItem *item);
 
     void on_Singles_itemClicked(QListWidgetItem *item);
+
+    void on_Modifier_clicked();
+
+    void on_Artistes_itemDoubleClicked(QListWidgetItem *item);
 
 private:
     Ui::OngletPhys *ui;

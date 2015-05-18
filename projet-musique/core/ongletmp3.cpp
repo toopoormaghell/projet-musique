@@ -4,7 +4,7 @@
 #include <phonon>
 #include "affichagecommun.h"
 #include "dialogajouterplaylistmp3.h"
-
+#include "dialogchangerpochette.h"
 OngletMp3::OngletMp3(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::OngletMp3)
@@ -34,6 +34,7 @@ void OngletMp3::afficherListeCategories()
 }
 void OngletMp3::afficherListeArtiste()
 {
+    ui->Artistes->clear();
     //Choix de la Categorie des Mp3 à afficher
     QString Categorie=choixCategorie();
 
@@ -50,10 +51,10 @@ void OngletMp3::afficherListeArtiste()
         mediaCell->setText(artistes[cpt]);
 
         ui->Artistes->addItem(mediaCell);
-        ui->Artistes->setCurrentRow(0);
+
     }
 
-
+ui->Artistes->setCurrentRow(0);
 }
 void OngletMp3::afficherListeAlbum()
 {
@@ -392,4 +393,13 @@ void OngletMp3::Playlist()
             cpt++;
         }
     }
+}
+
+void OngletMp3::on_Artistes_itemDoubleClicked(QListWidgetItem *item)
+{
+    QString Art=choixArtiste();
+    DialogChangerPochette dcp(Art.toInt(),this);
+    dcp.exec();
+m_bddInterface.ModifierPochArt(dcp.getId(),Art);
+   afficherListeArtiste();
 }

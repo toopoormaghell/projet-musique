@@ -139,7 +139,7 @@ QImage BDDMp3::ImageAlbum(const TagLib::FileRef& f)
     TagLib::ID3v2::FrameList Liste = Tag.frameListMap()["APIC"];
     TagLib::ID3v2::AttachedPictureFrame *Pic = static_cast<TagLib::ID3v2::AttachedPictureFrame *>(Liste.front());
 
-    if ( ( Pic != NULL ) || Pic->picture().isEmpty() )
+    if ( ( Pic == NULL ) || Pic->picture().isEmpty() )
     {
        Image.fromData("./Pochettes/def.jpg");
 
@@ -164,7 +164,7 @@ void BDDMp3::ArtisteParChemin(TagLib::String &artist, QString chemin)
     }
     if (chemin.contains("Télé Réalités"))
     {
-        artist = "Télé Réalités";
+       artist = "Télé Réalités";
     }
     if (chemin.contains("Era"))
     {
@@ -293,11 +293,11 @@ void BDDMp3::SupprimerMp3(int Id_Titre)
         if (album)
         {
             QString CheminArtiste="./Pochettes/"+mp3.Artiste;
-            bool artiste=supprimerArtiste(mp3.Id_Artiste);
-            if(artiste)
-            {
-                supprimerPoch(mp3.Id_Poch,CheminArtiste,Chemin);
-            }
+            supprimerPoch(mp3.Id_Poch,Chemin);
+
+            supprimerArtiste(mp3.Id_Artiste,CheminArtiste);
+
+
         }
     }
 }
@@ -383,93 +383,7 @@ QMap<int, MP3Gestion> BDDMp3::similaires(QString Id)
     }
     return simi;
 }
-bool BDDMp3::ActualiserAlbums()
-{
-    bool resultat=false;
-    QString queryStr="Select Valeur From Configuration where Intitule='ActualiserAlbums'";
-    QSqlQuery query = madatabase.exec(queryStr);
-    query.next();
-    QSqlRecord rec = query.record();
-    QString temp=rec.value( "Valeur" ).toString();
-    if (temp=="Oui")
-    {
-        resultat=true;
-    }
-    return resultat;
-}
-bool BDDMp3::ActualiserCompil()
-{
-    bool resultat=false;
-    QString queryStr="Select Valeur From Configuration where Intitule='ActualiserCompil'";
-    QSqlQuery query = madatabase.exec(queryStr);
-    query.next();
-    QSqlRecord rec = query.record();
-    QString temp=rec.value( "Valeur" ).toString();
-    if (temp=="Oui")
-    {
-        resultat=true;
-    }
-    return resultat;
-}
-bool BDDMp3::ActualiserLives()
-{
-    bool resultat=false;
-    QString queryStr="Select Valeur From Configuration where Intitule='ActualiserLives'";
-    QSqlQuery query = madatabase.exec(queryStr);
-    query.next();
-    QSqlRecord rec = query.record();
-    QString temp=rec.value( "Valeur" ).toString();
-    if (temp=="Oui")
-    {
-        resultat=true;
-    }
-    return resultat;
-}
-void BDDMp3::EnregistrerActuAlbums(bool check)
-{
-    QString queryStr="Update Configuration SET Valeur=";
 
-    if(check)
-    {
-        queryStr+="'Oui'";
-    } else
-    {
-        queryStr+="'Non'";
-    }
-    queryStr+=" WHERE Intitule='ActualiserAlbums'";
-
-    QSqlQuery query = madatabase.exec(queryStr);
-}
-void BDDMp3::EnregistrerActuCompil(bool check)
-{
-    QString queryStr="Update Configuration SET Valeur=";
-
-    if(check)
-    {
-        queryStr+="'Oui'";
-    } else
-    {
-        queryStr+="'Non'";
-    }
-    queryStr+=" WHERE Intitule='ActualiserCompil'";
-
-    QSqlQuery query = madatabase.exec(queryStr);
-}
-void BDDMp3::EnregistrerActuLives(bool check)
-{
-    QString queryStr="Update Configuration SET Valeur=";
-
-    if(check)
-    {
-        queryStr+="'Oui'";
-    } else
-    {
-        queryStr+="'Non'";
-    }
-    queryStr+=" WHERE Intitule='ActualiserLives'";
-
-    QSqlQuery query = madatabase.exec(queryStr);
-}
 QList<int> BDDMp3::ListeMp3Compil(QString annee)
 {
     QList<int> listeMp3;

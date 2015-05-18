@@ -1,6 +1,7 @@
 #include "dialogmodifieralbum.h"
 #include "ui_dialogmodifieralbum.h"
 #include "QDebug"
+#include "dialogchangerpochette.h"
 
 DialogModifierAlbum::DialogModifierAlbum(AlbumGestion album_modif, QWidget *parent) :
     QDialog(parent),
@@ -83,4 +84,14 @@ void DialogModifierAlbum::on_buttonBox_accepted()
 {
     EnregistrerAlbum();
     m_bddInterface.ModifierAlbumPhys(album);
+}
+
+void DialogModifierAlbum::on_pushButton_clicked()
+{
+
+DialogChangerPochette dcp(album.Id_Artiste,this);
+dcp.exec();
+album.Id_Poch=dcp.getId().toInt();
+QImage poch=m_bddInterface.afficherPochette(dcp.getId(),"Pochette");
+ui->Poch->setPixmap(tmp.afficherPochetteLabel(poch));
 }

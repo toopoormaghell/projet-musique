@@ -33,13 +33,7 @@ public:
     QMap<int, MP3Gestion> similaires(QString Id);
     QList<int> ListeMp3Compil(QString annee);
 
-    //COnfiguration de l'actualiser MP3
-    bool ActualiserAlbums();
-    bool ActualiserCompil();
-    bool ActualiserLives();
-    void EnregistrerActuAlbums(bool check);
-    void EnregistrerActuCompil(bool check);
-    void EnregistrerActuLives(bool check);
+
 
     int NombreMP3();
 };

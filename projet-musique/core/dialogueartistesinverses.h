@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "bddinterface.h"
+#include <QListWidgetItem>
 namespace Ui {
 class DialogueArtistesInverses;
 }
@@ -33,6 +34,8 @@ private slots:
     void on_Inversion_clicked();
 
     void on_buttonBox_accepted();
+
+    void on_ListeArtistes_itemDoubleClicked(QListWidgetItem *item);
 
 private:
     Ui::DialogueArtistesInverses *ui;

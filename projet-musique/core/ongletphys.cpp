@@ -4,19 +4,25 @@
 #include "affichagecommun.h"
 #include "QMessageBox"
 #include "dialogmodifieralbum.h"
+#include "dialogchangerpochette.h"
 
 OngletPhys::OngletPhys(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::OngletPhys)
 {
 
-    ui->setupUi(this);
 
+    ui->setupUi(this);
+    ui->label->setText("A\nL\nB\nU\nM");
+    ui->label_2->setText("S\nI\nN\nG\nL\nE");
+    ui->label_3->setText("C\nO\nM\nP\nI\nL");
+    ui->label_4->setText("S\nT\nA\nT\nS");
     afficherListeCategories();
     if (ui->Categories->count()>1)
     {
         ui->Artistes->clear();
         afficherListeArtiste();
+        afficherListeAlbum();
 
     }
 }
@@ -97,6 +103,21 @@ QString OngletPhys::choixArtiste()
         return item->data(Qt::UserRole).toString();
     }
 }
+
+QString OngletPhys::choixAlbum()
+{
+QListWidgetItem *item=ui->Albums->currentItem();
+if (item==NULL)
+{
+    item=ui->Albums->item(0);
+}
+
+    return item->data(Qt::UserRole).toString();
+}
+
+
+
+
 void OngletPhys::afficherNomArtiste()
 {
     QListWidgetItem *item=ui->Artistes->currentItem();
@@ -146,7 +167,9 @@ void OngletPhys::afficherListeAlbum()
         }
 
     }
-
+    //On sélectionne la première catégorie
+    ui->Albums->item(0)->setSelected(true);
+afficherInfosAlbum(ui->Albums->item(0));
 
 }
 void OngletPhys::afficherListeCompil()
@@ -216,10 +239,61 @@ void OngletPhys::vider(QString Type)
     }
 }
 
-void OngletPhys::on_pushButton_clicked()
+void OngletPhys::afficherInfosAlbum(QListWidgetItem *item)
 {
-    /* QString Categorie = choixCategorie();
     QString Id_Album = item->data(Qt::UserRole).toString();
+
+    AlbumGestion album = m_bddInterface.InfosAlbumPhys( Id_Album );
+
+    ui->Annee->setText(album.Annee);
+    ui->NomAlbum->setText(album.Album);
+    ui->Pochette->setPixmap(temp.afficherPochetteLabel(album.Pochette));
+
+  ui->Titres->clear();
+
+    for (int cpt=0;cpt<album.titres.count();cpt++)
+    {
+
+
+ QString text = QString::number(album.titres[cpt].Num_Piste).rightJustified(2,'0')+" - "+album.titres[cpt].Titre.toUpper()+"("+album.titres[cpt].Duree+")";
+
+
+        QListWidgetItem* mediaCell=new QListWidgetItem();
+        mediaCell->setText(text);
+
+
+     mediaCell->setFlags(Qt::ItemIsSelectable |  Qt::ItemIsEnabled);
+
+     if (album.titres[cpt].TitreenMp3etPhys)
+     {
+        mediaCell->setCheckState(Qt::Checked);
+     } else {
+      mediaCell->setCheckState(Qt::Unchecked);
+
+     }
+
+
+    ui->Titres->addItem(mediaCell);
+
+
+    }
+}
+
+void OngletPhys::on_Albums_itemClicked(QListWidgetItem *item)
+{
+   afficherInfosAlbum(item);
+}
+
+void OngletPhys::on_Singles_itemClicked(QListWidgetItem *item)
+{
+   afficherInfosAlbum(item);
+}
+
+void OngletPhys::on_Modifier_clicked()
+{
+
+    QString Categorie = choixCategorie();
+    QString Id_Album = choixAlbum();
     AlbumGestion album = m_bddInterface.InfosAlbumPhys(Id_Album);
     album.Id_Album= Id_Album.toInt();
     QMessageBox clickedButton;
@@ -243,58 +317,21 @@ void OngletPhys::on_pushButton_clicked()
             m_bddInterface.SupprimerAlbumPhys(Id_Album);
 
         }
-        vider("Categories");
-        afficherListeCategories();
-        afficherListeArtiste();
-        break;
+           break;
     case 0 :
         DialogModifierAlbum temp(album,this);
         temp.exec();
-        afficherListeArtiste();
+       afficherListeAlbum();
         break;
     }
-    */
+
 }
 
-void OngletPhys::on_Albums_itemClicked(QListWidgetItem *item)
+void OngletPhys::on_Artistes_itemDoubleClicked(QListWidgetItem *item)
 {
-    QString Id_Album = item->data(Qt::UserRole).toString();
-
-    AlbumGestion album = m_bddInterface.InfosAlbumPhys( Id_Album );
-
-    ui->Annee->setText(album.Annee);
-    ui->NomAlbum->setText(album.Album);
-    ui->Pochette->setPixmap(temp.afficherPochetteLabel(album.Pochette));
-
-    ui->Titres->clear();
-
-    for (int cpt=0;cpt<album.titres.count();cpt++)
-    {
-        ui->Titres->addItem(QString::number(album.titres[cpt].Num_Piste).rightJustified(2,'0')+" - "+album.titres[cpt].Titre.toUpper()+"("+album.titres[cpt].Duree+")");
-    }
-}
-
-void OngletPhys::on_Singles_itemClicked(QListWidgetItem *item)
-{
-    QString Id_Album = item->data(Qt::UserRole).toString();
-
-    AlbumGestion album = m_bddInterface.InfosAlbumPhys( Id_Album );
-
-    ui->Annee->setText(album.Annee);
-    ui->NomAlbum->setText(album.Album);
-    ui->Pochette->setPixmap(temp.afficherPochetteLabel(album.Pochette));
-
-    ui->Titres->clear();
-
-
-    for (int cpt=0;cpt<album.titres.count();cpt++)
-    {
-
-          QListWidgetItem* mediaCell;
-          mediaCell->setText(QString::number(album.titres[cpt].Num_Piste).rightJustified(2,'0')+" - "+album.titres[cpt].Titre.toUpper()+"("+album.titres[cpt].Duree+")");
-          mediaCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
-mediaCell->setCheckState(Qt::Checked);
-        ui->Titres->insertItem(cpt,mediaCell);
-
-    }
+    QString Art=choixArtiste();
+    DialogChangerPochette dcp(Art.toInt(),this);
+    dcp.exec();
+m_bddInterface.ModifierPochArt(dcp.getId(),Art);
+    afficherListeArtiste();
 }

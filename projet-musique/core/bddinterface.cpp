@@ -47,15 +47,15 @@ MP3Gestion BDDInterface::RecupererInfosMp3(int Id_Titre)
 }
 bool BDDInterface::ActualiserAlbums()
 {
-    return myMp3.ActualiserAlbums();
+    return myGen.ActualiserAlbums();
 }
 bool BDDInterface::ActualiserCompil()
 {
-    return myMp3.ActualiserCompil();
+    return myGen.ActualiserCompil();
 }
 bool BDDInterface::ActualiserLives()
 {
-    return myMp3.ActualiserLives();
+    return myGen.ActualiserLives();
 }
 QList<int> BDDInterface::ListeMp3Compil(QString annee)
 {
@@ -68,15 +68,15 @@ void BDDInterface::ViderMp3(QString Type)
 }
 void BDDInterface::EnregistrerActuAlbums(bool check)
 {
-    myMp3.EnregistrerActuAlbums(check);
+    myGen.EnregistrerActuAlbums(check);
 }
 void BDDInterface::EnregistrerActuCompil(bool check)
 {
-    myMp3.EnregistrerActuCompil(check);
+    myGen.EnregistrerActuCompil(check);
 }
 void BDDInterface::EnregistrerActuLives(bool check)
 {
-    myMp3.EnregistrerActuLives(check);
+    myGen.EnregistrerActuLives(check);
 }
 QMap<int, MP3Gestion> BDDInterface::similaires(QString Id)
 {
@@ -106,6 +106,11 @@ QStringList BDDInterface::listeAlbumsPhys(QString Id_Artiste,QString Categorie)
 QStringList BDDInterface::listeCompilPhys(QString Annee)
 {
     return myPhys.listeCompils(Annee);
+}
+
+void BDDInterface::ModifierPochArt(QString Id_Poch, QString Art)
+{
+    return myCommun.ModifierPochArt(Id_Poch,Art);
 }
 
 QList<TitreGestion> BDDInterface::listeTitresAlbumPhys(QString Id_Album)
@@ -161,19 +166,19 @@ void BDDInterface::SauvegarderAlbums()
 }
 QString BDDInterface::getdossierpardef()
 {
-    return myCommun.getdossierpardef();
+    return myGen.getdossierpardef();
 }
 void BDDInterface::EnregistrerDossierParDef(QString doss)
 {
-    myCommun.EnregistrerDossierParDef(doss);
+    myGen.EnregistrerDossierParDef(doss);
 }
 void BDDInterface::CopierBDD()
 {
-    myCommun.CopierBDD();
+    myGen.CopierBDD();
 }
 void BDDInterface::ChargerBDD()
 {
-    myCommun.ChargerBDD();
+    myGen.ChargerBDD();
 }
 void BDDInterface::EchangerArtiste(QString Artiste, QString Id_Artiste)
 {
@@ -195,9 +200,9 @@ void BDDInterface::AjouterMP3dansPlaylist(int IdMp3, int IdPlay)
 {
     myPlay.AjouterMP3dansPlaylist(IdMp3,IdPlay);
 }
-QList<Pochette> BDDInterface::ListePochettes()
+QList<Pochette> BDDInterface::ListePochettes(int Id_Artiste)
 {
-    return myCommun.ListePochettes();
+    return myCommun.ListePochettes(Id_Artiste);
 }
 
 bool BDDInterface::VerifPoch(QString &ArtAlb)
@@ -212,7 +217,7 @@ int BDDInterface::lireIDPoch(const QString &ArtAlb)
 
 void BDDInterface::VerifierBDD()
 {
-    myCommun.verifierBDD();
+    myGen.verifierBDD();
 }
 QStringList BDDInterface::listePlaylistMp3(QString Id)
 {
@@ -220,21 +225,21 @@ QStringList BDDInterface::listePlaylistMp3(QString Id)
 }
 QString BDDInterface::getjetonAcces()
 {
-    return myPhys.getjetonAcces();
+    return myGen.getjetonAcces();
 }
 QString BDDInterface::getjetonSecret()
 {
-    return myPhys.getjetonSecret();
+    return myGen.getjetonSecret();
 }
 
 void BDDInterface::changerjetonSecret(QString jeton)
 {
-    myPhys.changerjetonSecret(jeton);
+    myGen.changerjetonSecret(jeton);
 }
 
 void BDDInterface::changerjetonAcces(QString jeton)
 {
-    myPhys.changerjetonAcces(jeton);
+    myGen.changerjetonAcces(jeton);
 }
 
 void BDDInterface::SupprimerAlbumPhys(QString Id_Album)

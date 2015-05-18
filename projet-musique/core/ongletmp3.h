@@ -53,6 +53,8 @@ private slots:
 
     void on_Bouton_Playlist_clicked();
 
+    void on_Artistes_itemDoubleClicked(QListWidgetItem *item);
+
 private:
     Ui::OngletMp3 *ui;
     BDDInterface m_bddInterface;

@@ -7,6 +7,8 @@
 #include "BDDphys.h"
 #include "bddplaylist.h"
 #include "util.h"
+#include "bddgeneral.h"
+
 class BarreAvancement;
 
 class BDDInterface: public QObject
@@ -66,6 +68,7 @@ public:
     void ajouterCompilPhysique(CompilGestion compil);
     void ModifierAlbumPhys(AlbumGestion album);
     QStringList listeCompilPhys(QString Annee);
+    void ModifierPochArt(QString Id_Poch, QString Art);
 
     //Commun
     void ViderBDD();
@@ -73,7 +76,7 @@ public:
     QStringList ListeArtistesInvers();
     QImage afficherPochette(const QString &Id, const QString &Type);
     void EchangerArtiste(QString Artiste, QString Id_Artiste);
-    QList<Pochette> ListePochettes();
+    QList<Pochette> ListePochettes(int Id_Artiste);
     bool VerifPoch(QString &ArtAlb);
     int lireIDPoch(const QString &ArtAlb);
 void VerifierBDD();
@@ -87,6 +90,7 @@ private:
     BDDMp3 myMp3;
     BDDPhys myPhys;
     BDDPlaylist myPlay;
+    bddgeneral myGen;
 };
 
 #endif // BDDINTERFACE_H

@@ -34,7 +34,7 @@ void DialogAjoutPlaylist::on_buttonBox_accepted()
 }
 void DialogAjoutPlaylist::on_pushButton_clicked()
 {
-    DialogChangerPochette tmp(this);
+    DialogChangerPochette tmp(25,this);
     tmp.exec();
 
     QImage poch=m_bddInterface.afficherPochette(tmp.getId(),"Pochette");

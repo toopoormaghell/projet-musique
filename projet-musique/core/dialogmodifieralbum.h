@@ -4,7 +4,7 @@
 #include <QDialog>
 #include "util.h"
 #include "bddinterface.h"
-
+#include "affichagecommun.h"
 namespace Ui {
 class DialogModifierAlbum;
 }
@@ -23,10 +23,13 @@ public:
 private slots:
     void on_buttonBox_accepted();
 
+    void on_pushButton_clicked();
+
 private:
     Ui::DialogModifierAlbum *ui;
     AlbumGestion album;
     BDDInterface m_bddInterface;
+    AffichageCommun tmp;
 };
 
 #endif // DIALOGMODIFIERALBUM_H

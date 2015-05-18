@@ -69,21 +69,24 @@ void BDDPhys::AjouterErreur(AlbumGestion album)
 void BDDPhys::ModifierAlbum(AlbumGestion album)
 {
 
-    AlbumGestion AncienAlbum = InfosAlbum(QString::number(album.Id_Album));
+    AlbumGestion AncienAlbum =
+            InfosAlbum(QString::number(album.Id_Album));
 
     bool ArtisteChange=false;
 
-    //L'année, le type ou le nom de l'album ont changé, on met à jour
-    if (album.Annee!=AncienAlbum.Annee ||  album.Album!=AncienAlbum.Album || album.Type!=AncienAlbum.Type)
+    //L'année, le type, la pochette ou le nom de l'album ont changé, on met à jour
+    if (album.Annee!=AncienAlbum.Annee ||  album.Album!=AncienAlbum.Album || album.Type!=AncienAlbum.Type || album.Id_Poch!=AncienAlbum.Id_Poch )
     {
+album.Album=album.Album.replace("'","$");
         QString NomSSAcc=album.Album;
         EnleverAccents(NomSSAcc);
-        madatabase.exec("UPDATE Album SET Album='"+album.Album+"',AlbumSSAccents='"+NomSSAcc+"',Annee='"+album.Annee+"',Type='"+album.Type+"' WHERE Id_Album='"+QString::number(album.Id_Album)+"'");
+                 madatabase.exec("UPDATE Album SET Album='"+album.Album+"',AlbumSSAccents='"+NomSSAcc+"',Annee='"+album.Annee+"',Id_Pochette='"+QString::number(album.Id_Poch)+"',Type='"+album.Type+"' WHERE Id_Album='"+QString::number(album.Id_Album)+"'");
         madatabase.exec("UPDATE Phys SET Categorie='"+album.Type+"' WHERE Id_Album='"+QString::number(album.Id_Album)+"'");
     }
 
-    if (album.Artiste!=AncienAlbum.Artiste)
+    if (album.Artiste!=AncienAlbum.Artiste ||album.Id_Poch!=AncienAlbum.Id_Poch )
     {
+
         album.Id_Artiste= lireIDArtiste(album.Artiste,album.Id_Poch);
         ArtisteChange=true;
 
@@ -91,14 +94,15 @@ void BDDPhys::ModifierAlbum(AlbumGestion album)
     for (int cpt=0;cpt<AncienAlbum.titres.count();cpt++)
     {
         TitreGestion titre=album.titres[cpt];
-        qDebug() << titre.Id_Titre << titre.Titre;
+
         if(ArtisteChange==true)
         {
             supprimerRelation(AncienAlbum.titres[cpt].Id_Relation);
             lireIDRelation(album.Id_Album,album.Id_Artiste,AncienAlbum.titres[cpt].Id_Titre,album.Id_Poch);
 
-            bool test=supprimerArtiste(AncienAlbum.Id_Artiste);
-            qDebug() << test;
+            QString Chemin_Artiste="./Pochettes/"+AncienAlbum.Artiste;
+            bool test=supprimerArtiste(AncienAlbum.Id_Artiste,Chemin_Artiste);
+
         }
     }
 
@@ -172,12 +176,13 @@ void BDDPhys::SupprimerAlbumPhys(QString Id_Album)
         {
             supprimerPhys(album.Id_Album);
             qDebug() << " Album supprimé : " << album.Album;
-            bool artiste=supprimerArtiste(album.Id_Artiste);
+            QString Chemin="./Pochettes/"+album.Artiste;
+            bool artiste=supprimerArtiste(album.Id_Artiste,Chemin);
 
             if(artiste)
             {
                 qDebug() << " Artiste supprimé : " << album.Artiste;
-                supprimerPoch(album.Id_Poch,album.Artiste,album.Album);
+                supprimerPoch(album.Id_Poch,album.Album);
             }
         }
     }
@@ -192,7 +197,7 @@ void BDDPhys::supprimerPhys(int Id_Album)
 
 void BDDPhys::SupprimerCompilPhys(QString Id_Album)
 {
-    //On récupère les infos de l'album
+ /*   //On récupère les infos de l'album
     CompilGestion album = InfosCompil(Id_Album);
 
     album.Id_Album=Id_Album.toInt();
@@ -202,11 +207,13 @@ void BDDPhys::SupprimerCompilPhys(QString Id_Album)
     for (int cpt=0;cpt<album.titres.count();cpt++)
     {
         bool supp = supprimerTitredePhys(album.titres[cpt].Id_Titre,album.Id_Relation);
-        bool artiste=supprimerArtiste(album.titres[cpt].Id_Artiste);
+        QString Chemin_Art="./Pochettes/"+EnleverAccents(album.Artiste);
+        bool artiste=supprimerArtiste(album.titres[cpt].Id_Artiste,Chemin_Art);
         qDebug() << album.titres[cpt].Id_Artiste;
         if(artiste)
         {
             qDebug() << " Artiste supprimé : " << album.Artiste;
+            QString Chemin_Alb=
             supprimerPoch(album.Id_Poch,album.Artiste,album.Album);
             artiste=false;
         }
@@ -224,6 +231,7 @@ void BDDPhys::SupprimerCompilPhys(QString Id_Album)
     {
         supprimerAlbum(album.Id_Album);
     }
+    */
 }
 
 
@@ -244,6 +252,7 @@ QStringList  BDDPhys::listeArtistes(QString Categorie)
         liste << rec.value("Id_Artiste").toString();
 
     }
+
 
     return liste;
 }
@@ -343,7 +352,7 @@ QList<TitreGestion> BDDPhys::listeTitresAlbum(QString Id_Album)
         titre.Duree=rec.value("Duree").toString().replace("$","'");
         titre.Id_Titre=rec.value("Id_Titre").toInt();
         titre.Id_Relation=rec.value("Id_Relation").toInt();
-
+titre.TitreenMp3etPhys=verifierTitreMp3Phys(rec.value("Id_Titre").toInt());
         titres << titre;
     }
     return titres;
@@ -351,7 +360,7 @@ QList<TitreGestion> BDDPhys::listeTitresAlbum(QString Id_Album)
 AlbumGestion BDDPhys::InfosAlbum(QString Id_Album)
 {
     AlbumGestion album;
-
+album.Id_Album=Id_Album.toInt();
     QString queryStr="SELECT DISTINCT Al.Album, Annee, P.Categorie, R.Id_Artiste, Al.Id_Pochette, Ar.Artiste FROM Album Al, Phys P,Artiste Ar, Relations R WHERE Al.Id_Album=P.Id_Album AND R.Id_Album=P.Id_Album AND  Ar.Id_Artiste = R.Id_Artiste AND Al.Id_Album="+Id_Album;
 
     QSqlQuery query=madatabase.exec(queryStr);
@@ -474,38 +483,7 @@ void BDDPhys::SauvegarderAlbums()
         flux << resultat[cpt]<< " " << resultat[cpt+1] << " " << resultat[cpt+2] << " " << resultat[cpt+3] << endl;
     }
 }
-QString BDDPhys::getjetonAcces()
-{
-    QString QueryStr="SELECT Valeur FROM Configuration WHERE Intitule='JetonAcces'";
-    QSqlQuery query=madatabase.exec(QueryStr);
 
-    while (query.next())
-    {
-        QSqlRecord rec=query.record();
-        return rec.value("Valeur").toString();
-    }
-}
-QString BDDPhys::getjetonSecret()
-{
-    QString QueryStr="SELECT Valeur FROM Configuration WHERE Intitule='JetonSecret'";
-    QSqlQuery query=madatabase.exec(QueryStr);
-
-    while (query.next())
-    {
-        QSqlRecord rec=query.record();
-        return rec.value("Valeur").toString();
-    }
-}
-void BDDPhys::changerjetonAcces(QString jeton)
-{
-    QString QueryStr="UPDATE Configuration SET Valeur='"+jeton+"' WHERE Intitule='JetonAcces'";
-    QSqlQuery query=madatabase.exec(QueryStr);
-}
-void BDDPhys::changerjetonSecret(QString jeton)
-{
-    QString QueryStr="UPDATE Configuration SET Valeur='"+jeton+"' WHERE Intitule='JetonSecret'";
-    QSqlQuery query=madatabase.exec(QueryStr);
-}
 int BDDPhys::NombreAlbumsPhys()
 {
 QString QueryStr="SELECT COUNT(*) AS 'Nb' FROM Phys";

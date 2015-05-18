@@ -5,14 +5,15 @@
 #include <QString>
 #include <QSet>
 #include "util.h"
+#include "bddgeneral.h"
 class BarreAvancement;
 
-class BDDCommun : public QObject
+class BDDCommun : public bddgeneral
 {
 public:
     explicit BDDCommun( QObject* parent = 0 );
 
-    void viderBDD();
+ void viderBDD();
 
     bool removeDir(const QString& dirPath, const bool remove = true, const QString fichier = "def.jpg");
 
@@ -22,10 +23,10 @@ public:
     int lireIDTitre( const QString &Titre, int IdAlb, int IdArtiste, int IdPoch,int NumPiste, QString Duree);
     int lireIDRelation(const int &Id_Alb, const int &Id_Artiste, const int &Id_Titre, const int &Id_Pochette );
 
-    bool supprimerArtiste(const int &Id_Artiste);
+    bool supprimerArtiste(const int &Id_Artiste, const QString &Chemin_Artiste);
     bool supprimerAlbum(const int &Id_Alb);
     bool supprimerTitredePhys(const int &Id_Titre,const int &Id_Relation);
-    void supprimerPoch(const int &IdPoch, const QString Artiste, const QString Album);
+    void supprimerPoch(const int &IdPoch, const QString Chemin_Album);
     bool supprimerTitredeMp3(const int Id_Album, const int Id_Titre,const int Id_Relation);
     void supprimerRelation(const int &Id_Relation);
 
@@ -38,26 +39,22 @@ public:
     QString AjouterPochette(MP3Gestion mp3);
     QString AjouterPochette(AlbumGestion album);
     QString AjouterPochette(QString Type, QString Nom, QImage Image);
-    QList<Pochette> ListePochettes();
+    QList<Pochette> ListePochettes(int Id_Artiste);
 
     //Artistes
     QStringList ListeArtistes();
     QStringList Artistea2mots(QStringList Artistes);
     QStringList ListeArtistesInvers();
     void EchangerArtistes(QString Artiste, QString Id_Artiste);
+ void ModifierPochArt(QString Id_Poch, QString Art);
 
 
-    //Confguration du projet
-    QString getdossierpardef();
-    void EnregistrerDossierParDef(QString doss);
-    void CopierBDD();
-    void ChargerBDD();
 
+    QStringList ComparaisonAlbums();
 
     QString AjouterPochette(CompilGestion album);
     bool verifPoch(const QString &ArtAlb);
 
-    void verifierBDD();
 protected:
     void notifierObservateurs( const QString& chemin, const float pourcentage );
 private:
