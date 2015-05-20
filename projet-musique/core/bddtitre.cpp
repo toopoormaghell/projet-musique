@@ -16,9 +16,6 @@ BDDTitre::BDDTitre(const QString &nom, const int &num_piste, const QString &dure
     if (m_id==-1)
     {
         ajouterBDD();
-    } else
-    {
-        updateBDD();
     }
 }
 

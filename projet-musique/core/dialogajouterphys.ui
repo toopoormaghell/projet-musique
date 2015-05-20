@@ -26,34 +26,48 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit"/>
+        <widget class="QLineEdit" name="EAN">
+         <property name="inputMask">
+          <string>0000000000000</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <widget class="QRadioButton" name="radioButton">
+        <widget class="QRadioButton" name="Album">
          <property name="text">
           <string>ALBUM</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QRadioButton" name="radioButton_2">
+        <widget class="QRadioButton" name="Compil">
          <property name="text">
           <string>COMPIL</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QRadioButton" name="radioButton_3">
+        <widget class="QRadioButton" name="Single">
          <property name="text">
           <string>SINGLE</string>
          </property>
         </widget>
        </item>
       </layout>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ChercherEAN">
+       <property name="text">
+        <string>Chercher EAN</string>
+       </property>
+      </widget>
      </item>
      <item>
       <spacer name="verticalSpacer">
@@ -71,7 +85,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="Pochette">
          <property name="minimumSize">
           <size>
            <width>150</width>
@@ -86,21 +100,21 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <widget class="QLineEdit" name="lineEdit_2">
+          <widget class="QLineEdit" name="Nom_Album">
            <property name="text">
             <string>NOM ALBUM</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_3">
+          <widget class="QLineEdit" name="Nom_Artiste">
            <property name="text">
             <string>NOM ARTISTE</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_4">
+          <widget class="QLineEdit" name="Annee">
            <property name="text">
             <string>ANNEE</string>
            </property>
@@ -118,10 +132,13 @@
        <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
-         <height>40</height>
+         <height>150</height>
         </size>
        </property>
       </spacer>
+     </item>
+     <item>
+      <widget class="QTextBrowser" name="Interaction"/>
      </item>
     </layout>
    </item>
@@ -160,7 +177,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="Enregistrer">
        <property name="text">
         <string>Enregistrer</string>
        </property>
@@ -180,9 +197,9 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="Ajouter_Titre">
        <property name="text">
-        <string>PushButton</string>
+        <string>Ajouter Titre</string>
        </property>
       </widget>
      </item>

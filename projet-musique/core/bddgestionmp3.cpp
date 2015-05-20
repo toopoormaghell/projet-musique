@@ -9,7 +9,6 @@
 #include "bddalbum.h"
 #include "bddtitre.h"
 #include "bddrelation.h"
-#include "bddmp3.h"
 #include "bddtype.h"
 
 BDDGestionMp3::BDDGestionMp3(QObject *parent) :

@@ -13,6 +13,9 @@ class BDDGestionMp3 : public QObject
     Q_OBJECT
 public:
     explicit BDDGestionMp3(QObject *parent = 0);
+     void demarreractualiser(int type);
+private slots:
+    void step();
 private:
     //Actualiser MP3 + fonctions associées
     void actualiserMp3(QString chemin);
@@ -22,11 +25,7 @@ private:
     QImage ImageAlbum(const TagLib::FileRef& f);
     void creerfilefichiers();
     void supprimerAnciensMP3();
-public:
-     void demarreractualiser(int type);
-private slots:
-    void step();
-private:
+
     QStringList m_filelist;
     QMap < int, QStringList > m_Chemins;
     int m_type;
