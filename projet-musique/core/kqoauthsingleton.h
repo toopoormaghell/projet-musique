@@ -33,7 +33,6 @@ signals:
 
 private slots:
     void onRequestReady( QByteArray response );
-    void onAuthorizedRequestDone();
 
 
 private:

@@ -94,8 +94,3 @@ void kQOAuthSingleton::onRequestReady(QByteArray response)
     m_reponse = response;
     emit finished( response );
 }
-
-void kQOAuthSingleton::onAuthorizedRequestDone()
-{
-    qDebug() << "Request done!";
-}
