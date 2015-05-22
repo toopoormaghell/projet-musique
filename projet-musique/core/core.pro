@@ -46,7 +46,9 @@ HEADERS += \
     mainwindow.h \
     bddtype.h \
     bddtitre.h \
-    dialogajouterphys.h
+    dialogajouterphys.h \
+    rechercheurl.h \
+    kqoauthsingleton.h
 
 
 SOURCES += main.cpp \
@@ -67,7 +69,9 @@ SOURCES += main.cpp \
     mainwindow.cpp \
     bddtype.cpp \
     bddtitre.cpp \
-    dialogajouterphys.cpp
+    dialogajouterphys.cpp \
+    rechercheurl.cpp \
+    kqoauthsingleton.cpp
 
 FORMS += \
     ongletmp3.ui \
@@ -83,5 +87,8 @@ OTHER_FILES += \
     ../../../moc/core/correct-icone-8516-128.png \
     ../../../bin/release/mp3phys.png \
     ../../../bin/release/nonmp3phys.png
+
+RESOURCES += \
+    IconesMenu.qrc
 
 

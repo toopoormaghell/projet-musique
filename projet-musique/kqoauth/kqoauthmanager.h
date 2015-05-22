@@ -22,7 +22,7 @@
 
 #include <QObject>
 #include <QMultiMap>
-#include <QNetworkReply>
+#include <QtNetwork>
 
 #include "kqoauthrequest.h"
 

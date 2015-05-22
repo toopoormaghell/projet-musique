@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/menuIcones">
+        <file>actump3.png</file>
+        <file>ajoutphys.png</file>
+        <file>artistesinv.jpg</file>
+        <file>bdd.png</file>
+        <file>config actu.png</file>
+        <file>exporter.jpg</file>
+        <file>vider.png</file>
+    </qresource>
+</RCC>

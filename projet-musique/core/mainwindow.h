@@ -16,12 +16,17 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void ajouterToolbar();
 private slots:
     void on_actionActualiser_Mp3_triggered();
 
     void on_actionViderBDD_triggered();
 
     void on_actionAjouter_Album_triggered();
+    void actionExporter();
+    void actionartistesinverses();
+    void actionBDD();
+    void actionconfigactu();
 
 private:
     Ui::MainWindow *ui;
