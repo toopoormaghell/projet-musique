@@ -14,7 +14,7 @@ static const QString s_consumerKey   ( "cb4749e720e30206b488fe891ec416330d87fe5c
 static const QString s_consumerSecret( "ab8dddb10182ae33a9d0066e013b06ee082fba17" );
 static const QString s_accessToken   ( "db164a3be49ecebf981c7475614d9ddd1c88ad8e" );
 static const QString s_tokenSecret   ( "b503630eb7c0ad630a16dc6ff643213acedde4b7" );
-static const QString s_baseAdress( "http://api.music-story.com" );
+static const QString s_baseAdress( "http://api.music-story.com/fr" );
 
 
 
