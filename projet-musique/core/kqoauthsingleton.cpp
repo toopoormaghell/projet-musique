@@ -5,7 +5,7 @@
 #include <QtNetwork/QNetworkAccessManager>
 #include <QEventLoop>
 #include <QDesktopServices>
-// #include <kqoauthmanager.h>
+#include <kqoauthmanager.h>
 #include <kqoauthrequest.h>
 
 
@@ -24,10 +24,10 @@ kQOAuthSingleton::kQOAuthSingleton( QObject* parent ):
     m_request(),
     m_settings()
 {
- /*   m_manager = new KQOAuthManager( this );
+    m_manager = new KQOAuthManager( this );
     m_request = new KQOAuthRequest( this );
     m_settings = new QSettings( this );
-    */
+
 }
 
 kQOAuthSingleton::~kQOAuthSingleton()
@@ -42,7 +42,7 @@ kQOAuthSingleton &kQOAuthSingleton::getInstance()
 
 void kQOAuthSingleton::makeRequest( const QString& category, const QString& paramKey, const QString& paramValue )
 {
-  /*  disconnect( m_manager, SIGNAL( requestReady( QByteArray ) ),
+    disconnect( m_manager, SIGNAL( requestReady( QByteArray ) ),
         this, SLOT( onRequestReady( QByteArray ) ) );
 
     m_request->setEnableDebugOutput(true);
@@ -61,11 +61,11 @@ void kQOAuthSingleton::makeRequest( const QString& category, const QString& para
        this, SLOT( onRequestReady( QByteArray ) ) );
 
     m_manager->executeRequest( m_request );
-    */
+
 }
 void kQOAuthSingleton::makeRequest( const QString& category )
 {
-  /*  disconnect( m_manager, SIGNAL( requestReady( QByteArray ) ),
+   disconnect( m_manager, SIGNAL( requestReady( QByteArray ) ),
         this, SLOT( onRequestReady( QByteArray ) ) );
 
     m_request->setEnableDebugOutput(true);
@@ -80,7 +80,7 @@ void kQOAuthSingleton::makeRequest( const QString& category )
        this, SLOT( onRequestReady( QByteArray ) ) );
 
     m_manager->executeRequest( m_request );
-    */
+
 }
 
 QByteArray kQOAuthSingleton::getResponse() const

@@ -17,29 +17,26 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 void MainWindow::ajouterToolbar()
 {
-    QToolBar* toolbar;
-
-    toolbar=addToolBar("actump3");
     QPixmap essai(":/menuIcones/actump3");
-    toolbar->addAction(QIcon(essai),"Actualiser Mp3",this,SLOT(on_actionActualiser_Mp3_triggered()));
+    ui->toolBar->addAction(QIcon(essai),"Actualiser Mp3",this,SLOT(on_actionActualiser_Mp3_triggered()));
 
     essai.load(":/menuIcones/ajoutphys");
-    toolbar->addAction(QIcon(essai),"Ajouter un Album physique",this,SLOT(on_actionAjouter_Album_triggered()));
+    ui->toolBar->addAction(QIcon(essai),"Ajouter un Album physique",this,SLOT(on_actionAjouter_Album_triggered()));
 
     essai.load(":/menuIcones/vider");
-    toolbar->addAction(QIcon(essai),"Vider BDD",this,SLOT(on_actionViderBDD_triggered()));
+    ui->toolBar->addAction(QIcon(essai),"Vider BDD",this,SLOT(on_actionViderBDD_triggered()));
 
     essai.load(":/menuIcones/exporter");
-    toolbar->addAction(QIcon(essai),"Exporter",this,SLOT(actionExporter()));
+    ui->toolBar->addAction(QIcon(essai),"Exporter",this,SLOT(actionExporter()));
 
     essai.load(":menuIcones/artistesinv");
-    toolbar->addAction(QIcon(essai),"Artistes Inversés",this,SLOT(actionartistesinverses()));
+    ui->toolBar->addAction(QIcon(essai),"Artistes Inversés",this,SLOT(actionartistesinverses()));
 
     essai.load(":menuIcones/bdd");
-    toolbar->addAction(QIcon(essai),"Configuration BDD",this,SLOT(actionBDD()));
+    ui->toolBar->addAction(QIcon(essai),"Configuration BDD",this,SLOT(actionBDD()));
 
     essai.load(":menuIcones/config actu");
-    toolbar->addAction(QIcon(essai),"Configuration Actualiser MP3",this,SLOT(actionconfigactu()));
+    ui->toolBar->addAction(QIcon(essai),"Configuration Actualiser MP3",this,SLOT(actionconfigactu()));
 }
 
 MainWindow::~MainWindow()

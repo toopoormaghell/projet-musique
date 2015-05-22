@@ -3,6 +3,7 @@
 #include "qdebug.h"
 #include "bddgestionphys.h"
 #include "util.h"
+#include "rechercheurl.h"
 
 DialogAjouterPhys::DialogAjouterPhys(QWidget *parent) :
     QDialog(parent),
@@ -39,4 +40,6 @@ void DialogAjouterPhys::on_ChercherEAN_clicked()
 {
     QString temp=recupererEAN();
     ui->Interaction->setText(temp);
+    RechercheURL tmp;
+    tmp.RequeteAlbums(temp);
 }
