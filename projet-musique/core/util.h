@@ -2,7 +2,7 @@
 #define UTIL_H
 
 #include <QObject>
-
+#include <QImage>
 void FormaterEntiteBDD(QString &Entite);
 QString EchangerArtiste(QString Artiste);
 void EnleverAccents(QString &Nom);
@@ -20,4 +20,24 @@ struct TitresPhys
     {}
 };
 typedef struct TitresPhys TitresPhys;
+
+struct AlbumPhys
+{
+    QString Album;
+    QString Artiste;
+    int Annee;
+    QList<TitresPhys> titres;
+    int Id;
+    QImage Poch;
+
+    AlbumPhys():
+    Album(),
+    Artiste(),
+    Annee(1),
+    titres(),
+    Id(1),
+    Poch()
+    {}
+};
+typedef struct AlbumPhys AlbumPhys;
 #endif // UTIL_H

@@ -16,30 +16,52 @@ DialogAjouterPhys::~DialogAjouterPhys()
 {
     delete ui;
 }
-QString DialogAjouterPhys::recupererEAN() const
+void DialogAjouterPhys::recupererEAN()
 {
 
-    return ui->EAN->text();
+    m_EAN = ui->EAN->text();
 }
 
 void DialogAjouterPhys::on_buttonBox_accepted()
 {
-BDDGestionPhys m_bddinterface;
-
-  QImage* image=new QImage("./Pochettes/def.jpg");
-  QList<TitresPhys> titres;
-  TitresPhys temp;
-  temp.Duree="03:45";
-  temp.Num_Piste=01;
-  temp.Titre="blablabla";
-  titres << temp;
-m_bddinterface.ajouterAlbum(*image,"bla","art",144444444,2015,titres,01);
 }
 
 void DialogAjouterPhys::on_ChercherEAN_clicked()
 {
-    QString temp=recupererEAN();
-    ui->Interaction->setText(temp);
+    recupererEAN();
+    ui->Interaction->setText(m_EAN);
+
     RechercheURL tmp;
-    tmp.RequeteAlbums(temp);
+    m_album = tmp.RequeteAlbums(m_EAN);
+    AfficherAlbum();
+
+
+}
+void DialogAjouterPhys::AfficherAlbum()
+{
+    ui->Annee->setText(QString::number(m_album.Annee));
+    ui->Nom_Album->setText(m_album.Album);
+    ui->Nom_Artiste->setText(m_album.Artiste);
+
+    for (int cpt=0;cpt<m_album.titres.count();cpt++)
+    {
+        TitresPhys titre = m_album.titres[cpt];
+        ui->Piste->addItem(QString::number(titre.Num_Piste));
+        ui->Titres->addItem(titre.Titre+"("+titre.Duree+")");
+    }
+    AfficherPoch();
+}
+void DialogAjouterPhys::AfficherPoch()
+{
+    QPixmap* pixmap = new QPixmap();
+    pixmap->convertFromImage(m_album.Poch);
+
+    QPixmap imageScaled = pixmap->scaled(150,150,Qt::IgnoreAspectRatio,Qt::FastTransformation);
+    ui->Pochette->setPixmap(imageScaled);
+}
+
+void DialogAjouterPhys::on_Enregistrer_clicked()
+{
+    BDDGestionPhys m_bddinterface;
+m_bddinterface.ajouterAlbum(m_album.Poch,m_album.Album,m_album.Artiste,m_EAN,m_album.Annee,m_album.titres,1);
 }

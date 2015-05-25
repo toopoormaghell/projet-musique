@@ -10,10 +10,8 @@ class BDDGestionPhys : public QObject
     Q_OBJECT
 public:
     explicit BDDGestionPhys(QObject *parent = 0);
-void ajouterAlbum(QImage Poch,QString Album, QString Artiste,int ean, int Annee, QList<TitresPhys> titres, int Type);
-signals:
+void ajouterAlbum(QImage Poch, QString Album, QString Artiste, QString ean, int Annee, QList<TitresPhys> titres, int Type);
 
-public slots:
 
 };
 

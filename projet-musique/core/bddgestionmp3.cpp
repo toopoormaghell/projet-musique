@@ -18,7 +18,7 @@ BDDGestionMp3::BDDGestionMp3(QObject *parent) :
 
 void BDDGestionMp3::demarreractualiser(int type)
 {
-//    qDebug() << "ici";
+
     m_type = type;
     creerfilefichiers();
     m_iteration = 0;
@@ -28,7 +28,7 @@ void BDDGestionMp3::demarreractualiser(int type)
 
 void BDDGestionMp3::step()
 {
-//    qDebug() << "pass";
+
     if (m_iteration <  m_filelist.count())
     {
         try

@@ -143,7 +143,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QListWidget" name="listWidget">
+    <widget class="QListWidget" name="Piste">
      <property name="minimumSize">
       <size>
        <width>20</width>
@@ -159,10 +159,10 @@
     </widget>
    </item>
    <item>
-    <widget class="QListWidget" name="listWidget_2"/>
+    <widget class="QListWidget" name="Titres"/>
    </item>
    <item>
-    <widget class="QListWidget" name="listWidget_3"/>
+    <widget class="QListWidget" name="Artiste_Titres"/>
    </item>
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_2">

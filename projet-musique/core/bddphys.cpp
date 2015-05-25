@@ -8,7 +8,7 @@
 #include <QtSql>
 
 
-BDDPhys::BDDPhys(const BDDAlbum &album, const int &ean, const int &type, QObject *parent):
+BDDPhys::BDDPhys(const BDDAlbum &album, const QString &ean, const int &type, QObject *parent):
     QObject( parent),
     m_id(-1),
     m_album(&album),
@@ -48,7 +48,7 @@ BDDPhys *BDDPhys::RecupererPhys(const int id)
 
 void BDDPhys::ajouterBDD()
 {
-    QString queryStr="INSERT INTO Phys VALUES (null,'"+QString::number(m_album->m_id)+"','"+QString::number(m_type->m_id)+"','"+QString::number(m_ean)+"')";
+    QString queryStr="INSERT INTO Phys VALUES (null,'"+QString::number(m_album->m_id)+"','"+QString::number(m_type->m_id)+"','"+m_ean+"')";
     QSqlQuery query=  madatabase.exec(queryStr);
     m_id = query.lastInsertId().toInt();
 }
@@ -74,7 +74,7 @@ BDDPhys::BDDPhys(const int id, QObject *parent):
     m_titres(),
     m_artiste(),
     m_album(),
-    m_ean(),
+    m_ean(-1),
     m_type()
 {
     QString queryStr="SELECT * FROM Phys WHERE Id_Phys='"+ QString::number( id)+"'";

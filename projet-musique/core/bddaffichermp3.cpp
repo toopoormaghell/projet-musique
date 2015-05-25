@@ -10,7 +10,7 @@ QList<int> BDDAfficherMp3::ListeArtiste()
 {
     QList<int> liste;
 
-    QString queryStr="SELECT Id_Artiste FROM Artiste WHERE Id_Artiste!='01' ORDER BY Artiste";
+    QString queryStr="SELECT DISTINCT A.Id_Artiste FROM Artiste A, MP3 M,Relations R WHERE A.Id_Artiste!='01' AND R.Id_Relation=M.Id_Relation AND R.Id_Artiste=A.Id_Artiste ORDER BY Artiste";
 
     QSqlQuery query= madatabase.exec(queryStr);
 
