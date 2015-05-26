@@ -14,7 +14,7 @@ BDDPoch::BDDPoch( const QImage& image, const QString& album, const QString& arti
     QString albumFormate( album );
     FormaterEntiteBDD(artisteFormate);
     FormaterEntiteBDD(albumFormate);
-    m_chemin="./pochettes/"+artisteFormate+"/"+albumFormate+".jpg";
+    m_chemin=creerchemin(album,artiste);
 
     recupererId();
 
@@ -27,6 +27,16 @@ BDDPoch::BDDPoch( const QImage& image, const QString& album, const QString& arti
 
 BDDPoch::~BDDPoch()
 {
+}
+QString BDDPoch::creerchemin(const QString& album,const QString& artiste)
+{
+
+    QString artisteFormate( artiste );
+    QString albumFormate( album );
+    FormaterEntiteBDD(artisteFormate);
+    FormaterEntiteBDD(albumFormate);
+
+    return "./pochettes/"+artisteFormate+"/"+albumFormate+".jpg";
 }
 
 void BDDPoch::sauverImage(const QString &album, const QString &artiste)
@@ -67,6 +77,29 @@ BDDPoch* BDDPoch::recupererBDD(const int id)
 {
     return new BDDPoch( id );
 }
+
+BDDPoch *BDDPoch::recupererPoch(const QString &album, const QString &artiste)
+
+{
+    QString chemin = creerchemin(album,artiste);
+
+    QString queryStr =" Select Id_Pochette As 'Poch' from Pochette WHERE Chemin='"+chemin+"'";
+    QSqlQuery query=madatabase.exec(queryStr);
+
+    if(query.first()) {
+
+        QSqlRecord rec = query.record();
+        int id= rec.value( "Poch" ).toInt();
+        return recupererBDD(id);
+    }
+    else
+    {
+        return NULL;
+    }
+
+
+}
+
 
 BDDPoch::BDDPoch( const int id, QObject* parent ):
     QObject( parent ),
@@ -122,38 +155,5 @@ void BDDPoch::supprimerPochette(const int &IdPoch, const QString Chemin_Album)
 
 
     }
-}
-
-QImage BDDPoch::afficherPochette(const QString &Id, const QString &Type)
-{
-    QString queryStr;
-    if (Type=="Album")
-    {
-        queryStr="SELECT P.Chemin FROM Album Al,Pochette P WHERE Al.Id_Pochette=P.Id_Pochette AND Al.Id_Album='"+Id+"'";
-
-    }
-    if (Type=="Artiste")
-    {
-        queryStr="SELECT P.Chemin FROM Artiste Ar,Pochette P WHERE Ar.Id_Pochette=P.Id_Pochette AND Ar.Id_Artiste='"+Id+"'";
-    }
-    if (Type=="Titre")
-    {
-        queryStr="SELECT P.Chemin FROM Titre T,Pochette P WHERE T.Id_Pochette=P.Id_Pochette AND T.Id_Titre='"+Id+"'";
-    }
-    if (Type=="Pochette")
-    {
-        queryStr="SELECT Chemin FROM Pochette WHERE Id_Pochette='"+Id+"'";
-    }
-
-    QSqlQuery query= madatabase.exec(queryStr);
-
-    query.next();
-    QSqlRecord rec=query.record();
-
-    QString Chemin=rec.value("Chemin").toString();
-
-    QImage* image2=new QImage(Chemin);
-    QImage image=*image2;
-    return image;
 }
 */

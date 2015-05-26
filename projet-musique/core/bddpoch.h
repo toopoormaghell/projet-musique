@@ -16,10 +16,13 @@ public:
     void updateBDD();
     void deleteBDD();
     static BDDPoch* recupererBDD( const int id );
-
+static BDDPoch* recupererPoch( const QString& album,const QString &artiste);
     int m_id;
     QImage m_image;
     QString m_chemin;
+
+
+    static QString creerchemin(const QString &album, const QString &artiste);
 
 
 private:
@@ -28,6 +31,7 @@ private:
     void ajouterBDD();
 
     BDDPoch( const int id, QObject* parent = NULL );
+    BDDPoch(const QString &album, const QString &artiste, QObject *parent);
 };
 
 

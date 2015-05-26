@@ -5,9 +5,10 @@
 #include <QtXml/qdom.h>
 #include <QtNetwork>
 #include <QMap>
-
+#include "bddpoch.h"
 RechercheURL::RechercheURL(QObject *parent)
 {
+
 }
 
 AlbumPhys RechercheURL::RequeteAlbums(QString rech)
@@ -21,35 +22,43 @@ AlbumPhys RechercheURL::RequeteAlbums(QString rech)
     QString annee = lecture["release_date"];
     annee.resize(4);
     m_album.Annee = annee.toInt();
-    m_album.Id = lecture["id"].toInt();
+    m_album.Id_Release = lecture["id"].toInt();
 
     //2ème étape, on s'occupe de l'artiste
     temp.clear();
-    temp << "release/"+QString::number(m_album.Id)+"/artists";
+    temp << "release/"+QString::number(m_album.Id_Release)+"/artists";
     lecture = Requete(temp);
     m_album.Artiste=lecture["name"];
 
 
     //3ème étape, on s'occupe des titres
     temp.clear();
-    temp <<"release/"+QString::number(m_album.Id)+"/tracks";
+    temp <<"release/"+QString::number(m_album.Id_Release)+"/tracks";
     RequeteTitres(temp);
     for (int i=2;i<=m_pages;i++)
     {
         temp.clear();
-        temp <<"release/"+QString::number(m_album.Id)+"/tracks" << "page" << QString::number(i);
+        temp <<"release/"+QString::number(m_album.Id_Release)+"/tracks" << "page" << QString::number(i);
         RequeteTitres(temp);
     }
 
     //4ème étape, on s'occupe de la pochette
-    temp.clear();
-    temp <<"release/"+QString::number(m_album.Id)+"/pictures";
-    lecture =Requete(temp);
+    BDDPoch* toto = BDDPoch::recupererPoch(m_album.Album,m_album.Artiste);
+    if (toto == NULL)
+    {
+        temp.clear();
+        temp <<"release/"+QString::number(m_album.Id_Release)+"/pictures";
+        lecture =Requete(temp);
+        RecupererPoch(lecture["url"]);
 
-    RecupererPoch(lecture["url"]);
+    } else {
 
+        m_album.Poch=toto->m_image;
+    }
     return m_album;
 }
+
+
 void RechercheURL::RecupererPoch(QString lien)
 {
 

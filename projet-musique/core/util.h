@@ -27,16 +27,18 @@ struct AlbumPhys
     QString Artiste;
     int Annee;
     QList<TitresPhys> titres;
-    int Id;
+    int Id_Release;
     QImage Poch;
+    int Id_Album;
 
     AlbumPhys():
     Album(),
     Artiste(),
     Annee(1),
     titres(),
-    Id(1),
-    Poch()
+    Id_Release(1),
+    Poch(),
+      Id_Album(1)
     {}
 };
 typedef struct AlbumPhys AlbumPhys;

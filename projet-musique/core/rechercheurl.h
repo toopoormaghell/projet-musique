@@ -14,8 +14,6 @@ public:
 
     AlbumPhys RequeteAlbums(QString rech);
 
-
-
 private:
    QMap<QString, QString> LectureXML(QByteArray fichier);
    AlbumPhys m_album;
@@ -24,6 +22,7 @@ private:
    void RequeteTitres(QStringList attributs);
    void LectureXMLTitres(QByteArray fichier);
    void RecupererPoch(QString lien);
+
 };
 
 #endif // RECHERCHEURL_H
