@@ -13,15 +13,20 @@ public:
     RechercheURL(QObject *parent=0);
 
     AlbumPhys RequeteAlbums(QString rech);
+QString m_interaction;
+signals:
+    void test();
 
 private:
-   QMap<QString, QString> LectureXML(QByteArray fichier);
-   AlbumPhys m_album;
-   int m_pages;
-   QMap<QString, QString> Requete(QStringList attributs);
-   void RequeteTitres(QStringList attributs);
-   void LectureXMLTitres(QByteArray fichier);
-   void RecupererPoch(QString lien);
+    QMap<QString, QString> LectureXML(QByteArray fichier);
+    AlbumPhys m_album;
+    int m_pages;
+    QMap<QString, QString> Requete(QStringList attributs);
+    void RequeteTitres(QStringList attributs);
+    void LectureXMLTitres(QByteArray fichier);
+    void RecupererPoch(QString lien);
+    QStringList RequeteReleases(QStringList attributs);
+    QStringList LectureXMLReleases(QByteArray fichier);
 
 };
 

@@ -10,6 +10,7 @@ DialogAjouterPhys::DialogAjouterPhys(QWidget *parent) :
     ui(new Ui::DialogAjouterPhys)
 {
     ui->setupUi(this);
+    connect(&m_rech,SIGNAL(test()),this,SLOT(test2()));
 }
 
 DialogAjouterPhys::~DialogAjouterPhys()
@@ -29,10 +30,7 @@ void DialogAjouterPhys::on_buttonBox_accepted()
 void DialogAjouterPhys::on_ChercherEAN_clicked()
 {
     recupererEAN();
-    ui->Interaction->setText(m_EAN);
-
-    RechercheURL tmp;
-    m_album = tmp.RequeteAlbums(m_EAN);
+    m_album = m_rech.RequeteAlbums(m_EAN);
     AfficherAlbum();
 
 
@@ -63,5 +61,10 @@ void DialogAjouterPhys::AfficherPoch()
 void DialogAjouterPhys::on_Enregistrer_clicked()
 {
     BDDGestionPhys m_bddinterface;
-m_bddinterface.ajouterAlbum(m_album.Poch,m_album.Album,m_album.Artiste,m_EAN,m_album.Annee,m_album.titres,1);
+    m_bddinterface.ajouterAlbum(m_album.Poch,m_album.Album,m_album.Artiste,m_EAN,m_album.Annee,m_album.titres,1);
+}
+
+void DialogAjouterPhys::test2()
+{
+    ui->Interaction->append(m_rech.m_interaction);
 }

@@ -13,11 +13,14 @@ RechercheURL::RechercheURL(QObject *parent)
 
 AlbumPhys RechercheURL::RequeteAlbums(QString rech)
 {
+    m_interaction = "Requete en cours...";
+    emit test();
     //1ère étape, on récupère l'id, le nom de l'album et l'année
     QStringList temp;
     temp << "release/search"  << "ean" << rech;
     QMap<QString, QString> lecture =   Requete(temp);
-
+    m_interaction= "Récupération du nom de l'album, de l'année faite.";
+    emit test();
     m_album.Album = lecture["title"];
     QString annee = lecture["release_date"];
     annee.resize(4);
@@ -29,9 +32,13 @@ AlbumPhys RechercheURL::RequeteAlbums(QString rech)
     temp << "release/"+QString::number(m_album.Id_Release)+"/artists";
     lecture = Requete(temp);
     m_album.Artiste=lecture["name"];
-
+    m_interaction= "Récupération du nom de l'artiste faite.";
+    emit test();
 
     //3ème étape, on s'occupe des titres
+    m_interaction= "Récupération des titres en cours...";
+    emit test();
+
     temp.clear();
     temp <<"release/"+QString::number(m_album.Id_Release)+"/tracks";
     RequeteTitres(temp);
@@ -41,11 +48,49 @@ AlbumPhys RechercheURL::RequeteAlbums(QString rech)
         temp <<"release/"+QString::number(m_album.Id_Release)+"/tracks" << "page" << QString::number(i);
         RequeteTitres(temp);
     }
+    //Si l'étape 3 n'a rien donné
+    if ( m_album.titres.count()==0)
+    {
+        m_interaction= "Récupération des titres échouée. On vérifie les autres versions de l'album.";
+        emit test();
 
+        //On va chercher l'id de l'album
+        temp.clear();
+        temp << "release/"+QString::number(m_album.Id_Release)+"/album";
+        lecture= Requete(temp);
+        m_album.Id_Album=lecture["id"].toInt();
+        //On cherche maintenant toutes les releases de l'album
+        temp.clear();
+        temp << "album/"+QString::number(m_album.Id_Album)+"/releases";
+        QStringList releases = RequeteReleases(temp);
+        m_interaction= "Liste des releases créée.";
+        emit test();
+
+        int cpt=0;
+
+        while (m_album.titres.count() == 0 )
+        {
+            if (cpt>=releases.count())
+            {
+                m_interaction= "Titres non récupérés.";
+                emit test();
+                break;
+            }
+            //On refait la troisième étape, on s'occupe des titres
+            temp.clear();
+            temp <<"release/"+releases[cpt]+"/tracks";
+            RequeteTitres(temp);
+            cpt++;
+
+        }
+        m_interaction= "Titres récupérés.";
+        emit test();
+    }
     //4ème étape, on s'occupe de la pochette
     BDDPoch* toto = BDDPoch::recupererPoch(m_album.Album,m_album.Artiste);
     if (toto == NULL)
     {
+      m_interaction= "Récupération de la pochette..."; emit test();
         temp.clear();
         temp <<"release/"+QString::number(m_album.Id_Release)+"/pictures";
         lecture =Requete(temp);
@@ -53,8 +98,13 @@ AlbumPhys RechercheURL::RequeteAlbums(QString rech)
 
     } else {
 
+        m_interaction= "La pochette existe déjà.";
+        emit test();
         m_album.Poch=toto->m_image;
     }
+    m_interaction= "Récupération de l'album réalisée. Affichage en cours...";
+    emit test();
+
     return m_album;
 }
 
@@ -71,6 +121,23 @@ void RechercheURL::RecupererPoch(QString lien)
     QObject::connect(r,SIGNAL(finished()),&loop,SLOT(quit()));
     loop.exec();
     m_album.Poch.loadFromData(r->readAll());
+}
+QStringList RechercheURL::RequeteReleases(QStringList attributs)
+{
+    if (attributs.count()==3)
+    {
+        theOAuthSingleton.makeRequest( attributs[0], attributs[1], attributs[2] );
+    } else
+    {
+        theOAuthSingleton.makeRequest( attributs[0] );
+    }
+    //on attend que le signal finished soit reçu
+    QEventLoop loop;
+    QObject::connect(&theOAuthSingleton, SIGNAL(finished( QByteArray )), &loop, SLOT(quit()));
+    loop.exec();
+    QStringList lecture = LectureXMLReleases(theOAuthSingleton.getResponse());
+    return lecture;
+
 }
 
 QMap<QString,QString> RechercheURL::Requete(QStringList attributs)
@@ -163,9 +230,51 @@ void RechercheURL::LectureXMLTitres(QByteArray fichier)
             break;
         }
     }
-    titres << titre_en_cours;
+    if (titre_en_cours.Titre!="")
+    {
+       titres << titre_en_cours;
+    }
     m_album.titres << titres;
 }
+QStringList RechercheURL::LectureXMLReleases(QByteArray fichier)
+{
+    QStringList temp;
+    QXmlStreamReader reader(fichier);
+    QString element;
+
+    while (!reader.atEnd())
+    {
+        reader.readNext();
+        switch(reader.tokenType())
+        {
+        case QXmlStreamReader::StartDocument :  break;
+        case QXmlStreamReader::StartElement:
+        {
+            element = reader.name().toString();
+            break;
+        }
+        case QXmlStreamReader::Characters:
+        {
+            if ( element == "id")
+            {
+                temp << reader.text().toString();
+            }
+
+
+            break;
+        }
+        case QXmlStreamReader::EndElement:
+        {
+            break;
+        }
+        case QXmlStreamReader::EndDocument:
+            break;
+        }
+
+    }
+    return temp;
+}
+
 
 QMap<QString, QString> RechercheURL::LectureXML(QByteArray fichier)
 {

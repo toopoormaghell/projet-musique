@@ -5,6 +5,7 @@
 #include "dialogajouterphys.h"
 #include <QToolBar>
 #include <QAction>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -52,9 +53,12 @@ void MainWindow::on_actionActualiser_Mp3_triggered()
 
 void MainWindow::on_actionViderBDD_triggered()
 {
+int choix =QMessageBox::question(this,tr("Vidage BDD"),tr("Voulez vous vraiment vider la base de données?"),QMessageBox::Yes,QMessageBox::No);
+if (choix == QMessageBox::Yes)
+{
     BDDSingleton::getInstance().viderBDD();
 }
-
+}
 void MainWindow::on_actionAjouter_Album_triggered()
 {
     DialogAjouterPhys temp;
