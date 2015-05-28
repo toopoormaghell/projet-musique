@@ -27,7 +27,7 @@ private slots:
     void actionartistesinverses();
     void actionBDD();
     void actionconfigactu();
-
+void afficherinteraction();
 private:
     Ui::MainWindow *ui;
 

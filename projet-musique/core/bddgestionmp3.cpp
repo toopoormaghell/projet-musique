@@ -77,7 +77,8 @@ void BDDGestionMp3::creerfilefichiers()
 
 void BDDGestionMp3::actualiserMp3(QString chemin)
 {
-    qDebug() << chemin;
+    m_fichierlu = chemin;
+    emit interac();
     // conversion du QString pour le nom du fichier MP3 ainsi que son chemin
     QByteArray arrFileName = QFile::encodeName(chemin);
     const char *encodedName = arrFileName.constData();

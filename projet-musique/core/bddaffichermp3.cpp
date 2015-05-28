@@ -25,7 +25,7 @@ QList<int> BDDAfficherMp3::ListeArtiste()
 QStringList BDDAfficherMp3::listeTitresAlbumMp3(QString Album)
 {
     QStringList titres;
-    QString queryStr="SELECT DISTINCT Titre, Duree, Num_Piste, M.Id_Relation FROM Titre T, Mp3 M, Relations R WHERE R.Id_Titre = T.Id_Titre AND R.Id_Album="+Album+" AND R.Id_Relation=M.Id_Relation AND M.Categorie='1' ORDER BY Num_Piste";
+    QString queryStr="SELECT DISTINCT Titre, Duree, Num_Piste, M.Id_MP3 FROM Titre T, Mp3 M, Relations R WHERE R.Id_Titre = T.Id_Titre AND R.Id_Album="+Album+" AND R.Id_Relation=M.Id_Relation AND M.Categorie='1' ORDER BY Num_Piste";
     QSqlQuery query=madatabase.exec(queryStr);
 
     while (query.next() ) {
@@ -34,7 +34,7 @@ QStringList BDDAfficherMp3::listeTitresAlbumMp3(QString Album)
         QString Num= rec.value("Num_Piste").toString();
 
         temp = Num.rightJustified(2,'0') + " - " + rec.value("Titre").toString().replace("$","'") + "(" + rec.value("Duree").toString() + ")";
-        titres << temp << rec.value("Id_Relation").toString();
+        titres << temp << rec.value("Id_Mp3").toString();
     }
     return titres;
 

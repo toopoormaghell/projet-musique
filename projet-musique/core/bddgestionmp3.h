@@ -14,6 +14,10 @@ class BDDGestionMp3 : public QObject
 public:
     explicit BDDGestionMp3(QObject *parent = 0);
      void demarreractualiser(int type);
+
+    QString m_fichierlu;
+signals:
+     void interac();
 private slots:
     void step();
 private:

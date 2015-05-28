@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     ajouterToolbar();
-
+connect(m_gestionMP3,SIGNAL(interac()),this,SLOT(afficherinteraction()));
 }
 void MainWindow::ajouterToolbar()
 {
@@ -83,4 +83,9 @@ void MainWindow::actionBDD()
 void MainWindow::actionconfigactu()
 {
 
+}
+
+void MainWindow::afficherinteraction()
+{
+ ui->Interaction->setText(m_gestionMP3->m_fichierlu);
 }

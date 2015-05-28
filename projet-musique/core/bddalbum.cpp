@@ -40,7 +40,7 @@ BDDAlbum::~BDDAlbum()
 }
 void BDDAlbum::recupererId()
 {
-    QString queryStr = "Select Id_Album As 'Album', Id_Pochette AS 'Poch' from Album WHERE AlbumSSAccents='" + m_nomFormate+"'" ;
+    QString queryStr = "Select Id_Album As 'Album' from Album WHERE AlbumSSAccents='" + m_nomFormate+"' AND Id_Pochette='" + QString::number(m_pochette->m_id) +"'" ;
     QSqlQuery query = madatabase.exec( queryStr );
 
     if ( query.first() )

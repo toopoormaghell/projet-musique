@@ -84,8 +84,7 @@ void BDDArtiste::updateBDD()
 
 void BDDArtiste::deleteBDD(const int Id_Artiste)
 {
-    /*  bool supprimer=false;
-    //On vérifie si l'artiste existe ou non dans la table des relations
+  /*  //On vérifie si l'artiste existe ou non dans la table des relations
     QString queryStri =  "Select Id_Relation As 'Relation' from Relations WHERE Id_Artiste='"+QString::number(Id_Artiste)+"'" ;
     QSqlQuery  query2 = madatabase.exec(queryStri);
 
@@ -95,12 +94,10 @@ void BDDArtiste::deleteBDD(const int Id_Artiste)
         queryStri =  "DELETE FROM Artiste WHERE Id_Artiste='"+QString::number(Id_Artiste)+"'";
         query2 = madatabase.exec(queryStri);
 
-        QDir().rmdir(Chemin_Artiste);
-        supprimer=true;
+
 
     }
-    return supprimer;
-    */
+*/
 }
 
 void BDDArtiste::EchangerArtiste(QString &nom)

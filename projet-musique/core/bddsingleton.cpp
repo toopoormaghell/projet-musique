@@ -77,7 +77,7 @@ void BDDSingleton::viderBDD()
     QStringList tables;
     QSqlQuery query;
     //Vidage de la base de données.
-    tables <<  "MP3" << "Artiste" << "Album" << "Titre" << "Phys"<<"Pochette" << "InfosPlaylist" << "TitresPlaylist" << "Relations"<< "ErreurPochettes";
+    tables <<  "MP3" << "Artiste" << "Album" << "Titre" << "Phys"<<"Pochette" << "InfosPlaylist" << "TitresPlaylist" << "Relations"<< "ErreurPochettes"<<"Configuration";
     int compt=0;
     while (compt<tables.size())
     {
