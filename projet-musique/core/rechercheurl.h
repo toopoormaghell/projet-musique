@@ -12,7 +12,7 @@ class RechercheURL : public QObject
 public:
     RechercheURL(QObject *parent=0);
 
-    AlbumPhys RequeteAlbums(QString rech);
+    AlbumPhys RequeteAlbums(QString rech, int Type);
 QString m_interaction;
 signals:
     void test();

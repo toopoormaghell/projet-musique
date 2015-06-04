@@ -11,6 +11,7 @@ DialogAjouterPhys::DialogAjouterPhys(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(&m_rech,SIGNAL(test()),this,SLOT(test2()));
+
 }
 
 DialogAjouterPhys::~DialogAjouterPhys()
@@ -26,14 +27,17 @@ void DialogAjouterPhys::recupererEAN()
 void DialogAjouterPhys::on_buttonBox_accepted()
 {
 }
+void DialogAjouterPhys::recupererType()
+{
+    m_Type = 2;
+}
 
 void DialogAjouterPhys::on_ChercherEAN_clicked()
 {
     recupererEAN();
-    m_album = m_rech.RequeteAlbums(m_EAN);
+    recupererType();
+    m_album = m_rech.RequeteAlbums(m_EAN,m_Type);
     AfficherAlbum();
-
-
 }
 void DialogAjouterPhys::AfficherAlbum()
 {
@@ -46,6 +50,7 @@ void DialogAjouterPhys::AfficherAlbum()
         TitresPhys titre = m_album.titres[cpt];
         ui->Piste->addItem(QString::number(titre.Num_Piste));
         ui->Titres->addItem(titre.Titre+"("+titre.Duree+")");
+        ui->Artiste_Titres->addItem(titre.Artiste);
     }
     AfficherPoch();
 }
@@ -68,3 +73,5 @@ void DialogAjouterPhys::test2()
 {
     ui->Interaction->append(m_rech.m_interaction);
 }
+
+

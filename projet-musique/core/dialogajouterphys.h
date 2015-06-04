@@ -21,6 +21,8 @@ public:
     void AfficherAlbum();
 
    QString m_EAN;
+   int m_Type;
+   void recupererType();
 public slots:
    void test2();
 private slots:

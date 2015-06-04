@@ -11,7 +11,7 @@ RechercheURL::RechercheURL(QObject *parent)
 
 }
 
-AlbumPhys RechercheURL::RequeteAlbums(QString rech)
+AlbumPhys RechercheURL::RequeteAlbums(QString rech,int Type)
 {
     m_interaction = "Requete en cours...";
     emit test();
@@ -28,13 +28,19 @@ AlbumPhys RechercheURL::RequeteAlbums(QString rech)
     m_album.Id_Release = lecture["id"].toInt();
 
     //2ème étape, on s'occupe de l'artiste
-    temp.clear();
-    temp << "release/"+QString::number(m_album.Id_Release)+"/artists";
-    lecture = Requete(temp);
-    m_album.Artiste=lecture["name"];
-    m_interaction= "Récupération du nom de l'artiste faite.";
-    emit test();
-
+    if (Type==1)
+    {
+        temp.clear();
+        temp << "release/"+QString::number(m_album.Id_Release)+"/artists";
+        lecture = Requete(temp);
+        m_album.Artiste=lecture["name"];
+        m_interaction= "Récupération du nom de l'artiste faite.";
+        emit test();
+    } else {
+        m_album.Artiste="Artistes Divers";
+        m_interaction= "Le type de l'album est une compilation.";
+        emit test();
+    }
     //3ème étape, on s'occupe des titres
     m_interaction= "Récupération des titres en cours...";
     emit test();
@@ -85,12 +91,27 @@ AlbumPhys RechercheURL::RequeteAlbums(QString rech)
         }
         m_interaction= "Titres récupérés.";
         emit test();
+
+    } //Si le type de l'album est une compil, on récupère les artistes des titres
+    if( Type==2)
+    {
+
+        for (int compt=0;compt<m_album.titres.count();compt++)
+        {
+
+            temp.clear();
+            temp << "track/"+m_album.titres[compt].id+"/artists";
+            lecture=Requete(temp);
+            m_album.titres[compt].Artiste=lecture["name"];
+            m_interaction= "Récupération du nom de l'artiste du titre "+QString::number(compt)+" faite.";
+            emit test();
+        }
     }
     //4ème étape, on s'occupe de la pochette
-    BDDPoch* toto = BDDPoch::recupererPoch(m_album.Album,m_album.Artiste);
+    /*       BDDPoch* toto = BDDPoch::recupererPoch(m_album.Album,m_album.Artiste);
     if (toto == NULL)
     {
-      m_interaction= "Récupération de la pochette..."; emit test();
+     m_interaction= "Récupération de la pochette..."; emit test();
         temp.clear();
         temp <<"release/"+QString::number(m_album.Id_Release)+"/pictures";
         lecture =Requete(temp);
@@ -102,7 +123,7 @@ AlbumPhys RechercheURL::RequeteAlbums(QString rech)
         emit test();
         m_album.Poch=toto->m_image;
     }
-    m_interaction= "Récupération de l'album réalisée. Affichage en cours...";
+*/    m_interaction= "Récupération de l'album réalisée. Affichage en cours...";
     emit test();
 
     return m_album;
@@ -220,6 +241,11 @@ void RechercheURL::LectureXMLTitres(QByteArray fichier)
             {
                 m_pages = reader.text().toInt();
             }
+            if (element == "id")
+            {
+                titre_en_cours.id=reader.text().toString();
+
+            }
             break;
         }
         case QXmlStreamReader::EndElement:
@@ -232,7 +258,7 @@ void RechercheURL::LectureXMLTitres(QByteArray fichier)
     }
     if (titre_en_cours.Titre!="")
     {
-       titres << titre_en_cours;
+        titres << titre_en_cours;
     }
     m_album.titres << titres;
 }

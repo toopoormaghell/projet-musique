@@ -12,17 +12,22 @@ struct TitresPhys
     int Num_Piste;
     QString Duree;
     QString Titre;
+    QString id;
+    QString Artiste;
 
     TitresPhys():
         Num_Piste(0),
         Duree(),
-        Titre()
+        Titre(),
+        id(),
+        Artiste()
     {}
 };
 typedef struct TitresPhys TitresPhys;
 
 struct AlbumPhys
 {
+    int Type;
     QString Album;
     QString Artiste;
     int Annee;
@@ -32,6 +37,7 @@ struct AlbumPhys
     int Id_Album;
 
     AlbumPhys():
+        Type(1),
     Album(),
     Artiste(),
     Annee(1),
