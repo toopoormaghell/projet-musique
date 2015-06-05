@@ -22,18 +22,18 @@ public:
 
    QString m_EAN;
    int m_Type;
-   void recupererType();
+
 public slots:
-   void test2();
+   void AfficheInteraction();
 private slots:
-    void on_buttonBox_accepted();
+
 
     void on_ChercherEAN_clicked();
 
     void on_Enregistrer_clicked();
 
 
-
+void AffichageListeAristes(int id);
 private:
     Ui::DialogAjouterPhys *ui;
     AlbumPhys m_album;

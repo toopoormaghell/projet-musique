@@ -10,8 +10,10 @@ DialogAjouterPhys::DialogAjouterPhys(QWidget *parent) :
     ui(new Ui::DialogAjouterPhys)
 {
     ui->setupUi(this);
-    connect(&m_rech,SIGNAL(test()),this,SLOT(test2()));
-
+    ui->ArtisteLabel->setHidden(true);
+    ui->Artiste_Titres->setHidden(true);
+    connect(&m_rech,SIGNAL(test()),this,SLOT(AfficheInteraction()));
+    connect(ui->buttonGroup, SIGNAL(buttonClicked(int)), this, SLOT(AffichageListeAristes(int))) ;
 }
 
 DialogAjouterPhys::~DialogAjouterPhys()
@@ -24,18 +26,11 @@ void DialogAjouterPhys::recupererEAN()
     m_EAN = ui->EAN->text();
 }
 
-void DialogAjouterPhys::on_buttonBox_accepted()
-{
-}
-void DialogAjouterPhys::recupererType()
-{
-    m_Type = 2;
-}
 
 void DialogAjouterPhys::on_ChercherEAN_clicked()
 {
     recupererEAN();
-    recupererType();
+
     m_album = m_rech.RequeteAlbums(m_EAN,m_Type);
     AfficherAlbum();
 }
@@ -69,9 +64,17 @@ void DialogAjouterPhys::on_Enregistrer_clicked()
     m_bddinterface.ajouterAlbum(m_album.Poch,m_album.Album,m_album.Artiste,m_EAN,m_album.Annee,m_album.titres,1);
 }
 
-void DialogAjouterPhys::test2()
+void DialogAjouterPhys::AfficheInteraction()
 {
     ui->Interaction->append(m_rech.m_interaction);
 }
+void DialogAjouterPhys::AffichageListeAristes(int id) {
 
+    switch (id)
+    {
+    case (-2):m_Type=1;ui->Artiste_Titres->setHidden(true); ui->ArtisteLabel->setHidden(true);break;
+    case (-3): m_Type=2;ui->Artiste_Titres->setHidden(false); ui->ArtisteLabel->setHidden(false);break;
+    case (-4): m_Type=3;ui->Artiste_Titres->setHidden(true); ui->ArtisteLabel->setHidden(true);break;
+    }
+}
 
