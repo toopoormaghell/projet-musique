@@ -19,7 +19,7 @@ OngletPhys::OngletPhys(QWidget *parent) :
 void OngletPhys::on_Artistes_currentTextChanged(const QString &arg1)
 {
     afficherListeAlbum();
-
+    afficherListeCompils();
 }
 
 OngletPhys::~OngletPhys()
@@ -97,10 +97,50 @@ void OngletPhys::afficherListeAlbum()
 
     ui->Albums->setCurrentRow(1);
 }
-void OngletPhys::AfficherInfosAlbum()
+void OngletPhys::afficherListeCompils()
 {
-    QString id= choixAlbum();
+    ui->Compil->clear();
 
+    //Choix de l'Artiste des Albums à afficher
+    QString Artiste=choixArtiste();
+
+
+    //Affichage des albums
+    QList<int> albums=m_bddInterface.listeCompils(Artiste);
+
+    for (int cpt=0;cpt<albums.count();cpt++) {
+
+        BDDAlbum* album= BDDAlbum::RecupererAlbum(albums[cpt]);
+
+
+        if (album->m_id>0)
+        {
+            QListWidgetItem* item = new QListWidgetItem;
+            QPixmap scaled( QPixmap::fromImage( album->m_pochette->m_image ) );
+
+            item->setIcon( QIcon( scaled ) );
+
+
+            //On s'occupe du nom de l'album
+            item->setData( Qt::UserRole, albums[cpt] );
+            item->setText( QString::number(album->m_annee)+" - "+album->m_nom );
+
+            ui->Compil->addItem( item );
+
+        }
+        delete album;
+    }
+}
+
+void OngletPhys::AfficherInfosAlbum(int Type)
+{
+    QString id;
+    switch (Type)
+    {
+    case 1: id= choixAlbum();break;
+    case 2: id=choixCompil();break;
+
+    }
     BDDPhys* phys= BDDPhys::RecupererPhys(id.toInt());
     ui->Annee->setText( QString::number(phys->m_album->m_annee));
 
@@ -118,6 +158,15 @@ QString OngletPhys::choixAlbum()
     }
     return item != NULL ? item->data(Qt::UserRole).toString() : QString();
 }
+QString OngletPhys::choixCompil()
+{
+    QListWidgetItem *item=ui->Compil->currentItem();
+    if (item==NULL)
+    {
+        item=ui->Compil->item(1);
+    }
+    return item != NULL ? item->data(Qt::UserRole).toString() : QString();
+}
 
 QString OngletPhys::choixArtiste()
 {
@@ -129,12 +178,6 @@ QString OngletPhys::choixArtiste()
     return item != NULL ? item->data(Qt::UserRole).toString() : QString();
 }
 
-
-void OngletPhys::on_Albums_currentTextChanged(const QString &currentText)
-{
-    vider("Infos");
-    AfficherInfosAlbum();
-}
 void OngletPhys::vider(QString type)
 {
     if (type=="Artiste")
@@ -157,7 +200,18 @@ void OngletPhys::vider(QString type)
         ui->NomAlbum->clear();
         ui->Pochette->clear();
         ui->Titres->clear();
-
-
     }
+}
+void OngletPhys::on_Albums_itemPressed(QListWidgetItem *item)
+{
+    ui->Compil->clearSelection();
+    vider("Infos");
+    AfficherInfosAlbum(1);
+}
+
+void OngletPhys::on_Compil_itemPressed(QListWidgetItem *item)
+{
+    ui->Albums->clearSelection();
+    vider("Infos");
+    AfficherInfosAlbum(2);
 }

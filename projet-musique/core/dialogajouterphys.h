@@ -6,7 +6,7 @@
 #include "rechercheurl.h"
 
 namespace Ui {
-class DialogAjouterPhys;
+    class DialogAjouterPhys;
 }
 
 class DialogAjouterPhys : public QDialog
@@ -20,11 +20,11 @@ public:
     void recupererEAN();
     void AfficherAlbum();
 
-   QString m_EAN;
-   int m_Type;
+    QString m_EAN;
+    int m_Type;
 
 public slots:
-   void AfficheInteraction();
+    void AfficheInteraction();
 private slots:
 
 
@@ -33,7 +33,7 @@ private slots:
     void on_Enregistrer_clicked();
 
 
-void AffichageListeAristes(int id);
+    void AffichageListeAristes(int id);
 private:
     Ui::DialogAjouterPhys *ui;
     AlbumPhys m_album;

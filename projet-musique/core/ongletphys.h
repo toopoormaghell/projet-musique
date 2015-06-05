@@ -2,10 +2,11 @@
 #define ONGLETPHYS_H
 
 #include <QWidget>
+#include <QListWidgetItem>
 #include "bddafficherphys.h"
 
 namespace Ui {
-class OngletPhys;
+    class OngletPhys;
 }
 
 class OngletPhys : public QWidget
@@ -20,13 +21,20 @@ public:
     void afficherListeAlbum();
     QString choixArtiste();
     QString choixAlbum();
-    void AfficherInfosAlbum();
+    void AfficherInfosAlbum(int Type);
     void vider(QString type);
+    void afficherListeCompils();
+    QString choixCompil();
+
 public slots:
     void on_Artistes_currentTextChanged(const QString &arg1);
 
 private slots:
-    void on_Albums_currentTextChanged(const QString &currentText);
+
+
+    void on_Albums_itemPressed(QListWidgetItem *item);
+
+    void on_Compil_itemPressed(QListWidgetItem *item);
 
 private:
     Ui::OngletPhys *ui;

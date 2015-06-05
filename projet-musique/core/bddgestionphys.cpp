@@ -16,15 +16,22 @@ BDDGestionPhys::BDDGestionPhys(QObject *parent) :
 void BDDGestionPhys::ajouterAlbum(QImage Poch, QString Album, QString Artiste,QString ean, int Annee, QList<TitresPhys> titres, int Type)
 {
     BDDPoch poch(Poch,Album,Artiste);
-    BDDArtiste art(Artiste,poch);
     BDDAlbum alb(Album,poch,Annee,Type);
+    BDDArtiste art(Artiste,poch);
+
 
     for (int cpt=0;cpt<titres.count();cpt++)
     {
         TitresPhys temp = titres[cpt];
         BDDTitre tit(temp.Titre.replace("'","$"),temp.Num_Piste,temp.Duree);
-        BDDRelation rel(alb,art,tit);
+        if (Type==2)
+        {
+            BDDArtiste artTitre(temp.Artiste,poch);
+            BDDRelation rel(alb,artTitre,tit);
+        } else
+        {
+            BDDRelation rel(alb,art,tit);
+        }
     }
-
     BDDPhys phys(alb,ean,Type);
 }

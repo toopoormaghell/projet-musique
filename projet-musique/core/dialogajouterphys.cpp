@@ -9,6 +9,7 @@ DialogAjouterPhys::DialogAjouterPhys(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogAjouterPhys)
 {
+    m_Type=1;
     ui->setupUi(this);
     ui->ArtisteLabel->setHidden(true);
     ui->Artiste_Titres->setHidden(true);
@@ -60,8 +61,9 @@ void DialogAjouterPhys::AfficherPoch()
 
 void DialogAjouterPhys::on_Enregistrer_clicked()
 {
+
     BDDGestionPhys m_bddinterface;
-    m_bddinterface.ajouterAlbum(m_album.Poch,m_album.Album,m_album.Artiste,m_EAN,m_album.Annee,m_album.titres,1);
+    m_bddinterface.ajouterAlbum(m_album.Poch,m_album.Album,m_album.Artiste,m_EAN,m_album.Annee,m_album.titres,m_Type);
 }
 
 void DialogAjouterPhys::AfficheInteraction()

@@ -13,6 +13,7 @@ RechercheURL::RechercheURL(QObject *parent)
 
 AlbumPhys RechercheURL::RequeteAlbums(QString rech,int Type)
 {
+
     m_interaction = "Requete en cours...";
     emit test();
     //1ère étape, on récupère l'id, le nom de l'album et l'année
@@ -108,7 +109,7 @@ AlbumPhys RechercheURL::RequeteAlbums(QString rech,int Type)
         }
     }
     //4ème étape, on s'occupe de la pochette
-    /*       BDDPoch* toto = BDDPoch::recupererPoch(m_album.Album,m_album.Artiste);
+         BDDPoch* toto = BDDPoch::recupererPoch(m_album.Album,m_album.Artiste);
     if (toto == NULL)
     {
      m_interaction= "Récupération de la pochette..."; emit test();
@@ -123,7 +124,8 @@ AlbumPhys RechercheURL::RequeteAlbums(QString rech,int Type)
         emit test();
         m_album.Poch=toto->m_image;
     }
-*/    m_interaction= "Récupération de l'album réalisée. Affichage en cours...";
+
+   m_interaction= "Récupération de l'album réalisée. Affichage en cours...";
     emit test();
 
     return m_album;
