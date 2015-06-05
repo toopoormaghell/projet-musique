@@ -26,6 +26,7 @@ public:
     void afficherListeCompils();
     QString choixCompil();
 
+    void afficherListeType();
 public slots:
     void on_Artistes_currentTextChanged(const QString &arg1);
 

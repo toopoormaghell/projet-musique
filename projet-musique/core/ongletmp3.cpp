@@ -13,8 +13,6 @@ OngletMP3::OngletMP3(QWidget *parent) :
 {
     ui->setupUi(this);
     afficherListeType();
-
-    afficherListeArtiste();
 }
 
 OngletMP3::~OngletMP3()
@@ -37,11 +35,12 @@ void OngletMP3::afficherListeType()
         scaled = scaled.scaled( 150, 150 );
         QListWidgetItem* item = new QListWidgetItem;
         item->setIcon( QIcon( scaled ) );
-
+item->setData(Qt::UserRole,cpt);
         item->setText(types[cpt]);
 
         ui->Categories->addItem(item);
     }
+    ui->Categories->setCurrentRow(0);
 }
 
 void OngletMP3::afficherListeArtiste()
@@ -115,6 +114,16 @@ void OngletMP3::afficherListeAlbum()
 
     ui->Albums->setCurrentRow(1);
 }
+QString OngletMP3::choixCategories()
+{
+    QListWidgetItem *item=ui->Categories->currentItem();
+    if (item==NULL)
+    {
+        item=ui->Categories->item(0);
+    }
+    return item != NULL ? item->data(Qt::UserRole).toString() : QString();
+}
+
 QString OngletMP3::choixArtiste()
 {
     QListWidgetItem *item=ui->Artistes->currentItem();
@@ -127,16 +136,14 @@ QString OngletMP3::choixArtiste()
 void OngletMP3::on_Artistes_currentTextChanged(const QString &arg1)
 {
     vider("Albums");
-
     afficherListeAlbum();
-
 }
 void OngletMP3::on_Albums_currentRowChanged(int currentRow)
 {
     vider ("Titres");
     afficherInfosTitre();
-
 }
+
 void OngletMP3::vider(QString Type)
 {
     if (Type=="Artiste")
@@ -204,4 +211,10 @@ QString OngletMP3::choixMp3()
     }
 
     return  item != NULL ? item->data(Qt::UserRole).toString() : QString();
+}
+
+void OngletMP3::on_Categories_currentTextChanged(const QString &currentText)
+{
+    vider ("Artiste");
+    afficherListeArtiste();
 }

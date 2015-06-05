@@ -6,13 +6,14 @@
 #include "bddalbum.h"
 #include "bddtitre.h"
 #include "bddphys.h"
-
+#include "bddaffichermp3.h"
 
 OngletPhys::OngletPhys(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::OngletPhys)
 {
     ui->setupUi(this);
+    afficherListeType();
     afficherListeArtiste();
 
 }
@@ -28,8 +29,6 @@ OngletPhys::~OngletPhys()
 }
 void OngletPhys::afficherListeArtiste()
 {
-
-
     //Affichage des artistes
     QList<int> artistes=m_bddInterface.ListeArtiste();
 
@@ -214,4 +213,27 @@ void OngletPhys::on_Compil_itemPressed(QListWidgetItem *item)
     ui->Albums->clearSelection();
     vider("Infos");
     AfficherInfosAlbum(2);
+}
+void OngletPhys::afficherListeType()
+{
+    ui->Categories->clear();
+
+    QStringList types;
+    types << "Tout";
+BDDAfficherMp3 temp;
+
+    types <<temp.RecupererListeTypes("Phys") ;
+
+    QImage image("./Pochettes/def.jpg");
+    for(int cpt=0;cpt<types.count();cpt++)
+    {
+        QPixmap scaled( QPixmap::fromImage( image ) );
+        scaled = scaled.scaled( 150, 150 );
+        QListWidgetItem* item = new QListWidgetItem;
+        item->setIcon( QIcon( scaled ) );
+
+        item->setText(types[cpt]);
+
+        ui->Categories->addItem(item);
+    }
 }
