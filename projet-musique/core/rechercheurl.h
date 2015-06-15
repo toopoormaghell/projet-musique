@@ -13,7 +13,7 @@ public:
     RechercheURL(QObject *parent=0);
 
     AlbumPhys RequeteAlbums(QString rech, int Type);
-QString m_interaction;
+    QString m_interaction;
 signals:
     void test();
 

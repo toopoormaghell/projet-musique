@@ -28,11 +28,13 @@ void BDDGestionMp3::demarreractualiser(int type)
 
 void BDDGestionMp3::step()
 {
-
+    m_pourcentage = m_iteration*100/m_filelist.count();
+    emit pourcentage();
     if (m_iteration <  m_filelist.count())
     {
         try
         {
+
             actualiserMp3(m_filelist[m_iteration]);
         }
         catch ( std::bad_alloc& e )
@@ -40,7 +42,7 @@ void BDDGestionMp3::step()
             qDebug() << e.what();
         }
 
-       QTimer::singleShot(0, this, SLOT( step() ) );
+        QTimer::singleShot(0, this, SLOT( step() ) );
         ++m_iteration;
     } else
     {
@@ -78,7 +80,7 @@ void BDDGestionMp3::creerfilefichiers()
 void BDDGestionMp3::actualiserMp3(QString chemin)
 {
     m_fichierlu = chemin;
-    emit interac();
+
     // conversion du QString pour le nom du fichier MP3 ainsi que son chemin
     QByteArray arrFileName = QFile::encodeName(chemin);
     const char *encodedName = arrFileName.constData();
@@ -213,4 +215,9 @@ QImage BDDGestionMp3::ImageAlbum(const TagLib::FileRef &f)
     }
 
     return Image;
+}
+void BDDGestionMp3::SupprimerMP3(int Id)
+{
+//BDDMp3 mp3 = BDDMp3::RecupererMp3(Id);
+
 }

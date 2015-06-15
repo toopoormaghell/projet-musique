@@ -6,15 +6,19 @@
 #include <QToolBar>
 #include <QAction>
 #include <QMessageBox>
+#include "dialogconfigactu.h"
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    m_gestionMP3( new BDDGestionMp3 )
+    m_gestionMP3( new BDDGestionMp3 ),
+    m_progressbar( new QProgressBar),
+    m_interaction( new QTextBrowser)
 {
     ui->setupUi(this);
     ajouterToolbar();
-connect(m_gestionMP3,SIGNAL(interac()),this,SLOT(afficherinteraction()));
+    connect(m_gestionMP3,SIGNAL(pourcentage()),this,SLOT(changerPourcentage()));
 }
 void MainWindow::ajouterToolbar()
 {
@@ -38,6 +42,20 @@ void MainWindow::ajouterToolbar()
 
     essai.load(":menuIcones/config actu");
     ui->toolBar->addAction(QIcon(essai),"Configuration Actualiser MP3",this,SLOT(actionconfigactu()));
+
+    ui->toolBar->addWidget( m_progressbar );
+    m_progressbar->setMaximumWidth(500);
+    m_progressbar->setTextVisible( true );
+    m_progressbar->setAlignment( Qt::AlignCenter );
+    QString temp = "%p% -"+m_gestionMP3->m_fichierlu;
+    m_progressbar->setFormat(temp);
+
+
+    ui->toolBar->addWidget(m_interaction);
+    m_interaction->setMaximumHeight(20);
+    m_interaction->setMaximumWidth(500);
+
+
 }
 
 MainWindow::~MainWindow()
@@ -53,15 +71,15 @@ void MainWindow::on_actionActualiser_Mp3_triggered()
 
 void MainWindow::on_actionViderBDD_triggered()
 {
-int choix =QMessageBox::question(this,tr("Vidage BDD"),tr("Voulez vous vraiment vider la base de données?"),QMessageBox::Yes,QMessageBox::No);
-if (choix == QMessageBox::Yes)
-{
-    BDDSingleton::getInstance().viderBDD();
-}
+    int choix =QMessageBox::question(this,tr("Vidage BDD"),tr("Voulez vous vraiment vider la base de données?"),QMessageBox::Yes,QMessageBox::No);
+    if (choix == QMessageBox::Yes)
+    {
+        BDDSingleton::getInstance().viderBDD();
+    }
 }
 void MainWindow::on_actionAjouter_Album_triggered()
 {
-    DialogAjouterPhys temp;
+    DialogAjouterPhys temp(this);
     temp.exec();
 }
 
@@ -82,10 +100,17 @@ void MainWindow::actionBDD()
 
 void MainWindow::actionconfigactu()
 {
-
+DialogConfigActu temp(this);
+temp.exec();
 }
 
-void MainWindow::afficherinteraction()
+void MainWindow::changerPourcentage()
 {
- ui->Interaction->setText(m_gestionMP3->m_fichierlu);
+    m_progressbar->setValue(m_gestionMP3->m_pourcentage);
+    m_interaction->setText(m_gestionMP3->m_fichierlu);
+
+    m_progressbar->setFormat("%p%");
+
 }
+
+

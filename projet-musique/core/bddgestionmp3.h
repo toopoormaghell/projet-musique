@@ -16,8 +16,9 @@ public:
      void demarreractualiser(int type);
 
     QString m_fichierlu;
+    int m_pourcentage;
 signals:
-     void interac();
+    void pourcentage();
 private slots:
     void step();
 private:
@@ -34,6 +35,8 @@ private:
     QMap < int, QStringList > m_Chemins;
     int m_type;
     int m_iteration;
+
+  void SupprimerMP3(int Id);
 
 };
 

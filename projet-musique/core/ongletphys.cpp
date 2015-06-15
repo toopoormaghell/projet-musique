@@ -13,6 +13,7 @@ OngletPhys::OngletPhys(QWidget *parent) :
     ui(new Ui::OngletPhys)
 {
     ui->setupUi(this);
+    vider("Artiste");
     afficherListeType();
     afficherListeArtiste();
 
@@ -147,6 +148,13 @@ void OngletPhys::AfficherInfosAlbum(int Type)
     scaled = scaled.scaled( 150, 150 );
     ui->Pochette->setPixmap(scaled);
 
+    for(int i=0;i<phys->m_titres.count();i++)
+    {
+        QString temp;
+        temp = QString::number(phys->m_titres[i]->m_num_piste) + " - "+ phys->m_titres[i]->m_nom+"("+phys->m_titres[i]->m_duree+")";
+        ui->Titres->addItem(temp);
+
+    }
 }
 QString OngletPhys::choixAlbum()
 {

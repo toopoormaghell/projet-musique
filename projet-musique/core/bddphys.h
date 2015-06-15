@@ -20,7 +20,7 @@ public:
 
     BDDAlbum const* m_album;
     BDDArtiste const* m_artiste;
-    QList<BDDTitre> const* m_titres;
+    QList<BDDTitre*>   m_titres;
     int m_id;
     BDDType const* m_type;
     QString m_ean;

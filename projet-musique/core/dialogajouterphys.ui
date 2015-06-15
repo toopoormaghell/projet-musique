@@ -76,6 +76,9 @@
        <property name="text">
         <string>Chercher EAN</string>
        </property>
+       <property name="shortcut">
+        <string>Return</string>
+       </property>
       </widget>
      </item>
      <item>
@@ -137,6 +140,13 @@
       </layout>
      </item>
      <item>
+      <widget class="QPushButton" name="pushButton">
+       <property name="text">
+        <string>Changer Pochette...</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="verticalSpacer_2">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
@@ -192,6 +202,9 @@
          <height>16777215</height>
         </size>
        </property>
+       <property name="alternatingRowColors">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
     </layout>
@@ -206,7 +219,23 @@
       </widget>
      </item>
      <item>
-      <widget class="QListWidget" name="Titres"/>
+      <widget class="QListWidget" name="Titres">
+       <property name="dragDropMode">
+        <enum>QAbstractItemView::InternalMove</enum>
+       </property>
+       <property name="defaultDropAction">
+        <enum>Qt::MoveAction</enum>
+       </property>
+       <property name="alternatingRowColors">
+        <bool>true</bool>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::MultiSelection</enum>
+       </property>
+       <property name="movement">
+        <enum>QListView::Free</enum>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -220,7 +249,26 @@
       </widget>
      </item>
      <item>
-      <widget class="QListWidget" name="Artiste_Titres"/>
+      <widget class="QListWidget" name="Artiste_Titres">
+       <property name="lineWidth">
+        <number>1</number>
+       </property>
+       <property name="dragDropMode">
+        <enum>QAbstractItemView::InternalMove</enum>
+       </property>
+       <property name="defaultDropAction">
+        <enum>Qt::MoveAction</enum>
+       </property>
+       <property name="alternatingRowColors">
+        <bool>true</bool>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::SingleSelection</enum>
+       </property>
+       <property name="movement">
+        <enum>QListView::Free</enum>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -270,6 +318,9 @@
       <widget class="QPushButton" name="Supprimer_Titre">
        <property name="text">
         <string>Supprimer Titre</string>
+       </property>
+       <property name="shortcut">
+        <string>Del</string>
        </property>
       </widget>
      </item>

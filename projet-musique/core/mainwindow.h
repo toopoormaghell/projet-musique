@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "bddgestionmp3.h"
+#include <QProgressBar>
+#include <QTextBrowser>
 
 namespace Ui {
 class MainWindow;
@@ -17,6 +19,7 @@ public:
     ~MainWindow();
 
     void ajouterToolbar();
+
 private slots:
     void on_actionActualiser_Mp3_triggered();
 
@@ -27,11 +30,14 @@ private slots:
     void actionartistesinverses();
     void actionBDD();
     void actionconfigactu();
-void afficherinteraction();
+ //    void afficherinteraction();
+    void changerPourcentage();
+
 private:
     Ui::MainWindow *ui;
-
+    QProgressBar* m_progressbar;
     BDDGestionMp3* m_gestionMP3;
+    QTextBrowser* m_interaction;
 };
 
 #endif // MAINWINDOW_H

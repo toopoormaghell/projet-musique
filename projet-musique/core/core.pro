@@ -48,7 +48,10 @@ HEADERS += \
     bddtitre.h \
     dialogajouterphys.h \
     rechercheurl.h \
-    kqoauthsingleton.h
+    kqoauthsingleton.h \
+    dialogconfigactu.h \
+    bddconfig.h \
+    sousdialogajouttitre.h
 
 
 SOURCES += main.cpp \
@@ -71,13 +74,18 @@ SOURCES += main.cpp \
     bddtitre.cpp \
     dialogajouterphys.cpp \
     rechercheurl.cpp \
-    kqoauthsingleton.cpp
+    kqoauthsingleton.cpp \
+    dialogconfigactu.cpp \
+    bddconfig.cpp \
+    sousdialogajouttitre.cpp
 
 FORMS += \
     ongletmp3.ui \
     ongletphys.ui \
     mainwindow.ui \
-    dialogajouterphys.ui
+    dialogajouterphys.ui \
+    dialogconfigactu.ui \
+    sousdialogajouttitre.ui
 
 
 OTHER_FILES += \

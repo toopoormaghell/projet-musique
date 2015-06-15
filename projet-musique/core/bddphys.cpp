@@ -28,7 +28,7 @@ BDDPhys::~BDDPhys()
 {
     if (m_membersAreSelfCreatad)
     {
-        delete m_titres;
+        m_titres.clear();
         delete m_artiste;
         delete m_album;
         delete m_type;
@@ -97,7 +97,7 @@ void BDDPhys::RecupererTitres()
         QSqlRecord rec=query.record();
 
         m_artiste = BDDArtiste::RecupererArtiste(rec.value("Id_Artiste").toInt());
- //impossible de recuperer la liste de titres      BDDTitre::RecupererTitre(rec.value("Id_Titre").toInt());
+        m_titres <<   BDDTitre::RecupererTitre(rec.value("Id_Titre").toInt());
 
 
 

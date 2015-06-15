@@ -4,17 +4,22 @@
 #include "bddgestionphys.h"
 #include "util.h"
 #include "rechercheurl.h"
+#include <QFileDialog>
+#include "sousdialogajouttitre.h"
 
 DialogAjouterPhys::DialogAjouterPhys(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::DialogAjouterPhys)
+    ui(new Ui::DialogAjouterPhys),
+    m_ajouttitre(this)
 {
     m_Type=1;
+
     ui->setupUi(this);
-    ui->ArtisteLabel->setHidden(true);
-    ui->Artiste_Titres->setHidden(true);
+    AffichageListeArtistes(-2);
+
     connect(&m_rech,SIGNAL(test()),this,SLOT(AfficheInteraction()));
-    connect(ui->buttonGroup, SIGNAL(buttonClicked(int)), this, SLOT(AffichageListeAristes(int))) ;
+    connect(ui->buttonGroup, SIGNAL(buttonClicked(int)), this, SLOT(AffichageListeArtistes(int))) ;
+    connect(&m_ajouttitre,SIGNAL(enregistr()),this,SLOT(AjouterTitreManuel()));
 }
 
 DialogAjouterPhys::~DialogAjouterPhys()
@@ -26,14 +31,19 @@ void DialogAjouterPhys::recupererEAN()
 
     m_EAN = ui->EAN->text();
 }
-
-
 void DialogAjouterPhys::on_ChercherEAN_clicked()
 {
     recupererEAN();
 
-    m_album = m_rech.RequeteAlbums(m_EAN,m_Type);
-    AfficherAlbum();
+    //On vérifie qu'il y a bien 13 caractères
+    if (m_EAN.count()==13)
+    {
+        m_album = m_rech.RequeteAlbums(m_EAN,m_Type);
+        AfficherAlbum();
+    } else
+    {
+        ui->Interaction->append("L'EAN ne comporte pas 13 chiffres. Vérifiez s'il vous plait.");
+    }
 }
 void DialogAjouterPhys::AfficherAlbum()
 {
@@ -58,20 +68,18 @@ void DialogAjouterPhys::AfficherPoch()
     QPixmap imageScaled = pixmap->scaled(150,150,Qt::IgnoreAspectRatio,Qt::FastTransformation);
     ui->Pochette->setPixmap(imageScaled);
 }
-
 void DialogAjouterPhys::on_Enregistrer_clicked()
 {
-
+    RecupererAlbum();
     BDDGestionPhys m_bddinterface;
     m_bddinterface.ajouterAlbum(m_album.Poch,m_album.Album,m_album.Artiste,m_EAN,m_album.Annee,m_album.titres,m_Type);
+    ui->Interaction->append("Album enregistré.");
 }
-
 void DialogAjouterPhys::AfficheInteraction()
 {
     ui->Interaction->append(m_rech.m_interaction);
 }
-void DialogAjouterPhys::AffichageListeAristes(int id) {
-
+void DialogAjouterPhys::AffichageListeArtistes(int id) {
     switch (id)
     {
     case (-2):m_Type=1;ui->Artiste_Titres->setHidden(true); ui->ArtisteLabel->setHidden(true);break;
@@ -79,4 +87,104 @@ void DialogAjouterPhys::AffichageListeAristes(int id) {
     case (-4): m_Type=3;ui->Artiste_Titres->setHidden(true); ui->ArtisteLabel->setHidden(true);break;
     }
 }
+void DialogAjouterPhys::ViderBoiteDialogue()
+{
+    ui->Artiste_Titres->clear();
+    ui->EAN->clear();
+    ui->Nom_Album->clear();
+    ui->Nom_Artiste->clear();
+    ui->Piste->clear();
+    ui->Pochette->clear();
+    ui->Titres->clear();
+    ui->Annee->clear();
+}
+void DialogAjouterPhys::on_ViderAlbum_clicked()
+{
+    ViderBoiteDialogue();
+}
+void DialogAjouterPhys::RecupererAlbum()
+{
+    m_album.Album= ui->Nom_Album->text();
+    m_album.Artiste=ui->Nom_Artiste->text();
+    m_album.Annee=ui->Annee->text().toInt();
+    m_album.Type = m_Type;
 
+    //On récupère la pochette
+    const QPixmap* pixmap = ui->Pochette->pixmap();
+    QImage image = pixmap->toImage();
+    m_album.Poch=image;
+
+    //On récupère les titres
+    for (int i=0;i<ui->Titres->count();i++)
+    {
+        TitresPhys titre;
+        QListWidgetItem *item= ui->Titres->item(i);
+        QStringList parsing = item->text().split("(");
+        titre.Titre=parsing[0];
+
+        QStringList parsing2 = parsing[1].split(")");
+        titre.Duree=parsing2[0];
+        titre.Num_Piste=i+1;
+
+        if (m_Type==2)
+        {
+            item = ui->Artiste_Titres->item(i);
+            titre.Artiste=item->text();
+        }
+
+
+        m_album.titres << titre;
+    }
+
+}
+void DialogAjouterPhys::listeNumeros()
+{
+    ui->Piste->clear();
+    for (int i=1;i<ui->Titres->count()+1;i++)
+    {
+        ui->Piste->addItem(new QListWidgetItem(QString::number(i).rightJustified(2,'0')+" - "));
+    }
+}
+void DialogAjouterPhys::on_Supprimer_Titre_clicked()
+{
+    QList<QListWidgetItem *> fileSelected = ui->Titres->selectedItems();
+    if (fileSelected.size())
+    {
+        for (int i=ui->Titres->count()-1 ; i>=0 ;i--)
+        {
+            if (ui->Titres->item(i)->isSelected())
+            {
+                QListWidgetItem * item = ui->Titres->takeItem(i);
+                ui->Titres->removeItemWidget(item);
+            }
+        }
+    }
+    listeNumeros();
+}
+
+void DialogAjouterPhys::on_pushButton_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName( this,
+                                                     "Ouvrir l'image contenant la pochette",
+                                                     "C:/Users/Nico/Desktop",
+                                                     "Images (*.png *.xpm *.jpg *.bmp)" );
+    QPixmap* pixmap = new QPixmap();
+    QImage* image=new QImage(fileName);
+    pixmap->convertFromImage(*image);
+    QPixmap pixmapscaled= pixmap->scaled(150,150,Qt::IgnoreAspectRatio,Qt::FastTransformation);
+
+    ui->Pochette->setPixmap(pixmapscaled);
+}
+
+void DialogAjouterPhys::on_Ajouter_Titre_clicked()
+{
+    m_ajouttitre.exec();
+    AjouterTitreManuel();
+}
+void DialogAjouterPhys::AjouterTitreManuel()
+{
+    ui->Titres->addItem(m_ajouttitre.m_Titre+"("+m_ajouttitre.m_Duree+")");
+    ui->Artiste_Titres->addItem(m_ajouttitre.m_Artiste);
+    listeNumeros();
+
+}
