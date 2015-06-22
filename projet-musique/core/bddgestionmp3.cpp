@@ -82,13 +82,11 @@ void BDDGestionMp3::creerfilefichiers()
 void BDDGestionMp3::actualiserMp3(QString chemin)
 {
     m_fichierlu = chemin;
-m_souscat= m_type;
+    m_souscat= m_type;
     // conversion du QString pour le nom du fichier MP3 ainsi que son chemin
     QByteArray arrFileName = QFile::encodeName(chemin);
     const char *encodedName = arrFileName.constData();
     TagLib::FileRef f(encodedName);
-
-    //   notifierObservateurs( chemin, (float)copt / (float)fileList.size() );
 
     //On récupère l'artiste, l'album, le titre et le numéro de piste
     TagLib::String artist = f.tag()->artist();
@@ -114,28 +112,25 @@ m_souscat= m_type;
 
     if ( m_Chemins.find( mp3.m_id ) != m_Chemins.end() )
     {
-        m_Chemins[mp3.m_id][1] = "trouvé";
-
+        m_Chemins.remove(mp3.m_id);
     }
-
 }
 
 void BDDGestionMp3::supprimerAnciensMP3 ( )
 {
-
     //On parcourt la Map des chemins pour trouver ceux qui n'ont jamais été trouvés.
     QMap < int, QStringList >::const_iterator iterateur;
+    m_iteration=0;
 
     for (iterateur = m_Chemins.constBegin(); iterateur != m_Chemins.constEnd() ; ++iterateur)
     {
+        m_pourcentage = m_iteration*100/m_Chemins.count();
+        emit pourcentage();
         int cle = iterateur.key ();
 
-        QStringList ligne = iterateur.value ();
+           SupprimerenBDDMP3(cle);
 
-        if (ligne[1]!="trouvé")
-        {
-            SupprimerenBDDMP3(cle);
-        }
+        m_iteration++;
     }
     BDDSingleton::getInstance().supprimerdossiersvides();
 }
@@ -221,4 +216,5 @@ void BDDGestionMp3::SupprimerenBDDMP3(int Id)
 {
     BDDMp3* mp3 = BDDMp3::RecupererMp3(Id);
     mp3->supprimerenBDD();
+    mp3->~BDDMp3();
 }

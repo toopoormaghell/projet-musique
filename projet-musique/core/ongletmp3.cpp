@@ -25,17 +25,18 @@ void OngletMP3::afficherListeType()
     ui->Categories->clear();
 
     QStringList types;
-    types << "Tout";
+    types << "Tout" << "0";
     types <<m_bddInterface.RecupererListeTypes("MP3") ;
 
     QImage image("./Pochettes/def.jpg");
-    for(int cpt=0;cpt<types.count();cpt++)
+
+    for(int cpt=0;cpt<types.count();cpt=cpt+2)
     {
         QPixmap scaled( QPixmap::fromImage( image ) );
         scaled = scaled.scaled( 150, 150 );
         QListWidgetItem* item = new QListWidgetItem;
         item->setIcon( QIcon( scaled ) );
-item->setData(Qt::UserRole,cpt);
+        item->setData(Qt::UserRole,types[cpt+1]);
         item->setText(types[cpt]);
 
         ui->Categories->addItem(item);
@@ -45,11 +46,12 @@ item->setData(Qt::UserRole,cpt);
 
 void OngletMP3::afficherListeArtiste()
 {
-    ui->Artistes->clear();
+
+    QString cat= choixCategories();
 
     //Affichage des artistes
-    QList<int> artistes=m_bddInterface.ListeArtiste();
-
+    QList<int> artistes=m_bddInterface.ListeArtiste(cat);
+vider("Artiste");
     for (int cpt=0;cpt<artistes.count();cpt++)
     {
         BDDArtiste* artiste = BDDArtiste::RecupererArtiste( artistes[cpt] );
@@ -78,14 +80,11 @@ void OngletMP3::afficherListeArtiste()
 }
 void OngletMP3::afficherListeAlbum()
 {
-    ui->Albums->clear();
-
     //Choix de l'Artiste des Albums à afficher
     QString Artiste=choixArtiste();
-
-
+QString Cate=choixCategories();
     //Affichage des albums
-    QList<int> albums=m_bddInterface.listeAlbums(Artiste);
+    QList<int> albums=m_bddInterface.listeAlbums(Artiste,Cate);
 
     for (int cpt=0;cpt<albums.count();cpt++) {
 
@@ -103,10 +102,10 @@ void OngletMP3::afficherListeAlbum()
             //On s'occupe du nom de l'artiste
             item->setData( Qt::UserRole, albums[cpt] );
             item->setText( QString::number(album->m_annee)+" - "+album->m_nom );
-            //   item->setFlags( item->flags() & !Qt::ItemIsEditable & Qt::ItemIsSelectable );
+            item->setFlags(  !Qt::ItemIsSelectable );
             ui->Albums->addItem( item );
 
-            afficherTitresAlbum(QString::number(album->m_id));
+            afficherTitresAlbum(QString::number(album->m_id),Cate);
         }
         delete album;
 
@@ -140,7 +139,7 @@ void OngletMP3::on_Artistes_currentTextChanged(const QString &arg1)
 }
 void OngletMP3::on_Albums_currentRowChanged(int currentRow)
 {
-    vider ("Titres");
+   vider ("Titres");
     afficherInfosTitre();
 }
 
@@ -168,9 +167,9 @@ void OngletMP3::vider(QString Type)
         ui->Pochette->clear();
     }
 }
-void OngletMP3::afficherTitresAlbum(QString Album)
+void OngletMP3::afficherTitresAlbum(QString Album,QString Cate)
 {
-    QStringList titres=m_bddInterface.listeTitresAlbumMp3(Album);
+    QStringList titres=m_bddInterface.listeTitresAlbumMp3(Album,Cate);
 
     for (int cpt=0;cpt<titres.count();cpt=cpt+2)
     {
@@ -183,6 +182,7 @@ void OngletMP3::afficherTitresAlbum(QString Album)
 }
 void OngletMP3::afficherInfosTitre()
 {
+    vider("Titre");
     if (choixMp3()!= NULL)
     {
         BDDMp3* mp3 = BDDMp3::RecupererMp3( choixMp3().toInt() );
@@ -200,21 +200,27 @@ void OngletMP3::afficherInfosTitre()
         ui->Pochette->setPixmap(scaled);
 
         delete mp3;
+    } else
+    {
+vider("Titre");
     }
+
 }
 QString OngletMP3::choixMp3()
 {
     QListWidgetItem *item=ui->Albums->currentItem();
     if (item==NULL)
     {
-        item=ui->Artistes->item(0);
+        item=ui->Albums->item(1);
     }
 
     return  item != NULL ? item->data(Qt::UserRole).toString() : QString();
 }
 
-void OngletMP3::on_Categories_currentTextChanged(const QString &currentText)
+
+
+void OngletMP3::on_Categories_currentRowChanged(int currentRow)
 {
-    vider ("Artiste");
+    vider("Artiste");
     afficherListeArtiste();
 }

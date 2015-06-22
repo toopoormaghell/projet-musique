@@ -20,7 +20,7 @@ public:
     void afficherListeAlbum();
     QString choixArtiste();
     void vider(QString Type);
-    void afficherTitresAlbum(QString Album);
+    void afficherTitresAlbum(QString Album, QString Cate);
     void afficherInfosTitre();
     QString choixMp3();
     void afficherListeType();
@@ -28,8 +28,9 @@ public:
 public slots:
     void on_Artistes_currentTextChanged(const QString &arg1);
     void on_Albums_currentRowChanged(int currentRow);
+
 private slots:
-    void on_Categories_currentTextChanged(const QString &currentText);
+    void on_Categories_currentRowChanged(int currentRow);
 
 private:
     Ui::OngletMP3 *ui;

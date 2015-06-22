@@ -13,7 +13,7 @@ RechercheURL::RechercheURL(QObject *parent)
 
 AlbumPhys RechercheURL::RequeteAlbums(QString rech,int Type)
 {
-
+m_album.titres.clear();
     m_interaction = "Requete en cours...";
     emit test();
     //1ère étape, on récupère l'id, le nom de l'album et l'année
