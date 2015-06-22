@@ -34,7 +34,6 @@ void BDDGestionMp3::step()
     {
         try
         {
-
             actualiserMp3(m_filelist[m_iteration]);
         }
         catch ( std::bad_alloc& e )
@@ -47,15 +46,18 @@ void BDDGestionMp3::step()
     } else
     {
         qDebug("Fin");
+        supprimerAnciensMP3();
     }
 }
 
 
 void BDDGestionMp3::creerfilefichiers()
 {
+    m_filelist.clear();
     //Première étape: on met en QMap les chemins des MP3
-    //Sous la forme de Id_Mp3 (en clé) et Id_Titre,Chemin,Booléen (en valeurs)
-    m_Chemins = recupererMp3(m_type);
+    //Sous la forme de Id_Mp3 (en clé) et Chemin (en valeurs)
+    recupererMp3(m_type);
+
 
     QString selectDir = getdossierpardef();
 
@@ -80,7 +82,7 @@ void BDDGestionMp3::creerfilefichiers()
 void BDDGestionMp3::actualiserMp3(QString chemin)
 {
     m_fichierlu = chemin;
-
+m_souscat= m_type;
     // conversion du QString pour le nom du fichier MP3 ainsi que son chemin
     QByteArray arrFileName = QFile::encodeName(chemin);
     const char *encodedName = arrFileName.constData();
@@ -97,21 +99,22 @@ void BDDGestionMp3::actualiserMp3(QString chemin)
     int dureesec=f.audioProperties()->length();
     int min=dureesec/60;
     int sec=dureesec%60;
-    ArtisteParChemin(artist,chemin);
+    SousCatParChemin(artist,chemin);
 
     //On ajoute en BDD
-    int IdMp3;
+
     BDDPoch poch( ImageAlbum( f ), TStringToQString(album).replace("'","$"), TStringToQString(artist).replace("'","$") );
     BDDArtiste art( TStringToQString(artist).replace("'","$"), poch );
-    BDDAlbum alb(TStringToQString(album).replace("'","$"),poch,date,m_type);
+    BDDAlbum alb(TStringToQString(album).replace("'","$"),poch,date,m_souscat);
     BDDTitre tit(TStringToQString(title).replace( "'","$"),track,QString::number(min)+":"+QString::number(sec).rightJustified(2,'0'));
     BDDRelation rel(alb,art,tit);
 
-    BDDMp3 mp3(chemin.replace("'","$"),rel,m_type);
+    BDDMp3 mp3(chemin.replace("'","$"),rel,m_souscat);
 
-    if ( m_Chemins.find( IdMp3 ) != m_Chemins.end() )
+
+    if ( m_Chemins.find( mp3.m_id ) != m_Chemins.end() )
     {
-        m_Chemins[IdMp3][1] = "trouvé";
+        m_Chemins[mp3.m_id][1] = "trouvé";
 
     }
 
@@ -131,32 +134,30 @@ void BDDGestionMp3::supprimerAnciensMP3 ( )
 
         if (ligne[1]!="trouvé")
         {
-            QString key;
-            key.setNum(cle);
-            int Id_Titre=ligne[0].toInt();
-            //   SupprimerMp3(Id_Titre);
+            SupprimerenBDDMP3(cle);
         }
     }
+    BDDSingleton::getInstance().supprimerdossiersvides();
 }
-QMap<int,QStringList> BDDGestionMp3::recupererMp3(int Type)
+void BDDGestionMp3::recupererMp3(int Type)
 {
     QMap < int, QStringList > Chemins;
 
-    QString queryStri = "Select * FROM Pochette ";
+    QString queryStri = "Select Id_MP3, Chemin FROM MP3 ";
     QSqlQuery  query =  madatabase.exec(queryStri);
 
     while ( query.next() ) {
         QStringList infos;
         QSqlRecord rec = query.record();
-        const int Mp3 = rec.value( "Id_Pochette").toInt();
-        const QString Chem = rec.value( "Chemin" ).toString();
+        const int Mp3 = rec.value( "Id_MP3").toInt();
+        const QString Chem = rec.value( "Chemin" ).toString().replace("$","'");
 
         infos  << Chem << "Pas Trouvé";
 
         Chemins.insert(Mp3,infos);
 
     }
-    return Chemins;
+    m_Chemins= Chemins;
 }
 QString BDDGestionMp3::getdossierpardef()
 {
@@ -168,31 +169,31 @@ QString BDDGestionMp3::getdossierpardef()
     return rec.value("Valeur").toString();
 
 }
-void BDDGestionMp3::ArtisteParChemin(TagLib::String &artist, QString chemin)
+void BDDGestionMp3::SousCatParChemin(TagLib::String &artist, QString chemin)
 {
     if (chemin.contains("BOF"))
     {
-        artist = "BOF";
+       m_souscat = 4;
     }
     if (chemin.contains("Comedies Musicales"))
     {
-        artist = "Comedies Musicales";
+        m_souscat = 5;
     }
     if (chemin.contains("Télé Réalités"))
     {
-        artist = "Télé Réalités";
+        m_souscat = 6;
     }
     if (chemin.contains("Era"))
     {
-        artist= "Era";
+        m_souscat = 7;
     }
     if (chemin.contains("Classique"))
     {
-        artist="Classique";
+        m_souscat = 8;
     }
     if (chemin.contains("Generiques"))
     {
-        artist="Generiques";
+        m_souscat = 9;
     }
 }
 
@@ -216,8 +217,8 @@ QImage BDDGestionMp3::ImageAlbum(const TagLib::FileRef &f)
 
     return Image;
 }
-void BDDGestionMp3::SupprimerMP3(int Id)
+void BDDGestionMp3::SupprimerenBDDMP3(int Id)
 {
-//BDDMp3 mp3 = BDDMp3::RecupererMp3(Id);
-
+    BDDMp3* mp3 = BDDMp3::RecupererMp3(Id);
+    mp3->supprimerenBDD();
 }

@@ -69,7 +69,18 @@ void BDDRelation::ajouterBDD()
 
 }
 
-void BDDRelation::deleteBDD(const int &Id_Relation)
+void BDDRelation::supprimerenBDD() const
 {
-    madatabase.exec("DELETE FROM Relations WHERE Id_Relation='"+QString::number(Id_Relation)+"'");
+
+    QString queryStr="SELECT Id_Phys FROM Phys WHERE Id_Album='"+QString::number(m_id_album)+"'";
+
+    QSqlQuery query = madatabase.exec(queryStr);
+
+    if (!query.first())
+    {
+
+             madatabase.exec("DELETE FROM Relations WHERE Id_Relation='"+QString::number(m_id)+"'");
+    }
+
+
 }

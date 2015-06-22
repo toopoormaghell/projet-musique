@@ -14,9 +14,9 @@ public:
     virtual ~BDDPoch();
 
     void updateBDD();
-    void deleteBDD();
+    void supprimerenBDD() const;
     static BDDPoch* recupererBDD( const int id );
-static BDDPoch* recupererPoch( const QString& album,const QString &artiste);
+    static BDDPoch* recupererPoch( const QString& album,const QString &artiste);
     int m_id;
     QImage m_image;
     QString m_chemin;
@@ -32,6 +32,7 @@ private:
 
     BDDPoch( const int id, QObject* parent = NULL );
     BDDPoch(const QString &album, const QString &artiste, QObject *parent);
+
 };
 
 

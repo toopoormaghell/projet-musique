@@ -13,7 +13,7 @@ public:
     virtual ~BDDAlbum();
 
     void updateBDD();
-    void deleteBDD();
+    void supprimerenBDD() const;
     static BDDAlbum* RecupererAlbum(const int Id);
 
 

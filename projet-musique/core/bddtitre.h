@@ -10,7 +10,7 @@ public:
     explicit BDDTitre(const QString& nom,const int& num_piste,const QString& duree,QObject *parent = 0);
 
     void updateBDD();
-    void deleteBDD();
+    void supprimerenBDD()const;
 
     static BDDTitre* RecupererTitre(const int id);
 

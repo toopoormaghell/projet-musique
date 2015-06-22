@@ -17,7 +17,7 @@ public:
     virtual ~BDDMp3();
 
     void updateBDD();
-    void deleteBDD();
+    void supprimerenBDD() const;
     static BDDMp3* RecupererMp3(const int id);
 
     BDDAlbum const* m_album;

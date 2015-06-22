@@ -24,6 +24,10 @@ BDDMp3::BDDMp3(const QString &Chemin, const BDDRelation &relation, const int &ty
     {
         ajouterBDD();
     }
+    else
+    {
+        RecupererMp3(m_id);
+    }
 }
 
 BDDMp3::~BDDMp3()
@@ -46,7 +50,7 @@ void BDDMp3::recupererId()
     if ( query.first() )
     {
         QSqlRecord rec = query.record();
-        m_id=rec.value( " Id_MP3 " ).toInt();
+        m_id=rec.value("Id_MP3").toInt();
 
     } else
     {
@@ -94,7 +98,14 @@ void BDDMp3::updateBDD()
 {
 
 }
-void BDDMp3::deleteBDD()
+void BDDMp3::supprimerenBDD() const
 {
+    QString queryStr="DELETE FROM MP3 WHERE Id_MP3='"+QString::number(m_id)+"'";
 
+    madatabase.exec(queryStr);
+    m_relation->supprimerenBDD();
+
+    m_album->supprimerenBDD();
+    m_artiste->supprimerenBDD();
+    m_titre->supprimerenBDD();
 }

@@ -88,20 +88,18 @@ void BDDAlbum::ajouterBDD()
     m_id=query.lastInsertId().toInt();
 }
 
-void BDDAlbum::deleteBDD()
+void BDDAlbum::supprimerenBDD() const
 {
 
-    //On vérifie si l'album existe ou non dans la table des titres
+    //On vérifie si l'album existe ou non dans la table des relations
     QString queryStri =  "Select Id_Relation As 'Relation' from Relations WHERE Id_Album='"+QString::number(m_id)+"'" ;
     QSqlQuery  query2 = madatabase.exec(queryStri);
 
     //si la deuxième requête ne renvoie pas de résultat, on efface du coup l'album
     if (!query2.first()) {
 
-        queryStri =  "DELETE FROM Album WHERE Id_Album='"+QString::number(m_id)+"'";
-        query2 = madatabase.exec(queryStri);
-
+        madatabase.exec("DELETE FROM Album WHERE Id_Album='"+QString::number(m_id)+"'");
 
     }
-
+m_pochette->supprimerenBDD();
 }

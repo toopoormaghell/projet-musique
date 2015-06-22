@@ -67,6 +67,12 @@ void BDDSingleton::creationBase()
     tables << "INSERT INTO Type VALUES(01,'Album')";
     tables << "INSERT INTO Type VALUES(02,'Compil')";
     tables << "INSERT INTO Type VALUES(03,'Single')";
+    tables << "INSERT INTO Type VALUES(04,'BOF')";
+    tables << "INSERT INTO Type VALUES(05,'Comédies Musicales')";
+    tables << "INSERT INTO Type VALUES(06,'Télé Réalités')";
+    tables << "INSERT INTO Type VALUES(07,'Era')";
+    tables << "INSERT INTO Type VALUES(08,'Classique')";
+    tables << "INSERT INTO Type VALUES(09,'Génériques')";
     for (int i=0;i<tables.size();i++)
     {
         query = madatabase.exec(tables[i]);
@@ -129,4 +135,16 @@ bool BDDSingleton::removeDir(const QString &dirPath, const bool remove, const QS
         }
     }
     return true;
+}
+void BDDSingleton::supprimerdossiersvides()
+{
+    QDir folder(".\\Pochettes");
+    folder.setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
+    foreach(QFileInfo fileInfo, folder.entryInfoList())
+    {
+        if(fileInfo.isDir())
+        {
+           QDir().rmdir(fileInfo.absoluteFilePath());
+        }
+    }
 }

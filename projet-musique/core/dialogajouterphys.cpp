@@ -74,6 +74,7 @@ void DialogAjouterPhys::on_Enregistrer_clicked()
     BDDGestionPhys m_bddinterface;
     m_bddinterface.ajouterAlbum(m_album.Poch,m_album.Album,m_album.Artiste,m_EAN,m_album.Annee,m_album.titres,m_Type);
     ui->Interaction->append("Album enregistré.");
+    ViderBoiteDialogue();
 }
 void DialogAjouterPhys::AfficheInteraction()
 {
@@ -97,6 +98,10 @@ void DialogAjouterPhys::ViderBoiteDialogue()
     ui->Pochette->clear();
     ui->Titres->clear();
     ui->Annee->clear();
+
+    m_album.titres.clear();
+
+
 }
 void DialogAjouterPhys::on_ViderAlbum_clicked()
 {

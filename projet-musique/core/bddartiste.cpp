@@ -82,22 +82,19 @@ void BDDArtiste::updateBDD()
 
 }
 
-void BDDArtiste::deleteBDD(const int Id_Artiste)
+void BDDArtiste::supprimerenBDD() const
 {
-  /*  //On vérifie si l'artiste existe ou non dans la table des relations
-    QString queryStri =  "Select Id_Relation As 'Relation' from Relations WHERE Id_Artiste='"+QString::number(Id_Artiste)+"'" ;
+    //On vérifie si l'artiste existe ou non dans la table des relations
+    QString queryStri =  "Select Id_Relation As 'Relation' from Relations WHERE Id_Artiste='"+QString::number(m_id)+"'" ;
     QSqlQuery  query2 = madatabase.exec(queryStri);
 
     //si la requête ne renvoie pas de résultat, on efface du coup l'artiste
     if (!query2.first()) {
 
-        queryStri =  "DELETE FROM Artiste WHERE Id_Artiste='"+QString::number(Id_Artiste)+"'";
-        query2 = madatabase.exec(queryStri);
-
-
+       madatabase.exec("DELETE FROM Artiste WHERE Id_Artiste='"+QString::number(m_id)+"'");
 
     }
-*/
+    m_pochette->supprimerenBDD();
 }
 
 void BDDArtiste::EchangerArtiste(QString &nom)
@@ -128,10 +125,4 @@ void BDDArtiste::ChoisirArtisteEchange(QString& nom)
             nom=rec.value("Artiste").toString();
         }
     }
-
-
 }
-
-
-
-

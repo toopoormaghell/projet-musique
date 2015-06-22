@@ -24,9 +24,9 @@ private slots:
 private:
     //Actualiser MP3 + fonctions associées
     void actualiserMp3(QString chemin);
-    QMap<int, QStringList> recupererMp3(int Type);
+    void recupererMp3(int Type);
     QString getdossierpardef();
-    void ArtisteParChemin(TagLib::String &artist, QString chemin);
+    void SousCatParChemin(TagLib::String &artist, QString chemin);
     QImage ImageAlbum(const TagLib::FileRef& f);
     void creerfilefichiers();
     void supprimerAnciensMP3();
@@ -35,8 +35,9 @@ private:
     QMap < int, QStringList > m_Chemins;
     int m_type;
     int m_iteration;
+    int m_souscat;
 
-  void SupprimerMP3(int Id);
+  void SupprimerenBDDMP3(int Id);
 
 };
 

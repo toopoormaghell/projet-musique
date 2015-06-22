@@ -2,6 +2,7 @@
 #include "bddsingleton.h"
 #include "util.h"
 #include <QtSql>
+#include <QDebug>
 
 BDDTitre::BDDTitre(const QString &nom, const int &num_piste, const QString &duree, QObject *parent) :
     QObject(parent),
@@ -24,9 +25,15 @@ void BDDTitre::updateBDD()
 
 }
 
-void BDDTitre::deleteBDD()
+void BDDTitre::supprimerenBDD() const
 {
+    QString queryStr="SELECT Id_Relation from Relations WHERE Id_Titre='"+QString::number(m_id)+"'";
+    QSqlQuery query = madatabase.exec( queryStr );
 
+    if ( !query.first() )
+    {
+        madatabase.exec("DELETE FROM Titre WHERE Id_Titre='"+QString::number(m_id)+"'");
+    }
 }
 
 BDDTitre *BDDTitre::RecupererTitre(const int id)
@@ -38,9 +45,9 @@ void BDDTitre::ajouterBDD()
 {
     QString queryStr="INSERT INTO Titre VALUES (null,'"+ m_nom+ "','"+QString::number(m_num_piste) +"','"+ m_nomFormate+"','"+ m_duree +"')";
 
-     QSqlQuery query=  madatabase.exec(queryStr);
+    QSqlQuery query=  madatabase.exec(queryStr);
 
-         m_id= query.lastInsertId().toInt();
+    m_id= query.lastInsertId().toInt();
 }
 
 void BDDTitre::recupererId()

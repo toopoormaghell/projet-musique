@@ -15,7 +15,7 @@ public:
     explicit BDDRelation(const BDDAlbum& album, const BDDArtiste& artiste, const BDDTitre& titre,QObject *parent = 0);
 
 static BDDRelation* RecupererRelation(const int id);
-void deleteBDD(const int &Id);
+void supprimerenBDD() const;
 
 int m_id;
 int m_id_artiste;

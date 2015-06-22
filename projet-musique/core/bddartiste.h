@@ -14,7 +14,7 @@ public:
     virtual ~BDDArtiste();
 
     void updateBDD();
-    void deleteBDD( const int Id );
+    void supprimerenBDD() const;
     static BDDArtiste* RecupererArtiste( const int id );
     void EchangerArtiste( QString& nom );
     void ChoisirArtisteEchange( QString& nom );
