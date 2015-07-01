@@ -13,14 +13,17 @@ class BDDGestionMp3 : public QObject
     Q_OBJECT
 public:
     explicit BDDGestionMp3(QObject *parent = 0);
-     void demarreractualiser(int type);
+     void demarreractualiser();
 
     QString m_fichierlu;
     int m_pourcentage;
 signals:
     void pourcentage();
+    void fin();
 private slots:
+    void init();
     void step();
+
 private:
     //Actualiser MP3 + fonctions associées
     void actualiserMp3(QString chemin);
@@ -36,9 +39,12 @@ private:
     int m_type;
     int m_iteration;
     int m_souscat;
+    QList<int> m_Categories;
 
   void SupprimerenBDDMP3(int Id);
 
+  void listeCategoriesActualiser();
+  QString dossiercategorie();
 };
 
 #endif // BDDGESTIONMP3_H

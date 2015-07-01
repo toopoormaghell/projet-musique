@@ -16,6 +16,7 @@ public:
 
     QList<int> listeAlbums(QString Id_Artiste, QString Categorie);
     QStringList RecupererListeTypes(const QString categorie);
+
 };
 
 #endif // BDDAFFICHERMP3_H

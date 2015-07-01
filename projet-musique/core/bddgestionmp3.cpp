@@ -10,19 +10,31 @@
 #include "bddtitre.h"
 #include "bddrelation.h"
 #include "bddtype.h"
+#include "bddconfig.h"
 
 BDDGestionMp3::BDDGestionMp3(QObject *parent) :
     QObject(parent)
 {
 }
 
-void BDDGestionMp3::demarreractualiser(int type)
+void BDDGestionMp3::demarreractualiser()
 {
 
-    m_type = type;
-    creerfilefichiers();
-    m_iteration = 0;
+    listeCategoriesActualiser();
 
+    if ( !m_Categories.empty() )
+        QTimer::singleShot(0, this, SLOT( init() ) );
+}
+
+void BDDGestionMp3::init()
+{
+    m_type = m_Categories[0];
+    m_Categories.removeFirst();
+
+    m_filelist.clear();
+    creerfilefichiers();
+
+    m_iteration = 0;
     QTimer::singleShot(0, this, SLOT( step() ) );
 }
 
@@ -41,25 +53,56 @@ void BDDGestionMp3::step()
             qDebug() << e.what();
         }
 
-        QTimer::singleShot(0, this, SLOT( step() ) );
         ++m_iteration;
+        QTimer::singleShot(0, this, SLOT( step() ) );
     } else
     {
-        qDebug("Fin");
+      emit fin();
         supprimerAnciensMP3();
+        if ( !m_Categories.empty() )
+            QTimer::singleShot(0, this, SLOT( init() ) );
+        else
+        {
+
+        }
+    }
+}
+void BDDGestionMp3::listeCategoriesActualiser()
+{
+    BDDConfig temp;
+    if(temp.ActualiserAlbums())
+    {
+        m_Categories<<1;
+    }
+    if(temp.ActualiserCompil())
+    {
+        m_Categories<<2;
+    }
+    if(temp.ActualiserLives())
+    {
+        m_Categories<<3;
+     }
+
+}
+QString BDDGestionMp3::dossiercategorie()
+{
+    switch (m_type)
+    {
+    case (1): return getdossierpardef();break;
+    case (2): return "F:/Compil";break;
+    case (3): return "F:/Live";break;
     }
 }
 
-
 void BDDGestionMp3::creerfilefichiers()
 {
-    m_filelist.clear();
+
     //Première étape: on met en QMap les chemins des MP3
     //Sous la forme de Id_Mp3 (en clé) et Chemin (en valeurs)
     recupererMp3(m_type);
 
 
-    QString selectDir = getdossierpardef();
+    QString selectDir = dossiercategorie();
 
 
     // On remplit une QStringList avec chacun des filtres désirés ici "*.mp3" .
@@ -138,7 +181,7 @@ void BDDGestionMp3::recupererMp3(int Type)
 {
     QMap < int, QStringList > Chemins;
 
-    QString queryStri = "Select Id_MP3, Chemin FROM MP3 ";
+    QString queryStri = "Select Id_MP3, Chemin FROM MP3 WHERE Categorie='"+QString::number(Type)+"'";
     QSqlQuery  query =  madatabase.exec(queryStri);
 
     while ( query.next() ) {
@@ -189,6 +232,10 @@ void BDDGestionMp3::SousCatParChemin(TagLib::String &artist, QString chemin)
     if (chemin.contains("Generiques"))
     {
         m_souscat = 9;
+    }
+    if ( chemin.contains("Reprises"))
+    {
+        m_souscat=10;
     }
 }
 

@@ -28,8 +28,6 @@ public:
 public slots:
     void on_Artistes_currentTextChanged(const QString &arg1);
     void on_Albums_currentRowChanged(int currentRow);
-
-private slots:
     void on_Categories_currentRowChanged(int currentRow);
 
 private:

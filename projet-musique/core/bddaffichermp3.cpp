@@ -2,6 +2,8 @@
 #include <QStringList>
 #include <QtSql>
 #include "bddtype.h"
+#include "bddconfig.h"
+
 BDDAfficherMp3::BDDAfficherMp3(QObject *parent) :
     QObject(parent)
 {
@@ -87,3 +89,4 @@ QStringList BDDAfficherMp3::RecupererListeTypes(const QString categorie)
 
     return liste;
 }
+

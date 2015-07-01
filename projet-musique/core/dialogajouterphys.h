@@ -19,7 +19,8 @@ public:
 
     QString m_EAN;
     int m_Type;
-
+signals:
+    void ajout();
 public slots:
     void AfficheInteraction();
 private slots:

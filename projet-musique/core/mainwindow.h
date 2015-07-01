@@ -5,7 +5,7 @@
 #include "bddgestionmp3.h"
 #include <QProgressBar>
 #include <QTextBrowser>
-
+#include "dialogajouterphys.h"
 namespace Ui {
 class MainWindow;
 }
@@ -20,10 +20,12 @@ public:
 
     void ajouterToolbar();
 
+
 private slots:
     void on_actionActualiser_Mp3_triggered();
-
+ void ActualiserOngletMP3();
     void on_actionViderBDD_triggered();
+void ActualiserOngletPhys();
 
     void on_actionAjouter_Album_triggered();
     void actionExporter();
@@ -38,6 +40,7 @@ private:
     QProgressBar* m_progressbar;
     BDDGestionMp3* m_gestionMP3;
     QTextBrowser* m_interaction;
+    DialogAjouterPhys* m_dialogajouterphys;
 };
 
 #endif // MAINWINDOW_H

@@ -9,16 +9,21 @@
 #include "dialogconfigactu.h"
 
 
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     m_gestionMP3( new BDDGestionMp3 ),
     m_progressbar( new QProgressBar),
-    m_interaction( new QTextBrowser)
+    m_interaction( new QTextBrowser),
+    m_dialogajouterphys( NULL)
 {
     ui->setupUi(this);
+    m_dialogajouterphys = new DialogAjouterPhys( this );
     ajouterToolbar();
     connect(m_gestionMP3,SIGNAL(pourcentage()),this,SLOT(changerPourcentage()));
+    connect(m_gestionMP3,SIGNAL(fin()),this,SLOT(ActualiserOngletMP3()));
+    connect(m_dialogajouterphys,SIGNAL(ajout()),this,SLOT(ActualiserOngletPhys()));
 }
 void MainWindow::ajouterToolbar()
 {
@@ -66,7 +71,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionActualiser_Mp3_triggered()
 {
-    m_gestionMP3->demarreractualiser(1);
+    m_gestionMP3->demarreractualiser();
 }
 
 void MainWindow::on_actionViderBDD_triggered()
@@ -77,10 +82,17 @@ void MainWindow::on_actionViderBDD_triggered()
         BDDSingleton::getInstance().viderBDD();
     }
 }
+
+void MainWindow::ActualiserOngletPhys()
+{
+    ui->tab_2->vider("Categories");
+    ui->tab_2->vider("Artiste");
+    ui->tab_2->afficherListeType();
+    ui->tab_2->afficherListeArtiste();
+}
 void MainWindow::on_actionAjouter_Album_triggered()
 {
-    DialogAjouterPhys temp(this);
-    temp.exec();
+    m_dialogajouterphys->show();
 }
 
 void MainWindow::actionExporter()
@@ -100,17 +112,18 @@ void MainWindow::actionBDD()
 
 void MainWindow::actionconfigactu()
 {
-DialogConfigActu temp(this);
-temp.exec();
+    DialogConfigActu temp(this);
+    temp.exec();
 }
 
 void MainWindow::changerPourcentage()
 {
     m_progressbar->setValue(m_gestionMP3->m_pourcentage);
     m_interaction->setText(m_gestionMP3->m_fichierlu);
-
     m_progressbar->setFormat("%p%");
-
 }
-
-
+void MainWindow::ActualiserOngletMP3()
+{
+    ui->MP3->vider("Categories");
+    ui->MP3->afficherListeType();
+}

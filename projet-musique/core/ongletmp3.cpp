@@ -41,7 +41,7 @@ void OngletMP3::afficherListeType()
 
         ui->Categories->addItem(item);
     }
-    ui->Categories->setCurrentRow(0);
+    ui->Categories->setCurrentRow(1);
 }
 
 void OngletMP3::afficherListeArtiste()
@@ -102,7 +102,7 @@ QString Cate=choixCategories();
             //On s'occupe du nom de l'artiste
             item->setData( Qt::UserRole, albums[cpt] );
             item->setText( QString::number(album->m_annee)+" - "+album->m_nom );
-            item->setFlags(  !Qt::ItemIsSelectable );
+            item->setFlags(  Qt::ItemIsEnabled );
             ui->Albums->addItem( item );
 
             afficherTitresAlbum(QString::number(album->m_id),Cate);

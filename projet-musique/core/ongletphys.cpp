@@ -228,7 +228,7 @@ void OngletPhys::afficherListeType()
 
     QStringList types;
     types << "Tout";
-BDDAfficherMp3 temp;
+    BDDAfficherMp3 temp;
 
     types <<temp.RecupererListeTypes("Phys") ;
 
