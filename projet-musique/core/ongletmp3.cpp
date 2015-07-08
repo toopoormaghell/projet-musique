@@ -165,6 +165,7 @@ void OngletMP3::vider(QString Type)
         ui->NomAlbum->clear();
         ui->NomArtiste->clear();
         ui->Pochette->clear();
+        ui->Similaires->clear();
     }
 }
 void OngletMP3::afficherTitresAlbum(QString Album,QString Cate)
@@ -194,11 +195,14 @@ void OngletMP3::afficherInfosTitre()
         ui->NomAlbum->setText(mp3->m_album->m_nom);
         ui->NomArtiste->setText(mp3->m_artiste->m_nom);
 
+        if(mp3->m_titre->m_mp3etphys)
+            ui->Mp3Phys->setText("Existe en MP3 et Phys");
 
         QPixmap scaled( QPixmap::fromImage( mp3->m_album->m_pochette->m_image  ) );
         scaled = scaled.scaled( 150, 150 );
         ui->Pochette->setPixmap(scaled);
 
+        Similaires(mp3->m_titre->m_id);
         delete mp3;
     } else
     {
@@ -217,7 +221,30 @@ QString OngletMP3::choixMp3()
     return  item != NULL ? item->data(Qt::UserRole).toString() : QString();
 }
 
+void OngletMP3::Similaires(const int id)
+{
+    BDDTitre* titre = BDDTitre::RecupererTitre(id);
+    QList<int> Simi = titre->Similaires( id);
 
+
+        for (int i =0;i<Simi.count();i++)
+        {
+            BDDMp3* mp3 = BDDMp3::RecupererMp3( Simi[i] );
+
+            QListWidgetItem* item = new QListWidgetItem;
+
+            item->setData( Qt::UserRole, mp3->m_id );
+            item->setText( QString::number(mp3->m_album->m_annee)+" - "+mp3->m_titre->m_nom );
+            item->setFlags(  Qt::ItemIsEnabled );
+
+            QPixmap scaled( QPixmap::fromImage( mp3->m_album->m_pochette->m_image ) );
+            item->setIcon( QIcon( scaled ) );
+
+            ui->Similaires->addItem(item);
+        }
+
+
+}
 
 void OngletMP3::on_Categories_currentRowChanged(int currentRow)
 {
