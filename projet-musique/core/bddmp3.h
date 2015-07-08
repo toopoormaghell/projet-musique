@@ -27,6 +27,7 @@ public:
     int m_id;
     BDDRelation const* m_relation;
     BDDType const* m_type;
+
 private:
     // Indique que les membres ont été créés par RecupererMp3 et doivent donc être détruits explicitement
     bool m_membersAreSelfCreated;

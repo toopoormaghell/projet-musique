@@ -25,6 +25,7 @@ public:
     QString choixMp3();
     void afficherListeType();
     QString choixCategories();
+    void Similaires(int id);
 public slots:
     void on_Artistes_currentTextChanged(const QString &arg1);
     void on_Albums_currentRowChanged(int currentRow);

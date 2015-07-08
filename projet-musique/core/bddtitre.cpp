@@ -67,13 +67,26 @@ void BDDTitre::recupererId()
     }
 }
 
+void BDDTitre::mp3etphys()
+{
+    QString queryStr="SELECT R.Id_Titre FROM Relations R, MP3 M, Phys P WHERE M.Id_Relation=R.Id_Relation AND P.Id_Album=R.Id_Album AND R.Id_Titre='"+QString::number(m_id)+"'";
+
+    QSqlQuery query = madatabase.exec( queryStr );
+    if ( query.first() )
+    {
+        m_mp3etphys = true;
+    }
+
+}
+
 BDDTitre::BDDTitre(const int id, QObject *parent):
     QObject(parent),
     m_id(id),
     m_nom(),
     m_nomFormate(),
     m_num_piste(-1),
-    m_duree()
+    m_duree(),
+    m_mp3etphys(false)
 {
     QString queryStr="SELECT Titre,Num_Piste,Duree, TitreSSAccents FROM Titre WHERE Id_Titre='"+QString::number(id)+"'";
     QSqlQuery query = madatabase.exec( queryStr );
@@ -84,6 +97,22 @@ BDDTitre::BDDTitre(const int id, QObject *parent):
         m_nomFormate = rec.value( "TitreSSAccents" ).toString();
         m_num_piste=rec.value("Num_Piste").toInt();
         m_duree=rec.value("Duree").toString();
+        mp3etphys();
 
     }
+}
+QList<int> BDDTitre::Similaires(const int id)
+{
+    QList<int> listeSimilaires;
+    BDDTitre* titre= RecupererTitre(id);
+
+    QString queryStr="SELECT R.Id_Relation FROM Titre T, Relations R WHERE T.Id_Titre!='"+QString::number(id)+"' AND T.TitreSSAccents LIKE '%"+titre->m_nomFormate+"%' AND T.Id_Titre=R.Id_Titre";
+    qDebug() << queryStr;
+    QSqlQuery query = madatabase.exec( queryStr );
+    while ( query.next() )
+    {
+        QSqlRecord rec = query.record();
+        listeSimilaires << rec.value("Id_Relation").toInt();
+    }
+    return listeSimilaires;
 }

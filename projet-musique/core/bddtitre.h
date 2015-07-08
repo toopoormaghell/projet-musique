@@ -19,11 +19,12 @@ public:
     QString m_nomFormate;
     int m_num_piste;
     QString m_duree;
-
+    bool m_mp3etphys;
+    QList<int> Similaires(const int id);
 private:
     void ajouterBDD();
     void recupererId();
-
+    void mp3etphys();
     //Constructeur avec une id
     BDDTitre (const int id, QObject* parent =NULL);
 

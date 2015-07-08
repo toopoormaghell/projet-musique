@@ -23,4 +23,16 @@ BDDType::BDDType(const int id, QObject *parent):
     }
 
 }
+QList<int> BDDType::NbCategories()
+{
+    QList<int> cate;
+    QString queryStr="SELECT Id_Type FROM Type";
+    QSqlQuery query = madatabase.exec( queryStr );
+    while ( query.next() )
+    {
+        QSqlRecord rec = query.record();
+       cate<< rec.value("Type").toInt();
 
+    }
+    return cate;
+}

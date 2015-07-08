@@ -12,6 +12,7 @@ public:
     int m_id;
     QString m_type;
 
+    QList<int> NbCategories();
 private:
     BDDType(const int id,QObject* parent= NULL);
 

@@ -151,11 +151,14 @@
       <widget class="QListWidget" name="Albums">
        <property name="maximumSize">
         <size>
-         <width>800</width>
+         <width>300</width>
          <height>16777215</height>
         </size>
        </property>
        <property name="showDropIndicator" stdset="0">
+        <bool>true</bool>
+       </property>
+       <property name="alternatingRowColors">
         <bool>true</bool>
        </property>
        <property name="selectionBehavior">
@@ -166,24 +169,6 @@
          <width>100</width>
          <height>100</height>
         </size>
-       </property>
-       <property name="movement">
-        <enum>QListView::Static</enum>
-       </property>
-       <property name="flow">
-        <enum>QListView::TopToBottom</enum>
-       </property>
-       <property name="isWrapping" stdset="0">
-        <bool>false</bool>
-       </property>
-       <property name="resizeMode">
-        <enum>QListView::Adjust</enum>
-       </property>
-       <property name="viewMode">
-        <enum>QListView::ListMode</enum>
-       </property>
-       <property name="currentRow">
-        <number>-1</number>
        </property>
       </widget>
      </item>
@@ -343,6 +328,9 @@
            <width>75</width>
            <height>75</height>
           </size>
+         </property>
+         <property name="viewMode">
+          <enum>QListView::IconMode</enum>
          </property>
         </widget>
        </item>
