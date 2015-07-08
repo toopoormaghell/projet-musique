@@ -265,3 +265,16 @@ void BDDGestionMp3::SupprimerenBDDMP3(int Id)
     mp3->supprimerenBDD();
     mp3->~BDDMp3();
 }
+void BDDGestionMp3::ViderBDD()
+{
+    BDDType* type=BDDType::RecupererType(1);
+    QList<int> cate=type->NbCategories();
+    for(int i=0;i<cate.count();i++)
+    {
+        recupererMp3(cate[i]);
+        qDebug() <<cate[i];
+        // supprimerAnciensMP3();
+    }
+
+
+}

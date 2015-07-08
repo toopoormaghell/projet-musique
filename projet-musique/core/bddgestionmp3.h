@@ -17,6 +17,7 @@ public:
 
     QString m_fichierlu;
     int m_pourcentage;
+    void ViderBDD();
 signals:
     void pourcentage();
     void fin();
