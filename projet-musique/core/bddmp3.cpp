@@ -44,7 +44,7 @@ BDDMp3::~BDDMp3()
 
 void BDDMp3::recupererId()
 {
-    QString queryStr="SELECT Id_MP3 FROM MP3 WHERE Id_Relation='"+QString::number(m_relation->m_id)+"'";
+    QString queryStr="SELECT Id_MP3 FROM MP3 WHERE Id_Relation='"+QString::number(m_relation->m_id)+"' AND Chemin='"+m_chemin+"'";
     QSqlQuery query = madatabase.exec( queryStr );
 
     if ( query.first() )
