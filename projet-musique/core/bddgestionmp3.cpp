@@ -57,7 +57,7 @@ void BDDGestionMp3::step()
         QTimer::singleShot(0, this, SLOT( step() ) );
     } else
     {
-      emit fin();
+        emit fin();
         supprimerAnciensMP3();
         if ( !m_Categories.empty() )
             QTimer::singleShot(0, this, SLOT( init() ) );
@@ -81,7 +81,7 @@ void BDDGestionMp3::listeCategoriesActualiser()
     if(temp.ActualiserLives())
     {
         m_Categories<<3;
-     }
+    }
 
 }
 QString BDDGestionMp3::dossiercategorie()
@@ -171,7 +171,7 @@ void BDDGestionMp3::supprimerAnciensMP3 ( )
         emit pourcentage();
         int cle = iterateur.key ();
 
-           SupprimerenBDDMP3(cle);
+        SupprimerenBDDMP3(cle);
 
         m_iteration++;
     }
@@ -211,7 +211,7 @@ void BDDGestionMp3::SousCatParChemin(TagLib::String &artist, QString chemin)
 {
     if (chemin.contains("BOF"))
     {
-       m_souscat = 4;
+        m_souscat = 4;
     }
     if (chemin.contains("Comedies Musicales"))
     {

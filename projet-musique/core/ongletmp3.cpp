@@ -51,7 +51,7 @@ void OngletMP3::afficherListeArtiste()
 
     //Affichage des artistes
     QList<int> artistes=m_bddInterface.ListeArtiste(cat);
-vider("Artiste");
+    vider("Artiste");
     for (int cpt=0;cpt<artistes.count();cpt++)
     {
         BDDArtiste* artiste = BDDArtiste::RecupererArtiste( artistes[cpt] );
@@ -82,7 +82,7 @@ void OngletMP3::afficherListeAlbum()
 {
     //Choix de l'Artiste des Albums à afficher
     QString Artiste=choixArtiste();
-QString Cate=choixCategories();
+    QString Cate=choixCategories();
     //Affichage des albums
     QList<int> albums=m_bddInterface.listeAlbums(Artiste,Cate);
 
@@ -139,7 +139,7 @@ void OngletMP3::on_Artistes_currentTextChanged(const QString &arg1)
 }
 void OngletMP3::on_Albums_currentRowChanged(int currentRow)
 {
-   vider ("Titres");
+    vider ("Titres");
     afficherInfosTitre();
 }
 
@@ -202,7 +202,7 @@ void OngletMP3::afficherInfosTitre()
         delete mp3;
     } else
     {
-vider("Titre");
+        vider("Titre");
     }
 
 }
