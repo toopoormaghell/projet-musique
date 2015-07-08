@@ -57,7 +57,7 @@ void BDDGestionMp3::step()
         QTimer::singleShot(0, this, SLOT( step() ) );
     } else
     {
-      emit fin();
+        emit fin();
         supprimerAnciensMP3();
         if ( !m_Categories.empty() )
             QTimer::singleShot(0, this, SLOT( init() ) );
@@ -81,7 +81,7 @@ void BDDGestionMp3::listeCategoriesActualiser()
     if(temp.ActualiserLives())
     {
         m_Categories<<3;
-     }
+    }
 
 }
 QString BDDGestionMp3::dossiercategorie()
@@ -161,21 +161,37 @@ void BDDGestionMp3::actualiserMp3(QString chemin)
 
 void BDDGestionMp3::supprimerAnciensMP3 ( )
 {
-    //On parcourt la Map des chemins pour trouver ceux qui n'ont jamais été trouvés.
-    QMap < int, QStringList >::const_iterator iterateur;
-    m_iteration=0;
+    iterateur= m_Chemins.constBegin();
 
-    for (iterateur = m_Chemins.constBegin(); iterateur != m_Chemins.constEnd() ; ++iterateur)
+    m_iteration = 0;
+
+    QTimer::singleShot(0, this, SLOT( supprstep() ) );
+}
+void BDDGestionMp3::supprstep()
+{
+    if ( iterateur!=m_Chemins.constEnd())
     {
-        m_pourcentage = m_iteration*100/m_Chemins.count();
-        emit pourcentage();
-        int cle = iterateur.key ();
+        try
+        {
+            m_pourcentage = m_iteration*100/m_Chemins.count();
+            emit pourcentage();
+            int cle = iterateur.key ();
 
-           SupprimerenBDDMP3(cle);
+            SupprimerenBDDMP3(cle);
+            m_iteration++;
+            m_Chemins.remove(cle);
+           iterateur=m_Chemins.constBegin();
 
-        m_iteration++;
+        }
+        catch ( std::bad_alloc& e )
+        {
+            qDebug() << e.what();
+        }
+        QTimer::singleShot(0, this, SLOT( supprstep() ) );
+    } else
+    {
+        BDDSingleton::getInstance().supprimerdossiersvides();
     }
-    BDDSingleton::getInstance().supprimerdossiersvides();
 }
 void BDDGestionMp3::recupererMp3(int Type)
 {
@@ -211,7 +227,7 @@ void BDDGestionMp3::SousCatParChemin(TagLib::String &artist, QString chemin)
 {
     if (chemin.contains("BOF"))
     {
-       m_souscat = 4;
+        m_souscat = 4;
     }
     if (chemin.contains("Comedies Musicales"))
     {

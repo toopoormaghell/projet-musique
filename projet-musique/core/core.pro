@@ -51,7 +51,8 @@ HEADERS += \
     kqoauthsingleton.h \
     dialogconfigactu.h \
     bddconfig.h \
-    sousdialogajouttitre.h
+    sousdialogajouttitre.h \
+    vidagebdddialog.h
 
 
 SOURCES += main.cpp \
@@ -77,7 +78,8 @@ SOURCES += main.cpp \
     kqoauthsingleton.cpp \
     dialogconfigactu.cpp \
     bddconfig.cpp \
-    sousdialogajouttitre.cpp
+    sousdialogajouttitre.cpp \
+    vidagebdddialog.cpp
 
 FORMS += \
     ongletmp3.ui \
@@ -85,7 +87,8 @@ FORMS += \
     mainwindow.ui \
     dialogajouterphys.ui \
     dialogconfigactu.ui \
-    sousdialogajouttitre.ui
+    sousdialogajouttitre.ui \
+    vidagebdddialog.ui
 
 
 OTHER_FILES += \

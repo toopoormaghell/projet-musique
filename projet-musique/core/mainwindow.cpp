@@ -7,8 +7,8 @@
 #include <QAction>
 #include <QMessageBox>
 #include "dialogconfigactu.h"
-
-
+#include "vidagebdddialog.h"
+#include "QDebug"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -16,7 +16,8 @@ MainWindow::MainWindow(QWidget *parent) :
     m_gestionMP3( new BDDGestionMp3 ),
     m_progressbar( new QProgressBar),
     m_interaction( new QTextBrowser),
-    m_dialogajouterphys( NULL)
+    m_dialogajouterphys( NULL),
+    m_vidage(this)
 {
     ui->setupUi(this);
     m_dialogajouterphys = new DialogAjouterPhys( this );
@@ -24,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_gestionMP3,SIGNAL(pourcentage()),this,SLOT(changerPourcentage()));
     connect(m_gestionMP3,SIGNAL(fin()),this,SLOT(ActualiserOngletMP3()));
     connect(m_dialogajouterphys,SIGNAL(ajout()),this,SLOT(ActualiserOngletPhys()));
+
 }
 void MainWindow::ajouterToolbar()
 {
@@ -76,13 +78,12 @@ void MainWindow::on_actionActualiser_Mp3_triggered()
 
 void MainWindow::on_actionViderBDD_triggered()
 {
-    int choix =QMessageBox::question(this,tr("Vidage BDD"),tr("Voulez vous vraiment vider la base de données?"),QMessageBox::Yes,QMessageBox::No);
-    if (choix == QMessageBox::Yes)
+    m_vidage.show();  qDebug() << m_vidage.Mp3;
+    if (m_vidage.Mp3)
     {
-        BDDSingleton::getInstance().viderBDD();
+
     }
 }
-
 void MainWindow::ActualiserOngletPhys()
 {
     ui->tab_2->vider("Categories");
@@ -120,7 +121,7 @@ void MainWindow::changerPourcentage()
 {
     m_progressbar->setValue(m_gestionMP3->m_pourcentage);
     m_interaction->setText(m_gestionMP3->m_fichierlu);
-    m_progressbar->setFormat("%p%");
+    m_progressbar->setFormat("Actualisation MP3 en cours-%p%");
 }
 void MainWindow::ActualiserOngletMP3()
 {

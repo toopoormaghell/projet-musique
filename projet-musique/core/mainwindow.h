@@ -6,6 +6,7 @@
 #include <QProgressBar>
 #include <QTextBrowser>
 #include "dialogajouterphys.h"
+#include "vidagebdddialog.h"
 namespace Ui {
 class MainWindow;
 }
@@ -23,16 +24,16 @@ public:
 
 private slots:
     void on_actionActualiser_Mp3_triggered();
- void ActualiserOngletMP3();
+    void ActualiserOngletMP3();
     void on_actionViderBDD_triggered();
-void ActualiserOngletPhys();
+    void ActualiserOngletPhys();
 
     void on_actionAjouter_Album_triggered();
     void actionExporter();
     void actionartistesinverses();
     void actionBDD();
     void actionconfigactu();
- //    void afficherinteraction();
+    //    void afficherinteraction();
     void changerPourcentage();
 
 private:
@@ -41,6 +42,7 @@ private:
     BDDGestionMp3* m_gestionMP3;
     QTextBrowser* m_interaction;
     DialogAjouterPhys* m_dialogajouterphys;
+    VidageBDDDialog m_vidage;
 };
 
 #endif // MAINWINDOW_H

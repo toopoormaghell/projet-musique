@@ -23,7 +23,7 @@ signals:
 private slots:
     void init();
     void step();
-
+void supprstep();
 private:
     //Actualiser MP3 + fonctions associées
     void actualiserMp3(QString chemin);
@@ -40,6 +40,7 @@ private:
     int m_iteration;
     int m_souscat;
     QList<int> m_Categories;
+    QMap < int, QStringList >::const_iterator iterateur;
 
   void SupprimerenBDDMP3(int Id);
 
