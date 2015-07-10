@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include "bddgestionmp3.h"
 #include <QProgressBar>
-#include <QTextBrowser>
+#include <QLabel>
 #include "dialogajouterphys.h"
 #include "vidagebdddialog.h"
 namespace Ui {
@@ -20,6 +20,9 @@ public:
     ~MainWindow();
 
     void ajouterToolbar();
+
+
+    void ajouterStatusBar();
 
 
 private slots:
@@ -40,7 +43,7 @@ private:
     Ui::MainWindow *ui;
     QProgressBar* m_progressbar;
     BDDGestionMp3* m_gestionMP3;
-    QTextBrowser* m_interaction;
+    QLabel* m_interaction;
     DialogAjouterPhys* m_dialogajouterphys;
     VidageBDDDialog m_vidage;
 };

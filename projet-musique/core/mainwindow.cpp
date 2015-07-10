@@ -9,19 +9,22 @@
 #include "dialogconfigactu.h"
 #include "vidagebdddialog.h"
 #include "QDebug"
+#include <QWidget>
+#include <QStatusBar>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     m_gestionMP3( new BDDGestionMp3 ),
     m_progressbar( new QProgressBar),
-    m_interaction( new QTextBrowser),
+    m_interaction( new QLabel),
     m_dialogajouterphys( NULL),
     m_vidage(this)
 {
     ui->setupUi(this);
     m_dialogajouterphys = new DialogAjouterPhys( this );
     ajouterToolbar();
+    ajouterStatusBar();
     connect(m_gestionMP3,SIGNAL(pourcentage()),this,SLOT(changerPourcentage()));
     connect(m_gestionMP3,SIGNAL(fin()),this,SLOT(ActualiserOngletMP3()));
     connect(m_dialogajouterphys,SIGNAL(ajout()),this,SLOT(ActualiserOngletPhys()));
@@ -50,21 +53,27 @@ void MainWindow::ajouterToolbar()
     essai.load(":menuIcones/config actu");
     ui->toolBar->addAction(QIcon(essai),"Configuration Actualiser MP3",this,SLOT(actionconfigactu()));
 
-    ui->toolBar->addWidget( m_progressbar );
-    m_progressbar->setMaximumWidth(500);
+}
+void MainWindow::ajouterStatusBar()
+{
+    //Propriétés de la statusbar
+    ui->statusBar->setContentsMargins(0,0,0,0);
+
+    ui->statusBar->addPermanentWidget(m_progressbar,1);
+    ui->statusBar->addPermanentWidget(m_interaction,1);
+
+    //Propriétés de la progressBar
     m_progressbar->setTextVisible( true );
     m_progressbar->setAlignment( Qt::AlignCenter );
     QString temp = "%p% -"+m_gestionMP3->m_fichierlu;
     m_progressbar->setFormat(temp);
+    m_progressbar->setFixedWidth(500);
 
-
-    ui->toolBar->addWidget(m_interaction);
+    //Propriétés du widget d'intéraction
+    m_interaction->setText("Prêt");
     m_interaction->setMaximumHeight(20);
-    m_interaction->setMaximumWidth(500);
-
 
 }
-
 MainWindow::~MainWindow()
 {
     delete ui;
@@ -120,8 +129,9 @@ void MainWindow::actionconfigactu()
 void MainWindow::changerPourcentage()
 {
     m_progressbar->setValue(m_gestionMP3->m_pourcentage);
+    m_progressbar->setFormat("%p%");
+    m_interaction->clear();
     m_interaction->setText(m_gestionMP3->m_fichierlu);
-    m_progressbar->setFormat("Actualisation MP3 en cours-%p%");
 }
 void MainWindow::ActualiserOngletMP3()
 {
