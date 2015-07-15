@@ -52,7 +52,7 @@ void BDDTitre::ajouterBDD()
 
 void BDDTitre::recupererId()
 {
-    QString queryStr = "Select Id_Titre As 'Titre' from Titre WHERE TitreSSAccents='" + m_nomFormate+"' AND Duree='"+m_duree+"' AND Num_Piste='"+ QString::number(m_num_piste)+"'" ;
+    QString queryStr = "Select Id_Titre As 'Titre' from Titre WHERE Titre_Formate='" + m_nomFormate+"' AND Duree='"+m_duree+"' AND Num_Piste='"+ QString::number(m_num_piste)+"'" ;
 
     QSqlQuery query = madatabase.exec( queryStr );
 
@@ -88,13 +88,13 @@ BDDTitre::BDDTitre(const int id, QObject *parent):
     m_duree(),
     m_mp3etphys(false)
 {
-    QString queryStr="SELECT Titre,Num_Piste,Duree, TitreSSAccents FROM Titre WHERE Id_Titre='"+QString::number(id)+"'";
+    QString queryStr="SELECT Titre,Num_Piste,Duree, Titre_Formate FROM Titre WHERE Id_Titre='"+QString::number(id)+"'";
     QSqlQuery query = madatabase.exec( queryStr );
     while ( query.next() )
     {
         QSqlRecord rec = query.record();
         m_nom= rec.value( "Titre" ).toString().replace("$","'");
-        m_nomFormate = rec.value( "TitreSSAccents" ).toString();
+        m_nomFormate = rec.value( "Titre_Formate" ).toString();
         m_num_piste=rec.value("Num_Piste").toInt();
         m_duree=rec.value("Duree").toString();
         mp3etphys();
@@ -106,13 +106,12 @@ QList<int> BDDTitre::Similaires(const int id)
     QList<int> listeSimilaires;
     BDDTitre* titre= RecupererTitre(id);
 
-    QString queryStr="SELECT R.Id_Relation FROM Titre T, Relations R WHERE T.Id_Titre!='"+QString::number(id)+"' AND T.TitreSSAccents LIKE '%"+titre->m_nomFormate+"%' AND T.Id_Titre=R.Id_Titre";
-    qDebug() << queryStr;
+    QString queryStr="SELECT M.Id_MP3 FROM Titre T,MP3 M, Relations R WHERE T.Id_Titre!='"+QString::number(id)+"' AND T.Titre_Formate LIKE '%"+titre->m_nomFormate+"%' AND T.Id_Titre=R.Id_Titre AND R.Id_Relation = M.Id_Relation";
     QSqlQuery query = madatabase.exec( queryStr );
     while ( query.next() )
     {
         QSqlRecord rec = query.record();
-        listeSimilaires << rec.value("Id_Relation").toInt();
+        listeSimilaires << rec.value("Id_MP3").toInt();
     }
     return listeSimilaires;
 }

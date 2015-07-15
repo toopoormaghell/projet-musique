@@ -40,7 +40,7 @@ BDDAlbum::~BDDAlbum()
 }
 void BDDAlbum::recupererId()
 {
-    QString queryStr = "Select Id_Album As 'Album' from Album WHERE AlbumSSAccents='" + m_nomFormate+"' AND Id_Pochette='" + QString::number(m_pochette->m_id) +"'" ;
+    QString queryStr = "Select Id_Album As 'Album' from Album WHERE Album_Formate='" + m_nomFormate+"' AND Id_Pochette='" + QString::number(m_pochette->m_id) +"'" ;
     QSqlQuery query = madatabase.exec( queryStr );
 
     if ( query.first() )
@@ -62,14 +62,14 @@ BDDAlbum::BDDAlbum(const int id, QObject *parent):
     m_annee(1),
     m_type()
 {
-    QString queryStr="SELECT Album,AlbumSSAccents,Id_Pochette, Annee, Type FROM Album WHERE Id_Album='"+ QString::number( id )+"'";
+    QString queryStr="SELECT Album,Album_Formate,Id_Pochette, Annee, Type FROM Album WHERE Id_Album='"+ QString::number( id )+"'";
     QSqlQuery query = madatabase.exec( queryStr );
     while ( query.next() )
     {
         QSqlRecord rec = query.record();
 
         m_nom = rec.value( "Album" ).toString().replace("$","'");
-        m_nomFormate = rec.value( "AlbumSSAccents" ).toString();
+        m_nomFormate = rec.value( "Album_Formate" ).toString();
         m_annee=rec.value("Annee").toInt();
         m_type=BDDType::RecupererType(rec.value("Type").toInt());
         m_pochette = BDDPoch::recupererBDD( rec.value( "Id_Pochette" ).toInt() );
