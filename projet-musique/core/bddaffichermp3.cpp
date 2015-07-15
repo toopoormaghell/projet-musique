@@ -69,6 +69,10 @@ QList<int> BDDAfficherMp3::listeAlbums(QString Id_Artiste,QString Categorie)
     }
     queryStr= queryStr+" ORDER BY Al.Annee DESC";
 
+    if (Categorie=="2")
+    {
+        queryStr="SELECT DISTINCT Al.Id_Album FROM Album Al, MP3 M, Relations R WHERE Al.Id_Album = R.Id_Album AND Categorie=2 AND R.Id_Relation = M.Id_Relation AND "+AnneesSwitch(Id_Artiste);
+    }
     QSqlQuery query=madatabase.exec(queryStr);
 
     while (query.next() ) {
@@ -77,6 +81,29 @@ QList<int> BDDAfficherMp3::listeAlbums(QString Id_Artiste,QString Categorie)
         albums << rec.value("Id_Album").toInt();
     }
     return albums;
+}
+QString BDDAfficherMp3::AnneesSwitch(QString annee)
+{
+    if (annee=="Avant 1980")
+
+        return "Annee <1980";
+
+    if ( annee=="1980-1989")
+
+        return  " Annee >=1980 AND Annee <1990";
+
+    if ( annee=="1990-1999")
+
+        return " Annee >=1990 AND Annee<2000";
+
+    if (annee=="2000-2004")
+        return " Annee>=2000 AND Annee<2005";
+    if (annee=="2005-2009")
+        return " Annee>=2005 AND Annee<2010";
+    if (annee=="2010-2014")
+        return " Annee>=2010 AND Annee<2014";
+    if (annee=="2015-2019")
+        return " Annee>2015";
 }
 QStringList BDDAfficherMp3::RecupererListeTypes(const QString categorie)
 {

@@ -22,9 +22,8 @@ OngletMP3::OngletMP3(QWidget *parent) :
     ui->ArtistesAnnees->setModel(&m_artistes);
     affichageartistes();
     ui->AlbumsTitres->setModel(&m_albumtitres);
-
     afficheralbumsettitres();
-
+afficherInfosTitre();
 }
 OngletMP3::~OngletMP3()
 {
@@ -58,6 +57,7 @@ QString OngletMP3::choixMp3()
 void OngletMP3::on_ArtistesAnnees_clicked(const QModelIndex &index)
 {
     afficheralbumsettitres();
+
 }
 void OngletMP3::on_AlbumsTitres_clicked(const QModelIndex &index)
 {
@@ -67,6 +67,7 @@ void OngletMP3::on_AlbumsTitres_clicked(const QModelIndex &index)
 void OngletMP3::on_Categories_currentRowChanged(int currentRow)
 {
     affichageartistes();
+
 }
 
 void OngletMP3::vider(QString Type)
@@ -108,7 +109,7 @@ void OngletMP3::afficherListeType()
     }
     ui->Categories->setCurrentRow(1);
 }
-
+//Affiche les albums selon l'artiste (ou les années) et la catégorie
 void OngletMP3::afficheralbumsettitres()
 {
     //Création du modèle pour le QTableView
@@ -134,6 +135,7 @@ void OngletMP3::afficheralbumsettitres()
 
             item->setIcon( QIcon( scaled ) );
             item->setTextAlignment(Qt::AlignCenter | Qt::AlignBottom);
+
             m_albumtitres.setItem(m_lignestitres,0,item);
             ui->AlbumsTitres->setSpan(m_lignestitres,0,4,1);
 
@@ -142,7 +144,7 @@ void OngletMP3::afficheralbumsettitres()
             item->setData( Qt::UserRole, albums[cpt] );
             item->setText( QString::number(album->m_annee)+" - "+album->m_nom );
             item->setFlags(  Qt::ItemIsEnabled );
-            item->setTextAlignment(Qt::AlignLeft | Qt::AlignTop);
+            item->setTextAlignment(Qt::AlignCenter);
             m_albumtitres.setItem(m_lignestitres+4,0,item);
             //On appelle la fonction chargée d'afficher les titres
             afficherTitresAlbum(QString::number(album->m_id),Cate,m_lignestitres);
@@ -152,7 +154,7 @@ void OngletMP3::afficheralbumsettitres()
     }
     //On retaille tout à la fin
     m_albumtitres.setRowCount(m_lignestitres);
-
+ui->AlbumsTitres->setCurrentIndex(m_albumtitres.index(0,1));
 }
 void OngletMP3::afficherTitresAlbum(QString Album,QString Cate,int row)
 {
@@ -274,13 +276,14 @@ void OngletMP3::affichageartistes()
        afficherListeAnnees();
 
     }
+     ui->ArtistesAnnees->setCurrentIndex(m_artistes.index(0,0));
 }
 void OngletMP3::afficherListeAnnees()
 {
     BDDPoch* poch= BDDPoch::recupererBDD(1);
 
     QStringList ListeAnnees;
-    ListeAnnees << "Avant 1980" <<"1980-1990"<< "1990-2000" << "2000-2005" << "2005-2010" << "2010-2014" <<"2015-2020";
+    ListeAnnees << "Avant 1980" <<"1980-1989"<< "1990-1999" << "2000-2004" << "2005-2009" << "2010-2014" <<"2015-2019";
     for (int cpt=0;cpt<ListeAnnees.count();cpt++) {
 
         QStandardItem* item= new QStandardItem;
@@ -290,6 +293,7 @@ void OngletMP3::afficherListeAnnees()
         item->setIcon( QIcon( scaled ) );
 
         //On s'occupe d'afficher la liste de l'année en cours
+        item->setData(ListeAnnees[cpt],Qt::UserRole);
         item->setText(ListeAnnees[cpt]);
 
         m_artistes.setItem(cpt,item);

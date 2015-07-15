@@ -33,6 +33,7 @@ void EnleverAccents ( QString &Nom)
     Nom.replace("."," ");
     Nom.replace("-"," ");
     Nom.replace("À","a");
+    Nom.replace("É","e");
 
     Nom=  Nom.toLower();
 }
