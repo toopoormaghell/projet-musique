@@ -13,22 +13,26 @@ QList<int> BDDAfficherMp3::ListeArtiste(QString type)
 
     QList<int> liste;
 
-
-    QString queryStr="SELECT DISTINCT A.Id_Artiste FROM Artiste A, MP3 M,Relations R WHERE A.Id_Artiste!='01' AND R.Id_Relation=M.Id_Relation AND R.Id_Artiste=A.Id_Artiste";
-
-    if(type!="0")
+    if (type!="2")
     {
-        queryStr = queryStr + " AND M.Categorie='"+ type +"'";
+        QString queryStr="SELECT DISTINCT A.Id_Artiste FROM Artiste A, MP3 M,Relations R WHERE A.Id_Artiste!='01' AND R.Id_Relation=M.Id_Relation AND R.Id_Artiste=A.Id_Artiste";
+
+        if(type!="0")
+        {
+            queryStr = queryStr + " AND M.Categorie='"+ type +"'";
+        }
+        queryStr =queryStr+ " ORDER BY Artiste";
+
+        QSqlQuery query= madatabase.exec(queryStr);
+
+        while (query.next() ) {
+            QSqlRecord rec=query.record();
+
+            liste << rec.value("Id_Artiste").toInt();
+        }
+
     }
-    queryStr =queryStr+ " ORDER BY Artiste";
 
-    QSqlQuery query= madatabase.exec(queryStr);
-
-    while (query.next() ) {
-        QSqlRecord rec=query.record();
-
-        liste << rec.value("Id_Artiste").toInt();
-    }
     return liste;
 
 }

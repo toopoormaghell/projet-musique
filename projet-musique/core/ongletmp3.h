@@ -17,8 +17,6 @@ public:
     explicit OngletMP3(QWidget *parent = 0);
     ~OngletMP3();
 
-    void afficherListeArtiste();
-    void afficherListeAlbum();
     QString choixArtiste();
     void vider(QString Type);
     void afficherTitresAlbum(QString Album, QString Cate, int row);
@@ -27,18 +25,23 @@ public:
     void afficherListeType();
     QString choixCategories();
     void Similaires(int id);
-
-    void changementModele();
+  void afficherListeAnnees();
+    void afficheralbumsettitres();
+    void affichageartistes();
 public slots:
-    void on_Artistes_currentTextChanged(const QString &arg1);
-    void on_Albums_currentRowChanged(int currentRow);
     void on_Categories_currentRowChanged(int currentRow);
+    void on_AlbumsTitres_clicked(const QModelIndex &index);
+
+private slots:
+    void on_ArtistesAnnees_clicked(const QModelIndex &index);
 
 private:
     Ui::OngletMP3 *ui;
     BDDAfficherMp3 m_bddInterface;
     QStandardItemModel m_albumtitres;
-int m_lignestitres;
+    int m_lignestitres;
+    QStandardItemModel m_artistes;
+
 };
 
 #endif // ONGLETMP3_H
