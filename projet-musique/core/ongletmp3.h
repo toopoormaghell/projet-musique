@@ -41,6 +41,7 @@ private:
     QStandardItemModel m_albumtitres;
     int m_lignestitres;
     QStandardItemModel m_artistes;
+    int m_colonnetitre;
 
 };
 

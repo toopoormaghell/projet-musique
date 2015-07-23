@@ -15,7 +15,8 @@ OngletMP3::OngletMP3(QWidget *parent) :
     ui(new Ui::OngletMP3),
     m_albumtitres(new QStandardItemModel),
     m_lignestitres(0),
-    m_artistes(new QStandardItemModel)
+    m_artistes(new QStandardItemModel),
+    m_colonnetitre(0)
 {
     ui->setupUi(this);
     afficherListeType();
@@ -23,7 +24,7 @@ OngletMP3::OngletMP3(QWidget *parent) :
     affichageartistes();
     ui->AlbumsTitres->setModel(&m_albumtitres);
     afficheralbumsettitres();
-afficherInfosTitre();
+    afficherInfosTitre();
 }
 OngletMP3::~OngletMP3()
 {
@@ -115,6 +116,7 @@ void OngletMP3::afficheralbumsettitres()
     //Création du modèle pour le QTableView
     m_lignestitres=0;
     m_albumtitres.clear();
+    m_colonnetitre=0;
     //Choix de l'Artiste des Albums à afficher
     QString Artiste=choixArtiste();
     QString Cate=choixCategories();
@@ -129,32 +131,44 @@ void OngletMP3::afficheralbumsettitres()
 
         if (album->m_id>0)
         {
+
             QStandardItem* item= new QStandardItem;
             //on affiche la pochette
             QPixmap scaled( QPixmap::fromImage( album->m_pochette->m_image ) );
-
             item->setIcon( QIcon( scaled ) );
-            item->setTextAlignment(Qt::AlignCenter | Qt::AlignBottom);
+           item->setTextAlignment(Qt::AlignCenter | Qt::AlignBottom);
 
-            m_albumtitres.setItem(m_lignestitres,0,item);
-            ui->AlbumsTitres->setSpan(m_lignestitres,0,4,1);
+            m_albumtitres.setItem(m_lignestitres,m_colonnetitre,item);
+            ui->AlbumsTitres->setSpan(m_lignestitres,m_colonnetitre,4,1);
 
             item= new QStandardItem;
             //On s'occupe d'afficher le nom du titre de l'album
             item->setData( Qt::UserRole, albums[cpt] );
+            item->setTextAlignment(Qt::AlignLeft);
             item->setText( QString::number(album->m_annee)+" - "+album->m_nom );
             item->setFlags(  Qt::ItemIsEnabled );
-            item->setTextAlignment(Qt::AlignCenter);
-            m_albumtitres.setItem(m_lignestitres+4,0,item);
+            m_albumtitres.setItem(m_lignestitres+4,m_colonnetitre,item);
             //On appelle la fonction chargée d'afficher les titres
             afficherTitresAlbum(QString::number(album->m_id),Cate,m_lignestitres);
+            if (Cate.toInt()==2)
+            {
+                if(cpt%2==0)
+                {
+                    m_colonnetitre=0;
+                }
+                else
+                {
+                    m_colonnetitre=m_colonnetitre+3;
+                }
+
+            }
         }
         delete album;
 
     }
     //On retaille tout à la fin
     m_albumtitres.setRowCount(m_lignestitres);
-ui->AlbumsTitres->setCurrentIndex(m_albumtitres.index(0,1));
+    ui->AlbumsTitres->setCurrentIndex(m_albumtitres.index(0,1));
 }
 void OngletMP3::afficherTitresAlbum(QString Album,QString Cate,int row)
 {
@@ -166,8 +180,8 @@ void OngletMP3::afficherTitresAlbum(QString Album,QString Cate,int row)
     int maxcol=std::max(2,(temp+6-1)/6);
 
     int maxlignes=temp/maxcol+(temp%maxcol==0?0:1);
-    m_lignestitres=std::max(row+5,row+maxlignes);
-    m_albumtitres.setColumnCount(std::max(m_albumtitres.columnCount(),maxcol));
+
+    m_albumtitres.setColumnCount(std::max(m_albumtitres.columnCount()+m_colonnetitre,maxcol+m_colonnetitre));
 
     for (int cpt=0;cpt<titres.count();cpt=cpt+2)
     {
@@ -175,12 +189,16 @@ void OngletMP3::afficherTitresAlbum(QString Album,QString Cate,int row)
         item->setData(titres[cpt+1],Qt::UserRole);
         item->setText(titres[cpt]);
         item->setTextAlignment(Qt::AlignLeft | Qt::AlignBottom);
-        m_albumtitres.setItem(row+ligne,col,item);
+        m_albumtitres.setItem(row+ligne,m_colonnetitre+col,item);
         ligne++;
         if (ligne==maxlignes)
         {
             ligne=0;col++;
         }
+    }
+    if (Cate.toInt()!=2||m_colonnetitre!=3)
+    {
+        m_lignestitres=std::max(row+5,row+maxlignes);
     }
 
 }
@@ -247,7 +265,7 @@ void OngletMP3::affichageartistes()
 
     if (cat!="2")
     {
-       //On récupère la liste des artistes
+        //On récupère la liste des artistes
         QList<int> artistes=m_bddInterface.ListeArtiste(cat);
         for (int cpt=0;cpt<artistes.count();cpt++)
         {
@@ -273,10 +291,10 @@ void OngletMP3::affichageartistes()
         }
     } else
     {
-       afficherListeAnnees();
+        afficherListeAnnees();
 
     }
-     ui->ArtistesAnnees->setCurrentIndex(m_artistes.index(0,0));
+    ui->ArtistesAnnees->setCurrentIndex(m_artistes.index(0,0));
 }
 void OngletMP3::afficherListeAnnees()
 {
