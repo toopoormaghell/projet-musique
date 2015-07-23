@@ -11,6 +11,7 @@
 #include "QDebug"
 #include <QWidget>
 #include <QStatusBar>
+#include <QPushButton>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -19,17 +20,24 @@ MainWindow::MainWindow(QWidget *parent) :
     m_progressbar( new QProgressBar),
     m_interaction( new QLabel),
     m_dialogajouterphys( NULL),
-    m_vidage(this)
+    m_vidage(this),
+    stop(new QPushButton("Stop"))
 {
     ui->setupUi(this);
     m_dialogajouterphys = new DialogAjouterPhys( this );
     ajouterToolbar();
     ajouterStatusBar();
-    connect(m_gestionMP3,SIGNAL(pourcentage()),this,SLOT(changerPourcentage()));
-    connect(m_gestionMP3,SIGNAL(fin()),this,SLOT(ActualiserOngletMP3()));
-    connect(m_dialogajouterphys,SIGNAL(ajout()),this,SLOT(ActualiserOngletPhys()));
 
-}
+
+    //Change le pourcentage de la progressbar
+    connect(m_gestionMP3,SIGNAL(pourcentage()),this,SLOT(changerPourcentage()));
+    //A la fin de l'actualiser MP3, il actualise l'onglet MP3
+    connect(m_gestionMP3,SIGNAL(fin()),this,SLOT(ActualiserOngletMP3()));
+    //A la fin de l'ajout d'album Phys, il actualise l'onglet Phys
+    connect(m_dialogajouterphys,SIGNAL(ajout()),this,SLOT(ActualiserOngletPhys()));
+    //Si le bouton STOP est cliqué, il renvoie un signal
+    connect(stop,SIGNAL(clicked()),m_gestionMP3,SLOT(stop_clique()));
+    }
 void MainWindow::ajouterToolbar()
 {
     QPixmap essai(":/menuIcones/actump3");
@@ -58,14 +66,14 @@ void MainWindow::ajouterStatusBar()
 {
     //Propriétés de la statusbar
     ui->statusBar->setContentsMargins(0,0,0,0);
-
+    ui->statusBar->addPermanentWidget(stop,1);
     ui->statusBar->addPermanentWidget(m_progressbar,1);
     ui->statusBar->addPermanentWidget(m_interaction,1);
 
     //Propriétés de la progressBar
     m_progressbar->setTextVisible( true );
     m_progressbar->setAlignment( Qt::AlignCenter );
-    QString temp = "%p% -"+m_gestionMP3->m_fichierlu;
+    QString temp = "%p% -";
     m_progressbar->setFormat(temp);
     m_progressbar->setFixedWidth(500);
 
@@ -74,6 +82,11 @@ void MainWindow::ajouterStatusBar()
     m_interaction->setMaximumHeight(20);
 
 }
+void MainWindow::stop_clique()
+{
+   emit stopper();
+}
+
 MainWindow::~MainWindow()
 {
     delete ui;
@@ -87,12 +100,29 @@ void MainWindow::on_actionActualiser_Mp3_triggered()
 
 void MainWindow::on_actionViderBDD_triggered()
 {
-    m_vidage.show();  qDebug() << m_vidage.Mp3;
-    if (m_vidage.Mp3)
-    {
+    connect(&m_vidage,SIGNAL(vidage()),this,SLOT(ViderBDD()));
 
-    }
+    m_vidage.show();
 }
+void MainWindow::ViderBDD()
+{
+    //Problème: il faut attendre que la fenêtre se ferme
+    if (m_vidage.Mp3 && m_vidage.Phys && m_vidage.Config)
+    {
+        m_interaction->setText("Suppression entière de la BDD...");
+        BDDSingleton::getInstance().viderBDD();
+       m_interaction->setText("Prêt");
+    } else
+    {
+        if (m_vidage.Mp3)
+        {
+            m_gestionMP3->ViderBDD();
+        }
+    }
+    ActualiserOngletMP3();
+    ActualiserOngletPhys();
+}
+
 void MainWindow::ActualiserOngletPhys()
 {
     ui->tab_2->vider("Categories");

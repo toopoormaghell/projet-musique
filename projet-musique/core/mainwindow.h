@@ -7,6 +7,7 @@
 #include <QLabel>
 #include "dialogajouterphys.h"
 #include "vidagebdddialog.h"
+#include <QPushButton>
 namespace Ui {
 class MainWindow;
 }
@@ -23,22 +24,23 @@ public:
 
 
     void ajouterStatusBar();
-
+signals:
+    void stopper();
 
 private slots:
     void on_actionActualiser_Mp3_triggered();
-    void ActualiserOngletMP3();
     void on_actionViderBDD_triggered();
-    void ActualiserOngletPhys();
-
     void on_actionAjouter_Album_triggered();
     void actionExporter();
     void actionartistesinverses();
     void actionBDD();
     void actionconfigactu();
-    //    void afficherinteraction();
-    void changerPourcentage();
+    void ViderBDD();
 
+    void changerPourcentage();
+    void ActualiserOngletMP3();
+    void ActualiserOngletPhys();
+    void stop_clique();
 private:
     Ui::MainWindow *ui;
     QProgressBar* m_progressbar;
@@ -46,6 +48,7 @@ private:
     QLabel* m_interaction;
     DialogAjouterPhys* m_dialogajouterphys;
     VidageBDDDialog m_vidage;
+    QPushButton *stop;
 };
 
 #endif // MAINWINDOW_H

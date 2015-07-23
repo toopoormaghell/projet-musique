@@ -5,7 +5,10 @@
 #include "QDebug"
 VidageBDDDialog::VidageBDDDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::VidageBDDDialog)
+    ui(new Ui::VidageBDDDialog),
+    Mp3(true),
+    Phys(true),
+    Config(true)
 {
     ui->setupUi(this);
 }
@@ -35,4 +38,5 @@ void VidageBDDDialog::on_buttonBox_accepted()
     Mp3= ui->MP3->isChecked();
     Phys=ui->Phys->isChecked();
     Config=ui->Config->isChecked();
+    emit vidage();
 }

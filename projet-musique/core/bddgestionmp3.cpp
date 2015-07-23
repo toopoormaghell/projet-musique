@@ -1,8 +1,5 @@
 #include "bddgestionmp3.h"
 #include "bddsingleton.h"
-#include <QtSql>
-#include <QDir>
-#include <QTimer>
 #include "bddmp3.h"
 #include "bddpoch.h"
 #include "bddartiste.h"
@@ -11,10 +8,14 @@
 #include "bddrelation.h"
 #include "bddtype.h"
 #include "bddconfig.h"
+#include <QtSql>
+#include <QDir>
+#include <QTimer>
 
 BDDGestionMp3::BDDGestionMp3(QObject *parent) :
     QObject(parent)
 {
+
 }
 
 void BDDGestionMp3::demarreractualiser()
@@ -67,6 +68,11 @@ void BDDGestionMp3::step()
         }
     }
 }
+
+void BDDGestionMp3::stop_clique()
+{
+    m_iteration=m_filelist.count();
+}
 void BDDGestionMp3::listeCategoriesActualiser()
 {
     BDDConfig temp;
@@ -93,7 +99,6 @@ QString BDDGestionMp3::dossiercategorie()
     case (3): return "F:/Live";break;
     }
 }
-
 void BDDGestionMp3::creerfilefichiers()
 {
 
@@ -125,6 +130,7 @@ void BDDGestionMp3::creerfilefichiers()
 void BDDGestionMp3::actualiserMp3(QString chemin)
 {
     m_fichierlu = chemin;
+
     m_souscat= m_type;
     // conversion du QString pour le nom du fichier MP3 ainsi que son chemin
     QByteArray arrFileName = QFile::encodeName(chemin);
@@ -141,6 +147,7 @@ void BDDGestionMp3::actualiserMp3(QString chemin)
     int min=dureesec/60;
     int sec=dureesec%60;
     SousCatParChemin(artist,chemin);
+
 
     //On ajoute en BDD
 
@@ -180,7 +187,7 @@ void BDDGestionMp3::supprstep()
             SupprimerenBDDMP3(cle);
             m_iteration++;
             m_Chemins.remove(cle);
-           iterateur=m_Chemins.constBegin();
+            iterateur=m_Chemins.constBegin();
 
         }
         catch ( std::bad_alloc& e )
@@ -277,7 +284,15 @@ QImage BDDGestionMp3::ImageAlbum(const TagLib::FileRef &f)
 }
 void BDDGestionMp3::SupprimerenBDDMP3(int Id)
 {
+
     BDDMp3* mp3 = BDDMp3::RecupererMp3(Id);
+    m_fichierlu = "Suppression de ..."+mp3->m_chemin;
     mp3->supprimerenBDD();
     mp3->~BDDMp3();
+}
+void BDDGestionMp3::ViderBDD()
+{
+//QList<int> cate= BDDType::NbCategories();
+    recupererMp3(1);
+    supprimerAnciensMP3();
 }
