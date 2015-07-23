@@ -21,14 +21,12 @@ DialogAjouterPhys::DialogAjouterPhys(QWidget *parent) :
     connect(ui->buttonGroup, SIGNAL(buttonClicked(int)), this, SLOT(AffichageListeArtistes(int))) ;
     connect(&m_ajouttitre,SIGNAL(enregistr()),this,SLOT(AjouterTitreManuel()));
 }
-
 DialogAjouterPhys::~DialogAjouterPhys()
 {
     delete ui;
 }
 void DialogAjouterPhys::recupererEAN()
 {
-
     m_EAN = ui->EAN->text();
 }
 void DialogAjouterPhys::on_ChercherEAN_clicked()
@@ -110,6 +108,7 @@ void DialogAjouterPhys::on_ViderAlbum_clicked()
 }
 void DialogAjouterPhys::RecupererAlbum()
 {
+    m_album.titres.clear();
     m_album.Album= ui->Nom_Album->text();
     m_album.Artiste=ui->Nom_Artiste->text();
     m_album.Annee=ui->Annee->text().toInt();
@@ -137,7 +136,6 @@ void DialogAjouterPhys::RecupererAlbum()
             item = ui->Artiste_Titres->item(i);
             titre.Artiste=item->text();
         }
-
 
         m_album.titres << titre;
     }

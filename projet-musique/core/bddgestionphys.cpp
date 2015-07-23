@@ -19,7 +19,6 @@ void BDDGestionPhys::ajouterAlbum(QImage Poch, QString Album, QString Artiste,QS
     BDDAlbum alb(Album,poch,Annee,Type);
     BDDArtiste art(Artiste,poch);
 
-
     for (int cpt=0;cpt<titres.count();cpt++)
     {
         TitresPhys temp = titres[cpt];

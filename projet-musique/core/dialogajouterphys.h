@@ -28,13 +28,9 @@ private slots:
     void on_Enregistrer_clicked();
     void AffichageListeArtistes(int id);
     void on_ViderAlbum_clicked();
-
     void on_Supprimer_Titre_clicked();
-
     void on_pushButton_clicked();
-
     void on_Ajouter_Titre_clicked();
-
     void AjouterTitreManuel();
 private:
     void recupererEAN();
