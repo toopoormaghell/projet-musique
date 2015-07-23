@@ -65,7 +65,7 @@ void OngletPhys::afficherListeAlbum()
 
     //Choix de l'Artiste des Albums à afficher
     QString Artiste=choixArtiste();
-
+AfficherArtisteSelectionne();
 
     //Affichage des albums
     QList<int> albums=m_bddInterface.listeAlbums(Artiste);
@@ -97,6 +97,14 @@ void OngletPhys::afficherListeAlbum()
 
     ui->Albums->setCurrentRow(1);
 }
+void OngletPhys::AfficherArtisteSelectionne()
+{
+QString id_artiste= choixArtiste();
+BDDArtiste* artiste = BDDArtiste::RecupererArtiste( id_artiste.toInt() );
+
+ui->Artiste->setText(artiste->m_nom);
+}
+
 void OngletPhys::afficherListeCompils()
 {
     ui->Compil->clear();
