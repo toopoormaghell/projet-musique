@@ -52,7 +52,7 @@ void BDDTitre::ajouterBDD()
 
 void BDDTitre::recupererId()
 {
-    QString queryStr = "Select Id_Titre As 'Titre' from Titre WHERE Titre_Formate='" + m_nomFormate+"' AND Duree='"+m_duree+"' AND Num_Piste='"+ QString::number(m_num_piste)+"'" ;
+    QString queryStr = "Select Id_Titre As 'Titre' from Titre WHERE Titre_Formate='" + m_nomFormate+"' AND Num_Piste='"+ QString::number(m_num_piste)+"'" ;
 
     QSqlQuery query = madatabase.exec( queryStr );
 
