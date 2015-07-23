@@ -91,15 +91,13 @@ BDDPhys::BDDPhys(const int id, QObject *parent):
 }
 void BDDPhys::RecupererTitres()
 {
-    QString queryStr=" SELECT Id_Titre, Id_Artiste FROM Relations WHERE Id_Album='"+ QString::number(m_album->m_id)+"'";
+    QString queryStr=" SELECT R.Id_Titre, R.Id_Artiste FROM Relations R,Titre T WHERE R.Id_Album='"+ QString::number(m_album->m_id)+"' AND T.Id_Titre=R.Id_Titre ORDER BY T.Num_Piste";
     QSqlQuery query= madatabase.exec( queryStr );
     while (query.next() ) {
         QSqlRecord rec=query.record();
 
         m_artiste = BDDArtiste::RecupererArtiste(rec.value("Id_Artiste").toInt());
         m_titres <<   BDDTitre::RecupererTitre(rec.value("Id_Titre").toInt());
-
-
 
     }
 }
