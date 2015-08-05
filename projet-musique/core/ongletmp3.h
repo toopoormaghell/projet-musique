@@ -4,7 +4,7 @@
 #include <QWidget>
 #include "bddaffichermp3.h"
 #include <QStandardItemModel>
-
+#include "lecteur.h"
 namespace Ui {
 class OngletMP3;
 }
@@ -25,16 +25,19 @@ public:
     void afficherListeType();
     QString choixCategories();
     void Similaires(int id);
-  void afficherListeAnnees();
+    void afficherListeAnnees();
     void afficheralbumsettitres();
     void affichageartistes();
+    void Lecture();
+    int titreLecteur() const;
+signals:
+
 public slots:
     void on_Categories_currentRowChanged(int currentRow);
     void on_AlbumsTitres_clicked(const QModelIndex &index);
 
 private slots:
     void on_ArtistesAnnees_clicked(const QModelIndex &index);
-
 private:
     Ui::OngletMP3 *ui;
     BDDAfficherMp3 m_bddInterface;
@@ -42,6 +45,8 @@ private:
     int m_lignestitres;
     QStandardItemModel m_artistes;
     int m_colonnetitre;
+    Lecteur* m_player;
+
 
 };
 

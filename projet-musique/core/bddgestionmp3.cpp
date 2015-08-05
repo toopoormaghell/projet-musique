@@ -148,7 +148,6 @@ void BDDGestionMp3::actualiserMp3(QString chemin)
     int sec=dureesec%60;
     SousCatParChemin(artist,chemin);
 
-
     //On ajoute en BDD
 
     BDDPoch poch( ImageAlbum( f ), TStringToQString(album).replace("'","$"), TStringToQString(artist).replace("'","$") );
@@ -284,7 +283,6 @@ QImage BDDGestionMp3::ImageAlbum(const TagLib::FileRef &f)
 }
 void BDDGestionMp3::SupprimerenBDDMP3(int Id)
 {
-
     BDDMp3* mp3 = BDDMp3::RecupererMp3(Id);
     m_fichierlu = "Suppression de ..."+mp3->m_chemin;
     mp3->supprimerenBDD();

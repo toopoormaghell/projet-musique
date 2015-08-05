@@ -8,7 +8,8 @@
 #include "QDebug"
 #include <QStandardItemModel>
 #include <algorithm>
-
+#include "lecteur.h"
+#include <time.h>
 
 OngletMP3::OngletMP3(QWidget *parent) :
     QWidget(parent),
@@ -16,7 +17,8 @@ OngletMP3::OngletMP3(QWidget *parent) :
     m_albumtitres(new QStandardItemModel),
     m_lignestitres(0),
     m_artistes(new QStandardItemModel),
-    m_colonnetitre(0)
+    m_colonnetitre(0),
+    m_player(new Lecteur)
 {
     ui->setupUi(this);
     afficherListeType();
@@ -25,6 +27,9 @@ OngletMP3::OngletMP3(QWidget *parent) :
     ui->AlbumsTitres->setModel(&m_albumtitres);
     afficheralbumsettitres();
     afficherInfosTitre();
+    ui->widget->setParentTab(*this);
+
+    connect(ui->ArtistesAnnees->selectionModel(),SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),this,SLOT(on_ArtistesAnnees_clicked(QModelIndex)));
 }
 OngletMP3::~OngletMP3()
 {
@@ -58,7 +63,6 @@ QString OngletMP3::choixMp3()
 void OngletMP3::on_ArtistesAnnees_clicked(const QModelIndex &index)
 {
     afficheralbumsettitres();
-
 }
 void OngletMP3::on_AlbumsTitres_clicked(const QModelIndex &index)
 {
@@ -68,7 +72,6 @@ void OngletMP3::on_AlbumsTitres_clicked(const QModelIndex &index)
 void OngletMP3::on_Categories_currentRowChanged(int currentRow)
 {
     affichageartistes();
-
 }
 
 void OngletMP3::vider(QString Type)
@@ -136,7 +139,7 @@ void OngletMP3::afficheralbumsettitres()
             //on affiche la pochette
             QPixmap scaled( QPixmap::fromImage( album->m_pochette->m_image ) );
             item->setIcon( QIcon( scaled ) );
-           item->setTextAlignment(Qt::AlignCenter | Qt::AlignBottom);
+            item->setTextAlignment(Qt::AlignCenter | Qt::AlignBottom);
 
             m_albumtitres.setItem(m_lignestitres,m_colonnetitre,item);
             ui->AlbumsTitres->setSpan(m_lignestitres,m_colonnetitre,4,1);
@@ -169,6 +172,8 @@ void OngletMP3::afficheralbumsettitres()
     //On retaille tout à la fin
     m_albumtitres.setRowCount(m_lignestitres);
     ui->AlbumsTitres->setCurrentIndex(m_albumtitres.index(0,1));
+    on_AlbumsTitres_clicked(m_albumtitres.index(0,1));
+
 }
 void OngletMP3::afficherTitresAlbum(QString Album,QString Cate,int row)
 {
@@ -262,7 +267,7 @@ void OngletMP3::affichageartistes()
     m_artistes.clear();
     //On récupère la catégorie
     QString cat=choixCategories();
-
+    int aleatoire=0;
     if (cat!="2")
     {
         //On récupère la liste des artistes
@@ -289,12 +294,15 @@ void OngletMP3::affichageartistes()
             }
             delete artiste;
         }
+        srand(time(NULL));
+
+        aleatoire= (rand() % (artistes.count() - 0 + 1)) + 0;
     } else
     {
         afficherListeAnnees();
 
     }
-    ui->ArtistesAnnees->setCurrentIndex(m_artistes.index(0,0));
+    ui->ArtistesAnnees->setCurrentIndex(m_artistes.index(aleatoire,0));
 }
 void OngletMP3::afficherListeAnnees()
 {
@@ -316,4 +324,17 @@ void OngletMP3::afficherListeAnnees()
 
         m_artistes.setItem(cpt,item);
     }
+}
+void OngletMP3::Lecture()
+{
+    BDDMp3* mp3 = BDDMp3::RecupererMp3( choixMp3().toInt() );
+}
+int OngletMP3::titreLecteur() const
+{
+    int ValueToReturn;
+    QModelIndex index= ui->AlbumsTitres->currentIndex();
+
+    ValueToReturn=index.data(Qt::UserRole).toInt();
+
+    return ValueToReturn;
 }
