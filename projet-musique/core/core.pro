@@ -1,4 +1,4 @@
-QT       += core gui sql network
+QT       += core gui sql network multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = core
@@ -52,7 +52,8 @@ HEADERS += \
     dialogconfigactu.h \
     bddconfig.h \
     sousdialogajouttitre.h \
-    vidagebdddialog.h
+    vidagebdddialog.h \
+    lecteur.h
 
 
 SOURCES += main.cpp \
@@ -79,7 +80,8 @@ SOURCES += main.cpp \
     dialogconfigactu.cpp \
     bddconfig.cpp \
     sousdialogajouttitre.cpp \
-    vidagebdddialog.cpp
+    vidagebdddialog.cpp \
+    lecteur.cpp
 
 FORMS += \
     ongletmp3.ui \
@@ -88,7 +90,8 @@ FORMS += \
     dialogajouterphys.ui \
     dialogconfigactu.ui \
     sousdialogajouttitre.ui \
-    vidagebdddialog.ui
+    vidagebdddialog.ui \
+    lecteur.ui
 
 
 OTHER_FILES += \
