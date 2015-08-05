@@ -16,12 +16,14 @@ OngletPhys::OngletPhys(QWidget *parent) :
     vider("Artiste");
     afficherListeType();
     afficherListeArtiste();
+    AfficherArtisteSelectionne();
 
 }
 void OngletPhys::on_Artistes_currentTextChanged(const QString &arg1)
 {
     afficherListeAlbum();
     afficherListeCompils();
+    AfficherArtisteSelectionne();
 }
 
 OngletPhys::~OngletPhys()
@@ -65,7 +67,7 @@ void OngletPhys::afficherListeAlbum()
 
     //Choix de l'Artiste des Albums à afficher
     QString Artiste=choixArtiste();
-AfficherArtisteSelectionne();
+
 
     //Affichage des albums
     QList<int> albums=m_bddInterface.listeAlbums(Artiste);
@@ -151,7 +153,7 @@ void OngletPhys::AfficherInfosAlbum(int Type)
     }
     BDDPhys* phys= BDDPhys::RecupererPhys(id.toInt());
     ui->Annee->setText( QString::number(phys->m_album->m_annee));
-
+ui->NomAlbum->setText(phys->m_album->m_nom);
     QPixmap scaled( QPixmap::fromImage( phys->m_album->m_pochette->m_image  ) );
     scaled = scaled.scaled( 150, 150 );
     ui->Pochette->setPixmap(scaled);
@@ -222,13 +224,14 @@ void OngletPhys::on_Albums_itemPressed(QListWidgetItem *item)
     ui->Compil->clearSelection();
     vider("Infos");
     AfficherInfosAlbum(1);
+    AfficherArtisteSelectionne();
 }
 
 void OngletPhys::on_Compil_itemPressed(QListWidgetItem *item)
 {
     ui->Albums->clearSelection();
     vider("Infos");
-    AfficherInfosAlbum(2);
+    AfficherInfosAlbum(2);AfficherArtisteSelectionne();
 }
 void OngletPhys::afficherListeType()
 {
