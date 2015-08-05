@@ -70,7 +70,7 @@ void BDDSingleton::creationBase()
     tables << "INSERT INTO Type VALUES(04,'BOF')";
     tables << "INSERT INTO Type VALUES(05,'Spectacle musical')";
     tables << "INSERT INTO Type VALUES(06,'Télé Réalités')";
-    tables << "INSERT INTO Type VALUES(07,'Era')";
+    tables << "INSERT INTO Type VALUES(07,'New Age')";
     tables << "INSERT INTO Type VALUES(08,'Classique')";
     tables << "INSERT INTO Type VALUES(09,'Générique')";
     tables << "INSERT INTO Type VALUES(10,'Reprises')";
