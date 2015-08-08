@@ -1,6 +1,6 @@
 #include "sousdialogajouttitre.h"
 #include "ui_sousdialogajouttitre.h"
-#include <QDebug>
+
 
 SousDialogAjoutTitre::SousDialogAjoutTitre(QWidget *parent) :
     QDialog(parent),
@@ -16,7 +16,7 @@ SousDialogAjoutTitre::~SousDialogAjoutTitre()
 
 void SousDialogAjoutTitre::on_buttonBox_accepted()
 {
-RecupererDonnees();
+    RecupererDonnees();
 }
 void SousDialogAjoutTitre::RecupererDonnees()
 {

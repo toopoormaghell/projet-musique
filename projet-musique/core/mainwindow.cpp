@@ -28,7 +28,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ajouterToolbar();
     ajouterStatusBar();
 
-
     //Change le pourcentage de la progressbar
     connect(m_gestionMP3,SIGNAL(pourcentage()),this,SLOT(changerPourcentage()));
     //A la fin de l'actualiser MP3, il actualise l'onglet MP3

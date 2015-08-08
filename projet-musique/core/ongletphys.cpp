@@ -101,10 +101,10 @@ void OngletPhys::afficherListeAlbum()
 }
 void OngletPhys::AfficherArtisteSelectionne()
 {
-QString id_artiste= choixArtiste();
-BDDArtiste* artiste = BDDArtiste::RecupererArtiste( id_artiste.toInt() );
+    QString id_artiste= choixArtiste();
+    BDDArtiste* artiste = BDDArtiste::RecupererArtiste( id_artiste.toInt() );
 
-ui->Artiste->setText(artiste->m_nom);
+    ui->Artiste->setText(artiste->m_nom);
 }
 
 void OngletPhys::afficherListeCompils()
@@ -153,7 +153,7 @@ void OngletPhys::AfficherInfosAlbum(int Type)
     }
     BDDPhys* phys= BDDPhys::RecupererPhys(id.toInt());
     ui->Annee->setText( QString::number(phys->m_album->m_annee));
-ui->NomAlbum->setText(phys->m_album->m_nom);
+    ui->NomAlbum->setText(phys->m_album->m_nom);
     QPixmap scaled( QPixmap::fromImage( phys->m_album->m_pochette->m_image  ) );
     scaled = scaled.scaled( 150, 150 );
     ui->Pochette->setPixmap(scaled);
@@ -161,7 +161,7 @@ ui->NomAlbum->setText(phys->m_album->m_nom);
     for(int i=0;i<phys->m_titres.count();i++)
     {
         QString temp;
-        temp = QString::number(phys->m_titres[i]->m_num_piste) + " - "+ phys->m_titres[i]->m_nom+"("+phys->m_titres[i]->m_duree+")";
+        temp = QString::number(phys->m_titres[i]->m_num_piste).rightJustified(2,'0') + " - "+ phys->m_titres[i]->m_nom+"("+phys->m_titres[i]->m_duree+")";
         ui->Titres->addItem(temp);
 
     }
@@ -238,21 +238,22 @@ void OngletPhys::afficherListeType()
     ui->Categories->clear();
 
     QStringList types;
-    types << "Tout";
+    types << "Tout" << "0";
     BDDAfficherMp3 temp;
 
     types <<temp.RecupererListeTypes("Phys") ;
 
     QImage image("./Pochettes/def.jpg");
-    for(int cpt=0;cpt<types.count();cpt++)
+    for(int cpt=0;cpt<types.count();cpt=cpt+2)
     {
         QPixmap scaled( QPixmap::fromImage( image ) );
         scaled = scaled.scaled( 150, 150 );
         QListWidgetItem* item = new QListWidgetItem;
         item->setIcon( QIcon( scaled ) );
-
+        item->setData(Qt::UserRole,types[cpt+1]);
         item->setText(types[cpt]);
 
         ui->Categories->addItem(item);
     }
+    ui->Categories->setCurrentRow(1);
 }
