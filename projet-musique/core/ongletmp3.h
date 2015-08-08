@@ -30,6 +30,7 @@ public:
     void affichageartistes();
     void Lecture();
     int titreLecteur() const;
+    QString artisteLecteur() const;
 signals:
 
 public slots:

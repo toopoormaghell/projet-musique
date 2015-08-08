@@ -331,10 +331,16 @@ void OngletMP3::Lecture()
 }
 int OngletMP3::titreLecteur() const
 {
-    int ValueToReturn;
+
     QModelIndex index= ui->AlbumsTitres->currentIndex();
 
-    ValueToReturn=index.data(Qt::UserRole).toInt();
+   return index.data(Qt::UserRole).toInt();
 
-    return ValueToReturn;
+
+}
+QString OngletMP3::artisteLecteur() const
+{
+    QModelIndex index = ui->ArtistesAnnees->currentIndex();
+
+    return index.data(Qt::UserRole).toString();
 }
