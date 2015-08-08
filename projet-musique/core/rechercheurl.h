@@ -14,12 +14,12 @@ public:
 
     AlbumPhys RequeteAlbums(QString rech, int Type);
     QString m_interaction;
+    AlbumPhys m_album;
 signals:
     void test();
 
 private:
     QMap<QString, QString> LectureXML(QByteArray fichier);
-    AlbumPhys m_album;
     int m_pages;
     QMap<QString, QString> Requete(QStringList attributs);
     void RequeteTitres(QStringList attributs);

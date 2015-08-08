@@ -53,7 +53,9 @@ HEADERS += \
     bddconfig.h \
     sousdialogajouttitre.h \
     vidagebdddialog.h \
-    lecteur.h
+    lecteur.h \
+    modifieralbumdialog.h \
+    choixalbumphysdialog.h
 
 
 SOURCES += main.cpp \
@@ -81,7 +83,9 @@ SOURCES += main.cpp \
     bddconfig.cpp \
     sousdialogajouttitre.cpp \
     vidagebdddialog.cpp \
-    lecteur.cpp
+    lecteur.cpp \
+    modifieralbumdialog.cpp \
+    choixalbumphysdialog.cpp
 
 FORMS += \
     ongletmp3.ui \
@@ -91,7 +95,9 @@ FORMS += \
     dialogconfigactu.ui \
     sousdialogajouttitre.ui \
     vidagebdddialog.ui \
-    lecteur.ui
+    lecteur.ui \
+    modifieralbumdialog.ui \
+    choixalbumphysdialog.ui
 
 
 OTHER_FILES += \

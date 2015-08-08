@@ -6,6 +6,8 @@
 #include <QtNetwork>
 #include <QMap>
 #include "bddpoch.h"
+#include "bddalbum.h"
+#include "choixalbumphysdialog.h"
 RechercheURL::RechercheURL(QObject *parent)
 {
 
@@ -13,7 +15,7 @@ RechercheURL::RechercheURL(QObject *parent)
 
 AlbumPhys RechercheURL::RequeteAlbums(QString rech,int Type)
 {
-m_album.titres.clear();
+    m_album.titres.clear();
     m_interaction = "Requete en cours...";
     emit test();
     //1ère étape, on récupère l'id, le nom de l'album et l'année
@@ -109,14 +111,26 @@ m_album.titres.clear();
         }
     }
     //4ème étape, on s'occupe de la pochette
-         BDDPoch* toto = BDDPoch::recupererPoch(m_album.Album,m_album.Artiste);
+    BDDPoch* toto = BDDPoch::recupererPoch(m_album.Album,m_album.Artiste);
     if (toto == NULL)
     {
-     m_interaction= "Récupération de la pochette..."; emit test();
-        temp.clear();
-        temp <<"release/"+QString::number(m_album.Id_Release)+"/pictures";
-        lecture =Requete(temp);
-        RecupererPoch(lecture["url"]);
+        ChoixAlbumPhysDialog choixalbum(m_album.Artiste);
+        choixalbum.exec();
+        int id_alb=choixalbum.m_selection;
+
+        if (id_alb==0)
+        {
+            m_interaction= "Récupération de la pochette..."; emit test();
+            temp.clear();
+            temp <<"release/"+QString::number(m_album.Id_Release)+"/pictures";
+            lecture =Requete(temp);
+            RecupererPoch(lecture["url"]);
+        } else {
+            BDDAlbum* albu = BDDAlbum::RecupererAlbum(id_alb);
+            m_album.Id_Album=albu->m_id;
+            m_album.Poch=albu->m_pochette->m_image;
+            m_album.Album=albu->m_nom;
+        }
 
     } else {
 
@@ -125,7 +139,7 @@ m_album.titres.clear();
         m_album.Poch=toto->m_image;
     }
 
-   m_interaction= "Récupération de l'album réalisée. Affichage en cours...";
+    m_interaction= "Récupération de l'album réalisée. Affichage en cours...";
     emit test();
 
     return m_album;
