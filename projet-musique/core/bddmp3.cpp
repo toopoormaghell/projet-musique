@@ -67,6 +67,11 @@ BDDMp3* BDDMp3::RecupererMp3(const int id)
 {
     return new BDDMp3( id );
 }
+BDDMp3* BDDMp3::RecupererMp3ParChemin( QString &chemin)
+{
+    return new BDDMp3(chemin);
+}
+
 BDDMp3::BDDMp3(const int id, QObject *parent):
     m_id(id),
     m_titre(),
@@ -87,6 +92,33 @@ BDDMp3::BDDMp3(const int id, QObject *parent):
         m_type= BDDType::RecupererType(rec.value("Categorie").toInt());
         m_relation= BDDRelation::RecupererRelation(rec.value("Id_Relation").toInt());
 
+        m_album= BDDAlbum::RecupererAlbum(m_relation->m_id_album);
+        m_artiste= BDDArtiste::RecupererArtiste(m_relation->m_id_artiste);
+        m_titre= BDDTitre::RecupererTitre(m_relation->m_id_titre);
+        m_membersAreSelfCreated = true;
+
+    }
+}
+BDDMp3::BDDMp3(const QString &chemin, QObject *parent):
+    m_id(0),
+    m_titre(),
+    m_artiste(),
+    m_album(),
+    m_chemin(chemin),
+    m_relation(),
+    m_type()
+{
+    m_chemin=m_chemin.replace("'","$");
+    QString queryStr="SELECT * FROM MP3 WHERE Chemin='"+ m_chemin +"'";
+
+    QSqlQuery query = madatabase.exec( queryStr );
+    if ( query.first() )
+    {
+        QSqlRecord rec = query.record();
+
+        m_id = rec.value("Id_Relation").toInt();
+        m_type= BDDType::RecupererType(rec.value("Categorie").toInt());
+        m_relation= BDDRelation::RecupererRelation(rec.value("Id_Relation").toInt());
         m_album= BDDAlbum::RecupererAlbum(m_relation->m_id_album);
         m_artiste= BDDArtiste::RecupererArtiste(m_relation->m_id_artiste);
         m_titre= BDDTitre::RecupererTitre(m_relation->m_id_titre);

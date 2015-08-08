@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <QMediaPlayer>
+#include <QMediaPlaylist>
+
 class OngletMP3;
 
 namespace Ui {
@@ -21,6 +23,8 @@ public:
 
     void setParentTab(const OngletMP3 &parentTab );
     const OngletMP3& getParentTab() const;
+public slots:
+    void AfficherTag();
 signals:
     void tick();
 private slots:
@@ -30,10 +34,13 @@ private slots:
     void positionChanged( qint64 time );
     void on_LectureEnCours_sliderMoved(int position);
 
+    void on_Album_clicked();
+
 private:
     Ui::Lecteur *ui;
     QMediaPlayer* m_player;
     const OngletMP3* m_parentTab;
+    QMediaPlaylist* m_playlist;
 };
 
 #endif // LECTEUR_H

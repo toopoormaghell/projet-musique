@@ -99,6 +99,19 @@ QString BDDAfficherMp3::AnneesSwitch(QString annee)
     if (annee=="2015-2019")
         return " Annee>=2015";
 }
+
+QStringList BDDAfficherMp3::MP3Artiste(QString id_artiste)
+{
+    QStringList liste;
+    QString queryStr="SELECT DISTINCT M.Chemin FROM Relations R,Mp3 M WHERE M.Id_Relation=R.Id_Relation AND Id_Artiste="+id_artiste;
+    QSqlQuery query = madatabase.exec( queryStr );
+    while ( query.next() )
+    {
+        QSqlRecord rec = query.record();
+        liste << rec.value("Chemin").toString();
+    }
+    return liste;
+}
 QStringList BDDAfficherMp3::RecupererListeTypes(const QString categorie)
 {
     QStringList liste;
