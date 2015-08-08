@@ -75,7 +75,40 @@ BDDArtiste::BDDArtiste(const int id , QObject *parent):
         m_isPochetteSelfCreated = true;
     }
 }
+BDDArtiste::BDDArtiste(const QString &artiste,QObject *parent):
+    QObject( parent ),
+    m_id(0 ),
+    m_nom(artiste),
+    m_pochette(),
+    m_nomFormate(artiste)
+{
+    TrouverId(m_nom);
+    QString queryStr = "SELECT Artiste, Artiste_Formate, Id_Pochette FROM Artiste WHERE Id_Artiste='" + QString::number( m_id ) + "'";
+    QSqlQuery query = madatabase.exec( queryStr );
+    while ( query.next() )
+    {
+        QSqlRecord rec = query.record();
 
+        m_nom = rec.value( "Artiste" ).toString().replace("$","'");;
+        m_nomFormate = rec.value( "Artiste_Formate" ).toString();
+        m_pochette = BDDPoch::recupererBDD( rec.value( "Id_Pochette" ).toInt() );
+        m_isPochetteSelfCreated = true;
+    }
+
+}
+
+BDDArtiste* BDDArtiste::RecupererArtparNom(QString& nom)
+{
+    return new BDDArtiste(nom);
+}
+
+void BDDArtiste::TrouverId(QString &nom)
+{
+    m_id=0;
+    ChoisirArtisteEchange(nom);
+    m_nomFormate=nom;
+    recupererId();
+}
 
 void BDDArtiste::updateBDD()
 {
@@ -91,7 +124,7 @@ void BDDArtiste::supprimerenBDD() const
     //si la requête ne renvoie pas de résultat, on efface du coup l'artiste
     if (!query2.first()) {
 
-       madatabase.exec("DELETE FROM Artiste WHERE Id_Artiste='"+QString::number(m_id)+"'");
+        madatabase.exec("DELETE FROM Artiste WHERE Id_Artiste='"+QString::number(m_id)+"'");
 
     }
     m_pochette->supprimerenBDD();
