@@ -7,6 +7,7 @@
 #include "bddtitre.h"
 #include "bddphys.h"
 #include "bddaffichermp3.h"
+#include <QDebug>
 
 OngletPhys::OngletPhys(QWidget *parent) :
     QWidget(parent),
@@ -23,6 +24,7 @@ void OngletPhys::on_Artistes_currentTextChanged(const QString &arg1)
 {
     afficherListeAlbum();
     afficherListeCompils();
+    afficherListeSingles();
     AfficherArtisteSelectionne();
 }
 
@@ -99,6 +101,43 @@ void OngletPhys::afficherListeAlbum()
 
     ui->Albums->setCurrentRow(1);
 }
+void OngletPhys::afficherListeSingles()
+{
+    ui->Singles->clear();
+
+    //Choix de l'Artiste des Albums à afficher
+    QString Artiste=choixArtiste();
+
+
+    //Affichage des albums
+    QList<int> singles=m_bddInterface.listeSingles(Artiste);
+
+    for (int cpt=0;cpt<singles.count();cpt++) {
+
+        BDDAlbum* album= BDDAlbum::RecupererAlbum(singles[cpt]);
+
+
+        if (album->m_id>0)
+        {
+            QListWidgetItem* item = new QListWidgetItem;
+            QPixmap scaled( QPixmap::fromImage( album->m_pochette->m_image ) );
+
+            item->setIcon( QIcon( scaled ) );
+
+
+            //On s'occupe du nom de l'album
+            item->setData( Qt::UserRole, singles[cpt] );
+            item->setText( QString::number(album->m_annee)+" - "+album->m_nom );
+
+            ui->Singles->addItem( item );
+
+
+        }
+        delete album;
+
+    }
+}
+
 void OngletPhys::AfficherArtisteSelectionne()
 {
     QString id_artiste= choixArtiste();
@@ -148,7 +187,8 @@ void OngletPhys::AfficherInfosAlbum(int Type)
     switch (Type)
     {
     case 1: id= choixAlbum();break;
-    case 2: id=choixCompil();break;
+    case 2: id = choixSingle();break;
+    case 3: id=choixCompil();break;
 
     }
     BDDPhys* phys= BDDPhys::RecupererPhys(id.toInt());
@@ -158,11 +198,24 @@ void OngletPhys::AfficherInfosAlbum(int Type)
     scaled = scaled.scaled( 150, 150 );
     ui->Pochette->setPixmap(scaled);
 
+    QPixmap mp3physoui(":/Autres/Vrai");
+    QPixmap mp3physnon(":/Autres/Faux");
     for(int i=0;i<phys->m_titres.count();i++)
     {
+        QListWidgetItem* item=new QListWidgetItem;
+
         QString temp;
         temp = QString::number(phys->m_titres[i]->m_num_piste).rightJustified(2,'0') + " - "+ phys->m_titres[i]->m_nom+"("+phys->m_titres[i]->m_duree+")";
-        ui->Titres->addItem(temp);
+        item->setText(temp);
+        if (phys->m_titres[i]->m_mp3etphys)
+        {
+            item->setIcon(QIcon(mp3physoui));
+        } else
+        {
+            item->setIcon(QIcon(mp3physnon));
+        }
+
+        ui->Titres->addItem(item);
 
     }
 }
@@ -172,6 +225,15 @@ QString OngletPhys::choixAlbum()
     if (item==NULL)
     {
         item=ui->Albums->item(1);
+    }
+    return item != NULL ? item->data(Qt::UserRole).toString() : QString();
+}
+QString OngletPhys::choixSingle()
+{
+    QListWidgetItem *item=ui->Singles->currentItem();
+    if (item==NULL)
+    {
+        item=ui->Singles->item(1);
     }
     return item != NULL ? item->data(Qt::UserRole).toString() : QString();
 }
@@ -222,6 +284,7 @@ void OngletPhys::vider(QString type)
 void OngletPhys::on_Albums_itemPressed(QListWidgetItem *item)
 {
     ui->Compil->clearSelection();
+    ui->Singles->clearSelection();
     vider("Infos");
     AfficherInfosAlbum(1);
     AfficherArtisteSelectionne();
@@ -230,8 +293,10 @@ void OngletPhys::on_Albums_itemPressed(QListWidgetItem *item)
 void OngletPhys::on_Compil_itemPressed(QListWidgetItem *item)
 {
     ui->Albums->clearSelection();
+    ui->Singles->clearSelection();
     vider("Infos");
-    AfficherInfosAlbum(2);AfficherArtisteSelectionne();
+    AfficherInfosAlbum(3);
+    AfficherArtisteSelectionne();
 }
 void OngletPhys::afficherListeType()
 {
@@ -256,4 +321,14 @@ void OngletPhys::afficherListeType()
         ui->Categories->addItem(item);
     }
     ui->Categories->setCurrentRow(1);
+}
+
+void OngletPhys::on_Singles_itemPressed(QListWidgetItem *item)
+{
+    ui->Albums->clearSelection();
+    ui->Compil->clearSelection();
+    vider("Infos");
+    AfficherInfosAlbum(2);
+
+    AfficherArtisteSelectionne();
 }

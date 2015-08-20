@@ -8,4 +8,8 @@
         <file>exporter.jpg</file>
         <file>vider.png</file>
     </qresource>
+    <qresource prefix="/Autres">
+        <file alias="Vrai">mp3phys.png</file>
+        <file alias="Faux">nonmp3phys.png</file>
+    </qresource>
 </RCC>
