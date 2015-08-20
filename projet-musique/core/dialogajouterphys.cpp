@@ -34,14 +34,12 @@ void DialogAjouterPhys::on_ChercherEAN_clicked()
     recupererEAN();
 
     //On vérifie qu'il y a bien 13 caractères
-    if (m_EAN.count()==13)
+    while (m_EAN.count()!=13)
     {
-        m_album = m_rech.RequeteAlbums(m_EAN,m_Type);
-        AfficherAlbum();
-    } else
-    {
-        ui->Interaction->append("L'EAN ne comporte pas 13 chiffres. Vérifiez s'il vous plait.");
+      m_EAN="0"+m_EAN;
     }
+    m_album = m_rech.RequeteAlbums(m_EAN,m_Type);
+    AfficherAlbum();
 }
 void DialogAjouterPhys::AfficherAlbum()
 {

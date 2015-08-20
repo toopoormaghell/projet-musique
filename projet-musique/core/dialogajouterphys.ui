@@ -28,7 +28,7 @@
        <item>
         <widget class="QLineEdit" name="EAN">
          <property name="inputMask">
-          <string>0000000000000</string>
+          <string/>
          </property>
         </widget>
        </item>
