@@ -12,6 +12,7 @@ public:
     QList<int> ListeArtiste();
     QList<int> listeAlbums(QString Id_Artiste);
     QList<int> listeCompils(QString Id_Artiste);
+    QList<int> listeSingles(QString Id_Artiste);
 signals:
 
 public slots:
