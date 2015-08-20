@@ -31,7 +31,7 @@ AlbumPhys RechercheURL::RequeteAlbums(QString rech,int Type)
     m_album.Id_Release = lecture["id"].toInt();
 
     //2ème étape, on s'occupe de l'artiste
-    if (Type==1)
+    if (Type==1 || Type==3)
     {
         temp.clear();
         temp << "release/"+QString::number(m_album.Id_Release)+"/artists";
