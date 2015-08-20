@@ -88,6 +88,7 @@ void OngletMP3::vider(QString Type)
         ui->NomArtiste->clear();
         ui->Pochette->clear();
         ui->Similaires->clear();
+        ui->Mp3Phys->clear();
     }
 }
 void OngletMP3::afficherListeType()
@@ -334,7 +335,7 @@ int OngletMP3::titreLecteur() const
 
     QModelIndex index= ui->AlbumsTitres->currentIndex();
 
-   return index.data(Qt::UserRole).toInt();
+    return index.data(Qt::UserRole).toInt();
 
 
 }
