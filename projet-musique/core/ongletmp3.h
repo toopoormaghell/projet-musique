@@ -36,8 +36,6 @@ signals:
 public slots:
     void on_Categories_currentRowChanged(int currentRow);
     void on_AlbumsTitres_clicked(const QModelIndex &index);
-
-private slots:
     void on_ArtistesAnnees_clicked(const QModelIndex &index);
 private:
     Ui::OngletMP3 *ui;
