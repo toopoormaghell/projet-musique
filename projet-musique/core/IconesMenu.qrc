@@ -1,17 +1,17 @@
 <RCC>
     <qresource prefix="/menuIcones">
-        <file>actump3.png</file>
-        <file>ajoutphys.png</file>
-        <file>artistesinv.jpg</file>
-        <file>bdd.png</file>
-        <file>config actu.png</file>
-        <file>exporter.jpg</file>
-        <file>vider.png</file>
+        <file alias="actump3">icones/actump3.png</file>
+        <file alias="ajoutphys">icones/ajoutphys.png</file>
+        <file alias="artistesinv">icones/artistesinv.jpg</file>
+        <file alias="bdd">icones/bdd.png</file>
+        <file alias="config actu">icones/config actu.png</file>
+        <file alias="exporter">icones/exporter.jpg</file>
+        <file alias="vider">icones/vider.png</file>
     </qresource>
     <qresource prefix="/Autres">
-        <file alias="Vrai">mp3phys.png</file>
-        <file alias="Faux">nonmp3phys.png</file>
         <file alias="Play">icones/Play_Normal_Icon_72.png</file>
         <file alias="Stop">icones/Stop_Normal_Blue_Icon_72.png</file>
+        <file alias="Faux">icones/nonmp3phys.png</file>
+        <file alias="Vrai">icones/mp3phys.png</file>
     </qresource>
 </RCC>
