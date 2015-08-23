@@ -103,10 +103,7 @@ FORMS += \
 OTHER_FILES += \
     projet_musique.cppcheck \
     ../../../bin/release/default.qss \
-    uml-diagram.uxf \
-    ../../../moc/core/correct-icone-8516-128.png \
-    ../../../bin/release/mp3phys.png \
-    ../../../bin/release/nonmp3phys.png
+    uml-diagram.uxf
 
 RESOURCES += \
     IconesMenu.qrc
