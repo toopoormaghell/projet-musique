@@ -219,7 +219,7 @@ void RIFF::File::removeChunk(uint i)
 {
   if(i >= d->chunks.size())
     return;
-  
+
   removeBlock(d->chunks[i].offset - 8, d->chunks[i].size + 8);
   d->chunks.erase(d->chunks.begin() + i);
 }
@@ -247,7 +247,7 @@ static bool isValidChunkID(const ByteVector &name)
     return false;
   }
   for(int i = 0; i < 4; i++) {
-    if(name[i] < 32 || name[i] > 127) {
+    if(name[i] < 32 ) {
       return false;
     }
   }
