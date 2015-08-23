@@ -128,7 +128,7 @@ QString KQOAuthUtils::rsa_sha1(const QString &message, const QString &key)
 
 QSsl::KeyAlgorithm* KQOAuthUtils::getRsaFromKey(const QString &key)
 {
- /*   BIO *bufio;
+    BIO *bufio;
     QByteArray data = key.toLocal8Bit();
     char *pem_key_buffer = data.data();
     int pem_key_buffer_len = strlen(pem_key_buffer);
