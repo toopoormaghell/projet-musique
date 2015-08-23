@@ -11,12 +11,14 @@ CONFIG(debug,debug|release) {
     MOC_DIR = ../../../moc/core/debug
     UI_DIR = ../../../ui/core/debug
     LIBS += -L../../../bin/debug
+    RCC_DIR += ../../../rcc/debug
 } else {
     DESTDIR = ../../../bin/release
     OBJECTS_DIR = ../../../obj/core/release
     MOC_DIR = ../../../moc/core/release
     UI_DIR = ../../../ui/core/release
     LIBS += -L../../../bin/release
+    RCC_DIR += ../../../rcc/release
 }
 
 installs_qss.path += $$DESTDIR
