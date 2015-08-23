@@ -328,10 +328,6 @@ void OngletMP3::afficherListeAnnees()
         m_artistes.setItem(cpt,item);
     }
 }
-void OngletMP3::Lecture()
-{
-    BDDMp3* mp3 = BDDMp3::RecupererMp3( choixMp3().toInt() );
-}
 int OngletMP3::titreLecteur() const
 {
 
@@ -356,7 +352,3 @@ void OngletMP3::on_AlbumsTitres_doubleClicked(const QModelIndex &index)
     QFile::copy(mp3->m_chemin,nouvelemplacementchemin);
 }
 
-void OngletMP3::on_Bouton_Playlist_clicked()
-{
-
-}

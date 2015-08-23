@@ -29,7 +29,7 @@ private:
     QStandardItemModel m_albums;
     int RecupererAlbumSelectionne();
     const RechercheURL* m_parent;
-QString m_artiste;
+    QString m_artiste;
 };
 
 #endif // CHOIXALBUMPHYSDIALOG_H
