@@ -92,6 +92,9 @@ namespace
   File *resolveFileType<IOStream *>(IOStream *arg, bool readProperties,
                                     AudioProperties::ReadStyle style)
   {
+    (void)arg;
+    (void)readProperties;
+    (void)style;
     return 0;
   }
 

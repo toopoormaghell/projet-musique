@@ -72,6 +72,7 @@ public:
 MPEG::Header::Header(const ByteVector &data) :
   d(new HeaderPrivate())
 {
+  (void)data;
   debug("MPEG::Header::Header() - This constructor is no longer used.");
 }
 

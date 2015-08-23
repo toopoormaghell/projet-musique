@@ -56,6 +56,7 @@ bool zlib::isAvailable()
 
 ByteVector zlib::decompress(const ByteVector &data)
 {
+  (void)data;
 #if defined(HAVE_ZLIB)
 
   z_stream stream = {};
