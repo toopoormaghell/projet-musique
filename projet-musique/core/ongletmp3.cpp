@@ -135,6 +135,16 @@ void OngletMP3::afficheralbumsettitres()
 
         if (album->m_id>0)
         {
+            if ( cpt > 0 )
+            {
+                // Ajout d'une ligne de séparation
+                QStandardItem* item= new QStandardItem;
+                item->setBackground( Qt::black );
+                m_albumtitres.setItem(m_lignestitres,0,item);
+                ui->AlbumsTitres->setSpan(m_lignestitres,m_colonnetitre,1,3);
+                ui->AlbumsTitres->setRowHeight( m_lignestitres, 1 );
+                m_lignestitres++;
+            }
 
             QStandardItem* item= new QStandardItem;
             //on affiche la pochette
