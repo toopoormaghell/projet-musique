@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
     MainWindow w;
 
     //Ajout du style pour la fenêtre
-    QFile file("H:\\gestion-musique\\bin\\release\\default.qss");
+    QFile file("default.qss");
     if (file.open(QFile::ReadOnly))
     {
        w.setStyleSheet(QLatin1String(file.readAll()));

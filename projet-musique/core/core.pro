@@ -19,6 +19,10 @@ CONFIG(debug,debug|release) {
     LIBS += -L../../../bin/release
 }
 
+installs_qss.path += $$DESTDIR
+installs_qss.files += qss/default.qss
+INSTALLS += installs_qss
+
 INCLUDEPATH += .
 INCLUDEPATH += ../taglib
 INCLUDEPATH += ../taglib/toolkit
@@ -102,7 +106,7 @@ FORMS += \
 
 OTHER_FILES += \
     projet_musique.cppcheck \
-    ../../../bin/release/default.qss \
+    qss/default.qss \
     uml-diagram.uxf
 
 RESOURCES += \
