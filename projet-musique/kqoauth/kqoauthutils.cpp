@@ -144,4 +144,5 @@ QSsl::KeyAlgorithm* KQOAuthUtils::getRsaFromKey(const QString &key)
     }
     return rsa;
     */
+    return NULL;
 }
