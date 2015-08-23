@@ -45,7 +45,7 @@
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>20</y>
+     <y>30</y>
      <width>281</width>
      <height>20</height>
     </rect>
@@ -55,39 +55,9 @@
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>50</y>
+     <y>70</y>
      <width>281</width>
      <height>20</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QSpinBox" name="Annee">
-   <property name="geometry">
-    <rect>
-     <x>500</x>
-     <y>40</y>
-     <width>111</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QPlainTextEdit" name="Titres">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>100</y>
-     <width>401</width>
-     <height>411</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QPlainTextEdit" name="Num_Pistes">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>100</y>
-     <width>101</width>
-     <height>411</height>
     </rect>
    </property>
   </widget>
@@ -102,6 +72,42 @@
    </property>
    <property name="standardButtons">
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Annee">
+   <property name="geometry">
+    <rect>
+     <x>580</x>
+     <y>50</y>
+     <width>113</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="Titres">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>120</y>
+     <width>481</width>
+     <height>411</height>
+    </rect>
+   </property>
+   <property name="alternatingRowColors">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="Num_Pistes">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>120</y>
+     <width>101</width>
+     <height>411</height>
+    </rect>
+   </property>
+   <property name="alternatingRowColors">
+    <bool>true</bool>
    </property>
   </widget>
  </widget>

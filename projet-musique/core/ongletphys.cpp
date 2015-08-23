@@ -7,11 +7,13 @@
 #include "bddtitre.h"
 #include "bddphys.h"
 #include "bddaffichermp3.h"
+#include "modifieralbumdialog.h"
 #include <QDebug>
 
 OngletPhys::OngletPhys(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::OngletPhys)
+    ui(new Ui::OngletPhys),
+    m_selection(0)
 {
     ui->setupUi(this);
     vider("Artiste");
@@ -191,7 +193,8 @@ void OngletPhys::AfficherInfosAlbum(int Type)
     case 3: id=choixCompil();break;
 
     }
-    BDDPhys* phys= BDDPhys::RecupererPhys(id.toInt());
+    m_selection=id.toInt();
+    BDDPhys* phys= BDDPhys::RecupererPhys(m_selection);
     ui->Annee->setText( QString::number(phys->m_album->m_annee));
     ui->NomAlbum->setText(phys->m_album->m_nom);
     QPixmap scaled( QPixmap::fromImage( phys->m_album->m_pochette->m_image  ) );
@@ -329,6 +332,12 @@ void OngletPhys::on_Singles_itemPressed(QListWidgetItem *item)
     ui->Compil->clearSelection();
     vider("Infos");
     AfficherInfosAlbum(2);
-
     AfficherArtisteSelectionne();
+}
+
+void OngletPhys::on_Modifier_clicked()
+{
+    ModifierAlbumDialog modif(m_selection,this);
+    modif.exec();
+
 }

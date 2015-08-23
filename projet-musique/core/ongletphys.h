@@ -30,21 +30,19 @@ public:
     void AfficherArtisteSelectionne();
     void afficherListeSingles();
     QString choixSingle();
+    int m_selection;
 public slots:
     void on_Artistes_currentTextChanged(const QString &arg1);
-
 private slots:
-
-
-    void on_Albums_itemPressed(QListWidgetItem *item);
-
+   void on_Albums_itemPressed(QListWidgetItem *item);
     void on_Compil_itemPressed(QListWidgetItem *item);
-
     void on_Singles_itemPressed(QListWidgetItem *item);
+    void on_Modifier_clicked();
 
 private:
     Ui::OngletPhys *ui;
     BDDAfficherPhys m_bddInterface;
+
 };
 
 #endif // ONGLETPHYS_H
