@@ -87,7 +87,7 @@ QString KQOAuthUtils::hmac_sha1(const QString &message, const QString &key)
     return QString(sha1.toBase64());
 }
 
-QString KQOAuthUtils::rsa_sha1(const QString &message, const QString &key)
+QString KQOAuthUtils::rsa_sha1(const QString &/*message*/, const QString &/*key*/)
 {
   /*  SSL_load_error_strings();
     OpenSSL_add_all_algorithms();
@@ -128,7 +128,7 @@ QString KQOAuthUtils::rsa_sha1(const QString &message, const QString &key)
 
 QSsl::KeyAlgorithm* KQOAuthUtils::getRsaFromKey(const QString &key)
 {
- /*   BIO *bufio;
+    BIO *bufio;
     QByteArray data = key.toLocal8Bit();
     char *pem_key_buffer = data.data();
     int pem_key_buffer_len = strlen(pem_key_buffer);
@@ -144,4 +144,5 @@ QSsl::KeyAlgorithm* KQOAuthUtils::getRsaFromKey(const QString &key)
     }
     return rsa;
     */
+    return NULL;
 }
