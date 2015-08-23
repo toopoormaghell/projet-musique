@@ -106,9 +106,16 @@
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="Album">
+    <widget class="QPushButton" name="AleaArtiste">
      <property name="text">
-      <string>Aléatoire</string>
+      <string>Artiste</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="AleaAlbum">
+     <property name="text">
+      <string>Album</string>
      </property>
     </widget>
    </item>

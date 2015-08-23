@@ -34,7 +34,7 @@ private slots:
     void positionChanged( qint64 time );
     void on_LectureEnCours_sliderMoved(int position);
 
-    void on_Album_clicked();
+    void on_AleaArtiste_clicked();
 
 private:
     Ui::Lecteur *ui;

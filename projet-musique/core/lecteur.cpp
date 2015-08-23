@@ -68,7 +68,7 @@ void Lecteur::on_LectureEnCours_sliderMoved(int position)
     m_player->setPosition(timeToSet);
 }
 
-void Lecteur::on_Album_clicked()
+void Lecteur::on_AleaArtiste_clicked()
 {
     m_player->stop();
     m_playlist->clear();
@@ -92,7 +92,7 @@ void Lecteur::AfficherTag()
     //On récupère le mp3 en question
     BDDMp3* mp3 = BDDMp3::RecupererMp3ParChemin(chemin);
     //On affiche les infos pertinentes
-   QString temp = QString::number(mp3->m_titre->m_num_piste).rightJustified(2,'0');
+    QString temp = QString::number(mp3->m_titre->m_num_piste).rightJustified(2,'0');
 
     ui->Mp3lu->setText(temp+"-"+mp3->m_titre->m_nom);
     //On met en place la pochette
