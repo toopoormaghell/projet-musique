@@ -37,6 +37,11 @@ public slots:
     void on_Categories_currentRowChanged(int currentRow);
     void on_AlbumsTitres_clicked(const QModelIndex &index);
     void on_ArtistesAnnees_clicked(const QModelIndex &index);
+private slots:
+    void on_AlbumsTitres_doubleClicked(const QModelIndex &index);
+
+    void on_Bouton_Playlist_clicked();
+
 private:
     Ui::OngletMP3 *ui;
     BDDAfficherMp3 m_bddInterface;

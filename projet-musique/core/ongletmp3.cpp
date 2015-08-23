@@ -10,6 +10,8 @@
 #include <algorithm>
 #include "lecteur.h"
 #include <time.h>
+#include <QFile>
+#include <QFileInfo>
 
 OngletMP3::OngletMP3(QWidget *parent) :
     QWidget(parent),
@@ -344,4 +346,17 @@ QString OngletMP3::artisteLecteur() const
     QModelIndex index = ui->ArtistesAnnees->currentIndex();
 
     return index.data(Qt::UserRole).toString();
+}
+
+void OngletMP3::on_AlbumsTitres_doubleClicked(const QModelIndex &index)
+{
+    BDDMp3* mp3 = BDDMp3::RecupererMp3( choixMp3().toInt() );
+    QFileInfo fich(mp3->m_chemin);
+    QString nouvelemplacementchemin= "C:\\Users\\Nico\\Desktop\\Nouveau Dossier\\"+fich.fileName();
+    QFile::copy(mp3->m_chemin,nouvelemplacementchemin);
+}
+
+void OngletMP3::on_Bouton_Playlist_clicked()
+{
+
 }
