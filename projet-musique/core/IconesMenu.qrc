@@ -11,5 +11,7 @@
     <qresource prefix="/Autres">
         <file alias="Vrai">mp3phys.png</file>
         <file alias="Faux">nonmp3phys.png</file>
+        <file alias="Play">icones/Play_Normal_Icon_72.png</file>
+        <file alias="Stop">icones/Stop_Normal_Blue_Icon_72.png</file>
     </qresource>
 </RCC>

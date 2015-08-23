@@ -49,7 +49,7 @@ void Lecteur::setParentTab(const OngletMP3 &parentTab)
 void Lecteur::on_Lecture_clicked()
 {
     BDDMp3* mp3 = BDDMp3::RecupererMp3( m_parentTab->titreLecteur());
-    m_player->setMedia(QUrl::fromLocalFile(mp3->m_chemin));
+    m_player->setMedia(QUrl(mp3->m_chemin));
     Lecture();
 }
 void Lecteur::on_Stop_clicked()
