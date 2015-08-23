@@ -87,7 +87,7 @@ QString KQOAuthUtils::hmac_sha1(const QString &message, const QString &key)
     return QString(sha1.toBase64());
 }
 
-QString KQOAuthUtils::rsa_sha1(const QString &message, const QString &key)
+QString KQOAuthUtils::rsa_sha1(const QString &/*message*/, const QString &/*key*/)
 {
   /*  SSL_load_error_strings();
     OpenSSL_add_all_algorithms();
