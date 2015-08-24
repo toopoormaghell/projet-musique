@@ -8,13 +8,14 @@
 #include "bddphys.h"
 #include "bddaffichermp3.h"
 #include "modifieralbumdialog.h"
-#include <QDebug>
+
 
 OngletPhys::OngletPhys(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::OngletPhys),
-    m_selection(0)
+    ui(new Ui::OngletPhys)
+
 {
+    m_selection=0;
     ui->setupUi(this);
     vider("Artiste");
     afficherListeType();
@@ -24,6 +25,7 @@ OngletPhys::OngletPhys(QWidget *parent) :
 }
 void OngletPhys::on_Artistes_currentTextChanged(const QString &arg1)
 {
+     Q_UNUSED(arg1);
     afficherListeAlbum();
     afficherListeCompils();
     afficherListeSingles();
@@ -286,6 +288,7 @@ void OngletPhys::vider(QString type)
 }
 void OngletPhys::on_Albums_itemPressed(QListWidgetItem *item)
 {
+    Q_UNUSED(item);
     ui->Compil->clearSelection();
     ui->Singles->clearSelection();
     vider("Infos");
@@ -295,6 +298,7 @@ void OngletPhys::on_Albums_itemPressed(QListWidgetItem *item)
 
 void OngletPhys::on_Compil_itemPressed(QListWidgetItem *item)
 {
+    Q_UNUSED(item);
     ui->Albums->clearSelection();
     ui->Singles->clearSelection();
     vider("Infos");
@@ -328,6 +332,7 @@ void OngletPhys::afficherListeType()
 
 void OngletPhys::on_Singles_itemPressed(QListWidgetItem *item)
 {
+   Q_UNUSED(item);
     ui->Albums->clearSelection();
     ui->Compil->clearSelection();
     vider("Infos");

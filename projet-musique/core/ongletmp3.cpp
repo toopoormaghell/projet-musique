@@ -64,15 +64,18 @@ QString OngletMP3::choixMp3()
 
 void OngletMP3::on_ArtistesAnnees_clicked(const QModelIndex &index)
 {
+    Q_UNUSED(index);
     afficheralbumsettitres();
 }
 void OngletMP3::on_AlbumsTitres_clicked(const QModelIndex &index)
 {
+     Q_UNUSED(index);
     vider ("Titres");
     afficherInfosTitre();
 }
 void OngletMP3::on_Categories_currentRowChanged(int currentRow)
 {
+    Q_UNUSED(currentRow);
     affichageartistes();
 }
 
@@ -356,6 +359,7 @@ QString OngletMP3::artisteLecteur() const
 
 void OngletMP3::on_AlbumsTitres_doubleClicked(const QModelIndex &index)
 {
+     Q_UNUSED(index);
     BDDMp3* mp3 = BDDMp3::RecupererMp3( choixMp3().toInt() );
     QFileInfo fich(mp3->m_chemin);
     QString nouvelemplacementchemin= "C:\\Users\\Nico\\Desktop\\Nouveau Dossier\\"+fich.fileName();
