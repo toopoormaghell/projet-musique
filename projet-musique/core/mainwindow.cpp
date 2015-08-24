@@ -124,9 +124,7 @@ void MainWindow::ViderBDD()
 
 void MainWindow::ActualiserOngletPhys()
 {
-    ui->tab_2->vider("Categories");
     ui->tab_2->vider("Artiste");
-    ui->tab_2->afficherListeType();
     ui->tab_2->afficherListeArtiste();
 }
 void MainWindow::on_actionAjouter_Album_triggered()

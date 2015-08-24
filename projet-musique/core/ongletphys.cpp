@@ -18,7 +18,7 @@ OngletPhys::OngletPhys(QWidget *parent) :
     m_selection=0;
     ui->setupUi(this);
     vider("Artiste");
-    afficherListeType();
+ //   afficherListeType();
     afficherListeArtiste();
     AfficherArtisteSelectionne();
 
@@ -268,10 +268,7 @@ void OngletPhys::vider(QString type)
     {
         ui->Artistes->clear();
     }
-    if (type=="Categories")
-    {
-        ui->Categories->clear();
-    }
+
     if (type=="Albums")
     {
         ui->Albums->clear();
@@ -304,30 +301,6 @@ void OngletPhys::on_Compil_itemPressed(QListWidgetItem *item)
     vider("Infos");
     AfficherInfosAlbum(3);
     AfficherArtisteSelectionne();
-}
-void OngletPhys::afficherListeType()
-{
-    ui->Categories->clear();
-
-    QStringList types;
-    types << "Tout" << "0";
-    BDDAfficherMp3 temp;
-
-    types <<temp.RecupererListeTypes("Phys") ;
-
-    QImage image("./Pochettes/def.jpg");
-    for(int cpt=0;cpt<types.count();cpt=cpt+2)
-    {
-        QPixmap scaled( QPixmap::fromImage( image ) );
-        scaled = scaled.scaled( 150, 150 );
-        QListWidgetItem* item = new QListWidgetItem;
-        item->setIcon( QIcon( scaled ) );
-        item->setData(Qt::UserRole,types[cpt+1]);
-        item->setText(types[cpt]);
-
-        ui->Categories->addItem(item);
-    }
-    ui->Categories->setCurrentRow(1);
 }
 
 void OngletPhys::on_Singles_itemPressed(QListWidgetItem *item)

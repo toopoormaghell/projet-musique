@@ -26,7 +26,7 @@ public:
     void afficherListeCompils();
     QString choixCompil();
 
-    void afficherListeType();
+
     void AfficherArtisteSelectionne();
     void afficherListeSingles();
     QString choixSingle();
