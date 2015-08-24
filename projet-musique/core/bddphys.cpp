@@ -77,6 +77,7 @@ BDDPhys::BDDPhys(const int id, QObject *parent):
     m_ean(-1),
     m_type()
 {
+    Q_UNUSED(parent);
     QString queryStr="SELECT * FROM Phys WHERE Id_Album='"+ QString::number( id)+"'";
     QSqlQuery query= madatabase.exec( queryStr );
     if ( query.first() )

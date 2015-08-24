@@ -97,6 +97,7 @@ QString BDDGestionMp3::dossiercategorie()
     case (1): return getdossierpardef();break;
     case (2): return "F:/Compil";break;
     case (3): return "F:/Live";break;
+    default: return "";break;
     }
 }
 void BDDGestionMp3::creerfilefichiers()
@@ -146,7 +147,7 @@ void BDDGestionMp3::actualiserMp3(QString chemin)
     int dureesec=f.audioProperties()->length();
     int min=dureesec/60;
     int sec=dureesec%60;
-    SousCatParChemin(artist,chemin);
+    SousCatParChemin(chemin);
 
     //On ajoute en BDD
 
@@ -229,8 +230,9 @@ QString BDDGestionMp3::getdossierpardef()
     return rec.value("Valeur").toString();
 
 }
-void BDDGestionMp3::SousCatParChemin(TagLib::String &artist, QString chemin)
+void BDDGestionMp3::SousCatParChemin( QString chemin)
 {
+
     if (chemin.contains("BOF"))
     {
         m_souscat = 4;

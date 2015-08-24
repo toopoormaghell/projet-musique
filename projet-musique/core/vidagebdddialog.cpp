@@ -20,16 +20,19 @@ VidageBDDDialog::~VidageBDDDialog()
 
 void VidageBDDDialog::on_MP3_toggled(bool checked)
 {
+    Q_UNUSED(checked);
     Mp3= ui->MP3->isChecked();
 }
 
 void VidageBDDDialog::on_Phys_toggled(bool checked)
 {
+      Q_UNUSED(checked);
     Phys=ui->Phys->isChecked();
 }
 
 void VidageBDDDialog::on_Config_toggled(bool checked)
 {
+      Q_UNUSED(checked);
     Config=ui->Config->isChecked();
 }
 

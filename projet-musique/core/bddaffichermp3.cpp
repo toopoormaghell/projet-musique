@@ -98,6 +98,7 @@ QString BDDAfficherMp3::AnneesSwitch(QString annee)
         return " Annee>=2010 AND Annee<2014";
     if (annee=="2015-2019")
         return " Annee>=2015";
+return "faux";
 }
 
 QStringList BDDAfficherMp3::MP3Artiste(QString id_artiste)

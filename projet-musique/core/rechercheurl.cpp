@@ -10,7 +10,7 @@
 #include "choixalbumphysdialog.h"
 RechercheURL::RechercheURL(QObject *parent)
 {
-
+Q_UNUSED(parent);
 }
 
 AlbumPhys RechercheURL::RequeteAlbums(QString rech,int Type)
@@ -271,7 +271,9 @@ void RechercheURL::LectureXMLTitres(QByteArray fichier)
         case QXmlStreamReader::EndDocument:
             break;
         }
+        defaut: break;
     }
+
     if (titre_en_cours.Titre!="")
     {
         titres << titre_en_cours;
@@ -312,6 +314,7 @@ QStringList RechercheURL::LectureXMLReleases(QByteArray fichier)
         case QXmlStreamReader::EndDocument:
             break;
         }
+        defaut: break;
 
     }
     return temp;
@@ -346,6 +349,8 @@ QMap<QString, QString> RechercheURL::LectureXML(QByteArray fichier)
             break;
         }
         case QXmlStreamReader::EndDocument:
+            break;
+        default:
             break;
         }
 

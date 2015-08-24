@@ -30,7 +30,7 @@ private:
     //Actualiser MP3 + fonctions associées
     void actualiserMp3(QString chemin);
     QString getdossierpardef();
-    void SousCatParChemin(TagLib::String &artist, QString chemin);
+    void SousCatParChemin(QString chemin);
     QImage ImageAlbum(const TagLib::FileRef& f);
     void creerfilefichiers();
     //Actualiser MP3 + Supprimer MP3

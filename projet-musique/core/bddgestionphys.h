@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QImage>
-#include "util.h";
+#include "util.h"
 
 class BDDGestionPhys : public QObject
 {

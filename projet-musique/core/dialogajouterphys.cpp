@@ -36,7 +36,7 @@ void DialogAjouterPhys::on_ChercherEAN_clicked()
     //On vérifie qu'il y a bien 13 caractères
     while (m_EAN.count()!=13)
     {
-      m_EAN="0"+m_EAN;
+        m_EAN="0"+m_EAN;
     }
     m_album = m_rech.RequeteAlbums(m_EAN,m_Type);
     AfficherAlbum();
@@ -181,7 +181,10 @@ void DialogAjouterPhys::on_pushButton_clicked()
 void DialogAjouterPhys::on_Ajouter_Titre_clicked()
 {
     m_ajouttitre.exec();
-    AjouterTitreManuel();
+    if(  m_ajouttitre.m_Titre!=NULL)
+    {
+        AjouterTitreManuel();
+    }
 }
 void DialogAjouterPhys::AjouterTitreManuel()
 {
