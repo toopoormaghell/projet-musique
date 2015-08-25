@@ -14,8 +14,4 @@
         <file alias="Faux">icones/nonmp3phys.png</file>
         <file alias="Vrai">icones/mp3phys.png</file>
     </qresource>
-    <qresource prefix="/player">
-        <file alias="mute">icones/mute.png</file>
-        <file alias="unmute">icones/unmute.png</file>
-    </qresource>
 </RCC>
