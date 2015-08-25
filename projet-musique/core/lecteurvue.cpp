@@ -1,5 +1,5 @@
-#include "lecteur.h"
-#include "ui_lecteur.h"
+#include "lecteurvue.h"
+#include "ui_lecteurvue.h"
 #include <QMediaPlayer>
 #include <QFile>
 #include <QAudioDeviceInfo>
@@ -11,9 +11,9 @@
 #include "bddalbum.h"
 #include "bddpoch.h"
 
-Lecteur::Lecteur(QWidget *parent) :
+LecteurVue::LecteurVue(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::Lecteur),
+    ui(new Ui::LecteurVue),
     m_player(new QMediaPlayer),
     m_playlist(new QMediaPlaylist)
 {
@@ -23,11 +23,11 @@ Lecteur::Lecteur(QWidget *parent) :
     QObject::connect(m_player,SIGNAL(metaDataChanged()),this,SLOT(AfficherTag()));
 }
 
-Lecteur::~Lecteur()
+LecteurVue::~LecteurVue()
 {
     delete ui;
 }
-void Lecteur::Lecture()
+void LecteurVue::Lecture()
 {
     m_player->setVolume(100);
     m_player->play();
@@ -35,39 +35,39 @@ void Lecteur::Lecture()
 }
 
 
-void Lecteur::Stop()
+void LecteurVue::Stop()
 {
     m_player->stop();
 }
 
-void Lecteur::setParentTab(const OngletMP3 &parentTab)
+void LecteurVue::setParentTab(const OngletMP3 &parentTab)
 {
     m_parentTab = &parentTab;
 }
 
-void Lecteur::on_Lecture_clicked()
+void LecteurVue::on_Lecture_clicked()
 {
     BDDMp3* mp3 = BDDMp3::RecupererMp3( m_parentTab->titreLecteur());
     m_player->setMedia(QUrl(mp3->m_chemin));
     Lecture();
 }
-void Lecteur::on_Stop_clicked()
+void LecteurVue::on_Stop_clicked()
 {
     Stop();
 }
-void Lecteur::positionChanged(qint64 time)
+void LecteurVue::positionChanged(qint64 time)
 {
     const qint64 totalTime= m_player->duration();
     ui->LectureEnCours->setSliderPosition( (int)((float)time/(float)totalTime*100.0f) );
 }
-void Lecteur::on_LectureEnCours_sliderMoved(int position)
+void LecteurVue::on_LectureEnCours_sliderMoved(int position)
 {
     const qint64 totalTime = m_player->duration();
     const qint64 timeToSet = (float)position / 100.0f * totalTime;
     m_player->setPosition(timeToSet);
 }
 
-void Lecteur::on_AleaArtiste_clicked()
+void LecteurVue::on_AleaArtiste_clicked()
 {
     m_player->stop();
     m_playlist->clear();
@@ -83,7 +83,7 @@ void Lecteur::on_AleaArtiste_clicked()
     m_player->setPlaylist(m_playlist);
     Lecture();
 }
-void Lecteur::AfficherTag()
+void LecteurVue::AfficherTag()
 {
     //On récupère le chemin du mp3 que nous sommes en train de lire
     QString chemin=m_player->currentMedia().canonicalUrl().toString();

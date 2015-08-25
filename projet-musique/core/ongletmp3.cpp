@@ -8,7 +8,7 @@
 #include "QDebug"
 #include <QStandardItemModel>
 #include <algorithm>
-#include "lecteur.h"
+#include "lecteurvue.h"
 #include <time.h>
 #include <QFile>
 #include <QFileInfo>
@@ -20,7 +20,7 @@ OngletMP3::OngletMP3(QWidget *parent) :
     m_lignestitres(0),
     m_artistes(new QStandardItemModel),
     m_colonnetitre(0),
-    m_player(new Lecteur)
+    m_player(new LecteurVue)
 {
     ui->setupUi(this);
     afficherListeType();

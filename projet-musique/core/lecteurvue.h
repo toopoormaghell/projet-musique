@@ -8,16 +8,16 @@
 class OngletMP3;
 
 namespace Ui {
-class Lecteur;
+class LecteurVue;
 }
 
-class Lecteur : public QWidget
+class LecteurVue : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit Lecteur(QWidget *parent = 0);
-    ~Lecteur();
+    explicit LecteurVue(QWidget *parent = 0);
+    ~LecteurVue();
     void Lecture();
     void Stop();
 
@@ -37,7 +37,7 @@ private slots:
     void on_AleaArtiste_clicked();
 
 private:
-    Ui::Lecteur *ui;
+    Ui::LecteurVue *ui;
     QMediaPlayer* m_player;
     const OngletMP3* m_parentTab;
     QMediaPlaylist* m_playlist;

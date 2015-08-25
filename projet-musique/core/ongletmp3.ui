@@ -102,7 +102,7 @@
     </layout>
    </item>
    <item>
-    <widget class="Lecteur" name="widget" native="true">
+    <widget class="LecteurVue" name="widget" native="true">
      <property name="minimumSize">
       <size>
        <width>0</width>
@@ -382,9 +382,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>Lecteur</class>
+   <class>LecteurVue</class>
    <extends>QWidget</extends>
-   <header>lecteur.h</header>
+   <header>lecteurvue.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
