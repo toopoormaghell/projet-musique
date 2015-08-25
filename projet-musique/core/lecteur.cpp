@@ -18,7 +18,6 @@ Lecteur::Lecteur(QWidget *parent) :
     m_playlist(new QMediaPlaylist)
 {
     ui->setupUi(this);
-    QList<QAudioDeviceInfo> devices= QAudioDeviceInfo::availableDevices(QAudio::AudioOutput);
 
     QObject::connect(m_player,SIGNAL(positionChanged(qint64)),this,SLOT(positionChanged(qint64)));
     QObject::connect(m_player,SIGNAL(metaDataChanged()),this,SLOT(AfficherTag()));
