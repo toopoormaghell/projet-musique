@@ -34,3 +34,9 @@ void BDDGestionPhys::ajouterAlbum(QImage Poch, QString Album, QString Artiste,QS
     }
     BDDPhys phys(alb,ean,Type);
 }
+void BDDGestionPhys::SupprimerenBDDPhys(int Id)
+{
+    BDDPhys* phys= BDDPhys::RecupererPhys(Id);
+    phys->deleteBDD();
+    phys->~BDDPhys();
+}

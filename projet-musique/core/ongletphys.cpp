@@ -8,7 +8,7 @@
 #include "bddphys.h"
 #include "bddaffichermp3.h"
 #include "modifieralbumdialog.h"
-
+#include "bddgestionphys.h"
 
 OngletPhys::OngletPhys(QWidget *parent) :
     QWidget(parent),
@@ -18,14 +18,14 @@ OngletPhys::OngletPhys(QWidget *parent) :
     m_selection=0;
     ui->setupUi(this);
     vider("Artiste");
- //   afficherListeType();
+
     afficherListeArtiste();
     AfficherArtisteSelectionne();
 
 }
 void OngletPhys::on_Artistes_currentTextChanged(const QString &arg1)
 {
-     Q_UNUSED(arg1);
+    Q_UNUSED(arg1);
     afficherListeAlbum();
     afficherListeCompils();
     afficherListeSingles();
@@ -305,7 +305,7 @@ void OngletPhys::on_Compil_itemPressed(QListWidgetItem *item)
 
 void OngletPhys::on_Singles_itemPressed(QListWidgetItem *item)
 {
-   Q_UNUSED(item);
+    Q_UNUSED(item);
     ui->Albums->clearSelection();
     ui->Compil->clearSelection();
     vider("Infos");
@@ -318,4 +318,10 @@ void OngletPhys::on_Modifier_clicked()
     ModifierAlbumDialog modif(m_selection,this);
     modif.exec();
 
+}
+
+void OngletPhys::on_SupprimerAlbum_clicked()
+{
+    BDDGestionPhys temp;
+    temp.SupprimerenBDDPhys(m_selection);
 }

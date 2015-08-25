@@ -271,7 +271,7 @@ void RechercheURL::LectureXMLTitres(QByteArray fichier)
         case QXmlStreamReader::EndDocument:
             break;
         }
-        defaut: break;
+
     }
 
     if (titre_en_cours.Titre!="")
@@ -314,7 +314,6 @@ QStringList RechercheURL::LectureXMLReleases(QByteArray fichier)
         case QXmlStreamReader::EndDocument:
             break;
         }
-        defaut: break;
 
     }
     return temp;
@@ -350,8 +349,7 @@ QMap<QString, QString> RechercheURL::LectureXML(QByteArray fichier)
         }
         case QXmlStreamReader::EndDocument:
             break;
-        default:
-            break;
+
         }
 
     }

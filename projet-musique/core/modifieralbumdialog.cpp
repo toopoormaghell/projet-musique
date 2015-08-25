@@ -71,7 +71,7 @@ void ModifierAlbumDialog::EnregistrerAlbum()
     m_album.Album= ui->Album->text();
     m_album.Artiste=ui->Artiste->text();
     m_album.Annee=ui->Annee->text().toInt();
-    m_album.Type = ui->Type->currentIndex();
+    m_album.Type = ui->Type->currentIndex()+1;
 
     //On récupère la pochette
     const QPixmap* pixmap = ui->Pochette->pixmap();
@@ -118,7 +118,7 @@ void ModifierAlbumDialog::on_buttonBox_accepted()
     EnregistrerAlbum();
 
     BDDGestionPhys m_bddinterface;
-
+    m_bddinterface.SupprimerenBDDPhys(m_album.Id_Album);
     m_bddinterface.ajouterAlbum(m_album.Poch,m_album.Album,m_album.Artiste,QString::number(m_album.Id_Release),m_album.Annee,m_album.titres,m_album.Type);
 
 }

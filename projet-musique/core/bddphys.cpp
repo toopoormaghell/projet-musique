@@ -10,13 +10,13 @@
 
 BDDPhys::BDDPhys(const BDDAlbum &album, const QString &ean, const int &type, QObject *parent):
     QObject( parent),
-    m_id(-1),
     m_album(&album),
     m_artiste(),
     m_titres(),
+    m_id(-1),
     m_type(BDDType::RecupererType(type)),
-    m_membersAreSelfCreatad(false),
-    m_ean(ean)
+    m_ean(ean),
+    m_membersAreSelfCreatad(false)
 {
     recupererId();
     if (m_id==-1)
@@ -37,7 +37,21 @@ BDDPhys::~BDDPhys()
 
 void BDDPhys::deleteBDD()
 {
+    QString queryStr="DELETE FROM Phys WHERE Id_Album='"+QString::number(m_id)+"'";
 
+    madatabase.exec(queryStr);
+
+    for (int i=0;i<m_titres.count();i++)
+    {
+        if (!m_titres[i]->m_mp3etphys)
+        {
+            BDDRelation rel(*m_album,*m_artiste,*m_titres[i]);
+            rel.supprimerenBDDPhys();
+            m_titres[i]->supprimerenBDD();
+        }
+    }
+    m_album->supprimerenBDD();
+    m_artiste->supprimerenBDD();
 
 }
 
@@ -70,12 +84,14 @@ void BDDPhys::recupererId()
 }
 
 BDDPhys::BDDPhys(const int id, QObject *parent):
+    QObject(parent),
     m_id(id),
     m_titres(),
     m_artiste(),
     m_album(),
     m_ean(-1),
     m_type()
+
 {
     Q_UNUSED(parent);
     QString queryStr="SELECT * FROM Phys WHERE Id_Album='"+ QString::number( id)+"'";

@@ -39,6 +39,8 @@ private slots:
     void on_Singles_itemPressed(QListWidgetItem *item);
     void on_Modifier_clicked();
 
+    void on_SupprimerAlbum_clicked();
+
 private:
     Ui::OngletPhys *ui;
     BDDAfficherPhys m_bddInterface;
