@@ -102,7 +102,7 @@
     </layout>
    </item>
    <item>
-    <widget class="Lecteur" name="widget" native="true">
+    <widget class="LecteurMP3Gui" name="lecteurMp3" native="true">
      <property name="minimumSize">
       <size>
        <width>0</width>
@@ -382,9 +382,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>Lecteur</class>
+   <class>LecteurMP3Gui</class>
    <extends>QWidget</extends>
-   <header>lecteur.h</header>
+   <header>lecteurmp3gui.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

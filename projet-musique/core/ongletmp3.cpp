@@ -8,10 +8,11 @@
 #include "QDebug"
 #include <QStandardItemModel>
 #include <algorithm>
-#include "lecteur.h"
+#include "lecteurmp3gui.h"
 #include <time.h>
 #include <QFile>
 #include <QFileInfo>
+#include <lecteurmp3.h>
 
 OngletMP3::OngletMP3(QWidget *parent) :
     QWidget(parent),
@@ -20,7 +21,7 @@ OngletMP3::OngletMP3(QWidget *parent) :
     m_lignestitres(0),
     m_artistes(new QStandardItemModel),
     m_colonnetitre(0),
-    m_player(new Lecteur)
+    m_player( NULL )
 {
     ui->setupUi(this);
     afficherListeType();
@@ -29,7 +30,12 @@ OngletMP3::OngletMP3(QWidget *parent) :
     ui->AlbumsTitres->setModel(&m_albumtitres);
     afficheralbumsettitres();
     afficherInfosTitre();
-    ui->widget->setParentTab(*this);
+
+    // Création du modèle de lecteur MP3
+    // Sa GUI lui est passée en paramètre parce que c'est l'onglet qui la crée.
+    // L'autre solution, qui consisterait à laisser le modèle créer sa GUI et l'inscrire
+    // dans l'onglet, serait plus complexe et coûteuse à mettre en place.
+    m_player = new LecteurMP3( ui->lecteurMp3, this );
 
     connect(ui->ArtistesAnnees->selectionModel(),SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),this,SLOT(on_ArtistesAnnees_clicked(QModelIndex)));
 }
@@ -64,6 +70,7 @@ QString OngletMP3::choixMp3()
 
 void OngletMP3::on_ArtistesAnnees_clicked(const QModelIndex &index)
 {
+    Q_UNUSED( index );
     afficheralbumsettitres();
 }
 void OngletMP3::on_AlbumsTitres_clicked(const QModelIndex &index)

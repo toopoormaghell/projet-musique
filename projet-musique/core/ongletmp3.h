@@ -4,7 +4,8 @@
 #include <QWidget>
 #include "bddaffichermp3.h"
 #include <QStandardItemModel>
-#include "lecteur.h"
+class LecteurMP3;
+
 namespace Ui {
 class OngletMP3;
 }
@@ -46,7 +47,7 @@ private:
     int m_lignestitres;
     QStandardItemModel m_artistes;
     int m_colonnetitre;
-    Lecteur* m_player;
+    LecteurMP3* m_player;
 };
 
 #endif // ONGLETMP3_H

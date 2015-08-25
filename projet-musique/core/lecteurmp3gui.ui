@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>LecteurMP3Gui</class>
+ <widget class="QWidget" name="LecteurMP3Gui">
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <widget class="PresentationLecture" name="presentationLecture" native="true"/>
+   </item>
+   <item>
+    <widget class="ControleLecture" name="controleLecture" native="true"/>
+   </item>
+   <item>
+    <widget class="ModeLecture" name="modeLecture" native="true"/>
+   </item>
+   <item>
+    <widget class="ControleVolume" name="volumeControle" native="true"/>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ControleVolume</class>
+   <extends>QWidget</extends>
+   <header>controlevolume.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ModeLecture</class>
+   <extends>QWidget</extends>
+   <header>modelecture.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PresentationLecture</class>
+   <extends>QWidget</extends>
+   <header>presentationlecture.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ControleLecture</class>
+   <extends>QWidget</extends>
+   <header>controlelecture.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
