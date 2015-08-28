@@ -1,11 +1,17 @@
 #ifndef LECTEUR_H
 #define LECTEUR_H
 
+
+
 #include <QWidget>
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
 
+
+
 class OngletMP3;
+
+
 
 namespace Ui {
 class LecteurVue;
@@ -16,8 +22,18 @@ class LecteurVue : public QWidget
     Q_OBJECT
 
 public:
-    explicit LecteurVue(QWidget *parent = 0);
+    explicit LecteurVue( QWidget* parent = 0 );
     virtual ~LecteurVue();
+
+
+
+private:
+    // GUI du lecteur
+    Ui::LecteurVue *ui;
+
+
+
+public:
     void Lecture();
     void Stop();
 
@@ -36,7 +52,6 @@ private slots:
     void on_AleaArtiste_clicked();
 
 private:
-    Ui::LecteurVue *ui;
     QMediaPlayer* m_player;
     const OngletMP3* m_parentTab;
     QMediaPlaylist* m_playlist;

@@ -79,6 +79,9 @@ void LecteurVue::setParentTab(const OngletMP3 &parentTab)
 
 
 
+
+
+
 void LecteurVue::on_Stop_clicked()
 {
     Stop();
