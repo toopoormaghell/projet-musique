@@ -1,5 +1,6 @@
 #include "lecteurvue.h"
 #include "ui_lecteurvue.h"
+
 #include <QMediaPlayer>
 #include <QFile>
 #include <QAudioDeviceInfo>
@@ -11,22 +12,50 @@
 #include "bddalbum.h"
 #include "bddpoch.h"
 
-LecteurVue::LecteurVue(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::LecteurVue),
-    m_player(new QMediaPlayer),
-    m_playlist(new QMediaPlaylist)
+
+
+LecteurVue::LecteurVue( QWidget* parent ) :
+    QWidget( parent )
+  , ui( new Ui::LecteurVue )
+  , m_statutLecturePause( AUCUN )
+  , m_player( new QMediaPlayer )
+  , m_playlist( new QMediaPlaylist )
 {
-    ui->setupUi(this);
+    ui->setupUi( this );
 
     QObject::connect(m_player,SIGNAL(positionChanged(qint64)),this,SLOT(positionChanged(qint64)));
     QObject::connect(m_player,SIGNAL(metaDataChanged()),this,SLOT(AfficherTag()));
 }
 
+
+
 LecteurVue::~LecteurVue()
 {
     delete ui;
 }
+
+
+
+void LecteurVue::on_lecturePause_clicked()
+{
+    BDDMp3* mp3 = BDDMp3::RecupererMp3( m_parentTab->titreLecteur());
+    m_player->setMedia(QUrl(mp3->m_chemin));
+    Lecture();
+
+    if ( ( m_statutLecturePause == AUCUN ) || ( m_statutLecturePause == PAUSE_EN_COURS ) )
+    {
+        m_statutLecturePause = LECTURE_EN_COURS;
+        emit lectureDemandee();
+    }
+    else
+    {
+        m_statutLecturePause = PAUSE_EN_COURS;
+        emit pauseDemandee();
+    }
+}
+
+
+
 void LecteurVue::Lecture()
 {
     m_player->setVolume(100);
@@ -35,37 +64,44 @@ void LecteurVue::Lecture()
 }
 
 
+
 void LecteurVue::Stop()
 {
     m_player->stop();
 }
+
+
 
 void LecteurVue::setParentTab(const OngletMP3 &parentTab)
 {
     m_parentTab = &parentTab;
 }
 
-void LecteurVue::on_Lecture_clicked()
-{
-    BDDMp3* mp3 = BDDMp3::RecupererMp3( m_parentTab->titreLecteur());
-    m_player->setMedia(QUrl(mp3->m_chemin));
-    Lecture();
-}
+
+
 void LecteurVue::on_Stop_clicked()
 {
     Stop();
 }
+
+
+
 void LecteurVue::positionChanged(qint64 time)
 {
     const qint64 totalTime= m_player->duration();
     ui->LectureEnCours->setSliderPosition( (int)((float)time/(float)totalTime*100.0f) );
 }
+
+
+
 void LecteurVue::on_LectureEnCours_sliderMoved(int position)
 {
     const qint64 totalTime = m_player->duration();
     const qint64 timeToSet = (float)position / 100.0f * totalTime;
     m_player->setPosition(timeToSet);
 }
+
+
 
 void LecteurVue::on_AleaArtiste_clicked()
 {
@@ -83,6 +119,9 @@ void LecteurVue::on_AleaArtiste_clicked()
     m_player->setPlaylist(m_playlist);
     Lecture();
 }
+
+
+
 void LecteurVue::AfficherTag()
 {
     //On récupère le chemin du mp3 que nous sommes en train de lire

@@ -28,7 +28,6 @@ public slots:
 signals:
     void tick();
 private slots:
-    void on_Lecture_clicked();
     void on_Stop_clicked();
 
     void positionChanged( qint64 time );

@@ -15,7 +15,7 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="QPushButton" name="Lecture">
+    <widget class="QPushButton" name="lecturePause">
      <property name="minimumSize">
       <size>
        <width>35</width>
