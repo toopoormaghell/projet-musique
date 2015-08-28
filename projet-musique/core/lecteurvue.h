@@ -17,6 +17,8 @@ namespace Ui {
 class LecteurVue;
 }
 
+
+
 class LecteurVue : public QWidget
 {
     Q_OBJECT
@@ -27,9 +29,31 @@ public:
 
 
 
+signals:
+    // Signal emit lorsque l'utilisateur demande la lecture
+    void lectureDemandee();
+    // Signal emit lorsque l'utilisateur demande une pause
+    void pauseDemandee();
+
+
+
+private slots:
+    // Slot permettant de reemettre un signal pour lecture / pause demandee
+    void on_lecturePause_clicked();
+
+
+
 private:
     // GUI du lecteur
     Ui::LecteurVue *ui;
+    // Indique l'etat courant du lecteur
+    enum StatutLecturePause
+    {
+        LECTURE_EN_COURS = 0,
+        PAUSE_EN_COURS,
+        AUCUN
+    };
+    StatutLecturePause m_statutLecturePause;
 
 
 
