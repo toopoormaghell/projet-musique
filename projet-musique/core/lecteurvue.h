@@ -17,7 +17,7 @@ class LecteurVue : public QWidget
 
 public:
     explicit LecteurVue(QWidget *parent = 0);
-    ~LecteurVue();
+    virtual ~LecteurVue();
     void Lecture();
     void Stop();
 
