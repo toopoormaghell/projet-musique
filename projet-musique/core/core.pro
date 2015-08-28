@@ -61,6 +61,7 @@ HEADERS += \
     vidagebdddialog.h \
     modifieralbumdialog.h \
     choixalbumphysdialog.h \
+    lecteurmodele.h \
     lecteurvue.h
 
 
@@ -91,6 +92,7 @@ SOURCES += main.cpp \
     vidagebdddialog.cpp \
     modifieralbumdialog.cpp \
     choixalbumphysdialog.cpp \
+    lecteurmodele.cpp \
     lecteurvue.cpp
 
 FORMS += \
