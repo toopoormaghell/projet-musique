@@ -18,9 +18,9 @@ public:
 private:
     Ui::OngletStats *ui;
     bddstats m_bddInterface;
-    AfficherInfos();
-    AfficherInfosCategoriesMP3();
-    AfficherInfosCategoriesPhys();
+    void AfficherInfos();
+    void AfficherInfosCategoriesMP3();
+    void AfficherInfosCategoriesPhys();
 };
 
 #endif // ONGLETSTATS_H

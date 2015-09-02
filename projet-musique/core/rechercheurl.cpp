@@ -10,7 +10,7 @@
 #include "choixalbumphysdialog.h"
 RechercheURL::RechercheURL(QObject *parent)
 {
-Q_UNUSED(parent);
+    Q_UNUSED(parent);
 }
 
 AlbumPhys RechercheURL::RequeteAlbums(QString rech,int Type)
@@ -223,7 +223,7 @@ void RechercheURL::LectureXMLTitres(QByteArray fichier)
         reader.readNext();
         switch(reader.tokenType())
         {
-        case QXmlStreamReader::StartDocument :  break;
+
         case QXmlStreamReader::StartElement:
         {
             element = reader.name().toString();
@@ -264,21 +264,23 @@ void RechercheURL::LectureXMLTitres(QByteArray fichier)
             }
             break;
         }
-        case QXmlStreamReader::EndElement:
-        {
-            break;
+        case QXmlStreamReader::StartDocument :  break;
+        case QXmlStreamReader::EndElement: break;
+        case QXmlStreamReader::EndDocument: break;
+        case QXmlStreamReader::NoToken: break;
+        case QXmlStreamReader::Invalid: break;
+        case QXmlStreamReader::Comment:break;
+        case QXmlStreamReader::DTD:break;
+        case QXmlStreamReader::EntityReference:break;
+        case QXmlStreamReader::ProcessingInstruction:break;
         }
-        case QXmlStreamReader::EndDocument:
-            break;
-        }
-
     }
-
     if (titre_en_cours.Titre!="")
     {
         titres << titre_en_cours;
     }
     m_album.titres << titres;
+
 }
 QStringList RechercheURL::LectureXMLReleases(QByteArray fichier)
 {
@@ -291,7 +293,6 @@ QStringList RechercheURL::LectureXMLReleases(QByteArray fichier)
         reader.readNext();
         switch(reader.tokenType())
         {
-        case QXmlStreamReader::StartDocument :  break;
         case QXmlStreamReader::StartElement:
         {
             element = reader.name().toString();
@@ -303,18 +304,18 @@ QStringList RechercheURL::LectureXMLReleases(QByteArray fichier)
             {
                 temp << reader.text().toString();
             }
-
-
             break;
         }
-        case QXmlStreamReader::EndElement:
-        {
-            break;
+        case QXmlStreamReader::StartDocument :  break;
+        case QXmlStreamReader::EndDocument: break;
+        case QXmlStreamReader::EndElement: break;
+        case QXmlStreamReader::NoToken: break;
+        case QXmlStreamReader::Invalid: break;
+        case QXmlStreamReader::Comment:break;
+        case QXmlStreamReader::DTD:break;
+        case QXmlStreamReader::EntityReference:break;
+        case QXmlStreamReader::ProcessingInstruction:break;
         }
-        case QXmlStreamReader::EndDocument:
-            break;
-        }
-
     }
     return temp;
 }
@@ -331,7 +332,6 @@ QMap<QString, QString> RechercheURL::LectureXML(QByteArray fichier)
         reader.readNext();
         switch(reader.tokenType())
         {
-        case QXmlStreamReader::StartDocument :  break;
         case QXmlStreamReader::StartElement:
         {
             element = reader.name().toString();
@@ -343,15 +343,16 @@ QMap<QString, QString> RechercheURL::LectureXML(QByteArray fichier)
 
             break;
         }
-        case QXmlStreamReader::EndElement:
-        {
-            break;
+        case QXmlStreamReader::StartDocument :  break;
+        case QXmlStreamReader::EndDocument:   break;
+        case QXmlStreamReader::EndElement: break;
+        case QXmlStreamReader::NoToken: break;
+        case QXmlStreamReader::Invalid: break;
+        case QXmlStreamReader::Comment:break;
+        case QXmlStreamReader::DTD:break;
+        case QXmlStreamReader::EntityReference:break;
+        case QXmlStreamReader::ProcessingInstruction:break;
         }
-        case QXmlStreamReader::EndDocument:
-            break;
-
-        }
-
     }
     return temp;
 }

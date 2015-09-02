@@ -18,10 +18,10 @@ public:
     void deleteBDD();
     static BDDPhys* RecupererPhys(const int id);
 
+    int m_id;
     BDDAlbum const* m_album;
     BDDArtiste const* m_artiste;
     QList<BDDTitre*>   m_titres;
-    int m_id;
     BDDType const* m_type;
     QString m_ean;
 

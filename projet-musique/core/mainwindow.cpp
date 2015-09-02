@@ -16,8 +16,8 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    m_gestionMP3( new BDDGestionMp3 ),
     m_progressbar( new QProgressBar),
+    m_gestionMP3( new BDDGestionMp3 ),
     m_interaction( new QLabel),
     m_dialogajouterphys( NULL),
     m_vidage(this),

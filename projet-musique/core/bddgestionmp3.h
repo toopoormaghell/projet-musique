@@ -9,10 +9,10 @@
 #include <QMap>
 
 /************************************************************************
-/* Fonctions de la classe:
-/************************************************************************
- *      ActualiserMP3:
- ************************************************************************
+** Fonctions de la classe:
+*************************************************************************
+**      ActualiserMP3:
+*************************************************************************
  * demarrerActualiser()
  *  initialise la liste des catégories ( m_Categories ) par l'appel de la fonction listeCategoriesActualiser()
  *  init()
@@ -36,11 +36,11 @@
  *                                  Supprime dans la BDD les infos du MP3
  *                      boucle sur les catégories
  *                      appel de la fonction qui supprime les dossiers vides
- ************************************************************************
- * ViderBDD() : permet d'enlever les MP3 de la BDD
- * stop-clique() : arrête d'actualiser les mp3
- * pourcentage() et fin() sont des signaux pour l'ongletMP3
- ************************************************************************/
+*************************************************************************
+** ViderBDD() : permet d'enlever les MP3 de la BDD
+** stop-clique() : arrête d'actualiser les mp3
+** pourcentage() et fin() sont des signaux pour l'ongletMP3
+*************************************************************************/
 class BDDGestionMp3 : public QObject
 {
     Q_OBJECT
@@ -85,3 +85,5 @@ private:
 };
 
 #endif // BDDGESTIONMP3_H
+
+

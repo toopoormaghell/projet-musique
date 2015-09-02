@@ -10,10 +10,10 @@
 
 BDDPhys::BDDPhys(const BDDAlbum &album, const QString &ean, const int &type, QObject *parent):
     QObject( parent),
+    m_id(-1),
     m_album(&album),
     m_artiste(),
     m_titres(),
-    m_id(-1),
     m_type(BDDType::RecupererType(type)),
     m_ean(ean),
     m_membersAreSelfCreatad(false)
@@ -86,12 +86,11 @@ void BDDPhys::recupererId()
 BDDPhys::BDDPhys(const int id, QObject *parent):
     QObject(parent),
     m_id(id),
-    m_titres(),
-    m_artiste(),
     m_album(),
-    m_ean(-1),
-    m_type()
-
+    m_artiste(),
+    m_titres(),
+    m_type(),
+    m_ean(-1)
 {
     Q_UNUSED(parent);
     QString queryStr="SELECT * FROM Phys WHERE Id_Album='"+ QString::number( id)+"'";

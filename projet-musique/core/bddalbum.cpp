@@ -8,14 +8,15 @@
 BDDAlbum::BDDAlbum(const QString& album, const BDDPoch& pochette, int annee, int type, QObject *parent) :
     QObject(parent),
     m_nom(album),
-     m_annee(annee),
-    m_type(BDDType::RecupererType(type)),
     m_nomFormate(album),
-     m_areTypeAndPochetteSelfCreated( false )
+    m_annee(annee),
+    m_type(BDDType::RecupererType(type)),
+
+    m_areTypeAndPochetteSelfCreated( false )
 
 {
-m_id=-1;
-m_pochette=&pochette;
+    m_id=-1;
+    m_pochette=&pochette;
     FormaterEntiteBDD( m_nomFormate );
     recupererId();
     if (m_id==-1)
@@ -58,9 +59,9 @@ BDDAlbum::BDDAlbum(const int id, QObject *parent):
     m_id(id),
     m_nom(),
     m_nomFormate(),
-    m_pochette(),
     m_annee(1),
-    m_type()
+    m_type(),
+    m_pochette()
 {
     QString queryStr="SELECT Album,Album_Formate,Id_Pochette, Annee, Type FROM Album WHERE Id_Album='"+ QString::number( id )+"'";
     QSqlQuery query = madatabase.exec( queryStr );

@@ -70,7 +70,7 @@ void BDDGestionMp3::step()
 void BDDGestionMp3::stop_clique()
 {
     m_iteration=m_filelist.count();
-    m_Categories = m_Categories[m_Categories.count()-1];
+    m_type = m_Categories[m_Categories.count()-1];
 }
 void BDDGestionMp3::listeCategoriesActualiser()
 {

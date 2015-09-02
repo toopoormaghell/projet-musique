@@ -16,14 +16,12 @@ public:
 
     static BDDRelation* RecupererRelation(const int id);
     void supprimerenBDDMP3() const;
+    void supprimerenBDDPhys() const;
 
     int m_id;
     int m_id_artiste;
     int m_id_album;
     int m_id_titre;
-
-
-    void supprimerenBDDPhys() const;
 private:
     BDDRelation(const int id,QObject* parent=NULL);
     void ajouterBDD();

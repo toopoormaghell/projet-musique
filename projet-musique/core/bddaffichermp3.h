@@ -12,7 +12,7 @@ public:
     explicit BDDAfficherMp3(QObject *parent = 0);
     QList<int> ListeArtiste(QString type);
     QStringList listeTitresAlbumMp3(QString Album, QString Categorie);
-QStringList MP3Artiste(QString id_artiste);
+    QStringList MP3Artiste(QString id_artiste);
     QList<int> listeAlbums(QString Id_Artiste, QString Categorie);
     QStringList RecupererListeTypes(const QString categorie);
 private:

@@ -15,7 +15,7 @@ OngletStats::~OngletStats()
     delete ui;
 }
 
-OngletStats::AfficherInfos()
+void OngletStats::AfficherInfos()
 {
     ui->NbMp3Total->setText("Nombre de Mp3 : "+QString::number(m_bddInterface.NbMp3Total()));
     ui->NbPhysTotal->setText("Nombre de cds : "+QString::number(m_bddInterface.NbPhysTotal()));
@@ -24,7 +24,7 @@ OngletStats::AfficherInfos()
     AfficherInfosCategoriesMP3();
 
 }
-OngletStats::AfficherInfosCategoriesMP3()
+void OngletStats::AfficherInfosCategoriesMP3()
 {
     int nb=0;
     //Classique
@@ -64,7 +64,7 @@ OngletStats::AfficherInfosCategoriesMP3()
     ui->NbMp3Compil->setText("Categorie Compils: "+QString::number(m_bddInterface.NbMp3Categorie(2)));
 
 }
-OngletStats::AfficherInfosCategoriesPhys()
+void OngletStats::AfficherInfosCategoriesPhys()
 {
     ui->NbPhysAlbum->setText("<dd>Albums : "+QString::number(m_bddInterface.NbPhysCategorie(1)));
     ui->NbPhysCompil->setText("<dd>Singles : "+QString::number(m_bddInterface.NbPhysCategorie(3)));

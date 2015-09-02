@@ -16,7 +16,7 @@ int bddstats::NbMp3Total()
 
         return rec.value("Nb").toInt();
     }
-
+    return -1;
 }
 
 int bddstats::NbPhysTotal()
@@ -29,6 +29,7 @@ int bddstats::NbPhysTotal()
 
         return rec.value("Nb").toInt();
     }
+    return -1;
 }
 
 int bddstats::NbMp3Categorie(int type)
@@ -41,6 +42,7 @@ int bddstats::NbMp3Categorie(int type)
 
         return rec.value("Nb").toInt();
     }
+    return -1;
 }
 
 int bddstats::NbPhysCategorie(int type)
@@ -53,5 +55,6 @@ int bddstats::NbPhysCategorie(int type)
 
         return rec.value("Nb").toInt();
     }
+    return -1;
 }
 
