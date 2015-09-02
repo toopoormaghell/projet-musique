@@ -10,6 +10,8 @@ public:
     explicit bddstats(QObject *parent = 0);
 int NbMp3Total();
 int NbPhysTotal();
+int NbMp3Categorie(int type);
+int NbPhysCategorie(int type);
 signals:
 
 public slots:

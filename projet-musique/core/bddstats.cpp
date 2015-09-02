@@ -30,3 +30,28 @@ int bddstats::NbPhysTotal()
         return rec.value("Nb").toInt();
     }
 }
+
+int bddstats::NbMp3Categorie(int type)
+{
+    QString queryStr="SELECT COUNT(*)AS 'Nb' FROM MP3  WHERE Categorie='"+QString::number(type)+"'";
+    QSqlQuery query= madatabase.exec(queryStr);
+
+    if(query.first()) {
+        QSqlRecord rec=query.record();
+
+        return rec.value("Nb").toInt();
+    }
+}
+
+int bddstats::NbPhysCategorie(int type)
+{
+    QString queryStr="SELECT COUNT(*)AS 'Nb' FROM Phys  WHERE Categorie='"+QString::number(type)+"'";
+    QSqlQuery query= madatabase.exec(queryStr);
+
+    if(query.first()) {
+        QSqlRecord rec=query.record();
+
+        return rec.value("Nb").toInt();
+    }
+}
+

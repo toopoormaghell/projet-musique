@@ -1,6 +1,6 @@
 #ifndef ONGLETSTATS_H
 #define ONGLETSTATS_H
-
+#include "bddstats.h"
 #include <QWidget>
 
 namespace Ui {
@@ -17,6 +17,10 @@ public:
 
 private:
     Ui::OngletStats *ui;
+    bddstats m_bddInterface;
+    AfficherInfos();
+    AfficherInfosCategoriesMP3();
+    AfficherInfosCategoriesPhys();
 };
 
 #endif // ONGLETSTATS_H
