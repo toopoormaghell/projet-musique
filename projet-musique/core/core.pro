@@ -62,7 +62,8 @@ HEADERS += \
     modifieralbumdialog.h \
     choixalbumphysdialog.h \
     lecteurmodele.h \
-    lecteurvue.h
+    lecteurvue.h \
+    playlistmanager.h
 
 
 SOURCES += main.cpp \
@@ -93,7 +94,8 @@ SOURCES += main.cpp \
     modifieralbumdialog.cpp \
     choixalbumphysdialog.cpp \
     lecteurmodele.cpp \
-    lecteurvue.cpp
+    lecteurvue.cpp \
+    playlistmanager.cpp
 
 FORMS += \
     ongletmp3.ui \

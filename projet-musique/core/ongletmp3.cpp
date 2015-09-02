@@ -12,6 +12,7 @@
 #include <time.h>
 #include <QFile>
 #include <QFileInfo>
+#include "playlistmanager.h"
 
 OngletMP3::OngletMP3(QWidget *parent) :
     QWidget(parent),
@@ -21,6 +22,7 @@ OngletMP3::OngletMP3(QWidget *parent) :
     m_artistes(new QStandardItemModel),
     m_colonnetitre(0),
     m_player(new LecteurVue)
+  , m_playlistManager( new PlaylistManager )
 {
     ui->setupUi(this);
     afficherListeType();

@@ -5,6 +5,9 @@
 #include "bddaffichermp3.h"
 #include <QStandardItemModel>
 #include "lecteurvue.h"
+#include <QScopedPointer>
+class PlaylistManager;
+
 namespace Ui {
 class OngletMP3;
 }
@@ -46,6 +49,9 @@ private:
     int m_lignestitres;
     QStandardItemModel m_artistes;
     int m_colonnetitre;
+
+    // Manager de playlist, commun a toute l'application
+    QScopedPointer<PlaylistManager> m_playlistManager;
     LecteurVue* m_player;
 };
 
