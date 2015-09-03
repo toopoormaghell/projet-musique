@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_dialogajouterphys,SIGNAL(ajout()),this,SLOT(ActualiserOngletPhys()));
     //Si le bouton STOP est cliqué, il renvoie un signal
     connect(stop,SIGNAL(clicked()),m_gestionMP3,SLOT(stop_clique()));
-    }
+}
 void MainWindow::ajouterToolbar()
 {
     QPixmap essai(":/menuIcones/actump3");
@@ -83,7 +83,7 @@ void MainWindow::ajouterStatusBar()
 }
 void MainWindow::stop_clique()
 {
-   emit stopper();
+    emit stopper();
 }
 
 MainWindow::~MainWindow()
@@ -110,7 +110,7 @@ void MainWindow::ViderBDD()
     {
         m_interaction->setText("Suppression entière de la BDD...");
         BDDSingleton::getInstance().viderBDD();
-       m_interaction->setText("Prêt");
+        m_interaction->setText("Prêt");
     } else
     {
         if (m_vidage.Mp3)
@@ -144,7 +144,10 @@ void MainWindow::actionartistesinverses()
 
 void MainWindow::actionBDD()
 {
-
+    m_interaction->clear();
+    m_interaction->setText("Vérification de la BDD...");
+    BDDSingleton::getInstance().verifierBDD();
+    m_interaction->setText("Vérification terminée.");
 }
 
 void MainWindow::actionconfigactu()
