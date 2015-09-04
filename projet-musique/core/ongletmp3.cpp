@@ -68,11 +68,13 @@ void OngletMP3::on_ArtistesAnnees_clicked(const QModelIndex &index)
 {
     afficheralbumsettitres();
 }
-void OngletMP3::on_AlbumsTitres_clicked(const QModelIndex &index)
+
+void OngletMP3::on_AlbumsTitres_clicked( const QModelIndex& index)
 {
-    vider ("Titres");
+    vider ( "Titres" );
     afficherInfosTitre();
 }
+
 void OngletMP3::on_Categories_currentRowChanged(int currentRow)
 {
     affichageartistes();
