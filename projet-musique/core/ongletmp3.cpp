@@ -73,6 +73,9 @@ void OngletMP3::on_AlbumsTitres_clicked( const QModelIndex& index)
 {
     vider ( "Titres" );
     afficherInfosTitre();
+
+    const QString titre( index.data( Qt::UserRole ).toString() );
+    m_playlistManager->setTitre( titre );
 }
 
 void OngletMP3::on_Categories_currentRowChanged(int currentRow)

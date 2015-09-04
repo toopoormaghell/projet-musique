@@ -18,11 +18,15 @@ public:
     PlaylistManager();
     virtual ~PlaylistManager();
 
+    void setTitre( QString const& titre );
+
 
 
 private:
     // Objet Qt gerant une playlist
     QScopedPointer<QMediaPlaylist> m_playlist;
+    // Titre selectionné
+    QString m_titre;
 };
 
 
