@@ -8,7 +8,7 @@
 #include "QDebug"
 #include <QStandardItemModel>
 #include <algorithm>
-#include "lecteurvue.h"
+#include "lecteurmodele.h"
 #include <time.h>
 #include <QFile>
 #include <QFileInfo>
@@ -20,9 +20,9 @@ OngletMP3::OngletMP3(QWidget *parent) :
     m_albumtitres(new QStandardItemModel),
     m_lignestitres(0),
     m_artistes(new QStandardItemModel),
-    m_colonnetitre(0),
-    m_player(new LecteurVue)
+    m_colonnetitre(0)
   , m_playlistManager( new PlaylistManager )
+  , m_player( new LecteurModele )
 {
     ui->setupUi(this);
     afficherListeType();
@@ -34,6 +34,9 @@ OngletMP3::OngletMP3(QWidget *parent) :
     ui->widget->setParentTab(*this);
 
     connect(ui->ArtistesAnnees->selectionModel(),SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),this,SLOT(on_ArtistesAnnees_clicked(QModelIndex)));
+
+    // Le modèle récupère la GUI pour se connecter aux signaux
+    m_player->setGui( *ui->widget );
 }
 OngletMP3::~OngletMP3()
 {

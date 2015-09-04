@@ -4,7 +4,7 @@
 #include <QWidget>
 #include "bddaffichermp3.h"
 #include <QStandardItemModel>
-#include "lecteurvue.h"
+#include "lecteurmodele.h"
 #include <QScopedPointer>
 class PlaylistManager;
 
@@ -55,7 +55,8 @@ private:
 
     // Manager de playlist, commun a toute l'application
     QScopedPointer<PlaylistManager> m_playlistManager;
-    LecteurVue* m_player;
+    // Lecteur de MP3 disponible dans l'onglet
+    QScopedPointer<LecteurModele> m_player;
 };
 
 #endif // ONGLETMP3_H

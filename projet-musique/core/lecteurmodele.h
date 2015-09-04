@@ -15,10 +15,14 @@ public:
     explicit LecteurModele( QObject* parent = 0 );
     virtual ~LecteurModele();
 
+    // Permet de modifier la GUI liee au modele
+    void setGui( const LecteurVue& gui );
+
 
 
 private:
-    LecteurVue* m_vue;
+    // GUI du lecteur
+    LecteurVue const* m_vue;
 };
 
 
