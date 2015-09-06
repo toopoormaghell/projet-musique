@@ -191,7 +191,6 @@ QMap<QString,QString> RechercheURL::Requete(QStringList attributs)
     QObject::connect(&theOAuthSingleton, SIGNAL(finished( QByteArray )), &loop, SLOT(quit()));
     loop.exec();
     QMap<QString, QString> lecture =   LectureXML(theOAuthSingleton.getResponse());
-
     return lecture;
 
 }
@@ -340,7 +339,10 @@ QMap<QString, QString> RechercheURL::LectureXML(QByteArray fichier)
         case QXmlStreamReader::Characters:
         {
             temp.insert(element,reader.text().toString());
-
+            if ( reader.text().toString()=="Main" || element=="format" )
+            {
+                return temp;
+            }
             break;
         }
         case QXmlStreamReader::StartDocument :  break;
