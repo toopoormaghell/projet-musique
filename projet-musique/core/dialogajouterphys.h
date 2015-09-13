@@ -31,7 +31,7 @@ private slots:
     void on_Supprimer_Titre_clicked();
     void on_pushButton_clicked();
     void on_Ajouter_Titre_clicked();
-    void AjouterTitreManuel();
+    void AjouterTitreManuel(const QString &titre, const QString &duree, const QString &artiste);
 private:
     void recupererEAN();
     void AfficherAlbum();

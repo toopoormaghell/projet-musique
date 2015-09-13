@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Ajouter Un Titre</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
@@ -111,6 +111,12 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>Titre</tabstop>
+  <tabstop>Duree</tabstop>
+  <tabstop>Sauvegarde</tabstop>
+  <tabstop>Artiste</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
