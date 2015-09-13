@@ -9,8 +9,8 @@
 BDDRelation::BDDRelation(const BDDAlbum &album, const BDDArtiste &artiste, const BDDTitre &titre, QObject *parent) :
     QObject(parent),
     m_id(-1),
-    m_id_album(album.m_id),
     m_id_artiste(artiste.m_id),
+    m_id_album(album.m_id),
     m_id_titre(titre.m_id)
 {
 
@@ -44,8 +44,8 @@ BDDRelation *BDDRelation::RecupererRelation(const int id)
 BDDRelation::BDDRelation(const int id, QObject *parent):
     QObject(parent),
     m_id(id),
-    m_id_album(),
     m_id_artiste(),
+    m_id_album(),
     m_id_titre()
 {
     QString queryStr= "SELECT Id_Titre, Id_Album, Id_Artiste FROM Relations WHERE Id_Relation='"+QString::number(id)+"'";
@@ -69,7 +69,7 @@ void BDDRelation::ajouterBDD()
 
 }
 
-void BDDRelation::supprimerenBDD() const
+void BDDRelation::supprimerenBDDMP3() const
 {
 
     QString queryStr="SELECT Id_Phys FROM Phys WHERE Id_Album='"+QString::number(m_id_album)+"'";
@@ -79,8 +79,21 @@ void BDDRelation::supprimerenBDD() const
     if (!query.first())
     {
 
-             madatabase.exec("DELETE FROM Relations WHERE Id_Relation='"+QString::number(m_id)+"'");
+        madatabase.exec("DELETE FROM Relations WHERE Id_Relation='"+QString::number(m_id)+"'");
     }
 
+}
+void BDDRelation::supprimerenBDDPhys() const
+{
+
+    QString queryStr="SELECT Id_Mp3 FROM MP3 WHERE Id_Relation='"+QString::number(m_id)+"'";
+
+    QSqlQuery query = madatabase.exec(queryStr);
+
+    if (!query.first())
+    {
+
+        madatabase.exec("DELETE FROM Relations WHERE Id_Relation='"+QString::number(m_id)+"'");
+    }
 
 }

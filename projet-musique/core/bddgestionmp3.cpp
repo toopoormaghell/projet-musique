@@ -37,10 +37,12 @@ void BDDGestionMp3::init()
 
     m_iteration = 0;
     QTimer::singleShot(0, this, SLOT( step() ) );
+
 }
 
 void BDDGestionMp3::step()
 {
+
     m_pourcentage = m_iteration*100/m_filelist.count();
     emit pourcentage();
     if (m_iteration <  m_filelist.count())
@@ -58,20 +60,17 @@ void BDDGestionMp3::step()
         QTimer::singleShot(0, this, SLOT( step() ) );
     } else
     {
+
         emit fin();
         supprimerAnciensMP3();
-        if ( !m_Categories.empty() )
-            QTimer::singleShot(0, this, SLOT( init() ) );
-        else
-        {
 
-        }
     }
 }
 
 void BDDGestionMp3::stop_clique()
 {
     m_iteration=m_filelist.count();
+    m_type = m_Categories[m_Categories.count()-1];
 }
 void BDDGestionMp3::listeCategoriesActualiser()
 {
@@ -97,6 +96,7 @@ QString BDDGestionMp3::dossiercategorie()
     case (1): return getdossierpardef();break;
     case (2): return "F:/Compil";break;
     case (3): return "F:/Live";break;
+    default: return "";break;
     }
 }
 void BDDGestionMp3::creerfilefichiers()
@@ -146,7 +146,7 @@ void BDDGestionMp3::actualiserMp3(QString chemin)
     int dureesec=f.audioProperties()->length();
     int min=dureesec/60;
     int sec=dureesec%60;
-    SousCatParChemin(artist,chemin);
+    SousCatParChemin(chemin);
 
     //On ajoute en BDD
 
@@ -161,13 +161,14 @@ void BDDGestionMp3::actualiserMp3(QString chemin)
 
     if ( m_Chemins.find( mp3.m_id ) != m_Chemins.end() )
     {
-        m_Chemins.remove(mp3.m_id);
+        m_Chemins[mp3.m_id][1]="trouve";
+
     }
 }
 
 void BDDGestionMp3::supprimerAnciensMP3 ( )
 {
-    iterateur= m_Chemins.constBegin();
+    m_iterateur= m_Chemins.constBegin();
 
     m_iteration = 0;
 
@@ -175,19 +176,22 @@ void BDDGestionMp3::supprimerAnciensMP3 ( )
 }
 void BDDGestionMp3::supprstep()
 {
-    if ( iterateur!=m_Chemins.constEnd())
+    if ( m_iterateur!=m_Chemins.constEnd())
     {
         try
         {
             m_pourcentage = m_iteration*100/m_Chemins.count();
-            emit pourcentage();
-            int cle = iterateur.key ();
 
-            SupprimerenBDDMP3(cle);
+            int cle = m_iterateur.key ();
+
+            if (m_Chemins[cle][1]!="trouve")
+            {
+                emit pourcentage();
+                SupprimerenBDDMP3(cle);
+            }
             m_iteration++;
             m_Chemins.remove(cle);
-            iterateur=m_Chemins.constBegin();
-
+            m_iterateur=m_Chemins.constBegin();
         }
         catch ( std::bad_alloc& e )
         {
@@ -196,7 +200,13 @@ void BDDGestionMp3::supprstep()
         QTimer::singleShot(0, this, SLOT( supprstep() ) );
     } else
     {
-        BDDSingleton::getInstance().supprimerdossiersvides();
+
+        if ( !m_Categories.empty() )
+            QTimer::singleShot(0, this, SLOT( init() ) );
+        else
+        {
+            BDDSingleton::getInstance().supprimerdossiersvides();
+        }
     }
 }
 void BDDGestionMp3::recupererMp3(int Type)
@@ -204,6 +214,11 @@ void BDDGestionMp3::recupererMp3(int Type)
     QMap < int, QStringList > Chemins;
 
     QString queryStri = "Select Id_MP3, Chemin FROM MP3 WHERE Categorie='"+QString::number(Type)+"'";
+    if(Type==1)
+    {
+        queryStri = "Select Id_MP3, Chemin FROM MP3 WHERE Categorie NOT IN(2)";
+    }
+
     QSqlQuery  query =  madatabase.exec(queryStri);
 
     while ( query.next() ) {
@@ -218,6 +233,7 @@ void BDDGestionMp3::recupererMp3(int Type)
 
     }
     m_Chemins= Chemins;
+
 }
 QString BDDGestionMp3::getdossierpardef()
 {
@@ -229,8 +245,9 @@ QString BDDGestionMp3::getdossierpardef()
     return rec.value("Valeur").toString();
 
 }
-void BDDGestionMp3::SousCatParChemin(TagLib::String &artist, QString chemin)
+void BDDGestionMp3::SousCatParChemin( QString chemin)
 {
+
     if (chemin.contains("BOF"))
     {
         m_souscat = 4;
@@ -290,7 +307,7 @@ void BDDGestionMp3::SupprimerenBDDMP3(int Id)
 }
 void BDDGestionMp3::ViderBDD()
 {
-//QList<int> cate= BDDType::NbCategories();
+    //QList<int> cate= BDDType::NbCategories();
     recupererMp3(1);
     supprimerAnciensMP3();
 }

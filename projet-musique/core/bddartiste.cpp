@@ -23,7 +23,7 @@ BDDArtiste::BDDArtiste( const QString& artiste, const BDDPoch& pochette, QObject
 BDDArtiste::~BDDArtiste()
 {
     if ( m_isPochetteSelfCreated )
-        delete m_pochette;
+            delete m_pochette;
 }
 
 void BDDArtiste::recupererId()
@@ -158,4 +158,10 @@ void BDDArtiste::ChoisirArtisteEchange(QString& nom)
             nom=rec.value("Artiste").toString();
         }
     }
+}
+
+void BDDArtiste::deleteArtiste()
+{
+    delete m_pochette;
+
 }

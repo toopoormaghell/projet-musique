@@ -20,15 +20,15 @@ public:
     void supprimerenBDD() const;
     static BDDMp3* RecupererMp3(const int id);
 
+    int m_id;
+    BDDRelation const* m_relation;
     BDDAlbum const* m_album;
     BDDArtiste const* m_artiste;
     BDDTitre const* m_titre;
-    QString m_chemin;
-    int m_id;
-    BDDRelation const* m_relation;
     BDDType const* m_type;
+    QString m_chemin;
 
-   static BDDMp3* RecupererMp3ParChemin( QString &chemin);
+    static BDDMp3* RecupererMp3ParChemin( QString &chemin);
 private:
     // Indique que les membres ont été créés par RecupererMp3 et doivent donc être détruits explicitement
     bool m_membersAreSelfCreated;

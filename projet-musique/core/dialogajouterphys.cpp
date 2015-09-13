@@ -10,7 +10,7 @@
 DialogAjouterPhys::DialogAjouterPhys(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogAjouterPhys),
-    m_ajouttitre(this)
+    m_ajouttitre(0,this)
 {
     m_Type=1;
 
@@ -36,7 +36,7 @@ void DialogAjouterPhys::on_ChercherEAN_clicked()
     //On vérifie qu'il y a bien 13 caractères
     while (m_EAN.count()!=13)
     {
-      m_EAN="0"+m_EAN;
+        m_EAN="0"+m_EAN;
     }
     m_album = m_rech.RequeteAlbums(m_EAN,m_Type);
     AfficherAlbum();
@@ -180,13 +180,23 @@ void DialogAjouterPhys::on_pushButton_clicked()
 
 void DialogAjouterPhys::on_Ajouter_Titre_clicked()
 {
-    m_ajouttitre.exec();
-    AjouterTitreManuel();
+    SousDialogAjoutTitre toto( m_Type, this );
+    connect(&toto,SIGNAL(enregistr(QString, QString, QString)),this,SLOT(AjouterTitreManuel(QString, QString, QString)));
+    int retVal = toto.exec();
+    if( ( retVal == QDialog::Accepted ) && !toto.m_Titre.isEmpty() )
+    {
+        AjouterTitreManuel(toto.m_Titre, toto.m_Duree, toto.m_Artiste );
+    }
+//    m_ajouttitre.exec();
+//    if(  m_ajouttitre.m_Titre!=NULL)
+//    {
+//        AjouterTitreManuel();
+//    }
 }
-void DialogAjouterPhys::AjouterTitreManuel()
+void DialogAjouterPhys::AjouterTitreManuel( const QString& titre, const QString& duree, const QString& artiste )
 {
-    ui->Titres->addItem(m_ajouttitre.m_Titre+"("+m_ajouttitre.m_Duree+")");
-    ui->Artiste_Titres->addItem(m_ajouttitre.m_Artiste);
+    ui->Titres->addItem(titre+"("+duree+")");
+    ui->Artiste_Titres->addItem(artiste);
     listeNumeros();
 
 }

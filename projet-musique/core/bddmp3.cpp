@@ -10,12 +10,12 @@
 BDDMp3::BDDMp3(const QString &Chemin, const BDDRelation &relation, const int &type, QObject *parent):
     QObject( parent),
     m_id(-1),
-    m_titre(),
-    m_artiste(),
-    m_album(),
-    m_chemin(Chemin),
     m_relation(&relation),
+    m_album(),
+    m_artiste(),
+    m_titre(),
     m_type(BDDType::RecupererType(type)),
+    m_chemin(Chemin),
     m_membersAreSelfCreated( false )
 {
     recupererId();
@@ -73,13 +73,15 @@ BDDMp3* BDDMp3::RecupererMp3ParChemin( QString &chemin)
 }
 
 BDDMp3::BDDMp3(const int id, QObject *parent):
+    QObject(parent),
     m_id(id),
-    m_titre(),
-    m_artiste(),
-    m_album(),
-    m_chemin(),
     m_relation(),
-    m_type()
+    m_album(),
+    m_artiste(),
+    m_titre(),
+    m_type(),
+    m_chemin()
+
 {
     QString queryStr="SELECT * FROM MP3 WHERE Id_MP3='"+ QString::number( id ) +"'";
 
@@ -100,13 +102,14 @@ BDDMp3::BDDMp3(const int id, QObject *parent):
     }
 }
 BDDMp3::BDDMp3(const QString &chemin, QObject *parent):
+    QObject(parent),
     m_id(0),
-    m_titre(),
-    m_artiste(),
-    m_album(),
-    m_chemin(chemin),
     m_relation(),
-    m_type()
+    m_album(),
+    m_artiste(),
+    m_titre(),
+    m_type(),
+    m_chemin(chemin)
 {
     m_chemin=m_chemin.replace("'","$");
     QString queryStr="SELECT * FROM MP3 WHERE Chemin='"+ m_chemin +"'";
@@ -135,8 +138,7 @@ void BDDMp3::supprimerenBDD() const
     QString queryStr="DELETE FROM MP3 WHERE Id_MP3='"+QString::number(m_id)+"'";
 
     madatabase.exec(queryStr);
-    m_relation->supprimerenBDD();
-
+    m_relation->supprimerenBDDMP3();
     m_album->supprimerenBDD();
     m_artiste->supprimerenBDD();
     m_titre->supprimerenBDD();

@@ -8,22 +8,22 @@
 #include "bddphys.h"
 #include "bddaffichermp3.h"
 #include "modifieralbumdialog.h"
-#include <QDebug>
+#include "bddgestionphys.h"
 
 OngletPhys::OngletPhys(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::OngletPhys),
-    m_selection(0)
-{
-    ui->setupUi(this);
-    vider("Artiste");
-    afficherListeType();
-    afficherListeArtiste();
-    AfficherArtisteSelectionne();
+    ui(new Ui::OngletPhys)
 
+{
+    m_selection=0;
+    ui->setupUi(this);
+
+    vider("Artiste");
+    afficherListeArtiste();
 }
 void OngletPhys::on_Artistes_currentTextChanged(const QString &arg1)
 {
+    Q_UNUSED(arg1);
     afficherListeAlbum();
     afficherListeCompils();
     afficherListeSingles();
@@ -48,21 +48,15 @@ void OngletPhys::afficherListeArtiste()
             QListWidgetItem* item = new QListWidgetItem;
             QPixmap scaled( QPixmap::fromImage( artiste->m_pochette->m_image ) );
             scaled = scaled.scaled( 150, 150 );
-
             item->setIcon( QIcon( scaled ) );
-
 
             //On s'occupe du nom de l'artiste
             item->setData( Qt::UserRole, artistes[cpt] );
             item->setText( artiste->m_nom );
-
             ui->Artistes->addItem( item );
         }
-
-        delete artiste;
-
+        artiste->deleteArtiste();
     }
-
     ui->Artistes->setCurrentRow(0);
 }
 void OngletPhys::afficherListeAlbum()
@@ -72,7 +66,6 @@ void OngletPhys::afficherListeAlbum()
     //Choix de l'Artiste des Albums à afficher
     QString Artiste=choixArtiste();
 
-
     //Affichage des albums
     QList<int> albums=m_bddInterface.listeAlbums(Artiste);
 
@@ -80,27 +73,20 @@ void OngletPhys::afficherListeAlbum()
 
         BDDAlbum* album= BDDAlbum::RecupererAlbum(albums[cpt]);
 
-
         if (album->m_id>0)
         {
             QListWidgetItem* item = new QListWidgetItem;
             QPixmap scaled( QPixmap::fromImage( album->m_pochette->m_image ) );
-
             item->setIcon( QIcon( scaled ) );
-
 
             //On s'occupe du nom de l'album
             item->setData( Qt::UserRole, albums[cpt] );
             item->setText( QString::number(album->m_annee)+" - "+album->m_nom );
 
             ui->Albums->addItem( item );
-
-
         }
         delete album;
-
     }
-
     ui->Albums->setCurrentRow(1);
 }
 void OngletPhys::afficherListeSingles()
@@ -118,25 +104,19 @@ void OngletPhys::afficherListeSingles()
 
         BDDAlbum* album= BDDAlbum::RecupererAlbum(singles[cpt]);
 
-
         if (album->m_id>0)
         {
             QListWidgetItem* item = new QListWidgetItem;
             QPixmap scaled( QPixmap::fromImage( album->m_pochette->m_image ) );
-
             item->setIcon( QIcon( scaled ) );
-
 
             //On s'occupe du nom de l'album
             item->setData( Qt::UserRole, singles[cpt] );
             item->setText( QString::number(album->m_annee)+" - "+album->m_nom );
 
             ui->Singles->addItem( item );
-
-
         }
         delete album;
-
     }
 }
 
@@ -146,6 +126,7 @@ void OngletPhys::AfficherArtisteSelectionne()
     BDDArtiste* artiste = BDDArtiste::RecupererArtiste( id_artiste.toInt() );
 
     ui->Artiste->setText(artiste->m_nom);
+    delete artiste;
 }
 
 void OngletPhys::afficherListeCompils()
@@ -194,9 +175,11 @@ void OngletPhys::AfficherInfosAlbum(int Type)
 
     }
     m_selection=id.toInt();
-    BDDPhys* phys= BDDPhys::RecupererPhys(m_selection);
-    ui->Annee->setText( QString::number(phys->m_album->m_annee));
+     BDDPhys* phys= BDDPhys::RecupererPhys(m_selection);
+
+  ui->Annee->setText( QString::number(phys->m_album->m_annee));
     ui->NomAlbum->setText(phys->m_album->m_nom);
+
     QPixmap scaled( QPixmap::fromImage( phys->m_album->m_pochette->m_image  ) );
     scaled = scaled.scaled( 150, 150 );
     ui->Pochette->setPixmap(scaled);
@@ -221,6 +204,10 @@ void OngletPhys::AfficherInfosAlbum(int Type)
         ui->Titres->addItem(item);
 
     }
+
+    delete phys;
+
+
 }
 QString OngletPhys::choixAlbum()
 {
@@ -266,10 +253,7 @@ void OngletPhys::vider(QString type)
     {
         ui->Artistes->clear();
     }
-    if (type=="Categories")
-    {
-        ui->Categories->clear();
-    }
+
     if (type=="Albums")
     {
         ui->Albums->clear();
@@ -286,6 +270,7 @@ void OngletPhys::vider(QString type)
 }
 void OngletPhys::on_Albums_itemPressed(QListWidgetItem *item)
 {
+    Q_UNUSED(item);
     ui->Compil->clearSelection();
     ui->Singles->clearSelection();
     vider("Infos");
@@ -295,39 +280,17 @@ void OngletPhys::on_Albums_itemPressed(QListWidgetItem *item)
 
 void OngletPhys::on_Compil_itemPressed(QListWidgetItem *item)
 {
+    Q_UNUSED(item);
     ui->Albums->clearSelection();
     ui->Singles->clearSelection();
     vider("Infos");
     AfficherInfosAlbum(3);
     AfficherArtisteSelectionne();
 }
-void OngletPhys::afficherListeType()
-{
-    ui->Categories->clear();
-
-    QStringList types;
-    types << "Tout" << "0";
-    BDDAfficherMp3 temp;
-
-    types <<temp.RecupererListeTypes("Phys") ;
-
-    QImage image("./Pochettes/def.jpg");
-    for(int cpt=0;cpt<types.count();cpt=cpt+2)
-    {
-        QPixmap scaled( QPixmap::fromImage( image ) );
-        scaled = scaled.scaled( 150, 150 );
-        QListWidgetItem* item = new QListWidgetItem;
-        item->setIcon( QIcon( scaled ) );
-        item->setData(Qt::UserRole,types[cpt+1]);
-        item->setText(types[cpt]);
-
-        ui->Categories->addItem(item);
-    }
-    ui->Categories->setCurrentRow(1);
-}
 
 void OngletPhys::on_Singles_itemPressed(QListWidgetItem *item)
 {
+    Q_UNUSED(item);
     ui->Albums->clearSelection();
     ui->Compil->clearSelection();
     vider("Infos");
@@ -340,4 +303,10 @@ void OngletPhys::on_Modifier_clicked()
     ModifierAlbumDialog modif(m_selection,this);
     modif.exec();
 
+}
+
+void OngletPhys::on_SupprimerAlbum_clicked()
+{
+    BDDGestionPhys temp;
+    temp.SupprimerenBDDPhys(m_selection);
 }

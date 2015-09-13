@@ -12,14 +12,14 @@ class SousDialogAjoutTitre : public QDialog
     Q_OBJECT
 
 public:
-    explicit SousDialogAjoutTitre(QWidget *parent = 0);
+    explicit SousDialogAjoutTitre(int Type, QWidget *parent = 0 );
     ~SousDialogAjoutTitre();
 
     QString m_Duree;
     QString m_Titre;
     QString m_Artiste;
 signals:
-    void enregistr();
+    void enregistr(QString, QString, QString);
 private slots:
     void on_buttonBox_accepted();
 

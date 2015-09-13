@@ -21,8 +21,6 @@ public:
     ~MainWindow();
 
     void ajouterToolbar();
-
-
     void ajouterStatusBar();
 signals:
     void stopper();

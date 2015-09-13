@@ -7,15 +7,16 @@
 
 BDDAlbum::BDDAlbum(const QString& album, const BDDPoch& pochette, int annee, int type, QObject *parent) :
     QObject(parent),
-    m_id(-1),
     m_nom(album),
     m_nomFormate(album),
-    m_type(BDDType::RecupererType(type)),
-    m_pochette( &pochette ),
     m_annee(annee),
+    m_type(BDDType::RecupererType(type)),
+
     m_areTypeAndPochetteSelfCreated( false )
 
 {
+    m_id=-1;
+    m_pochette=&pochette;
     FormaterEntiteBDD( m_nomFormate );
     recupererId();
     if (m_id==-1)
@@ -58,9 +59,9 @@ BDDAlbum::BDDAlbum(const int id, QObject *parent):
     m_id(id),
     m_nom(),
     m_nomFormate(),
-    m_pochette(),
     m_annee(1),
-    m_type()
+    m_type(),
+    m_pochette()
 {
     QString queryStr="SELECT Album,Album_Formate,Id_Pochette, Annee, Type FROM Album WHERE Id_Album='"+ QString::number( id )+"'";
     QSqlQuery query = madatabase.exec( queryStr );
@@ -83,7 +84,7 @@ BDDAlbum* BDDAlbum::RecupererAlbum(const int id)
 void BDDAlbum::ajouterBDD()
 {
     QString queryStr="INSERT INTO Album VALUES (null,'"+ m_nom+ "','" +QString::number(m_pochette->m_id) + "','" + m_nomFormate +"','" + QString::number(m_annee)+"','"+QString::number(m_type->m_id)+"')";
-   QSqlQuery query = madatabase.exec(queryStr);
+    QSqlQuery query = madatabase.exec(queryStr);
 
     m_id=query.lastInsertId().toInt();
 }
@@ -101,5 +102,5 @@ void BDDAlbum::supprimerenBDD() const
         madatabase.exec("DELETE FROM Album WHERE Id_Album='"+QString::number(m_id)+"'");
 
     }
-m_pochette->supprimerenBDD();
+    m_pochette->supprimerenBDD();
 }

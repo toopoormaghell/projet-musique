@@ -16,8 +16,8 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    m_gestionMP3( new BDDGestionMp3 ),
     m_progressbar( new QProgressBar),
+    m_gestionMP3( new BDDGestionMp3 ),
     m_interaction( new QLabel),
     m_dialogajouterphys( NULL),
     m_vidage(this),
@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_dialogajouterphys,SIGNAL(ajout()),this,SLOT(ActualiserOngletPhys()));
     //Si le bouton STOP est cliqué, il renvoie un signal
     connect(stop,SIGNAL(clicked()),m_gestionMP3,SLOT(stop_clique()));
-    }
+}
 void MainWindow::ajouterToolbar()
 {
     QPixmap essai(":/menuIcones/actump3");
@@ -83,7 +83,7 @@ void MainWindow::ajouterStatusBar()
 }
 void MainWindow::stop_clique()
 {
-   emit stopper();
+    emit stopper();
 }
 
 MainWindow::~MainWindow()
@@ -110,7 +110,7 @@ void MainWindow::ViderBDD()
     {
         m_interaction->setText("Suppression entière de la BDD...");
         BDDSingleton::getInstance().viderBDD();
-       m_interaction->setText("Prêt");
+        m_interaction->setText("Prêt");
     } else
     {
         if (m_vidage.Mp3)
@@ -124,9 +124,7 @@ void MainWindow::ViderBDD()
 
 void MainWindow::ActualiserOngletPhys()
 {
-    ui->tab_2->vider("Categories");
     ui->tab_2->vider("Artiste");
-    ui->tab_2->afficherListeType();
     ui->tab_2->afficherListeArtiste();
 }
 void MainWindow::on_actionAjouter_Album_triggered()
@@ -146,7 +144,10 @@ void MainWindow::actionartistesinverses()
 
 void MainWindow::actionBDD()
 {
-
+    m_interaction->clear();
+    m_interaction->setText("Vérification de la BDD...");
+    BDDSingleton::getInstance().verifierBDD();
+    m_interaction->setText("Vérification terminée.");
 }
 
 void MainWindow::actionconfigactu()

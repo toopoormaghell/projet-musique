@@ -61,7 +61,9 @@ HEADERS += \
     vidagebdddialog.h \
     lecteur.h \
     modifieralbumdialog.h \
-    choixalbumphysdialog.h
+    choixalbumphysdialog.h \
+    ongletstats.h \
+    bddstats.h
 
 
 SOURCES += main.cpp \
@@ -91,7 +93,9 @@ SOURCES += main.cpp \
     vidagebdddialog.cpp \
     lecteur.cpp \
     modifieralbumdialog.cpp \
-    choixalbumphysdialog.cpp
+    choixalbumphysdialog.cpp \
+    ongletstats.cpp \
+    bddstats.cpp
 
 FORMS += \
     ongletmp3.ui \
@@ -103,7 +107,8 @@ FORMS += \
     vidagebdddialog.ui \
     lecteur.ui \
     modifieralbumdialog.ui \
-    choixalbumphysdialog.ui
+    choixalbumphysdialog.ui \
+    ongletstats.ui
 
 
 OTHER_FILES += \

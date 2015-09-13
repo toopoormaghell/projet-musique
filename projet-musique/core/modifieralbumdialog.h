@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include "bddgestionphys.h"
-
+#include "util.h"
 
 namespace Ui {
 class ModifierAlbumDialog;
@@ -17,11 +17,22 @@ public:
     explicit ModifierAlbumDialog(int selection,QWidget *parent = 0);
     ~ModifierAlbumDialog();
 
-    void AfficherAlbum();
+private slots:
+    void Supprimer_Titre();
+    void on_buttonBox_accepted();
+
 private:
+    //Affichage des données dans la fenêtre
+    void AfficherAlbum();
+    void ListeNumeros();
+    //Enregistrement des différences
+    void EnregistrerAlbum();
+
+    //Données utilisées dans la classe
     Ui::ModifierAlbumDialog *ui;
     BDDGestionPhys* m_bddinterface;
     int m_selection;
+    AlbumPhys m_album;
 };
 
 #endif // MODIFIERALBUMDIALOG_H

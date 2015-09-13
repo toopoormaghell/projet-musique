@@ -2,11 +2,19 @@
 #include "ui_sousdialogajouttitre.h"
 
 
-SousDialogAjoutTitre::SousDialogAjoutTitre(QWidget *parent) :
+SousDialogAjoutTitre::SousDialogAjoutTitre(int Type, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::SousDialogAjoutTitre)
 {
     ui->setupUi(this);
+    if (Type==2)
+    {
+        ui->Artiste->setHidden(0);
+         ui->label_2->setHidden(0);
+    } else {
+        ui->Artiste->setHidden(1);
+        ui->label_2->setHidden(1);
+    }
 }
 
 SousDialogAjoutTitre::~SousDialogAjoutTitre()
@@ -30,12 +38,12 @@ void SousDialogAjoutTitre::on_buttonBox_clicked(QAbstractButton *button)
     if (ui->buttonBox->standardButton(button) == QDialogButtonBox::Save)
     {
         RecupererDonnees();
-        emit enregistr();
+        emit enregistr(m_Titre, m_Duree, m_Artiste);
     }
 }
 
 void SousDialogAjoutTitre::on_Sauvegarde_clicked()
 {
     RecupererDonnees();
-    emit enregistr();
+    emit enregistr(m_Titre, m_Duree, m_Artiste);
 }

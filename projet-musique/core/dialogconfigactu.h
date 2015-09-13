@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <QAbstractButton>
-#include "bddconfig.h";
+#include "bddconfig.h"
 
 namespace Ui {
 class DialogConfigActu;

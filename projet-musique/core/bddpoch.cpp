@@ -27,6 +27,7 @@ BDDPoch::BDDPoch( const QImage& image, const QString& album, const QString& arti
 
 BDDPoch::~BDDPoch()
 {
+
 }
 QString BDDPoch::creerchemin(const QString& album,const QString& artiste)
 {
@@ -128,7 +129,7 @@ void BDDPoch::supprimerenBDD() const
 
         queryStr =  "DELETE FROM Pochette WHERE Id_Pochette='"+QString::number(m_id)+"'";
         madatabase.exec(queryStr);
-      QFile::remove(m_chemin);
+        QFile::remove(m_chemin);
     }
 
 }

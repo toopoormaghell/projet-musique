@@ -17,6 +17,7 @@ public:
     void creationBase();
     void viderBDD();
     bool removeDir(const QString& dirPath, const bool remove = true, const QString fichier = "def.jpg");
+    void verifierBDD();
     void supprimerdossiersvides();
 private:
     // Constructeur privé : singleton
