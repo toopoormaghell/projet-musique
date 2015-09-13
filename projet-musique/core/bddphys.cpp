@@ -28,10 +28,12 @@ BDDPhys::~BDDPhys()
 {
     if (m_membersAreSelfCreatad)
     {
-        m_titres.clear();
+        m_id=0;
+        m_ean="";
         delete m_artiste;
         delete m_album;
         delete m_type;
+        m_titres.clear();
     }
 }
 
@@ -109,7 +111,8 @@ void BDDPhys::RecupererTitres()
 {
     QString queryStr=" SELECT R.Id_Titre, R.Id_Artiste FROM Relations R,Titre T WHERE R.Id_Album='"+ QString::number(m_album->m_id)+"' AND T.Id_Titre=R.Id_Titre ORDER BY T.Num_Piste";
     QSqlQuery query= madatabase.exec( queryStr );
-    while (query.next() ) {
+    while (query.next() )
+    {
         QSqlRecord rec=query.record();
 
         m_artiste = BDDArtiste::RecupererArtiste(rec.value("Id_Artiste").toInt());

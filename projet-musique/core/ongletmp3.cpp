@@ -172,17 +172,13 @@ void OngletMP3::afficheralbumsettitres()
             if (Cate.toInt()==2)
             {
                 if(cpt%2==0)
-                {
                     m_colonnetitre=0;
-                }
                 else
-                {
                     m_colonnetitre=m_colonnetitre+3;
-                }
-
             }
         }
         delete album;
+
 
     }
     //On retaille tout à la fin
