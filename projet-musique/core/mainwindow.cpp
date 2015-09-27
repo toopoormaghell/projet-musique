@@ -134,7 +134,7 @@ void MainWindow::on_actionAjouter_Album_triggered()
 
 void MainWindow::actionExporter()
 {
-
+BDDAfficherPhys::exporterHTML();
 }
 
 void MainWindow::actionartistesinverses()

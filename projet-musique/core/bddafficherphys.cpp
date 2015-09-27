@@ -49,6 +49,51 @@ QList<int> BDDAfficherPhys::listeSingles(QString Id_Artiste)
     }
     return albums;
 }
+
+void BDDAfficherPhys::exporterHTML()
+{
+    QStringList albart=ListeAlbumSauvegarde();
+
+    QString chemin = "F:/Tout.html";
+    //Récupère le fichier et l'ouvre avec lecture lignes par lignes
+    QString fileName = chemin;
+    QFile fichier(fileName);
+    fichier.open(QIODevice::WriteOnly | QIODevice::Text);
+    // Création d'un objet QTextStream à partir de notre objet QFile
+    QTextStream flux(&fichier);
+    // On choisit le codec correspondant au jeu de caractère que l'on souhaite ; ici, UTF-8
+    flux << "<Table>";
+    int compcouleur= 0;
+    for(int cpt=0;cpt<albart.count();cpt=cpt+2)
+    {
+        if (compcouleur%2==0)
+        {
+            flux << "<tr bgcolor='beige'><td>" << QString::number((cpt/2)+1).rightJustified(3,'0') << "</td><td>"<< albart[cpt+1]<<"</td><td>"  << albart[cpt] << "</td></tr>"<< endl;
+        } else
+        {
+            flux << "<tr bgcolor='coral'><td>" << QString::number(cpt/2+1).rightJustified(3,'0') << "</td><td>"<< albart[cpt+1]<<"</td><td>"  << albart[cpt] << "</td></tr>"<< endl;
+        }
+        compcouleur++;
+    }
+    flux << "</Table>";
+}
+QStringList BDDAfficherPhys::ListeAlbumSauvegarde()
+{
+    QStringList albart;
+
+
+    QString QueryStr="SELECT DISTINCT Al.Album, Ar.Artiste FROM Phys P,Album Al, Artiste Ar, Relations R WHERE P.Id_Album=R.Id_Album AND R.Id_Album=Al.Id_Album AND R.Id_Artiste = Ar.Id_Artiste ORDER BY Ar.Artiste";
+    QSqlQuery query=madatabase.exec(QueryStr);
+
+    while(query.next())
+    {
+        QSqlRecord rec=query.record();
+        albart << rec.value("Album").toString().replace("$","'") << rec.value("Artiste").toString().replace("$","'");
+    }
+    return albart;
+
+}
+
 QList<int> BDDAfficherPhys::listeCompils(QString Id_Artiste)
 {
     QList<int> albums;
