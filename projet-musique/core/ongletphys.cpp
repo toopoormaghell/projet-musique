@@ -9,7 +9,7 @@
 #include "bddaffichermp3.h"
 #include "modifieralbumdialog.h"
 #include "bddgestionphys.h"
-
+#include "modificationartistedialog.h"
 OngletPhys::OngletPhys(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::OngletPhys)
@@ -175,9 +175,9 @@ void OngletPhys::AfficherInfosAlbum(int Type)
 
     }
     m_selection=id.toInt();
-     BDDPhys* phys= BDDPhys::RecupererPhys(m_selection);
+    BDDPhys* phys= BDDPhys::RecupererPhys(m_selection);
 
-  ui->Annee->setText( QString::number(phys->m_album->m_annee));
+    ui->Annee->setText( QString::number(phys->m_album->m_annee));
     ui->NomAlbum->setText(phys->m_album->m_nom);
 
     QPixmap scaled( QPixmap::fromImage( phys->m_album->m_pochette->m_image  ) );
@@ -309,4 +309,15 @@ void OngletPhys::on_SupprimerAlbum_clicked()
 {
     BDDGestionPhys temp;
     temp.SupprimerenBDDPhys(m_selection);
+}
+
+void OngletPhys::on_Artistes_doubleClicked(const QModelIndex &index)
+{
+    Q_UNUSED(index);
+    int choix = choixArtiste().toInt();
+    BDDArtiste* artiste = BDDArtiste::RecupererArtiste(choix);
+    ModificationArtisteDialog temp(artiste,this);
+    temp.exec();
+    vider("Artiste");
+    afficherListeArtiste();
 }

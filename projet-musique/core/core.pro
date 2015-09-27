@@ -63,7 +63,8 @@ HEADERS += \
     modifieralbumdialog.h \
     choixalbumphysdialog.h \
     ongletstats.h \
-    bddstats.h
+    bddstats.h \
+    modificationartistedialog.h
 
 
 SOURCES += main.cpp \
@@ -95,7 +96,8 @@ SOURCES += main.cpp \
     modifieralbumdialog.cpp \
     choixalbumphysdialog.cpp \
     ongletstats.cpp \
-    bddstats.cpp
+    bddstats.cpp \
+    modificationartistedialog.cpp
 
 FORMS += \
     ongletmp3.ui \
@@ -108,7 +110,8 @@ FORMS += \
     lecteur.ui \
     modifieralbumdialog.ui \
     choixalbumphysdialog.ui \
-    ongletstats.ui
+    ongletstats.ui \
+    modificationartistedialog.ui
 
 
 OTHER_FILES += \

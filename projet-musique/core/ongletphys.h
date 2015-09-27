@@ -41,6 +41,8 @@ private slots:
 
     void on_SupprimerAlbum_clicked();
 
+    void on_Artistes_doubleClicked(const QModelIndex &index);
+
 private:
     Ui::OngletPhys *ui;
     BDDAfficherPhys m_bddInterface;
