@@ -4,7 +4,7 @@
 #include <QDialog>
 #include "util.h"
 #include "rechercheurl.h"
-#include "sousdialogajouttitre.h"
+
 namespace Ui {
 class DialogAjouterPhys;
 }
@@ -42,7 +42,7 @@ private:
     AlbumPhys m_album;
     RechercheURL m_rech;
     QString m_affichage;
-    SousDialogAjoutTitre m_ajouttitre;
+
 
     void RecupererAlbum();
     void listeNumeros();

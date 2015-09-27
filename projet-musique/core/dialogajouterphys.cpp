@@ -9,8 +9,8 @@
 
 DialogAjouterPhys::DialogAjouterPhys(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::DialogAjouterPhys),
-    m_ajouttitre(0,this)
+    ui(new Ui::DialogAjouterPhys)
+
 {
     m_Type=1;
 
@@ -19,7 +19,7 @@ DialogAjouterPhys::DialogAjouterPhys(QWidget *parent) :
 
     connect(&m_rech,SIGNAL(test()),this,SLOT(AfficheInteraction()));
     connect(ui->buttonGroup, SIGNAL(buttonClicked(int)), this, SLOT(AffichageListeArtistes(int))) ;
-    connect(&m_ajouttitre,SIGNAL(enregistr()),this,SLOT(AjouterTitreManuel()));
+
 }
 DialogAjouterPhys::~DialogAjouterPhys()
 {
@@ -107,8 +107,8 @@ void DialogAjouterPhys::on_ViderAlbum_clicked()
 void DialogAjouterPhys::RecupererAlbum()
 {
     m_album.titres.clear();
-    m_album.Album= ui->Nom_Album->text();
-    m_album.Artiste=ui->Nom_Artiste->text();
+    m_album.Album= ui->Nom_Album->text().replace("'","$");
+    m_album.Artiste=ui->Nom_Artiste->text().replace("'","$");
     m_album.Annee=ui->Annee->text().toInt();
     m_album.Type = m_Type;
 
