@@ -69,7 +69,7 @@ void OngletMP3::on_ArtistesAnnees_clicked(const QModelIndex &index)
 }
 void OngletMP3::on_AlbumsTitres_clicked(const QModelIndex &index)
 {
-     Q_UNUSED(index);
+    Q_UNUSED(index);
     vider ("Titres");
     afficherInfosTitre();
 }
@@ -134,21 +134,24 @@ void OngletMP3::afficheralbumsettitres()
     m_albumtitres.setRowCount(albums.count()*6);
     m_albumtitres.setColumnCount(1);
 
-    for (int cpt=0;cpt<albums.count();cpt++) {
+    for (int cpt=0;cpt<albums.count();cpt++)
+    {
         //Pour chaque album...
         BDDAlbum* album= BDDAlbum::RecupererAlbum(albums[cpt]);
 
         if (album->m_id>0)
         {
-            if ( cpt > 0 )
+            if ( (Cate.toInt()!=2 && cpt > 0) || ( Cate.toInt()==2 && cpt%2==0 && cpt > 0 ) )
             {
+
                 // Ajout d'une ligne de séparation
                 QStandardItem* item= new QStandardItem;
                 item->setBackground( Qt::black );
                 m_albumtitres.setItem(m_lignestitres,0,item);
-                ui->AlbumsTitres->setSpan(m_lignestitres,m_colonnetitre,1,3);
+                ui->AlbumsTitres->setSpan(m_lignestitres,m_colonnetitre,1,6);
                 ui->AlbumsTitres->setRowHeight( m_lignestitres, 1 );
                 m_lignestitres++;
+
             }
 
             QStandardItem* item= new QStandardItem;
@@ -169,17 +172,26 @@ void OngletMP3::afficheralbumsettitres()
             m_albumtitres.setItem(m_lignestitres+4,m_colonnetitre,item);
             //On appelle la fonction chargée d'afficher les titres
             afficherTitresAlbum(QString::number(album->m_id),Cate,m_lignestitres);
-            if (Cate.toInt()==2)
+            if (Cate.toInt()==2 )
             {
-                if(cpt%2==0)
+                if(cpt%2==1 && cpt>0)
+                {
                     m_colonnetitre=0;
+                    m_lignestitres += 6;
+                }
                 else
-                    m_colonnetitre=m_colonnetitre+3;
+                {
+                    m_colonnetitre=3;
+                }
             }
         }
         delete album;
 
 
+    }
+    if (Cate.toInt()==2)
+    {
+        m_albumtitres.setColumnCount(6);
     }
     //On retaille tout à la fin
     m_albumtitres.setRowCount(m_lignestitres);
@@ -210,10 +222,11 @@ void OngletMP3::afficherTitresAlbum(QString Album,QString Cate,int row)
         ligne++;
         if (ligne==maxlignes)
         {
-            ligne=0;col++;
+            ligne=0;
+            col++;
         }
     }
-    if (Cate.toInt()!=2||m_colonnetitre!=3)
+    if (Cate.toInt()!=2/*||m_colonnetitre!=3*/)
     {
         m_lignestitres=std::max(row+5,row+maxlignes);
     }
@@ -355,7 +368,7 @@ QString OngletMP3::artisteLecteur() const
 
 void OngletMP3::on_AlbumsTitres_doubleClicked(const QModelIndex &index)
 {
-     Q_UNUSED(index);
+    Q_UNUSED(index);
     BDDMp3* mp3 = BDDMp3::RecupererMp3( choixMp3().toInt() );
     QFileInfo fich(mp3->m_chemin);
     QString nouvelemplacementchemin= "C:\\Users\\Nico\\Desktop\\Nouveau Dossier\\"+fich.fileName();

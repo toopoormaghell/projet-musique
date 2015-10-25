@@ -16,6 +16,8 @@ public:
     QList<int> listeSingles(QString Id_Artiste);
     static void exporterHTML();
     static QStringList ListeAlbumSauvegarde();
+    QStringList ListeTitresPossibles();
+    QStringList ListeArtistesPossibles();
 signals:
 
 public slots:

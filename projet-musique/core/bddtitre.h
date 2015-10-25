@@ -2,7 +2,7 @@
 #define BDDTITRE_H
 
 #include <QObject>
-
+class BDDArtiste;
 class BDDTitre : public QObject
 {
     Q_OBJECT
@@ -21,6 +21,7 @@ public:
     QString m_duree;
     bool m_mp3etphys;
     QList<int> Similaires(const int id);
+    BDDArtiste const* m_artiste;
 private:
     void ajouterBDD();
     void recupererId();

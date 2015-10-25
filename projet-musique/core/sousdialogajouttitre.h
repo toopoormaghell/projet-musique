@@ -31,6 +31,8 @@ private:
     Ui::SousDialogAjoutTitre *ui;
 
     void RecupererDonnees();
+    void AjouterListeTitres();
+    void AjouterListeArtistes();
 };
 
 #endif // SOUSDIALOGAJOUTTITRE_H
