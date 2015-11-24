@@ -312,7 +312,7 @@
            <item>
             <widget class="QLabel" name="Mp3Phys">
              <property name="styleSheet">
-              <string notr="true">color: #E3FF0B;</string>
+              <string notr="true">color: #182995;</string>
              </property>
              <property name="text">
               <string/>
