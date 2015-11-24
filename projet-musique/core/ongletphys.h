@@ -38,7 +38,6 @@ private slots:
     void on_Compil_itemPressed(QListWidgetItem *item);
     void on_Singles_itemPressed(QListWidgetItem *item);
     void on_Modifier_clicked();
-
     void on_SupprimerAlbum_clicked();
 
     void on_Artistes_doubleClicked(const QModelIndex &index);
@@ -46,6 +45,10 @@ private slots:
 private:
     Ui::OngletPhys *ui;
     BDDAfficherPhys m_bddInterface;
+    QString m_artiste;
+    int m_Albums;
+    int m_Compils;
+    int m_Singles;
 
 };
 
