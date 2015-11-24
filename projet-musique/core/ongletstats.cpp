@@ -69,4 +69,5 @@ void OngletStats::AfficherInfosCategoriesPhys()
     ui->NbPhysAlbum->setText("<dd>Albums : "+QString::number(m_bddInterface.NbPhysCategorie(1)));
     ui->NbPhysCompil->setText("<dd>Singles : "+QString::number(m_bddInterface.NbPhysCategorie(3)));
     ui->NbPhysSingle->setText("<dd>Compils : "+QString::number(m_bddInterface.NbPhysCategorie(2)));
+    ui->Nb_Chansons->setText("Nombre de chansons : "+QString::number(m_bddInterface.NbChansonsPhys()));
 }

@@ -57,4 +57,15 @@ int bddstats::NbPhysCategorie(int type)
     }
     return -1;
 }
+int bddstats::NbChansonsPhys()
+{
+    QString queryStr="SELECT COUNT(R.Id_Relation)AS 'Nb' FROM Phys P, Relations R  WHERE R.Id_Album = P.Id_Album";
+    QSqlQuery query= madatabase.exec(queryStr);
 
+    if(query.first()) {
+        QSqlRecord rec=query.record();
+
+        return rec.value("Nb").toInt();
+    }
+    return -1;
+}

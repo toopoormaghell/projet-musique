@@ -14,11 +14,11 @@ class OngletStats : public QWidget
 public:
     explicit OngletStats(QWidget *parent = 0);
     ~OngletStats();
-
+  void AfficherInfos();
 private:
     Ui::OngletStats *ui;
     bddstats m_bddInterface;
-    void AfficherInfos();
+
     void AfficherInfosCategoriesMP3();
     void AfficherInfosCategoriesPhys();
 };

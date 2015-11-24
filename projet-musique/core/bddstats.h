@@ -12,6 +12,7 @@ int NbMp3Total();
 int NbPhysTotal();
 int NbMp3Categorie(int type);
 int NbPhysCategorie(int type);
+int NbChansonsPhys();
 signals:
 
 public slots:
