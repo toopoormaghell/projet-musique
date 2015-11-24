@@ -15,12 +15,10 @@ public:
     QList<int> listeCompils(QString Id_Artiste);
     QList<int> listeSingles(QString Id_Artiste);
     static void exporterHTML();
-    static QStringList ListeAlbumSauvegarde();
+    static QStringList ListeAlbumSauvegarde(int Cate);
     QStringList ListeTitresPossibles();
     QStringList ListeArtistesPossibles();
-signals:
 
-public slots:
 
 };
 

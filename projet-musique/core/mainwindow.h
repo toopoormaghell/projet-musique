@@ -34,7 +34,7 @@ private slots:
     void actionBDD();
     void actionconfigactu();
     void ViderBDD();
-
+  void ActualiserOngletStats();
     void changerPourcentage();
     void ActualiserOngletMP3();
     void ActualiserOngletPhys();
@@ -47,6 +47,7 @@ private:
     DialogAjouterPhys* m_dialogajouterphys;
     VidageBDDDialog m_vidage;
     QPushButton *stop;
+
 };
 
 #endif // MAINWINDOW_H
