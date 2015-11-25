@@ -90,7 +90,7 @@ QByteArray kQOAuthSingleton::getResponse() const
 
 void kQOAuthSingleton::onRequestReady(QByteArray response)
 {
-//    qDebug() << "Response from the service: " << response;
+    qDebug() << "Response from the service: " << response;
     m_reponse = response;
     emit finished( response );
 }
