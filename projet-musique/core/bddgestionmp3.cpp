@@ -61,7 +61,6 @@ void BDDGestionMp3::step()
     } else
     {
 
-        emit fin();
         supprimerAnciensMP3();
 
     }
@@ -180,6 +179,7 @@ void BDDGestionMp3::supprstep()
     {
         try
         {
+
             m_pourcentage = m_iteration*100/m_Chemins.count();
 
             int cle = m_iterateur.key ();
@@ -205,6 +205,7 @@ void BDDGestionMp3::supprstep()
             QTimer::singleShot(0, this, SLOT( init() ) );
         else
         {
+            emit fin();
             BDDSingleton::getInstance().supprimerdossiersvides();
         }
     }
@@ -300,14 +301,22 @@ QImage BDDGestionMp3::ImageAlbum(const TagLib::FileRef &f)
 }
 void BDDGestionMp3::SupprimerenBDDMP3(int Id)
 {
+    qDebug() << QString::number(Id);
     BDDMp3* mp3 = BDDMp3::RecupererMp3(Id);
+
     m_fichierlu = "Suppression de ..."+mp3->m_chemin;
+    qDebug() << m_fichierlu;
     mp3->supprimerenBDD();
     mp3->~BDDMp3();
 }
 void BDDGestionMp3::ViderBDD()
 {
-    //QList<int> cate= BDDType::NbCategories();
-    recupererMp3(1);
-    supprimerAnciensMP3();
+    QList<int> tempCat = BDDType::NbCategories();
+
+    for ( int i=0;tempCat.count();i++)
+    {
+        recupererMp3(tempCat[i]);
+        if (m_Chemins.isEmpty())
+            supprimerAnciensMP3();
+    }
 }
