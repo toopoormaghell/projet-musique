@@ -6,6 +6,7 @@
 #include "rechercheurl.h"
 #include <QFileDialog>
 #include "sousdialogajouttitre.h"
+#include "bddaffichermp3.h"
 
 DialogAjouterPhys::DialogAjouterPhys(QWidget *parent) :
     QDialog(parent),
@@ -17,10 +18,29 @@ DialogAjouterPhys::DialogAjouterPhys(QWidget *parent) :
     ui->setupUi(this);
     AffichageListeArtistes(-2);
 
+    AjoutConnex();
+}
+DialogAjouterPhys::DialogAjouterPhys(QString id_album, QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::DialogAjouterPhys)
+
+{
+    m_Type=1;
+
+    ui->setupUi(this);
+    AffichageListeArtistes(-2);
+
+    BDDAfficherMp3 temp;
+    m_album = temp.RecupererAlbumMp3(id_album);
+    AfficherAlbum();
+    AjoutConnex();
+}
+void DialogAjouterPhys::AjoutConnex()
+{
     connect(&m_rech,SIGNAL(test()),this,SLOT(AfficheInteraction()));
     connect(ui->buttonGroup, SIGNAL(buttonClicked(int)), this, SLOT(AffichageListeArtistes(int))) ;
-
 }
+
 DialogAjouterPhys::~DialogAjouterPhys()
 {
     delete ui;
@@ -187,11 +207,11 @@ void DialogAjouterPhys::on_Ajouter_Titre_clicked()
     {
         AjouterTitreManuel(toto.m_Titre, toto.m_Duree, toto.m_Artiste );
     }
-//    m_ajouttitre.exec();
-//    if(  m_ajouttitre.m_Titre!=NULL)
-//    {
-//        AjouterTitreManuel();
-//    }
+    //    m_ajouttitre.exec();
+    //    if(  m_ajouttitre.m_Titre!=NULL)
+    //    {
+    //        AjouterTitreManuel();
+    //    }
 }
 void DialogAjouterPhys::AjouterTitreManuel( const QString& titre, const QString& duree, const QString& artiste )
 {

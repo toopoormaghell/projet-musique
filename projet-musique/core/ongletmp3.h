@@ -5,6 +5,8 @@
 #include "bddaffichermp3.h"
 #include <QStandardItemModel>
 #include "lecteur.h"
+#include <QAbstractButton>
+
 namespace Ui {
 class OngletMP3;
 }
@@ -26,6 +28,7 @@ public:
     void afficherInfosTitre();
     void Similaires(int id);
     void vider(QString Type);
+    void afficherAlbumSelectionne();
 
     //Concerne la récupération des infos sélectionnées par l'utilisateur
     QString choixArtiste();
@@ -33,12 +36,15 @@ public:
     QString choixCategories();
     int titreLecteur() const;
     QString artisteLecteur() const;
+    QString choixAlbum();
 
 private slots:
     void on_AlbumsTitres_doubleClicked(const QModelIndex &index);
     void on_Categories_currentRowChanged(int currentRow);
     void on_AlbumsTitres_clicked(const QModelIndex &index);
     void on_ArtistesAnnees_clicked(const QModelIndex &index);
+    void on_buttonBox_clicked(QAbstractButton *button);
+
 private:
     Ui::OngletMP3 *ui;
     BDDAfficherMp3 m_bddInterface; //Permet de récupérer les infos de la BDD
@@ -47,6 +53,7 @@ private:
     QStandardItemModel m_artistes;
     int m_colonnetitre;
     Lecteur* m_player;
+
 };
 
 #endif // ONGLETMP3_H

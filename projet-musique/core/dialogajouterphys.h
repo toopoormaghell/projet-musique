@@ -19,6 +19,7 @@ public:
 
     QString m_EAN;
     int m_Type;
+    explicit DialogAjouterPhys(QString id_album, QWidget *parent = 0 );
 signals:
     void ajout();
 public slots:
@@ -46,6 +47,7 @@ private:
 
     void RecupererAlbum();
     void listeNumeros();
+    void AjoutConnex();
 };
 
 #endif // DIALOGAJOUTERPHYS_H

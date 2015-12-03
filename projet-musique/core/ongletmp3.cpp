@@ -12,6 +12,7 @@
 #include <time.h>
 #include <QFile>
 #include <QFileInfo>
+#include "dialogajouterphys.h"
 
 OngletMP3::OngletMP3(QWidget *parent) :
     QWidget(parent),
@@ -61,6 +62,12 @@ QString OngletMP3::choixMp3()
 
     return  index.data(Qt::UserRole).toString();
 }
+QString OngletMP3::choixAlbum()
+{
+    QModelIndex index= ui->AlbumsTitres->currentIndex();
+
+    return  index.data(Qt::UserRole).toString();
+}
 
 void OngletMP3::on_ArtistesAnnees_clicked(const QModelIndex &index)
 {
@@ -69,9 +76,18 @@ void OngletMP3::on_ArtistesAnnees_clicked(const QModelIndex &index)
 }
 void OngletMP3::on_AlbumsTitres_clicked(const QModelIndex &index)
 {
-    Q_UNUSED(index);
-    vider ("Titres");
-    afficherInfosTitre();
+    if (index.column()!=0)
+    {
+        vider ("Titres");
+        afficherInfosTitre();
+        ui->buttonBox->setHidden(true);
+    }
+    else
+    {
+        afficherAlbumSelectionne();
+        ui->buttonBox->setHidden(false);
+
+    }
 }
 void OngletMP3::on_Categories_currentRowChanged(int currentRow)
 {
@@ -159,13 +175,13 @@ void OngletMP3::afficheralbumsettitres()
             QPixmap scaled( QPixmap::fromImage( album->m_pochette->m_image ) );
             item->setIcon( QIcon( scaled ) );
             item->setTextAlignment(Qt::AlignCenter | Qt::AlignBottom);
-
+            item->setData(album->m_id,Qt::UserRole);
             m_albumtitres.setItem(m_lignestitres,m_colonnetitre,item);
             ui->AlbumsTitres->setSpan(m_lignestitres,m_colonnetitre,4,1);
 
             item= new QStandardItem;
             //On s'occupe d'afficher le nom du titre de l'album
-            item->setData( Qt::UserRole, albums[cpt] );
+            item->setData(  album->m_id , Qt::UserRole);
             item->setTextAlignment(Qt::AlignLeft);
             item->setText( QString::number(album->m_annee)+" - "+album->m_nom );
             item->setFlags(  Qt::ItemIsEnabled );
@@ -199,6 +215,13 @@ void OngletMP3::afficheralbumsettitres()
     on_AlbumsTitres_clicked(m_albumtitres.index(0,1));
 
 }
+//AfficherAlbumSelectionne
+void OngletMP3::afficherAlbumSelectionne()
+{
+    QString Album = choixAlbum();
+    qDebug() << Album;
+}
+
 void OngletMP3::afficherTitresAlbum(QString Album,QString Cate,int row)
 {
     int col=1;int ligne=0;
@@ -375,3 +398,10 @@ void OngletMP3::on_AlbumsTitres_doubleClicked(const QModelIndex &index)
     QFile::copy(mp3->m_chemin,nouvelemplacementchemin);
 }
 
+
+void OngletMP3::on_buttonBox_clicked(QAbstractButton *button)
+{
+DialogAjouterPhys ajoutphys(choixAlbum(),this);
+ajoutphys.exec();
+
+}
