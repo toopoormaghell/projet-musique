@@ -54,7 +54,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QListView" name="ArtistesAnnees">
+      <widget class="QListWidget" name="ArtistesAnnees">
        <property name="maximumSize">
         <size>
          <width>16777215</width>
@@ -102,19 +102,9 @@
     </layout>
    </item>
    <item>
-    <widget class="Lecteur" name="widget" native="true">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>45</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
-      <widget class="QTableView" name="AlbumsTitres">
+      <widget class="QTableWidget" name="AlbumsTitres">
        <property name="baseSize">
         <size>
          <width>0</width>
@@ -142,13 +132,22 @@
        <property name="cornerButtonEnabled">
         <bool>false</bool>
        </property>
+       <property name="rowCount">
+        <number>0</number>
+       </property>
        <attribute name="horizontalHeaderVisible">
         <bool>false</bool>
        </attribute>
-       <attribute name="horizontalHeaderDefaultSectionSize">
-        <number>175</number>
+       <attribute name="horizontalHeaderCascadingSectionResizes">
+        <bool>false</bool>
        </attribute>
-       <attribute name="horizontalHeaderHighlightSections">
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>250</number>
+       </attribute>
+       <attribute name="horizontalHeaderMinimumSectionSize">
+        <number>100</number>
+       </attribute>
+       <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
         <bool>false</bool>
        </attribute>
        <attribute name="horizontalHeaderStretchLastSection">
@@ -161,16 +160,13 @@
         <bool>false</bool>
        </attribute>
        <attribute name="verticalHeaderDefaultSectionSize">
-        <number>25</number>
-       </attribute>
-       <attribute name="verticalHeaderHighlightSections">
-        <bool>false</bool>
-       </attribute>
-       <attribute name="verticalHeaderMinimumSectionSize">
         <number>30</number>
        </attribute>
-       <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+       <attribute name="verticalHeaderHighlightSections">
         <bool>true</bool>
+       </attribute>
+       <attribute name="verticalHeaderMinimumSectionSize">
+        <number>23</number>
        </attribute>
       </widget>
      </item>
@@ -396,14 +392,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>Lecteur</class>
-   <extends>QWidget</extends>
-   <header>lecteur.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

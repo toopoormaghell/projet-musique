@@ -175,7 +175,7 @@ void BDDGestionMp3::supprimerAnciensMP3 ( )
 }
 void BDDGestionMp3::supprstep()
 {
-    if ( m_iterateur!=m_Chemins.constEnd())
+    if ( m_iterateur!= m_Chemins.constEnd())
     {
         try
         {
@@ -301,9 +301,8 @@ QImage BDDGestionMp3::ImageAlbum(const TagLib::FileRef &f)
 }
 void BDDGestionMp3::SupprimerenBDDMP3(int Id)
 {
-    qDebug() << QString::number(Id);
-    BDDMp3* mp3 = BDDMp3::RecupererMp3(Id);
 
+    BDDMp3* mp3 = BDDMp3::RecupererMp3(Id);
     m_fichierlu = "Suppression de ..."+mp3->m_chemin;
     qDebug() << m_fichierlu;
     mp3->supprimerenBDD();

@@ -80,7 +80,9 @@ void MainWindow::ajouterStatusBar()
     //Propriétés du widget d'intéraction
     m_interaction->setText("Prêt");
     m_interaction->setMaximumHeight(20);
+ //   m_interaction->setMaximumWidth(700);
 
+  ui->statusBar->adjustSize();
 }
 void MainWindow::stop_clique()
 {

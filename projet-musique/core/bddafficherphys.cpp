@@ -115,9 +115,9 @@ QStringList BDDAfficherPhys::ListeAlbumSauvegarde(int Cate)
 
     switch (Cate)
     {
-    case 1 : QueryStr="SELECT DISTINCT Al.Album, Ar.Artiste FROM Phys P,Album Al, Artiste Ar, Relations R WHERE P.Id_Album=R.Id_Album AND R.Id_Album=Al.Id_Album AND R.Id_Artiste = Ar.Id_Artiste AND P.Categorie='1' ORDER BY Ar.Artiste";break;
+    case 1 : QueryStr="SELECT DISTINCT Al.Album, Ar.Artiste FROM Phys P,Album Al, Artiste Ar, Relations R WHERE P.Id_Album=R.Id_Album AND R.Id_Album=Al.Id_Album AND R.Id_Artiste = Ar.Id_Artiste AND P.Categorie='1' ORDER BY Ar.Artiste, Al.Album";break;
     case 2 : QueryStr="SELECT DISTINCT Al.Album FROM Phys P,Album Al,Relations R WHERE P.Id_Album=R.Id_Album AND R.Id_Album=Al.Id_Album  AND P.Categorie='2' GROUP BY Album ORDER BY Al.Album";break;
-    case 3 :  QueryStr="SELECT DISTINCT Al.Album, Ar.Artiste FROM Phys P,Album Al, Artiste Ar, Relations R WHERE P.Id_Album=R.Id_Album AND R.Id_Album=Al.Id_Album AND R.Id_Artiste = Ar.Id_Artiste AND P.Categorie='3' ORDER BY Ar.Artiste";break;
+    case 3 :  QueryStr="SELECT DISTINCT Al.Album, Ar.Artiste FROM Phys P,Album Al, Artiste Ar, Relations R WHERE P.Id_Album=R.Id_Album AND R.Id_Album=Al.Id_Album AND R.Id_Artiste = Ar.Id_Artiste AND P.Categorie='3' ORDER BY Ar.Artiste, Al.Album";break;
     case 4 : QueryStr = "SELECT DISTINCT Album, Titre, Artiste FROM Phys P,Album Al,Relations R, Titre T, Artiste Ar WHERE P.Id_Album=R.Id_Album AND R.Id_Album=Al.Id_Album  AND P.Categorie='2' AND T.Id_Titre=R.Id_Titre AND Ar.Id_Artiste=R.Id_Artiste GROUP BY Titre ORDER BY Artiste, Titre";break;
     }
 

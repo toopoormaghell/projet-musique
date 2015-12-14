@@ -3,9 +3,9 @@
 
 #include <QWidget>
 #include "bddaffichermp3.h"
-#include <QStandardItemModel>
-#include "lecteur.h"
 #include <QAbstractButton>
+#include <QTableWidgetItem>
+
 
 namespace Ui {
 class OngletMP3;
@@ -30,29 +30,30 @@ public:
     void vider(QString Type);
     void afficherAlbumSelectionne();
 
-    //Concerne la récupération des infos sélectionnées par l'utilisateur
-    QString choixArtiste();
-    QString choixMp3();
-    QString choixCategories();
-    int titreLecteur() const;
-    QString artisteLecteur() const;
-    QString choixAlbum();
-
+    void ActualiserOnglet();
 private slots:
     void on_AlbumsTitres_doubleClicked(const QModelIndex &index);
     void on_Categories_currentRowChanged(int currentRow);
-    void on_AlbumsTitres_clicked(const QModelIndex &index);
-    void on_ArtistesAnnees_clicked(const QModelIndex &index);
-    void on_buttonBox_clicked(QAbstractButton *button);
+     void on_buttonBox_clicked(QAbstractButton *button);
+
+    void on_ArtistesAnnees_currentRowChanged(int currentRow);
+
+    void on_AlbumsTitres_currentItemChanged(QTableWidgetItem *current, QTableWidgetItem *previous);
 
 private:
     Ui::OngletMP3 *ui;
     BDDAfficherMp3 m_bddInterface; //Permet de récupérer les infos de la BDD
-    QStandardItemModel m_albumtitres;
     int m_lignestitres;
-    QStandardItemModel m_artistes;
+
     int m_colonnetitre;
-    Lecteur* m_player;
+
+
+    //Concerne la récupération des infos sélectionnées par l'utilisateur
+    QString m_categorie;
+    QString m_mp3;
+    QString m_album;
+    QString m_artiste;
+    void choix(QString Index);
 
 };
 
