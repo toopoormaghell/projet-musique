@@ -40,6 +40,8 @@ private slots:
 
     void on_AlbumsTitres_currentItemChanged(QTableWidgetItem *current, QTableWidgetItem *previous);
 
+    void on_ArtistesAnnees_doubleClicked(const QModelIndex &index);
+
 private:
     Ui::OngletMP3 *ui;
     BDDAfficherMp3 m_bddInterface; //Permet de récupérer les infos de la BDD
@@ -55,6 +57,7 @@ private:
     QString m_artiste;
     void choix(QString Index);
 
+    void afficherMP3ouAlbum(const QString &MouA);
 };
 
 #endif // ONGLETMP3_H

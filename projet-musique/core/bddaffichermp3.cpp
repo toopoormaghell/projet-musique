@@ -157,7 +157,7 @@ AlbumPhys BDDAfficherMp3::RecupererAlbumMp3(QString id_album)
     }
 
     //On récupère les titres liés à l'album
-    queryStr="SELECT DISTINCT Id_Titre FROM Relations WHERE Id_Album='"+id_album+"'";
+    queryStr="SELECT DISTINCT R.Id_Titre FROM Relations R, Titre T WHERE R.Id_Album='"+id_album+"' AND T.Id_Titre=R.Id_Titre ORDER BY Num_Piste";
 
     query = madatabase.exec( queryStr );
     while ( query.next() )
@@ -171,6 +171,7 @@ AlbumPhys BDDAfficherMp3::RecupererAlbumMp3(QString id_album)
         titre.id = TitreEnCours->m_id;
         titre.Num_Piste = TitreEnCours->m_num_piste;
         titre.Titre = TitreEnCours->m_nom;
+        titre.MP3Phys = TitreEnCours->m_mp3etphys;
 
         albphys.titres << titre;
 

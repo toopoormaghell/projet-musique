@@ -18,15 +18,15 @@ public:
     QString m_Duree;
     QString m_Titre;
     QString m_Artiste;
+    void ActualiserOnglet(int Type);
 signals:
     void enregistr(QString, QString, QString);
 private slots:
-    void on_buttonBox_accepted();
-
     void on_buttonBox_clicked(QAbstractButton *button);
 
     void on_Sauvegarde_clicked();
 
+    void Raccourci();
 private:
     Ui::SousDialogAjoutTitre *ui;
 

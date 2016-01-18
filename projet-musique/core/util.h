@@ -14,13 +14,15 @@ struct TitresPhys
     QString Titre;
     QString id;
     QString Artiste;
+    bool MP3Phys;
 
     TitresPhys():
         Num_Piste(0),
         Duree(),
         Titre(),
         id(),
-        Artiste()
+        Artiste(),
+        MP3Phys(false)
     {}
 };
 typedef struct TitresPhys TitresPhys;
@@ -38,13 +40,13 @@ struct AlbumPhys
 
     AlbumPhys():
         Type(1),
-    Album(),
-    Artiste(),
-    Annee(1),
-    titres(),
-    Id_Release(1),
-    Poch(),
-      Id_Album(1)
+        Album(),
+        Artiste(),
+        Annee(1),
+        titres(),
+        Id_Release(1),
+        Poch(),
+        Id_Album(1)
     {}
 };
 typedef struct AlbumPhys AlbumPhys;

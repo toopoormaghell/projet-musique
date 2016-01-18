@@ -8,6 +8,17 @@ SousDialogAjoutTitre::SousDialogAjoutTitre(int Type, QWidget *parent) :
     ui(new Ui::SousDialogAjoutTitre)
 {
     ui->setupUi(this);
+    ActualiserOnglet(Type);
+    //Ajoute le raccourci
+
+}
+
+SousDialogAjoutTitre::~SousDialogAjoutTitre()
+{
+    delete ui;
+}
+void SousDialogAjoutTitre::ActualiserOnglet(int Type)
+{
     AjouterListeTitres();
     AjouterListeArtistes();
     if (Type==2)
@@ -18,17 +29,10 @@ SousDialogAjoutTitre::SousDialogAjoutTitre(int Type, QWidget *parent) :
         ui->Artiste->setHidden(1);
         ui->label_2->setHidden(1);
     }
+
 }
 
-SousDialogAjoutTitre::~SousDialogAjoutTitre()
-{
-    delete ui;
-}
 
-void SousDialogAjoutTitre::on_buttonBox_accepted()
-{
-    RecupererDonnees();
-}
 void SousDialogAjoutTitre::RecupererDonnees()
 {
     m_Duree= ui->Duree->text();
@@ -43,6 +47,15 @@ void SousDialogAjoutTitre::on_buttonBox_clicked(QAbstractButton *button)
         RecupererDonnees();
         emit enregistr(m_Titre, m_Duree, m_Artiste);
     }
+    if (ui->buttonBox->standardButton(button) == QDialogButtonBox::Ok)
+    {
+        RecupererDonnees();
+    }
+}
+void SousDialogAjoutTitre::Raccourci()
+{
+    RecupererDonnees();
+    emit enregistr(m_Titre, m_Duree, m_Artiste);
 }
 
 void SousDialogAjoutTitre::on_Sauvegarde_clicked()

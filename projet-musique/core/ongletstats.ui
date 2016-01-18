@@ -147,6 +147,46 @@
          </property>
         </spacer>
        </item>
+       <item>
+        <widget class="QLabel" name="Art">
+         <property name="maximumSize">
+          <size>
+           <width>500</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Artistes dont le nombre de MP3 dans Compils dépassent 5 :</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QListWidget" name="ArtistesDansCompil">
+         <property name="maximumSize">
+          <size>
+           <width>500</width>
+           <height>16777215</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>MP3 de l'artiste concerné dans Compil :</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QListWidget" name="MP3Artiste5">
+         <property name="maximumSize">
+          <size>
+           <width>500</width>
+           <height>16777215</height>
+          </size>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
      <item>

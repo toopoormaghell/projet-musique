@@ -202,13 +202,13 @@
             <widget class="QLabel" name="Piste">
              <property name="minimumSize">
               <size>
-               <width>20</width>
+               <width>50</width>
                <height>0</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>20</width>
+               <width>50</width>
                <height>16777215</height>
               </size>
              </property>
@@ -221,13 +221,13 @@
             <widget class="QLabel" name="De">
              <property name="minimumSize">
               <size>
-               <width>20</width>
+               <width>50</width>
                <height>0</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>20</width>
+               <width>50</width>
                <height>16777215</height>
               </size>
              </property>
@@ -243,13 +243,13 @@
             <widget class="QLabel" name="Sur">
              <property name="minimumSize">
               <size>
-               <width>20</width>
+               <width>50</width>
                <height>0</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>20</width>
+               <width>50</width>
                <height>16777215</height>
               </size>
              </property>
@@ -320,6 +320,22 @@
         </layout>
        </item>
        <item>
+        <widget class="QListWidget" name="Titres">
+         <property name="minimumSize">
+          <size>
+           <width>500</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>500</width>
+           <height>16777215</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QDialogButtonBox" name="buttonBox">
          <property name="maximumSize">
           <size>
@@ -334,6 +350,19 @@
           <bool>true</bool>
          </property>
         </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item>
         <widget class="QListWidget" name="Similaires">

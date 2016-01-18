@@ -142,10 +142,12 @@ void BDDGestionMp3::actualiserMp3(QString chemin)
     TagLib::uint date= f.tag()->year();
     TagLib::String title =  f.tag()->title();
     TagLib::uint track = f.tag() -> track();
+
     int dureesec=f.audioProperties()->length();
     int min=dureesec/60;
     int sec=dureesec%60;
     SousCatParChemin(chemin);
+
 
     //On ajoute en BDD
 

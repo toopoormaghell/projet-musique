@@ -106,8 +106,14 @@
      <height>23</height>
     </rect>
    </property>
+   <property name="statusTip">
+    <string>Maj +S</string>
+   </property>
    <property name="text">
     <string>Sauvegarde</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+S</string>
    </property>
   </widget>
  </widget>
