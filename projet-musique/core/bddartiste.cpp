@@ -18,6 +18,9 @@ BDDArtiste::BDDArtiste( const QString& artiste, const BDDPoch& pochette, QObject
     recupererId();
     if ( m_id == -1 )
         ajouterBDD();
+    else
+        updateBDD();
+
 }
 
 BDDArtiste::~BDDArtiste()

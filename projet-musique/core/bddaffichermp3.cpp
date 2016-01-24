@@ -3,12 +3,7 @@
 #include <QtSql>
 #include "bddtype.h"
 #include "bddconfig.h"
-#include "util.h"
-#include "bddalbum.h"
-#include "bddpoch.h"
-#include "bddtype.h"
-#include "bddartiste.h"
-#include "bddtitre.h"
+
 
 BDDAfficherMp3::BDDAfficherMp3(QObject *parent) :
     QObject(parent)
@@ -133,48 +128,4 @@ QStringList BDDAfficherMp3::RecupererListeTypes(const QString categorie)
     }
 
     return liste;
-}
-AlbumPhys BDDAfficherMp3::RecupererAlbumMp3(QString id_album)
-{
-    AlbumPhys albphys;
-
-    //On récupère les infos liées à l'album
-    BDDAlbum* alb = BDDAlbum::RecupererAlbum(id_album.toInt());
-    albphys.Album = alb->m_nom;
-    albphys.Annee = alb->m_annee;
-    albphys.Id_Album = alb->m_id;
-    albphys.Poch = alb->m_pochette->m_image;
-    albphys.Type = alb->m_type->m_id;
-
-    //On récupère l'artiste lié à l'album
-    QString queryStr="SELECT DISTINCT Id_Artiste FROM Relations WHERE Id_Album='"+id_album+"'";
-
-    QSqlQuery query = madatabase.exec( queryStr );
-    while ( query.next() )
-    {
-        QSqlRecord rec = query.record();
-        albphys.Artiste = BDDArtiste::RecupererArtiste(rec.value("Id_Artiste").toInt())->m_nom;
-    }
-
-    //On récupère les titres liés à l'album
-    queryStr="SELECT DISTINCT R.Id_Titre FROM Relations R, Titre T WHERE R.Id_Album='"+id_album+"' AND T.Id_Titre=R.Id_Titre ORDER BY Num_Piste";
-
-    query = madatabase.exec( queryStr );
-    while ( query.next() )
-    {
-        TitresPhys titre;
-        QSqlRecord rec = query.record();
-        BDDTitre*  TitreEnCours = BDDTitre::RecupererTitre(rec.value("Id_Titre").toInt());
-
-        titre.Artiste = TitreEnCours->m_artiste->m_nom;
-        titre.Duree = TitreEnCours->m_duree;
-        titre.id = TitreEnCours->m_id;
-        titre.Num_Piste = TitreEnCours->m_num_piste;
-        titre.Titre = TitreEnCours->m_nom;
-        titre.MP3Phys = TitreEnCours->m_mp3etphys;
-
-        albphys.titres << titre;
-
-    }
-    return albphys;
 }

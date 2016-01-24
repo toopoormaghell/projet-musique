@@ -26,7 +26,7 @@ BDDMp3::BDDMp3(const QString &Chemin, const BDDRelation &relation, const int &ty
     }
     else
     {
-
+updateBDD();
     }
 }
 

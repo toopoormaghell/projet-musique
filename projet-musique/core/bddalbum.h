@@ -1,6 +1,7 @@
 #ifndef BDDALBUM_H
 #define BDDALBUM_H
 
+#include "util.h"
 #include <QObject>
 class BDDPoch;
 class BDDType;
@@ -24,6 +25,7 @@ public:
     BDDType* m_type;
     BDDPoch const* m_pochette;
 
+   static AlbumPhys RecupAlbumEntite(const int id);
 private:
     // Indique que le type et la pochette ont été créés par RecupererAlbum, et doivent donc être détruits explicitement
     bool m_areTypeAndPochetteSelfCreated;

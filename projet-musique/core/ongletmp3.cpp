@@ -14,6 +14,7 @@
 #include "dialogajouterphys.h"
 #include "bddaffichermp3.h"
 #include "util.h"
+#include "modifieralbumdialog.h"
 
 OngletMP3::OngletMP3(QWidget *parent) :
     QWidget(parent),
@@ -32,6 +33,7 @@ void OngletMP3::ActualiserOnglet()
 {
     afficherListeType();
     afficherMP3ouAlbum("MP3");
+    ui->buttonBox->addButton("Modifier",QDialogButtonBox::ActionRole);
 }
 void OngletMP3::choix(QString Index)
 {
@@ -214,8 +216,7 @@ void OngletMP3::afficheralbumsettitres()
 
 void OngletMP3::afficherAlbumSelectionne()
 {
-    BDDAfficherMp3 temp;
-    AlbumPhys alb = temp.RecupererAlbumMp3(m_album);
+    AlbumPhys alb = BDDAlbum::RecupAlbumEntite(m_album.toInt());
 
     ui->Titre->setText(alb.Album);
     ui->NomArtiste->setText(alb.Artiste);
@@ -228,16 +229,17 @@ void OngletMP3::afficherAlbumSelectionne()
     ui->Titres->clear();
     QPixmap mp3physoui(":/Autres/Vrai");
     QPixmap mp3physnon(":/Autres/Faux");
+
     //Affichage des Titres selon l'album
-     if (alb.titres.count()==0)
+    if (alb.titres.count()==0)
     {
-         ui->Titres->addItem("Pas d'album physique existant");
+        ui->Titres->addItem("Pas d'album physique existant");
     }
 
     for(int i=0;i<alb.titres.count();i++)
     {
         QListWidgetItem* item=new QListWidgetItem;
-TitresPhys titre = alb.titres[i];
+        TitresPhys titre = alb.titres[i];
         QString temp;
         temp = QString::number(titre.Num_Piste).rightJustified(2,'0') + " - "+ titre.Titre+"("+titre.Duree+")";
         item->setText(temp);
@@ -245,9 +247,11 @@ TitresPhys titre = alb.titres[i];
         if (titre.MP3Phys)
         {
             item->setIcon(QIcon(mp3physoui));
+
         } else
         {
             item->setIcon(QIcon(mp3physnon));
+            item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable);
         }
 
         ui->Titres->addItem(item);
@@ -400,9 +404,17 @@ void OngletMP3::on_AlbumsTitres_doubleClicked(const QModelIndex &index)
 }
 void OngletMP3::on_buttonBox_clicked(QAbstractButton *button)
 {
-    Q_UNUSED(button);
-    DialogAjouterPhys ajoutphys(m_album,this);
-    ajoutphys.exec();
+    if (button->text() == "Enregistrer")
+    {
+
+        DialogAjouterPhys ajoutphys(m_album,this);
+        ajoutphys.exec();
+    }
+    if (button->text() == "Modifier")
+    {
+        ModifierAlbumDialog mod(m_album.toInt(),this);
+        mod.exec();
+    }
 }
 void OngletMP3::on_ArtistesAnnees_currentRowChanged(int currentRow)
 {

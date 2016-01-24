@@ -16,8 +16,9 @@ BDDGestionPhys::BDDGestionPhys(QObject *parent) :
 void BDDGestionPhys::ajouterAlbum(QImage Poch, QString Album, QString Artiste,QString ean, int Annee, QList<TitresPhys> titres, int Type)
 {
     BDDPoch poch(Poch,Album,Artiste);
-    BDDAlbum alb(Album,poch,Annee,Type);
     BDDArtiste art(Artiste,poch);
+    BDDAlbum alb(Album,poch,Annee,Type);
+
 
     for (int cpt=0;cpt<titres.count();cpt++)
     {

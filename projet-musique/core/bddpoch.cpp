@@ -22,6 +22,9 @@ BDDPoch::BDDPoch( const QImage& image, const QString& album, const QString& arti
     {
         sauverImage(albumFormate,artisteFormate);
         ajouterBDD();
+    } else
+    {
+        updateBDD();
     }
 }
 

@@ -3,9 +3,11 @@
 
 #include <QObject>
 
+
 class BDDAfficherPhys : public QObject
 {
     Q_OBJECT
+
 
 public:
     explicit BDDAfficherPhys(QObject *parent = 0);

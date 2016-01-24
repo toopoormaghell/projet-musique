@@ -6,7 +6,7 @@
 #include "rechercheurl.h"
 #include <QFileDialog>
 #include "sousdialogajouttitre.h"
-#include "bddaffichermp3.h"
+#include "bddalbum.h"
 
 DialogAjouterPhys::DialogAjouterPhys(QWidget *parent) :
     QDialog(parent),
@@ -30,8 +30,8 @@ DialogAjouterPhys::DialogAjouterPhys(QString id_album, QWidget *parent) :
     ui->setupUi(this);
     AffichageListeArtistes(-2);
 
-    BDDAfficherMp3 temp;
-    m_album = temp.RecupererAlbumMp3(id_album);
+
+    m_album = BDDAlbum::RecupAlbumEntite(id_album.toInt());
     AfficherAlbum();
     AjoutConnex();
 }
@@ -207,11 +207,7 @@ void DialogAjouterPhys::on_Ajouter_Titre_clicked()
     {
         AjouterTitreManuel(toto.m_Titre, toto.m_Duree, toto.m_Artiste );
     }
-    //    m_ajouttitre.exec();
-    //    if(  m_ajouttitre.m_Titre!=NULL)
-    //    {
-    //        AjouterTitreManuel();
-    //    }
+
 }
 void DialogAjouterPhys::AjouterTitreManuel( const QString& titre, const QString& duree, const QString& artiste )
 {

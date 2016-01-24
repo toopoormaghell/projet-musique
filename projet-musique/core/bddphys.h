@@ -34,6 +34,7 @@ private:
     BDDPhys(const int id, QObject* parent=NULL);
 
 
+    void updateBDD();
 };
 
 #endif // BDDPHYS_H

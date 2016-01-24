@@ -27,6 +27,7 @@ private:
     void ajouterBDD();
     void recupererId();
 
+    void updateBDD();
 };
 
 #endif // BDDRELATION_H

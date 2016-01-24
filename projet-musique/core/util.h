@@ -37,7 +37,7 @@ struct AlbumPhys
     int Id_Release;
     QImage Poch;
     int Id_Album;
-
+    QString Type_Str;
     AlbumPhys():
         Type(1),
         Album(),
@@ -46,7 +46,8 @@ struct AlbumPhys
         titres(),
         Id_Release(1),
         Poch(),
-        Id_Album(1)
+        Id_Album(1),
+        Type_Str()
     {}
 };
 typedef struct AlbumPhys AlbumPhys;

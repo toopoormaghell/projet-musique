@@ -1,6 +1,8 @@
 #include "bddafficherphys.h"
 #include <QtSql>
 #include "bddsingleton.h"
+#include "bddalbum.h"
+
 
 BDDAfficherPhys::BDDAfficherPhys(QObject *parent) :
     QObject(parent)
@@ -105,9 +107,6 @@ void BDDAfficherPhys::exporterHTML()
     }
 }
 
-
-
-
 QStringList BDDAfficherPhys::ListeAlbumSauvegarde(int Cate)
 {
     QStringList albart;
@@ -190,3 +189,4 @@ QStringList BDDAfficherPhys::ListeArtistesPossibles()
     return Artistes;
 
 }
+

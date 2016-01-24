@@ -22,6 +22,9 @@ BDDPhys::BDDPhys(const BDDAlbum &album, const QString &ean, const int &type, QOb
     if (m_id==-1)
     {
         ajouterBDD();
+    } else
+    {
+        updateBDD();
     }
 }
 BDDPhys::~BDDPhys()
@@ -122,4 +125,8 @@ void BDDPhys::RecupererTitres()
         m_titres <<   BDDTitre::RecupererTitre(rec.value("Id_Titre").toInt());
 
     }
+}
+void BDDPhys::updateBDD()
+{
+
 }

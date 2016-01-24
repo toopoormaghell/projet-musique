@@ -4,6 +4,8 @@
 #include "bddsingleton.h"
 #include <QtSql>
 #include "bddtype.h"
+#include "bddartiste.h"
+#include "bddtitre.h"
 
 BDDAlbum::BDDAlbum(const QString& album, const BDDPoch& pochette, int annee, int type, QObject *parent) :
     QObject(parent),
@@ -22,12 +24,16 @@ BDDAlbum::BDDAlbum(const QString& album, const BDDPoch& pochette, int annee, int
     if (m_id==-1)
     {
         ajouterBDD();
+    } else
+    {
+        updateBDD();
     }
 }
 
 void BDDAlbum::updateBDD()
 {
-
+    QString queryStr = "UPDATE Album SET Album_Formate ='" + m_nomFormate+"', Id_Pochette='" + QString::number(m_pochette->m_id) +"', Annee= '" +QString::number(m_annee)+ "'  WHERE Id_Album = '" + QString::number(m_id) +"'";
+    madatabase.exec( queryStr );
 }
 
 
@@ -103,4 +109,52 @@ void BDDAlbum::supprimerenBDD() const
 
     }
     m_pochette->supprimerenBDD();
+}
+AlbumPhys BDDAlbum::RecupAlbumEntite(const int id)
+{
+    AlbumPhys albphys;
+
+    //On récupère les infos liées à l'album
+    BDDAlbum* alb = BDDAlbum::RecupererAlbum(id);
+    albphys.Album = alb->m_nom;
+    albphys.Annee = alb->m_annee;
+    albphys.Id_Album = alb->m_id;
+    albphys.Poch = alb->m_pochette->m_image;
+    albphys.Type = alb->m_type->m_id;
+
+    //On récupère le Type
+    BDDType* typ = BDDType::RecupererType(albphys.Type);
+    albphys.Type_Str = typ->m_type;
+
+    //On récupère l'artiste lié à l'album
+    QString queryStr="SELECT DISTINCT Id_Artiste FROM Relations WHERE Id_Album='"+QString::number(id)+"'";
+
+    QSqlQuery query = madatabase.exec( queryStr );
+    while ( query.next() )
+    {
+        QSqlRecord rec = query.record();
+        albphys.Artiste = BDDArtiste::RecupererArtiste(rec.value("Id_Artiste").toInt())->m_nom;
+    }
+
+    //On récupère les titres liés à l'album
+    queryStr="SELECT DISTINCT R.Id_Titre FROM Relations R, Titre T WHERE R.Id_Album='"+QString::number(id)+"' AND T.Id_Titre=R.Id_Titre ORDER BY Num_Piste";
+
+    query = madatabase.exec( queryStr );
+    while ( query.next() )
+    {
+        TitresPhys titre;
+        QSqlRecord rec = query.record();
+        BDDTitre*  TitreEnCours = BDDTitre::RecupererTitre(rec.value("Id_Titre").toInt());
+
+        titre.Artiste = TitreEnCours->m_artiste->m_nom;
+        titre.Duree = TitreEnCours->m_duree;
+        titre.id = TitreEnCours->m_id;
+        titre.Num_Piste = TitreEnCours->m_num_piste;
+        titre.Titre = TitreEnCours->m_nom;
+        titre.MP3Phys = TitreEnCours->m_mp3etphys;
+
+        albphys.titres << titre;
+
+    }
+    return albphys;
 }
