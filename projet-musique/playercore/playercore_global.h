@@ -1,0 +1,12 @@
+#ifndef PLAYERCORE_GLOBAL_H
+#define PLAYERCORE_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(PLAYERCORE_LIBRARY)
+#  define PLAYERCORESHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define PLAYERCORESHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // PLAYERCORE_GLOBAL_H

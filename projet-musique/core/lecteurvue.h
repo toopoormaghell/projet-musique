@@ -22,6 +22,7 @@ class LecteurVue;
 class LecteurVue : public QWidget
 {
     Q_OBJECT
+    Q_DISABLE_COPY( LecteurVue )
 
 public:
     explicit LecteurVue( QWidget* parent = 0 );
@@ -34,6 +35,8 @@ signals:
     void lectureDemandee();
     // Signal emit lorsque l'utilisateur demande une pause
     void pauseDemandee();
+    // Signal emit lorsque l'utilisateur demande de stopper la lecture
+    void stopDemande();
 
 
 

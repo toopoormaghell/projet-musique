@@ -31,12 +31,11 @@ OngletMP3::OngletMP3(QWidget *parent) :
     ui->AlbumsTitres->setModel(&m_albumtitres);
     afficheralbumsettitres();
     afficherInfosTitre();
-    ui->widget->setParentTab(*this);
+
+    // Insert the player GUI in the tab
+    ui->verticalLayout->insertWidget( 1, m_player->getGui() );
 
     connect(ui->ArtistesAnnees->selectionModel(),SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),this,SLOT(on_ArtistesAnnees_clicked(QModelIndex)));
-
-    // Le modèle récupère la GUI pour se connecter aux signaux
-    m_player->setGui( *ui->widget );
 }
 OngletMP3::~OngletMP3()
 {

@@ -102,16 +102,6 @@
     </layout>
    </item>
    <item>
-    <widget class="LecteurVue" name="widget" native="true">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>45</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
       <widget class="QTableView" name="AlbumsTitres">
@@ -380,14 +370,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>LecteurVue</class>
-   <extends>QWidget</extends>
-   <header>lecteurvue.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

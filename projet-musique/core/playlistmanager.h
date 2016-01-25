@@ -15,9 +15,12 @@ class PlaylistManager : public QObject
     Q_DISABLE_COPY( PlaylistManager )
 
 public:
-    PlaylistManager();
+    explicit PlaylistManager( QObject* parent = NULL );
     virtual ~PlaylistManager();
 
+    void setCategorie( QString const& categorie );
+    void setArtiste( QString const& artiste );
+    void setAlbum( QString const& album );
     void setTitre( QString const& titre );
 
 
@@ -25,6 +28,12 @@ public:
 private:
     // Objet Qt gerant une playlist
     QScopedPointer<QMediaPlaylist> m_playlist;
+    // Catégorie selectionnée
+    QString m_categorie;
+    // Artiste selectionné
+    QString m_artiste;
+    // Album selectionné
+    QString m_album;
     // Titre selectionné
     QString m_titre;
 };
