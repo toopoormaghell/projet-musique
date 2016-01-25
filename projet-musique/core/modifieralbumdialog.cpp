@@ -1,14 +1,12 @@
 #include "modifieralbumdialog.h"
 #include "ui_modifieralbumdialog.h"
-#include "bddphys.h"
-#include "bddalbum.h"
-#include "bddartiste.h"
-#include "bddtitre.h"
-#include "bddpoch.h"
+#include "util.h"
 #include <QListWidgetItem>
-#include "bddtype.h"
 #include "bddgestionphys.h"
 #include <QDebug>
+#include "bddafficherphys.h"
+#include "bddalbum.h"
+
 
 ModifierAlbumDialog::ModifierAlbumDialog(int selection, QWidget *parent) :
     QDialog(parent),
@@ -27,34 +25,33 @@ ModifierAlbumDialog::~ModifierAlbumDialog()
 void ModifierAlbumDialog::AfficherAlbum()
 {
 
-    //On récupère l'album à afficher
-    BDDPhys* phys= BDDPhys::RecupererPhys(m_selection);
 
-    //On ajoute les données en vue de la suite
-    m_album.Id_Release = phys->m_ean.toInt();
-    m_album.Id_Album=phys->m_id;
+    //On récupère l'album à afficher
+    m_album = BDDAlbum::RecupAlbumEntite(m_selection);
+
     //On met le nom, l'artiste, l'année
-    ui->Album->setText(phys->m_album->m_nom);
-    ui->Annee->setText(QString::number(phys->m_album->m_annee));
-    ui->Artiste->setText(phys->m_artiste->m_nom);
+    ui->Album->setText(m_album.Album);
+    ui->Annee->setText(QString::number(m_album.Annee));
+    ui->Artiste->setText(m_album.Artiste);
 
     //On affiche la pochette
-    QPixmap scaled( QPixmap::fromImage( phys->m_album->m_pochette->m_image  ) );
+    QPixmap scaled( QPixmap::fromImage( m_album.Poch ) );
     scaled = scaled.scaled( 100, 100 );
     ui->Pochette->setPixmap(scaled);
 
     //On affiche les titres
-    for (int comp=0;comp<phys->m_titres.count();comp++)
+    for (int comp=0;comp<m_album.titres.count();comp++)
     {
         QListWidgetItem* item = new QListWidgetItem;
-        item->setText(phys->m_titres[comp]->m_nom);
+        item->setText(m_album.titres[comp].Titre);
         item->setFlags (item->flags () | Qt::ItemIsEditable);
         ui->Titres->addItem(item);
-        ui->Duree->addItem(phys->m_titres[comp]->m_duree);
+        ui->Duree->addItem(m_album.titres[comp].Duree);
         ListeNumeros();
     }
     //On affiche le type de l'album
-    ui->Type->setCurrentText(phys->m_type->m_type);
+
+    ui->Type->setCurrentText(m_album.Type_Str);
 }
 void ModifierAlbumDialog::ListeNumeros()
 {

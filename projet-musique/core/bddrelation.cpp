@@ -18,6 +18,9 @@ BDDRelation::BDDRelation(const BDDAlbum &album, const BDDArtiste &artiste, const
     if(m_id==-1)
     {
         ajouterBDD();
+    } else
+    {
+        updateBDD();
     }
 }
 void BDDRelation::recupererId()
@@ -34,6 +37,10 @@ void BDDRelation::recupererId()
     } else {
         m_id=-1;
     }
+}
+void BDDRelation::updateBDD()
+{
+
 }
 
 BDDRelation *BDDRelation::RecupererRelation(const int id)

@@ -16,7 +16,7 @@ public:
     void updateBDD();
     void supprimerenBDD() const;
     static BDDArtiste* RecupererArtiste( const int id );
-    void EchangerArtiste( QString& nom );
+    static void EchangerArtiste( QString& nom );
     void ChoisirArtisteEchange( QString& nom );
     void deleteArtiste();
 

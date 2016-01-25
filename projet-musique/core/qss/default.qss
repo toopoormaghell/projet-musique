@@ -9,7 +9,7 @@ background: red;
 }
 
 QWidget{
-background-color: #BEBCC3;
+background-color: #5053F9;
 }
 FenetrePrincipale {
 border: 2px solid gray;

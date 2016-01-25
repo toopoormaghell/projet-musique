@@ -1,6 +1,9 @@
 #include "ongletstats.h"
 #include "ui_ongletstats.h"
 #include "bddtype.h"
+#include "bddartiste.h"
+#include "bddtitre.h"
+
 OngletStats::OngletStats(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::OngletStats)
@@ -22,6 +25,7 @@ void OngletStats::AfficherInfos()
 
     AfficherInfosCategoriesPhys();
     AfficherInfosCategoriesMP3();
+    AfficherArtistesCompilMP3();
 
 }
 void OngletStats::AfficherInfosCategoriesMP3()
@@ -69,4 +73,53 @@ void OngletStats::AfficherInfosCategoriesPhys()
     ui->NbPhysAlbum->setText("<dd>Albums : "+QString::number(m_bddInterface.NbPhysCategorie(1)));
     ui->NbPhysCompil->setText("<dd>Singles : "+QString::number(m_bddInterface.NbPhysCategorie(3)));
     ui->NbPhysSingle->setText("<dd>Compils : "+QString::number(m_bddInterface.NbPhysCategorie(2)));
+    ui->Nb_Chansons->setText("Nombre de chansons : "+QString::number(m_bddInterface.NbChansonsPhys()));
+}
+void OngletStats::AfficherArtistesCompilMP3()
+{
+    QList<int> temp = m_bddInterface.ListeArtistesCompils();
+
+    for (int i = 0; i<temp.count();i++)
+    {
+        BDDArtiste* art = BDDArtiste::RecupererArtiste(temp[i]);
+        QListWidgetItem* item =  new QListWidgetItem;
+        item->setText(art->m_nom);
+        item->setData(Qt::UserRole,temp[i]);
+        ui->ArtistesDansCompil->addItem(item);
+    }
+}
+void OngletStats::AfficherMP3ArtisteCompilMP3()
+{
+    QList<int> temp = m_bddInterface.ListeMp3ArtisteCompil(choixArtiste());
+ui->MP3Artiste5->clear();
+    for (int i = 0; i<temp.count();i++)
+    {
+        BDDTitre* titre = BDDTitre::RecupererTitre(temp[i]);
+        QListWidgetItem* item =  new QListWidgetItem;
+        item->setText(titre->m_nom);
+        item->setData(Qt::UserRole,temp[i]);
+        ui->MP3Artiste5->addItem(item);
+
+    }
+}
+int OngletStats::choixArtiste()
+{
+    QListWidgetItem *item=ui->ArtistesDansCompil->currentItem();
+    if (item==NULL)
+    {
+        item=ui->ArtistesDansCompil->item(0);
+    }
+    if (item !=NULL)
+    {
+        return item->data(Qt::UserRole).toInt();
+    } else
+    {
+        return -1;
+    }
+}
+
+void OngletStats::on_ArtistesDansCompil_currentRowChanged(int currentRow)
+{
+    Q_UNUSED(currentRow);
+    AfficherMP3ArtisteCompilMP3();
 }

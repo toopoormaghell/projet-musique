@@ -32,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_gestionMP3,SIGNAL(pourcentage()),this,SLOT(changerPourcentage()));
     //A la fin de l'actualiser MP3, il actualise l'onglet MP3
     connect(m_gestionMP3,SIGNAL(fin()),this,SLOT(ActualiserOngletMP3()));
+    connect(m_gestionMP3,SIGNAL(fin()),this,SLOT(ActualiserOngletStats()));
     //A la fin de l'ajout d'album Phys, il actualise l'onglet Phys
     connect(m_dialogajouterphys,SIGNAL(ajout()),this,SLOT(ActualiserOngletPhys()));
     //Si le bouton STOP est cliqué, il renvoie un signal
@@ -79,7 +80,9 @@ void MainWindow::ajouterStatusBar()
     //Propriétés du widget d'intéraction
     m_interaction->setText("Prêt");
     m_interaction->setMaximumHeight(20);
+ //   m_interaction->setMaximumWidth(700);
 
+  ui->statusBar->adjustSize();
 }
 void MainWindow::stop_clique()
 {
@@ -116,6 +119,7 @@ void MainWindow::ViderBDD()
         if (m_vidage.Mp3)
         {
             m_gestionMP3->ViderBDD();
+
         }
     }
     ActualiserOngletMP3();
@@ -134,7 +138,7 @@ void MainWindow::on_actionAjouter_Album_triggered()
 
 void MainWindow::actionExporter()
 {
-
+BDDAfficherPhys::exporterHTML();
 }
 
 void MainWindow::actionartistesinverses()
@@ -167,4 +171,8 @@ void MainWindow::ActualiserOngletMP3()
 {
     ui->MP3->vider("Categories");
     ui->MP3->afficherListeType();
+}
+void MainWindow::ActualiserOngletStats()
+{
+ui->tab->AfficherInfos();
 }

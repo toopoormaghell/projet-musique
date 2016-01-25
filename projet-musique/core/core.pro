@@ -59,11 +59,11 @@ HEADERS += \
     bddconfig.h \
     sousdialogajouttitre.h \
     vidagebdddialog.h \
-    lecteur.h \
     modifieralbumdialog.h \
     choixalbumphysdialog.h \
     ongletstats.h \
-    bddstats.h
+    bddstats.h \
+    modificationartistedialog.h
 
 
 SOURCES += main.cpp \
@@ -91,11 +91,11 @@ SOURCES += main.cpp \
     bddconfig.cpp \
     sousdialogajouttitre.cpp \
     vidagebdddialog.cpp \
-    lecteur.cpp \
     modifieralbumdialog.cpp \
     choixalbumphysdialog.cpp \
     ongletstats.cpp \
-    bddstats.cpp
+    bddstats.cpp \
+    modificationartistedialog.cpp
 
 FORMS += \
     ongletmp3.ui \
@@ -105,10 +105,10 @@ FORMS += \
     dialogconfigactu.ui \
     sousdialogajouttitre.ui \
     vidagebdddialog.ui \
-    lecteur.ui \
     modifieralbumdialog.ui \
     choixalbumphysdialog.ui \
-    ongletstats.ui
+    ongletstats.ui \
+    modificationartistedialog.ui
 
 
 OTHER_FILES += \

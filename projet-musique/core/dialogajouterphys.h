@@ -4,7 +4,7 @@
 #include <QDialog>
 #include "util.h"
 #include "rechercheurl.h"
-#include "sousdialogajouttitre.h"
+
 namespace Ui {
 class DialogAjouterPhys;
 }
@@ -19,6 +19,7 @@ public:
 
     QString m_EAN;
     int m_Type;
+    explicit DialogAjouterPhys(QString id_album, QWidget *parent = 0 );
 signals:
     void ajout();
 public slots:
@@ -42,10 +43,11 @@ private:
     AlbumPhys m_album;
     RechercheURL m_rech;
     QString m_affichage;
-    SousDialogAjoutTitre m_ajouttitre;
+
 
     void RecupererAlbum();
     void listeNumeros();
+    void AjoutConnex();
 };
 
 #endif // DIALOGAJOUTERPHYS_H

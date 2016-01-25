@@ -12,7 +12,7 @@ BDDPhys::BDDPhys(const BDDAlbum &album, const QString &ean, const int &type, QOb
     QObject( parent),
     m_id(-1),
     m_album(&album),
-    m_artiste(),
+    m_artiste( NULL ),
     m_titres(),
     m_type(BDDType::RecupererType(type)),
     m_ean(ean),
@@ -22,6 +22,9 @@ BDDPhys::BDDPhys(const BDDAlbum &album, const QString &ean, const int &type, QOb
     if (m_id==-1)
     {
         ajouterBDD();
+    } else
+    {
+        updateBDD();
     }
 }
 BDDPhys::~BDDPhys()
@@ -33,6 +36,8 @@ BDDPhys::~BDDPhys()
         delete m_artiste;
         delete m_album;
         delete m_type;
+        for ( int i = 0; i < m_titres.count(); ++i )
+            delete m_titres[i];
         m_titres.clear();
     }
 }
@@ -88,8 +93,8 @@ void BDDPhys::recupererId()
 BDDPhys::BDDPhys(const int id, QObject *parent):
     QObject(parent),
     m_id(id),
-    m_album(),
-    m_artiste(),
+    m_album( NULL ),
+    m_artiste( NULL ),
     m_titres(),
     m_type(),
     m_ean(-1)
@@ -115,8 +120,13 @@ void BDDPhys::RecupererTitres()
     {
         QSqlRecord rec=query.record();
 
+        delete m_artiste;
         m_artiste = BDDArtiste::RecupererArtiste(rec.value("Id_Artiste").toInt());
         m_titres <<   BDDTitre::RecupererTitre(rec.value("Id_Titre").toInt());
 
     }
+}
+void BDDPhys::updateBDD()
+{
+
 }

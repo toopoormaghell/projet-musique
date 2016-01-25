@@ -6,21 +6,41 @@
 #include "rechercheurl.h"
 #include <QFileDialog>
 #include "sousdialogajouttitre.h"
+#include "bddalbum.h"
 
 DialogAjouterPhys::DialogAjouterPhys(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::DialogAjouterPhys),
-    m_ajouttitre(0,this)
+    ui(new Ui::DialogAjouterPhys)
+
 {
     m_Type=1;
 
     ui->setupUi(this);
     AffichageListeArtistes(-2);
 
+    AjoutConnex();
+}
+DialogAjouterPhys::DialogAjouterPhys(QString id_album, QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::DialogAjouterPhys)
+
+{
+    m_Type=1;
+
+    ui->setupUi(this);
+    AffichageListeArtistes(-2);
+
+
+    m_album = BDDAlbum::RecupAlbumEntite(id_album.toInt());
+    AfficherAlbum();
+    AjoutConnex();
+}
+void DialogAjouterPhys::AjoutConnex()
+{
     connect(&m_rech,SIGNAL(test()),this,SLOT(AfficheInteraction()));
     connect(ui->buttonGroup, SIGNAL(buttonClicked(int)), this, SLOT(AffichageListeArtistes(int))) ;
-    connect(&m_ajouttitre,SIGNAL(enregistr()),this,SLOT(AjouterTitreManuel()));
 }
+
 DialogAjouterPhys::~DialogAjouterPhys()
 {
     delete ui;
@@ -107,8 +127,8 @@ void DialogAjouterPhys::on_ViderAlbum_clicked()
 void DialogAjouterPhys::RecupererAlbum()
 {
     m_album.titres.clear();
-    m_album.Album= ui->Nom_Album->text();
-    m_album.Artiste=ui->Nom_Artiste->text();
+    m_album.Album= ui->Nom_Album->text().replace("'","$");
+    m_album.Artiste=ui->Nom_Artiste->text().replace("'","$");
     m_album.Annee=ui->Annee->text().toInt();
     m_album.Type = m_Type;
 
@@ -187,11 +207,7 @@ void DialogAjouterPhys::on_Ajouter_Titre_clicked()
     {
         AjouterTitreManuel(toto.m_Titre, toto.m_Duree, toto.m_Artiste );
     }
-//    m_ajouttitre.exec();
-//    if(  m_ajouttitre.m_Titre!=NULL)
-//    {
-//        AjouterTitreManuel();
-//    }
+
 }
 void DialogAjouterPhys::AjouterTitreManuel( const QString& titre, const QString& duree, const QString& artiste )
 {

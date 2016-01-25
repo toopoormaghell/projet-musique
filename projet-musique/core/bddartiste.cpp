@@ -18,12 +18,15 @@ BDDArtiste::BDDArtiste( const QString& artiste, const BDDPoch& pochette, QObject
     recupererId();
     if ( m_id == -1 )
         ajouterBDD();
+    else
+        updateBDD();
+
 }
 
 BDDArtiste::~BDDArtiste()
 {
     if ( m_isPochetteSelfCreated )
-            delete m_pochette;
+        delete m_pochette;
 }
 
 void BDDArtiste::recupererId()
@@ -107,12 +110,14 @@ void BDDArtiste::TrouverId(QString &nom)
     m_id=0;
     ChoisirArtisteEchange(nom);
     m_nomFormate=nom;
+    FormaterEntiteBDD(m_nomFormate);
     recupererId();
 }
 
 void BDDArtiste::updateBDD()
 {
-
+    QString queryStri = " UPDATE Artiste SET Artiste ='"+m_nom+"', Artiste_Formate='"+m_nomFormate+"', Id_Pochette='"+QString::number(m_pochette->m_id)+"' WHERE Id_Artiste='" + QString::number( m_id ) + "'";
+    madatabase.exec(queryStri);
 }
 
 void BDDArtiste::supprimerenBDD() const
@@ -145,13 +150,17 @@ void BDDArtiste::EchangerArtiste(QString &nom)
 }
 void BDDArtiste::ChoisirArtisteEchange(QString& nom)
 {
+    QString temp=nom;
     FormaterEntiteBDD(nom);
-    QString queryStri="SELECT Artiste FROM Artiste WHERE Nom_Formate='"+nom+"'";
+    QString queryStri="SELECT Artiste FROM Artiste WHERE Artiste_Formate='"+nom+"'";
     QSqlQuery query= madatabase.exec(queryStri);
 
     if (!query.first())
     {
+        nom=temp;
         EchangerArtiste(nom);
+        FormaterEntiteBDD(nom);
+       queryStri="SELECT Artiste FROM Artiste WHERE Artiste_Formate='"+nom+"'";
         query=madatabase.exec(queryStri);
         if (query.first()) {
             QSqlRecord rec = query.record();

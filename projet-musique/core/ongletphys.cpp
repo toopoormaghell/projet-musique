@@ -6,9 +6,10 @@
 #include "bddalbum.h"
 #include "bddtitre.h"
 #include "bddphys.h"
-#include "bddaffichermp3.h"
 #include "modifieralbumdialog.h"
 #include "bddgestionphys.h"
+#include "modificationartistedialog.h"
+#include <QDebug>
 
 OngletPhys::OngletPhys(QWidget *parent) :
     QWidget(parent),
@@ -24,10 +25,68 @@ OngletPhys::OngletPhys(QWidget *parent) :
 void OngletPhys::on_Artistes_currentTextChanged(const QString &arg1)
 {
     Q_UNUSED(arg1);
+
+    m_artiste = choixArtiste();
     afficherListeAlbum();
-    afficherListeCompils();
     afficherListeSingles();
     AfficherArtisteSelectionne();
+    afficherListeCompils();
+
+    //Si on est sur "l'artiste" Compil
+    if ( m_artiste == "-1")
+    {
+        ui->Singles->setHidden(true);
+        ui->label_2->setHidden(true);
+        ui->Albums->setHidden(true);
+        ui->label->setHidden(true);
+        ui->Compil->setFixedHeight(450);
+        ui->label_3->setFixedHeight(450);
+    }
+    //Sinon, on vérifie le nombre d'albums pour en afficher le plus possible
+    else {
+
+        ui->Singles->setHidden(false);
+        ui->label_2->setHidden(false);
+        ui->Albums->setHidden(false);
+        ui->label->setHidden(false);
+        ui->Compil->setHidden(false);
+        ui->label_3->setHidden(false);
+        ui->Compil->setFixedHeight(150);
+        ui->label_3->setFixedHeight(150);
+        ui->Albums->setFixedHeight(150);
+        ui->label->setFixedHeight(150);
+
+        if ( ( m_Singles == 0 || m_Compils == 0 ) && m_Albums > 12 )
+
+        {
+            int RubriquesCachees = 0;
+
+            if ( m_Singles == 0 )
+            {
+                ui->Singles->setHidden(true);
+                ui->label_2->setHidden(true);
+                RubriquesCachees ++;
+            } else
+            {
+                ui->label_2->setHidden(false);
+                ui->Singles->setHidden(false);
+            }
+
+            if ( m_Compils == 0 )
+            {
+                ui->Compil->setHidden(true);
+                ui->label_3->setHidden(true);
+                RubriquesCachees ++;
+            } else
+            {
+                ui->label_3->setHidden(false);
+                ui->Compil->setHidden(false);
+            }
+            ui->Albums->setFixedHeight(150*(RubriquesCachees+1));
+            ui->label->setFixedHeight(150*(RubriquesCachees+1));
+        }
+    }
+
 }
 
 OngletPhys::~OngletPhys()
@@ -38,6 +97,16 @@ void OngletPhys::afficherListeArtiste()
 {
     //Affichage des artistes
     QList<int> artistes=m_bddInterface.ListeArtiste();
+
+    //Ajout de l'artiste " Compils"
+    QListWidgetItem* item = new QListWidgetItem;
+    QImage image("./Pochettes/def.jpg");
+    QPixmap scaled( QPixmap::fromImage( image ) );
+    scaled = scaled.scaled( 150, 150 );
+    item->setIcon( QIcon( scaled ) );
+    item->setData( Qt::UserRole, -1);
+    item->setText( "Compils" );
+    ui->Artistes->addItem( item );
 
     for (int cpt=0;cpt<artistes.count();cpt++)
     {
@@ -57,17 +126,16 @@ void OngletPhys::afficherListeArtiste()
         }
         artiste->deleteArtiste();
     }
-    ui->Artistes->setCurrentRow(0);
+    ui->Artistes->setCurrentRow(1);
 }
 void OngletPhys::afficherListeAlbum()
 {
     ui->Albums->clear();
 
-    //Choix de l'Artiste des Albums à afficher
-    QString Artiste=choixArtiste();
-
     //Affichage des albums
-    QList<int> albums=m_bddInterface.listeAlbums(Artiste);
+    QList<int> albums=m_bddInterface.listeAlbums(m_artiste);
+    m_Albums = 0;
+    m_Albums = albums.count();
 
     for (int cpt=0;cpt<albums.count();cpt++) {
 
@@ -87,18 +155,17 @@ void OngletPhys::afficherListeAlbum()
         }
         delete album;
     }
-    ui->Albums->setCurrentRow(1);
+    ui->Albums->setCurrentRow(0);
+
 }
 void OngletPhys::afficherListeSingles()
 {
     ui->Singles->clear();
 
-    //Choix de l'Artiste des Albums à afficher
-    QString Artiste=choixArtiste();
-
-
     //Affichage des albums
-    QList<int> singles=m_bddInterface.listeSingles(Artiste);
+    QList<int> singles=m_bddInterface.listeSingles(m_artiste);
+    m_Singles = 0;
+    m_Singles = singles.count();
 
     for (int cpt=0;cpt<singles.count();cpt++) {
 
@@ -118,15 +185,20 @@ void OngletPhys::afficherListeSingles()
         }
         delete album;
     }
-}
 
+}
 void OngletPhys::AfficherArtisteSelectionne()
 {
-    QString id_artiste= choixArtiste();
-    BDDArtiste* artiste = BDDArtiste::RecupererArtiste( id_artiste.toInt() );
+    if (m_artiste=="-1")
+    {
+        ui->Artiste->setText("Compils");
+    } else
+    {
+        BDDArtiste* artiste = BDDArtiste::RecupererArtiste( m_artiste.toInt() );
+        ui->Artiste->setText(artiste->m_nom);
+        delete artiste;
+    }
 
-    ui->Artiste->setText(artiste->m_nom);
-    delete artiste;
 }
 
 void OngletPhys::afficherListeCompils()
@@ -134,16 +206,16 @@ void OngletPhys::afficherListeCompils()
     ui->Compil->clear();
 
     //Choix de l'Artiste des Albums à afficher
-    QString Artiste=choixArtiste();
-
+    QString m_artiste=choixArtiste();
 
     //Affichage des albums
-    QList<int> albums=m_bddInterface.listeCompils(Artiste);
+    QList<int> albums=m_bddInterface.listeCompils(m_artiste);
+    m_Compils = 0;
+    m_Compils = albums.count();
 
     for (int cpt=0;cpt<albums.count();cpt++) {
 
         BDDAlbum* album= BDDAlbum::RecupererAlbum(albums[cpt]);
-
 
         if (album->m_id>0)
         {
@@ -162,8 +234,8 @@ void OngletPhys::afficherListeCompils()
         }
         delete album;
     }
-}
 
+}
 void OngletPhys::AfficherInfosAlbum(int Type)
 {
     QString id;
@@ -175,24 +247,40 @@ void OngletPhys::AfficherInfosAlbum(int Type)
 
     }
     m_selection=id.toInt();
-     BDDPhys* phys= BDDPhys::RecupererPhys(m_selection);
+    BDDPhys* phys= BDDPhys::RecupererPhys(m_selection);
 
-  ui->Annee->setText( QString::number(phys->m_album->m_annee));
+    //On affiche l'année et le nom de l'album
+    ui->Annee->setText( QString::number(phys->m_album->m_annee));
     ui->NomAlbum->setText(phys->m_album->m_nom);
 
+    //On affiche la pochette
     QPixmap scaled( QPixmap::fromImage( phys->m_album->m_pochette->m_image  ) );
     scaled = scaled.scaled( 150, 150 );
     ui->Pochette->setPixmap(scaled);
 
     QPixmap mp3physoui(":/Autres/Vrai");
     QPixmap mp3physnon(":/Autres/Faux");
+    //On affiche les titres
     for(int i=0;i<phys->m_titres.count();i++)
     {
         QListWidgetItem* item=new QListWidgetItem;
 
         QString temp;
         temp = QString::number(phys->m_titres[i]->m_num_piste).rightJustified(2,'0') + " - "+ phys->m_titres[i]->m_nom+"("+phys->m_titres[i]->m_duree+")";
+        //Si c'est une compil, on ajoute les artistes derrière
+        if (Type==3)
+        {
+            if(choixArtiste().toInt()==phys->m_titres[i]->m_artiste->m_id)
+            {
+                //On Ajoute une couleur pour le titre où l'artiste est le bon
+                QBrush m_brush;
+                m_brush.setColor(Qt::blue);
+                item->setForeground(m_brush);
+            }
+            temp = temp +" - "+ phys->m_titres[i]->m_artiste->m_nom;
+        }
         item->setText(temp);
+        //On affiche l'icone si le mp3 existe aussi
         if (phys->m_titres[i]->m_mp3etphys)
         {
             item->setIcon(QIcon(mp3physoui));
@@ -206,15 +294,13 @@ void OngletPhys::AfficherInfosAlbum(int Type)
     }
 
     delete phys;
-
-
 }
 QString OngletPhys::choixAlbum()
 {
     QListWidgetItem *item=ui->Albums->currentItem();
     if (item==NULL)
     {
-        item=ui->Albums->item(1);
+        item=ui->Albums->item(0);
     }
     return item != NULL ? item->data(Qt::UserRole).toString() : QString();
 }
@@ -223,7 +309,7 @@ QString OngletPhys::choixSingle()
     QListWidgetItem *item=ui->Singles->currentItem();
     if (item==NULL)
     {
-        item=ui->Singles->item(1);
+        item=ui->Singles->item(0);
     }
     return item != NULL ? item->data(Qt::UserRole).toString() : QString();
 }
@@ -232,7 +318,7 @@ QString OngletPhys::choixCompil()
     QListWidgetItem *item=ui->Compil->currentItem();
     if (item==NULL)
     {
-        item=ui->Compil->item(1);
+        item=ui->Compil->item(0);
     }
     return item != NULL ? item->data(Qt::UserRole).toString() : QString();
 }
@@ -302,11 +388,20 @@ void OngletPhys::on_Modifier_clicked()
 {
     ModifierAlbumDialog modif(m_selection,this);
     modif.exec();
-
 }
-
 void OngletPhys::on_SupprimerAlbum_clicked()
 {
     BDDGestionPhys temp;
     temp.SupprimerenBDDPhys(m_selection);
+}
+
+void OngletPhys::on_Artistes_doubleClicked(const QModelIndex &index)
+{
+    Q_UNUSED(index);
+    int choix = choixArtiste().toInt();
+    BDDArtiste* artiste = BDDArtiste::RecupererArtiste(choix);
+    ModificationArtisteDialog temp(artiste,this);
+    temp.exec();
+    vider("Artiste");
+    afficherListeArtiste();
 }

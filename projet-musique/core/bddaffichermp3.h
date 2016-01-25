@@ -4,6 +4,7 @@
 #include <QObject>
 #include "bddsingleton.h"
 
+
 class BDDAfficherMp3 : public QObject
 {
     Q_OBJECT
@@ -15,6 +16,7 @@ public:
     QStringList MP3Artiste(QString id_artiste);
     QList<int> listeAlbums(QString Id_Artiste, QString Categorie);
     QStringList RecupererListeTypes(const QString categorie);
+
 private:
     QString AnneesSwitch(QString annee);
 
