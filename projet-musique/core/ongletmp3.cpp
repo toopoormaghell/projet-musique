@@ -114,6 +114,7 @@ void OngletMP3::vider(QString Type)
     }
     if(Type=="AlbMP3")
     {
+        ui->AlbumsTitres->clearSpans();
         ui->AlbumsTitres->clear();
     }
 }
@@ -147,7 +148,7 @@ void OngletMP3::afficheralbumsettitres()
     m_colonnetitre=0;
     //Récupération de la liste des albums
     QList<int> albums=m_bddInterface.listeAlbums(m_artiste,m_categorie);
-    ui->AlbumsTitres->setRowCount(albums.count()*6);
+    ui->AlbumsTitres->setRowCount(albums.count()*8);
     ui->AlbumsTitres->setColumnCount( ( albums.count() == 0 ) ? 1 : ( ( albums.count() == 1 ) ? 3 : 2 ) );
 
     for (int cpt=0;cpt<albums.count();cpt++)
@@ -176,8 +177,8 @@ void OngletMP3::afficheralbumsettitres()
             item->setIcon( QIcon( scaled ) );
             item->setTextAlignment(Qt::AlignCenter | Qt::AlignBottom);
             item->setData(Qt::UserRole,album->m_id);
-            ui->AlbumsTitres->setItem(m_lignestitres,m_colonnetitre,item);
             ui->AlbumsTitres->setSpan(m_lignestitres,m_colonnetitre,4,1);
+            ui->AlbumsTitres->setItem(m_lignestitres,m_colonnetitre,item);
 
             item= new QTableWidgetItem;
             //On s'occupe d'afficher le nom du titre de l'album
@@ -203,6 +204,10 @@ void OngletMP3::afficheralbumsettitres()
             }
         }
         delete album;
+        if ( cpt+1<albums.count())
+        {
+            m_lignestitres ++;
+        }
     }
     if (m_categorie.toInt()==2)
     {
@@ -210,7 +215,6 @@ void OngletMP3::afficheralbumsettitres()
     }
     //On retaille tout à la fin
     ui->AlbumsTitres->setRowCount(m_lignestitres);
-
     ui->AlbumsTitres->setCurrentCell(0,1);
 }
 
@@ -253,11 +257,8 @@ void OngletMP3::afficherAlbumSelectionne()
             item->setIcon(QIcon(mp3physnon));
             item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable);
         }
-
         ui->Titres->addItem(item);
-
     }
-
 }
 
 void OngletMP3::afficherTitresAlbum(QString Album,QString Cate,int row)
@@ -289,7 +290,7 @@ void OngletMP3::afficherTitresAlbum(QString Album,QString Cate,int row)
             col++;
         }
     }
-    if (Cate.toInt()!=2/*||m_colonnetitre!=3*/)
+    if (Cate.toInt()!=2||m_colonnetitre!=3)
     {
         m_lignestitres=std::max(row+5,row+maxlignes);
     }
@@ -407,7 +408,6 @@ void OngletMP3::on_buttonBox_clicked(QAbstractButton *button)
 {
     if (button->text() == "Enregistrer")
     {
-
         DialogAjouterPhys ajoutphys(m_album,this);
         ajoutphys.exec();
     }
@@ -426,14 +426,14 @@ void OngletMP3::on_ArtistesAnnees_currentRowChanged(int currentRow)
 }
 void OngletMP3::on_AlbumsTitres_currentItemChanged(QTableWidgetItem *current, QTableWidgetItem *previous)
 {
-
     Q_UNUSED(previous);
     if(current != NULL)
     {
         if ( current->column()!=0)
         {
             vider ("Titres");
-            choix ("Mp3"); afficherMP3ouAlbum("MP3");
+            choix ("Mp3");
+            afficherMP3ouAlbum("MP3");
             afficherInfosTitre();
 
         }
