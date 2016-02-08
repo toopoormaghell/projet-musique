@@ -13,7 +13,6 @@ BDDAlbum::BDDAlbum(const QString& album, const BDDPoch& pochette, int annee, int
     m_nomFormate(album),
     m_annee(annee),
     m_type(BDDType::RecupererType(type)),
-
     m_areTypeAndPochetteSelfCreated( false )
 
 {

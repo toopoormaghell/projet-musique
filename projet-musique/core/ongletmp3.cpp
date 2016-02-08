@@ -148,14 +148,14 @@ void OngletMP3::afficheralbumsettitres()
     //Récupération de la liste des albums
     QList<int> albums=m_bddInterface.listeAlbums(m_artiste,m_categorie);
     ui->AlbumsTitres->setRowCount(albums.count()*6);
-    ui->AlbumsTitres->setColumnCount( ( albums.count() == 0 ) ? 1 : ( ( albums.count() == 1 ) ? 3 : 6 ) );
+    ui->AlbumsTitres->setColumnCount( ( albums.count() == 0 ) ? 1 : ( ( albums.count() == 1 ) ? 3 : 2 ) );
 
     for (int cpt=0;cpt<albums.count();cpt++)
     {
         //Pour chaque album...
         BDDAlbum* album= BDDAlbum::RecupererAlbum(albums[cpt]);
 
-        if (album->m_id>0)
+        if ( album->m_id>0 )
         {
             if ( (m_categorie.toInt()!=2 && cpt > 0) || ( m_categorie.toInt()==2 && cpt%2==0  && cpt > 0) )
             {
@@ -271,7 +271,8 @@ void OngletMP3::afficherTitresAlbum(QString Album,QString Cate,int row)
 
     int maxlignes=temp/maxcol+(temp%maxcol==0?0:1);
 
-    int nbcol =  std::max(ui->AlbumsTitres->columnCount()+m_colonnetitre,maxcol+m_colonnetitre) +1;
+    int nbcol =  std::max(ui->AlbumsTitres->columnCount()+m_colonnetitre,maxcol+m_colonnetitre+1) ;
+
     ui->AlbumsTitres->setColumnCount(nbcol);
 
     for (int cpt=0;cpt<titres.count();cpt=cpt+2)
