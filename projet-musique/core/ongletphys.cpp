@@ -281,7 +281,7 @@ void OngletPhys::AfficherInfosAlbum(int Type)
         }
         item->setText(temp);
         //On affiche l'icone si le mp3 existe aussi
-        if (phys->m_titres[i]->m_mp3etphys)
+        if (phys->m_titres[i]->m_mp3 && phys->m_titres[i]->m_phys)
         {
             item->setIcon(QIcon(mp3physoui));
         } else

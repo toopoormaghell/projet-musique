@@ -50,7 +50,7 @@ void BDDPhys::deleteBDD()
 
     for (int i=0;i<m_titres.count();i++)
     {
-        if (!m_titres[i]->m_mp3etphys)
+        if (!m_titres[i]->m_mp3 )
         {
             BDDRelation rel(*m_album,*m_artiste,*m_titres[i]);
             rel.supprimerenBDDPhys();

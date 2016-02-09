@@ -149,7 +149,7 @@ void OngletMP3::afficheralbumsettitres()
     //Récupération de la liste des albums
     QList<int> albums=m_bddInterface.listeAlbums(m_artiste,m_categorie);
     ui->AlbumsTitres->setRowCount(albums.count()*8);
-    ui->AlbumsTitres->setColumnCount( ( albums.count() == 0 ) ? 1 : ( ( albums.count() == 1 ) ? 3 : 2 ) );
+    ui->AlbumsTitres->setColumnCount( ( albums.count() == 0 ) ? 1 : ( ( albums.count() == 1 ) ? 3 : 6 ) );
 
     for (int cpt=0;cpt<albums.count();cpt++)
     {
@@ -204,7 +204,7 @@ void OngletMP3::afficheralbumsettitres()
             }
         }
         delete album;
-        if ( cpt+1<albums.count())
+        if ( cpt+1<albums.count() && m_categorie.toInt()!=2)
         {
             m_lignestitres ++;
         }
@@ -272,7 +272,7 @@ void OngletMP3::afficherTitresAlbum(QString Album,QString Cate,int row)
 
     int maxlignes=temp/maxcol+(temp%maxcol==0?0:1);
 
-    int nbcol =  std::max(ui->AlbumsTitres->columnCount()+m_colonnetitre,maxcol+m_colonnetitre+1) ;
+    int nbcol =  std::max(ui->AlbumsTitres->columnCount()+m_colonnetitre,maxcol+m_colonnetitre) ;
 
     ui->AlbumsTitres->setColumnCount(nbcol);
 
@@ -290,7 +290,7 @@ void OngletMP3::afficherTitresAlbum(QString Album,QString Cate,int row)
             col++;
         }
     }
-    if (Cate.toInt()!=2||m_colonnetitre!=3)
+    if (Cate.toInt()!=2 || m_colonnetitre!=3  )
     {
         m_lignestitres=std::max(row+5,row+maxlignes);
     }
@@ -309,7 +309,7 @@ void OngletMP3::afficherInfosTitre()
         ui->NomAlbum->setText(mp3->m_album->m_nom);
         ui->NomArtiste->setText(mp3->m_artiste->m_nom);
 
-        if(mp3->m_titre->m_mp3etphys)
+        if(mp3->m_titre->m_mp3 && mp3->m_titre->m_phys)
             ui->Mp3Phys->setText("Existe en MP3 et Phys");
 
         QPixmap scaled( QPixmap::fromImage( mp3->m_album->m_pochette->m_image  ) );
