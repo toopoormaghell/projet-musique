@@ -149,7 +149,7 @@ void OngletMP3::afficheralbumsettitres()
     //Récupération de la liste des albums
     QList<int> albums=m_bddInterface.listeAlbums(m_artiste,m_categorie);
     ui->AlbumsTitres->setRowCount(albums.count()*8);
-    ui->AlbumsTitres->setColumnCount( ( albums.count() == 0 ) ? 1 : ( ( albums.count() == 1 ) ? 3 : 6 ) );
+    ui->AlbumsTitres->setColumnCount( ( albums.count() == 0 ) ? 1 : ( ( albums.count() == 1 ) ? 3 : 4 ) );
 
     for (int cpt=0;cpt<albums.count();cpt++)
     {
@@ -199,7 +199,7 @@ void OngletMP3::afficheralbumsettitres()
                 }
                 else
                 {
-                    m_colonnetitre=3;
+                    m_colonnetitre=2;
                 }
             }
         }
@@ -211,7 +211,7 @@ void OngletMP3::afficheralbumsettitres()
     }
     if (m_categorie.toInt()==2)
     {
-        ui->AlbumsTitres->setColumnCount(6);
+        ui->AlbumsTitres->setColumnCount(4);
     }
     //On retaille tout à la fin
     ui->AlbumsTitres->setRowCount(m_lignestitres);
@@ -272,7 +272,7 @@ void OngletMP3::afficherTitresAlbum(QString Album,QString Cate,int row)
 
     int maxlignes=temp/maxcol+(temp%maxcol==0?0:1);
 
-    int nbcol =  std::max(ui->AlbumsTitres->columnCount()+m_colonnetitre,maxcol+m_colonnetitre) ;
+    int nbcol = std::max(ui->AlbumsTitres->columnCount()+m_colonnetitre,maxcol+m_colonnetitre+1) ;
 
     ui->AlbumsTitres->setColumnCount(nbcol);
 
@@ -284,15 +284,15 @@ void OngletMP3::afficherTitresAlbum(QString Album,QString Cate,int row)
         item->setTextAlignment(Qt::AlignLeft | Qt::AlignBottom);
         ui->AlbumsTitres->setItem(row+ligne,m_colonnetitre+col,item);
         ligne++;
-        if (ligne==maxlignes)
+        if (ligne==maxlignes && Cate.toInt()!=2)
         {
             ligne=0;
             col++;
         }
     }
-    if (Cate.toInt()!=2 || m_colonnetitre!=3  )
+    if (Cate.toInt()!=2  )
     {
-        m_lignestitres=std::max(row+5,row+maxlignes);
+       m_lignestitres=std::max(row+6,row+maxlignes);
     }
 }
 void OngletMP3::afficherInfosTitre()
