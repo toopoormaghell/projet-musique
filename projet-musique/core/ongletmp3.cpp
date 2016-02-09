@@ -177,7 +177,7 @@ void OngletMP3::afficheralbumsettitres()
             item->setIcon( QIcon( scaled ) );
             item->setTextAlignment(Qt::AlignCenter | Qt::AlignBottom);
             item->setData(Qt::UserRole,album->m_id);
-            ui->AlbumsTitres->setSpan(m_lignestitres,m_colonnetitre,4,1);
+            ui->AlbumsTitres->setSpan(m_lignestitres,m_colonnetitre,5,1);
             ui->AlbumsTitres->setItem(m_lignestitres,m_colonnetitre,item);
 
             item= new QTableWidgetItem;
@@ -186,7 +186,7 @@ void OngletMP3::afficheralbumsettitres()
             item->setTextAlignment(Qt::AlignLeft);
             item->setText( QString::number(album->m_annee)+" - "+album->m_nom );
             item->setFlags(  Qt::ItemIsEnabled );
-            ui->AlbumsTitres->setItem(m_lignestitres+4,m_colonnetitre,item);
+            ui->AlbumsTitres->setItem(m_lignestitres+5,m_colonnetitre,item);
             //On appelle la fonction chargée d'afficher les titres
             afficherTitresAlbum(QString::number(album->m_id),m_categorie,m_lignestitres);
 
