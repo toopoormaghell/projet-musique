@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 
 
     //Ajout du style pour la fenêtre
-    QFile file("default.qss");
+    QFile file(":/qss/default");
     if (file.open(QFile::ReadOnly))
     {
        w.setStyleSheet(QLatin1String(file.readAll()));

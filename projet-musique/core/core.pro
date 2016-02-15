@@ -21,10 +21,6 @@ CONFIG(debug,debug|release) {
     RCC_DIR += ../../../rcc/release
 }
 
-installs_qss.path += $$DESTDIR
-installs_qss.files += qss/default.qss
-INSTALLS += installs_qss
-
 INCLUDEPATH += .
 INCLUDEPATH += ../taglib
 INCLUDEPATH += ../taglib/toolkit
@@ -118,7 +114,6 @@ FORMS += \
 
 OTHER_FILES += \
     projet_musique.cppcheck \
-    qss/default.qss \
     uml-diagram.uxf
 
 RESOURCES += \
