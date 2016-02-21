@@ -21,10 +21,6 @@ CONFIG(debug,debug|release) {
     RCC_DIR += ../../../rcc/release
 }
 
-installs_qss.path += $$DESTDIR
-installs_qss.files += qss/default.qss
-INSTALLS += installs_qss
-
 INCLUDEPATH += .
 INCLUDEPATH += ../taglib
 INCLUDEPATH += ../taglib/toolkit
@@ -63,7 +59,9 @@ HEADERS += \
     choixalbumphysdialog.h \
     ongletstats.h \
     bddstats.h \
-    modificationartistedialog.h
+    modificationartistedialog.h \
+    ongletrech.h \
+    bddrech.h
 
 
 SOURCES += main.cpp \
@@ -95,7 +93,9 @@ SOURCES += main.cpp \
     choixalbumphysdialog.cpp \
     ongletstats.cpp \
     bddstats.cpp \
-    modificationartistedialog.cpp
+    modificationartistedialog.cpp \
+    ongletrech.cpp \
+    bddrech.cpp
 
 FORMS += \
     ongletmp3.ui \
@@ -108,12 +108,12 @@ FORMS += \
     modifieralbumdialog.ui \
     choixalbumphysdialog.ui \
     ongletstats.ui \
-    modificationartistedialog.ui
+    modificationartistedialog.ui \
+    ongletrech.ui
 
 
 OTHER_FILES += \
     projet_musique.cppcheck \
-    qss/default.qss \
     uml-diagram.uxf
 
 RESOURCES += \

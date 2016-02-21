@@ -14,4 +14,7 @@
         <file alias="Faux">icones/nonmp3phys.png</file>
         <file alias="Vrai">icones/mp3phys.png</file>
     </qresource>
+    <qresource prefix="/qss">
+        <file alias="default">qss/default.qss</file>
+    </qresource>
 </RCC>

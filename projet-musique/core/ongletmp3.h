@@ -24,7 +24,7 @@ public:
     void affichageartistes();
     void afficherListeAnnees();
     void afficheralbumsettitres();
-    void afficherTitresAlbum(QString Album, QString Cate, int row);
+    void afficherTitresAlbum(QString Album, int Cate, int row);
     void afficherInfosTitre();
     void Similaires(int id);
     void vider(QString Type);
@@ -33,14 +33,11 @@ public:
     void ActualiserOnglet();
 private slots:
     void on_AlbumsTitres_doubleClicked(const QModelIndex &index);
-    void on_Categories_currentRowChanged(int currentRow);
-     void on_buttonBox_clicked(QAbstractButton *button);
-
-    void on_ArtistesAnnees_currentRowChanged(int currentRow);
-
-    void on_AlbumsTitres_currentItemChanged(QTableWidgetItem *current, QTableWidgetItem *previous);
-
-    void on_ArtistesAnnees_doubleClicked(const QModelIndex &index);
+    void on_buttonBox_clicked(QAbstractButton *button);
+   void on_ArtistesAnnees_doubleClicked(const QModelIndex &index);
+    void on_Categories_clicked(const QModelIndex &index);
+    void on_ArtistesAnnees_clicked(const QModelIndex &index);
+    void on_AlbumsTitres_clicked(const QModelIndex &index);
 
 private:
     Ui::OngletMP3 *ui;
@@ -51,11 +48,11 @@ private:
 
 
     //Concerne la récupération des infos sélectionnées par l'utilisateur
-    QString m_categorie;
-    QString m_mp3;
-    QString m_album;
-    QString m_artiste;
-    void choix(QString Index);
+    int m_categorie;
+    int m_mp3;
+    int m_album;
+    int m_artiste;
+
 
     void afficherMP3ouAlbum(const QString &MouA);
 };

@@ -22,72 +22,6 @@ OngletPhys::OngletPhys(QWidget *parent) :
     vider("Artiste");
     afficherListeArtiste();
 }
-void OngletPhys::on_Artistes_currentTextChanged(const QString &arg1)
-{
-    Q_UNUSED(arg1);
-
-    m_artiste = choixArtiste();
-    afficherListeAlbum();
-    afficherListeSingles();
-    AfficherArtisteSelectionne();
-    afficherListeCompils();
-
-    //Si on est sur "l'artiste" Compil
-    if ( m_artiste == "-1")
-    {
-        ui->Singles->setHidden(true);
-        ui->label_2->setHidden(true);
-        ui->Albums->setHidden(true);
-        ui->label->setHidden(true);
-        ui->Compil->setFixedHeight(450);
-        ui->label_3->setFixedHeight(450);
-    }
-    //Sinon, on vérifie le nombre d'albums pour en afficher le plus possible
-    else {
-
-        ui->Singles->setHidden(false);
-        ui->label_2->setHidden(false);
-        ui->Albums->setHidden(false);
-        ui->label->setHidden(false);
-        ui->Compil->setHidden(false);
-        ui->label_3->setHidden(false);
-        ui->Compil->setFixedHeight(150);
-        ui->label_3->setFixedHeight(150);
-        ui->Albums->setFixedHeight(150);
-        ui->label->setFixedHeight(150);
-
-        if ( ( m_Singles == 0 || m_Compils == 0 ) && m_Albums > 12 )
-
-        {
-            int RubriquesCachees = 0;
-
-            if ( m_Singles == 0 )
-            {
-                ui->Singles->setHidden(true);
-                ui->label_2->setHidden(true);
-                RubriquesCachees ++;
-            } else
-            {
-                ui->label_2->setHidden(false);
-                ui->Singles->setHidden(false);
-            }
-
-            if ( m_Compils == 0 )
-            {
-                ui->Compil->setHidden(true);
-                ui->label_3->setHidden(true);
-                RubriquesCachees ++;
-            } else
-            {
-                ui->label_3->setHidden(false);
-                ui->Compil->setHidden(false);
-            }
-            ui->Albums->setFixedHeight(150*(RubriquesCachees+1));
-            ui->label->setFixedHeight(150*(RubriquesCachees+1));
-        }
-    }
-
-}
 
 OngletPhys::~OngletPhys()
 {
@@ -205,9 +139,6 @@ void OngletPhys::afficherListeCompils()
 {
     ui->Compil->clear();
 
-    //Choix de l'Artiste des Albums à afficher
-    QString m_artiste=choixArtiste();
-
     //Affichage des albums
     QList<int> albums=m_bddInterface.listeCompils(m_artiste);
     m_Compils = 0;
@@ -238,15 +169,6 @@ void OngletPhys::afficherListeCompils()
 }
 void OngletPhys::AfficherInfosAlbum(int Type)
 {
-    QString id;
-    switch (Type)
-    {
-    case 1: id= choixAlbum();break;
-    case 2: id = choixSingle();break;
-    case 3: id=choixCompil();break;
-
-    }
-    m_selection=id.toInt();
     BDDPhys* phys= BDDPhys::RecupererPhys(m_selection);
 
     //On affiche l'année et le nom de l'album
@@ -270,7 +192,7 @@ void OngletPhys::AfficherInfosAlbum(int Type)
         //Si c'est une compil, on ajoute les artistes derrière
         if (Type==3)
         {
-            if(choixArtiste().toInt()==phys->m_titres[i]->m_artiste->m_id)
+            if(m_artiste.toInt()==phys->m_titres[i]->m_artiste->m_id)
             {
                 //On Ajoute une couleur pour le titre où l'artiste est le bon
                 QBrush m_brush;
@@ -281,7 +203,7 @@ void OngletPhys::AfficherInfosAlbum(int Type)
         }
         item->setText(temp);
         //On affiche l'icone si le mp3 existe aussi
-        if (phys->m_titres[i]->m_mp3etphys)
+        if (phys->m_titres[i]->m_mp3 && phys->m_titres[i]->m_phys)
         {
             item->setIcon(QIcon(mp3physoui));
         } else
@@ -294,43 +216,6 @@ void OngletPhys::AfficherInfosAlbum(int Type)
     }
 
     delete phys;
-}
-QString OngletPhys::choixAlbum()
-{
-    QListWidgetItem *item=ui->Albums->currentItem();
-    if (item==NULL)
-    {
-        item=ui->Albums->item(0);
-    }
-    return item != NULL ? item->data(Qt::UserRole).toString() : QString();
-}
-QString OngletPhys::choixSingle()
-{
-    QListWidgetItem *item=ui->Singles->currentItem();
-    if (item==NULL)
-    {
-        item=ui->Singles->item(0);
-    }
-    return item != NULL ? item->data(Qt::UserRole).toString() : QString();
-}
-QString OngletPhys::choixCompil()
-{
-    QListWidgetItem *item=ui->Compil->currentItem();
-    if (item==NULL)
-    {
-        item=ui->Compil->item(0);
-    }
-    return item != NULL ? item->data(Qt::UserRole).toString() : QString();
-}
-
-QString OngletPhys::choixArtiste()
-{
-    QListWidgetItem *item=ui->Artistes->currentItem();
-    if (item==NULL)
-    {
-        item=ui->Artistes->item(0);
-    }
-    return item != NULL ? item->data(Qt::UserRole).toString() : QString();
 }
 
 void OngletPhys::vider(QString type)
@@ -356,7 +241,7 @@ void OngletPhys::vider(QString type)
 }
 void OngletPhys::on_Albums_itemPressed(QListWidgetItem *item)
 {
-    Q_UNUSED(item);
+  m_selection = item->data(Qt::UserRole).toInt();
     ui->Compil->clearSelection();
     ui->Singles->clearSelection();
     vider("Infos");
@@ -366,7 +251,7 @@ void OngletPhys::on_Albums_itemPressed(QListWidgetItem *item)
 
 void OngletPhys::on_Compil_itemPressed(QListWidgetItem *item)
 {
-    Q_UNUSED(item);
+    m_selection = item->data(Qt::UserRole).toInt();
     ui->Albums->clearSelection();
     ui->Singles->clearSelection();
     vider("Infos");
@@ -376,7 +261,7 @@ void OngletPhys::on_Compil_itemPressed(QListWidgetItem *item)
 
 void OngletPhys::on_Singles_itemPressed(QListWidgetItem *item)
 {
-    Q_UNUSED(item);
+    m_selection = item->data(Qt::UserRole).toInt();
     ui->Albums->clearSelection();
     ui->Compil->clearSelection();
     vider("Infos");
@@ -397,11 +282,75 @@ void OngletPhys::on_SupprimerAlbum_clicked()
 
 void OngletPhys::on_Artistes_doubleClicked(const QModelIndex &index)
 {
-    Q_UNUSED(index);
-    int choix = choixArtiste().toInt();
+
+    int choix = index.data(Qt::UserRole).toInt();
     BDDArtiste* artiste = BDDArtiste::RecupererArtiste(choix);
     ModificationArtisteDialog temp(artiste,this);
     temp.exec();
     vider("Artiste");
     afficherListeArtiste();
+}
+
+void OngletPhys::on_Artistes_clicked(const QModelIndex &index)
+{
+    m_artiste = index.data(Qt::UserRole).toString();
+    afficherListeAlbum();
+    afficherListeSingles();
+    AfficherArtisteSelectionne();
+    afficherListeCompils();
+
+    //Si on est sur "l'artiste" Compil
+    if ( m_artiste == "-1")
+    {
+        ui->Singles->setHidden(true);
+        ui->label_2->setHidden(true);
+        ui->Albums->setHidden(true);
+        ui->label->setHidden(true);
+        ui->Compil->setFixedHeight(450);
+        ui->label_3->setFixedHeight(450);
+    }
+    //Sinon, on vérifie le nombre d'albums pour en afficher le plus possible
+    else {
+
+        ui->Singles->setHidden(false);
+        ui->label_2->setHidden(false);
+        ui->Albums->setHidden(false);
+        ui->label->setHidden(false);
+        ui->Compil->setHidden(false);
+        ui->label_3->setHidden(false);
+        ui->Compil->setFixedHeight(150);
+        ui->label_3->setFixedHeight(150);
+        ui->Albums->setFixedHeight(150);
+        ui->label->setFixedHeight(150);
+
+        if ( ( m_Singles == 0 || m_Compils == 0 ) && m_Albums > 12 )
+
+        {
+            int RubriquesCachees = 0;
+
+            if ( m_Singles == 0 )
+            {
+                ui->Singles->setHidden(true);
+                ui->label_2->setHidden(true);
+                RubriquesCachees ++;
+            } else
+            {
+                ui->label_2->setHidden(false);
+                ui->Singles->setHidden(false);
+            }
+
+            if ( m_Compils == 0 )
+            {
+                ui->Compil->setHidden(true);
+                ui->label_3->setHidden(true);
+                RubriquesCachees ++;
+            } else
+            {
+                ui->label_3->setHidden(false);
+                ui->Compil->setHidden(false);
+            }
+            ui->Albums->setFixedHeight(150*(RubriquesCachees+1));
+            ui->label->setFixedHeight(150*(RubriquesCachees+1));
+        }
+    }
 }

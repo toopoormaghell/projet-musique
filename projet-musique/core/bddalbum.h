@@ -25,6 +25,7 @@ public:
     BDDType* m_type;
     BDDPoch const* m_pochette;
 
+
    static AlbumPhys RecupAlbumEntite(const int id);
 private:
     // Indique que le type et la pochette ont été créés par RecupererAlbum, et doivent donc être détruits explicitement

@@ -3,6 +3,7 @@
 
 #include <QObject>
 class BDDArtiste;
+class BDDAlbum;
 class BDDTitre : public QObject
 {
     Q_OBJECT
@@ -19,9 +20,11 @@ public:
     QString m_nomFormate;
     int m_num_piste;
     QString m_duree;
-    bool m_mp3etphys;
+    bool m_mp3;
+    bool m_phys;
     QList<int> Similaires(const int id);
     BDDArtiste const* m_artiste;
+    BDDAlbum const* m_album;
 private:
     void ajouterBDD();
     void recupererId();

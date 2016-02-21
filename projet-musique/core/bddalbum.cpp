@@ -13,7 +13,6 @@ BDDAlbum::BDDAlbum(const QString& album, const BDDPoch& pochette, int annee, int
     m_nomFormate(album),
     m_annee(annee),
     m_type(BDDType::RecupererType(type)),
-
     m_areTypeAndPochetteSelfCreated( false )
 
 {
@@ -87,6 +86,7 @@ BDDAlbum* BDDAlbum::RecupererAlbum(const int id)
 {
     return new BDDAlbum(id);
 }
+
 void BDDAlbum::ajouterBDD()
 {
     QString queryStr="INSERT INTO Album VALUES (null,'"+ m_nom+ "','" +QString::number(m_pochette->m_id) + "','" + m_nomFormate +"','" + QString::number(m_annee)+"','"+QString::number(m_type->m_id)+"')";
@@ -151,7 +151,7 @@ AlbumPhys BDDAlbum::RecupAlbumEntite(const int id)
         titre.id = TitreEnCours->m_id;
         titre.Num_Piste = TitreEnCours->m_num_piste;
         titre.Titre = TitreEnCours->m_nom;
-        titre.MP3Phys = TitreEnCours->m_mp3etphys;
+        titre.MP3Phys = TitreEnCours->m_mp3 && TitreEnCours->m_phys;
 
         albphys.titres << titre;
 

@@ -9,7 +9,7 @@ background: red;
 }
 
 QWidget{
-background-color: #5053F9;
+background-color: #A8F3FF;
 }
 FenetrePrincipale {
 border: 2px solid gray;
@@ -23,6 +23,7 @@ border-style: solid;
 border: 2px solid gray;
 border-radius: 8px;
 }
+
 QPushButton {
 color: #FFFF96;
 background-color: #1EA7EC;
@@ -250,4 +251,6 @@ background: white;
  QListWidget::indicator:unchecked{
  image:url(nonmp3phys.png);
  }
-
+QGroupBox::title {
+color:red;
+}

@@ -4,6 +4,7 @@
 #include <QtSql>
 #include <QDebug>
 #include "bddartiste.h"
+#include "bddalbum.h"
 
 BDDTitre::BDDTitre(const QString &nom, const int &num_piste, const QString &duree, QObject *parent) :
     QObject(parent),
@@ -75,22 +76,21 @@ void BDDTitre::recupererId()
 void BDDTitre::mp3etphys()
 {
     //Première étape: le titre existe ou non en MP3
-    bool mp3=false;
-    QString queryStr="SELECT R.Id_Relation FROM Relations R, MP3 M WHERE R.Id_Titre IN (SELECT Id_Titre FROM Titre WHERE Titre_Formate = '"+m_nomFormate+"') AND R.Id_Artiste IN (SELECT Id_Artiste FROM Relations WHERE Id_Titre IN (SELECT Id_Titre FROM Titre  WHERE Id_Titre = '"+QString::number(m_id)+"')) AND M.Id_Relation = R.Id_Relation";
+     QString queryStr="SELECT R.Id_Relation FROM Relations R, MP3 M WHERE R.Id_Titre IN (SELECT Id_Titre FROM Titre WHERE Titre_Formate = '"+m_nomFormate+"') AND R.Id_Artiste IN (SELECT Id_Artiste FROM Relations WHERE Id_Titre IN (SELECT Id_Titre FROM Titre  WHERE Id_Titre = '"+QString::number(m_id)+"')) AND M.Id_Relation = R.Id_Relation";
 
     QSqlQuery query = madatabase.exec( queryStr );
     if ( query.first() )
     {
-        mp3= true;
+       m_mp3= true;
     }
 
     //Deuxième étape: le titre existe ou non sur album phys
     queryStr=" SELECT R.Id_Relation FROM Relations R, Phys P WHERE R.Id_Titre IN (SELECT Id_Titre FROM Titre WHERE Titre_Formate = '"+m_nomFormate+"') AND R.Id_Artiste IN (SELECT Id_Artiste FROM Relations WHERE Id_Titre IN (SELECT Id_Titre FROM Titre  WHERE Id_Titre = '"+QString::number(m_id)+"')) AND P.Id_Album = R.Id_Album ";
 
     query = madatabase.exec( queryStr );
-    if ( query.first() && mp3==true)
+    if ( query.first() )
     {
-        m_mp3etphys = true;
+        m_phys = true;
     }
 }
 
@@ -101,10 +101,12 @@ BDDTitre::BDDTitre(const int id, QObject *parent):
     m_nomFormate(),
     m_num_piste(-1),
     m_duree(),
-    m_mp3etphys(false),
-    m_artiste()
+    m_mp3(false),
+    m_phys(false),
+    m_artiste(),
+    m_album()
 {
-    QString queryStr="SELECT Titre,Num_Piste,Duree, Titre_Formate, R.Id_Artiste FROM Titre T,Relations R WHERE T.Id_Titre='"+QString::number(id)+"' AND R.Id_Titre=T.Id_Titre";
+    QString queryStr="SELECT Titre,Num_Piste,Duree, Titre_Formate, R.Id_Artiste, R.Id_Album FROM Titre T,Relations R WHERE T.Id_Titre='"+QString::number(id)+"' AND R.Id_Titre=T.Id_Titre";
     QSqlQuery query = madatabase.exec( queryStr );
     while ( query.next() )
     {
@@ -114,6 +116,7 @@ BDDTitre::BDDTitre(const int id, QObject *parent):
         m_num_piste=rec.value("Num_Piste").toInt();
         m_duree=rec.value("Duree").toString();
         m_artiste = BDDArtiste::RecupererArtiste(rec.value("Id_Artiste").toInt());
+        m_album = BDDAlbum::RecupererAlbum(rec.value("Id_Album").toInt());
         mp3etphys();
 
     }

@@ -20,7 +20,7 @@ DialogAjouterPhys::DialogAjouterPhys(QWidget *parent) :
 
     AjoutConnex();
 }
-DialogAjouterPhys::DialogAjouterPhys(QString id_album, QWidget *parent) :
+DialogAjouterPhys::DialogAjouterPhys(int id_album, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogAjouterPhys)
 
@@ -31,7 +31,7 @@ DialogAjouterPhys::DialogAjouterPhys(QString id_album, QWidget *parent) :
     AffichageListeArtistes(-2);
 
 
-    m_album = BDDAlbum::RecupAlbumEntite(id_album.toInt());
+    m_album = BDDAlbum::RecupAlbumEntite(id_album);
     AfficherAlbum();
     AjoutConnex();
 }
