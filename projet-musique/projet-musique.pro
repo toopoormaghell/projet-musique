@@ -9,4 +9,5 @@ TEMPLATE = subdirs
 SUBDIRS += \
     kqoauth \
     taglib \
+    QAWSWrapper \
     core

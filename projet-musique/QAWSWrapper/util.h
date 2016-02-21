@@ -1,11 +1,12 @@
-#ifndef UTIL_H
-#define UTIL_H
+#ifndef QAWSWRAPPER_UTIL_H
+#define QAWSWRAPPER_UTIL_H
 
-#include <QObject>
+
+
+#include <QString>
+#include <QList>
 #include <QImage>
-void FormaterEntiteBDD(QString &Entite);
-QString EchangerArtiste(QString Artiste);
-void EnleverAccents(QString &Nom);
+
 
 #ifndef PHYS_STRUCT
 #define PHYS_STRUCT
@@ -83,5 +84,6 @@ typedef struct _AlbumPhys
     }
 } AlbumPhys;
 #endif
+
 
 #endif // UTIL_H

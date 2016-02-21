@@ -27,8 +27,10 @@ INCLUDEPATH += ../taglib/toolkit
 INCLUDEPATH += ../taglib/mpeg
 INCLUDEPATH += ../taglib/mpeg/id3v2
 INCLUDEPATH += ../kqoauth
+INCLUDEPATH += ../qawswrapper
 LIBS += -lkqoauth
 LIBS += -ltaglib
+LIBS += -lqawswrapper
 
 HEADERS += \
     bddsingleton.h \
