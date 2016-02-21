@@ -19,6 +19,10 @@ public:
 private slots:
     void on_pushButton_clicked();
 
+    void on_TitResult_clicked(const QModelIndex &index);
+
+    void on_ArtResult_clicked(const QModelIndex &index);
+
 private:
     Ui::OngletRech *ui;
     void affichageResultats();
@@ -27,6 +31,11 @@ private:
     void affichageTitres();
     void affichageAlbums();
     void affichageArtistes();
+ void AffichageResGroup(int Type);
+
+    QString m_affiche;
+
+
 };
 
 #endif // ONGLETRECH_H
