@@ -21,6 +21,7 @@ OngletMP3::OngletMP3(QWidget *parent) :
     ui(new Ui::OngletMP3),
     m_lignestitres(0),
     m_colonnetitre(0)
+
 {
     ui->setupUi(this);
     ActualiserOnglet();
@@ -32,66 +33,13 @@ OngletMP3::~OngletMP3()
 void OngletMP3::ActualiserOnglet()
 {
     afficherListeType();
+    affichageartistes();
+    afficheralbumsettitres();
     afficherMP3ouAlbum("MP3");
+    afficherInfosTitre();
     ui->buttonBox->addButton("Modifier",QDialogButtonBox::ActionRole);
 }
-void OngletMP3::choix(QString Index)
-{
-    if (Index == "Categorie")
-    {
-        QListWidgetItem *item=ui->Categories->currentItem();
-        if (item==NULL)
-        {
-            item=ui->Categories->item(0);
-        }
-        if (item !=NULL)
-        {
-            m_categorie = item->data(Qt::UserRole).toString();
-        }
-    }
-    if (Index == "Mp3" )
-    {
-        QTableWidgetItem *item = ui->AlbumsTitres->currentItem();
-        if (item==NULL)
-        {
-            item=ui->AlbumsTitres->item(0,1);
-        }
-        if (item !=NULL)
-        {
-            m_mp3= item->data(Qt::UserRole).toString();
-        }
-    }
-    if (Index == "Album")
-    {
-        QTableWidgetItem *item = ui->AlbumsTitres->currentItem();
-        if (item==NULL)
-        {
-            item=ui->AlbumsTitres->item(0,0);
-        }
-        if (item !=NULL)
-        {
-            m_album= item->data(Qt::UserRole).toString();
-        }
-    }
-    if (Index == "Artiste")
-    {
-        QListWidgetItem *item=ui->ArtistesAnnees->currentItem();
-        if (item==NULL)
-        {
-            item=ui->ArtistesAnnees->item(0);
-        }
-        if (item !=NULL)
-        {
-            m_artiste = item->data(Qt::UserRole).toString();
-        }
-    }
-}
-void OngletMP3::on_Categories_currentRowChanged(int currentRow)
-{
-    Q_UNUSED(currentRow);
-    choix("Categorie");
-    affichageartistes();
-}
+
 void OngletMP3::vider(QString Type)
 {
     if (Type=="Categories")
@@ -139,6 +87,7 @@ void OngletMP3::afficherListeType()
         ui->Categories->addItem(item);
     }
     ui->Categories->setCurrentRow(1);
+    m_categorie = 1;
 }
 //Affiche les albums selon l'artiste (ou les années) et la catégorie
 void OngletMP3::afficheralbumsettitres()
@@ -147,7 +96,7 @@ void OngletMP3::afficheralbumsettitres()
     m_lignestitres=0;
     m_colonnetitre=0;
     //Récupération de la liste des albums
-    QList<int> albums=m_bddInterface.listeAlbums(m_artiste,m_categorie);
+    QList<int> albums=m_bddInterface.listeAlbums(QString::number(m_artiste),QString::number(m_categorie));
     ui->AlbumsTitres->setRowCount(albums.count()*8);
     ui->AlbumsTitres->setColumnCount( ( albums.count() == 0 ) ? 1 : ( ( albums.count() == 1 ) ? 3 : 4 ) );
 
@@ -158,7 +107,7 @@ void OngletMP3::afficheralbumsettitres()
 
         if ( album->m_id>0 )
         {
-            if ( (m_categorie.toInt()!=2 && cpt > 0) || ( m_categorie.toInt()==2 && cpt%2==0  && cpt > 0) )
+            if ( (m_categorie!=2 && cpt > 0) || ( m_categorie==2 && cpt%2==0  && cpt > 0) )
             {
 
                 // Ajout d'une ligne de séparation
@@ -190,12 +139,12 @@ void OngletMP3::afficheralbumsettitres()
             //On appelle la fonction chargée d'afficher les titres
             afficherTitresAlbum(QString::number(album->m_id),m_categorie,m_lignestitres);
 
-            if (m_categorie.toInt()==2 )
+            if (m_categorie==2 )
             {
                 if( cpt%2==1 )
                 {
                     m_colonnetitre=0;
-                    m_lignestitres += 6;
+                    m_lignestitres += 7;
                 }
                 else
                 {
@@ -204,23 +153,26 @@ void OngletMP3::afficheralbumsettitres()
             }
         }
         delete album;
-        if ( cpt+1<albums.count() && m_categorie.toInt()!=2)
+        if ( cpt+1<albums.count() && m_categorie!=2)
         {
             m_lignestitres ++;
         }
     }
-    if (m_categorie.toInt()==2)
+    if (m_categorie==2)
     {
         ui->AlbumsTitres->setColumnCount(4);
     }
     //On retaille tout à la fin
     ui->AlbumsTitres->setRowCount(m_lignestitres);
-    ui->AlbumsTitres->setCurrentCell(0,1);
+    ui->AlbumsTitres->setCurrentCell(0,1,QItemSelectionModel::Select);
+    m_mp3 = 0;
+    if ( ui->AlbumsTitres->currentItem() != NULL )
+        m_mp3 = ui->AlbumsTitres->currentItem()->data(Qt::UserRole).toInt();
 }
 
 void OngletMP3::afficherAlbumSelectionne()
 {
-    AlbumPhys alb = BDDAlbum::RecupAlbumEntite(m_album.toInt());
+    AlbumPhys alb = BDDAlbum::RecupAlbumEntite(m_album);
 
     ui->Titre->setText(alb.Album);
     ui->NomArtiste->setText(alb.Artiste);
@@ -261,11 +213,11 @@ void OngletMP3::afficherAlbumSelectionne()
     }
 }
 
-void OngletMP3::afficherTitresAlbum(QString Album,QString Cate,int row)
+void OngletMP3::afficherTitresAlbum(QString Album,int Cate,int row)
 {
     int col=1;int ligne=0;
 
-    QStringList titres=m_bddInterface.listeTitresAlbumMp3(Album,Cate);
+    QStringList titres=m_bddInterface.listeTitresAlbumMp3(Album,QString::number(Cate));
 
     int temp= titres.count()/2;
     int maxcol=std::max(2,(temp+6-1)/6);
@@ -284,41 +236,41 @@ void OngletMP3::afficherTitresAlbum(QString Album,QString Cate,int row)
         item->setTextAlignment(Qt::AlignLeft | Qt::AlignBottom);
         ui->AlbumsTitres->setItem(row+ligne,m_colonnetitre+col,item);
         ligne++;
-        if (ligne==maxlignes && Cate.toInt()!=2)
+        if (ligne==maxlignes && Cate!=2)
         {
             ligne=0;
             col++;
         }
     }
-    if (Cate.toInt()!=2  )
+    if (Cate!=2  )
     {
-       m_lignestitres=std::max(row+6,row+maxlignes);
+        m_lignestitres=std::max(row+6,row+maxlignes);
     }
 }
 void OngletMP3::afficherInfosTitre()
 {
     vider("Titre");
 
-    if ( m_mp3!=NULL) {
-        BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3.toInt() );
+    //  if ( m_mp3!=NULL) {
+    BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3 );
 
-        ui->Piste->setText(QString::number(mp3->m_titre->m_num_piste).rightJustified(2,'0')+" - ");
-        QString temp=mp3->m_titre->m_nom.toUpper()+"("+mp3->m_titre->m_duree+")";
-        ui->Titre->setText(temp);
+    ui->Piste->setText(QString::number(mp3->m_titre->m_num_piste).rightJustified(2,'0')+" - ");
+    QString temp=mp3->m_titre->m_nom.toUpper()+"("+mp3->m_titre->m_duree+")";
+    ui->Titre->setText(temp);
 
-        ui->NomAlbum->setText(mp3->m_album->m_nom);
-        ui->NomArtiste->setText(mp3->m_artiste->m_nom);
+    ui->NomAlbum->setText(mp3->m_album->m_nom);
+    ui->NomArtiste->setText(mp3->m_artiste->m_nom);
 
-        if(mp3->m_titre->m_mp3 && mp3->m_titre->m_phys)
-            ui->Mp3Phys->setText("Existe en MP3 et Phys");
+    if(mp3->m_titre->m_mp3 && mp3->m_titre->m_phys)
+        ui->Mp3Phys->setText("Existe en MP3 et Phys");
 
-        QPixmap scaled( QPixmap::fromImage( mp3->m_album->m_pochette->m_image  ) );
-        scaled = scaled.scaled( 150, 150 );
-        ui->Pochette->setPixmap(scaled);
+    QPixmap scaled( QPixmap::fromImage( mp3->m_album->m_pochette->m_image  ) );
+    scaled = scaled.scaled( 150, 150 );
+    ui->Pochette->setPixmap(scaled);
 
-        Similaires(mp3->m_titre->m_id);
-        delete mp3;
-    }
+    Similaires(mp3->m_titre->m_id);
+    delete mp3;
+    // }
 }
 void OngletMP3::Similaires(const int id)
 {
@@ -349,10 +301,10 @@ void OngletMP3::affichageartistes()
 {
     vider("Artiste");
     int aleatoire=0;
-    if (m_categorie!="2")
+    if (m_categorie!=2)
     {
         //On récupère la liste des artistes
-        QList<int> artistes=m_bddInterface.ListeArtiste(m_categorie);
+        QList<int> artistes=m_bddInterface.ListeArtiste(QString::number(m_categorie));
         for (int cpt=0;cpt<artistes.count();cpt++)
         {
             BDDArtiste* artiste = BDDArtiste::RecupererArtiste( artistes[cpt] );
@@ -376,6 +328,8 @@ void OngletMP3::affichageartistes()
         afficherListeAnnees();
     }
     ui->ArtistesAnnees->setCurrentRow(aleatoire);
+    m_artiste = ui->ArtistesAnnees->currentItem()->data(Qt::UserRole).toInt();
+
 }
 void OngletMP3::afficherListeAnnees()
 {
@@ -390,16 +344,19 @@ void OngletMP3::afficherListeAnnees()
         scaled = scaled.scaled( 100, 100 );
         item->setIcon( QIcon( scaled ) );
         //On s'occupe d'afficher la liste de l'année en cours
-        item->setData(Qt::UserRole,ListeAnnees[cpt]);
+        item->setData(Qt::UserRole,cpt);
         item->setText(ListeAnnees[cpt]);
 
         ui->ArtistesAnnees->addItem(item);
     }
+    ui->ArtistesAnnees->setCurrentRow(0);
+    m_artiste = ui->ArtistesAnnees->currentItem()->data(Qt::UserRole).toInt();;
+
 }
 void OngletMP3::on_AlbumsTitres_doubleClicked(const QModelIndex &index)
 {
-    Q_UNUSED(index);
-    BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3.toInt() );
+    m_mp3 = index.data(Qt::UserRole).toInt();
+    BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3 );
     QFileInfo fich(mp3->m_chemin);
     QString nouvelemplacementchemin= "C:\\Users\\Nico\\Desktop\\Nouveau Dossier\\"+fich.fileName();
     QFile::copy(mp3->m_chemin,nouvelemplacementchemin);
@@ -413,45 +370,15 @@ void OngletMP3::on_buttonBox_clicked(QAbstractButton *button)
     }
     if (button->text() == "Modifier")
     {
-        ModifierAlbumDialog mod(m_album.toInt(),this);
+        ModifierAlbumDialog mod(m_album,this);
         mod.exec();
-    }
-}
-void OngletMP3::on_ArtistesAnnees_currentRowChanged(int currentRow)
-{
-    Q_UNUSED(currentRow);
-    choix("Artiste");
-    vider("AlbMP3");
-    afficheralbumsettitres();
-}
-void OngletMP3::on_AlbumsTitres_currentItemChanged(QTableWidgetItem *current, QTableWidgetItem *previous)
-{
-    Q_UNUSED(previous);
-    if(current != NULL)
-    {
-        if ( current->column()!=0)
-        {
-            vider ("Titres");
-            choix ("Mp3");
-            afficherMP3ouAlbum("MP3");
-            afficherInfosTitre();
-
-        }
-        else
-        {
-            choix("Album");
-            afficherMP3ouAlbum("Album");
-            afficherAlbumSelectionne();
-
-        }
     }
 }
 
 void OngletMP3::on_ArtistesAnnees_doubleClicked(const QModelIndex &index)
 {
-    Q_UNUSED(index);
-    choix("Artiste");
-    BDDArtiste* artiste = BDDArtiste::RecupererArtiste(m_artiste.toInt());
+    m_artiste = index.data(Qt::UserRole).toInt();
+    BDDArtiste* artiste = BDDArtiste::RecupererArtiste(m_artiste);
     ModificationArtisteDialog temp(artiste,this);
     temp.exec();
     vider("Artiste");
@@ -475,5 +402,34 @@ void OngletMP3::afficherMP3ouAlbum(const QString &MouA)
         ui->Playlists->setHidden(false);
         ui->Titres->setHidden(true);
 
+    }
+}
+
+void OngletMP3::on_Categories_clicked(const QModelIndex &index)
+{
+    m_categorie = index.data(Qt::UserRole).toInt();
+    affichageartistes();
+}
+
+void OngletMP3::on_ArtistesAnnees_clicked(const QModelIndex &index)
+{
+    m_artiste = index.data(Qt::UserRole).toInt();
+    vider("AlbMP3");
+    afficheralbumsettitres();
+}
+
+void OngletMP3::on_AlbumsTitres_clicked(const QModelIndex &index)
+{
+    if (index.column() != 0 )
+    {
+        vider("Titres");
+        m_mp3 = index.data(Qt::UserRole).toInt();
+        afficherMP3ouAlbum("MP3");
+        afficherInfosTitre();
+    } else
+    {
+        m_album = index.data(Qt::UserRole).toInt();
+        afficherMP3ouAlbum("Album");
+        afficherAlbumSelectionne();
     }
 }

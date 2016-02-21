@@ -19,7 +19,7 @@ public:
 
     QString m_EAN;
     int m_Type;
-    explicit DialogAjouterPhys(QString id_album, QWidget *parent = 0 );
+    explicit DialogAjouterPhys(int id_album, QWidget *parent = 0 );
 signals:
     void ajout();
 public slots:

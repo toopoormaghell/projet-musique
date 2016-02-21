@@ -19,28 +19,25 @@ public:
 
     void afficherListeArtiste();
     void afficherListeAlbum();
-    QString choixArtiste();
-    QString choixAlbum();
     void AfficherInfosAlbum(int Type);
     void vider(QString type);
     void afficherListeCompils();
-    QString choixCompil();
 
 
     void AfficherArtisteSelectionne();
     void afficherListeSingles();
-    QString choixSingle();
-    int m_selection;
+
+
 public slots:
-    void on_Artistes_currentTextChanged(const QString &arg1);
+
 private slots:
-   void on_Albums_itemPressed(QListWidgetItem *item);
-    void on_Compil_itemPressed(QListWidgetItem *item);
-    void on_Singles_itemPressed(QListWidgetItem *item);
     void on_Modifier_clicked();
     void on_SupprimerAlbum_clicked();
-
+    void on_Albums_itemPressed(QListWidgetItem *item);
+    void on_Compil_itemPressed(QListWidgetItem *item);
+    void on_Singles_itemPressed(QListWidgetItem *item);
     void on_Artistes_doubleClicked(const QModelIndex &index);
+    void on_Artistes_clicked(const QModelIndex &index);
 
 private:
     Ui::OngletPhys *ui;
@@ -49,6 +46,7 @@ private:
     int m_Albums;
     int m_Compils;
     int m_Singles;
+    int m_selection;
 
 };
 

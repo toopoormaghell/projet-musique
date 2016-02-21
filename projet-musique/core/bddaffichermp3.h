@@ -18,7 +18,7 @@ public:
     QStringList RecupererListeTypes(const QString categorie);
 
 private:
-    QString AnneesSwitch(QString annee);
+    QString AnneesSwitch(int annee);
 
 };
 
