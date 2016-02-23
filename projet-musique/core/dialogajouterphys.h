@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include "util.h"
-#include "rechercheurl.h"
+#include "QAWSWrapper.h"
 
 namespace Ui {
 class DialogAjouterPhys;
@@ -41,7 +41,7 @@ private:
 
     Ui::DialogAjouterPhys *ui;
     AlbumPhys m_album;
-    RechercheURL m_rech;
+    QAWSWrapper m_research;
     QString m_affichage;
 
 

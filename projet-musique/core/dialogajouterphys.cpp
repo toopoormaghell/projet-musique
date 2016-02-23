@@ -3,7 +3,6 @@
 #include "qdebug.h"
 #include "bddgestionphys.h"
 #include "util.h"
-#include "rechercheurl.h"
 #include <QFileDialog>
 #include "sousdialogajouttitre.h"
 #include "bddalbum.h"
@@ -37,7 +36,6 @@ DialogAjouterPhys::DialogAjouterPhys(int id_album, QWidget *parent) :
 }
 void DialogAjouterPhys::AjoutConnex()
 {
-    connect(&m_rech,SIGNAL(test()),this,SLOT(AfficheInteraction()));
     connect(ui->buttonGroup, SIGNAL(buttonClicked(int)), this, SLOT(AffichageListeArtistes(int))) ;
 }
 
@@ -58,7 +56,7 @@ void DialogAjouterPhys::on_ChercherEAN_clicked()
     {
         m_EAN="0"+m_EAN;
     }
-    m_album = m_rech.RequeteAlbums(m_EAN,m_Type);
+    m_album = m_research.getAlbumFromEAN( m_EAN );
     AfficherAlbum();
 }
 void DialogAjouterPhys::AfficherAlbum()
@@ -95,7 +93,6 @@ void DialogAjouterPhys::on_Enregistrer_clicked()
 }
 void DialogAjouterPhys::AfficheInteraction()
 {
-    ui->Interaction->append(m_rech.m_interaction);
 }
 void DialogAjouterPhys::AffichageListeArtistes(int id) {
     switch (id)
