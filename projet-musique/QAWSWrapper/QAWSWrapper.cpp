@@ -155,7 +155,17 @@ namespace
                         reader.readNext();
                     reader.readNext();
                     if ( reader.tokenType() == QXmlStreamReader::Characters )
-                        albumToFill.Poch.load( reader.text().toString() );
+                    {
+                        QUrl urlCover( reader.text().toString() );
+                        QNetworkRequest coverRequest( urlCover );
+                        QNetworkAccessManager* accessCover = new QNetworkAccessManager;
+                        QNetworkReply* coverReply = accessCover->get( coverRequest );
+
+                        QEventLoop loop;
+                        QObject::connect( coverReply, SIGNAL(finished()), &loop, SLOT(quit()) );
+                        loop.exec();
+                        albumToFill.Poch = QImage::fromData( coverReply->readAll() );
+                    }
                 }
                 break;
             }
