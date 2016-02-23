@@ -4,7 +4,6 @@
 #include "bddalbum.h"
 #include "bddpoch.h"
 #include <QDebug>
-#include "rechercheurl.h"
 #include "bddartiste.h"
 ChoixAlbumPhysDialog::ChoixAlbumPhysDialog(QString artiste,QWidget *parent) :
     QDialog(parent),
