@@ -177,6 +177,10 @@ namespace
         {
             qDebug() << "error while reading XML:" << reader.error();
         }
+        else if ( !isValid )
+        {
+            qDebug() << "invalide request";
+        }
 
         return albumToFill;
     }
