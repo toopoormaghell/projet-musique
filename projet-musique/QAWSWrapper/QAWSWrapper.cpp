@@ -256,7 +256,6 @@ AlbumPhys QAWSWrapper::getAlbumFromEAN( const QString& ean )
     loop.exec();
 
     albumRelatedToEAN = parseXml( networkReplyApi->readAll(), m_artistsList );
-    qDebug() << albumRelatedToEAN.toString();
 
     return albumRelatedToEAN;
 }
