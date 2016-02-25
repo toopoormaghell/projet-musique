@@ -7,7 +7,7 @@
 
 namespace Ui
 {
-class DialogConfigActu;
+    class DialogConfigActu;
 }
 
 class DialogConfigActu : public QDialog

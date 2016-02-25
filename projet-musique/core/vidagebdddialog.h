@@ -5,7 +5,7 @@
 
 namespace Ui
 {
-class VidageBDDDialog;
+    class VidageBDDDialog;
 }
 
 class VidageBDDDialog : public QDialog

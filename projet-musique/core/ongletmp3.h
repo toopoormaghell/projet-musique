@@ -9,7 +9,7 @@
 
 namespace Ui
 {
-class OngletMP3;
+    class OngletMP3;
 }
 
 class OngletMP3 : public QWidget

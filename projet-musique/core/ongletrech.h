@@ -6,7 +6,7 @@
 
 namespace Ui
 {
-class OngletRech;
+    class OngletRech;
 }
 
 class OngletRech : public QWidget

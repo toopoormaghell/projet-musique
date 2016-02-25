@@ -7,7 +7,7 @@
 
 namespace Ui
 {
-class DialogAjouterPhys;
+    class DialogAjouterPhys;
 }
 
 class DialogAjouterPhys : public QDialog

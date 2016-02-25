@@ -5,7 +5,7 @@
 #include <QAbstractButton>
 namespace Ui
 {
-class SousDialogAjoutTitre;
+    class SousDialogAjoutTitre;
 }
 
 class SousDialogAjoutTitre : public QDialog

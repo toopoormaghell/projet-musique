@@ -8,7 +8,7 @@ class RechercheURL;
 
 namespace Ui
 {
-class ChoixAlbumPhysDialog;
+    class ChoixAlbumPhysDialog;
 }
 
 class ChoixAlbumPhysDialog : public QDialog

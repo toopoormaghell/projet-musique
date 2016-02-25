@@ -5,7 +5,7 @@
 
 namespace Ui
 {
-class OngletStats;
+    class OngletStats;
 }
 
 class OngletStats : public QWidget

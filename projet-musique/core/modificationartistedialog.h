@@ -6,7 +6,7 @@
 
 namespace Ui
 {
-class ModificationArtisteDialog;
+    class ModificationArtisteDialog;
 }
 
 class ModificationArtisteDialog : public QDialog

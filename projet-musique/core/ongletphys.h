@@ -7,7 +7,7 @@
 
 namespace Ui
 {
-class OngletPhys;
+    class OngletPhys;
 }
 
 class OngletPhys : public QWidget
