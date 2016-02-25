@@ -14,6 +14,15 @@
 
 BDDGestionMp3::BDDGestionMp3(QObject *parent) :
     QObject(parent)
+  , m_fichierlu()
+  , m_pourcentage( 0 )
+  , m_filelist()
+  , m_Chemins()
+  , m_type( 0 )
+  , m_iteration( 0 )
+  , m_souscat( 0 )
+  , m_Categories()
+  , m_iterateur()
 {
 
 }

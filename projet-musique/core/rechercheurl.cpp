@@ -7,7 +7,11 @@
 #include "bddpoch.h"
 #include "bddalbum.h"
 #include "choixalbumphysdialog.h"
-RechercheURL::RechercheURL(QObject *parent)
+RechercheURL::RechercheURL(QObject *parent):
+    QObject(parent)
+  , m_interaction()
+  , m_album()
+  , m_pages( 0 )
 {
     Q_UNUSED(parent);
 }
