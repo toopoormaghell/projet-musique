@@ -1,6 +1,5 @@
 #include "rechercheurl.h"
 #include <QObject>
-#include "kqoauthsingleton.h"
 #include <QtXml/QDomDocument>
 #include <QtXml/qdom.h>
 #include <QtNetwork>
@@ -104,16 +103,16 @@ QStringList RechercheURL::RequeteReleases(QStringList attributs)
 {
     if (attributs.count()==3)
     {
-        theOAuthSingleton.makeRequest( attributs[0], attributs[1], attributs[2] );
+        //theOAuthSingleton.makeRequest( attributs[0], attributs[1], attributs[2] );
     } else
     {
-        theOAuthSingleton.makeRequest( attributs[0] );
+        //theOAuthSingleton.makeRequest( attributs[0] );
     }
     //on attend que le signal finished soit reçu
     QEventLoop loop;
-    QObject::connect(&theOAuthSingleton, SIGNAL(finished( QByteArray )), &loop, SLOT(quit()));
+    //QObject::connect(&theOAuthSingleton, SIGNAL(finished( QByteArray )), &loop, SLOT(quit()));
     loop.exec();
-    QStringList lecture = LectureXMLReleases(theOAuthSingleton.getResponse());
+    QStringList lecture/* = LectureXMLReleases(theOAuthSingleton.getResponse())*/;
     return lecture;
 
 }
@@ -122,16 +121,16 @@ QMap<QString,QString> RechercheURL::Requete(QStringList attributs)
 {
     if (attributs.count()==3)
     {
-        theOAuthSingleton.makeRequest( attributs[0], attributs[1], attributs[2] );
+        //theOAuthSingleton.makeRequest( attributs[0], attributs[1], attributs[2] );
     } else
     {
-        theOAuthSingleton.makeRequest( attributs[0] );
+        //theOAuthSingleton.makeRequest( attributs[0] );
     }
     //on attend que le signal finished soit reçu
     QEventLoop loop;
-    QObject::connect(&theOAuthSingleton, SIGNAL(finished( QByteArray )), &loop, SLOT(quit()));
+    //QObject::connect(&theOAuthSingleton, SIGNAL(finished( QByteArray )), &loop, SLOT(quit()));
     loop.exec();
-    QMap<QString, QString> lecture =   LectureXML(theOAuthSingleton.getResponse());
+    QMap<QString, QString> lecture/* =   LectureXML(theOAuthSingleton.getResponse())*/;
     return lecture;
 
 }
@@ -139,16 +138,16 @@ void RechercheURL::RequeteTitres(QStringList attributs)
 {
     if (attributs.count()==3)
     {
-        theOAuthSingleton.makeRequest( attributs[0], attributs[1], attributs[2] );
+        //theOAuthSingleton.makeRequest( attributs[0], attributs[1], attributs[2] );
     } else
     {
-        theOAuthSingleton.makeRequest( attributs[0] );
+        //theOAuthSingleton.makeRequest( attributs[0] );
     }
     //on attend que le signal finished soit reçu
     QEventLoop loop;
-    QObject::connect(&theOAuthSingleton, SIGNAL(finished( QByteArray )), &loop, SLOT(quit()));
+    //QObject::connect(&theOAuthSingleton, SIGNAL(finished( QByteArray )), &loop, SLOT(quit()));
     loop.exec();
-    LectureXMLTitres(theOAuthSingleton.getResponse());
+    //LectureXMLTitres(theOAuthSingleton.getResponse());
 }
 void RechercheURL::LectureXMLTitres(QByteArray fichier)
 {

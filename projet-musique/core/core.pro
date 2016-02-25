@@ -26,9 +26,7 @@ INCLUDEPATH += ../taglib
 INCLUDEPATH += ../taglib/toolkit
 INCLUDEPATH += ../taglib/mpeg
 INCLUDEPATH += ../taglib/mpeg/id3v2
-INCLUDEPATH += ../kqoauth
 INCLUDEPATH += ../qawswrapper
-LIBS += -lkqoauth
 LIBS += -ltaglib
 LIBS += -lqawswrapper
 
@@ -52,7 +50,6 @@ HEADERS += \
     bddtitre.h \
     dialogajouterphys.h \
     rechercheurl.h \
-    kqoauthsingleton.h \
     dialogconfigactu.h \
     bddconfig.h \
     sousdialogajouttitre.h \
@@ -86,7 +83,6 @@ SOURCES += main.cpp \
     bddtitre.cpp \
     dialogajouterphys.cpp \
     rechercheurl.cpp \
-    kqoauthsingleton.cpp \
     dialogconfigactu.cpp \
     bddconfig.cpp \
     sousdialogajouttitre.cpp \
