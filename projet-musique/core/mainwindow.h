@@ -8,7 +8,8 @@
 #include "dialogajouterphys.h"
 #include "vidagebdddialog.h"
 #include <QPushButton>
-namespace Ui {
+namespace Ui
+{
 class MainWindow;
 }
 
@@ -34,7 +35,7 @@ private slots:
     void actionBDD();
     void actionconfigactu();
     void ViderBDD();
-  void ActualiserOngletStats();
+    void ActualiserOngletStats();
     void changerPourcentage();
     void ActualiserOngletMP3();
     void ActualiserOngletPhys();

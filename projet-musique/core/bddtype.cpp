@@ -31,7 +31,7 @@ QList<int> BDDType::NbCategories()
     while ( query.next() )
     {
         QSqlRecord rec = query.record();
-       cate<< rec.value("Id_Type").toInt();
+        cate<< rec.value("Id_Type").toInt();
 
     }
     return cate;

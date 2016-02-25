@@ -65,7 +65,7 @@ void DialogAjouterPhys::AfficherAlbum()
     ui->Nom_Album->setText(m_album.Album);
     ui->Nom_Artiste->setText(m_album.Artiste);
 
-    for (int cpt=0;cpt<m_album.titres.count();cpt++)
+    for (int cpt=0; cpt<m_album.titres.count(); cpt++)
     {
         TitresPhys titre = m_album.titres[cpt];
         ui->Piste->addItem(QString::number(titre.Num_Piste));
@@ -94,12 +94,25 @@ void DialogAjouterPhys::on_Enregistrer_clicked()
 void DialogAjouterPhys::AfficheInteraction()
 {
 }
-void DialogAjouterPhys::AffichageListeArtistes(int id) {
+void DialogAjouterPhys::AffichageListeArtistes(int id)
+{
     switch (id)
     {
-    case (-2):m_Type=1;ui->Artiste_Titres->setHidden(true); ui->ArtisteLabel->setHidden(true);break;
-    case (-3): m_Type=2;ui->Artiste_Titres->setHidden(false); ui->ArtisteLabel->setHidden(false);break;
-    case (-4): m_Type=3;ui->Artiste_Titres->setHidden(true); ui->ArtisteLabel->setHidden(true);break;
+    case (-2):
+        m_Type=1;
+        ui->Artiste_Titres->setHidden(true);
+        ui->ArtisteLabel->setHidden(true);
+        break;
+    case (-3):
+        m_Type=2;
+        ui->Artiste_Titres->setHidden(false);
+        ui->ArtisteLabel->setHidden(false);
+        break;
+    case (-4):
+        m_Type=3;
+        ui->Artiste_Titres->setHidden(true);
+        ui->ArtisteLabel->setHidden(true);
+        break;
     }
 }
 void DialogAjouterPhys::ViderBoiteDialogue()
@@ -135,7 +148,7 @@ void DialogAjouterPhys::RecupererAlbum()
     m_album.Poch=image;
 
     //On récupère les titres
-    for (int i=0;i<ui->Titres->count();i++)
+    for (int i=0; i<ui->Titres->count(); i++)
     {
         TitresPhys titre;
         QListWidgetItem *item= ui->Titres->item(i);
@@ -159,7 +172,7 @@ void DialogAjouterPhys::RecupererAlbum()
 void DialogAjouterPhys::listeNumeros()
 {
     ui->Piste->clear();
-    for (int i=1;i<ui->Titres->count()+1;i++)
+    for (int i=1; i<ui->Titres->count()+1; i++)
     {
         ui->Piste->addItem(new QListWidgetItem(QString::number(i).rightJustified(2,'0')+" - "));
     }
@@ -169,7 +182,7 @@ void DialogAjouterPhys::on_Supprimer_Titre_clicked()
     QList<QListWidgetItem *> fileSelected = ui->Titres->selectedItems();
     if (fileSelected.size())
     {
-        for (int i=ui->Titres->count()-1 ; i>=0 ;i--)
+        for (int i=ui->Titres->count()-1 ; i>=0 ; i--)
         {
             if (ui->Titres->item(i)->isSelected())
             {
@@ -184,9 +197,9 @@ void DialogAjouterPhys::on_Supprimer_Titre_clicked()
 void DialogAjouterPhys::on_pushButton_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName( this,
-                                                     "Ouvrir l'image contenant la pochette",
-                                                     "C:/Users/Nico/Desktop",
-                                                     "Images (*.png *.xpm *.jpg *.bmp)" );
+                       "Ouvrir l'image contenant la pochette",
+                       "C:/Users/Nico/Desktop",
+                       "Images (*.png *.xpm *.jpg *.bmp)" );
     QPixmap* pixmap = new QPixmap();
     QImage* image=new QImage(fileName);
     pixmap->convertFromImage(*image);

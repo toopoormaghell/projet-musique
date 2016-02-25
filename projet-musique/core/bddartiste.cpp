@@ -127,7 +127,8 @@ void BDDArtiste::supprimerenBDD() const
     QSqlQuery  query2 = madatabase.exec(queryStri);
 
     //si la requête ne renvoie pas de résultat, on efface du coup l'artiste
-    if (!query2.first()) {
+    if (!query2.first())
+    {
 
         madatabase.exec("DELETE FROM Artiste WHERE Id_Artiste='"+QString::number(m_id)+"'");
 
@@ -160,9 +161,10 @@ void BDDArtiste::ChoisirArtisteEchange(QString& nom)
         nom=temp;
         EchangerArtiste(nom);
         FormaterEntiteBDD(nom);
-       queryStri="SELECT Artiste FROM Artiste WHERE Artiste_Formate='"+nom+"'";
+        queryStri="SELECT Artiste FROM Artiste WHERE Artiste_Formate='"+nom+"'";
         query=madatabase.exec(queryStri);
-        if (query.first()) {
+        if (query.first())
+        {
             QSqlRecord rec = query.record();
             nom=rec.value("Artiste").toString();
         }

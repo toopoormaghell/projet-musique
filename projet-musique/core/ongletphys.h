@@ -5,8 +5,9 @@
 #include <QListWidgetItem>
 #include "bddafficherphys.h"
 
-namespace Ui {
-    class OngletPhys;
+namespace Ui
+{
+class OngletPhys;
 }
 
 class OngletPhys : public QWidget

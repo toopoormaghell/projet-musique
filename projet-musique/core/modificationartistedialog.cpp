@@ -30,7 +30,7 @@ void ModificationArtisteDialog::AfficherArtiste()
 void ModificationArtisteDialog::on_Inversion_clicked()
 {
     BDDArtiste::EchangerArtiste(m_artiste->m_nom);
-     FormaterEntiteBDD( m_artiste->m_nomFormate );
+    FormaterEntiteBDD( m_artiste->m_nomFormate );
     AfficherArtiste();
 }
 

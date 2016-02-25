@@ -17,7 +17,8 @@ QList<int> BDDRech::RechTitres(QString rech)
 
     QSqlQuery query=madatabase.exec(queryStr);
 
-    while (query.next() ) {
+    while (query.next() )
+    {
         QSqlRecord rec=query.record();
 
         liste << rec.value("Id_Titre").toInt();
@@ -34,7 +35,8 @@ QList<int> BDDRech::RechAlb(QString rech)
 
     QSqlQuery query=madatabase.exec(queryStr);
 
-    while (query.next() ) {
+    while (query.next() )
+    {
         QSqlRecord rec=query.record();
 
         liste << rec.value("Id_Album").toInt();
@@ -50,7 +52,8 @@ QList<int> BDDRech::RechArt(QString rech)
 
     QSqlQuery query=madatabase.exec(queryStr);
 
-    while (query.next() ) {
+    while (query.next() )
+    {
         QSqlRecord rec=query.record();
 
         liste << rec.value("Id_Artiste").toInt();

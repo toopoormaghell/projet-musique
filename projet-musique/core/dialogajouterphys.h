@@ -5,7 +5,8 @@
 #include "util.h"
 #include "QAWSWrapper.h"
 
-namespace Ui {
+namespace Ui
+{
 class DialogAjouterPhys;
 }
 

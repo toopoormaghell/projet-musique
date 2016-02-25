@@ -20,7 +20,7 @@ void BDDGestionPhys::ajouterAlbum(QImage Poch, QString Album, QString Artiste,QS
     BDDAlbum alb(Album,poch,Annee,Type);
 
 
-    for (int cpt=0;cpt<titres.count();cpt++)
+    for (int cpt=0; cpt<titres.count(); cpt++)
     {
         TitresPhys temp = titres[cpt];
         BDDTitre tit(temp.Titre.replace("'","$"),temp.Num_Piste,temp.Duree);
@@ -28,7 +28,8 @@ void BDDGestionPhys::ajouterAlbum(QImage Poch, QString Album, QString Artiste,QS
         {
             BDDArtiste artTitre(temp.Artiste,poch);
             BDDRelation rel(alb,artTitre,tit);
-        } else
+        }
+        else
         {
             BDDRelation rel(alb,art,tit);
         }

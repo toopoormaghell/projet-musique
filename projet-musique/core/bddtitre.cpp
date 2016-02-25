@@ -19,7 +19,8 @@ BDDTitre::BDDTitre(const QString &nom, const int &num_piste, const QString &dure
     if (m_id==-1)
     {
         ajouterBDD();
-    } else
+    }
+    else
     {
         updateBDD();
     }
@@ -67,7 +68,8 @@ void BDDTitre::recupererId()
         QSqlRecord rec = query.record();
         m_id = rec.value( "Titre" ).toInt();
 
-    } else
+    }
+    else
     {
         m_id = -1;
     }
@@ -76,12 +78,12 @@ void BDDTitre::recupererId()
 void BDDTitre::mp3etphys()
 {
     //Première étape: le titre existe ou non en MP3
-     QString queryStr="SELECT R.Id_Relation FROM Relations R, MP3 M WHERE R.Id_Titre IN (SELECT Id_Titre FROM Titre WHERE Titre_Formate = '"+m_nomFormate+"') AND R.Id_Artiste IN (SELECT Id_Artiste FROM Relations WHERE Id_Titre IN (SELECT Id_Titre FROM Titre  WHERE Id_Titre = '"+QString::number(m_id)+"')) AND M.Id_Relation = R.Id_Relation";
+    QString queryStr="SELECT R.Id_Relation FROM Relations R, MP3 M WHERE R.Id_Titre IN (SELECT Id_Titre FROM Titre WHERE Titre_Formate = '"+m_nomFormate+"') AND R.Id_Artiste IN (SELECT Id_Artiste FROM Relations WHERE Id_Titre IN (SELECT Id_Titre FROM Titre  WHERE Id_Titre = '"+QString::number(m_id)+"')) AND M.Id_Relation = R.Id_Relation";
 
     QSqlQuery query = madatabase.exec( queryStr );
     if ( query.first() )
     {
-       m_mp3= true;
+        m_mp3= true;
     }
 
     //Deuxième étape: le titre existe ou non sur album phys

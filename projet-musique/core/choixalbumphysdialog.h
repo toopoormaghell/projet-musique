@@ -6,7 +6,8 @@
 #include <QStandardItemModel>
 class RechercheURL;
 
-namespace Ui {
+namespace Ui
+{
 class ChoixAlbumPhysDialog;
 }
 

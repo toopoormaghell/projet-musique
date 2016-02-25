@@ -74,7 +74,7 @@ void BDDSingleton::creationBase()
     tables << "INSERT INTO Type VALUES(08,'Classique')";
     tables << "INSERT INTO Type VALUES(09,'Générique')";
     tables << "INSERT INTO Type VALUES(10,'Reprises')";
-    for (int i=0;i<tables.size();i++)
+    for (int i=0; i<tables.size(); i++)
     {
         query = madatabase.exec(tables[i]);
     }
@@ -95,9 +95,9 @@ void BDDSingleton::viderBDD()
     //Vidage sur le DD du dossier Pochettes
     QString chemin=".\\Pochettes";
     removeDir(chemin, false);
-    
+
     creationBase();
-    
+
 }
 /*******************************************************
  *Permet de supprimer les fichiers des pochettes

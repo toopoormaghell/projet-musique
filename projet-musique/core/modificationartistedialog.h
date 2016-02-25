@@ -4,7 +4,8 @@
 #include <QDialog>
 #include "bddartiste.h"
 
-namespace Ui {
+namespace Ui
+{
 class ModificationArtisteDialog;
 }
 

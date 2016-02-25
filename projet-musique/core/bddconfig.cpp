@@ -71,7 +71,8 @@ void BDDConfig::EnregistrerActuAlbums(bool check)
     if(check)
     {
         queryStr+="'Oui'";
-    } else
+    }
+    else
     {
         queryStr+="'Non'";
     }
@@ -86,7 +87,8 @@ void BDDConfig::EnregistrerActuCompil(bool check)
     if(check)
     {
         queryStr+="'Oui'";
-    } else
+    }
+    else
     {
         queryStr+="'Non'";
     }
@@ -101,7 +103,8 @@ void BDDConfig::EnregistrerActuLives(bool check)
     if(check)
     {
         queryStr+="'Oui'";
-    } else
+    }
+    else
     {
         queryStr+="'Non'";
     }

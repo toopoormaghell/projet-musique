@@ -14,15 +14,15 @@
 
 BDDGestionMp3::BDDGestionMp3(QObject *parent) :
     QObject(parent)
-  , m_fichierlu()
-  , m_pourcentage( 0 )
-  , m_filelist()
-  , m_Chemins()
-  , m_type( 0 )
-  , m_iteration( 0 )
-  , m_souscat( 0 )
-  , m_Categories()
-  , m_iterateur()
+    , m_fichierlu()
+    , m_pourcentage( 0 )
+    , m_filelist()
+    , m_Chemins()
+    , m_type( 0 )
+    , m_iteration( 0 )
+    , m_souscat( 0 )
+    , m_Categories()
+    , m_iterateur()
 {
 
 }
@@ -67,7 +67,8 @@ void BDDGestionMp3::step()
 
         ++m_iteration;
         QTimer::singleShot(0, this, SLOT( step() ) );
-    } else
+    }
+    else
     {
 
         supprimerAnciensMP3();
@@ -101,10 +102,18 @@ QString BDDGestionMp3::dossiercategorie()
 {
     switch (m_type)
     {
-    case (1): return getdossierpardef();break;
-    case (2): return "F:/Compil";break;
-    case (3): return "F:/Live";break;
-    default: return "";break;
+    case (1):
+        return getdossierpardef();
+        break;
+    case (2):
+        return "F:/Compil";
+        break;
+    case (3):
+        return "F:/Live";
+        break;
+    default:
+        return "";
+        break;
     }
 }
 void BDDGestionMp3::creerfilefichiers()
@@ -209,7 +218,8 @@ void BDDGestionMp3::supprstep()
             qDebug() << e.what();
         }
         QTimer::singleShot(0, this, SLOT( supprstep() ) );
-    } else
+    }
+    else
     {
 
         if ( !m_Categories.empty() )
@@ -233,7 +243,8 @@ void BDDGestionMp3::recupererMp3(int Type)
 
     QSqlQuery  query =  madatabase.exec(queryStri);
 
-    while ( query.next() ) {
+    while ( query.next() )
+    {
         QStringList infos;
         QSqlRecord rec = query.record();
         const int Mp3 = rec.value( "Id_MP3").toInt();
@@ -323,7 +334,7 @@ void BDDGestionMp3::ViderBDD()
 {
     QList<int> tempCat = BDDType::NbCategories();
 
-    for ( int i=0;tempCat.count();i++)
+    for ( int i=0; tempCat.count(); i++)
     {
         recupererMp3(tempCat[i]);
         if (m_Chemins.isEmpty())

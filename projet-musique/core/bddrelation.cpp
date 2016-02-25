@@ -18,7 +18,8 @@ BDDRelation::BDDRelation(const BDDAlbum &album, const BDDArtiste &artiste, const
     if(m_id==-1)
     {
         ajouterBDD();
-    } else
+    }
+    else
     {
         updateBDD();
     }
@@ -34,7 +35,9 @@ void BDDRelation::recupererId()
     {
         QSqlRecord rec = query.record();
         m_id=rec.value("Id_Relation").toInt();
-    } else {
+    }
+    else
+    {
         m_id=-1;
     }
 }

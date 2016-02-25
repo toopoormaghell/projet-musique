@@ -22,7 +22,8 @@ BDDPhys::BDDPhys(const BDDAlbum &album, const QString &ean, const int &type, QOb
     if (m_id==-1)
     {
         ajouterBDD();
-    } else
+    }
+    else
     {
         updateBDD();
     }
@@ -48,7 +49,7 @@ void BDDPhys::deleteBDD()
 
     madatabase.exec(queryStr);
 
-    for (int i=0;i<m_titres.count();i++)
+    for (int i=0; i<m_titres.count(); i++)
     {
         if (!m_titres[i]->m_mp3 )
         {
@@ -84,7 +85,8 @@ void BDDPhys::recupererId()
         QSqlRecord rec = query.record();
         m_id=rec.value( " Id_Phys " ).toInt();
 
-    } else
+    }
+    else
     {
         m_id = -1;
     }

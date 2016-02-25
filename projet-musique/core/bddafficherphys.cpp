@@ -16,7 +16,8 @@ QList<int> BDDAfficherPhys::ListeArtiste()
 
     QSqlQuery query= madatabase.exec(queryStr);
 
-    while (query.next() ) {
+    while (query.next() )
+    {
         QSqlRecord rec=query.record();
 
         liste << rec.value("Id_Artiste").toInt();
@@ -30,7 +31,8 @@ QList<int> BDDAfficherPhys::listeAlbums(QString Id_Artiste)
 
     QSqlQuery query=madatabase.exec(queryStr);
 
-    while (query.next() ) {
+    while (query.next() )
+    {
         QSqlRecord rec=query.record();
 
         albums << rec.value("Id_Album").toInt();
@@ -44,7 +46,8 @@ QList<int> BDDAfficherPhys::listeSingles(QString Id_Artiste)
 
     QSqlQuery query=madatabase.exec(queryStr);
 
-    while (query.next() ) {
+    while (query.next() )
+    {
         QSqlRecord rec=query.record();
 
         albums << rec.value("Id_Album").toInt();
@@ -54,16 +57,24 @@ QList<int> BDDAfficherPhys::listeSingles(QString Id_Artiste)
 
 void BDDAfficherPhys::exporterHTML()
 {
-    for (int i=1;i<5;i++)
+    for (int i=1; i<5; i++)
     {
         QStringList albart=ListeAlbumSauvegarde(i);
         QString chemin = "F:/Tout.html";
         switch (i)
         {
-        case 1 : chemin = "F:/Albums.html";break;
-        case 2 : chemin = "F:/Compils.html";break;
-        case 3 : chemin = "F:/Singles.html";break;
-        case 4 : chemin = "F:/Chansons.html";break;
+        case 1 :
+            chemin = "F:/Albums.html";
+            break;
+        case 2 :
+            chemin = "F:/Compils.html";
+            break;
+        case 3 :
+            chemin = "F:/Singles.html";
+            break;
+        case 4 :
+            chemin = "F:/Chansons.html";
+            break;
         }
 
         //Récupère le fichier et l'ouvre avec lecture lignes par lignes
@@ -77,25 +88,28 @@ void BDDAfficherPhys::exporterHTML()
         int compcouleur= 0;
         if (i!=4)
         {
-            for(int cpt=0;cpt<albart.count();cpt=cpt+2)
+            for(int cpt=0; cpt<albart.count(); cpt=cpt+2)
             {
                 if (compcouleur%2==0 )
                 {
                     flux << "<tr bgcolor='beige'><td>" << QString::number((cpt/2)+1).rightJustified(3,'0') << "</td><td>"<< albart[cpt+1]<<"</td><td>"  << albart[cpt] << "</td></tr>"<< endl;
-                } else
+                }
+                else
                 {
                     flux << "<tr bgcolor='coral'><td>" << QString::number(cpt/2+1).rightJustified(3,'0') << "</td><td>"<< albart[cpt+1]<<"</td><td>"  << albart[cpt] << "</td></tr>"<< endl;
                 }
                 compcouleur++;
             }
-        } else
+        }
+        else
         {
-            for(int cpt=0;cpt<albart.count();cpt=cpt+2)
+            for(int cpt=0; cpt<albart.count(); cpt=cpt+2)
             {
                 if (compcouleur%2==0 )
                 {
                     flux << "<tr bgcolor='beige'><td>" << QString::number((cpt/2)+1).rightJustified(3,'0') << "</td><td>"<< albart[cpt]<<"</td><td>"  << albart[cpt+2]<<"</td><td>" << albart[cpt+1] << "</td></tr>"<< endl;
-                } else
+                }
+                else
                 {
                     flux << "<tr bgcolor='coral'><td>" << QString::number((cpt/2)+1).rightJustified(3,'0') << "</td><td>"<< albart[cpt]<<"</td><td>"  << albart[cpt+2]<<"</td><td>" << albart[cpt+1] << "</td></tr>"<< endl;
                 }
@@ -114,10 +128,18 @@ QStringList BDDAfficherPhys::ListeAlbumSauvegarde(int Cate)
 
     switch (Cate)
     {
-    case 1 : QueryStr="SELECT DISTINCT Al.Album, Ar.Artiste FROM Phys P,Album Al, Artiste Ar, Relations R WHERE P.Id_Album=R.Id_Album AND R.Id_Album=Al.Id_Album AND R.Id_Artiste = Ar.Id_Artiste AND P.Categorie='1' ORDER BY Ar.Artiste, Al.Album";break;
-    case 2 : QueryStr="SELECT DISTINCT Al.Album FROM Phys P,Album Al,Relations R WHERE P.Id_Album=R.Id_Album AND R.Id_Album=Al.Id_Album  AND P.Categorie='2' GROUP BY Album ORDER BY Al.Album";break;
-    case 3 :  QueryStr="SELECT DISTINCT Al.Album, Ar.Artiste FROM Phys P,Album Al, Artiste Ar, Relations R WHERE P.Id_Album=R.Id_Album AND R.Id_Album=Al.Id_Album AND R.Id_Artiste = Ar.Id_Artiste AND P.Categorie='3' ORDER BY Ar.Artiste, Al.Album";break;
-    case 4 : QueryStr = "SELECT DISTINCT Album, Titre, Artiste FROM Phys P,Album Al,Relations R, Titre T, Artiste Ar WHERE P.Id_Album=R.Id_Album AND R.Id_Album=Al.Id_Album  AND P.Categorie='2' AND T.Id_Titre=R.Id_Titre AND Ar.Id_Artiste=R.Id_Artiste GROUP BY Titre ORDER BY Artiste, Titre";break;
+    case 1 :
+        QueryStr="SELECT DISTINCT Al.Album, Ar.Artiste FROM Phys P,Album Al, Artiste Ar, Relations R WHERE P.Id_Album=R.Id_Album AND R.Id_Album=Al.Id_Album AND R.Id_Artiste = Ar.Id_Artiste AND P.Categorie='1' ORDER BY Ar.Artiste, Al.Album";
+        break;
+    case 2 :
+        QueryStr="SELECT DISTINCT Al.Album FROM Phys P,Album Al,Relations R WHERE P.Id_Album=R.Id_Album AND R.Id_Album=Al.Id_Album  AND P.Categorie='2' GROUP BY Album ORDER BY Al.Album";
+        break;
+    case 3 :
+        QueryStr="SELECT DISTINCT Al.Album, Ar.Artiste FROM Phys P,Album Al, Artiste Ar, Relations R WHERE P.Id_Album=R.Id_Album AND R.Id_Album=Al.Id_Album AND R.Id_Artiste = Ar.Id_Artiste AND P.Categorie='3' ORDER BY Ar.Artiste, Al.Album";
+        break;
+    case 4 :
+        QueryStr = "SELECT DISTINCT Album, Titre, Artiste FROM Phys P,Album Al,Relations R, Titre T, Artiste Ar WHERE P.Id_Album=R.Id_Album AND R.Id_Album=Al.Id_Album  AND P.Categorie='2' AND T.Id_Titre=R.Id_Titre AND Ar.Id_Artiste=R.Id_Artiste GROUP BY Titre ORDER BY Artiste, Titre";
+        break;
     }
 
     QSqlQuery query=madatabase.exec(QueryStr);
@@ -128,10 +150,12 @@ QStringList BDDAfficherPhys::ListeAlbumSauvegarde(int Cate)
         if (Cate==2)
         {
             albart << rec.value("Album").toString().replace("$","'") << "Compil" ;
-        } else if (Cate==4)
+        }
+        else if (Cate==4)
         {
             albart << rec.value("Artiste").toString().replace("$","'") << rec.value("Album").toString().replace("$","'") << rec.value("Titre").toString().replace("$","'");
-        } else
+        }
+        else
         {
             albart << rec.value("Album").toString().replace("$","'") << rec.value("Artiste").toString().replace("$","'");
         }
@@ -152,7 +176,8 @@ QList<int> BDDAfficherPhys::listeCompils(QString Id_Artiste)
     }
     QSqlQuery query=madatabase.exec(queryStr);
 
-    while (query.next() ) {
+    while (query.next() )
+    {
         QSqlRecord rec=query.record();
 
         albums << rec.value("Id_Album").toInt();

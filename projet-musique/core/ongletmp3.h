@@ -7,7 +7,8 @@
 #include <QTableWidgetItem>
 
 
-namespace Ui {
+namespace Ui
+{
 class OngletMP3;
 }
 
@@ -34,7 +35,7 @@ public:
 private slots:
     void on_AlbumsTitres_doubleClicked(const QModelIndex &index);
     void on_buttonBox_clicked(QAbstractButton *button);
-   void on_ArtistesAnnees_doubleClicked(const QModelIndex &index);
+    void on_ArtistesAnnees_doubleClicked(const QModelIndex &index);
     void on_Categories_clicked(const QModelIndex &index);
     void on_ArtistesAnnees_clicked(const QModelIndex &index);
     void on_AlbumsTitres_clicked(const QModelIndex &index);

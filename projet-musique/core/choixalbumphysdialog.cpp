@@ -30,7 +30,8 @@ void ChoixAlbumPhysDialog::AfficherAlbums()
 
     QList<int> albums=m_bddInterface.listeAlbums(QString::number(art->m_id),"0");
 
-    for (int cpt=0;cpt<albums.count();cpt++) {
+    for (int cpt=0; cpt<albums.count(); cpt++)
+    {
         //Pour chaque album...
         BDDAlbum* album= BDDAlbum::RecupererAlbum(albums[cpt]);
 

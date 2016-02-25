@@ -40,7 +40,7 @@ void ModifierAlbumDialog::AfficherAlbum()
     ui->Pochette->setPixmap(scaled);
 
     //On affiche les titres
-    for (int comp=0;comp<m_album.titres.count();comp++)
+    for (int comp=0; comp<m_album.titres.count(); comp++)
     {
         QListWidgetItem* item = new QListWidgetItem;
         item->setText(m_album.titres[comp].Titre);
@@ -56,7 +56,7 @@ void ModifierAlbumDialog::AfficherAlbum()
 void ModifierAlbumDialog::ListeNumeros()
 {
     ui->Num_Pistes->clear();
-    for (int i=1;i<ui->Titres->count()+1;i++)
+    for (int i=1; i<ui->Titres->count()+1; i++)
     {
         ui->Num_Pistes->addItem(new QListWidgetItem(QString::number(i).rightJustified(2,'0')+" - "));
     }
@@ -76,7 +76,7 @@ void ModifierAlbumDialog::EnregistrerAlbum()
     m_album.Poch=image;
 
     //On récupère les titres
-    for (int i=0;i<ui->Titres->count();i++)
+    for (int i=0; i<ui->Titres->count(); i++)
     {
         TitresPhys titre;
         titre.Titre=ui->Titres->item(i)->text();
@@ -97,7 +97,7 @@ void ModifierAlbumDialog::Supprimer_Titre()
     QList<QListWidgetItem *> fileSelected = ui->Titres->selectedItems();
     if (fileSelected.size())
     {
-        for (int i=ui->Titres->count()-1 ; i>=0 ;i--)
+        for (int i=ui->Titres->count()-1 ; i>=0 ; i--)
         {
             if (ui->Titres->item(i)->isSelected())
             {

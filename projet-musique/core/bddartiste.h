@@ -26,13 +26,13 @@ public:
     QString m_nomFormate;
 
 
-   static BDDArtiste *RecupererArtparNom(QString &nom);
+    static BDDArtiste *RecupererArtparNom(QString &nom);
 private:
     // Indique que le créateur de la pochette est RecupererArstiste, la pochette doit donc être détruite
     bool m_isPochetteSelfCreated;
     void ajouterBDD();
     void recupererId();
-   void TrouverId(QString &nom);
+    void TrouverId(QString &nom);
     // Constructeur avec une id
     BDDArtiste( const int id, QObject* parent = NULL );
     //Construceur avec un nom d'artiste

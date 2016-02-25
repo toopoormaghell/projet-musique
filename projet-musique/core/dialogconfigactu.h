@@ -5,7 +5,8 @@
 #include <QAbstractButton>
 #include "bddconfig.h"
 
-namespace Ui {
+namespace Ui
+{
 class DialogConfigActu;
 }
 

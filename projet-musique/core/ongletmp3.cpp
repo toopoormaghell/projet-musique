@@ -75,7 +75,7 @@ void OngletMP3::afficherListeType()
 
     QImage image("./Pochettes/def.jpg");
 
-    for(int cpt=0;cpt<types.count();cpt=cpt+2)
+    for(int cpt=0; cpt<types.count(); cpt=cpt+2)
     {
         QPixmap scaled( QPixmap::fromImage( image ) );
         scaled = scaled.scaled( 150, 150 );
@@ -100,7 +100,7 @@ void OngletMP3::afficheralbumsettitres()
     ui->AlbumsTitres->setRowCount(albums.count()*8);
     ui->AlbumsTitres->setColumnCount( ( albums.count() == 0 ) ? 1 : ( ( albums.count() == 1 ) ? 3 : 4 ) );
 
-    for (int cpt=0;cpt<albums.count();cpt++)
+    for (int cpt=0; cpt<albums.count(); cpt++)
     {
         //Pour chaque album...
         BDDAlbum* album= BDDAlbum::RecupererAlbum(albums[cpt]);
@@ -192,7 +192,7 @@ void OngletMP3::afficherAlbumSelectionne()
         ui->Titres->addItem("Pas d'album physique existant");
     }
 
-    for(int i=0;i<alb.titres.count();i++)
+    for(int i=0; i<alb.titres.count(); i++)
     {
         QListWidgetItem* item=new QListWidgetItem;
         TitresPhys titre = alb.titres[i];
@@ -204,7 +204,8 @@ void OngletMP3::afficherAlbumSelectionne()
         {
             item->setIcon(QIcon(mp3physoui));
 
-        } else
+        }
+        else
         {
             item->setIcon(QIcon(mp3physnon));
             item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable);
@@ -215,7 +216,8 @@ void OngletMP3::afficherAlbumSelectionne()
 
 void OngletMP3::afficherTitresAlbum(QString Album,int Cate,int row)
 {
-    int col=1;int ligne=0;
+    int col=1;
+    int ligne=0;
 
     QStringList titres=m_bddInterface.listeTitresAlbumMp3(Album,QString::number(Cate));
 
@@ -228,7 +230,7 @@ void OngletMP3::afficherTitresAlbum(QString Album,int Cate,int row)
 
     ui->AlbumsTitres->setColumnCount(nbcol);
 
-    for (int cpt=0;cpt<titres.count();cpt=cpt+2)
+    for (int cpt=0; cpt<titres.count(); cpt=cpt+2)
     {
         QTableWidgetItem* item= new QTableWidgetItem;
         item->setData(Qt::UserRole,titres[cpt+1]);
@@ -278,7 +280,7 @@ void OngletMP3::Similaires(const int id)
     BDDTitre* titre = BDDTitre::RecupererTitre(id);
     QList<int> Simi = titre->Similaires( id);
     //On affiche chaque titre similaire
-    for (int i =0;i<Simi.count();i++)
+    for (int i =0; i<Simi.count(); i++)
     {
         //On récupère les infos du titre similaire
         BDDMp3* mp3 = BDDMp3::RecupererMp3( Simi[i] );
@@ -305,7 +307,7 @@ void OngletMP3::affichageartistes()
     {
         //On récupère la liste des artistes
         QList<int> artistes=m_bddInterface.ListeArtiste(QString::number(m_categorie));
-        for (int cpt=0;cpt<artistes.count();cpt++)
+        for (int cpt=0; cpt<artistes.count(); cpt++)
         {
             BDDArtiste* artiste = BDDArtiste::RecupererArtiste( artistes[cpt] );
             if ( artiste->m_id > 0 )
@@ -323,7 +325,8 @@ void OngletMP3::affichageartistes()
         }
         srand(time(NULL));
         aleatoire= (rand() % (artistes.count() - 0 + 1)) + 0;
-    } else
+    }
+    else
     {
         afficherListeAnnees();
     }
@@ -337,7 +340,7 @@ void OngletMP3::afficherListeAnnees()
 
     QStringList ListeAnnees;
     ListeAnnees << "Avant 1980" <<"1980-1989"<< "1990-1999" << "2000-2004" << "2005-2009" << "2010-2014" <<"2015-2019";
-    for (int cpt=0;cpt<ListeAnnees.count();cpt++)
+    for (int cpt=0; cpt<ListeAnnees.count(); cpt++)
     {
         QListWidgetItem* item= new  QListWidgetItem;
         QPixmap scaled( QPixmap::fromImage( poch->m_image ) );
@@ -394,7 +397,8 @@ void OngletMP3::afficherMP3ouAlbum(const QString &MouA)
         ui->Playlists->setHidden(true);
         ui->Titres->setHidden(false);
         ui->Piste->setText(" ");
-    } else
+    }
+    else
     {
         ui->Sur->setText("sur : ");
         ui->buttonBox->setHidden(true);
@@ -426,7 +430,8 @@ void OngletMP3::on_AlbumsTitres_clicked(const QModelIndex &index)
         m_mp3 = index.data(Qt::UserRole).toInt();
         afficherMP3ouAlbum("MP3");
         afficherInfosTitre();
-    } else
+    }
+    else
     {
         m_album = index.data(Qt::UserRole).toInt();
         afficherMP3ouAlbum("Album");

@@ -43,7 +43,7 @@ void FormaterEntiteBDD(QString &Entite)
     QString res;
     QStringList temp = Entite.split(" ");
 
-    for (int cpt=0;cpt<temp.count();cpt++)
+    for (int cpt=0; cpt<temp.count(); cpt++)
     {
         res+=temp[cpt];
     }

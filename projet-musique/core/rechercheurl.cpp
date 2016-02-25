@@ -9,9 +9,9 @@
 #include "choixalbumphysdialog.h"
 RechercheURL::RechercheURL(QObject *parent):
     QObject(parent)
-  , m_interaction()
-  , m_album()
-  , m_pages( 0 )
+    , m_interaction()
+    , m_album()
+    , m_pages( 0 )
 {
     Q_UNUSED(parent);
 }
@@ -43,7 +43,9 @@ AlbumPhys RechercheURL::RequeteAlbums(QString rech,int Type)
         m_album.Artiste=lecture["name"];
         m_interaction= "Récupération du nom de l'artiste faite.";
         emit test();
-    } else {
+    }
+    else
+    {
         m_album.Artiste="Artistes Divers";
         m_interaction= "Le type de l'album est une compilation.";
         emit test();
@@ -64,19 +66,24 @@ AlbumPhys RechercheURL::RequeteAlbums(QString rech,int Type)
         }
         if (id_alb==0)
         {
-            m_interaction= "Récupération de la pochette..."; emit test();
+            m_interaction= "Récupération de la pochette...";
+            emit test();
             temp.clear();
             temp <<"release/"+QString::number(m_album.Id_Release)+"/pictures";
             lecture =Requete(temp);
             RecupererPoch(lecture["url"]);
-        } else {
+        }
+        else
+        {
             BDDAlbum* albu = BDDAlbum::RecupererAlbum(id_alb);
             m_album.Id_Album=albu->m_id;
             m_album.Poch=albu->m_pochette->m_image;
             m_album.Album=albu->m_nom;
         }
 
-    } else {
+    }
+    else
+    {
 
         m_interaction= "La pochette existe déjà.";
         emit test();
@@ -108,7 +115,8 @@ QStringList RechercheURL::RequeteReleases(QStringList attributs)
     if (attributs.count()==3)
     {
         //theOAuthSingleton.makeRequest( attributs[0], attributs[1], attributs[2] );
-    } else
+    }
+    else
     {
         //theOAuthSingleton.makeRequest( attributs[0] );
     }
@@ -126,7 +134,8 @@ QMap<QString,QString> RechercheURL::Requete(QStringList attributs)
     if (attributs.count()==3)
     {
         //theOAuthSingleton.makeRequest( attributs[0], attributs[1], attributs[2] );
-    } else
+    }
+    else
     {
         //theOAuthSingleton.makeRequest( attributs[0] );
     }
@@ -143,7 +152,8 @@ void RechercheURL::RequeteTitres(QStringList attributs)
     if (attributs.count()==3)
     {
         //theOAuthSingleton.makeRequest( attributs[0], attributs[1], attributs[2] );
-    } else
+    }
+    else
     {
         //theOAuthSingleton.makeRequest( attributs[0] );
     }
@@ -207,15 +217,24 @@ void RechercheURL::LectureXMLTitres(QByteArray fichier)
             }
             break;
         }
-        case QXmlStreamReader::StartDocument :  break;
-        case QXmlStreamReader::EndElement: break;
-        case QXmlStreamReader::EndDocument: break;
-        case QXmlStreamReader::NoToken: break;
-        case QXmlStreamReader::Invalid: break;
-        case QXmlStreamReader::Comment:break;
-        case QXmlStreamReader::DTD:break;
-        case QXmlStreamReader::EntityReference:break;
-        case QXmlStreamReader::ProcessingInstruction:break;
+        case QXmlStreamReader::StartDocument :
+            break;
+        case QXmlStreamReader::EndElement:
+            break;
+        case QXmlStreamReader::EndDocument:
+            break;
+        case QXmlStreamReader::NoToken:
+            break;
+        case QXmlStreamReader::Invalid:
+            break;
+        case QXmlStreamReader::Comment:
+            break;
+        case QXmlStreamReader::DTD:
+            break;
+        case QXmlStreamReader::EntityReference:
+            break;
+        case QXmlStreamReader::ProcessingInstruction:
+            break;
         }
     }
     if (titre_en_cours.Titre!="")
@@ -249,15 +268,24 @@ QStringList RechercheURL::LectureXMLReleases(QByteArray fichier)
             }
             break;
         }
-        case QXmlStreamReader::StartDocument :  break;
-        case QXmlStreamReader::EndDocument: break;
-        case QXmlStreamReader::EndElement: break;
-        case QXmlStreamReader::NoToken: break;
-        case QXmlStreamReader::Invalid: break;
-        case QXmlStreamReader::Comment:break;
-        case QXmlStreamReader::DTD:break;
-        case QXmlStreamReader::EntityReference:break;
-        case QXmlStreamReader::ProcessingInstruction:break;
+        case QXmlStreamReader::StartDocument :
+            break;
+        case QXmlStreamReader::EndDocument:
+            break;
+        case QXmlStreamReader::EndElement:
+            break;
+        case QXmlStreamReader::NoToken:
+            break;
+        case QXmlStreamReader::Invalid:
+            break;
+        case QXmlStreamReader::Comment:
+            break;
+        case QXmlStreamReader::DTD:
+            break;
+        case QXmlStreamReader::EntityReference:
+            break;
+        case QXmlStreamReader::ProcessingInstruction:
+            break;
         }
     }
     return temp;
@@ -316,7 +344,7 @@ void RechercheURL::RecupererTitres()
         }
     }
     //On récupère les pages suivantes des titres
-    for (int i=2;i<=m_pages;i++)
+    for (int i=2; i<=m_pages; i++)
     {
         temp.clear();
         temp <<"release/"+releasebonne+"/tracks" << "page" << QString::number(i);
@@ -333,7 +361,7 @@ void RechercheURL::RecupererTitres()
     if( m_album.Type==2)
     {
 
-        for (int compt=0;compt<m_album.titres.count();compt++)
+        for (int compt=0; compt<m_album.titres.count(); compt++)
         {
 
             temp.clear();
@@ -372,15 +400,24 @@ QMap<QString, QString> RechercheURL::LectureXML(QByteArray fichier)
             }
             break;
         }
-        case QXmlStreamReader::StartDocument :  break;
-        case QXmlStreamReader::EndDocument:   break;
-        case QXmlStreamReader::EndElement: break;
-        case QXmlStreamReader::NoToken: break;
-        case QXmlStreamReader::Invalid: break;
-        case QXmlStreamReader::Comment:break;
-        case QXmlStreamReader::DTD:break;
-        case QXmlStreamReader::EntityReference:break;
-        case QXmlStreamReader::ProcessingInstruction:break;
+        case QXmlStreamReader::StartDocument :
+            break;
+        case QXmlStreamReader::EndDocument:
+            break;
+        case QXmlStreamReader::EndElement:
+            break;
+        case QXmlStreamReader::NoToken:
+            break;
+        case QXmlStreamReader::Invalid:
+            break;
+        case QXmlStreamReader::Comment:
+            break;
+        case QXmlStreamReader::DTD:
+            break;
+        case QXmlStreamReader::EntityReference:
+            break;
+        case QXmlStreamReader::ProcessingInstruction:
+            break;
         }
     }
     return temp;

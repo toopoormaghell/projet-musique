@@ -22,7 +22,8 @@ BDDPoch::BDDPoch( const QImage& image, const QString& album, const QString& arti
     {
         sauverImage(albumFormate,artisteFormate);
         ajouterBDD();
-    } else
+    }
+    else
     {
         updateBDD();
     }
@@ -56,11 +57,14 @@ void BDDPoch::recupererId()
     QString queryStr =" Select Id_Pochette As 'Poch' from Pochette WHERE Chemin='"+m_chemin+"'";
     QSqlQuery query=madatabase.exec(queryStr);
 
-    if(query.first()) {
+    if(query.first())
+    {
         QSqlRecord rec = query.record();
         m_id= rec.value( "Poch" ).toInt();
 
-    } else {
+    }
+    else
+    {
         m_id=-1;
     }
 }
@@ -90,7 +94,8 @@ BDDPoch *BDDPoch::recupererPoch(const QString &album, const QString &artiste)
     QString queryStr =" Select Id_Pochette As 'Poch' from Pochette WHERE Chemin='"+chemin+"'";
     QSqlQuery query=madatabase.exec(queryStr);
 
-    if(query.first()) {
+    if(query.first())
+    {
 
         QSqlRecord rec = query.record();
         int id= rec.value( "Poch" ).toInt();
@@ -124,18 +129,19 @@ BDDPoch::BDDPoch( const int id, QObject* parent ):
 void BDDPoch::supprimerenBDD() const
 {
 
-        //On vérifie si la pochette n'existe plus ni dans l'artiste, ni dans l'album
-        QString queryStr= "SELECT Id_Pochette FROM Artiste WHERE Id_Pochette='"+QString::number(m_id)+"' UNION SELECT Id_Pochette FROM Album WHERE Id_Pochette='"+QString::number(m_id)+"'";
-        qDebug() << queryStr;
-        QSqlQuery  query2 = madatabase.exec(queryStr);
+    //On vérifie si la pochette n'existe plus ni dans l'artiste, ni dans l'album
+    QString queryStr= "SELECT Id_Pochette FROM Artiste WHERE Id_Pochette='"+QString::number(m_id)+"' UNION SELECT Id_Pochette FROM Album WHERE Id_Pochette='"+QString::number(m_id)+"'";
+    qDebug() << queryStr;
+    QSqlQuery  query2 = madatabase.exec(queryStr);
 
-        //si la requête ne renvoie pas de résultat, on efface du coup la pochette
-        if (!query2.first()) {
+    //si la requête ne renvoie pas de résultat, on efface du coup la pochette
+    if (!query2.first())
+    {
 
-            queryStr =  "DELETE FROM Pochette WHERE Id_Pochette='"+QString::number(m_id)+"'";
-            madatabase.exec(queryStr);
-            QFile::remove(m_chemin);
-        }
+        queryStr =  "DELETE FROM Pochette WHERE Id_Pochette='"+QString::number(m_id)+"'";
+        madatabase.exec(queryStr);
+        QFile::remove(m_chemin);
+    }
 
 }
 

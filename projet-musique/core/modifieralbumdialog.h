@@ -5,7 +5,8 @@
 #include "bddgestionphys.h"
 #include "util.h"
 
-namespace Ui {
+namespace Ui
+{
 class ModifierAlbumDialog;
 }
 

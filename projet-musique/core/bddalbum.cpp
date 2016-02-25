@@ -23,7 +23,8 @@ BDDAlbum::BDDAlbum(const QString& album, const BDDPoch& pochette, int annee, int
     if (m_id==-1)
     {
         ajouterBDD();
-    } else
+    }
+    else
     {
         updateBDD();
     }
@@ -53,7 +54,8 @@ void BDDAlbum::recupererId()
     {
         QSqlRecord rec = query.record();
         m_id = rec.value( "Album" ).toInt();
-    } else
+    }
+    else
     {
         m_id = -1;
     }
@@ -103,7 +105,8 @@ void BDDAlbum::supprimerenBDD() const
     QSqlQuery  query2 = madatabase.exec(queryStri);
 
     //si la deuxième requête ne renvoie pas de résultat, on efface du coup l'album
-    if (!query2.first()) {
+    if (!query2.first())
+    {
 
         madatabase.exec("DELETE FROM Album WHERE Id_Album='"+QString::number(m_id)+"'");
 

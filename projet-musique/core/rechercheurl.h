@@ -27,7 +27,7 @@ private:
     void RecupererPoch(QString lien);
     QStringList RequeteReleases(QStringList attributs);
     QStringList LectureXMLReleases(QByteArray fichier);
-void RecupererTitres();
+    void RecupererTitres();
 };
 
 #endif // RECHERCHEURL_H

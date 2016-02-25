@@ -3,7 +3,8 @@
 
 #include <QDialog>
 #include <QAbstractButton>
-namespace Ui {
+namespace Ui
+{
 class SousDialogAjoutTitre;
 }
 

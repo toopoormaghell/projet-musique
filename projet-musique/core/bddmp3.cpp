@@ -26,7 +26,7 @@ BDDMp3::BDDMp3(const QString &Chemin, const BDDRelation &relation, const int &ty
     }
     else
     {
-updateBDD();
+        updateBDD();
     }
 }
 
@@ -52,7 +52,8 @@ void BDDMp3::recupererId()
         QSqlRecord rec = query.record();
         m_id=rec.value("Id_MP3").toInt();
 
-    } else
+    }
+    else
     {
         m_id = -1;
     }

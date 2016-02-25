@@ -4,7 +4,8 @@
 #include <QWidget>
 #include "bddrech.h"
 
-namespace Ui {
+namespace Ui
+{
 class OngletRech;
 }
 
@@ -31,7 +32,7 @@ private:
     void affichageTitres();
     void affichageAlbums();
     void affichageArtistes();
- void AffichageResGroup(int Type);
+    void AffichageResGroup(int Type);
 
     QString m_affiche;
 

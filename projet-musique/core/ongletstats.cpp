@@ -79,7 +79,7 @@ void OngletStats::AfficherArtistesCompilMP3()
 {
     QList<int> temp = m_bddInterface.ListeArtistesCompils();
 
-    for (int i = 0; i<temp.count();i++)
+    for (int i = 0; i<temp.count(); i++)
     {
         BDDArtiste* art = BDDArtiste::RecupererArtiste(temp[i]);
         QListWidgetItem* item =  new QListWidgetItem;
@@ -91,8 +91,8 @@ void OngletStats::AfficherArtistesCompilMP3()
 void OngletStats::AfficherMP3ArtisteCompilMP3()
 {
     QList<int> temp = m_bddInterface.ListeMp3ArtisteCompil(choixArtiste());
-ui->MP3Artiste5->clear();
-    for (int i = 0; i<temp.count();i++)
+    ui->MP3Artiste5->clear();
+    for (int i = 0; i<temp.count(); i++)
     {
         BDDTitre* titre = BDDTitre::RecupererTitre(temp[i]);
         QListWidgetItem* item =  new QListWidgetItem;
@@ -112,7 +112,8 @@ int OngletStats::choixArtiste()
     if (item !=NULL)
     {
         return item->data(Qt::UserRole).toInt();
-    } else
+    }
+    else
     {
         return -1;
     }

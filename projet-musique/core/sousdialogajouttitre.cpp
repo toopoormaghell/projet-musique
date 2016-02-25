@@ -25,7 +25,9 @@ void SousDialogAjoutTitre::ActualiserOnglet(int Type)
     {
         ui->Artiste->setHidden(0);
         ui->label_2->setHidden(0);
-    } else {
+    }
+    else
+    {
         ui->Artiste->setHidden(1);
         ui->label_2->setHidden(1);
     }

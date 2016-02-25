@@ -3,7 +3,8 @@
 #include "bddstats.h"
 #include <QWidget>
 
-namespace Ui {
+namespace Ui
+{
 class OngletStats;
 }
 
@@ -14,9 +15,9 @@ class OngletStats : public QWidget
 public:
     explicit OngletStats(QWidget *parent = 0);
     ~OngletStats();
-  void AfficherInfos();
+    void AfficherInfos();
 private slots:
-  void on_ArtistesDansCompil_currentRowChanged(int currentRow);
+    void on_ArtistesDansCompil_currentRowChanged(int currentRow);
 
 private:
     Ui::OngletStats *ui;
