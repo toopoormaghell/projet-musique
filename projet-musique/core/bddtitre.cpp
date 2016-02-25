@@ -127,6 +127,7 @@ QList<int> BDDTitre::Similaires(const int id)
     BDDTitre* titre= RecupererTitre(id);
 
     QString queryStr="SELECT M.Id_MP3 FROM Titre T,MP3 M, Relations R WHERE T.Id_Titre!='"+QString::number(id)+"' AND T.Titre_Formate LIKE '%"+titre->m_nomFormate+"%' AND T.Id_Titre=R.Id_Titre AND R.Id_Relation = M.Id_Relation";
+    delete titre;
     QSqlQuery query = madatabase.exec( queryStr );
     while ( query.next() )
     {
