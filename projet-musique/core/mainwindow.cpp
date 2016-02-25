@@ -169,6 +169,7 @@ void MainWindow::changerPourcentage()
 }
 void MainWindow::ActualiserOngletMP3()
 {
+    m_interaction->setText("Fin de l'actualisation.");
     ui->MP3->vider("Categories");
     ui->MP3->afficherListeType();
 }
