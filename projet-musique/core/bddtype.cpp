@@ -3,12 +3,12 @@
 #include "bddsingleton.h"
 
 
-BDDType *BDDType::RecupererType( const int id )
+BDDType* BDDType::RecupererType( const int id )
 {
     return new BDDType( id );
 }
 
-BDDType::BDDType( const int id, QObject *parent ):
+BDDType::BDDType( const int id, QObject* parent ):
     QObject( parent ),
     m_id( id ),
     m_type()

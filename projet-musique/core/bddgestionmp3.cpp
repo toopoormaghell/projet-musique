@@ -12,7 +12,7 @@
 #include <QDir>
 #include <QTimer>
 
-BDDGestionMp3::BDDGestionMp3( QObject *parent ) :
+BDDGestionMp3::BDDGestionMp3( QObject* parent ) :
     QObject( parent )
     , m_fichierlu()
     , m_pourcentage( 0 )
@@ -151,7 +151,7 @@ void BDDGestionMp3::actualiserMp3( QString chemin )
     m_souscat = m_type;
     // conversion du QString pour le nom du fichier MP3 ainsi que son chemin
     QByteArray arrFileName = QFile::encodeName( chemin );
-    const char *encodedName = arrFileName.constData();
+    const char* encodedName = arrFileName.constData();
     TagLib::FileRef f( encodedName );
 
     //On récupère l'artiste, l'album, le titre et le numéro de piste
@@ -301,13 +301,13 @@ void BDDGestionMp3::SousCatParChemin( QString chemin )
     }
 }
 
-QImage BDDGestionMp3::ImageAlbum( const TagLib::FileRef &f )
+QImage BDDGestionMp3::ImageAlbum( const TagLib::FileRef& f )
 {
     //On s'occupe de la pochette de l'album qu'on enregistre
     QImage Image;
     TagLib::ID3v2::Tag Tag( f.file(), 0 );
     TagLib::ID3v2::FrameList Liste = Tag.frameListMap()["APIC"];
-    TagLib::ID3v2::AttachedPictureFrame *Pic = static_cast<TagLib::ID3v2::AttachedPictureFrame *>( Liste.front() );
+    TagLib::ID3v2::AttachedPictureFrame* Pic = static_cast<TagLib::ID3v2::AttachedPictureFrame*>( Liste.front() );
 
     if ( ( Pic == NULL ) || Pic->picture().isEmpty() )
     {
@@ -316,7 +316,7 @@ QImage BDDGestionMp3::ImageAlbum( const TagLib::FileRef &f )
     }
     else
     {
-        Image.loadFromData( ( const uchar * ) Pic->picture().data(), Pic->picture().size() );
+        Image.loadFromData( ( const uchar* ) Pic->picture().data(), Pic->picture().size() );
     }
 
     return Image;

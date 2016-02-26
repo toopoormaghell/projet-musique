@@ -4,7 +4,7 @@
 #include <QAbstractButton>
 #include "bddconfig.h"
 
-DialogConfigActu::DialogConfigActu( QWidget *parent ) :
+DialogConfigActu::DialogConfigActu( QWidget* parent ) :
     QDialog( parent ),
     ui( new Ui::DialogConfigActu )
 {
@@ -58,7 +58,7 @@ void DialogConfigActu::RemiseaZero()
     ui->Lives->setChecked( false );
 }
 
-void DialogConfigActu::on_buttonBox_clicked( QAbstractButton *button )
+void DialogConfigActu::on_buttonBox_clicked( QAbstractButton* button )
 {
     if ( ui->buttonBox->standardButton( button ) == QDialogButtonBox::Reset )
     {

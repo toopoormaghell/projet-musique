@@ -6,7 +6,7 @@
 #include "bddartiste.h"
 #include "bddalbum.h"
 
-BDDTitre::BDDTitre( const QString &nom, const int &num_piste, const QString &duree, QObject *parent ) :
+BDDTitre::BDDTitre( const QString& nom, const int& num_piste, const QString& duree, QObject* parent ) :
     QObject( parent ),
     m_id( -1 ),
     m_nom( nom ),
@@ -43,7 +43,7 @@ void BDDTitre::supprimerenBDD() const
     }
 }
 
-BDDTitre *BDDTitre::RecupererTitre( const int id )
+BDDTitre* BDDTitre::RecupererTitre( const int id )
 {
     return new BDDTitre( id );
 }
@@ -96,7 +96,7 @@ void BDDTitre::mp3etphys()
     }
 }
 
-BDDTitre::BDDTitre( const int id, QObject *parent ):
+BDDTitre::BDDTitre( const int id, QObject* parent ):
     QObject( parent ),
     m_id( id ),
     m_nom(),

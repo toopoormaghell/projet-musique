@@ -8,7 +8,7 @@
 #include "bddtype.h"
 #include "bddphys.h"
 
-BDDGestionPhys::BDDGestionPhys( QObject *parent ) :
+BDDGestionPhys::BDDGestionPhys( QObject* parent ) :
     QObject( parent )
 {
 }

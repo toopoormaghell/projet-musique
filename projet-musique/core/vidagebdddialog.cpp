@@ -3,7 +3,7 @@
 #include "bddsingleton.h"
 #include "bddgestionmp3.h"
 #include "QDebug"
-VidageBDDDialog::VidageBDDDialog( QWidget *parent ) :
+VidageBDDDialog::VidageBDDDialog( QWidget* parent ) :
     QDialog( parent ),
     Mp3( true ),
     Phys( true ),

@@ -13,7 +13,7 @@ class BDDMp3 : public QObject
     Q_OBJECT
 public:
 
-    explicit BDDMp3( const QString& Chemin, const BDDRelation& relation, const int&type, QObject *parent = 0 );
+    explicit BDDMp3( const QString& Chemin, const BDDRelation& relation, const int& type, QObject* parent = 0 );
     virtual ~BDDMp3();
 
     void updateBDD();
@@ -28,7 +28,7 @@ public:
     BDDType const* m_type;
     QString m_chemin;
 
-    static BDDMp3* RecupererMp3ParChemin( QString &chemin );
+    static BDDMp3* RecupererMp3ParChemin( QString& chemin );
 private:
     // Indique que les membres ont été créés par RecupererMp3 et doivent donc être détruits explicitement
     bool m_membersAreSelfCreated;
@@ -39,7 +39,7 @@ private:
     //Constructeur avec une ide
     BDDMp3( const int id, QObject* parent = NULL );
     //Constructeur avec un chemin
-    BDDMp3( const QString& chemin, QObject *parent = NULL );
+    BDDMp3( const QString& chemin, QObject* parent = NULL );
 };
 
 #endif // BDDMP3_H

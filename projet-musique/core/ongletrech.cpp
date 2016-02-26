@@ -6,7 +6,7 @@
 #include "bddartiste.h"
 #include "bddpoch.h"
 
-OngletRech::OngletRech( QWidget *parent ) :
+OngletRech::OngletRech( QWidget* parent ) :
     QWidget( parent ),
     ui( new Ui::OngletRech )
 {
@@ -86,13 +86,13 @@ void OngletRech::affichageArtistes()
     }
 }
 
-void OngletRech::on_TitResult_clicked( const QModelIndex &index )
+void OngletRech::on_TitResult_clicked( const QModelIndex& index )
 {
     AffichageResGroup( 1 );
     m_affiche =  index.data( Qt::UserRole ).toString();
     ui->BoutTit->setText( m_affiche );
 }
-void OngletRech::on_ArtResult_clicked( const QModelIndex &index )
+void OngletRech::on_ArtResult_clicked( const QModelIndex& index )
 {
     AffichageResGroup( 0 );
     m_affiche =  index.data( Qt::UserRole ).toString();

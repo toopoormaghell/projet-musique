@@ -5,7 +5,7 @@
 #include "bddconfig.h"
 
 
-BDDAfficherMp3::BDDAfficherMp3( QObject *parent ) :
+BDDAfficherMp3::BDDAfficherMp3( QObject* parent ) :
     QObject( parent )
 {
 }

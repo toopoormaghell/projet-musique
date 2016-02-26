@@ -2,7 +2,7 @@
 #include "bddsingleton.h"
 #include <QtSql>
 
-bddstats::bddstats( QObject *parent ) : QObject( parent )
+bddstats::bddstats( QObject* parent ) : QObject( parent )
 {
 }
 

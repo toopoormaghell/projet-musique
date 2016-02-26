@@ -45,7 +45,7 @@ class BDDGestionMp3 : public QObject
 {
     Q_OBJECT
 public:
-    explicit BDDGestionMp3( QObject *parent = 0 );
+    explicit BDDGestionMp3( QObject* parent = 0 );
     void demarreractualiser();
 
     QString m_fichierlu;

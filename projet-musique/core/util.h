@@ -3,9 +3,9 @@
 
 #include <QObject>
 #include <QImage>
-void FormaterEntiteBDD( QString &Entite );
+void FormaterEntiteBDD( QString& Entite );
 QString EchangerArtiste( QString Artiste );
-void EnleverAccents( QString &Nom );
+void EnleverAccents( QString& Nom );
 
 #ifndef PHYS_STRUCT
 #define PHYS_STRUCT

@@ -6,7 +6,7 @@
 #include "bddalbum.h"
 #include "bddartiste.h"
 
-BDDRelation::BDDRelation( const BDDAlbum &album, const BDDArtiste &artiste, const BDDTitre &titre, QObject *parent ) :
+BDDRelation::BDDRelation( const BDDAlbum& album, const BDDArtiste& artiste, const BDDTitre& titre, QObject* parent ) :
     QObject( parent ),
     m_id( -1 ),
     m_id_artiste( artiste.m_id ),
@@ -46,12 +46,12 @@ void BDDRelation::updateBDD()
 
 }
 
-BDDRelation *BDDRelation::RecupererRelation( const int id )
+BDDRelation* BDDRelation::RecupererRelation( const int id )
 {
     return new BDDRelation( id );
 }
 
-BDDRelation::BDDRelation( const int id, QObject *parent ):
+BDDRelation::BDDRelation( const int id, QObject* parent ):
     QObject( parent ),
     m_id( id ),
     m_id_artiste(),

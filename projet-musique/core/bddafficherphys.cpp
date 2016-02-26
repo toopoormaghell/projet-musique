@@ -4,7 +4,7 @@
 #include "bddalbum.h"
 
 
-BDDAfficherPhys::BDDAfficherPhys( QObject *parent ) :
+BDDAfficherPhys::BDDAfficherPhys( QObject* parent ) :
     QObject( parent )
 {
 }

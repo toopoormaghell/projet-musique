@@ -10,7 +10,7 @@ class BDDAlbum : public QObject
 {
     Q_OBJECT
 public:
-    explicit BDDAlbum( const QString &album, const BDDPoch &pochette, int annee, int type, QObject *parent = 0 );
+    explicit BDDAlbum( const QString& album, const BDDPoch& pochette, int annee, int type, QObject* parent = 0 );
     virtual ~BDDAlbum();
 
     void updateBDD();

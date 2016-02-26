@@ -8,7 +8,7 @@
 #include "bddalbum.h"
 
 
-ModifierAlbumDialog::ModifierAlbumDialog( int selection, QWidget *parent ) :
+ModifierAlbumDialog::ModifierAlbumDialog( int selection, QWidget* parent ) :
     QDialog( parent ),
     ui( new Ui::ModifierAlbumDialog ),
     m_selection( selection )
@@ -94,14 +94,14 @@ void ModifierAlbumDialog::EnregistrerAlbum()
 }
 void ModifierAlbumDialog::Supprimer_Titre()
 {
-    QList<QListWidgetItem *> fileSelected = ui->Titres->selectedItems();
+    QList<QListWidgetItem*> fileSelected = ui->Titres->selectedItems();
     if ( fileSelected.size() )
     {
         for ( int i = ui->Titres->count() - 1 ; i >= 0 ; i-- )
         {
             if ( ui->Titres->item( i )->isSelected() )
             {
-                QListWidgetItem * item = ui->Titres->takeItem( i );
+                QListWidgetItem* item = ui->Titres->takeItem( i );
                 ui->Titres->removeItemWidget( item );
             }
         }

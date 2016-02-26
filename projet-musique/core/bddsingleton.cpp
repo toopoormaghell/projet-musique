@@ -38,7 +38,7 @@ BDDSingleton& BDDSingleton::getInstance()
 {
     return s_singleton;
 }
-QSqlDatabase &BDDSingleton::getDataBase()
+QSqlDatabase& BDDSingleton::getDataBase()
 {
     return m_database;
 }
@@ -103,7 +103,7 @@ void BDDSingleton::viderBDD()
  *Permet de supprimer les fichiers des pochettes
  *
  ******************************************************/
-bool BDDSingleton::removeDir( const QString &dirPath, const bool remove, const QString fichier )
+bool BDDSingleton::removeDir( const QString& dirPath, const bool remove, const QString fichier )
 {
     QDir folder( dirPath );
     folder.setFilter( QDir::NoDotAndDotDot | QDir::AllEntries );

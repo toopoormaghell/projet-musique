@@ -5,7 +5,7 @@
 #include "bddpoch.h"
 #include <QDebug>
 #include "bddartiste.h"
-ChoixAlbumPhysDialog::ChoixAlbumPhysDialog( QString artiste, QWidget *parent ) :
+ChoixAlbumPhysDialog::ChoixAlbumPhysDialog( QString artiste, QWidget* parent ) :
     QDialog( parent ),
     ui( new Ui::ChoixAlbumPhysDialog ),
     m_artiste( artiste )

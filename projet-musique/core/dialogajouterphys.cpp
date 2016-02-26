@@ -7,7 +7,7 @@
 #include "sousdialogajouttitre.h"
 #include "bddalbum.h"
 
-DialogAjouterPhys::DialogAjouterPhys( QWidget *parent ) :
+DialogAjouterPhys::DialogAjouterPhys( QWidget* parent ) :
     QDialog( parent ),
     ui( new Ui::DialogAjouterPhys )
 
@@ -19,7 +19,7 @@ DialogAjouterPhys::DialogAjouterPhys( QWidget *parent ) :
 
     AjoutConnex();
 }
-DialogAjouterPhys::DialogAjouterPhys( int id_album, QWidget *parent ) :
+DialogAjouterPhys::DialogAjouterPhys( int id_album, QWidget* parent ) :
     QDialog( parent ),
     ui( new Ui::DialogAjouterPhys )
 
@@ -151,7 +151,7 @@ void DialogAjouterPhys::RecupererAlbum()
     for ( int i = 0; i < ui->Titres->count(); i++ )
     {
         TitresPhys titre;
-        QListWidgetItem *item = ui->Titres->item( i );
+        QListWidgetItem* item = ui->Titres->item( i );
         QStringList parsing = item->text().split( "(" );
         titre.Titre = parsing[0];
 
@@ -179,14 +179,14 @@ void DialogAjouterPhys::listeNumeros()
 }
 void DialogAjouterPhys::on_Supprimer_Titre_clicked()
 {
-    QList<QListWidgetItem *> fileSelected = ui->Titres->selectedItems();
+    QList<QListWidgetItem*> fileSelected = ui->Titres->selectedItems();
     if ( fileSelected.size() )
     {
         for ( int i = ui->Titres->count() - 1 ; i >= 0 ; i-- )
         {
             if ( ui->Titres->item( i )->isSelected() )
             {
-                QListWidgetItem * item = ui->Titres->takeItem( i );
+                QListWidgetItem* item = ui->Titres->takeItem( i );
                 ui->Titres->removeItemWidget( item );
             }
         }

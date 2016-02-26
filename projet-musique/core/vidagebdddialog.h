@@ -13,7 +13,7 @@ class VidageBDDDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit VidageBDDDialog( QWidget *parent = 0 );
+    explicit VidageBDDDialog( QWidget* parent = 0 );
     ~VidageBDDDialog();
 
     bool Mp3;
@@ -31,7 +31,7 @@ private slots:
     void on_buttonBox_accepted();
 
 private:
-    Ui::VidageBDDDialog *ui;
+    Ui::VidageBDDDialog* ui;
 
 };
 

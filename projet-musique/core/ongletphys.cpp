@@ -11,7 +11,7 @@
 #include "modificationartistedialog.h"
 #include <QDebug>
 
-OngletPhys::OngletPhys( QWidget *parent ) :
+OngletPhys::OngletPhys( QWidget* parent ) :
     QWidget( parent ),
     ui( new Ui::OngletPhys )
 
@@ -244,7 +244,7 @@ void OngletPhys::vider( QString type )
         ui->Titres->clear();
     }
 }
-void OngletPhys::on_Albums_itemPressed( QListWidgetItem *item )
+void OngletPhys::on_Albums_itemPressed( QListWidgetItem* item )
 {
     m_selection = item->data( Qt::UserRole ).toInt();
     ui->Compil->clearSelection();
@@ -254,7 +254,7 @@ void OngletPhys::on_Albums_itemPressed( QListWidgetItem *item )
     AfficherArtisteSelectionne();
 }
 
-void OngletPhys::on_Compil_itemPressed( QListWidgetItem *item )
+void OngletPhys::on_Compil_itemPressed( QListWidgetItem* item )
 {
     m_selection = item->data( Qt::UserRole ).toInt();
     ui->Albums->clearSelection();
@@ -264,7 +264,7 @@ void OngletPhys::on_Compil_itemPressed( QListWidgetItem *item )
     AfficherArtisteSelectionne();
 }
 
-void OngletPhys::on_Singles_itemPressed( QListWidgetItem *item )
+void OngletPhys::on_Singles_itemPressed( QListWidgetItem* item )
 {
     m_selection = item->data( Qt::UserRole ).toInt();
     ui->Albums->clearSelection();
@@ -285,7 +285,7 @@ void OngletPhys::on_SupprimerAlbum_clicked()
     temp.SupprimerenBDDPhys( m_selection );
 }
 
-void OngletPhys::on_Artistes_doubleClicked( const QModelIndex &index )
+void OngletPhys::on_Artistes_doubleClicked( const QModelIndex& index )
 {
 
     int choix = index.data( Qt::UserRole ).toInt();
@@ -296,7 +296,7 @@ void OngletPhys::on_Artistes_doubleClicked( const QModelIndex &index )
     afficherListeArtiste();
 }
 
-void OngletPhys::on_Artistes_clicked( const QModelIndex &index )
+void OngletPhys::on_Artistes_clicked( const QModelIndex& index )
 {
     m_artiste = index.data( Qt::UserRole ).toString();
     afficherListeAlbum();

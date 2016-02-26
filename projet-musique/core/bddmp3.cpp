@@ -7,7 +7,7 @@
 #include "bddrelation.h"
 #include <QtSql>
 
-BDDMp3::BDDMp3( const QString &Chemin, const BDDRelation &relation, const int &type, QObject *parent ):
+BDDMp3::BDDMp3( const QString& Chemin, const BDDRelation& relation, const int& type, QObject* parent ):
     QObject( parent ),
     m_id( -1 ),
     m_relation( &relation ),
@@ -68,12 +68,12 @@ BDDMp3* BDDMp3::RecupererMp3( const int id )
 {
     return new BDDMp3( id );
 }
-BDDMp3* BDDMp3::RecupererMp3ParChemin( QString &chemin )
+BDDMp3* BDDMp3::RecupererMp3ParChemin( QString& chemin )
 {
     return new BDDMp3( chemin );
 }
 
-BDDMp3::BDDMp3( const int id, QObject *parent ):
+BDDMp3::BDDMp3( const int id, QObject* parent ):
     QObject( parent ),
     m_id( id ),
     m_relation(),
@@ -102,7 +102,7 @@ BDDMp3::BDDMp3( const int id, QObject *parent ):
 
     }
 }
-BDDMp3::BDDMp3( const QString &chemin, QObject *parent ):
+BDDMp3::BDDMp3( const QString& chemin, QObject* parent ):
     QObject( parent ),
     m_id( 0 ),
     m_relation(),

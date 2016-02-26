@@ -13,14 +13,14 @@ class OngletStats : public QWidget
     Q_OBJECT
 
 public:
-    explicit OngletStats( QWidget *parent = 0 );
+    explicit OngletStats( QWidget* parent = 0 );
     ~OngletStats();
     void AfficherInfos();
 private slots:
     void on_ArtistesDansCompil_currentRowChanged( int currentRow );
 
 private:
-    Ui::OngletStats *ui;
+    Ui::OngletStats* ui;
     bddstats m_bddInterface;
 
     void AfficherInfosCategoriesMP3();

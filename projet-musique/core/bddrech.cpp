@@ -3,7 +3,7 @@
 #include "bddconfig.h"
 #include "util.h"
 
-BDDRech::BDDRech( QObject *parent ) :
+BDDRech::BDDRech( QObject* parent ) :
     QObject( parent )
 {
 

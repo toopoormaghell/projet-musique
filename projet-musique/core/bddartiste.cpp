@@ -59,7 +59,7 @@ BDDArtiste* BDDArtiste::RecupererArtiste( const int id )
     return new BDDArtiste( id );
 }
 
-BDDArtiste::BDDArtiste( const int id , QObject *parent ):
+BDDArtiste::BDDArtiste( const int id , QObject* parent ):
     QObject( parent ),
     m_id( id ),
     m_nom(),
@@ -78,7 +78,7 @@ BDDArtiste::BDDArtiste( const int id , QObject *parent ):
         m_isPochetteSelfCreated = true;
     }
 }
-BDDArtiste::BDDArtiste( const QString &artiste, QObject *parent ):
+BDDArtiste::BDDArtiste( const QString& artiste, QObject* parent ):
     QObject( parent ),
     m_id( 0 ),
     m_nom( artiste ),
@@ -105,7 +105,7 @@ BDDArtiste* BDDArtiste::RecupererArtparNom( QString& nom )
     return new BDDArtiste( nom );
 }
 
-void BDDArtiste::TrouverId( QString &nom )
+void BDDArtiste::TrouverId( QString& nom )
 {
     m_id = 0;
     ChoisirArtisteEchange( nom );
@@ -136,7 +136,7 @@ void BDDArtiste::supprimerenBDD() const
     m_pochette->supprimerenBDD();
 }
 
-void BDDArtiste::EchangerArtiste( QString &nom )
+void BDDArtiste::EchangerArtiste( QString& nom )
 {
     QStringList temp = nom.split( " " );
     if ( temp.size() == 2 )

@@ -3,7 +3,7 @@
 #include "bddafficherphys.h"
 #include <QCompleter>
 
-SousDialogAjoutTitre::SousDialogAjoutTitre( int Type, QWidget *parent ) :
+SousDialogAjoutTitre::SousDialogAjoutTitre( int Type, QWidget* parent ) :
     QDialog( parent ),
     ui( new Ui::SousDialogAjoutTitre )
 {
@@ -42,7 +42,7 @@ void SousDialogAjoutTitre::RecupererDonnees()
     m_Titre = ui->Titre->text();
 }
 
-void SousDialogAjoutTitre::on_buttonBox_clicked( QAbstractButton *button )
+void SousDialogAjoutTitre::on_buttonBox_clicked( QAbstractButton* button )
 {
     if ( ui->buttonBox->standardButton( button ) == QDialogButtonBox::Save )
     {

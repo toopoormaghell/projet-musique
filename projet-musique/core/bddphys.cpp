@@ -8,7 +8,7 @@
 #include <QtSql>
 
 
-BDDPhys::BDDPhys( const BDDAlbum &album, const QString &ean, const int &type, QObject *parent ):
+BDDPhys::BDDPhys( const BDDAlbum& album, const QString& ean, const int& type, QObject* parent ):
     QObject( parent ),
     m_id( -1 ),
     m_album( &album ),
@@ -63,7 +63,7 @@ void BDDPhys::deleteBDD()
 
 }
 
-BDDPhys *BDDPhys::RecupererPhys( const int id )
+BDDPhys* BDDPhys::RecupererPhys( const int id )
 {
     return new BDDPhys( id );
 }
@@ -92,7 +92,7 @@ void BDDPhys::recupererId()
     }
 }
 
-BDDPhys::BDDPhys( const int id, QObject *parent ):
+BDDPhys::BDDPhys( const int id, QObject* parent ):
     QObject( parent ),
     m_id( id ),
     m_album( NULL ),

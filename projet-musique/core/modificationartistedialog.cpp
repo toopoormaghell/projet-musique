@@ -5,7 +5,7 @@
 #include "bddalbum.h"
 #include "choixalbumphysdialog.h"
 #include "util.h"
-ModificationArtisteDialog::ModificationArtisteDialog( BDDArtiste* Artiste, QWidget *parent ) :
+ModificationArtisteDialog::ModificationArtisteDialog( BDDArtiste* Artiste, QWidget* parent ) :
     QDialog( parent ),
     ui( new Ui::ModificationArtisteDialog ),
     m_artiste( Artiste )

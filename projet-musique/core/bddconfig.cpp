@@ -3,7 +3,7 @@
 #include "bddsingleton.h"
 #include <QtSql>
 
-BDDConfig::BDDConfig( QObject *parent ) : QObject( parent )
+BDDConfig::BDDConfig( QObject* parent ) : QObject( parent )
 {
 
 }

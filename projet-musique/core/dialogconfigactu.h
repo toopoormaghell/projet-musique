@@ -15,14 +15,14 @@ class DialogConfigActu : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogConfigActu( QWidget *parent = 0 );
+    explicit DialogConfigActu( QWidget* parent = 0 );
     ~DialogConfigActu();
 
 private slots:
     void on_buttonBox_accepted();
     void on_Changer_clicked();
 
-    void on_buttonBox_clicked( QAbstractButton *button );
+    void on_buttonBox_clicked( QAbstractButton* button );
 
 
 
@@ -31,7 +31,7 @@ private:
     void EnregisDossParDef();
 
     void RemiseaZero();
-    Ui::DialogConfigActu *ui;
+    Ui::DialogConfigActu* ui;
     BDDConfig m_database;
     void AfficherCategories();
     void EnregistrerCategories();

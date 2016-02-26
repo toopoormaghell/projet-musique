@@ -210,7 +210,7 @@ QAWSWrapper::~QAWSWrapper()
 
 
 
-QAWSWrapper&QAWSWrapper::operator=( const QAWSWrapper& rhs )
+QAWSWrapper& QAWSWrapper::operator=( const QAWSWrapper& rhs )
 {
     if ( this != &rhs )
         m_artistsList = rhs.m_artistsList;
@@ -266,7 +266,7 @@ AlbumPhys QAWSWrapper::getAlbumFromEAN( const QString& ean )
 
 
 
-const QStringList&QAWSWrapper::getArtistsList() const
+const QStringList& QAWSWrapper::getArtistsList() const
 {
     return m_artistsList;
 }

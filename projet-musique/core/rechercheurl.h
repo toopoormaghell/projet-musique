@@ -10,7 +10,7 @@ class RechercheURL : public QObject
 {
     Q_OBJECT
 public:
-    explicit RechercheURL( QObject *parent = 0 );
+    explicit RechercheURL( QObject* parent = 0 );
 
     AlbumPhys RequeteAlbums( QString rech, int Type );
     QString m_interaction;

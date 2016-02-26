@@ -6,7 +6,7 @@
 class BDDRech : public QObject
 {
 public:
-    explicit BDDRech( QObject *parent );
+    explicit BDDRech( QObject* parent );
 
     QList<int> RechTitres( QString rech );
     QList<int> RechAlb( QString rech );

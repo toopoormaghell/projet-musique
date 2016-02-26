@@ -7,7 +7,7 @@
 #include "bddpoch.h"
 #include "bddalbum.h"
 #include "choixalbumphysdialog.h"
-RechercheURL::RechercheURL( QObject *parent ):
+RechercheURL::RechercheURL( QObject* parent ):
     QObject( parent )
     , m_interaction()
     , m_album()
@@ -102,7 +102,7 @@ void RechercheURL::RecupererPoch( QString lien )
 
     QNetworkRequest toto( QUrl::fromEncoded( lien.toLatin1() ) );
     toto.setAttribute( QNetworkRequest::User, lien );
-    QNetworkAccessManager *m = new QNetworkAccessManager;
+    QNetworkAccessManager* m = new QNetworkAccessManager;
     QNetworkReply* r = m->get( toto );
     //on attend que le signal finished soit recu
     QEventLoop loop;

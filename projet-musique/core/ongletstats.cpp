@@ -4,7 +4,7 @@
 #include "bddartiste.h"
 #include "bddtitre.h"
 
-OngletStats::OngletStats( QWidget *parent ) :
+OngletStats::OngletStats( QWidget* parent ) :
     QWidget( parent ),
     ui( new Ui::OngletStats )
 {
@@ -104,7 +104,7 @@ void OngletStats::AfficherMP3ArtisteCompilMP3()
 }
 int OngletStats::choixArtiste()
 {
-    QListWidgetItem *item = ui->ArtistesDansCompil->currentItem();
+    QListWidgetItem* item = ui->ArtistesDansCompil->currentItem();
     if ( item == NULL )
     {
         item = ui->ArtistesDansCompil->item( 0 );

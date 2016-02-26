@@ -4,7 +4,7 @@
 #include "bddsingleton.h"
 #include "util.h"
 
-BDDPoch::BDDPoch( const QImage& image, const QString& album, const QString& artiste, QObject *parent ) :
+BDDPoch::BDDPoch( const QImage& image, const QString& album, const QString& artiste, QObject* parent ) :
     QObject( parent ),
     m_id( -1 ),
     m_image( image ),
@@ -44,7 +44,7 @@ QString BDDPoch::creerchemin( const QString& album, const QString& artiste )
     return "./pochettes/" + artisteFormate + "/" + albumFormate + ".jpg";
 }
 
-void BDDPoch::sauverImage( const QString &album, const QString &artiste )
+void BDDPoch::sauverImage( const QString& album, const QString& artiste )
 {
     QDir dossier;
     QString chemin = "./pochettes/" + artiste;
@@ -86,7 +86,7 @@ BDDPoch* BDDPoch::recupererBDD( const int id )
     return new BDDPoch( id );
 }
 
-BDDPoch *BDDPoch::recupererPoch( const QString &album, const QString &artiste )
+BDDPoch* BDDPoch::recupererPoch( const QString& album, const QString& artiste )
 
 {
     QString chemin = creerchemin( album, artiste );

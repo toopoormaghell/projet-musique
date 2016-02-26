@@ -10,7 +10,7 @@ class BDDAfficherPhys : public QObject
 
 
 public:
-    explicit BDDAfficherPhys( QObject *parent = 0 );
+    explicit BDDAfficherPhys( QObject* parent = 0 );
 
     QList<int> ListeArtiste();
     QList<int> listeAlbums( QString Id_Artiste );

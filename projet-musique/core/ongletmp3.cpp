@@ -16,7 +16,7 @@
 #include "util.h"
 #include "modifieralbumdialog.h"
 
-OngletMP3::OngletMP3( QWidget *parent ) :
+OngletMP3::OngletMP3( QWidget* parent ) :
     QWidget( parent ),
     ui( new Ui::OngletMP3 ),
     m_lignestitres( 0 ),
@@ -356,7 +356,7 @@ void OngletMP3::afficherListeAnnees()
     m_artiste = ui->ArtistesAnnees->currentItem()->data( Qt::UserRole ).toInt();;
 
 }
-void OngletMP3::on_AlbumsTitres_doubleClicked( const QModelIndex &index )
+void OngletMP3::on_AlbumsTitres_doubleClicked( const QModelIndex& index )
 {
     m_mp3 = index.data( Qt::UserRole ).toInt();
     BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3 );
@@ -364,7 +364,7 @@ void OngletMP3::on_AlbumsTitres_doubleClicked( const QModelIndex &index )
     QString nouvelemplacementchemin = "C:\\Users\\Nico\\Desktop\\Nouveau Dossier\\" + fich.fileName();
     QFile::copy( mp3->m_chemin, nouvelemplacementchemin );
 }
-void OngletMP3::on_buttonBox_clicked( QAbstractButton *button )
+void OngletMP3::on_buttonBox_clicked( QAbstractButton* button )
 {
     if ( button->text() == "Enregistrer" )
     {
@@ -378,7 +378,7 @@ void OngletMP3::on_buttonBox_clicked( QAbstractButton *button )
     }
 }
 
-void OngletMP3::on_ArtistesAnnees_doubleClicked( const QModelIndex &index )
+void OngletMP3::on_ArtistesAnnees_doubleClicked( const QModelIndex& index )
 {
     m_artiste = index.data( Qt::UserRole ).toInt();
     BDDArtiste* artiste = BDDArtiste::RecupererArtiste( m_artiste );
@@ -387,7 +387,7 @@ void OngletMP3::on_ArtistesAnnees_doubleClicked( const QModelIndex &index )
     vider( "Artiste" );
     affichageartistes();
 }
-void OngletMP3::afficherMP3ouAlbum( const QString &MouA )
+void OngletMP3::afficherMP3ouAlbum( const QString& MouA )
 {
     if ( MouA == "Album" )
     {
@@ -409,20 +409,20 @@ void OngletMP3::afficherMP3ouAlbum( const QString &MouA )
     }
 }
 
-void OngletMP3::on_Categories_clicked( const QModelIndex &index )
+void OngletMP3::on_Categories_clicked( const QModelIndex& index )
 {
     m_categorie = index.data( Qt::UserRole ).toInt();
     affichageartistes();
 }
 
-void OngletMP3::on_ArtistesAnnees_clicked( const QModelIndex &index )
+void OngletMP3::on_ArtistesAnnees_clicked( const QModelIndex& index )
 {
     m_artiste = index.data( Qt::UserRole ).toInt();
     vider( "AlbMP3" );
     afficheralbumsettitres();
 }
 
-void OngletMP3::on_AlbumsTitres_clicked( const QModelIndex &index )
+void OngletMP3::on_AlbumsTitres_clicked( const QModelIndex& index )
 {
     if ( index.column() != 0 )
     {

@@ -6,3 +6,4 @@
 --pad-header
 --pad-paren-in
 --unpad-paren
+--align-pointer=type
