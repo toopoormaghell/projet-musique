@@ -14,7 +14,7 @@ class ModificationArtisteDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ModificationArtisteDialog(BDDArtiste *Artiste, QWidget *parent = 0);
+    explicit ModificationArtisteDialog( BDDArtiste *Artiste, QWidget *parent = 0 );
     ~ModificationArtisteDialog();
 
 private slots:

@@ -16,7 +16,7 @@ class ChoixAlbumPhysDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ChoixAlbumPhysDialog(QString artiste, QWidget *parent = 0);
+    explicit ChoixAlbumPhysDialog( QString artiste, QWidget *parent = 0 );
     ~ChoixAlbumPhysDialog();
     int m_selection;
 private slots:

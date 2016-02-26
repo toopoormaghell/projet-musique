@@ -9,20 +9,20 @@ BDDSingleton BDDSingleton::s_singleton;
 BDDSingleton::BDDSingleton():
     m_database()
 {
-    m_database = QSqlDatabase::addDatabase("QSQLITE");
-    m_database.setHostName("localhost");
-    m_database.setDatabaseName("Musique.db");
-    m_database.setUserName("root");
-    m_database.setPassword("");
+    m_database = QSqlDatabase::addDatabase( "QSQLITE" );
+    m_database.setHostName( "localhost" );
+    m_database.setDatabaseName( "Musique.db" );
+    m_database.setUserName( "root" );
+    m_database.setPassword( "" );
 
     //Si la BDD n'est pas ouverte,elle affiche une erreur
-    if (!m_database.open())
+    if ( !m_database.open() )
     {
         qDebug() << "Impossible d'ouvrir la base de données !";
     }
 
     QStringList tables = m_database.tables();
-    if (tables.count() == 0)
+    if ( tables.count() == 0 )
     {
 
         creationBase();
@@ -74,9 +74,9 @@ void BDDSingleton::creationBase()
     tables << "INSERT INTO Type VALUES(08,'Classique')";
     tables << "INSERT INTO Type VALUES(09,'Générique')";
     tables << "INSERT INTO Type VALUES(10,'Reprises')";
-    for (int i = 0; i < tables.size(); i++)
+    for ( int i = 0; i < tables.size(); i++ )
     {
-        query = madatabase.exec(tables[i]);
+        query = madatabase.exec( tables[i] );
     }
 }
 void BDDSingleton::viderBDD()
@@ -86,15 +86,15 @@ void BDDSingleton::viderBDD()
     //Vidage de la base de données.
     tables <<  "MP3" << "Artiste" << "Album" << "Titre" << "Phys" << "Pochette" << "InfosPlaylist" << "TitresPlaylist" << "Relations" << "ErreurPochettes" << "Configuration";
     int compt = 0;
-    while (compt < tables.size())
+    while ( compt < tables.size() )
     {
-        query = madatabase.exec("DROP Table " + tables[compt]);
+        query = madatabase.exec( "DROP Table " + tables[compt] );
         compt++;
     }
 
     //Vidage sur le DD du dossier Pochettes
     QString chemin = ".\\Pochettes";
-    removeDir(chemin, false);
+    removeDir( chemin, false );
 
     creationBase();
 
@@ -103,20 +103,20 @@ void BDDSingleton::viderBDD()
  *Permet de supprimer les fichiers des pochettes
  *
  ******************************************************/
-bool BDDSingleton::removeDir(const QString &dirPath, const bool remove, const QString fichier)
+bool BDDSingleton::removeDir( const QString &dirPath, const bool remove, const QString fichier )
 {
-    QDir folder(dirPath);
-    folder.setFilter(QDir::NoDotAndDotDot | QDir::AllEntries);
-    foreach (QFileInfo fileInfo, folder.entryInfoList())
+    QDir folder( dirPath );
+    folder.setFilter( QDir::NoDotAndDotDot | QDir::AllEntries );
+    foreach ( QFileInfo fileInfo, folder.entryInfoList() )
     {
-        if (fileInfo.isDir())
+        if ( fileInfo.isDir() )
         {
-            if (!removeDir(fileInfo.filePath()))
+            if ( !removeDir( fileInfo.filePath() ) )
                 return false;
         }
-        else if (fileInfo.isFile())
+        else if ( fileInfo.isFile() )
         {
-            if ( ( fileInfo.fileName() != fichier ) && !QFile::remove(fileInfo.filePath()))
+            if ( ( fileInfo.fileName() != fichier ) && !QFile::remove( fileInfo.filePath() ) )
             {
                 qDebug() << "Unable to remove file : " << fileInfo.filePath();
                 return false;
@@ -127,9 +127,9 @@ bool BDDSingleton::removeDir(const QString &dirPath, const bool remove, const QS
             qDebug() << "autre chose: " << fileInfo.filePath();
         }
     }
-    if (remove)
+    if ( remove )
     {
-        if (!QDir().rmdir(dirPath))
+        if ( !QDir().rmdir( dirPath ) )
         {
             qDebug() << "Unable to remove folder : " << dirPath << ". Maybe this folder is not empty";
             return false;
@@ -140,25 +140,25 @@ bool BDDSingleton::removeDir(const QString &dirPath, const bool remove, const QS
 
 void BDDSingleton::verifierBDD()
 {
-    madatabase.exec("DELETE FROM Titre WHERE Titre = ''");
-    madatabase.exec("DELETE FROM Artiste WHERE Artiste = ''");
-    madatabase.exec("DELETE FROM Album WHERE Album = ''");
-    madatabase.exec("DELETE FROM Pochette WHERE Chemin = ''");
-    madatabase.exec("DELETE FROM Relations WHERE Id_Album NOT IN (SELECT DISTINCT Id_Album FROM Album) OR Id_Artiste NOT IN ( SELECT DISTINCT Id_Artiste FROM Artiste) OR Id_Titre NOT IN ( SELECT DISTINCT Id_Titre FROM Titre) OR Id_Pochette NOT IN ( SELECT DISTINCT Id_Pochette From Pochette)");
-    madatabase.exec("DELETE FROM Relations WHERE Id_Album NOT IN ( SELECT DISTINCT Id_Album FROM Phys) AND Id_Relation NOT IN ( SELECT DISTINCT Id_Relation FROM MP3) ");
-    madatabase.exec("DELETE FROM MP3 WHERE Id_Relation NOT IN (SELECT DISTINCT Id_Relation FROM Relations)");
-    madatabase.exec("DELETE FROM Phys WHERE Id_Album NOT IN (SELECT  Id_Album FROM Relations)");
+    madatabase.exec( "DELETE FROM Titre WHERE Titre = ''" );
+    madatabase.exec( "DELETE FROM Artiste WHERE Artiste = ''" );
+    madatabase.exec( "DELETE FROM Album WHERE Album = ''" );
+    madatabase.exec( "DELETE FROM Pochette WHERE Chemin = ''" );
+    madatabase.exec( "DELETE FROM Relations WHERE Id_Album NOT IN (SELECT DISTINCT Id_Album FROM Album) OR Id_Artiste NOT IN ( SELECT DISTINCT Id_Artiste FROM Artiste) OR Id_Titre NOT IN ( SELECT DISTINCT Id_Titre FROM Titre) OR Id_Pochette NOT IN ( SELECT DISTINCT Id_Pochette From Pochette)" );
+    madatabase.exec( "DELETE FROM Relations WHERE Id_Album NOT IN ( SELECT DISTINCT Id_Album FROM Phys) AND Id_Relation NOT IN ( SELECT DISTINCT Id_Relation FROM MP3) " );
+    madatabase.exec( "DELETE FROM MP3 WHERE Id_Relation NOT IN (SELECT DISTINCT Id_Relation FROM Relations)" );
+    madatabase.exec( "DELETE FROM Phys WHERE Id_Album NOT IN (SELECT  Id_Album FROM Relations)" );
 
 }
 void BDDSingleton::supprimerdossiersvides()
 {
-    QDir folder(".\\Pochettes");
-    folder.setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
-    foreach (QFileInfo fileInfo, folder.entryInfoList())
+    QDir folder( ".\\Pochettes" );
+    folder.setFilter( QDir::NoDotAndDotDot | QDir::AllDirs );
+    foreach ( QFileInfo fileInfo, folder.entryInfoList() )
     {
-        if (fileInfo.isDir())
+        if ( fileInfo.isDir() )
         {
-            QDir().rmdir(fileInfo.absoluteFilePath());
+            QDir().rmdir( fileInfo.absoluteFilePath() );
         }
     }
 }

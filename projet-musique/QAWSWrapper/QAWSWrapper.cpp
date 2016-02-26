@@ -75,7 +75,7 @@ namespace
      */
     QString getStringToSign( const QUrlQuery& listOfParameters )
     {
-        QString stringToSign( QString( "GET\n%1\n%2\n" ).arg(getMarketPlaceURL()).arg(getMarketPlaceURI()) );
+        QString stringToSign( QString( "GET\n%1\n%2\n" ).arg( getMarketPlaceURL() ).arg( getMarketPlaceURI() ) );
         stringToSign += listOfParameters.query();
         return stringToSign;
     }
@@ -162,7 +162,7 @@ namespace
                             QNetworkReply* coverReply = accessCover->get( coverRequest );
 
                             QEventLoop loop;
-                            QObject::connect( coverReply, SIGNAL(finished()), &loop, SLOT(quit()) );
+                            QObject::connect( coverReply, SIGNAL( finished() ), &loop, SLOT( quit() ) );
                             loop.exec();
                             albumToFill.Poch = QImage::fromData( coverReply->readAll() );
                         }
@@ -247,7 +247,7 @@ AlbumPhys QAWSWrapper::getAlbumFromEAN( const QString& ean )
 
     // Build the signed URL
     listOfParameters.addQueryItem( "Signature", signature.toUtf8().toPercentEncoding() );
-    QUrl signedUrl( QString( "http://%1%2" ).arg(getMarketPlaceURL()).arg(getMarketPlaceURI()) );
+    QUrl signedUrl( QString( "http://%1%2" ).arg( getMarketPlaceURL() ).arg( getMarketPlaceURI() ) );
     signedUrl.setQuery( listOfParameters );
 //    qDebug() << signedUrl.toString();
 
@@ -256,7 +256,7 @@ AlbumPhys QAWSWrapper::getAlbumFromEAN( const QString& ean )
     QNetworkReply* networkReplyApi = networkAccessManagerApi->get( networkRequestApi );
 
     QEventLoop loop;
-    QObject::connect( networkReplyApi, SIGNAL(finished()), &loop, SLOT(quit()) );
+    QObject::connect( networkReplyApi, SIGNAL( finished() ), &loop, SLOT( quit() ) );
     loop.exec();
 
     albumRelatedToEAN = parseXml( networkReplyApi->readAll(), m_artistsList );

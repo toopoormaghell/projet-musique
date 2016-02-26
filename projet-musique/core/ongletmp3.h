@@ -17,7 +17,7 @@ class OngletMP3 : public QWidget
     Q_OBJECT
 
 public:
-    explicit OngletMP3(QWidget *parent = 0);
+    explicit OngletMP3( QWidget *parent = 0 );
     ~OngletMP3();
 
     //Concerne seulement l'affichage
@@ -25,20 +25,20 @@ public:
     void affichageartistes();
     void afficherListeAnnees();
     void afficheralbumsettitres();
-    void afficherTitresAlbum(QString Album, int Cate, int row);
+    void afficherTitresAlbum( QString Album, int Cate, int row );
     void afficherInfosTitre();
-    void Similaires(int id);
-    void vider(QString Type);
+    void Similaires( int id );
+    void vider( QString Type );
     void afficherAlbumSelectionne();
 
     void ActualiserOnglet();
 private slots:
-    void on_AlbumsTitres_doubleClicked(const QModelIndex &index);
-    void on_buttonBox_clicked(QAbstractButton *button);
-    void on_ArtistesAnnees_doubleClicked(const QModelIndex &index);
-    void on_Categories_clicked(const QModelIndex &index);
-    void on_ArtistesAnnees_clicked(const QModelIndex &index);
-    void on_AlbumsTitres_clicked(const QModelIndex &index);
+    void on_AlbumsTitres_doubleClicked( const QModelIndex &index );
+    void on_buttonBox_clicked( QAbstractButton *button );
+    void on_ArtistesAnnees_doubleClicked( const QModelIndex &index );
+    void on_Categories_clicked( const QModelIndex &index );
+    void on_ArtistesAnnees_clicked( const QModelIndex &index );
+    void on_AlbumsTitres_clicked( const QModelIndex &index );
 
 private:
     Ui::OngletMP3 *ui;
@@ -55,7 +55,7 @@ private:
     int m_artiste;
 
 
-    void afficherMP3ouAlbum(const QString &MouA);
+    void afficherMP3ouAlbum( const QString &MouA );
 };
 
 #endif // ONGLETMP3_H

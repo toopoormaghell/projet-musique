@@ -8,12 +8,12 @@ class BDDTitre : public QObject
 {
     Q_OBJECT
 public:
-    explicit BDDTitre(const QString& nom, const int& num_piste, const QString& duree, QObject *parent = 0);
+    explicit BDDTitre( const QString& nom, const int& num_piste, const QString& duree, QObject *parent = 0 );
 
     void updateBDD();
     void supprimerenBDD()const;
 
-    static BDDTitre* RecupererTitre(const int id);
+    static BDDTitre* RecupererTitre( const int id );
 
     int m_id;
     QString m_nom;
@@ -22,7 +22,7 @@ public:
     QString m_duree;
     bool m_mp3;
     bool m_phys;
-    QList<int> Similaires(const int id);
+    QList<int> Similaires( const int id );
     BDDArtiste const* m_artiste;
     BDDAlbum const* m_album;
 private:
@@ -30,7 +30,7 @@ private:
     void recupererId();
     void mp3etphys();
     //Constructeur avec une id
-    BDDTitre (const int id, QObject* parent = NULL);
+    BDDTitre ( const int id, QObject* parent = NULL );
 
 };
 

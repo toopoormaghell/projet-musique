@@ -15,13 +15,13 @@ class OngletPhys : public QWidget
     Q_OBJECT
 
 public:
-    explicit OngletPhys(QWidget *parent = 0);
+    explicit OngletPhys( QWidget *parent = 0 );
     ~OngletPhys();
 
     void afficherListeArtiste();
     void afficherListeAlbum();
-    void AfficherInfosAlbum(int Type);
-    void vider(QString type);
+    void AfficherInfosAlbum( int Type );
+    void vider( QString type );
     void afficherListeCompils();
 
 
@@ -34,11 +34,11 @@ public slots:
 private slots:
     void on_Modifier_clicked();
     void on_SupprimerAlbum_clicked();
-    void on_Albums_itemPressed(QListWidgetItem *item);
-    void on_Compil_itemPressed(QListWidgetItem *item);
-    void on_Singles_itemPressed(QListWidgetItem *item);
-    void on_Artistes_doubleClicked(const QModelIndex &index);
-    void on_Artistes_clicked(const QModelIndex &index);
+    void on_Albums_itemPressed( QListWidgetItem *item );
+    void on_Compil_itemPressed( QListWidgetItem *item );
+    void on_Singles_itemPressed( QListWidgetItem *item );
+    void on_Artistes_doubleClicked( const QModelIndex &index );
+    void on_Artistes_clicked( const QModelIndex &index );
 
 private:
     Ui::OngletPhys *ui;

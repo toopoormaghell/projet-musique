@@ -4,3 +4,4 @@
 --indent-switches
 --pad-oper
 --pad-header
+--pad-paren-in
