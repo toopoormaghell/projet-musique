@@ -187,7 +187,7 @@ void OngletPhys::AfficherInfosAlbum(int Type)
     QPixmap mp3physoui(":/Autres/Vrai");
     QPixmap mp3physnon(":/Autres/Faux");
     //On affiche les titres
-    for(int i = 0; i < phys->m_titres.count(); i++)
+    for (int i = 0; i < phys->m_titres.count(); i++)
     {
         QListWidgetItem* item = new QListWidgetItem;
 
@@ -196,7 +196,7 @@ void OngletPhys::AfficherInfosAlbum(int Type)
         //Si c'est une compil, on ajoute les artistes derrière
         if (Type == 3)
         {
-            if(m_artiste.toInt() == phys->m_titres[i]->m_artiste->m_id)
+            if (m_artiste.toInt() == phys->m_titres[i]->m_artiste->m_id)
             {
                 //On Ajoute une couleur pour le titre où l'artiste est le bon
                 QBrush m_brush;

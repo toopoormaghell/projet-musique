@@ -20,7 +20,7 @@ BDDMp3::BDDMp3(const QString &Chemin, const BDDRelation &relation, const int &ty
 {
     recupererId();
 
-    if( m_id == -1 )
+    if ( m_id == -1 )
     {
         ajouterBDD();
     }

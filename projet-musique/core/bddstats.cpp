@@ -11,7 +11,7 @@ int bddstats::NbMp3Total()
     QString queryStr = "SELECT COUNT(*) AS 'Nb' FROM MP3";
     QSqlQuery query = madatabase.exec(queryStr);
 
-    if(query.first())
+    if (query.first())
     {
         QSqlRecord rec = query.record();
 
@@ -25,7 +25,7 @@ int bddstats::NbPhysTotal()
     QString queryStr = "SELECT COUNT(*)AS 'Nb' FROM Phys";
     QSqlQuery query = madatabase.exec(queryStr);
 
-    if(query.first())
+    if (query.first())
     {
         QSqlRecord rec = query.record();
 
@@ -39,7 +39,7 @@ int bddstats::NbMp3Categorie(int type)
     QString queryStr = "SELECT COUNT(*)AS 'Nb' FROM MP3  WHERE Categorie='" + QString::number(type) + "'";
     QSqlQuery query = madatabase.exec(queryStr);
 
-    if(query.first())
+    if (query.first())
     {
         QSqlRecord rec = query.record();
 
@@ -53,7 +53,7 @@ int bddstats::NbPhysCategorie(int type)
     QString queryStr = "SELECT COUNT(*)AS 'Nb' FROM Phys  WHERE Categorie='" + QString::number(type) + "'";
     QSqlQuery query = madatabase.exec(queryStr);
 
-    if(query.first())
+    if (query.first())
     {
         QSqlRecord rec = query.record();
 
@@ -66,7 +66,7 @@ int bddstats::NbChansonsPhys()
     QString queryStr = "SELECT COUNT(R.Id_Relation)AS 'Nb' FROM Phys P, Relations R  WHERE R.Id_Album = P.Id_Album";
     QSqlQuery query = madatabase.exec(queryStr);
 
-    if(query.first())
+    if (query.first())
     {
         QSqlRecord rec = query.record();
 
@@ -83,7 +83,7 @@ QList<int> bddstats::ListeArtistesCompils()
     while ( query.next() )
     {
         QSqlRecord rec = query.record();
-        if( rec.value("Nb").toInt() > 4)
+        if ( rec.value("Nb").toInt() > 4)
         {
             artistes << rec.value("Id_Artiste").toInt();
         }

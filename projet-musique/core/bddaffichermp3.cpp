@@ -18,7 +18,7 @@ QList<int> BDDAfficherMp3::ListeArtiste(QString type)
     {
         QString queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, MP3 M,Relations R WHERE A.Id_Artiste!='01' AND R.Id_Relation=M.Id_Relation AND R.Id_Artiste=A.Id_Artiste";
 
-        if(type != "0")
+        if (type != "0")
         {
             queryStr = queryStr + " AND M.Categorie='" + type + "'";
         }

@@ -213,7 +213,7 @@ void DialogAjouterPhys::on_Ajouter_Titre_clicked()
     SousDialogAjoutTitre toto( m_Type, this );
     connect(&toto, SIGNAL(enregistr(QString, QString, QString)), this, SLOT(AjouterTitreManuel(QString, QString, QString)));
     int retVal = toto.exec();
-    if( ( retVal == QDialog::Accepted ) && !toto.m_Titre.isEmpty() )
+    if ( ( retVal == QDialog::Accepted ) && !toto.m_Titre.isEmpty() )
     {
         AjouterTitreManuel(toto.m_Titre, toto.m_Duree, toto.m_Artiste );
     }

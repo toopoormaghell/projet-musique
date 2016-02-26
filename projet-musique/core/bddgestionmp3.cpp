@@ -84,15 +84,15 @@ void BDDGestionMp3::stop_clique()
 void BDDGestionMp3::listeCategoriesActualiser()
 {
     BDDConfig temp;
-    if(temp.ActualiserAlbums())
+    if (temp.ActualiserAlbums())
     {
         m_Categories << 1;
     }
-    if(temp.ActualiserCompil())
+    if (temp.ActualiserCompil())
     {
         m_Categories << 2;
     }
-    if(temp.ActualiserLives())
+    if (temp.ActualiserLives())
     {
         m_Categories << 3;
     }
@@ -137,7 +137,7 @@ void BDDGestionMp3::creerfilefichiers()
 
 
     // Tant qu'on n'est pas arrivé à la fin de l'arborescence...
-    while(dirIterator.hasNext())
+    while (dirIterator.hasNext())
     {
         // ...on va au prochain fichier correspondant à notre filtre
         m_filelist << dirIterator.next();
@@ -236,7 +236,7 @@ void BDDGestionMp3::recupererMp3(int Type)
     QMap < int, QStringList > Chemins;
 
     QString queryStri = "Select Id_MP3, Chemin FROM MP3 WHERE Categorie='" + QString::number(Type) + "'";
-    if(Type == 1)
+    if (Type == 1)
     {
         queryStri = "Select Id_MP3, Chemin FROM MP3 WHERE Categorie NOT IN(2)";
     }

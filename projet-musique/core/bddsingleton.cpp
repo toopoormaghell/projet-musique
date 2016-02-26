@@ -16,7 +16,7 @@ BDDSingleton::BDDSingleton():
     m_database.setPassword("");
 
     //Si la BDD n'est pas ouverte,elle affiche une erreur
-    if(!m_database.open())
+    if (!m_database.open())
     {
         qDebug() << "Impossible d'ouvrir la base de données !";
     }
@@ -107,16 +107,16 @@ bool BDDSingleton::removeDir(const QString &dirPath, const bool remove, const QS
 {
     QDir folder(dirPath);
     folder.setFilter(QDir::NoDotAndDotDot | QDir::AllEntries);
-    foreach(QFileInfo fileInfo, folder.entryInfoList())
+    foreach (QFileInfo fileInfo, folder.entryInfoList())
     {
-        if(fileInfo.isDir())
+        if (fileInfo.isDir())
         {
-            if(!removeDir(fileInfo.filePath()))
+            if (!removeDir(fileInfo.filePath()))
                 return false;
         }
-        else if(fileInfo.isFile())
+        else if (fileInfo.isFile())
         {
-            if( ( fileInfo.fileName() != fichier ) && !QFile::remove(fileInfo.filePath()))
+            if ( ( fileInfo.fileName() != fichier ) && !QFile::remove(fileInfo.filePath()))
             {
                 qDebug() << "Unable to remove file : " << fileInfo.filePath();
                 return false;
@@ -127,7 +127,7 @@ bool BDDSingleton::removeDir(const QString &dirPath, const bool remove, const QS
             qDebug() << "autre chose: " << fileInfo.filePath();
         }
     }
-    if(remove)
+    if (remove)
     {
         if (!QDir().rmdir(dirPath))
         {
@@ -154,9 +154,9 @@ void BDDSingleton::supprimerdossiersvides()
 {
     QDir folder(".\\Pochettes");
     folder.setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
-    foreach(QFileInfo fileInfo, folder.entryInfoList())
+    foreach (QFileInfo fileInfo, folder.entryInfoList())
     {
-        if(fileInfo.isDir())
+        if (fileInfo.isDir())
         {
             QDir().rmdir(fileInfo.absoluteFilePath());
         }

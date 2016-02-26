@@ -38,7 +38,7 @@ void ModificationArtisteDialog::on_ChangerPochette_clicked()
 {
     ChoixAlbumPhysDialog choixPoch(m_artiste->m_nom);
     choixPoch.exec();
-    if(choixPoch.m_selection != 0)
+    if (choixPoch.m_selection != 0)
     {
         BDDAlbum* alb = BDDAlbum::RecupererAlbum(choixPoch.m_selection);
         m_artiste->m_pochette = alb->m_pochette;

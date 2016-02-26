@@ -18,7 +18,7 @@ BDDPoch::BDDPoch( const QImage& image, const QString& album, const QString& arti
 
     recupererId();
 
-    if(m_id == -1)
+    if (m_id == -1)
     {
         sauverImage(albumFormate, artisteFormate);
         ajouterBDD();
@@ -57,7 +57,7 @@ void BDDPoch::recupererId()
     QString queryStr = " Select Id_Pochette As 'Poch' from Pochette WHERE Chemin='" + m_chemin + "'";
     QSqlQuery query = madatabase.exec(queryStr);
 
-    if(query.first())
+    if (query.first())
     {
         QSqlRecord rec = query.record();
         m_id = rec.value( "Poch" ).toInt();
@@ -94,7 +94,7 @@ BDDPoch *BDDPoch::recupererPoch(const QString &album, const QString &artiste)
     QString queryStr = " Select Id_Pochette As 'Poch' from Pochette WHERE Chemin='" + chemin + "'";
     QSqlQuery query = madatabase.exec(queryStr);
 
-    if(query.first())
+    if (query.first())
     {
 
         QSqlRecord rec = query.record();

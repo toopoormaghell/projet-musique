@@ -68,7 +68,7 @@ void BDDConfig::EnregistrerActuAlbums(bool check)
 {
     QString queryStr = "Update Configuration SET Valeur=";
 
-    if(check)
+    if (check)
     {
         queryStr += "'Oui'";
     }
@@ -84,7 +84,7 @@ void BDDConfig::EnregistrerActuCompil(bool check)
 {
     QString queryStr = "Update Configuration SET Valeur=";
 
-    if(check)
+    if (check)
     {
         queryStr += "'Oui'";
     }
@@ -100,7 +100,7 @@ void BDDConfig::EnregistrerActuLives(bool check)
 {
     QString queryStr = "Update Configuration SET Valeur=";
 
-    if(check)
+    if (check)
     {
         queryStr += "'Oui'";
     }

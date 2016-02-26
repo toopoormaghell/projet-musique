@@ -90,7 +90,7 @@ namespace
         while ( !reader.atEnd() )
         {
             reader.readNext();
-            switch( reader.tokenType() )
+            switch ( reader.tokenType() )
             {
                 case QXmlStreamReader::StartElement:
                 {

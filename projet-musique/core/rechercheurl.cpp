@@ -60,7 +60,7 @@ AlbumPhys RechercheURL::RequeteAlbums(QString rech, int Type)
         ChoixAlbumPhysDialog choixalbum(m_album.Artiste);
         choixalbum.exec();
         int id_alb = 0;
-        if( choixalbum.m_selection != 0)
+        if ( choixalbum.m_selection != 0)
         {
             id_alb = choixalbum.m_selection;
         }
@@ -174,7 +174,7 @@ void RechercheURL::LectureXMLTitres(QByteArray fichier)
     while (!reader.atEnd())
     {
         reader.readNext();
-        switch(reader.tokenType())
+        switch (reader.tokenType())
         {
 
             case QXmlStreamReader::StartElement:
@@ -253,7 +253,7 @@ QStringList RechercheURL::LectureXMLReleases(QByteArray fichier)
     while (!reader.atEnd())
     {
         reader.readNext();
-        switch(reader.tokenType())
+        switch (reader.tokenType())
         {
             case QXmlStreamReader::StartElement:
             {
@@ -358,7 +358,7 @@ void RechercheURL::RecupererTitres()
     }
 
     //Si le type de l'album est une compil, on récupère les artistes des titres
-    if( m_album.Type == 2)
+    if ( m_album.Type == 2)
     {
 
         for (int compt = 0; compt < m_album.titres.count(); compt++)
@@ -384,7 +384,7 @@ QMap<QString, QString> RechercheURL::LectureXML(QByteArray fichier)
     while (!reader.atEnd())
     {
         reader.readNext();
-        switch(reader.tokenType())
+        switch (reader.tokenType())
         {
             case QXmlStreamReader::StartElement:
             {

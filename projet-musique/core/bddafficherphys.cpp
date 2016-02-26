@@ -88,7 +88,7 @@ void BDDAfficherPhys::exporterHTML()
         int compcouleur = 0;
         if (i != 4)
         {
-            for(int cpt = 0; cpt < albart.count(); cpt = cpt + 2)
+            for (int cpt = 0; cpt < albart.count(); cpt = cpt + 2)
             {
                 if (compcouleur % 2 == 0 )
                 {
@@ -103,7 +103,7 @@ void BDDAfficherPhys::exporterHTML()
         }
         else
         {
-            for(int cpt = 0; cpt < albart.count(); cpt = cpt + 2)
+            for (int cpt = 0; cpt < albart.count(); cpt = cpt + 2)
             {
                 if (compcouleur % 2 == 0 )
                 {
@@ -144,7 +144,7 @@ QStringList BDDAfficherPhys::ListeAlbumSauvegarde(int Cate)
 
     QSqlQuery query = madatabase.exec(QueryStr);
 
-    while(query.next())
+    while (query.next())
     {
         QSqlRecord rec = query.record();
         if (Cate == 2)
@@ -191,7 +191,7 @@ QStringList BDDAfficherPhys::ListeTitresPossibles()
     QString QueryStr = "SELECT DISTINCT Titre FROM Titre ORDER BY Titre";
     QSqlQuery query = madatabase.exec(QueryStr);
 
-    while(query.next())
+    while (query.next())
     {
         QSqlRecord rec = query.record();
         Titres << rec.value("Titre").toString().replace("$", "'") ;
@@ -206,7 +206,7 @@ QStringList BDDAfficherPhys::ListeArtistesPossibles()
     QString QueryStr = "SELECT DISTINCT Artiste FROM Artiste ORDER BY Artiste";
     QSqlQuery query = madatabase.exec(QueryStr);
 
-    while(query.next())
+    while (query.next())
     {
         QSqlRecord rec = query.record();
         Artistes << rec.value("Artiste").toString().replace("$", "'") ;

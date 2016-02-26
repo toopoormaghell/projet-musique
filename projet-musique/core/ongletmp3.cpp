@@ -56,11 +56,11 @@ void OngletMP3::vider(QString Type)
         ui->Similaires->clear();
         ui->Mp3Phys->clear();
     }
-    if(Type == "Artiste")
+    if (Type == "Artiste")
     {
         ui->ArtistesAnnees->clear();
     }
-    if(Type == "AlbMP3")
+    if (Type == "AlbMP3")
     {
         ui->AlbumsTitres->clearSpans();
         ui->AlbumsTitres->clear();
@@ -75,7 +75,7 @@ void OngletMP3::afficherListeType()
 
     QImage image("./Pochettes/def.jpg");
 
-    for(int cpt = 0; cpt < types.count(); cpt = cpt + 2)
+    for (int cpt = 0; cpt < types.count(); cpt = cpt + 2)
     {
         QPixmap scaled( QPixmap::fromImage( image ) );
         scaled = scaled.scaled( 150, 150 );
@@ -141,7 +141,7 @@ void OngletMP3::afficheralbumsettitres()
 
             if (m_categorie == 2 )
             {
-                if( cpt % 2 == 1 )
+                if ( cpt % 2 == 1 )
                 {
                     m_colonnetitre = 0;
                     m_lignestitres += 7;
@@ -192,7 +192,7 @@ void OngletMP3::afficherAlbumSelectionne()
         ui->Titres->addItem("Pas d'album physique existant");
     }
 
-    for(int i = 0; i < alb.titres.count(); i++)
+    for (int i = 0; i < alb.titres.count(); i++)
     {
         QListWidgetItem* item = new QListWidgetItem;
         TitresPhys titre = alb.titres[i];
@@ -263,7 +263,7 @@ void OngletMP3::afficherInfosTitre()
     ui->NomAlbum->setText(mp3->m_album->m_nom);
     ui->NomArtiste->setText(mp3->m_artiste->m_nom);
 
-    if(mp3->m_titre->m_mp3 && mp3->m_titre->m_phys)
+    if (mp3->m_titre->m_mp3 && mp3->m_titre->m_phys)
         ui->Mp3Phys->setText("Existe en MP3 et Phys");
 
     QPixmap scaled( QPixmap::fromImage( mp3->m_album->m_pochette->m_image  ) );

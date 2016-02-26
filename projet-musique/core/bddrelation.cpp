@@ -15,7 +15,7 @@ BDDRelation::BDDRelation(const BDDAlbum &album, const BDDArtiste &artiste, const
 {
 
     recupererId();
-    if(m_id == -1)
+    if (m_id == -1)
     {
         ajouterBDD();
     }
