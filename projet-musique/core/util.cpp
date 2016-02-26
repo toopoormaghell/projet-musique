@@ -11,7 +11,7 @@ QString EchangerArtiste( QString Artiste )
 
     return Echange;
 }
-void EnleverAccents ( QString &Nom )
+void EnleverAccents( QString &Nom )
 {
     Nom.toUtf8();
     Nom.replace( "è", "e" );

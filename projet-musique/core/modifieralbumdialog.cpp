@@ -44,7 +44,7 @@ void ModifierAlbumDialog::AfficherAlbum()
     {
         QListWidgetItem* item = new QListWidgetItem;
         item->setText( m_album.titres[comp].Titre );
-        item->setFlags ( item->flags () | Qt::ItemIsEditable );
+        item->setFlags( item->flags() | Qt::ItemIsEditable );
         ui->Titres->addItem( item );
         ui->Duree->addItem( m_album.titres[comp].Duree );
         ListeNumeros();

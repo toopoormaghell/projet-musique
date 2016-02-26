@@ -134,7 +134,7 @@ void OngletMP3::afficheralbumsettitres()
             item->setData( Qt::UserRole, album->m_id );
             item->setTextAlignment( Qt::AlignLeft );
             item->setText( QString::number( album->m_annee ) + " - " + album->m_nom );
-            item->setFlags(  Qt::ItemIsEnabled );
+            item->setFlags( Qt::ItemIsEnabled );
             ui->AlbumsTitres->setItem( m_lignestitres + 5, m_colonnetitre, item );
             //On appelle la fonction chargée d'afficher les titres
             afficherTitresAlbum( QString::number( album->m_id ), m_categorie, m_lignestitres );
@@ -178,7 +178,7 @@ void OngletMP3::afficherAlbumSelectionne()
     ui->NomArtiste->setText( alb.Artiste );
     ui->NomAlbum->setText( QString::number( alb.Annee ) );
 
-    QPixmap scaled( QPixmap::fromImage( alb.Poch  ) );
+    QPixmap scaled( QPixmap::fromImage( alb.Poch ) );
     scaled = scaled.scaled( 150, 150 );
     ui->Pochette->setPixmap( scaled );
 
@@ -244,7 +244,7 @@ void OngletMP3::afficherTitresAlbum( QString Album, int Cate, int row )
             col++;
         }
     }
-    if ( Cate != 2  )
+    if ( Cate != 2 )
     {
         m_lignestitres = std::max( row + 6, row + maxlignes );
     }
@@ -266,7 +266,7 @@ void OngletMP3::afficherInfosTitre()
     if ( mp3->m_titre->m_mp3 && mp3->m_titre->m_phys )
         ui->Mp3Phys->setText( "Existe en MP3 et Phys" );
 
-    QPixmap scaled( QPixmap::fromImage( mp3->m_album->m_pochette->m_image  ) );
+    QPixmap scaled( QPixmap::fromImage( mp3->m_album->m_pochette->m_image ) );
     scaled = scaled.scaled( 150, 150 );
     ui->Pochette->setPixmap( scaled );
 
@@ -290,7 +290,7 @@ void OngletMP3::Similaires( const int id )
         item->setData( Qt::UserRole, mp3->m_id );
         item->setText( QString::number( mp3->m_album->m_annee ) + " - " + mp3->m_titre->m_nom );
         item->setToolTip( mp3->m_titre->m_nom );
-        item->setFlags(  Qt::ItemIsEnabled );
+        item->setFlags( Qt::ItemIsEnabled );
         //On s'occupe de sa pochette
         QPixmap scaled( QPixmap::fromImage( mp3->m_album->m_pochette->m_image ) );
         item->setIcon( QIcon( scaled ) );

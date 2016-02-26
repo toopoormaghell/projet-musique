@@ -30,7 +30,7 @@ private:
     void recupererId();
     void mp3etphys();
     //Constructeur avec une id
-    BDDTitre ( const int id, QObject* parent = NULL );
+    BDDTitre( const int id, QObject* parent = NULL );
 
 };
 

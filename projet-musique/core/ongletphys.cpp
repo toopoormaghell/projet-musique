@@ -180,7 +180,7 @@ void OngletPhys::AfficherInfosAlbum( int Type )
     ui->NomAlbum->setText( phys->m_album->m_nom );
 
     //On affiche la pochette
-    QPixmap scaled( QPixmap::fromImage( phys->m_album->m_pochette->m_image  ) );
+    QPixmap scaled( QPixmap::fromImage( phys->m_album->m_pochette->m_image ) );
     scaled = scaled.scaled( 150, 150 );
     ui->Pochette->setPixmap( scaled );
 

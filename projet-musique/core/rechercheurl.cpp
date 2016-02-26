@@ -100,7 +100,7 @@ AlbumPhys RechercheURL::RequeteAlbums( QString rech, int Type )
 void RechercheURL::RecupererPoch( QString lien )
 {
 
-    QNetworkRequest toto ( QUrl::fromEncoded( lien.toLatin1() ) );
+    QNetworkRequest toto( QUrl::fromEncoded( lien.toLatin1() ) );
     toto.setAttribute( QNetworkRequest::User, lien );
     QNetworkAccessManager *m = new QNetworkAccessManager;
     QNetworkReply* r = m->get( toto );

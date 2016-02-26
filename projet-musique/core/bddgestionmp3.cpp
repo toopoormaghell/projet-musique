@@ -185,7 +185,7 @@ void BDDGestionMp3::actualiserMp3( QString chemin )
     }
 }
 
-void BDDGestionMp3::supprimerAnciensMP3 ( )
+void BDDGestionMp3::supprimerAnciensMP3( )
 {
     m_iterateur = m_Chemins.constBegin();
 
@@ -202,7 +202,7 @@ void BDDGestionMp3::supprstep()
 
             m_pourcentage = m_iteration * 100 / m_Chemins.count();
 
-            int cle = m_iterateur.key ();
+            int cle = m_iterateur.key();
 
             if ( m_Chemins[cle][1] != "trouve" )
             {
