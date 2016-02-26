@@ -90,22 +90,22 @@ QString BDDAfficherMp3::AnneesSwitch(int annee)
 {
     switch (annee)
     {
-    case 0 :
-        return "Annee <1980";
-    case 1 :
-        return " Annee >=1980 AND Annee <1990";
-    case 2 :
-        return " Annee >=1990 AND Annee<2000";
-    case 3 :
-        return " Annee>=2000 AND Annee<2005";
-    case 4 :
-        return " Annee>=2005 AND Annee<2010";
-    case 5 :
-        return " Annee>=2010 AND Annee<2014";
-    case 6 :
-        return " Annee>=2015";
-    default :
-        return " Annee>=2015";
+        case 0 :
+            return "Annee <1980";
+        case 1 :
+            return " Annee >=1980 AND Annee <1990";
+        case 2 :
+            return " Annee >=1990 AND Annee<2000";
+        case 3 :
+            return " Annee>=2000 AND Annee<2005";
+        case 4 :
+            return " Annee>=2005 AND Annee<2010";
+        case 5 :
+            return " Annee>=2010 AND Annee<2014";
+        case 6 :
+            return " Annee>=2015";
+        default :
+            return " Annee>=2015";
     }
 }
 

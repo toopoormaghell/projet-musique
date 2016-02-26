@@ -98,21 +98,21 @@ void DialogAjouterPhys::AffichageListeArtistes(int id)
 {
     switch (id)
     {
-    case (-2):
-        m_Type=1;
-        ui->Artiste_Titres->setHidden(true);
-        ui->ArtisteLabel->setHidden(true);
-        break;
-    case (-3):
-        m_Type=2;
-        ui->Artiste_Titres->setHidden(false);
-        ui->ArtisteLabel->setHidden(false);
-        break;
-    case (-4):
-        m_Type=3;
-        ui->Artiste_Titres->setHidden(true);
-        ui->ArtisteLabel->setHidden(true);
-        break;
+        case (-2):
+            m_Type=1;
+            ui->Artiste_Titres->setHidden(true);
+            ui->ArtisteLabel->setHidden(true);
+            break;
+        case (-3):
+            m_Type=2;
+            ui->Artiste_Titres->setHidden(false);
+            ui->ArtisteLabel->setHidden(false);
+            break;
+        case (-4):
+            m_Type=3;
+            ui->Artiste_Titres->setHidden(true);
+            ui->ArtisteLabel->setHidden(true);
+            break;
     }
 }
 void DialogAjouterPhys::ViderBoiteDialogue()

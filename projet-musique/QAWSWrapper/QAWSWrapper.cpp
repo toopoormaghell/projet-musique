@@ -92,85 +92,85 @@ namespace
             reader.readNext();
             switch( reader.tokenType() )
             {
-            case QXmlStreamReader::StartElement:
-            {
-                // look for the validity of the request
-                if ( reader.name() == "IsValid" )
+                case QXmlStreamReader::StartElement:
                 {
-                    reader.readNext();
-                    if ( reader.tokenType() == QXmlStreamReader::Characters )
-                        isValid = ( reader.text() == "True" );
-                }
-                else if ( reader.name() == "Track" )
-                {
-                    reader.readNext();
-                    if ( reader.tokenType() == QXmlStreamReader::Characters )
+                    // look for the validity of the request
+                    if ( reader.name() == "IsValid" )
                     {
-                        TitresPhys titre;
-                        titre.Titre = reader.text().toString();
-                        titre.Num_Piste = trackNumber;
-                        trackNumber++;
-                        albumToFill.titres.append( titre );
-                    }
-                }
-                else if ( ( reader.name() == "Creator" ) &&
-                          ( reader.attributes().hasAttribute( "Role" ) ) &&
-                          ( reader.attributes().value( "Role" ) == "Performer" ) )
-                {
-                    reader.readNext();
-                    if ( reader.tokenType() == QXmlStreamReader::Characters )
-                        artistsList << reader.text().toString();
-                }
-                else if ( reader.name() == "Title" )
-                {
-                    reader.readNext();
-                    if ( reader.tokenType() == QXmlStreamReader::Characters )
-                        albumToFill.Album = reader.text().toString();
-                }
-                else if ( reader.name() == "Artist" )
-                {
-                    reader.readNext();
-                    if ( reader.tokenType() == QXmlStreamReader::Characters )
-                    {
-                        albumToFill.Artiste = reader.text().toString();
-                        if ( reader.text().toString() == "Multi-Artistes" )
-                            albumToFill.Artiste = "Artistes Divers";
-                    }
-                }
-                else if ( reader.name() == "ReleaseDate" )
-                {
-                    reader.readNext();
-                    if ( reader.tokenType() == QXmlStreamReader::Characters )
-                        albumToFill.Annee = reader.text().toString().left( 4 ).toInt();
-                }
-                else if ( ( reader.name() == "ImageSet" ) &&
-                          ( reader.attributes().hasAttribute( "Category" ) ) &&
-                          ( reader.attributes().value( "Category" ) == "primary" ) )
-                {
-                    reader.readNext();
-                    while ( !reader.atEnd() && ( reader.name() != "LargeImage" ) )
                         reader.readNext();
-                    reader.readNext();
-                    while ( !reader.atEnd() && ( reader.name() != "URL" ) )
-                        reader.readNext();
-                    reader.readNext();
-                    if ( reader.tokenType() == QXmlStreamReader::Characters )
+                        if ( reader.tokenType() == QXmlStreamReader::Characters )
+                            isValid = ( reader.text() == "True" );
+                    }
+                    else if ( reader.name() == "Track" )
                     {
-                        QUrl urlCover( reader.text().toString() );
-                        QNetworkRequest coverRequest( urlCover );
-                        QNetworkAccessManager* accessCover = new QNetworkAccessManager;
-                        QNetworkReply* coverReply = accessCover->get( coverRequest );
+                        reader.readNext();
+                        if ( reader.tokenType() == QXmlStreamReader::Characters )
+                        {
+                            TitresPhys titre;
+                            titre.Titre = reader.text().toString();
+                            titre.Num_Piste = trackNumber;
+                            trackNumber++;
+                            albumToFill.titres.append( titre );
+                        }
+                    }
+                    else if ( ( reader.name() == "Creator" ) &&
+                              ( reader.attributes().hasAttribute( "Role" ) ) &&
+                              ( reader.attributes().value( "Role" ) == "Performer" ) )
+                    {
+                        reader.readNext();
+                        if ( reader.tokenType() == QXmlStreamReader::Characters )
+                            artistsList << reader.text().toString();
+                    }
+                    else if ( reader.name() == "Title" )
+                    {
+                        reader.readNext();
+                        if ( reader.tokenType() == QXmlStreamReader::Characters )
+                            albumToFill.Album = reader.text().toString();
+                    }
+                    else if ( reader.name() == "Artist" )
+                    {
+                        reader.readNext();
+                        if ( reader.tokenType() == QXmlStreamReader::Characters )
+                        {
+                            albumToFill.Artiste = reader.text().toString();
+                            if ( reader.text().toString() == "Multi-Artistes" )
+                                albumToFill.Artiste = "Artistes Divers";
+                        }
+                    }
+                    else if ( reader.name() == "ReleaseDate" )
+                    {
+                        reader.readNext();
+                        if ( reader.tokenType() == QXmlStreamReader::Characters )
+                            albumToFill.Annee = reader.text().toString().left( 4 ).toInt();
+                    }
+                    else if ( ( reader.name() == "ImageSet" ) &&
+                              ( reader.attributes().hasAttribute( "Category" ) ) &&
+                              ( reader.attributes().value( "Category" ) == "primary" ) )
+                    {
+                        reader.readNext();
+                        while ( !reader.atEnd() && ( reader.name() != "LargeImage" ) )
+                            reader.readNext();
+                        reader.readNext();
+                        while ( !reader.atEnd() && ( reader.name() != "URL" ) )
+                            reader.readNext();
+                        reader.readNext();
+                        if ( reader.tokenType() == QXmlStreamReader::Characters )
+                        {
+                            QUrl urlCover( reader.text().toString() );
+                            QNetworkRequest coverRequest( urlCover );
+                            QNetworkAccessManager* accessCover = new QNetworkAccessManager;
+                            QNetworkReply* coverReply = accessCover->get( coverRequest );
 
-                        QEventLoop loop;
-                        QObject::connect( coverReply, SIGNAL(finished()), &loop, SLOT(quit()) );
-                        loop.exec();
-                        albumToFill.Poch = QImage::fromData( coverReply->readAll() );
+                            QEventLoop loop;
+                            QObject::connect( coverReply, SIGNAL(finished()), &loop, SLOT(quit()) );
+                            loop.exec();
+                            albumToFill.Poch = QImage::fromData( coverReply->readAll() );
+                        }
                     }
+                    break;
                 }
-                break;
-            }
-            default:
-                break;
+                default:
+                    break;
             }
         }
         if ( reader.hasError() )

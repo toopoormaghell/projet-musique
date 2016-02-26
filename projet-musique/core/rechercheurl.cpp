@@ -177,64 +177,64 @@ void RechercheURL::LectureXMLTitres(QByteArray fichier)
         switch(reader.tokenType())
         {
 
-        case QXmlStreamReader::StartElement:
-        {
-            element = reader.name().toString();
-
-            if (element == "item")
+            case QXmlStreamReader::StartElement:
             {
-                if (cpt!=0)
+                element = reader.name().toString();
+
+                if (element == "item")
                 {
-                    titres << titre_en_cours;
+                    if (cpt!=0)
+                    {
+                        titres << titre_en_cours;
+                    }
+                    cpt++;
                 }
-                cpt++;
-            }
 
-            break;
-        }
-        case QXmlStreamReader::Characters:
-        {
-            if (element=="length")
-            {
-                titre_en_cours.Duree= reader.text().toString();
+                break;
             }
-            if (element=="track_number")
+            case QXmlStreamReader::Characters:
             {
-                titre_en_cours.Num_Piste=reader.text().toInt();
-            }
-            if (element=="title")
-            {
-                titre_en_cours.Titre=reader.text().toString();
-            }
-            if (element == "pageCount")
-            {
-                m_pages = reader.text().toInt();
-            }
-            if (element == "id")
-            {
-                titre_en_cours.id=reader.text().toString();
+                if (element=="length")
+                {
+                    titre_en_cours.Duree= reader.text().toString();
+                }
+                if (element=="track_number")
+                {
+                    titre_en_cours.Num_Piste=reader.text().toInt();
+                }
+                if (element=="title")
+                {
+                    titre_en_cours.Titre=reader.text().toString();
+                }
+                if (element == "pageCount")
+                {
+                    m_pages = reader.text().toInt();
+                }
+                if (element == "id")
+                {
+                    titre_en_cours.id=reader.text().toString();
 
+                }
+                break;
             }
-            break;
-        }
-        case QXmlStreamReader::StartDocument :
-            break;
-        case QXmlStreamReader::EndElement:
-            break;
-        case QXmlStreamReader::EndDocument:
-            break;
-        case QXmlStreamReader::NoToken:
-            break;
-        case QXmlStreamReader::Invalid:
-            break;
-        case QXmlStreamReader::Comment:
-            break;
-        case QXmlStreamReader::DTD:
-            break;
-        case QXmlStreamReader::EntityReference:
-            break;
-        case QXmlStreamReader::ProcessingInstruction:
-            break;
+            case QXmlStreamReader::StartDocument :
+                break;
+            case QXmlStreamReader::EndElement:
+                break;
+            case QXmlStreamReader::EndDocument:
+                break;
+            case QXmlStreamReader::NoToken:
+                break;
+            case QXmlStreamReader::Invalid:
+                break;
+            case QXmlStreamReader::Comment:
+                break;
+            case QXmlStreamReader::DTD:
+                break;
+            case QXmlStreamReader::EntityReference:
+                break;
+            case QXmlStreamReader::ProcessingInstruction:
+                break;
         }
     }
     if (titre_en_cours.Titre!="")
@@ -255,37 +255,37 @@ QStringList RechercheURL::LectureXMLReleases(QByteArray fichier)
         reader.readNext();
         switch(reader.tokenType())
         {
-        case QXmlStreamReader::StartElement:
-        {
-            element = reader.name().toString();
-            break;
-        }
-        case QXmlStreamReader::Characters:
-        {
-            if ( element == "id")
+            case QXmlStreamReader::StartElement:
             {
-                temp << reader.text().toString();
+                element = reader.name().toString();
+                break;
             }
-            break;
-        }
-        case QXmlStreamReader::StartDocument :
-            break;
-        case QXmlStreamReader::EndDocument:
-            break;
-        case QXmlStreamReader::EndElement:
-            break;
-        case QXmlStreamReader::NoToken:
-            break;
-        case QXmlStreamReader::Invalid:
-            break;
-        case QXmlStreamReader::Comment:
-            break;
-        case QXmlStreamReader::DTD:
-            break;
-        case QXmlStreamReader::EntityReference:
-            break;
-        case QXmlStreamReader::ProcessingInstruction:
-            break;
+            case QXmlStreamReader::Characters:
+            {
+                if ( element == "id")
+                {
+                    temp << reader.text().toString();
+                }
+                break;
+            }
+            case QXmlStreamReader::StartDocument :
+                break;
+            case QXmlStreamReader::EndDocument:
+                break;
+            case QXmlStreamReader::EndElement:
+                break;
+            case QXmlStreamReader::NoToken:
+                break;
+            case QXmlStreamReader::Invalid:
+                break;
+            case QXmlStreamReader::Comment:
+                break;
+            case QXmlStreamReader::DTD:
+                break;
+            case QXmlStreamReader::EntityReference:
+                break;
+            case QXmlStreamReader::ProcessingInstruction:
+                break;
         }
     }
     return temp;
@@ -386,38 +386,38 @@ QMap<QString, QString> RechercheURL::LectureXML(QByteArray fichier)
         reader.readNext();
         switch(reader.tokenType())
         {
-        case QXmlStreamReader::StartElement:
-        {
-            element = reader.name().toString();
-            break;
-        }
-        case QXmlStreamReader::Characters:
-        {
-            temp.insert(element,reader.text().toString());
-            if ( reader.text().toString()=="Main" || element=="format" )
+            case QXmlStreamReader::StartElement:
             {
-                return temp;
+                element = reader.name().toString();
+                break;
             }
-            break;
-        }
-        case QXmlStreamReader::StartDocument :
-            break;
-        case QXmlStreamReader::EndDocument:
-            break;
-        case QXmlStreamReader::EndElement:
-            break;
-        case QXmlStreamReader::NoToken:
-            break;
-        case QXmlStreamReader::Invalid:
-            break;
-        case QXmlStreamReader::Comment:
-            break;
-        case QXmlStreamReader::DTD:
-            break;
-        case QXmlStreamReader::EntityReference:
-            break;
-        case QXmlStreamReader::ProcessingInstruction:
-            break;
+            case QXmlStreamReader::Characters:
+            {
+                temp.insert(element,reader.text().toString());
+                if ( reader.text().toString()=="Main" || element=="format" )
+                {
+                    return temp;
+                }
+                break;
+            }
+            case QXmlStreamReader::StartDocument :
+                break;
+            case QXmlStreamReader::EndDocument:
+                break;
+            case QXmlStreamReader::EndElement:
+                break;
+            case QXmlStreamReader::NoToken:
+                break;
+            case QXmlStreamReader::Invalid:
+                break;
+            case QXmlStreamReader::Comment:
+                break;
+            case QXmlStreamReader::DTD:
+                break;
+            case QXmlStreamReader::EntityReference:
+                break;
+            case QXmlStreamReader::ProcessingInstruction:
+                break;
         }
     }
     return temp;

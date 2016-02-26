@@ -102,18 +102,18 @@ QString BDDGestionMp3::dossiercategorie()
 {
     switch (m_type)
     {
-    case (1):
-        return getdossierpardef();
-        break;
-    case (2):
-        return "F:/Compil";
-        break;
-    case (3):
-        return "F:/Live";
-        break;
-    default:
-        return "";
-        break;
+        case (1):
+            return getdossierpardef();
+            break;
+        case (2):
+            return "F:/Compil";
+            break;
+        case (3):
+            return "F:/Live";
+            break;
+        default:
+            return "";
+            break;
     }
 }
 void BDDGestionMp3::creerfilefichiers()

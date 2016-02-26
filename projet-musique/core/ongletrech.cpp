@@ -102,11 +102,11 @@ void OngletRech::AffichageResGroup(int Type)
 {
     switch (Type)
     {
-    case 0 :
-        ui->Artiste->setHidden(false);
-        ui->Titre->setHidden(true);
-    case 1 :
-        ui->Artiste->setHidden(true);
-        ui->Titre->setHidden(false);
+        case 0 :
+            ui->Artiste->setHidden(false);
+            ui->Titre->setHidden(true);
+        case 1 :
+            ui->Artiste->setHidden(true);
+            ui->Titre->setHidden(false);
     }
 }
