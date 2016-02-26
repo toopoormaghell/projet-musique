@@ -21,7 +21,7 @@ void SousDialogAjoutTitre::ActualiserOnglet(int Type)
 {
     AjouterListeTitres();
     AjouterListeArtistes();
-    if (Type==2)
+    if (Type == 2)
     {
         ui->Artiste->setHidden(0);
         ui->label_2->setHidden(0);
@@ -37,7 +37,7 @@ void SousDialogAjoutTitre::ActualiserOnglet(int Type)
 
 void SousDialogAjoutTitre::RecupererDonnees()
 {
-    m_Duree= ui->Duree->text();
+    m_Duree = ui->Duree->text();
     m_Artiste = ui->Artiste->text();
     m_Titre = ui->Titre->text();
 }

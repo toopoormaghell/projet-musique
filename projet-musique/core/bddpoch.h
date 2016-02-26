@@ -16,7 +16,7 @@ public:
     void updateBDD();
     void supprimerenBDD() const;
     static BDDPoch* recupererBDD( const int id );
-    static BDDPoch* recupererPoch( const QString& album,const QString &artiste);
+    static BDDPoch* recupererPoch( const QString& album, const QString &artiste);
     int m_id;
     QImage m_image;
     QString m_chemin;

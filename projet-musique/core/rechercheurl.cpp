@@ -16,9 +16,9 @@ RechercheURL::RechercheURL(QObject *parent):
     Q_UNUSED(parent);
 }
 
-AlbumPhys RechercheURL::RequeteAlbums(QString rech,int Type)
+AlbumPhys RechercheURL::RequeteAlbums(QString rech, int Type)
 {
-    m_album.Type=Type;
+    m_album.Type = Type;
     m_album.titres.clear();
     m_interaction = "Requete en cours...";
     emit test();
@@ -26,7 +26,7 @@ AlbumPhys RechercheURL::RequeteAlbums(QString rech,int Type)
     QStringList temp;
     temp << "release/search"  << "ean" << rech;
     QMap<QString, QString> lecture =   Requete(temp);
-    m_interaction= "Récupération du nom de l'album, de l'année faite.";
+    m_interaction = "Récupération du nom de l'album, de l'année faite.";
     emit test();
     m_album.Album = lecture["title"];
     QString annee = lecture["release_date"];
@@ -35,62 +35,62 @@ AlbumPhys RechercheURL::RequeteAlbums(QString rech,int Type)
     m_album.Id_Release = lecture["id"].toInt();
 
     //2ème étape, on s'occupe de l'artiste
-    if (Type==1 || Type==3)
+    if (Type == 1 || Type == 3)
     {
         temp.clear();
-        temp << "release/"+QString::number(m_album.Id_Release)+"/artists";
+        temp << "release/" + QString::number(m_album.Id_Release) + "/artists";
         lecture = Requete(temp);
-        m_album.Artiste=lecture["name"];
-        m_interaction= "Récupération du nom de l'artiste faite.";
+        m_album.Artiste = lecture["name"];
+        m_interaction = "Récupération du nom de l'artiste faite.";
         emit test();
     }
     else
     {
-        m_album.Artiste="Artistes Divers";
-        m_interaction= "Le type de l'album est une compilation.";
+        m_album.Artiste = "Artistes Divers";
+        m_interaction = "Le type de l'album est une compilation.";
         emit test();
     }
 
     //3ème étape, on récupère les titres
     RecupererTitres();
     //4ème étape, on s'occupe de la pochette
-    BDDPoch* toto = BDDPoch::recupererPoch(m_album.Album,m_album.Artiste);
+    BDDPoch* toto = BDDPoch::recupererPoch(m_album.Album, m_album.Artiste);
     if (toto == NULL)
     {
         ChoixAlbumPhysDialog choixalbum(m_album.Artiste);
         choixalbum.exec();
-        int id_alb=0;
-        if( choixalbum.m_selection!=0)
+        int id_alb = 0;
+        if( choixalbum.m_selection != 0)
         {
-            id_alb=choixalbum.m_selection;
+            id_alb = choixalbum.m_selection;
         }
-        if (id_alb==0)
+        if (id_alb == 0)
         {
-            m_interaction= "Récupération de la pochette...";
+            m_interaction = "Récupération de la pochette...";
             emit test();
             temp.clear();
-            temp <<"release/"+QString::number(m_album.Id_Release)+"/pictures";
-            lecture =Requete(temp);
+            temp << "release/" + QString::number(m_album.Id_Release) + "/pictures";
+            lecture = Requete(temp);
             RecupererPoch(lecture["url"]);
         }
         else
         {
             BDDAlbum* albu = BDDAlbum::RecupererAlbum(id_alb);
-            m_album.Id_Album=albu->m_id;
-            m_album.Poch=albu->m_pochette->m_image;
-            m_album.Album=albu->m_nom;
+            m_album.Id_Album = albu->m_id;
+            m_album.Poch = albu->m_pochette->m_image;
+            m_album.Album = albu->m_nom;
         }
 
     }
     else
     {
 
-        m_interaction= "La pochette existe déjà.";
+        m_interaction = "La pochette existe déjà.";
         emit test();
-        m_album.Poch=toto->m_image;
+        m_album.Poch = toto->m_image;
     }
 
-    m_interaction= "Récupération de l'album réalisée. Affichage en cours...";
+    m_interaction = "Récupération de l'album réalisée. Affichage en cours...";
     emit test();
 
     return m_album;
@@ -101,18 +101,18 @@ void RechercheURL::RecupererPoch(QString lien)
 {
 
     QNetworkRequest toto (QUrl::fromEncoded(lien.toLatin1()));
-    toto.setAttribute(QNetworkRequest::User,lien);
-    QNetworkAccessManager *m=new QNetworkAccessManager;
-    QNetworkReply* r= m->get(toto);
+    toto.setAttribute(QNetworkRequest::User, lien);
+    QNetworkAccessManager *m = new QNetworkAccessManager;
+    QNetworkReply* r = m->get(toto);
     //on attend que le signal finished soit recu
     QEventLoop loop;
-    QObject::connect(r,SIGNAL(finished()),&loop,SLOT(quit()));
+    QObject::connect(r, SIGNAL(finished()), &loop, SLOT(quit()));
     loop.exec();
     m_album.Poch.loadFromData(r->readAll());
 }
 QStringList RechercheURL::RequeteReleases(QStringList attributs)
 {
-    if (attributs.count()==3)
+    if (attributs.count() == 3)
     {
         //theOAuthSingleton.makeRequest( attributs[0], attributs[1], attributs[2] );
     }
@@ -129,9 +129,9 @@ QStringList RechercheURL::RequeteReleases(QStringList attributs)
 
 }
 
-QMap<QString,QString> RechercheURL::Requete(QStringList attributs)
+QMap<QString, QString> RechercheURL::Requete(QStringList attributs)
 {
-    if (attributs.count()==3)
+    if (attributs.count() == 3)
     {
         //theOAuthSingleton.makeRequest( attributs[0], attributs[1], attributs[2] );
     }
@@ -149,7 +149,7 @@ QMap<QString,QString> RechercheURL::Requete(QStringList attributs)
 }
 void RechercheURL::RequeteTitres(QStringList attributs)
 {
-    if (attributs.count()==3)
+    if (attributs.count() == 3)
     {
         //theOAuthSingleton.makeRequest( attributs[0], attributs[1], attributs[2] );
     }
@@ -170,7 +170,7 @@ void RechercheURL::LectureXMLTitres(QByteArray fichier)
 
     QList<TitresPhys> titres;
     TitresPhys titre_en_cours;
-    int cpt=0;
+    int cpt = 0;
     while (!reader.atEnd())
     {
         reader.readNext();
@@ -183,7 +183,7 @@ void RechercheURL::LectureXMLTitres(QByteArray fichier)
 
                 if (element == "item")
                 {
-                    if (cpt!=0)
+                    if (cpt != 0)
                     {
                         titres << titre_en_cours;
                     }
@@ -194,17 +194,17 @@ void RechercheURL::LectureXMLTitres(QByteArray fichier)
             }
             case QXmlStreamReader::Characters:
             {
-                if (element=="length")
+                if (element == "length")
                 {
-                    titre_en_cours.Duree= reader.text().toString();
+                    titre_en_cours.Duree = reader.text().toString();
                 }
-                if (element=="track_number")
+                if (element == "track_number")
                 {
-                    titre_en_cours.Num_Piste=reader.text().toInt();
+                    titre_en_cours.Num_Piste = reader.text().toInt();
                 }
-                if (element=="title")
+                if (element == "title")
                 {
-                    titre_en_cours.Titre=reader.text().toString();
+                    titre_en_cours.Titre = reader.text().toString();
                 }
                 if (element == "pageCount")
                 {
@@ -212,7 +212,7 @@ void RechercheURL::LectureXMLTitres(QByteArray fichier)
                 }
                 if (element == "id")
                 {
-                    titre_en_cours.id=reader.text().toString();
+                    titre_en_cours.id = reader.text().toString();
 
                 }
                 break;
@@ -237,7 +237,7 @@ void RechercheURL::LectureXMLTitres(QByteArray fichier)
                 break;
         }
     }
-    if (titre_en_cours.Titre!="")
+    if (titre_en_cours.Titre != "")
     {
         titres << titre_en_cours;
     }
@@ -294,49 +294,49 @@ QStringList RechercheURL::LectureXMLReleases(QByteArray fichier)
 void RechercheURL::RecupererTitres()
 {
 
-    QString releasebonne= QString::number(m_album.Id_Release);
+    QString releasebonne = QString::number(m_album.Id_Release);
 
     //3ème étape, on s'occupe des titres
-    m_interaction= "Récupération des titres en cours...";
+    m_interaction = "Récupération des titres en cours...";
     emit test();
 
 
     QStringList temp;
-    temp <<"release/"+QString::number(m_album.Id_Release)+"/tracks";
+    temp << "release/" + QString::number(m_album.Id_Release) + "/tracks";
     RequeteTitres(temp);
 
     //Si l'étape 3 n'a rien donné
-    if ( m_album.titres.count()==0)
+    if ( m_album.titres.count() == 0)
     {
-        m_interaction= "Récupération des titres échouée. On vérifie les autres versions de l'album.";
+        m_interaction = "Récupération des titres échouée. On vérifie les autres versions de l'album.";
         emit test();
 
         //On va chercher l'id de l'album
         temp.clear();
-        temp << "release/"+QString::number(m_album.Id_Release)+"/album";
+        temp << "release/" + QString::number(m_album.Id_Release) + "/album";
         QMap<QString, QString> lecture =   Requete(temp);
 
-        m_album.Id_Album=lecture["id"].toInt();
+        m_album.Id_Album = lecture["id"].toInt();
         //On cherche maintenant toutes les releases de l'album
         temp.clear();
-        temp << "album/"+QString::number(m_album.Id_Album)+"/releases";
+        temp << "album/" + QString::number(m_album.Id_Album) + "/releases";
         QStringList releases = RequeteReleases(temp);
-        m_interaction= "Liste des releases créée.";
+        m_interaction = "Liste des releases créée.";
         emit test();
 
-        int cpt=0;
+        int cpt = 0;
 
         while (m_album.titres.count() == 0 )
         {
-            if (cpt>=releases.count())
+            if (cpt >= releases.count())
             {
-                m_interaction= "Titres non récupérés.";
+                m_interaction = "Titres non récupérés.";
                 emit test();
                 break;
             }
             //On refait la troisième étape, on s'occupe des titres
             temp.clear();
-            temp <<"release/"+releases[cpt]+"/tracks";
+            temp << "release/" + releases[cpt] + "/tracks";
             RequeteTitres(temp);
             releasebonne = releases[cpt];
             cpt++;
@@ -344,31 +344,31 @@ void RechercheURL::RecupererTitres()
         }
     }
     //On récupère les pages suivantes des titres
-    for (int i=2; i<=m_pages; i++)
+    for (int i = 2; i <= m_pages; i++)
     {
         temp.clear();
-        temp <<"release/"+releasebonne+"/tracks" << "page" << QString::number(i);
+        temp << "release/" + releasebonne + "/tracks" << "page" << QString::number(i);
         RequeteTitres(temp);
     }
 
-    if (m_album.titres.count()!=0)
+    if (m_album.titres.count() != 0)
     {
-        m_interaction= "Titres récupérés.";
+        m_interaction = "Titres récupérés.";
         emit test();
     }
 
     //Si le type de l'album est une compil, on récupère les artistes des titres
-    if( m_album.Type==2)
+    if( m_album.Type == 2)
     {
 
-        for (int compt=0; compt<m_album.titres.count(); compt++)
+        for (int compt = 0; compt < m_album.titres.count(); compt++)
         {
 
             temp.clear();
-            temp << "track/"+m_album.titres[compt].id+"/artists";
+            temp << "track/" + m_album.titres[compt].id + "/artists";
             QMap<QString, QString> lecture =   Requete(temp);
-            m_album.titres[compt].Artiste=lecture["name"];
-            m_interaction= "Récupération du nom de l'artiste du titre "+QString::number(compt)+" faite.";
+            m_album.titres[compt].Artiste = lecture["name"];
+            m_interaction = "Récupération du nom de l'artiste du titre " + QString::number(compt) + " faite.";
             emit test();
         }
     }
@@ -377,7 +377,7 @@ void RechercheURL::RecupererTitres()
 }
 QMap<QString, QString> RechercheURL::LectureXML(QByteArray fichier)
 {
-    QMap<QString,QString> temp;
+    QMap<QString, QString> temp;
     QXmlStreamReader reader(fichier);
     QString element;
 
@@ -393,8 +393,8 @@ QMap<QString, QString> RechercheURL::LectureXML(QByteArray fichier)
             }
             case QXmlStreamReader::Characters:
             {
-                temp.insert(element,reader.text().toString());
-                if ( reader.text().toString()=="Main" || element=="format" )
+                temp.insert(element, reader.text().toString());
+                if ( reader.text().toString() == "Main" || element == "format" )
                 {
                     return temp;
                 }

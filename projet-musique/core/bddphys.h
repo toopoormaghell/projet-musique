@@ -31,7 +31,7 @@ private:
     void recupererId();
     void RecupererTitres();
     //Constructeur avec une id
-    BDDPhys(const int id, QObject* parent=NULL);
+    BDDPhys(const int id, QObject* parent = NULL);
 
 
     void updateBDD();

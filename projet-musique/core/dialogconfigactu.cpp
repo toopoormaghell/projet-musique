@@ -26,7 +26,7 @@ void DialogConfigActu::on_buttonBox_accepted()
 
 void DialogConfigActu::on_Changer_clicked()
 {
-    QString fileName = QFileDialog::getExistingDirectory(this,tr("Dossier par défaut"),ui->DossierParDef->text(),QFileDialog::ShowDirsOnly);
+    QString fileName = QFileDialog::getExistingDirectory(this, tr("Dossier par défaut"), ui->DossierParDef->text(), QFileDialog::ShowDirsOnly);
 
     ui->DossierParDef->setText(fileName);
 }

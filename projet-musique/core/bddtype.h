@@ -14,7 +14,7 @@ public:
 
     static QList<int> NbCategories();
 private:
-    BDDType(const int id,QObject* parent= NULL);
+    BDDType(const int id, QObject* parent = NULL);
 
 };
 

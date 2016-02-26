@@ -40,7 +40,7 @@ void ModifierAlbumDialog::AfficherAlbum()
     ui->Pochette->setPixmap(scaled);
 
     //On affiche les titres
-    for (int comp=0; comp<m_album.titres.count(); comp++)
+    for (int comp = 0; comp < m_album.titres.count(); comp++)
     {
         QListWidgetItem* item = new QListWidgetItem;
         item->setText(m_album.titres[comp].Titre);
@@ -56,34 +56,34 @@ void ModifierAlbumDialog::AfficherAlbum()
 void ModifierAlbumDialog::ListeNumeros()
 {
     ui->Num_Pistes->clear();
-    for (int i=1; i<ui->Titres->count()+1; i++)
+    for (int i = 1; i < ui->Titres->count() + 1; i++)
     {
-        ui->Num_Pistes->addItem(new QListWidgetItem(QString::number(i).rightJustified(2,'0')+" - "));
+        ui->Num_Pistes->addItem(new QListWidgetItem(QString::number(i).rightJustified(2, '0') + " - "));
     }
 }
 
 void ModifierAlbumDialog::EnregistrerAlbum()
 {
 
-    m_album.Album= ui->Album->text();
-    m_album.Artiste=ui->Artiste->text();
-    m_album.Annee=ui->Annee->text().toInt();
-    m_album.Type = ui->Type->currentIndex()+1;
+    m_album.Album = ui->Album->text();
+    m_album.Artiste = ui->Artiste->text();
+    m_album.Annee = ui->Annee->text().toInt();
+    m_album.Type = ui->Type->currentIndex() + 1;
 
     //On récupère la pochette
     const QPixmap* pixmap = ui->Pochette->pixmap();
     QImage image = pixmap->toImage();
-    m_album.Poch=image;
+    m_album.Poch = image;
 
     //On récupère les titres
-    for (int i=0; i<ui->Titres->count(); i++)
+    for (int i = 0; i < ui->Titres->count(); i++)
     {
         TitresPhys titre;
-        titre.Titre=ui->Titres->item(i)->text();
-        titre.Duree=ui->Duree->item(i)->text();
-        titre.Num_Piste=i+1;
+        titre.Titre = ui->Titres->item(i)->text();
+        titre.Duree = ui->Duree->item(i)->text();
+        titre.Num_Piste = i + 1;
 
-        if (m_album.Type==2)
+        if (m_album.Type == 2)
         {
             //A faire l'edition de compilation
         }
@@ -97,7 +97,7 @@ void ModifierAlbumDialog::Supprimer_Titre()
     QList<QListWidgetItem *> fileSelected = ui->Titres->selectedItems();
     if (fileSelected.size())
     {
-        for (int i=ui->Titres->count()-1 ; i>=0 ; i--)
+        for (int i = ui->Titres->count() - 1 ; i >= 0 ; i--)
         {
             if (ui->Titres->item(i)->isSelected())
             {
@@ -116,6 +116,6 @@ void ModifierAlbumDialog::on_buttonBox_accepted()
 
     BDDGestionPhys m_bddinterface;
     m_bddinterface.SupprimerenBDDPhys(m_album.Id_Album);
-    m_bddinterface.ajouterAlbum(m_album.Poch,m_album.Album,m_album.Artiste,QString::number(m_album.Id_Release),m_album.Annee,m_album.titres,m_album.Type);
+    m_bddinterface.ajouterAlbum(m_album.Poch, m_album.Album, m_album.Artiste, QString::number(m_album.Id_Release), m_album.Annee, m_album.titres, m_album.Type);
 
 }

@@ -21,25 +21,25 @@ VidageBDDDialog::~VidageBDDDialog()
 void VidageBDDDialog::on_MP3_toggled(bool checked)
 {
     Q_UNUSED(checked);
-    Mp3= ui->MP3->isChecked();
+    Mp3 = ui->MP3->isChecked();
 }
 
 void VidageBDDDialog::on_Phys_toggled(bool checked)
 {
     Q_UNUSED(checked);
-    Phys=ui->Phys->isChecked();
+    Phys = ui->Phys->isChecked();
 }
 
 void VidageBDDDialog::on_Config_toggled(bool checked)
 {
     Q_UNUSED(checked);
-    Config=ui->Config->isChecked();
+    Config = ui->Config->isChecked();
 }
 
 void VidageBDDDialog::on_buttonBox_accepted()
 {
-    Mp3= ui->MP3->isChecked();
-    Phys=ui->Phys->isChecked();
-    Config=ui->Config->isChecked();
+    Mp3 = ui->MP3->isChecked();
+    Phys = ui->Phys->isChecked();
+    Config = ui->Config->isChecked();
     emit vidage();
 }

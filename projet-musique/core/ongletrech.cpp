@@ -11,7 +11,7 @@ OngletRech::OngletRech(QWidget *parent) :
     ui(new Ui::OngletRech)
 {
     ui->setupUi(this);
-    m_rech="";
+    m_rech = "";
 }
 
 OngletRech::~OngletRech()
@@ -36,7 +36,7 @@ void OngletRech::affichageTitres()
     ui->TitResult->clear();
     QList<int> result = appelBDD->RechTitres(m_rech);
 
-    for (int i=0; i<result.count(); i++)
+    for (int i = 0; i < result.count(); i++)
     {
         BDDTitre* titre = BDDTitre::RecupererTitre(result[i]);
         QListWidgetItem* item = new QListWidgetItem;
@@ -54,7 +54,7 @@ void OngletRech::affichageAlbums()
     ui->AlbResult->clear();
     QList<int> result = appelBDD->RechAlb(m_rech);
 
-    for (int i=0; i<result.count(); i++)
+    for (int i = 0; i < result.count(); i++)
     {
         BDDAlbum* alb = BDDAlbum::RecupererAlbum(result[i]);
         QListWidgetItem* item = new QListWidgetItem;
@@ -73,7 +73,7 @@ void OngletRech::affichageArtistes()
     ui->ArtResult->clear();
     QList<int> result = appelBDD->RechArt(m_rech);
 
-    for (int i=0; i<result.count(); i++)
+    for (int i = 0; i < result.count(); i++)
     {
         BDDArtiste* artiste = BDDArtiste::RecupererArtiste(result[i]);
         QListWidgetItem* item = new QListWidgetItem;

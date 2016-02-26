@@ -29,46 +29,46 @@ MainWindow::MainWindow(QWidget *parent) :
     ajouterStatusBar();
 
     //Change le pourcentage de la progressbar
-    connect(m_gestionMP3,SIGNAL(pourcentage()),this,SLOT(changerPourcentage()));
+    connect(m_gestionMP3, SIGNAL(pourcentage()), this, SLOT(changerPourcentage()));
     //A la fin de l'actualiser MP3, il actualise l'onglet MP3
-    connect(m_gestionMP3,SIGNAL(fin()),this,SLOT(ActualiserOngletMP3()));
-    connect(m_gestionMP3,SIGNAL(fin()),this,SLOT(ActualiserOngletStats()));
+    connect(m_gestionMP3, SIGNAL(fin()), this, SLOT(ActualiserOngletMP3()));
+    connect(m_gestionMP3, SIGNAL(fin()), this, SLOT(ActualiserOngletStats()));
     //A la fin de l'ajout d'album Phys, il actualise l'onglet Phys
-    connect(m_dialogajouterphys,SIGNAL(ajout()),this,SLOT(ActualiserOngletPhys()));
+    connect(m_dialogajouterphys, SIGNAL(ajout()), this, SLOT(ActualiserOngletPhys()));
     //Si le bouton STOP est cliqué, il renvoie un signal
-    connect(stop,SIGNAL(clicked()),m_gestionMP3,SLOT(stop_clique()));
+    connect(stop, SIGNAL(clicked()), m_gestionMP3, SLOT(stop_clique()));
 }
 void MainWindow::ajouterToolbar()
 {
     QPixmap essai(":/menuIcones/actump3");
-    ui->toolBar->addAction(QIcon(essai),"Actualiser Mp3",this,SLOT(on_actionActualiser_Mp3_triggered()));
+    ui->toolBar->addAction(QIcon(essai), "Actualiser Mp3", this, SLOT(on_actionActualiser_Mp3_triggered()));
 
     essai.load(":/menuIcones/ajoutphys");
-    ui->toolBar->addAction(QIcon(essai),"Ajouter un Album physique",this,SLOT(on_actionAjouter_Album_triggered()));
+    ui->toolBar->addAction(QIcon(essai), "Ajouter un Album physique", this, SLOT(on_actionAjouter_Album_triggered()));
 
     essai.load(":/menuIcones/vider");
-    ui->toolBar->addAction(QIcon(essai),"Vider BDD",this,SLOT(on_actionViderBDD_triggered()));
+    ui->toolBar->addAction(QIcon(essai), "Vider BDD", this, SLOT(on_actionViderBDD_triggered()));
 
     essai.load(":/menuIcones/exporter");
-    ui->toolBar->addAction(QIcon(essai),"Exporter",this,SLOT(actionExporter()));
+    ui->toolBar->addAction(QIcon(essai), "Exporter", this, SLOT(actionExporter()));
 
     essai.load(":menuIcones/artistesinv");
-    ui->toolBar->addAction(QIcon(essai),"Artistes Inversés",this,SLOT(actionartistesinverses()));
+    ui->toolBar->addAction(QIcon(essai), "Artistes Inversés", this, SLOT(actionartistesinverses()));
 
     essai.load(":menuIcones/bdd");
-    ui->toolBar->addAction(QIcon(essai),"Configuration BDD",this,SLOT(actionBDD()));
+    ui->toolBar->addAction(QIcon(essai), "Configuration BDD", this, SLOT(actionBDD()));
 
     essai.load(":menuIcones/config actu");
-    ui->toolBar->addAction(QIcon(essai),"Configuration Actualiser MP3",this,SLOT(actionconfigactu()));
+    ui->toolBar->addAction(QIcon(essai), "Configuration Actualiser MP3", this, SLOT(actionconfigactu()));
 
 }
 void MainWindow::ajouterStatusBar()
 {
     //Propriétés de la statusbar
-    ui->statusBar->setContentsMargins(0,0,0,0);
-    ui->statusBar->addPermanentWidget(stop,1);
-    ui->statusBar->addPermanentWidget(m_progressbar,1);
-    ui->statusBar->addPermanentWidget(m_interaction,1);
+    ui->statusBar->setContentsMargins(0, 0, 0, 0);
+    ui->statusBar->addPermanentWidget(stop, 1);
+    ui->statusBar->addPermanentWidget(m_progressbar, 1);
+    ui->statusBar->addPermanentWidget(m_interaction, 1);
 
     //Propriétés de la progressBar
     m_progressbar->setTextVisible( true );
@@ -102,7 +102,7 @@ void MainWindow::on_actionActualiser_Mp3_triggered()
 
 void MainWindow::on_actionViderBDD_triggered()
 {
-    connect(&m_vidage,SIGNAL(vidage()),this,SLOT(ViderBDD()));
+    connect(&m_vidage, SIGNAL(vidage()), this, SLOT(ViderBDD()));
 
     m_vidage.show();
 }

@@ -35,7 +35,7 @@ private:
     void recupererId();
 
     //Constructeur avec une id
-    BDDAlbum(const int id,QObject* parent=NULL);
+    BDDAlbum(const int id, QObject* parent = NULL);
 
 };
 

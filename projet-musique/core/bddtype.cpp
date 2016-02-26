@@ -13,12 +13,12 @@ BDDType::BDDType(const int id, QObject *parent):
     m_id(id),
     m_type()
 {
-    QString queryStr="SELECT Type FROM Type WHERE Id_Type='"+QString::number(id)+"'";
+    QString queryStr = "SELECT Type FROM Type WHERE Id_Type='" + QString::number(id) + "'";
     QSqlQuery query = madatabase.exec( queryStr );
     while ( query.next() )
     {
         QSqlRecord rec = query.record();
-        m_type=rec.value("Type").toString();
+        m_type = rec.value("Type").toString();
 
     }
 
@@ -26,12 +26,12 @@ BDDType::BDDType(const int id, QObject *parent):
 QList<int> BDDType::NbCategories()
 {
     QList<int> cate;
-    QString queryStr="SELECT Id_Type FROM Type";
+    QString queryStr = "SELECT Id_Type FROM Type";
     QSqlQuery query = madatabase.exec( queryStr );
     while ( query.next() )
     {
         QSqlRecord rec = query.record();
-        cate<< rec.value("Id_Type").toInt();
+        cate << rec.value("Id_Type").toInt();
 
     }
     return cate;

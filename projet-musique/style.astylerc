@@ -2,3 +2,4 @@
 --indent=spaces=4
 --indent-namespaces
 --indent-switches
+--pad-oper

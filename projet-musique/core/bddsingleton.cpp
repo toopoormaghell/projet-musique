@@ -22,7 +22,7 @@ BDDSingleton::BDDSingleton():
     }
 
     QStringList tables = m_database.tables();
-    if (tables.count()==0)
+    if (tables.count() == 0)
     {
 
         creationBase();
@@ -74,7 +74,7 @@ void BDDSingleton::creationBase()
     tables << "INSERT INTO Type VALUES(08,'Classique')";
     tables << "INSERT INTO Type VALUES(09,'Générique')";
     tables << "INSERT INTO Type VALUES(10,'Reprises')";
-    for (int i=0; i<tables.size(); i++)
+    for (int i = 0; i < tables.size(); i++)
     {
         query = madatabase.exec(tables[i]);
     }
@@ -84,16 +84,16 @@ void BDDSingleton::viderBDD()
     QStringList tables;
     QSqlQuery query;
     //Vidage de la base de données.
-    tables <<  "MP3" << "Artiste" << "Album" << "Titre" << "Phys"<<"Pochette" << "InfosPlaylist" << "TitresPlaylist" << "Relations"<< "ErreurPochettes"<<"Configuration";
-    int compt=0;
-    while (compt<tables.size())
+    tables <<  "MP3" << "Artiste" << "Album" << "Titre" << "Phys" << "Pochette" << "InfosPlaylist" << "TitresPlaylist" << "Relations" << "ErreurPochettes" << "Configuration";
+    int compt = 0;
+    while (compt < tables.size())
     {
         query = madatabase.exec("DROP Table " + tables[compt]);
         compt++;
     }
 
     //Vidage sur le DD du dossier Pochettes
-    QString chemin=".\\Pochettes";
+    QString chemin = ".\\Pochettes";
     removeDir(chemin, false);
 
     creationBase();

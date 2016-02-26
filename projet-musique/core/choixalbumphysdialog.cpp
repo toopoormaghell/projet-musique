@@ -5,7 +5,7 @@
 #include "bddpoch.h"
 #include <QDebug>
 #include "bddartiste.h"
-ChoixAlbumPhysDialog::ChoixAlbumPhysDialog(QString artiste,QWidget *parent) :
+ChoixAlbumPhysDialog::ChoixAlbumPhysDialog(QString artiste, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ChoixAlbumPhysDialog),
     m_artiste(artiste)
@@ -26,23 +26,23 @@ void ChoixAlbumPhysDialog::AfficherAlbums()
     m_albums.clear();
 
     //Première chose, on récupère l'artiste
-    BDDArtiste* art=BDDArtiste::RecupererArtparNom(m_artiste);
+    BDDArtiste* art = BDDArtiste::RecupererArtparNom(m_artiste);
 
-    QList<int> albums=m_bddInterface.listeAlbums(QString::number(art->m_id),"0");
+    QList<int> albums = m_bddInterface.listeAlbums(QString::number(art->m_id), "0");
 
-    for (int cpt=0; cpt<albums.count(); cpt++)
+    for (int cpt = 0; cpt < albums.count(); cpt++)
     {
         //Pour chaque album...
-        BDDAlbum* album= BDDAlbum::RecupererAlbum(albums[cpt]);
+        BDDAlbum* album = BDDAlbum::RecupererAlbum(albums[cpt]);
 
-        QStandardItem* item= new QStandardItem;
+        QStandardItem* item = new QStandardItem;
         //on affiche la pochette
         QPixmap scaled( QPixmap::fromImage( album->m_pochette->m_image ) );
         item->setIcon( QIcon( scaled ) );
-        item->setData(album->m_id,Qt::UserRole);
-        item->setText( QString::number(album->m_annee)+" - "+album->m_nom );
+        item->setData(album->m_id, Qt::UserRole);
+        item->setText( QString::number(album->m_annee) + " - " + album->m_nom );
         //On ajoute l'item dans le modèle
-        m_albums.setItem(cpt,item);
+        m_albums.setItem(cpt, item);
     }
 }
 void ChoixAlbumPhysDialog::on_buttonBox_accepted()
@@ -59,5 +59,5 @@ int ChoixAlbumPhysDialog::RecupererAlbumSelectionne()
 
 void ChoixAlbumPhysDialog::on_buttonBox_rejected()
 {
-    m_selection=0;
+    m_selection = 0;
 }

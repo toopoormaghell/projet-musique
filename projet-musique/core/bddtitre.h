@@ -8,7 +8,7 @@ class BDDTitre : public QObject
 {
     Q_OBJECT
 public:
-    explicit BDDTitre(const QString& nom,const int& num_piste,const QString& duree,QObject *parent = 0);
+    explicit BDDTitre(const QString& nom, const int& num_piste, const QString& duree, QObject *parent = 0);
 
     void updateBDD();
     void supprimerenBDD()const;
@@ -30,7 +30,7 @@ private:
     void recupererId();
     void mp3etphys();
     //Constructeur avec une id
-    BDDTitre (const int id, QObject* parent =NULL);
+    BDDTitre (const int id, QObject* parent = NULL);
 
 };
 

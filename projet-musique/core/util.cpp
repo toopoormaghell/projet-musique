@@ -2,11 +2,11 @@
 #include <QStringList>
 QString EchangerArtiste(QString Artiste)
 {
-    QString Echange=Artiste;
-    QStringList temp=Artiste.split(" ");
-    if (temp.size()==2)
+    QString Echange = Artiste;
+    QStringList temp = Artiste.split(" ");
+    if (temp.size() == 2)
     {
-        Echange = temp[1]+" "+temp[0];
+        Echange = temp[1] + " " + temp[0];
     }
 
     return Echange;
@@ -18,24 +18,24 @@ void EnleverAccents ( QString &Nom)
     Nom.replace( "é", "e" );
     Nom.replace( "à", "a" );
     Nom.replace( "ê", "e" );
-    Nom.replace(":"," ");
-    Nom.replace("\\"," ");
-    Nom.replace("?"," ");
-    Nom.replace("!"," ");
-    Nom.replace("/"," ");
-    Nom.replace("â","a");
-    Nom.replace("û","u");
-    Nom.replace("Â","a");
-    Nom.replace("'","$");
-    Nom.replace(","," ");
-    Nom.replace("ô","o");
-    Nom.replace("$"," ");
-    Nom.replace("."," ");
-    Nom.replace("-"," ");
-    Nom.replace("À","a");
-    Nom.replace("É","e");
+    Nom.replace(":", " ");
+    Nom.replace("\\", " ");
+    Nom.replace("?", " ");
+    Nom.replace("!", " ");
+    Nom.replace("/", " ");
+    Nom.replace("â", "a");
+    Nom.replace("û", "u");
+    Nom.replace("Â", "a");
+    Nom.replace("'", "$");
+    Nom.replace(",", " ");
+    Nom.replace("ô", "o");
+    Nom.replace("$", " ");
+    Nom.replace(".", " ");
+    Nom.replace("-", " ");
+    Nom.replace("À", "a");
+    Nom.replace("É", "e");
 
-    Nom=  Nom.toLower();
+    Nom =  Nom.toLower();
 }
 void FormaterEntiteBDD(QString &Entite)
 {
@@ -43,9 +43,9 @@ void FormaterEntiteBDD(QString &Entite)
     QString res;
     QStringList temp = Entite.split(" ");
 
-    for (int cpt=0; cpt<temp.count(); cpt++)
+    for (int cpt = 0; cpt < temp.count(); cpt++)
     {
-        res+=temp[cpt];
+        res += temp[cpt];
     }
-    Entite=res;
+    Entite = res;
 }
