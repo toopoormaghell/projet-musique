@@ -30,11 +30,10 @@ private slots:
     void on_actionViderBDD_triggered();
     void on_actionAjouter_Album_triggered();
     void actionExporter();
-    void actionartistesinverses();
     void actionBDD();
     void actionconfigactu();
     void ViderBDD();
-  void ActualiserOngletStats();
+    void ActualiserOngletStats();
     void changerPourcentage();
     void ActualiserOngletMP3();
     void ActualiserOngletPhys();

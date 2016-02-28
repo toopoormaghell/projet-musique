@@ -52,8 +52,7 @@ void MainWindow::ajouterToolbar()
     essai.load(":/menuIcones/exporter");
     ui->toolBar->addAction(QIcon(essai),"Exporter",this,SLOT(actionExporter()));
 
-    essai.load(":menuIcones/artistesinv");
-    ui->toolBar->addAction(QIcon(essai),"Artistes Inversés",this,SLOT(actionartistesinverses()));
+ ;
 
     essai.load(":menuIcones/bdd");
     ui->toolBar->addAction(QIcon(essai),"Configuration BDD",this,SLOT(actionBDD()));
@@ -141,10 +140,6 @@ void MainWindow::actionExporter()
 BDDAfficherPhys::exporterHTML();
 }
 
-void MainWindow::actionartistesinverses()
-{
-
-}
 
 void MainWindow::actionBDD()
 {
@@ -169,6 +164,8 @@ void MainWindow::changerPourcentage()
 }
 void MainWindow::ActualiserOngletMP3()
 {
+    m_progressbar->setValue(100);
+     m_progressbar->setFormat("%p%");
     m_interaction->setText("Fin de l'actualisation.");
     ui->MP3->vider("Categories");
     ui->MP3->afficherListeType();
