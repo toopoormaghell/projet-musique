@@ -1,14 +1,20 @@
 #ifndef DIALOGAJOUTERPHYS_H
 #define DIALOGAJOUTERPHYS_H
 
+
+
 #include <QDialog>
 #include "util.h"
 #include "QAWSWrapper.h"
+
+
 
 namespace Ui
 {
     class DialogAjouterPhys;
 }
+
+
 
 class DialogAjouterPhys : public QDialog
 {
@@ -49,5 +55,7 @@ private:
     void listeNumeros();
     void AjoutConnex();
 };
+
+
 
 #endif // DIALOGAJOUTERPHYS_H
