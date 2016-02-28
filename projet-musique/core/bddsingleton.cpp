@@ -4,6 +4,8 @@
 #include <qdebug.h>
 #include <QtSql>
 #include <QDir>
+#include <QFileInfo>
+
 BDDSingleton BDDSingleton::s_singleton;
 
 BDDSingleton::BDDSingleton():
@@ -143,11 +145,32 @@ void BDDSingleton::verifierBDD()
     madatabase.exec( "DELETE FROM Titre WHERE Titre = ''" );
     madatabase.exec( "DELETE FROM Artiste WHERE Artiste = ''" );
     madatabase.exec( "DELETE FROM Album WHERE Album = ''" );
-    madatabase.exec( "DELETE FROM Pochette WHERE Chemin = ''" );
+
     madatabase.exec( "DELETE FROM Relations WHERE Id_Album NOT IN (SELECT DISTINCT Id_Album FROM Album) OR Id_Artiste NOT IN ( SELECT DISTINCT Id_Artiste FROM Artiste) OR Id_Titre NOT IN ( SELECT DISTINCT Id_Titre FROM Titre) OR Id_Pochette NOT IN ( SELECT DISTINCT Id_Pochette From Pochette)" );
     madatabase.exec( "DELETE FROM Relations WHERE Id_Album NOT IN ( SELECT DISTINCT Id_Album FROM Phys) AND Id_Relation NOT IN ( SELECT DISTINCT Id_Relation FROM MP3) " );
     madatabase.exec( "DELETE FROM MP3 WHERE Id_Relation NOT IN (SELECT DISTINCT Id_Relation FROM Relations)" );
     madatabase.exec( "DELETE FROM Phys WHERE Id_Album NOT IN (SELECT  Id_Album FROM Relations)" );
+
+    //Vérification que la pochette existe toujours
+    QString queryStr = "SELECT Id_Pochette, Chemin FROM POCHETTE";
+    QSqlQuery query = madatabase.exec(queryStr);
+    while (query.next() ) {
+        QSqlRecord rec=query.record();
+
+        QString chemin = rec.value("Chemin").toString();
+
+        if ( !QFile::exists( chemin ) )
+        {
+            QString quer = "DELETE FROM Pochette WHERE Id_Pochette= '"+rec.value("Id_Pochette").toString()+"'";
+            madatabase.exec(quer);
+        }
+    }
+    //Pochette non utilisée
+    madatabase.exec("DELETE FROM Pochette WHERE Id_Pochette !=1 AND Id_Pochette NOT IN ( SELECT DISTINCT Id_Pochette FROM Artiste ) AND Id_Pochette NOT IN ( SELECT DISTINCT Id_Pochette FROM Album)" );
+    //Pochette non valide ( pas de chemin)
+    madatabase.exec("DELETE FROM Pochette WHERE Chemin = ''");
+
+
 
 }
 void BDDSingleton::supprimerdossiersvides()

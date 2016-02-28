@@ -109,6 +109,7 @@ namespace
                             TitresPhys titre;
                             titre.Titre = reader.text().toString();
                             titre.Num_Piste = trackNumber;
+                            titre.Duree="0:00";
                             trackNumber++;
                             albumToFill.titres.append( titre );
                         }

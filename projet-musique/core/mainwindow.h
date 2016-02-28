@@ -31,7 +31,6 @@ private slots:
     void on_actionViderBDD_triggered();
     void on_actionAjouter_Album_triggered();
     void actionExporter();
-    void actionartistesinverses();
     void actionBDD();
     void actionconfigactu();
     void ViderBDD();

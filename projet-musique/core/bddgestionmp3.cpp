@@ -226,6 +226,7 @@ void BDDGestionMp3::supprstep()
             QTimer::singleShot( 0, this, SLOT( init() ) );
         else
         {
+
             emit fin();
             BDDSingleton::getInstance().supprimerdossiersvides();
         }
