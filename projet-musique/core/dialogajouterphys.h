@@ -18,8 +18,6 @@ public:
     explicit DialogAjouterPhys( QWidget* parent = 0 );
     ~DialogAjouterPhys();
 
-    QString m_EAN;
-    int m_Type;
     explicit DialogAjouterPhys( int id_album, QWidget* parent = 0 );
 signals:
     void ajout();
@@ -44,7 +42,8 @@ private:
     AlbumPhys m_album;
     QAWSWrapper m_research;
     QString m_affichage;
-
+    QString m_EAN;
+    int m_Type;
 
     void RecupererAlbum();
     void listeNumeros();
