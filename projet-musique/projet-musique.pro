@@ -10,3 +10,5 @@ SUBDIRS += \
     taglib \
     QAWSWrapper \
     core
+
+DISTFILES += style.astylerc

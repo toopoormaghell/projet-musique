@@ -10,24 +10,24 @@ class RechercheURL : public QObject
 {
     Q_OBJECT
 public:
-    explicit RechercheURL(QObject *parent=0);
+    explicit RechercheURL( QObject* parent = 0 );
 
-    AlbumPhys RequeteAlbums(QString rech, int Type);
+    AlbumPhys RequeteAlbums( QString rech, int Type );
     QString m_interaction;
     AlbumPhys m_album;
 signals:
     void test();
 
 private:
-    QMap<QString, QString> LectureXML(QByteArray fichier);
+    QMap<QString, QString> LectureXML( QByteArray fichier );
     int m_pages;
-    QMap<QString, QString> Requete(QStringList attributs);
-    void RequeteTitres(QStringList attributs);
-    void LectureXMLTitres(QByteArray fichier);
-    void RecupererPoch(QString lien);
-    QStringList RequeteReleases(QStringList attributs);
-    QStringList LectureXMLReleases(QByteArray fichier);
-void RecupererTitres();
+    QMap<QString, QString> Requete( QStringList attributs );
+    void RequeteTitres( QStringList attributs );
+    void LectureXMLTitres( QByteArray fichier );
+    void RecupererPoch( QString lien );
+    QStringList RequeteReleases( QStringList attributs );
+    QStringList LectureXMLReleases( QByteArray fichier );
+    void RecupererTitres();
 };
 
 #endif // RECHERCHEURL_H

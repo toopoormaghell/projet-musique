@@ -4,8 +4,9 @@
 #include <QDialog>
 #include "bddartiste.h"
 
-namespace Ui {
-class ModificationArtisteDialog;
+namespace Ui
+{
+    class ModificationArtisteDialog;
 }
 
 class ModificationArtisteDialog : public QDialog
@@ -13,7 +14,7 @@ class ModificationArtisteDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ModificationArtisteDialog(BDDArtiste *Artiste, QWidget *parent = 0);
+    explicit ModificationArtisteDialog( BDDArtiste* Artiste, QWidget* parent = 0 );
     ~ModificationArtisteDialog();
 
 private slots:
@@ -24,7 +25,7 @@ private slots:
     void on_buttonBox_accepted();
 
 private:
-    Ui::ModificationArtisteDialog *ui;
+    Ui::ModificationArtisteDialog* ui;
     BDDArtiste* m_artiste;
     void AfficherArtiste();
     void Enregistrer();

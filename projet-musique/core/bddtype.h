@@ -7,14 +7,14 @@ class BDDType : public QObject
 {
     Q_OBJECT
 public:
-    static BDDType* RecupererType(const int id);
+    static BDDType* RecupererType( const int id );
 
     int m_id;
     QString m_type;
 
-   static QList<int> NbCategories();
+    static QList<int> NbCategories();
 private:
-    BDDType(const int id,QObject* parent= NULL);
+    BDDType( const int id, QObject* parent = NULL );
 
 };
 

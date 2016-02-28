@@ -5,8 +5,9 @@
 #include "bddgestionphys.h"
 #include "util.h"
 
-namespace Ui {
-class ModifierAlbumDialog;
+namespace Ui
+{
+    class ModifierAlbumDialog;
 }
 
 class ModifierAlbumDialog : public QDialog
@@ -14,7 +15,7 @@ class ModifierAlbumDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ModifierAlbumDialog(int selection,QWidget *parent = 0);
+    explicit ModifierAlbumDialog( int selection, QWidget* parent = 0 );
     ~ModifierAlbumDialog();
 
 private slots:
@@ -29,7 +30,7 @@ private:
     void EnregistrerAlbum();
 
     //Données utilisées dans la classe
-    Ui::ModifierAlbumDialog *ui;
+    Ui::ModifierAlbumDialog* ui;
     BDDGestionPhys* m_bddinterface;
     int m_selection;
     AlbumPhys m_album;

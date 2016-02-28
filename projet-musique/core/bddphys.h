@@ -12,11 +12,11 @@ class BDDPhys : public QObject
 {
     Q_OBJECT
 public:
-    explicit BDDPhys(const BDDAlbum& album, const QString&ean, const int &type, QObject *parent = 0);
+    explicit BDDPhys( const BDDAlbum& album, const QString& ean, const int& type, QObject* parent = 0 );
     virtual ~BDDPhys();
 
     void deleteBDD();
-    static BDDPhys* RecupererPhys(const int id);
+    static BDDPhys* RecupererPhys( const int id );
 
     int m_id;
     BDDAlbum const* m_album;
@@ -31,7 +31,7 @@ private:
     void recupererId();
     void RecupererTitres();
     //Constructeur avec une id
-    BDDPhys(const int id, QObject* parent=NULL);
+    BDDPhys( const int id, QObject* parent = NULL );
 
 
     void updateBDD();

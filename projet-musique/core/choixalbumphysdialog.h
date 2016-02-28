@@ -6,8 +6,9 @@
 #include <QStandardItemModel>
 class RechercheURL;
 
-namespace Ui {
-class ChoixAlbumPhysDialog;
+namespace Ui
+{
+    class ChoixAlbumPhysDialog;
 }
 
 class ChoixAlbumPhysDialog : public QDialog
@@ -15,7 +16,7 @@ class ChoixAlbumPhysDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ChoixAlbumPhysDialog(QString artiste, QWidget *parent = 0);
+    explicit ChoixAlbumPhysDialog( QString artiste, QWidget* parent = 0 );
     ~ChoixAlbumPhysDialog();
     int m_selection;
 private slots:
@@ -24,7 +25,7 @@ private slots:
 
 private:
     void AfficherAlbums();
-    Ui::ChoixAlbumPhysDialog *ui;
+    Ui::ChoixAlbumPhysDialog* ui;
     BDDAfficherMp3 m_bddInterface;
     QStandardItemModel m_albums;
     int RecupererAlbumSelectionne();

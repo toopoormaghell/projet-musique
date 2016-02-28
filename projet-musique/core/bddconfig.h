@@ -7,16 +7,16 @@ class BDDConfig : public QObject
 {
     Q_OBJECT
 public:
-    explicit BDDConfig(QObject *parent = 0);
+    explicit BDDConfig( QObject* parent = 0 );
 
     QString recupdossierpardef();
-    void EnregistrerDossierParDef(QString doss);
+    void EnregistrerDossierParDef( QString doss );
     bool ActualiserAlbums();
     bool ActualiserCompil();
     bool ActualiserLives();
-    void EnregistrerActuAlbums(bool check);
-    void EnregistrerActuCompil(bool check);
-    void EnregistrerActuLives(bool check);
+    void EnregistrerActuAlbums( bool check );
+    void EnregistrerActuCompil( bool check );
+    void EnregistrerActuLives( bool check );
 private:
 
 };

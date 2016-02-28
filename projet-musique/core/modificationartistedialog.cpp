@@ -5,12 +5,12 @@
 #include "bddalbum.h"
 #include "choixalbumphysdialog.h"
 #include "util.h"
-ModificationArtisteDialog::ModificationArtisteDialog(BDDArtiste* Artiste,QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::ModificationArtisteDialog),
-    m_artiste(Artiste)
+ModificationArtisteDialog::ModificationArtisteDialog( BDDArtiste* Artiste, QWidget* parent ) :
+    QDialog( parent ),
+    ui( new Ui::ModificationArtisteDialog ),
+    m_artiste( Artiste )
 {
-    ui->setupUi(this);
+    ui->setupUi( this );
     AfficherArtiste();
 }
 
@@ -22,26 +22,26 @@ void ModificationArtisteDialog::AfficherArtiste()
 {
     QPixmap scaled( QPixmap::fromImage( m_artiste->m_pochette->m_image ) );
     scaled = scaled.scaled( 150, 150 );
-    ui->Pochette->setPixmap(scaled);
+    ui->Pochette->setPixmap( scaled );
 
-    ui->NomArtiste->setText(m_artiste->m_nom);
+    ui->NomArtiste->setText( m_artiste->m_nom );
 }
 
 void ModificationArtisteDialog::on_Inversion_clicked()
 {
-    BDDArtiste::EchangerArtiste(m_artiste->m_nom);
-     FormaterEntiteBDD( m_artiste->m_nomFormate );
+    BDDArtiste::EchangerArtiste( m_artiste->m_nom );
+    FormaterEntiteBDD( m_artiste->m_nomFormate );
     AfficherArtiste();
 }
 
 void ModificationArtisteDialog::on_ChangerPochette_clicked()
 {
-    ChoixAlbumPhysDialog choixPoch(m_artiste->m_nom);
+    ChoixAlbumPhysDialog choixPoch( m_artiste->m_nom );
     choixPoch.exec();
-    if(choixPoch.m_selection!=0)
+    if ( choixPoch.m_selection != 0 )
     {
-        BDDAlbum* alb=BDDAlbum::RecupererAlbum(choixPoch.m_selection);
-        m_artiste->m_pochette=alb->m_pochette;
+        BDDAlbum* alb = BDDAlbum::RecupererAlbum( choixPoch.m_selection );
+        m_artiste->m_pochette = alb->m_pochette;
         AfficherArtiste();
     }
 }
