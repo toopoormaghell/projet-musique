@@ -22,9 +22,10 @@ class DialogAjouterPhys : public QDialog
 
 public:
     explicit DialogAjouterPhys( QWidget* parent = 0 );
+    explicit DialogAjouterPhys( int id_album, QWidget* parent = 0 );
     ~DialogAjouterPhys();
 
-    explicit DialogAjouterPhys( int id_album, QWidget* parent = 0 );
+
 signals:
     void ajout();
 public slots:
