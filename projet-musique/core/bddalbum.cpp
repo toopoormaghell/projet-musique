@@ -121,6 +121,7 @@ AlbumPhys BDDAlbum::RecupAlbumEntite(const int id)
     albphys.Id_Album = alb->m_id;
     albphys.Poch = alb->m_pochette->m_image;
     albphys.Type = alb->m_type->m_id;
+    delete alb;
 
     //On récupère le Type
     BDDType* typ = BDDType::RecupererType(albphys.Type);
