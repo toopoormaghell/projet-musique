@@ -67,6 +67,9 @@ private:
     void RecupererAlbum();
     void listeNumeros();
     void AjoutConnex();
+
+    // Make this class not copiable
+    Q_DISABLE_COPY( DialogAjouterPhys )
 };
 
 
