@@ -197,25 +197,8 @@ QAWSWrapper::QAWSWrapper():
 
 
 
-QAWSWrapper::QAWSWrapper( const QAWSWrapper& other ):
-    m_artistsList( other.m_artistsList )
-{
-
-}
-
-
-
 QAWSWrapper::~QAWSWrapper()
 {
-}
-
-
-
-QAWSWrapper& QAWSWrapper::operator=( const QAWSWrapper& rhs )
-{
-    if ( this != &rhs )
-        m_artistsList = rhs.m_artistsList;
-    return *this;
 }
 
 
