@@ -42,8 +42,6 @@ public:
 
 signals:
     void ajout();
-public slots:
-    void AfficheInteraction();
 private slots:
     void on_ChercherEAN_clicked();
     void on_Enregistrer_clicked();

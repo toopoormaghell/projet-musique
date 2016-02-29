@@ -91,9 +91,7 @@ void DialogAjouterPhys::on_Enregistrer_clicked()
     emit ajout();
     ViderBoiteDialogue();
 }
-void DialogAjouterPhys::AfficheInteraction()
-{
-}
+
 void DialogAjouterPhys::AffichageListeArtistes( int id )
 {
     switch ( id )
