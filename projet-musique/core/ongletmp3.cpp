@@ -95,6 +95,7 @@ void OngletMP3::afficheralbumsettitres()
     //Création du modèle pour le QTableView
     m_lignestitres = 0;
     m_colonnetitre = 0;
+
     //Récupération de la liste des albums
     QList<int> albums = m_bddInterface.listeAlbums( QString::number( m_artiste ), QString::number( m_categorie ) );
     ui->AlbumsTitres->setRowCount( albums.count() * 8 );
@@ -102,6 +103,7 @@ void OngletMP3::afficheralbumsettitres()
 
     for ( int cpt = 0; cpt < albums.count(); cpt++ )
     {
+        m_ajoutlignes = 1;
         //Pour chaque album...
         BDDAlbum* album = BDDAlbum::RecupererAlbum( albums[cpt] );
 
@@ -155,7 +157,7 @@ void OngletMP3::afficheralbumsettitres()
         delete album;
         if ( cpt + 1 < albums.count() && m_categorie != 2 )
         {
-            m_lignestitres ++;
+            m_lignestitres += m_ajoutlignes;
         }
     }
     if ( m_categorie == 2 )
@@ -230,6 +232,10 @@ void OngletMP3::afficherTitresAlbum( QString Album, int Cate, int row )
 
     ui->AlbumsTitres->setColumnCount( nbcol );
 
+    if( maxlignes != 6)
+    {
+        m_ajoutlignes = 0;
+    }
     for ( int cpt = 0; cpt < titres.count(); cpt = cpt + 2 )
     {
         QTableWidgetItem* item = new QTableWidgetItem;

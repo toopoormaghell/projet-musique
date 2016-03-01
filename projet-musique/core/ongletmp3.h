@@ -46,7 +46,7 @@ private:
     int m_lignestitres;
 
     int m_colonnetitre;
-
+int m_ajoutlignes;
 
     //Concerne la récupération des infos sélectionnées par l'utilisateur
     int m_categorie;

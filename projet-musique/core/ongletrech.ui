@@ -128,11 +128,6 @@
        </layout>
       </item>
      </layout>
-     <zorder>horizontalLayoutWidget</zorder>
-     <zorder>TitResult</zorder>
-     <zorder>AlbResult</zorder>
-     <zorder>ArtResult</zorder>
-     <zorder>verticalLayoutWidget</zorder>
     </widget>
    </item>
    <item>
@@ -200,6 +195,14 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>BoutTit</tabstop>
+  <tabstop>Rech</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>TitResult</tabstop>
+  <tabstop>AlbResult</tabstop>
+  <tabstop>ArtResult</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

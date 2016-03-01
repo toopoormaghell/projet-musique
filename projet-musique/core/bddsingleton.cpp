@@ -162,7 +162,8 @@ void BDDSingleton::verifierBDD()
         if ( !QFile::exists( chemin ) )
         {
             QString quer = "DELETE FROM Pochette WHERE Id_Pochette= '"+rec.value("Id_Pochette").toString()+"'";
-            madatabase.exec(quer);
+        madatabase.exec(quer);
+
         }
     }
     //Pochette non utilisée
