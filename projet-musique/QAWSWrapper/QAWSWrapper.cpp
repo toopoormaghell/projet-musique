@@ -1,4 +1,6 @@
 #include "QAWSWrapper.h"
+#include "QAWSGlobalInfo.h"
+
 #include <QString>
 #include <QUrl>
 #include <QUrlQuery>
@@ -15,54 +17,6 @@
 namespace
 {
     /**
-     * @brief Return the French market place URL
-     */
-    const char* getMarketPlaceURL()
-    {
-        return "webservices.amazon.fr";
-    }
-
-    /**
-     * @brief Return the market place URI to get XML
-     */
-    const char* getMarketPlaceURI()
-    {
-        return "/onca/xml";
-    }
-
-    /**
-     * @brief Return the associate tag
-     *
-     * The associate tag is an alphanumeric token that uniquely identifies
-     * someone as an associate
-     */
-    const char* getAssociateTag()
-    {
-        return "990460715344";
-    }
-
-    /**
-     * @brief Return the access key ID
-     *
-     * The Amazon Web Services access key ID which uniquely identifies someone.
-     */
-    const char* getAccessKeyID()
-    {
-        return "AKIAJOCTDCSVNM5IJ5PQ";
-    }
-
-    /**
-     * @brief Return the secret access key
-     *
-     * A key that is used in conjunction with the Access Key ID to
-     * cryptographically sign an API request.
-     */
-    const char* getSecretAccessKey()
-    {
-        return "fVKexEofcDNu7s1DAUlbygltFqnb+GoYseafq5+6";
-    }
-
-    /**
      * @brief Return current time stamp with the ISO formatting
      */
     QString getCurrentTimeStamp()
@@ -75,7 +29,7 @@ namespace
      */
     QString getStringToSign( const QUrlQuery& listOfParameters )
     {
-        QString stringToSign( QString( "GET\n%1\n%2\n" ).arg( getMarketPlaceURL() ).arg( getMarketPlaceURI() ) );
+        QString stringToSign( QString( "GET\n%1\n%2\n" ).arg( QAWSGlobalInfo::getMarketPlaceURL() ).arg( QAWSGlobalInfo::getMarketPlaceURI() ) );
         stringToSign += listOfParameters.query();
         return stringToSign;
     }
@@ -209,8 +163,8 @@ AlbumPhys QAWSWrapper::getAlbumFromEAN( const QString& ean )
 
     // Build the list of parameters that the URL must contain
     QUrlQuery listOfParameters;
-    listOfParameters.addQueryItem( "AWSAccessKeyId", getAccessKeyID() );
-    listOfParameters.addQueryItem( "AssociateTag", getAssociateTag() );
+    listOfParameters.addQueryItem( "AWSAccessKeyId", QAWSGlobalInfo::getAccessKeyID() );
+    listOfParameters.addQueryItem( "AssociateTag", QAWSGlobalInfo::getAssociateTag() );
     listOfParameters.addQueryItem( "IdType", "EAN" );
     listOfParameters.addQueryItem( "ItemId", ean );
     listOfParameters.addQueryItem( "Operation", "ItemLookup" );
@@ -225,13 +179,13 @@ AlbumPhys QAWSWrapper::getAlbumFromEAN( const QString& ean )
 //    qDebug() << stringToSign;
 
     // Compute the signature of the string
-    QString signature = QMessageAuthenticationCode::hash( stringToSign.toLatin1(), getSecretAccessKey(), QCryptographicHash::Sha256 ).toBase64();
+    QString signature = QMessageAuthenticationCode::hash( stringToSign.toLatin1(), QAWSGlobalInfo::getSecretAccessKey(), QCryptographicHash::Sha256 ).toBase64();
 //    qDebug() << signature;
 
 
     // Build the signed URL
     listOfParameters.addQueryItem( "Signature", signature.toUtf8().toPercentEncoding() );
-    QUrl signedUrl( QString( "http://%1%2" ).arg( getMarketPlaceURL() ).arg( getMarketPlaceURI() ) );
+    QUrl signedUrl( QString( "http://%1%2" ).arg( QAWSGlobalInfo::getMarketPlaceURL() ).arg( QAWSGlobalInfo::getMarketPlaceURI() ) );
     signedUrl.setQuery( listOfParameters );
 //    qDebug() << signedUrl.toString();
 

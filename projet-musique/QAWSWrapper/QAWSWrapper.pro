@@ -33,7 +33,8 @@ SOURCES += QAWSWrapper.cpp
 
 HEADERS += QAWSWrapper.h \
     QAWSWrapper_global.h \
-    util.h
+    util.h \
+    QAWSGlobalInfo.h
 
 unix {
     target.path = /usr/lib
