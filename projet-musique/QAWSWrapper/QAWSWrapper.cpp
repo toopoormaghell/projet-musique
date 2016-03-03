@@ -15,7 +15,7 @@
 namespace
 {
     /**
-     * @brief Return the US market place URL
+     * @brief Return the French market place URL
      */
     QString getMarketPlaceURL()
     {
