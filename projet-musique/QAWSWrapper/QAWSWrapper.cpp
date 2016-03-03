@@ -172,22 +172,18 @@ AlbumPhys QAWSWrapper::getAlbumFromEAN( const QString& ean )
     listOfParameters.addQueryItem( "SearchIndex", "Music" );
     listOfParameters.addQueryItem( "Service", "AWSECommerceService" );
     listOfParameters.addQueryItem( "Timestamp", getCurrentTimeStamp().toUtf8().toPercentEncoding() );
-    //qDebug() << listOfParameters.query();
 
     // Prepare the string that will be used to compute the signature
     QString stringToSign( getStringToSign( listOfParameters ) );
-//    qDebug() << stringToSign;
 
     // Compute the signature of the string
     QString signature = QMessageAuthenticationCode::hash( stringToSign.toLatin1(), QAWSGlobalInfo::getSecretAccessKey(), QCryptographicHash::Sha256 ).toBase64();
-//    qDebug() << signature;
 
 
     // Build the signed URL
     listOfParameters.addQueryItem( "Signature", signature.toUtf8().toPercentEncoding() );
     QUrl signedUrl( QString( "http://%1%2" ).arg( QAWSGlobalInfo::getMarketPlaceURL() ).arg( QAWSGlobalInfo::getMarketPlaceURI() ) );
     signedUrl.setQuery( listOfParameters );
-//    qDebug() << signedUrl.toString();
 
     QNetworkRequest networkRequestApi( signedUrl );
     QNetworkAccessManager* networkAccessManagerApi = new QNetworkAccessManager;
