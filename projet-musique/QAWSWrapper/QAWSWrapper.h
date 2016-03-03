@@ -8,13 +8,6 @@
 
 
 
-/**
- * @brief Class wrapping calls to Amazon Web Service API
- *
- * This class contains one method that returns an AlbumPhys object.
- * It makes the necessary stuff to get all the information associated
- * to an EAN.
- */
 class QAWSWRAPPERSHARED_EXPORT QAWSWrapper
 {
 public:
