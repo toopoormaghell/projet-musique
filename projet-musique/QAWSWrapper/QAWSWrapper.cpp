@@ -151,8 +151,6 @@ QAWSWrapper::~QAWSWrapper()
 
 AlbumPhys QAWSWrapper::getAlbumFromEAN( const QString& ean )
 {
-    AlbumPhys albumRelatedToEAN;
-
     // Build the list of parameters that the URL must contain
     QUrlQuery listOfParameters;
     listOfParameters.addQueryItem( "AWSAccessKeyId", QAWSGlobalInfo::getAccessKeyID() );
@@ -185,9 +183,7 @@ AlbumPhys QAWSWrapper::getAlbumFromEAN( const QString& ean )
     QObject::connect( networkReplyApi, SIGNAL( finished() ), &loop, SLOT( quit() ) );
     loop.exec();
 
-    albumRelatedToEAN = parseXml( networkReplyApi->readAll(), m_artistsList );
-
-    return albumRelatedToEAN;
+    return parseXml( networkReplyApi->readAll(), m_artistsList );
 }
 
 
