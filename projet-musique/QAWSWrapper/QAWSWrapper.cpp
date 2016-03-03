@@ -17,17 +17,17 @@ namespace
     /**
      * @brief Return the French market place URL
      */
-    QString getMarketPlaceURL()
+    const char* getMarketPlaceURL()
     {
-        return QString( "webservices.amazon.fr" );
+        return "webservices.amazon.fr";
     }
 
     /**
      * @brief Return the market place URI to get XML
      */
-    QString getMarketPlaceURI()
+    const char* getMarketPlaceURI()
     {
-        return QString( "/onca/xml" );
+        return "/onca/xml";
     }
 
     /**
@@ -36,9 +36,9 @@ namespace
      * The associate tag is an alphanumeric token that uniquely identifies
      * someone as an associate
      */
-    QString getAssociateTag()
+    const char* getAssociateTag()
     {
-        return QString( "990460715344" );
+        return "990460715344";
     }
 
     /**
@@ -46,9 +46,9 @@ namespace
      *
      * The Amazon Web Services access key ID which uniquely identifies someone.
      */
-    QString getAccessKeyID()
+    const char* getAccessKeyID()
     {
-        return QString( "AKIAJOCTDCSVNM5IJ5PQ" );
+        return "AKIAJOCTDCSVNM5IJ5PQ";
     }
 
     /**
@@ -57,9 +57,9 @@ namespace
      * A key that is used in conjunction with the Access Key ID to
      * cryptographically sign an API request.
      */
-    QString getSecretAccessKey()
+    const char* getSecretAccessKey()
     {
-        return QString( "fVKexEofcDNu7s1DAUlbygltFqnb+GoYseafq5+6" );
+        return "fVKexEofcDNu7s1DAUlbygltFqnb+GoYseafq5+6";
     }
 
     /**
@@ -225,7 +225,7 @@ AlbumPhys QAWSWrapper::getAlbumFromEAN( const QString& ean )
 //    qDebug() << stringToSign;
 
     // Compute the signature of the string
-    QString signature = QMessageAuthenticationCode::hash( stringToSign.toLatin1(), getSecretAccessKey().toLatin1(), QCryptographicHash::Sha256 ).toBase64();
+    QString signature = QMessageAuthenticationCode::hash( stringToSign.toLatin1(), getSecretAccessKey(), QCryptographicHash::Sha256 ).toBase64();
 //    qDebug() << signature;
 
 
