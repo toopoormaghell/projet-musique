@@ -16,16 +16,6 @@
 
 namespace
 {
-    /**
-     * @brief Return the string to sign
-     */
-    QString getStringToSign( const QUrlQuery& listOfParameters )
-    {
-        QString stringToSign( QString( "GET\n%1\n%2\n" ).arg( QAWSGlobalInfo::getMarketPlaceURL() ).arg( QAWSGlobalInfo::getMarketPlaceURI() ) );
-        stringToSign += listOfParameters.query();
-        return stringToSign;
-    }
-
     AlbumPhys parseXml( const QByteArray& xmlToParse, QStringList& artistsList )
     {
         AlbumPhys albumToFill;
@@ -164,7 +154,8 @@ AlbumPhys QAWSWrapper::getAlbumFromEAN( const QString& ean )
     listOfParameters.addQueryItem( "Timestamp", QDateTime::currentDateTimeUtc().toString( Qt::ISODate ).toUtf8().toPercentEncoding() );
 
     // Prepare the string that will be used to compute the signature
-    QString stringToSign( getStringToSign( listOfParameters ) );
+    QString stringToSign( QString( "GET\n%1\n%2\n" ).arg( QAWSGlobalInfo::getMarketPlaceURL() ).arg( QAWSGlobalInfo::getMarketPlaceURI() ) );
+    stringToSign += listOfParameters.query();
 
     // Compute the signature of the string
     QString signature = QMessageAuthenticationCode::hash( stringToSign.toLatin1(), QAWSGlobalInfo::getSecretAccessKey(), QCryptographicHash::Sha256 ).toBase64();
