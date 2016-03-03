@@ -17,14 +17,6 @@
 namespace
 {
     /**
-     * @brief Return current time stamp with the ISO formatting
-     */
-    QString getCurrentTimeStamp()
-    {
-        return QDateTime::currentDateTimeUtc().toString( Qt::ISODate );
-    }
-
-    /**
      * @brief Return the string to sign
      */
     QString getStringToSign( const QUrlQuery& listOfParameters )
@@ -171,7 +163,7 @@ AlbumPhys QAWSWrapper::getAlbumFromEAN( const QString& ean )
     listOfParameters.addQueryItem( "ResponseGroup", QString( "Tracks,Small,Images,ItemAttributes" ).toUtf8().toPercentEncoding() );
     listOfParameters.addQueryItem( "SearchIndex", "Music" );
     listOfParameters.addQueryItem( "Service", "AWSECommerceService" );
-    listOfParameters.addQueryItem( "Timestamp", getCurrentTimeStamp().toUtf8().toPercentEncoding() );
+    listOfParameters.addQueryItem( "Timestamp", QDateTime::currentDateTimeUtc().toString( Qt::ISODate ).toUtf8().toPercentEncoding() );
 
     // Prepare the string that will be used to compute the signature
     QString stringToSign( getStringToSign( listOfParameters ) );
