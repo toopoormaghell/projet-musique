@@ -16,10 +16,27 @@
 
 namespace
 {
+    bool isReponseValid( const QByteArray& xmlToParse )
+    {
+        bool isValid = false;
+        QXmlStreamReader reader( xmlToParse );
+        while ( !reader.atEnd() )
+        {
+            reader.readNext();
+            if ( ( reader.tokenType() == QXmlStreamReader::StartElement ) &&
+                 ( reader.name() == "IsValid" ) )
+            {
+                reader.readNext();
+                if ( reader.tokenType() == QXmlStreamReader::Characters )
+                    isValid = ( reader.text() == "True" );
+            }
+        }
+        return isValid;
+    }
+
     AlbumPhys parseXml( const QByteArray& xmlToParse, QStringList& artistsList )
     {
         AlbumPhys albumToFill;
-        bool isValid = false;
         unsigned int trackNumber = 1;
 
         QXmlStreamReader reader( xmlToParse );
@@ -30,14 +47,7 @@ namespace
             {
                 case QXmlStreamReader::StartElement:
                 {
-                    // look for the validity of the request
-                    if ( reader.name() == "IsValid" )
-                    {
-                        reader.readNext();
-                        if ( reader.tokenType() == QXmlStreamReader::Characters )
-                            isValid = ( reader.text() == "True" );
-                    }
-                    else if ( reader.name() == "Track" )
+                    if ( reader.name() == "Track" )
                     {
                         reader.readNext();
                         if ( reader.tokenType() == QXmlStreamReader::Characters )
@@ -114,10 +124,6 @@ namespace
         {
             qDebug() << "error while reading XML:" << reader.error();
         }
-        else if ( !isValid )
-        {
-            qDebug() << "invalide request";
-        }
 
         return albumToFill;
     }
@@ -174,7 +180,14 @@ AlbumPhys QAWSWrapper::getAlbumFromEAN( const QString& ean )
     QObject::connect( networkReplyApi, SIGNAL( finished() ), &loop, SLOT( quit() ) );
     loop.exec();
 
-    return parseXml( networkReplyApi->readAll(), m_artistsList );
+    QByteArray response( networkReplyApi->readAll() );
+
+    QString message;
+    message += "Amazon Web Services response is ";
+    message += isReponseValid( response ) ? "" : "not ";
+    message += "valid.";
+
+    return parseXml( response, m_artistsList );
 }
 
 
