@@ -29,12 +29,14 @@ CONFIG(debug,debug|release) {
 
 DEFINES += QAWSWRAPPER_LIBRARY
 
-SOURCES += QAWSWrapper.cpp
+SOURCES += QAWSWrapper.cpp \
+    QAWSWrapperNotifier.cpp
 
 HEADERS += QAWSWrapper.h \
     QAWSWrapper_global.h \
     util.h \
-    QAWSGlobalInfo.h
+    QAWSGlobalInfo.h \
+    QAWSWrapperNotifier.h
 
 unix {
     target.path = /usr/lib
