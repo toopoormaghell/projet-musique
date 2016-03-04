@@ -1,5 +1,6 @@
 #include "QAWSWrapper.h"
 #include "QAWSGlobalInfo.h"
+#include "QAWSWrapperNotifier.h"
 
 #include <QString>
 #include <QUrl>
@@ -132,7 +133,8 @@ namespace
 
 
 QAWSWrapper::QAWSWrapper():
-    m_artistsList()
+    m_notifier( new QAWSWrapperNotifier )
+  , m_artistsList()
 {
 }
 
@@ -140,6 +142,11 @@ QAWSWrapper::QAWSWrapper():
 
 QAWSWrapper::~QAWSWrapper()
 {
+}
+
+QAWSWrapperNotifier& QAWSWrapper::getNotifier()
+{
+    return *m_notifier;
 }
 
 
@@ -184,6 +191,7 @@ AlbumPhys QAWSWrapper::getAlbumFromEAN( const QString& ean )
     message += "Amazon Web Services response is ";
     message += isReponseValid( response ) ? "" : "not ";
     message += "valid.";
+    getNotifier().emitStepAchieved( message );
 
     return parseXml( response, m_artistsList );
 }

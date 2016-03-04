@@ -4,7 +4,9 @@
 
 
 #include "QAWSWrapper_global.h"
+#include <QScopedPointer>
 #include "util.h"
+class QAWSWrapperNotifier;
 
 
 
@@ -22,6 +24,12 @@ public:
      */
     ~QAWSWrapper();
 
+    /**
+     * @brief Return the notifier for the object
+     * @return A const reference to the notifier used to emit signals
+     */
+    QAWSWrapperNotifier& getNotifier();
+
     // Return the album related to the given EAN
     AlbumPhys getAlbumFromEAN( const QString& ean );
 
@@ -31,6 +39,8 @@ public:
 
 
 private:
+    // Notifier to emit signals
+    QScopedPointer<QAWSWrapperNotifier> m_notifier;
     // List of the artists received from the AWS
     QStringList m_artistsList;
 
