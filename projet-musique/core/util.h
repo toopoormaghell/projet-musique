@@ -53,6 +53,7 @@ typedef struct _AlbumPhys
     QImage Poch;
     int Id_Album;
     QString Type_Str;
+    int Id_Poch;
     _AlbumPhys():
         Type( 1 ),
         Album(),
@@ -62,7 +63,8 @@ typedef struct _AlbumPhys
         Id_Release( 1 ),
         Poch(),
         Id_Album( 1 ),
-        Type_Str()
+        Type_Str(),
+        Id_Poch ( -1 )
     {}
     char* toString() const
     {

@@ -26,9 +26,9 @@ BDDSingleton::BDDSingleton():
     QStringList tables = m_database.tables();
     if ( tables.count() == 0 )
     {
-
         creationBase();
     }
+    changementversion();
 }
 
 BDDSingleton::~BDDSingleton()
@@ -50,7 +50,7 @@ void BDDSingleton::creationBase()
     QSqlQuery query;
     tables << "CREATE TABLE MP3 ('Id_MP3' INTEGER PRIMARY KEY,'Id_Relation' INTEGER, 'Chemin' VARCHAR(512),'Categorie' VARCHAR(255))";
     tables << "CREATE TABLE Artiste ('Id_Artiste' INTEGER PRIMARY KEY,'Artiste' VARCHAR(255),'Id_Pochette' INTEGER, 'Artiste_Formate' VARCHAR(255))";
-    tables << "CREATE TABLE Album ('Id_Album' INTEGER PRIMARY KEY,'Album' VARCHAR(255),'Id_Pochette' INTEGER,'Album_Formate' VARCHAR(255),'Annee' VARCHAR(255), 'Type' VARCHAR(255))";
+    tables << "CREATE TABLE Album ('Id_Album' INTEGER PRIMARY KEY,'Album' VARCHAR(255),'Id_Pochette' INTEGER,'Album_Formate' VARCHAR(255),'Annee' VARCHAR(255), 'Type' VARCHAR(255), 'Id_Artiste' INTEGER)";
     tables << "CREATE TABLE Titre ('Id_Titre' INTEGER PRIMARY KEY,'Titre' VARCHAR(255),'Num_Piste' TINYINT,'Titre_Formate' VARCHAR(255),'Duree' VARCHAR(255))";
     tables << "CREATE TABLE Phys ('Id_Phys' INTEGER PRIMARY KEY,'Id_Album' SMALLINT,'Categorie' VARCHAR(255),'CodeBarres' VARCHAR(255))";
     tables << "CREATE TABLE TitresPlaylist ('Id_Playlist' SMALLINT,'Id_Relation' SMALLINT, 'Num_Piste' TINYINT)";
@@ -66,6 +66,7 @@ void BDDSingleton::creationBase()
     tables << "INSERT INTO Configuration VALUES ('ActualiserAlbums','Oui')";
     tables << "INSERT INTO Configuration VALUES ('ActualiserCompil','Non')";
     tables << "INSERT INTO Configuration VALUES ('ActualiserLives','Non')";
+    tables << "INSERT INTO Configuration VALUES ('Version', '2')";
     tables << "INSERT INTO Type VALUES(01,'Album')";
     tables << "INSERT INTO Type VALUES(02,'Compil')";
     tables << "INSERT INTO Type VALUES(03,'Single')";
@@ -162,7 +163,7 @@ void BDDSingleton::verifierBDD()
         if ( !QFile::exists( chemin ) )
         {
             QString quer = "DELETE FROM Pochette WHERE Id_Pochette= '"+rec.value("Id_Pochette").toString()+"'";
-        madatabase.exec(quer);
+            madatabase.exec(quer);
 
         }
     }
@@ -171,9 +172,41 @@ void BDDSingleton::verifierBDD()
     //Pochette non valide ( pas de chemin)
     madatabase.exec("DELETE FROM Pochette WHERE Chemin = ''");
 
-
-
 }
+void BDDSingleton::changementversion()
+{
+    QString queryStr = "SELECT Valeur FROM Configuration WHERE Intitule= 'Version' ";
+    QSqlQuery query = madatabase.exec(queryStr);
+    int version=0;
+    //selon la version, certaines requêtes sont lancées
+    query.next();
+    version = query.record().value("Valeur").toInt();
+
+    switch (version)
+    {
+    case 0:  madatabase.exec("INSERT INTO Configuration VALUES ('Version', '1')");
+    case 1 : version2(); break;
+    default: break;
+    }
+}
+void BDDSingleton::version2()
+{
+    //On ajoute une colonne dans la table Album
+    madatabase.exec("ALTER TABLE Album ADD Id_Artiste INTEGER");
+    madatabase.exec("UPDATE Album SET Id_Artiste='1' WHERE Type='2' ");
+    //On crée une liste d'id d'albums et on remplit la liste
+    QString queryStr = "SELECT DISTINCT Id_Album, Id_Artiste FROM Relations R ";
+    QSqlQuery query = madatabase.exec(queryStr);
+
+    while (query.next() ) {
+        QSqlRecord rec=query.record();
+
+        madatabase.exec("UPDATE Album SET Id_Artiste='"+ rec.value("Id_Artiste").toString() +"' WHERE Type!='2' AND Id_Album='" + rec.value("Id_Album").toString() + "'");
+    }
+    //On change la version
+    madatabase.exec("UPDATE Configuration SET Valeur='2' WHERE Intitule= 'Version' ");
+}
+
 void BDDSingleton::supprimerdossiersvides()
 {
     QDir folder( ".\\Pochettes" );
@@ -183,6 +216,7 @@ void BDDSingleton::supprimerdossiersvides()
         if ( fileInfo.isDir() )
         {
             QDir().rmdir( fileInfo.absoluteFilePath() );
+
         }
     }
 }

@@ -5,7 +5,7 @@
 #include <QtGui>
 #include "util.h"
 
-BDDArtiste::BDDArtiste( const QString& artiste, const BDDPoch& pochette, QObject* parent ) :
+BDDArtiste::BDDArtiste(const QString& artiste, const BDDPoch& pochette, QObject* parent) :
     QObject( parent ),
     m_id( -1 ),
     m_nom( artiste ),

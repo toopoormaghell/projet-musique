@@ -60,7 +60,8 @@ HEADERS += \
     bddstats.h \
     modificationartistedialog.h \
     ongletrech.h \
-    bddrech.h
+    bddrech.h \
+    dialogchoixpochette.h
 
 
 SOURCES += main.cpp \
@@ -93,7 +94,8 @@ SOURCES += main.cpp \
     bddstats.cpp \
     modificationartistedialog.cpp \
     ongletrech.cpp \
-    bddrech.cpp
+    bddrech.cpp \
+    dialogchoixpochette.cpp
 
 FORMS += \
     ongletmp3.ui \
@@ -107,7 +109,8 @@ FORMS += \
     choixalbumphysdialog.ui \
     ongletstats.ui \
     modificationartistedialog.ui \
-    ongletrech.ui
+    ongletrech.ui \
+    dialogchoixpochette.ui
 
 
 OTHER_FILES += \

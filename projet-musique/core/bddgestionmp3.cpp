@@ -171,7 +171,7 @@ void BDDGestionMp3::actualiserMp3( QString chemin )
 
     BDDPoch poch( ImageAlbum( f ), TStringToQString( album ).replace( "'", "$" ), TStringToQString( artist ).replace( "'", "$" ) );
     BDDArtiste art( TStringToQString( artist ).replace( "'", "$" ), poch );
-    BDDAlbum alb( TStringToQString( album ).replace( "'", "$" ), poch, date, m_souscat );
+    BDDAlbum alb( TStringToQString( album ).replace( "'", "$" ), poch, date, m_souscat, art );
     BDDTitre tit( TStringToQString( title ).replace( "'", "$" ), track, QString::number( min ) + ":" + QString::number( sec ).rightJustified( 2, '0' ) );
     BDDRelation rel( alb, art, tit );
 

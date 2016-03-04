@@ -5,6 +5,7 @@
 #include "bddgestionphys.h"
 #include "util.h"
 
+
 namespace Ui
 {
     class ModifierAlbumDialog;
@@ -20,7 +21,11 @@ public:
 
 private slots:
     void Supprimer_Titre();
-    void on_buttonBox_accepted();
+ void on_buttonBox_accepted();
+
+    void on_Parcourir_clicked();
+
+
 
 private:
     //Affichage des données dans la fenêtre

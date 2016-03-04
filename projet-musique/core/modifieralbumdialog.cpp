@@ -6,7 +6,9 @@
 #include <QDebug>
 #include "bddafficherphys.h"
 #include "bddalbum.h"
-
+#include "dialogchoixpochette.h"
+#include "bddpoch.h"
+#include <QAbstractButton>
 
 ModifierAlbumDialog::ModifierAlbumDialog( int selection, QWidget* parent ) :
     QDialog( parent ),
@@ -14,6 +16,8 @@ ModifierAlbumDialog::ModifierAlbumDialog( int selection, QWidget* parent ) :
     m_selection( selection )
 {
     ui->setupUi( this );
+    //On récupère l'album à afficher
+    m_album = BDDAlbum::RecupAlbumEntite( m_selection );
     AfficherAlbum();
 }
 
@@ -24,10 +28,6 @@ ModifierAlbumDialog::~ModifierAlbumDialog()
 
 void ModifierAlbumDialog::AfficherAlbum()
 {
-
-
-    //On récupère l'album à afficher
-    m_album = BDDAlbum::RecupAlbumEntite( m_selection );
 
     //On met le nom, l'artiste, l'année
     ui->Album->setText( m_album.Album );
@@ -40,6 +40,8 @@ void ModifierAlbumDialog::AfficherAlbum()
     ui->Pochette->setPixmap( scaled );
 
     //On affiche les titres
+    ui->Titres->clear();
+    ui->Duree->clear();
     for ( int comp = 0; comp < m_album.titres.count(); comp++ )
     {
         QListWidgetItem* item = new QListWidgetItem;
@@ -70,10 +72,6 @@ void ModifierAlbumDialog::EnregistrerAlbum()
     m_album.Annee = ui->Annee->text().toInt();
     m_album.Type = ui->Type->currentIndex() + 1;
 
-    //On récupère la pochette
-    const QPixmap* pixmap = ui->Pochette->pixmap();
-    QImage image = pixmap->toImage();
-    m_album.Poch = image;
 
     //On récupère les titres
     for ( int i = 0; i < ui->Titres->count(); i++ )
@@ -111,11 +109,22 @@ void ModifierAlbumDialog::Supprimer_Titre()
 
 void ModifierAlbumDialog::on_buttonBox_accepted()
 {
-
-    EnregistrerAlbum();
-
+   EnregistrerAlbum();
     BDDGestionPhys m_bddinterface;
-    m_bddinterface.SupprimerenBDDPhys( m_album.Id_Album );
-    m_bddinterface.ajouterAlbum( m_album.Poch, m_album.Album, m_album.Artiste, QString::number( m_album.Id_Release ), m_album.Annee, m_album.titres, m_album.Type );
+    m_bddinterface.modifierAlbum(  m_album.Album, m_album.Artiste, QString::number( m_album.Id_Release ), m_album.Annee, m_album.titres, m_album.Type, m_album.Id_Poch, m_album.Id_Album );
 
+}
+
+void ModifierAlbumDialog::on_Parcourir_clicked()
+{
+    DialogChoixPochette dial(m_album.Artiste);
+    dial.exec();
+    if ( dial.m_selection != -1 )
+    {
+        BDDPoch* pochtemp = BDDPoch::recupererBDD(dial.m_selection);
+        m_album.Poch = pochtemp->m_image;
+        m_album.Id_Poch = pochtemp->m_id;
+        delete pochtemp;
+    }
+    AfficherAlbum();
 }

@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QString>
 #include <QImage>
+#include <QList>
 
 class BDDPoch : public QObject
 {
@@ -23,7 +24,7 @@ public:
 
 
     static QString creerchemin( const QString& album, const QString& artiste );
-
+    static QList<int> pochettesparart( const QString& artiste );
 
 private:
     void sauverImage( const QString& album, const QString& artiste );

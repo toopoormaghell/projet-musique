@@ -44,6 +44,23 @@ QString BDDPoch::creerchemin( const QString& album, const QString& artiste )
     return "./pochettes/" + artisteFormate + "/" + albumFormate + ".jpg";
 }
 
+QList<int> BDDPoch::pochettesparart(const QString &artiste)
+{
+    QList<int> listepoch;
+
+    QString queryStr = " Select DISTINCT Id_Pochette As 'Poch' from Relations R, Album A WHERE R.Id_Artiste='" + artiste + "' AND A.Id_Album = R.Id_Album UNION SELECT Id_Pochette AS 'Poch' from Artiste WHERE Id_Artiste = '" + artiste + "'";
+    QSqlQuery query = madatabase.exec( queryStr );
+
+    while ( query.next() )
+    {
+        QSqlRecord rec = query.record();
+
+        listepoch << rec.value("Poch").toInt();
+    }
+
+    return listepoch;
+}
+
 void BDDPoch::sauverImage( const QString& album, const QString& artiste )
 {
     QDir dossier;

@@ -3,6 +3,7 @@
 
 #include "util.h"
 #include <QObject>
+class BDDArtiste;
 class BDDPoch;
 class BDDType;
 
@@ -10,13 +11,12 @@ class BDDAlbum : public QObject
 {
     Q_OBJECT
 public:
-    explicit BDDAlbum( const QString& album, const BDDPoch& pochette, int annee, int type, QObject* parent = 0 );
+    explicit BDDAlbum(const QString& album, const BDDPoch& pochette, int annee, int type, const BDDArtiste &artiste, QObject* parent = 0  );
     virtual ~BDDAlbum();
 
     void updateBDD();
     void supprimerenBDD() const;
     static BDDAlbum* RecupererAlbum( const int Id );
-
 
     int m_id;
     QString m_nom;
@@ -24,7 +24,7 @@ public:
     int m_annee;
     BDDType* m_type;
     BDDPoch const* m_pochette;
-
+    BDDArtiste const* m_artiste;
 
     static AlbumPhys RecupAlbumEntite( const int id );
 private:
