@@ -55,7 +55,7 @@ namespace
                             TitresPhys titre;
                             titre.Titre = reader.text().toString();
                             titre.Num_Piste = trackNumber;
-                            titre.Duree="0:00";
+                            titre.Duree = "0:00";
                             trackNumber++;
                             albumToFill.titres.append( titre );
                         }
@@ -134,7 +134,6 @@ namespace
 QAWSWrapper::QAWSWrapper():
     m_artistsList()
 {
-
 }
 
 
@@ -165,7 +164,6 @@ AlbumPhys QAWSWrapper::getAlbumFromEAN( const QString& ean )
 
     // Compute the signature of the string
     QString signature = QMessageAuthenticationCode::hash( stringToSign.toLatin1(), QAWSGlobalInfo::getSecretAccessKey(), QCryptographicHash::Sha256 ).toBase64();
-
 
     // Build the signed URL
     listOfParameters.addQueryItem( "Signature", signature.toUtf8().toPercentEncoding() );
