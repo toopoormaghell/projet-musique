@@ -40,6 +40,16 @@ public:
     virtual ~DialogAjouterPhys();
 
 
+
+private Q_SLOTS:
+    /**
+     * @brief Affiche les messages informatifs pour l'utilisateur
+     * @param message Message à afficher
+     */
+    void AfficherInteraction( QString message );
+
+
+
 signals:
     void ajout();
 private slots:
@@ -51,6 +61,7 @@ private slots:
     void on_pushButton_clicked();
     void on_Ajouter_Titre_clicked();
     void AjouterTitreManuel( const QString& titre, const QString& duree, const QString& artiste );
+
 private:
     void recupererEAN();
     void AfficherAlbum();

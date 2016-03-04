@@ -6,6 +6,7 @@
 #include <QFileDialog>
 #include "sousdialogajouttitre.h"
 #include "bddalbum.h"
+#include "QAWSWrapperNotifier.h"
 
 DialogAjouterPhys::DialogAjouterPhys( QWidget* parent ) :
     QDialog( parent ),
@@ -37,6 +38,7 @@ DialogAjouterPhys::DialogAjouterPhys( int id_album, QWidget* parent ) :
 void DialogAjouterPhys::AjoutConnex()
 {
     connect( ui->buttonGroup, SIGNAL( buttonClicked( int ) ), this, SLOT( AffichageListeArtistes( int ) ) ) ;
+    QObject::connect( &m_research.getNotifier(), SIGNAL( stepAchieved( QString ) ), this, SLOT( AfficherInteraction( QString ) ) );
 }
 
 DialogAjouterPhys::~DialogAjouterPhys()
@@ -223,4 +225,9 @@ void DialogAjouterPhys::AjouterTitreManuel( const QString& titre, const QString&
     ui->Artiste_Titres->addItem( artiste );
     listeNumeros();
 
+}
+
+void DialogAjouterPhys::AfficherInteraction(QString message)
+{
+    ui->Interaction->append( message );
 }
