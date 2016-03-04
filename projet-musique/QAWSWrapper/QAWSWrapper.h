@@ -11,9 +11,15 @@
 class QAWSWRAPPERSHARED_EXPORT QAWSWrapper
 {
 public:
-    // Default constructor, not implemented on purpose
+    /**
+     * @brief Constructor with one parameter
+     * @param ean EAN from which to take information
+     */
     QAWSWrapper();
-    // Destructor
+
+    /**
+     * @brief Destructor
+     */
     ~QAWSWrapper();
 
     // Return the album related to the given EAN
