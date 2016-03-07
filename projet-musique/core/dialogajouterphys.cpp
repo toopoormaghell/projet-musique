@@ -8,10 +8,11 @@
 #include "bddalbum.h"
 #include "QAWSWrapperNotifier.h"
 
+
+
 DialogAjouterPhys::DialogAjouterPhys( QWidget* parent ) :
     QDialog( parent ),
     ui( new Ui::DialogAjouterPhys )
-
 {
     m_Type = 1;
 
@@ -20,35 +21,47 @@ DialogAjouterPhys::DialogAjouterPhys( QWidget* parent ) :
 
     AjoutConnex();
 }
+
+
+
 DialogAjouterPhys::DialogAjouterPhys( int id_album, QWidget* parent ) :
     QDialog( parent ),
     ui( new Ui::DialogAjouterPhys )
-
 {
     m_Type = 1;
 
     ui->setupUi( this );
     AffichageListeArtistes( -2 );
-
 
     m_album = BDDAlbum::RecupAlbumEntite( id_album );
     AfficherAlbum();
     AjoutConnex();
 }
+
+
+
 void DialogAjouterPhys::AjoutConnex()
 {
     connect( ui->buttonGroup, SIGNAL( buttonClicked( int ) ), this, SLOT( AffichageListeArtistes( int ) ) ) ;
     QObject::connect( &m_research.getNotifier(), SIGNAL( stepAchieved( QString ) ), this, SLOT( AfficherInteraction( QString ) ) );
 }
 
+
+
 DialogAjouterPhys::~DialogAjouterPhys()
 {
     delete ui;
 }
+
+
+
 void DialogAjouterPhys::recupererEAN()
 {
     m_EAN = ui->EAN->text();
 }
+
+
+
 void DialogAjouterPhys::on_ChercherEAN_clicked()
 {
     recupererEAN();
@@ -61,6 +74,9 @@ void DialogAjouterPhys::on_ChercherEAN_clicked()
     m_album = m_research.getAlbumFromEAN( m_EAN );
     AfficherAlbum();
 }
+
+
+
 void DialogAjouterPhys::AfficherAlbum()
 {
     ui->Annee->setText( QString::number( m_album.Annee ) );
@@ -76,6 +92,9 @@ void DialogAjouterPhys::AfficherAlbum()
     }
     AfficherPoch();
 }
+
+
+
 void DialogAjouterPhys::AfficherPoch()
 {
     QPixmap* pixmap = new QPixmap();
@@ -84,6 +103,9 @@ void DialogAjouterPhys::AfficherPoch()
     QPixmap imageScaled = pixmap->scaled( 150, 150, Qt::IgnoreAspectRatio, Qt::FastTransformation );
     ui->Pochette->setPixmap( imageScaled );
 }
+
+
+
 void DialogAjouterPhys::on_Enregistrer_clicked()
 {
     RecupererAlbum();
@@ -93,6 +115,8 @@ void DialogAjouterPhys::on_Enregistrer_clicked()
     emit ajout();
     ViderBoiteDialogue();
 }
+
+
 
 void DialogAjouterPhys::AffichageListeArtistes( int id )
 {
@@ -115,6 +139,9 @@ void DialogAjouterPhys::AffichageListeArtistes( int id )
             break;
     }
 }
+
+
+
 void DialogAjouterPhys::ViderBoiteDialogue()
 {
     ui->Artiste_Titres->clear();
@@ -130,10 +157,16 @@ void DialogAjouterPhys::ViderBoiteDialogue()
 
 
 }
+
+
+
 void DialogAjouterPhys::on_ViderAlbum_clicked()
 {
     ViderBoiteDialogue();
 }
+
+
+
 void DialogAjouterPhys::RecupererAlbum()
 {
     m_album.titres.clear();
@@ -169,6 +202,9 @@ void DialogAjouterPhys::RecupererAlbum()
     }
 
 }
+
+
+
 void DialogAjouterPhys::listeNumeros()
 {
     ui->Piste->clear();
@@ -177,6 +213,9 @@ void DialogAjouterPhys::listeNumeros()
         ui->Piste->addItem( new QListWidgetItem( QString::number( i ).rightJustified( 2, '0' ) + " - " ) );
     }
 }
+
+
+
 void DialogAjouterPhys::on_Supprimer_Titre_clicked()
 {
     QList<QListWidgetItem*> fileSelected = ui->Titres->selectedItems();
@@ -194,6 +233,8 @@ void DialogAjouterPhys::on_Supprimer_Titre_clicked()
     listeNumeros();
 }
 
+
+
 void DialogAjouterPhys::on_pushButton_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName( this,
@@ -208,6 +249,8 @@ void DialogAjouterPhys::on_pushButton_clicked()
     ui->Pochette->setPixmap( pixmapscaled );
 }
 
+
+
 void DialogAjouterPhys::on_Ajouter_Titre_clicked()
 {
     SousDialogAjoutTitre toto( m_Type, this );
@@ -219,6 +262,9 @@ void DialogAjouterPhys::on_Ajouter_Titre_clicked()
     }
 
 }
+
+
+
 void DialogAjouterPhys::AjouterTitreManuel( const QString& titre, const QString& duree, const QString& artiste )
 {
     ui->Titres->addItem( titre + "(" + duree + ")" );
@@ -226,6 +272,8 @@ void DialogAjouterPhys::AjouterTitreManuel( const QString& titre, const QString&
     listeNumeros();
 
 }
+
+
 
 void DialogAjouterPhys::AfficherInteraction(QString message)
 {
