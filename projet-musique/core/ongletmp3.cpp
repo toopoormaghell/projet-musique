@@ -444,3 +444,4 @@ void OngletMP3::on_AlbumsTitres_clicked( const QModelIndex& index )
         afficherAlbumSelectionne();
     }
 }
+

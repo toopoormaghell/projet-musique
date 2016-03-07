@@ -135,55 +135,48 @@
      <property name="title">
       <string>Affichage</string>
      </property>
-     <widget class="QWidget" name="Artiste" native="true">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>60</y>
-        <width>251</width>
-        <height>281</height>
-       </rect>
-      </property>
-      <widget class="QLabel" name="Nom_Artiste">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>140</y>
-         <width>201</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Nom Artiste</string>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QWidget" name="Titre" native="true">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>359</y>
-        <width>221</width>
-        <height>161</height>
-       </rect>
-      </property>
-      <widget class="QPushButton" name="BoutTit">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>10</y>
-         <width>75</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>PushButton</string>
-       </property>
-      </widget>
-     </widget>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QWidget" name="Artiste" native="true">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <widget class="QLabel" name="Nom_Artiste">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>140</y>
+           <width>201</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Nom Artiste</string>
+         </property>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="Album" native="true"/>
+      </item>
+      <item>
+       <widget class="QWidget" name="Titre" native="true">
+        <widget class="QPushButton" name="BoutTit">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>75</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>PushButton</string>
+         </property>
+        </widget>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>
@@ -191,6 +184,7 @@
      <property name="title">
       <string>Fusion</string>
      </property>
+     <zorder>AffichageRes</zorder>
     </widget>
    </item>
   </layout>

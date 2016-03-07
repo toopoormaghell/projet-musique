@@ -9,7 +9,7 @@
 
 namespace Ui
 {
-    class OngletMP3;
+class OngletMP3;
 }
 
 class OngletMP3 : public QWidget
@@ -46,7 +46,7 @@ private:
     int m_lignestitres;
 
     int m_colonnetitre;
-int m_ajoutlignes;
+    int m_ajoutlignes;
 
     //Concerne la récupération des infos sélectionnées par l'utilisateur
     int m_categorie;

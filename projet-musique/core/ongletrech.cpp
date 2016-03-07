@@ -5,6 +5,7 @@
 #include "bddalbum.h"
 #include "bddartiste.h"
 #include "bddpoch.h"
+#include <QDebug>
 
 OngletRech::OngletRech( QWidget* parent ) :
     QWidget( parent ),
@@ -97,16 +98,19 @@ void OngletRech::on_ArtResult_clicked( const QModelIndex& index )
     AffichageResGroup( 0 );
     m_affiche =  index.data( Qt::UserRole ).toString();
     ui->Nom_Artiste->setText( m_affiche );
+
 }
 void OngletRech::AffichageResGroup( int Type )
 {
     switch ( Type )
     {
-        case 0 :
-            ui->Artiste->setHidden( false );
-            ui->Titre->setHidden( true );
-        case 1 :
-            ui->Artiste->setHidden( true );
-            ui->Titre->setHidden( false );
+    case 0 :
+        ui->Artiste->setHidden( false );
+        ui->Titre->setHidden( true );
+        break;
+    case 1 :
+        ui->Artiste->setHidden( true );
+        ui->Titre->setHidden( false );
+        break;
     }
 }

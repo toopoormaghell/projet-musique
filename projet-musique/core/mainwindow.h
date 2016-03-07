@@ -8,9 +8,10 @@
 #include "dialogajouterphys.h"
 #include "vidagebdddialog.h"
 #include <QPushButton>
+
 namespace Ui
 {
-    class MainWindow;
+class MainWindow;
 }
 
 class MainWindow : public QMainWindow

@@ -13,6 +13,7 @@
 #include <QStatusBar>
 #include <QPushButton>
 
+
 MainWindow::MainWindow( QWidget* parent ) :
     QMainWindow( parent ),
     ui( new Ui::MainWindow ),
@@ -22,7 +23,7 @@ MainWindow::MainWindow( QWidget* parent ) :
     m_dialogajouterphys( NULL ),
     m_vidage( this ),
     stop( new QPushButton( "Stop" ) )
-{
+ {
     ui->setupUi( this );
     m_dialogajouterphys = new DialogAjouterPhys( this );
     ajouterToolbar();
