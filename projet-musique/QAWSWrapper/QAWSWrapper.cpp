@@ -144,6 +144,8 @@ QAWSWrapper::~QAWSWrapper()
 {
 }
 
+
+
 QAWSWrapperNotifier& QAWSWrapper::getNotifier()
 {
     return *m_notifier;
