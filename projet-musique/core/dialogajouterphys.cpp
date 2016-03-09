@@ -11,8 +11,8 @@
 
 
 DialogAjouterPhys::DialogAjouterPhys( QWidget* parent ) :
-    QDialog( parent ),
-    ui( new Ui::DialogAjouterPhys )
+    QDialog( parent )
+  , ui( new Ui::DialogAjouterPhys )
 {
     m_Type = 1;
 
