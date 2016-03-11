@@ -25,7 +25,7 @@ void BDDGestionPhys::ajouterAlbum(QImage Poch, QString Album, QString Artiste, Q
     for ( int cpt = 0; cpt < titres.count(); cpt++ )
     {
         TitresPhys temp = titres[cpt];
-        BDDTitre tit( temp.Titre.replace( "'", "$" ), temp.Num_Piste, temp.Duree );
+        BDDTitre tit( temp.Titre.replace( "'", "$" ), temp.Num_Piste, temp.Duree, alb );
         if ( Type == 2 )
         {
             BDDArtiste artTitre( temp.Artiste, poch );
@@ -64,7 +64,7 @@ void BDDGestionPhys::modifierAlbum( QString Album, QString Artiste, QString ean,
     for ( int cpt = 0; cpt < titres.count(); cpt++ )
     {
         TitresPhys temp = titres[cpt];
-        BDDTitre tit( temp.Titre.replace( "'", "$" ), temp.Num_Piste, temp.Duree );
+        BDDTitre tit( temp.Titre.replace( "'", "$" ), temp.Num_Piste, temp.Duree, *alb );
         if ( Type == 2 )
         {
             BDDArtiste artTitre( temp.Artiste, *poch );

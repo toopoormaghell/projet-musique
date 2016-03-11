@@ -6,13 +6,14 @@
 #include "bddartiste.h"
 #include "bddalbum.h"
 
-BDDTitre::BDDTitre( const QString& nom, const int& num_piste, const QString& duree, QObject* parent ) :
+BDDTitre::BDDTitre(const QString& nom, const int& num_piste, const QString& duree, const BDDAlbum& album , QObject* parent) :
     QObject( parent ),
     m_id( -1 ),
     m_nom( nom ),
     m_nomFormate( nom ),
     m_num_piste( num_piste ),
-    m_duree( duree )
+    m_duree( duree ),
+    m_album ( &album )
 {
     FormaterEntiteBDD( m_nomFormate );
     recupererId();
@@ -59,7 +60,7 @@ void BDDTitre::ajouterBDD()
 
 void BDDTitre::recupererId()
 {
-    QString queryStr = "Select Id_Titre As 'Titre' from Titre WHERE Titre_Formate='" + m_nomFormate + "' AND Num_Piste='" + QString::number( m_num_piste ) + "'" ;
+    QString queryStr = "Select T.Id_Titre As 'Titre' from Titre T WHERE T.Titre_Formate='" + m_nomFormate + "' AND T.Num_Piste='" + QString::number( m_num_piste ) + "' AND T.Id_Titre=R.Id_Titre AND R.Id_Album='"+ QString::number( m_album->m_id )+"'" ;
 
     QSqlQuery query = madatabase.exec( queryStr );
 
