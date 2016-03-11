@@ -64,6 +64,7 @@ void OngletMP3::vider( QString Type )
     {
         ui->AlbumsTitres->clearSpans();
         ui->AlbumsTitres->clear();
+        ui->Mp3Phys->clear();
     }
 }
 void OngletMP3::afficherListeType()
@@ -364,11 +365,14 @@ void OngletMP3::afficherListeAnnees()
 }
 void OngletMP3::on_AlbumsTitres_doubleClicked( const QModelIndex& index )
 {
-    m_mp3 = index.data( Qt::UserRole ).toInt();
-    BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3 );
-    QFileInfo fich( mp3->m_chemin );
-    QString nouvelemplacementchemin = "C:\\Users\\Nico\\Desktop\\Nouveau Dossier\\" + fich.fileName();
-    QFile::copy( mp3->m_chemin, nouvelemplacementchemin );
+   if ( !index.data(Qt::UserRole).isNull() )
+    {
+        m_mp3 = index.data( Qt::UserRole ).toInt();
+        BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3 );
+        QFileInfo fich( mp3->m_chemin );
+        QString nouvelemplacementchemin = "C:\\Users\\Nico\\Desktop\\Nouveau Dossier\\" + fich.fileName();
+        QFile::copy( mp3->m_chemin, nouvelemplacementchemin );
+    }
 }
 void OngletMP3::on_buttonBox_clicked( QAbstractButton* button )
 {
@@ -398,19 +402,17 @@ void OngletMP3::afficherMP3ouAlbum( const QString& MouA )
     if ( MouA == "Album" )
     {
         ui->Sur->setText( "Annee :" );
-        ui->buttonBox->setHidden( false );
-        ui->Similaires->setHidden( true );
-        ui->Playlists->setHidden( true );
-        ui->Titres->setHidden( false );
+        ui->Play->setVisible( false );
+        ui->Simi->setVisible( false );
+        ui->TitresAlb->setVisible( true );
         ui->Piste->setText( " " );
     }
     else
     {
         ui->Sur->setText( "sur : " );
-        ui->buttonBox->setHidden( true );
-        ui->Similaires->setHidden( false );
-        ui->Playlists->setHidden( false );
-        ui->Titres->setHidden( true );
+        ui->TitresAlb->setVisible( false );
+        ui->Simi->setVisible( true );
+        ui->Play->setVisible( true );
 
     }
 }
@@ -430,18 +432,24 @@ void OngletMP3::on_ArtistesAnnees_clicked( const QModelIndex& index )
 
 void OngletMP3::on_AlbumsTitres_clicked( const QModelIndex& index )
 {
+
     if ( index.column() != 0 )
     {
-        vider( "Titres" );
-        m_mp3 = index.data( Qt::UserRole ).toInt();
-        afficherMP3ouAlbum( "MP3" );
-        afficherInfosTitre();
+        if ( !index.data(Qt::UserRole).isNull() )
+        {
+            vider( "Titres" );
+            m_mp3 = index.data( Qt::UserRole ).toInt();
+            afficherMP3ouAlbum( "MP3" );
+            afficherInfosTitre();
+        }
     }
     else
+
     {
         m_album = index.data( Qt::UserRole ).toInt();
         afficherMP3ouAlbum( "Album" );
         afficherAlbumSelectionne();
     }
+
 }
 
