@@ -12,6 +12,8 @@
         <file alias="Stop">icones/Stop_Normal_Blue_Icon_72.png</file>
         <file alias="Faux">icones/nonmp3phys.png</file>
         <file alias="Vrai">icones/mp3phys.png</file>
+        <file alias="Mp3">icones/mp3.png</file>
+        <file alias="Phys">icones/Phys.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file alias="default">qss/default.qss</file>
