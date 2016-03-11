@@ -6,7 +6,7 @@
 
 namespace Ui
 {
-    class OngletRech;
+class OngletRech;
 }
 
 class OngletRech : public QWidget
@@ -24,6 +24,20 @@ private slots:
 
     void on_ArtResult_clicked( const QModelIndex& index );
 
+    void on_AlbResult_clicked(const QModelIndex &index);
+
+    void on_AlbumspourArt_clicked(const QModelIndex &index);
+
+    void on_TitresResultats_clicked(const QModelIndex &index);
+
+    void on_voirAlbum_clicked();
+
+    void on_VoirArtiste_clicked();
+
+    void on_Similaires_clicked();
+
+    void on_OuvrirDossier_clicked();
+
 private:
     Ui::OngletRech* ui;
     void affichageResultats();
@@ -33,10 +47,13 @@ private:
     void affichageAlbums();
     void affichageArtistes();
     void AffichageResGroup( int Type );
+    void affichageResultatspourArtiste();
+    QString m_artiste;
+    QString m_album;
+    QString m_titre;
 
-    QString m_affiche;
-
-
+    void affichageTitresParAlbum();
+    void AffichInfosTitres();
 };
 
 #endif // ONGLETRECH_H
