@@ -53,13 +53,11 @@ void MainWindow::ajouterToolbar()
     essai.load( ":/menuIcones/exporter" );
     ui->toolBar->addAction( QIcon( essai ), "Exporter", this, SLOT( actionExporter() ) );
 
- ;
-
     essai.load( ":menuIcones/bdd" );
-    ui->toolBar->addAction( QIcon( essai ), "Configuration BDD", this, SLOT( actionBDD() ) );
+    ui->toolBar->addAction( QIcon( essai ), "Vérifier BDD", this, SLOT( actionBDD() ) );
 
     essai.load( ":menuIcones/config actu" );
-    ui->toolBar->addAction( QIcon( essai ), "Configuration Actualiser MP3", this, SLOT( actionconfigactu() ) );
+    ui->toolBar->addAction( QIcon( essai ), "Configurer Actualiser MP3", this, SLOT( actionconfigactu() ) );
 
 }
 void MainWindow::ajouterStatusBar()
