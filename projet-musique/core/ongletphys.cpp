@@ -184,8 +184,8 @@ void OngletPhys::AfficherInfosAlbum( int Type )
     scaled = scaled.scaled( 150, 150 );
     ui->Pochette->setPixmap( scaled );
 
-    QPixmap mp3physoui( ":/Autres/Vrai" );
-    QPixmap mp3physnon( ":/Autres/Faux" );
+    QPixmap mp3( ":/Autres/Mp3" );
+    QPixmap nonmp3 (":/Autres/Faux");
     //On affiche les titres
     for ( int i = 0; i < phys->m_titres.count(); i++ )
     {
@@ -207,15 +207,13 @@ void OngletPhys::AfficherInfosAlbum( int Type )
         }
         item->setText( temp );
         //On affiche l'icone si le mp3 existe aussi
-        if ( phys->m_titres[i]->m_mp3 && phys->m_titres[i]->m_phys )
+        if ( phys->m_titres[i]->m_mp3  )
         {
-            item->setIcon( QIcon( mp3physoui ) );
-        }
-        else
+            item->setIcon( QIcon( mp3 ) );
+        } else
         {
-            item->setIcon( QIcon( mp3physnon ) );
+            item->setIcon( QIcon ( nonmp3 ) );
         }
-
         ui->Titres->addItem( item );
 
     }
