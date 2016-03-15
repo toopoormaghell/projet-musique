@@ -13,7 +13,8 @@ BDDTitre::BDDTitre(const QString& nom, const int& num_piste, const QString& dure
     m_nomFormate( nom ),
     m_num_piste( num_piste ),
     m_duree( duree ),
-    m_album ( &album )
+    m_album ( &album ),
+    m_areAlbumAndArtisteSelfCreated ( false )
 {
     FormaterEntiteBDD( m_nomFormate );
     recupererId();
@@ -32,7 +33,14 @@ void BDDTitre::updateBDD()
 {
 
 }
-
+BDDTitre::~BDDTitre()
+{
+    if ( m_areAlbumAndArtisteSelfCreated )
+    {
+        delete m_album;
+        delete m_artiste;
+    }
+}
 void BDDTitre::supprimerenBDD() const
 {
     QString queryStr = "SELECT Id_Relation from Relations WHERE Id_Titre='" + QString::number( m_id ) + "'";
@@ -60,7 +68,7 @@ void BDDTitre::ajouterBDD()
 
 void BDDTitre::recupererId()
 {
-    QString queryStr = "Select T.Id_Titre As 'Titre' from Titre T WHERE T.Titre_Formate='" + m_nomFormate + "' AND T.Num_Piste='" + QString::number( m_num_piste ) + "' AND T.Id_Titre=R.Id_Titre AND R.Id_Album='"+ QString::number( m_album->m_id )+"'" ;
+    QString queryStr = "Select T.Id_Titre As 'Titre' from Titre T, Relations R WHERE T.Titre_Formate='" + m_nomFormate + "' AND T.Num_Piste='" + QString::number( m_num_piste ) + "' AND T.Id_Titre=R.Id_Titre AND R.Id_Album='"+ QString::number( m_album->m_id )+"'" ;
 
     QSqlQuery query = madatabase.exec( queryStr );
 
@@ -120,6 +128,7 @@ BDDTitre::BDDTitre( const int id, QObject* parent ):
         m_duree = rec.value( "Duree" ).toString();
         m_artiste = BDDArtiste::RecupererArtiste( rec.value( "Id_Artiste" ).toInt() );
         m_album = BDDAlbum::RecupererAlbum( rec.value( "Id_Album" ).toInt() );
+        m_areAlbumAndArtisteSelfCreated = true;
         mp3etphys();
 
     }

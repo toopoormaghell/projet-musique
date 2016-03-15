@@ -44,6 +44,7 @@ BDDAlbum::~BDDAlbum()
     {
         delete m_type;
         delete m_pochette;
+        delete m_artiste;
     }
 }
 void BDDAlbum::recupererId()
