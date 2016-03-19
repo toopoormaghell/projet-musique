@@ -86,6 +86,7 @@ BDDAlbum::BDDAlbum( const int id, QObject* parent ):
         m_pochette = BDDPoch::recupererBDD( rec.value( "Id_Pochette" ).toInt() );
         m_areTypeAndPochetteSelfCreated = true;
         m_artiste = BDDArtiste::RecupererArtiste(rec.value("Id_artiste").toInt());
+
     }
 }
 BDDAlbum* BDDAlbum::RecupererAlbum( const int id )
@@ -129,14 +130,12 @@ AlbumPhys BDDAlbum::RecupAlbumEntite( const int id )
     albphys.Poch = alb->m_pochette->m_image;
     albphys.Id_Poch = alb->m_pochette->m_id;
     albphys.Type = alb->m_type->m_id;
+    albphys.Artiste = alb->m_artiste->m_nom;
     delete alb;
 
     //On récupère le Type
     BDDType* typ = BDDType::RecupererType( albphys.Type );
     albphys.Type_Str = typ->m_type;
-
-    albphys.Artiste = alb->m_artiste->m_nom;
-
 
     //On récupère les titres liés à l'album
     QString queryStr = "SELECT DISTINCT R.Id_Titre FROM Relations R, Titre T WHERE R.Id_Album='" + QString::number( id ) + "' AND T.Id_Titre=R.Id_Titre ORDER BY Num_Piste";
