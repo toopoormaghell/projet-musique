@@ -101,7 +101,7 @@ QString BDDAfficherMp3::AnneesSwitch( int annee )
         case 4 :
             return " Annee>=2005 AND Annee<2010";
         case 5 :
-            return " Annee>=2010 AND Annee<2014";
+            return " Annee>=2010 AND Annee<2015";
         case 6 :
             return " Annee>=2015";
         default :
