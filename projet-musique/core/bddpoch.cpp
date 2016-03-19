@@ -148,7 +148,6 @@ void BDDPoch::supprimerenBDD() const
 
     //On vérifie si la pochette n'existe plus ni dans l'artiste, ni dans l'album
     QString queryStr = "SELECT Id_Pochette FROM Artiste WHERE Id_Pochette='" + QString::number( m_id ) + "' UNION SELECT Id_Pochette FROM Album WHERE Id_Pochette='" + QString::number( m_id ) + "'";
-    qDebug() << queryStr;
     QSqlQuery  query2 = madatabase.exec( queryStr );
 
     //si la requête ne renvoie pas de résultat, on efface du coup la pochette

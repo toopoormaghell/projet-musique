@@ -327,7 +327,6 @@ void BDDGestionMp3::SupprimerenBDDMP3( int Id )
 
     BDDMp3* mp3 = BDDMp3::RecupererMp3( Id );
     m_fichierlu = "Suppression de ..." + mp3->m_chemin;
-    qDebug() << m_fichierlu;
     mp3->supprimerenBDD();
     mp3->~BDDMp3();
 }
