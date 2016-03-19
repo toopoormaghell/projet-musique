@@ -19,23 +19,14 @@ public:
 
 private slots:
     void on_pushButton_clicked();
-
     void on_TitResult_clicked( const QModelIndex& index );
-
     void on_ArtResult_clicked( const QModelIndex& index );
-
-    void on_AlbResult_clicked(const QModelIndex &index);
-
-    void on_AlbumspourArt_clicked(const QModelIndex &index);
-
-    void on_TitresResultats_clicked(const QModelIndex &index);
-
+    void on_AlbResult_clicked( const QModelIndex& index );
+    void on_AlbumspourArt_clicked( const QModelIndex& index );
+    void on_TitresResultats_clicked( const QModelIndex& index );
     void on_voirAlbum_clicked();
-
     void on_VoirArtiste_clicked();
-
     void on_Similaires_clicked();
-
     void on_OuvrirDossier_clicked();
 
 private:

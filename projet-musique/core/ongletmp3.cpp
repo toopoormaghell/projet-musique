@@ -5,6 +5,7 @@
 #include "bddalbum.h"
 #include "bddtitre.h"
 #include "bddmp3.h"
+#include "bddtype.h"
 #include <algorithm>
 #include <QDebug>
 #include "modificationartistedialog.h"
@@ -25,6 +26,7 @@ OngletMP3::OngletMP3( QWidget* parent ) :
 {
     ui->setupUi( this );
     ActualiserOnglet();
+
 }
 OngletMP3::~OngletMP3()
 {
@@ -38,6 +40,10 @@ void OngletMP3::ActualiserOnglet()
     afficherMP3ouAlbum( "MP3" );
     afficherInfosTitre();
     ui->buttonBox->addButton( "Modifier", QDialogButtonBox::ActionRole );
+
+    connect(ui->ArtistesAnnees,SIGNAL(activated(QModelIndex)),this,SLOT(on_ArtistesAnnees_clicked(QModelIndex)));
+    connect(ui->Categories,SIGNAL(activated(QModelIndex)),this,SLOT(on_Categories_clicked(QModelIndex)));
+    connect(ui->AlbumsTitres,SIGNAL(activated(QModelIndex)),this,SLOT(on_AlbumsTitres_clicked(QModelIndex)));
 }
 
 void OngletMP3::vider( QString Type )
@@ -46,7 +52,7 @@ void OngletMP3::vider( QString Type )
     {
         ui->Categories->clear();
     }
-    if ( Type == "Titres" )
+    if ( Type == "Titre" )
     {
         ui->Piste->clear();
         ui->Titre->clear();
@@ -93,6 +99,7 @@ void OngletMP3::afficherListeType()
 //Affiche les albums selon l'artiste (ou les années) et la catégorie
 void OngletMP3::afficheralbumsettitres()
 {
+
     //Création du modèle pour le QTableView
     m_lignestitres = 0;
     m_colonnetitre = 0;
@@ -260,7 +267,6 @@ void OngletMP3::afficherInfosTitre()
 {
     vider( "Titre" );
 
-    //  if ( m_mp3!=NULL) {
     BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3 );
 
     ui->Piste->setText( QString::number( mp3->m_titre->m_num_piste ).rightJustified( 2, '0' ) + " - " );
@@ -279,7 +285,7 @@ void OngletMP3::afficherInfosTitre()
 
     Similaires( mp3->m_titre->m_id );
     delete mp3;
-    // }
+
 }
 void OngletMP3::Similaires( const int id )
 {
@@ -365,7 +371,7 @@ void OngletMP3::afficherListeAnnees()
 }
 void OngletMP3::on_AlbumsTitres_doubleClicked( const QModelIndex& index )
 {
-   if ( !index.data(Qt::UserRole).isNull() )
+    if ( !index.data(Qt::UserRole).isNull() )
     {
         m_mp3 = index.data( Qt::UserRole ).toInt();
         BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3 );
@@ -452,4 +458,87 @@ void OngletMP3::on_AlbumsTitres_clicked( const QModelIndex& index )
     }
 
 }
+void OngletMP3::on_Similaires_clicked(const QModelIndex &index)
+{
+    BDDMp3* mp3 = BDDMp3::RecupererMp3( index.data( Qt::UserRole ).toInt() );
 
+    //On selectionne la bonne categorie
+    m_categorie = mp3->m_type->m_id;
+    for (int i = 0; i<ui->Categories->count(); i++)
+    {
+        if ( ui->Categories->item(i)->data( Qt::UserRole).toInt() == m_categorie)
+        {
+            ui->Categories->setCurrentRow( i );
+        }
+    }
+    affichageartistes();
+    vider("AlbMP3");
+    //On sélectionne le bon artiste/la bonne année
+    if ( m_categorie != 2 )
+    {
+        m_artiste = mp3->m_artiste->m_id;
+
+    } else
+    {
+        m_artiste = CompilsAnnees( mp3->m_album->m_annee );
+    }
+    for (int i = 0; i<ui->ArtistesAnnees->count(); i++)
+    {
+        if ( ui->ArtistesAnnees->item(i)->data( Qt::UserRole).toInt() == m_artiste)
+        {
+            ui->ArtistesAnnees->setCurrentRow( i );
+        }
+    }
+    afficheralbumsettitres();
+
+    //On sélection l'album et le titre
+    m_album =  mp3->m_album->m_id;
+    m_mp3 = mp3->m_titre->m_id;
+
+    for (int row = 0; row<ui->AlbumsTitres->rowCount() ; row++)
+    {
+        for (int col = 1; col< ui->AlbumsTitres->columnCount(); col++ )
+        {
+
+            QTableWidgetItem* item = ui->AlbumsTitres->item(row,col);
+
+            if ( item!= NULL)
+            {
+                if (item->data(Qt::UserRole).toInt() == m_mp3)
+                {
+                    ui->AlbumsTitres->setCurrentCell(row,col);
+                }
+            }
+        }
+    }
+    vider("Titre");
+    afficherInfosTitre();
+
+}
+int OngletMP3::CompilsAnnees(int annee)
+{
+    if ( annee < 1980 )
+    {
+        return 0;
+    }
+    if ( annee >=1980  && annee <1990)
+    {
+        return 1;
+    }
+    if ( annee >=1990 && annee <2000 )
+    {
+        return 2;
+    }
+    if ( annee >=2000 && annee < 2005 )
+    {
+        return 3;
+    }
+    if ( annee >=2005 && annee <2010)
+    {
+        return 5;
+    }
+    if ( annee >=2010 && annee<2015 )
+    {
+        return 6;
+    }
+}

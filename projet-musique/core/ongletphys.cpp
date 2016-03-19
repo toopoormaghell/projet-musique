@@ -21,6 +21,14 @@ OngletPhys::OngletPhys( QWidget* parent ) :
 
     vider( "Artiste" );
     afficherListeArtiste();
+
+    //Connexion entre les différents listwidget et le signal "Entrée"
+    connect (ui->Albums,SIGNAL(itemActivated(QListWidgetItem*)),this,SLOT(on_Albums_itemPressed(QListWidgetItem*)));
+    connect (ui->Artistes,SIGNAL(activated(QModelIndex)),this,SLOT(on_Artistes_clicked(QModelIndex)));
+    connect (ui->Compil,SIGNAL(itemActivated(QListWidgetItem*)),this,SLOT(on_Compil_itemPressed(QListWidgetItem*)));
+    connect (ui->Singles,SIGNAL(itemActivated(QListWidgetItem*)),this,SLOT(on_Singles_itemPressed(QListWidgetItem*)));
+    connect (ui->Modifier,SIGNAL(pressed()),this,SLOT(on_Modifier_clicked()));
+    connect (ui->SupprimerAlbum,SIGNAL(pressed()),this,SLOT(on_SupprimerAlbum_clicked()));
 }
 
 OngletPhys::~OngletPhys()

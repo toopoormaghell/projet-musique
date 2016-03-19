@@ -513,7 +513,13 @@
          <property name="styleSheet">
           <string notr="true"/>
          </property>
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
          <property name="tabKeyNavigation">
+          <bool>false</bool>
+         </property>
+         <property name="alternatingRowColors">
           <bool>false</bool>
          </property>
          <property name="iconSize">
@@ -542,6 +548,9 @@
           <widget class="QPushButton" name="Modifier">
            <property name="text">
             <string>Modifier Album</string>
+           </property>
+           <property name="shortcut">
+            <string/>
            </property>
           </widget>
          </item>

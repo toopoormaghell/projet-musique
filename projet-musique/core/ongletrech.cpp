@@ -15,6 +15,13 @@ OngletRech::OngletRech( QWidget* parent ) :
     ui->setupUi( this );
     m_rech = "";
     AffichageResGroup( 0);
+    connect( ui->Rech,SIGNAL( returnPressed() ),this, SLOT ( on_pushButton_clicked() ) );
+
+    connect( ui->AlbResult,SIGNAL( activated( QModelIndex ) ) ,this, SLOT ( on_AlbResult_clicked (QModelIndex ) ) ) ;
+    connect ( ui->ArtResult, SIGNAL( activated( QModelIndex ) ),this,SLOT( on_ArtResult_clicked( QModelIndex ) ) );
+    connect ( ui->TitResult,SIGNAL( activated( QModelIndex ) ),this,SLOT( on_TitResult_clicked( QModelIndex ) ) );
+    connect( ui->AlbumspourArt,SIGNAL(activated(QModelIndex)),this,SLOT(on_AlbumspourArt_clicked(QModelIndex)));
+    connect( ui->TitresResultats,SIGNAL(activated(QModelIndex)),this,SLOT(on_TitresResultats_clicked(QModelIndex)));
 }
 
 OngletRech::~OngletRech()
