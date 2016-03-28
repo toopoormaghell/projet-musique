@@ -240,10 +240,12 @@ void OngletMP3::afficherTitresAlbum( QString Album, int Cate, int row )
 
     ui->AlbumsTitres->setColumnCount( nbcol );
 
-    if( maxlignes != 6)
+  /*  if( maxlignes != 6)
     {
         m_ajoutlignes = 0;
     }
+
+    */
     for ( int cpt = 0; cpt < titres.count(); cpt = cpt + 2 )
     {
         QTableWidgetItem* item = new QTableWidgetItem;
@@ -268,22 +270,23 @@ void OngletMP3::afficherInfosTitre()
     vider( "Titre" );
 
     BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3 );
+    if ( mp3->m_album != NULL)
+    { ui->Piste->setText( QString::number( mp3->m_titre->m_num_piste ).rightJustified( 2, '0' ) + " - " );
+        QString temp = mp3->m_titre->m_nom.toUpper() + "(" + mp3->m_titre->m_duree + ")";
+        ui->Titre->setText( temp );
 
-    ui->Piste->setText( QString::number( mp3->m_titre->m_num_piste ).rightJustified( 2, '0' ) + " - " );
-    QString temp = mp3->m_titre->m_nom.toUpper() + "(" + mp3->m_titre->m_duree + ")";
-    ui->Titre->setText( temp );
+        ui->NomAlbum->setText( mp3->m_album->m_nom );
+        ui->NomArtiste->setText( mp3->m_artiste->m_nom );
 
-    ui->NomAlbum->setText( mp3->m_album->m_nom );
-    ui->NomArtiste->setText( mp3->m_artiste->m_nom );
+        if ( mp3->m_titre->m_mp3 && mp3->m_titre->m_phys )
+            ui->Mp3Phys->setText( "Existe en MP3 et Phys" );
 
-    if ( mp3->m_titre->m_mp3 && mp3->m_titre->m_phys )
-        ui->Mp3Phys->setText( "Existe en MP3 et Phys" );
+        QPixmap scaled( QPixmap::fromImage( mp3->m_album->m_pochette->m_image ) );
+        scaled = scaled.scaled( 150, 150 );
+        ui->Pochette->setPixmap( scaled );
 
-    QPixmap scaled( QPixmap::fromImage( mp3->m_album->m_pochette->m_image ) );
-    scaled = scaled.scaled( 150, 150 );
-    ui->Pochette->setPixmap( scaled );
-
-    Similaires( mp3->m_titre->m_id );
+        Similaires( mp3->m_titre->m_id );
+    }
     delete mp3;
 
 }
@@ -344,7 +347,8 @@ void OngletMP3::affichageartistes()
         afficherListeAnnees();
     }
     ui->ArtistesAnnees->setCurrentRow( aleatoire );
-    m_artiste = ui->ArtistesAnnees->currentItem()->data( Qt::UserRole ).toInt();
+    if ( ui->ArtistesAnnees->currentItem() != NULL )
+        m_artiste = ui->ArtistesAnnees->currentItem()->data( Qt::UserRole ).toInt();
 
 }
 void OngletMP3::afficherListeAnnees()
@@ -541,4 +545,5 @@ int OngletMP3::CompilsAnnees(int annee)
     {
         return 6;
     }
+    return 6;
 }
