@@ -26,7 +26,7 @@ int main( int argc, char* argv[] )
     }
 
     w.setWindowTitle( "Projet Musique" );
-
+w.setWindowIcon( QIcon( ":/menuIcones/ajoutphys" ));
     w.show();
 
     return a.exec();
