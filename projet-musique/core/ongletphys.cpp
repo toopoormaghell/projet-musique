@@ -20,7 +20,7 @@ OngletPhys::OngletPhys( QWidget* parent ) :
     ui->setupUi( this );
 
     vider( "Artiste" );
-    afficherListeArtiste();
+    actualiserOnglet();
 
     //Connexion entre les différents listwidget et le signal "Entrée"
     connect (ui->Albums,SIGNAL(itemActivated(QListWidgetItem*)),this,SLOT(on_Albums_itemPressed(QListWidgetItem*)));
@@ -35,6 +35,13 @@ OngletPhys::~OngletPhys()
 {
     delete ui;
 }
+void OngletPhys::actualiserOnglet()
+{
+    afficherListeArtiste();
+    afficherListeCds();
+    AfficherInfosAlbum( 1 );
+}
+
 void OngletPhys::afficherListeArtiste()
 {
     //Affichage des artistes
@@ -68,7 +75,14 @@ void OngletPhys::afficherListeArtiste()
         }
         artiste->deleteArtiste();
     }
-    ui->Artistes->setCurrentRow( 1 );
+    if (ui->Artistes->count() > 0)
+    {
+        ui->Artistes->setCurrentRow( 1 );
+    } else
+    {
+        ui->Artistes->setCurrentRow( 0 );
+    }
+    m_artiste = ui->Artistes->currentIndex().data(Qt::UserRole).toString();
 }
 void OngletPhys::afficherListeAlbum()
 {
@@ -99,6 +113,7 @@ void OngletPhys::afficherListeAlbum()
         delete album;
     }
     ui->Albums->setCurrentRow( 0 );
+    m_selection = ui->Albums->currentIndex().data( Qt::UserRole ).toInt();
 
 }
 void OngletPhys::afficherListeSingles()
@@ -301,10 +316,8 @@ void OngletPhys::on_Artistes_doubleClicked( const QModelIndex& index )
     vider( "Artiste" );
     afficherListeArtiste();
 }
-
-void OngletPhys::on_Artistes_clicked( const QModelIndex& index )
+void OngletPhys::afficherListeCds()
 {
-    m_artiste = index.data( Qt::UserRole ).toString();
     afficherListeAlbum();
     afficherListeSingles();
     AfficherArtisteSelectionne();
@@ -367,4 +380,10 @@ void OngletPhys::on_Artistes_clicked( const QModelIndex& index )
             ui->label->setFixedHeight( 150 * ( RubriquesCachees + 1 ) );
         }
     }
+}
+
+void OngletPhys::on_Artistes_clicked( const QModelIndex& index )
+{
+    m_artiste = index.data( Qt::UserRole ).toString();
+    afficherListeCds();
 }
