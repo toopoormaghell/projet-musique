@@ -52,7 +52,7 @@ void BDDSingleton::creationBase()
     tables << "CREATE TABLE Artiste ('Id_Artiste' INTEGER PRIMARY KEY,'Artiste' VARCHAR(255),'Id_Pochette' INTEGER, 'Artiste_Formate' VARCHAR(255))";
     tables << "CREATE TABLE Album ('Id_Album' INTEGER PRIMARY KEY,'Album' VARCHAR(255),'Id_Pochette' INTEGER,'Album_Formate' VARCHAR(255),'Annee' VARCHAR(255), 'Type' VARCHAR(255), 'Id_Artiste' INTEGER)";
     tables << "CREATE TABLE Titre ('Id_Titre' INTEGER PRIMARY KEY,'Titre' VARCHAR(255),'Num_Piste' TINYINT,'Titre_Formate' VARCHAR(255),'Duree' VARCHAR(255))";
-    tables << "CREATE TABLE Phys ('Id_Phys' INTEGER PRIMARY KEY,'Id_Album' SMALLINT,'Categorie' VARCHAR(255),'CodeBarres' VARCHAR(255))";
+    tables << "CREATE TABLE Phys ('Id_Phys' INTEGER PRIMARY KEY,'Id_Album' SMALLINT,'Categorie' VARCHAR(255),'CodeBarres' VARCHAR(255), 'Commentaire' VARCHAR(512))";
     tables << "CREATE TABLE TitresPlaylist ('Id_Playlist' SMALLINT,'Id_Relation' SMALLINT, 'Num_Piste' TINYINT)";
     tables << "CREATE TABLE InfosPlaylist ('Id_Playlist' INTEGER PRIMARY KEY,'Nom' VARCHAR(255),'Type' VARCHAR(255),'NomAlbum' VARCHAR(255),'Id_Pochette' SMALLINT)";
     tables << "CREATE TABLE Pochette ('Id_Pochette' INTEGER PRIMARY KEY,'Chemin' VARCHAR(512))";
@@ -66,7 +66,7 @@ void BDDSingleton::creationBase()
     tables << "INSERT INTO Configuration VALUES ('ActualiserAlbums','Oui')";
     tables << "INSERT INTO Configuration VALUES ('ActualiserCompil','Non')";
     tables << "INSERT INTO Configuration VALUES ('ActualiserLives','Non')";
-    tables << "INSERT INTO Configuration VALUES ('Version', '2')";
+    tables << "INSERT INTO Configuration VALUES ('Version', '3')";
     tables << "INSERT INTO Type VALUES(01,'Album')";
     tables << "INSERT INTO Type VALUES(02,'Compil')";
     tables << "INSERT INTO Type VALUES(03,'Single')";
@@ -185,7 +185,8 @@ void BDDSingleton::changementversion()
     switch (version)
     {
     case 0:  madatabase.exec("INSERT INTO Configuration VALUES ('Version', '1')");
-    case 1 : version2(); break;
+    case 1 : version2();
+    case 2  : version3();break;
     default: break;
     }
 }
@@ -205,6 +206,15 @@ void BDDSingleton::version2()
     }
     //On change la version
     madatabase.exec("UPDATE Configuration SET Valeur='2' WHERE Intitule= 'Version' ");
+}
+void BDDSingleton::version3()
+{
+    //On ajoute une colonne commentaire dans la table physique
+    madatabase.exec("ALTER TABLE Phys ADD Commentaire VARCHAR(512)");
+    madatabase.exec("UPDATE Phys SET Commentaire='' ");
+
+    //On change la version
+   madatabase.exec("UPDATE Configuration SET Valeur='3' WHERE Intitule= 'Version' ");
 }
 
 void BDDSingleton::supprimerdossiersvides()

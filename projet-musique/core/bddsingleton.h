@@ -31,6 +31,7 @@ private:
     QSqlDatabase m_database;
     static BDDSingleton s_singleton;
     void version2();
+    void version3();
 };
 
 #define madatabase (BDDSingleton::getInstance().getDataBase())
