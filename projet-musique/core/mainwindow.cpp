@@ -177,8 +177,8 @@ void MainWindow::ActualiserOngletMP3()
     m_progressbar->setValue( 100 );
     m_progressbar->setFormat( "%p%" );
     m_interaction->setText( "Fin de l'actualisation." );
-    ui->MP3->vider( "Categories" );
-    ui->MP3->afficherListeType();
+   m_ongletMP3->vider( "Categories" );
+   m_ongletMP3->afficherListeType();
 }
 void MainWindow::ActualiserOngletStats()
 {
