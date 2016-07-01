@@ -12,7 +12,7 @@
 #include <QWidget>
 #include <QStatusBar>
 #include <QPushButton>
-
+#include "ongletmp3.h"
 
 MainWindow::MainWindow( QWidget* parent ) :
     QMainWindow( parent ),
@@ -20,11 +20,13 @@ MainWindow::MainWindow( QWidget* parent ) :
     m_progressbar( new QProgressBar ),
     m_gestionMP3( new BDDGestionMp3 ),
     m_interaction( new QLabel ),
+    m_ongletMP3 ( ),
     m_dialogajouterphys( NULL ),
     m_vidage( this ),
     stop( new QPushButton( "Stop" ) )
  {
     ui->setupUi( this );
+    m_ongletMP3 = ui->MP3;
     m_dialogajouterphys = new DialogAjouterPhys( this );
     ajouterToolbar();
     ajouterStatusBar();
@@ -38,6 +40,8 @@ MainWindow::MainWindow( QWidget* parent ) :
     connect( m_dialogajouterphys, SIGNAL( ajout() ), this, SLOT( ActualiserOngletPhys() ) );
     //Si le bouton STOP est cliqué, il renvoie un signal
     connect( stop, SIGNAL( clicked() ), m_gestionMP3, SLOT( stop_clique() ) );
+    //Si un titre est double cliqué sur l'onglet MP3, il l'indique
+    connect ( m_ongletMP3, SIGNAL( fichcopier() ), this, SLOT( AfficherTexte() ) );
 }
 void MainWindow::ajouterToolbar()
 {
@@ -161,6 +165,12 @@ void MainWindow::changerPourcentage()
     m_progressbar->setFormat( "%p%" );
     m_interaction->clear();
     m_interaction->setText( m_gestionMP3->m_fichierlu );
+}
+
+void MainWindow::AfficherTexte()
+{
+    m_interaction->clear();
+    m_interaction->setText( m_ongletMP3->m_fichierlu );
 }
 void MainWindow::ActualiserOngletMP3()
 {

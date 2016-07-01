@@ -8,7 +8,7 @@
 #include "dialogajouterphys.h"
 #include "vidagebdddialog.h"
 #include <QPushButton>
-
+#include "ongletmp3.h"
 namespace Ui
 {
 class MainWindow;
@@ -37,6 +37,7 @@ private slots:
     void ViderBDD();
     void ActualiserOngletStats();
     void changerPourcentage();
+    void AfficherTexte();
     void ActualiserOngletMP3();
     void ActualiserOngletPhys();
     void stop_clique();
@@ -48,6 +49,7 @@ private:
     DialogAjouterPhys* m_dialogajouterphys;
     VidageBDDDialog m_vidage;
     QPushButton* stop;
+    OngletMP3* m_ongletMP3;
 
 };
 

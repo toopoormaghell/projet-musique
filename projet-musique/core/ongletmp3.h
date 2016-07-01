@@ -32,6 +32,10 @@ public:
     void afficherAlbumSelectionne();
 
     void ActualiserOnglet();
+
+    QString m_fichierlu;
+signals:
+    void fichcopier();
 private slots:
     void on_AlbumsTitres_doubleClicked( const QModelIndex& index );
     void on_buttonBox_clicked( QAbstractButton* button );

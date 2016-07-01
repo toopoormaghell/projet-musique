@@ -16,6 +16,7 @@
 #include "bddaffichermp3.h"
 #include "util.h"
 #include "modifieralbumdialog.h"
+#include <QDir>
 
 OngletMP3::OngletMP3( QWidget* parent ) :
     QWidget( parent ),
@@ -240,7 +241,7 @@ void OngletMP3::afficherTitresAlbum( QString Album, int Cate, int row )
 
     ui->AlbumsTitres->setColumnCount( nbcol );
 
-  /*  if( maxlignes != 6)
+    /*  if( maxlignes != 6)
     {
         m_ajoutlignes = 0;
     }
@@ -375,13 +376,25 @@ void OngletMP3::afficherListeAnnees()
 }
 void OngletMP3::on_AlbumsTitres_doubleClicked( const QModelIndex& index )
 {
+
     if ( !index.data(Qt::UserRole).isNull() )
     {
         m_mp3 = index.data( Qt::UserRole ).toInt();
         BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3 );
         QFileInfo fich( mp3->m_chemin );
-        QString nouvelemplacementchemin = "C:\\Users\\Nico\\Desktop\\Nouveau Dossier\\" + fich.fileName();
+        QString doss = ("C:/Users/Alex/Desktop/Nouveau Dossier/");
+
+        if (  mp3->m_artiste->m_nomFormate == "indochine" )
+        {
+            doss +=  mp3->m_artiste->m_nomFormate;
+        }
+        QDir dir( doss );
+        dir.mkpath(doss);
+        QString nouvelemplacementchemin =  doss + "/" + fich.fileName();
         QFile::copy( mp3->m_chemin, nouvelemplacementchemin );
+
+        m_fichierlu = nouvelemplacementchemin + " ajouté. ";
+        emit fichcopier();
     }
 }
 void OngletMP3::on_buttonBox_clicked( QAbstractButton* button )
