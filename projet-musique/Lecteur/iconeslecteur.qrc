@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/Icones">
+        <file alias="avance">Icones/avance.png</file>
+        <file alias="dossiers">Icones/dossier.png</file>
+        <file alias="play">Icones/lecture.png</file>
+        <file alias="pause">Icones/pause.png</file>
+        <file alias="precedent">Icones/precedent.png</file>
+        <file alias="retour">Icones/retour.png</file>
+        <file alias="stop">Icones/stop.png</file>
+        <file alias="suivant">Icones/suivant.png</file>
+    </qresource>
+</RCC>

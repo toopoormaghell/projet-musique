@@ -9,7 +9,8 @@ TEMPLATE = subdirs
 SUBDIRS += \
     taglib \
     QAWSWrapper \
-    core
+    core \
+    Lecteur
 
 
 
