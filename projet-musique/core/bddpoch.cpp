@@ -44,6 +44,23 @@ QString BDDPoch::creerchemin( const QString& album, const QString& artiste )
     return "./pochettes/" + artisteFormate + "/" + albumFormate + ".jpg";
 }
 
+QList<int> BDDPoch::pochettesparart(const QString &artiste)
+{
+    QList<int> listepoch;
+
+    QString queryStr = " Select DISTINCT Id_Pochette As 'Poch' from Relations R, Album A WHERE R.Id_Artiste='" + artiste + "' AND A.Id_Album = R.Id_Album UNION SELECT Id_Pochette AS 'Poch' from Artiste WHERE Id_Artiste = '" + artiste + "'";
+    QSqlQuery query = madatabase.exec( queryStr );
+
+    while ( query.next() )
+    {
+        QSqlRecord rec = query.record();
+
+        listepoch << rec.value("Poch").toInt();
+    }
+
+    return listepoch;
+}
+
 void BDDPoch::sauverImage( const QString& album, const QString& artiste )
 {
     QDir dossier;
@@ -131,7 +148,6 @@ void BDDPoch::supprimerenBDD() const
 
     //On vérifie si la pochette n'existe plus ni dans l'artiste, ni dans l'album
     QString queryStr = "SELECT Id_Pochette FROM Artiste WHERE Id_Pochette='" + QString::number( m_id ) + "' UNION SELECT Id_Pochette FROM Album WHERE Id_Pochette='" + QString::number( m_id ) + "'";
-    qDebug() << queryStr;
     QSqlQuery  query2 = madatabase.exec( queryStr );
 
     //si la requête ne renvoie pas de résultat, on efface du coup la pochette

@@ -5,7 +5,7 @@
 #include <QtGui>
 #include "util.h"
 
-BDDArtiste::BDDArtiste( const QString& artiste, const BDDPoch& pochette, QObject* parent ) :
+BDDArtiste::BDDArtiste(const QString& artiste, const BDDPoch& pochette, QObject* parent) :
     QObject( parent ),
     m_id( -1 ),
     m_nom( artiste ),
@@ -14,8 +14,8 @@ BDDArtiste::BDDArtiste( const QString& artiste, const BDDPoch& pochette, QObject
     m_isPochetteSelfCreated( false )
 {
     FormaterEntiteBDD( m_nomFormate );
-
     recupererId();
+
     if ( m_id == -1 )
         ajouterBDD();
     else
@@ -39,6 +39,8 @@ void BDDArtiste::recupererId()
     {
         QSqlRecord rec = query.record();
         m_id = rec.value( "Artiste" ).toInt();
+        m_pochette = BDDPoch::recupererBDD(rec.value("Poch").toInt());
+       m_isPochetteSelfCreated = true;
     }
     else
     {
@@ -118,6 +120,7 @@ void BDDArtiste::updateBDD()
 {
     QString queryStri = " UPDATE Artiste SET Artiste ='" + m_nom + "', Artiste_Formate='" + m_nomFormate + "', Id_Pochette='" + QString::number( m_pochette->m_id ) + "' WHERE Id_Artiste='" + QString::number( m_id ) + "'";
     madatabase.exec( queryStri );
+
 }
 
 void BDDArtiste::supprimerenBDD() const

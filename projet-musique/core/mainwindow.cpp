@@ -12,6 +12,7 @@
 #include <QWidget>
 #include <QStatusBar>
 #include <QPushButton>
+#include "ongletmp3.h"
 
 MainWindow::MainWindow( QWidget* parent ) :
     QMainWindow( parent ),
@@ -19,11 +20,13 @@ MainWindow::MainWindow( QWidget* parent ) :
     m_progressbar( new QProgressBar ),
     m_gestionMP3( new BDDGestionMp3 ),
     m_interaction( new QLabel ),
+    m_ongletMP3 ( ),
     m_dialogajouterphys( NULL ),
     m_vidage( this ),
     stop( new QPushButton( "Stop" ) )
-{
+ {
     ui->setupUi( this );
+    m_ongletMP3 = ui->MP3;
     m_dialogajouterphys = new DialogAjouterPhys( this );
     ajouterToolbar();
     ajouterStatusBar();
@@ -37,6 +40,8 @@ MainWindow::MainWindow( QWidget* parent ) :
     connect( m_dialogajouterphys, SIGNAL( ajout() ), this, SLOT( ActualiserOngletPhys() ) );
     //Si le bouton STOP est cliqué, il renvoie un signal
     connect( stop, SIGNAL( clicked() ), m_gestionMP3, SLOT( stop_clique() ) );
+    //Si un titre est double cliqué sur l'onglet MP3, il l'indique
+    connect ( m_ongletMP3, SIGNAL( fichcopier() ), this, SLOT( AfficherTexte() ) );
 }
 void MainWindow::ajouterToolbar()
 {
@@ -52,13 +57,11 @@ void MainWindow::ajouterToolbar()
     essai.load( ":/menuIcones/exporter" );
     ui->toolBar->addAction( QIcon( essai ), "Exporter", this, SLOT( actionExporter() ) );
 
- ;
-
     essai.load( ":menuIcones/bdd" );
-    ui->toolBar->addAction( QIcon( essai ), "Configuration BDD", this, SLOT( actionBDD() ) );
+    ui->toolBar->addAction( QIcon( essai ), "Vérifier BDD", this, SLOT( actionBDD() ) );
 
     essai.load( ":menuIcones/config actu" );
-    ui->toolBar->addAction( QIcon( essai ), "Configuration Actualiser MP3", this, SLOT( actionconfigactu() ) );
+    ui->toolBar->addAction( QIcon( essai ), "Configurer Actualiser MP3", this, SLOT( actionconfigactu() ) );
 
 }
 void MainWindow::ajouterStatusBar()
@@ -163,13 +166,19 @@ void MainWindow::changerPourcentage()
     m_interaction->clear();
     m_interaction->setText( m_gestionMP3->m_fichierlu );
 }
+
+void MainWindow::AfficherTexte()
+{
+    m_interaction->clear();
+    m_interaction->setText( m_ongletMP3->m_fichierlu );
+}
 void MainWindow::ActualiserOngletMP3()
 {
     m_progressbar->setValue( 100 );
     m_progressbar->setFormat( "%p%" );
     m_interaction->setText( "Fin de l'actualisation." );
-    ui->MP3->vider( "Categories" );
-    ui->MP3->afficherListeType();
+   m_ongletMP3->vider( "Categories" );
+   m_ongletMP3->afficherListeType();
 }
 void MainWindow::ActualiserOngletStats()
 {

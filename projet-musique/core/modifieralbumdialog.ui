@@ -73,6 +73,9 @@
    <property name="standardButtons">
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
+   <property name="centerButtons">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QLineEdit" name="Annee">
    <property name="geometry">
@@ -149,6 +152,19 @@
    </property>
    <property name="alternatingRowColors">
     <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="Parcourir">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>120</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Parcourir...</string>
    </property>
   </widget>
  </widget>

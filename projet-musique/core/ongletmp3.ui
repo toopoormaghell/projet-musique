@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>951</width>
-    <height>566</height>
+    <height>648</height>
    </rect>
   </property>
   <property name="font">
@@ -30,7 +30,7 @@
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>140</height>
+         <height>150</height>
         </size>
        </property>
        <property name="iconSize">
@@ -58,7 +58,7 @@
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>140</height>
+         <height>150</height>
         </size>
        </property>
        <property name="editTriggers">
@@ -72,8 +72,8 @@
        </property>
        <property name="iconSize">
         <size>
-         <width>100</width>
-         <height>100</height>
+         <width>105</width>
+         <height>107</height>
         </size>
        </property>
        <property name="movement">
@@ -142,7 +142,7 @@
         <bool>false</bool>
        </attribute>
        <attribute name="horizontalHeaderDefaultSectionSize">
-        <number>250</number>
+        <number>200</number>
        </attribute>
        <attribute name="horizontalHeaderMinimumSectionSize">
         <number>100</number>
@@ -320,41 +320,146 @@
         </layout>
        </item>
        <item>
-        <widget class="QListWidget" name="Titres">
-         <property name="minimumSize">
-          <size>
-           <width>500</width>
-           <height>0</height>
-          </size>
-         </property>
+        <widget class="QWidget" name="TitresAlb" native="true">
          <property name="maximumSize">
           <size>
-           <width>500</width>
+           <width>550</width>
            <height>16777215</height>
           </size>
          </property>
-         <property name="editTriggers">
-          <set>QAbstractItemView::NoEditTriggers</set>
-         </property>
-         <property name="selectionMode">
-          <enum>QAbstractItemView::NoSelection</enum>
-         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_7">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label_10">
+            <property name="minimumSize">
+             <size>
+              <width>500</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>500</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background:#1EA7EC;color:#FFFF96;border-radius:6px;  </string>
+            </property>
+            <property name="text">
+             <string>LISTE DES TITRES DE L'ALBUM</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QListWidget" name="Titres">
+            <property name="minimumSize">
+             <size>
+              <width>500</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>500</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="editTriggers">
+             <set>QAbstractItemView::NoEditTriggers</set>
+            </property>
+            <property name="selectionMode">
+             <enum>QAbstractItemView::NoSelection</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDialogButtonBox" name="buttonBox">
+            <property name="maximumSize">
+             <size>
+              <width>500</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="standardButtons">
+             <set>QDialogButtonBox::Save</set>
+            </property>
+            <property name="centerButtons">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
        <item>
-        <widget class="QDialogButtonBox" name="buttonBox">
+        <widget class="QWidget" name="Simi" native="true">
          <property name="maximumSize">
           <size>
-           <width>500</width>
+           <width>550</width>
            <height>16777215</height>
           </size>
          </property>
-         <property name="standardButtons">
-          <set>QDialogButtonBox::Save</set>
-         </property>
-         <property name="centerButtons">
-          <bool>true</bool>
-         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label_8">
+            <property name="minimumSize">
+             <size>
+              <width>500</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>500</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background:#1EA7EC;color:#FFFF96;border-radius:6px;  </string>
+            </property>
+            <property name="text">
+             <string>SIMILAIRES</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QListWidget" name="Similaires">
+            <property name="maximumSize">
+             <size>
+              <width>500</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>75</width>
+              <height>75</height>
+             </size>
+            </property>
+            <property name="gridSize">
+             <size>
+              <width>115</width>
+              <height>115</height>
+             </size>
+            </property>
+            <property name="viewMode">
+             <enum>QListView::IconMode</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
        <item>
@@ -371,54 +476,69 @@
         </spacer>
        </item>
        <item>
-        <widget class="QListWidget" name="Similaires">
+        <widget class="QWidget" name="Play" native="true">
          <property name="maximumSize">
           <size>
-           <width>500</width>
+           <width>550</width>
            <height>16777215</height>
           </size>
          </property>
-         <property name="iconSize">
-          <size>
-           <width>75</width>
-           <height>75</height>
-          </size>
-         </property>
-         <property name="gridSize">
-          <size>
-           <width>120</width>
-           <height>120</height>
-          </size>
-         </property>
-         <property name="viewMode">
-          <enum>QListView::IconMode</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QListWidget" name="Playlists">
-         <property name="maximumSize">
-          <size>
-           <width>500</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>100</width>
-           <height>100</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="Bouton_Playlist">
-         <property name="styleSheet">
-          <string notr="true">width: 200px;</string>
-         </property>
-         <property name="text">
-          <string>Ajouter...</string>
-         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label_9">
+            <property name="minimumSize">
+             <size>
+              <width>500</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>500</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background:#1EA7EC;color:#FFFF96;border-radius:6px;  </string>
+            </property>
+            <property name="text">
+             <string>PLAYLIST</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QListWidget" name="Playlists">
+            <property name="maximumSize">
+             <size>
+              <width>500</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>100</width>
+              <height>100</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="Bouton_Playlist">
+            <property name="styleSheet">
+             <string notr="true">width: 200px;</string>
+            </property>
+            <property name="text">
+             <string>Ajouter...</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>

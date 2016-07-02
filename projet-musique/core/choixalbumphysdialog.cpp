@@ -3,7 +3,6 @@
 #include "bddaffichermp3.h"
 #include "bddalbum.h"
 #include "bddpoch.h"
-#include <QDebug>
 #include "bddartiste.h"
 ChoixAlbumPhysDialog::ChoixAlbumPhysDialog( QString artiste, QWidget* parent ) :
     QDialog( parent ),

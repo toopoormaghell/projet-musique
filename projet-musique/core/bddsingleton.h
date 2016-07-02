@@ -19,6 +19,7 @@ public:
     bool removeDir( const QString& dirPath, const bool remove = true, const QString fichier = "def.jpg" );
     void verifierBDD();
     void supprimerdossiersvides();
+    void changementversion();
 private:
     // Constructeur privé : singleton
     BDDSingleton();
@@ -29,6 +30,8 @@ private:
     // Base de données SQL
     QSqlDatabase m_database;
     static BDDSingleton s_singleton;
+    void version2();
+    void version3();
 };
 
 #define madatabase (BDDSingleton::getInstance().getDataBase())

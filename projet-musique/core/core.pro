@@ -27,8 +27,10 @@ INCLUDEPATH += ../taglib/toolkit
 INCLUDEPATH += ../taglib/mpeg
 INCLUDEPATH += ../taglib/mpeg/id3v2
 INCLUDEPATH += ../qawswrapper
+
 LIBS += -ltaglib
 LIBS += -lqawswrapper
+
 
 HEADERS += \
     bddsingleton.h \
@@ -60,7 +62,8 @@ HEADERS += \
     bddstats.h \
     modificationartistedialog.h \
     ongletrech.h \
-    bddrech.h
+    bddrech.h \
+    dialogchoixpochette.h
 
 
 SOURCES += main.cpp \
@@ -93,7 +96,8 @@ SOURCES += main.cpp \
     bddstats.cpp \
     modificationartistedialog.cpp \
     ongletrech.cpp \
-    bddrech.cpp
+    bddrech.cpp \
+    dialogchoixpochette.cpp
 
 FORMS += \
     ongletmp3.ui \
@@ -107,7 +111,8 @@ FORMS += \
     choixalbumphysdialog.ui \
     ongletstats.ui \
     modificationartistedialog.ui \
-    ongletrech.ui
+    ongletrech.ui \
+    dialogchoixpochette.ui
 
 
 OTHER_FILES += \
@@ -116,5 +121,6 @@ OTHER_FILES += \
 
 RESOURCES += \
     IconesMenu.qrc
+
 
 

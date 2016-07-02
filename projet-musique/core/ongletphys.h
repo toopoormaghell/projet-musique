@@ -28,8 +28,9 @@ public:
     void AfficherArtisteSelectionne();
     void afficherListeSingles();
 
+    void actualiserOnglet();
 
-public slots:
+
 
 private slots:
     void on_Modifier_clicked();
@@ -49,6 +50,7 @@ private:
     int m_Singles;
     int m_selection;
 
+    void afficherListeCds();
 };
 
 #endif // ONGLETPHYS_H

@@ -10,7 +10,7 @@ class BDDArtiste : public QObject
     Q_OBJECT
 public:
 
-    explicit BDDArtiste( const QString& artiste, const BDDPoch& pochette, QObject* parent = NULL );
+    explicit BDDArtiste(const QString& artiste, const BDDPoch& pochette, QObject* parent = NULL );
     virtual ~BDDArtiste();
 
     void updateBDD();
@@ -24,6 +24,7 @@ public:
     QString m_nom;
     BDDPoch const* m_pochette;
     QString m_nomFormate;
+
 
 
     static BDDArtiste* RecupererArtparNom( QString& nom );

@@ -8,7 +8,8 @@ class BDDTitre : public QObject
 {
     Q_OBJECT
 public:
-    explicit BDDTitre( const QString& nom, const int& num_piste, const QString& duree, QObject* parent = 0 );
+    explicit BDDTitre(const QString& nom, const int& num_piste, const QString& duree, const BDDAlbum &album, QObject* parent = 0  );
+    ~BDDTitre();
 
     void updateBDD();
     void supprimerenBDD()const;
@@ -25,8 +26,11 @@ public:
     QList<int> Similaires( const int id );
     BDDArtiste const* m_artiste;
     BDDAlbum const* m_album;
+
 private:
     void ajouterBDD();
+    //Indique que l'artiste et l'album ont été créés par RécupérerTitre et doivent donc être détruits explicitement
+    bool m_areAlbumAndArtisteSelfCreated;
     void recupererId();
     void mp3etphys();
     //Constructeur avec une id

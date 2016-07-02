@@ -6,12 +6,13 @@
         <file alias="actump3">icones/actump3.ico</file>
         <file alias="ajoutphys">icones/ajoutphys.ico</file>
         <file alias="exporter">icones/exporter.png</file>
+        <file alias="Musique">icones/musique.ico</file>
     </qresource>
     <qresource prefix="/Autres">
-        <file alias="Play">icones/Play_Normal_Icon_72.png</file>
-        <file alias="Stop">icones/Stop_Normal_Blue_Icon_72.png</file>
         <file alias="Faux">icones/nonmp3phys.png</file>
         <file alias="Vrai">icones/mp3phys.png</file>
+        <file alias="Mp3">icones/mp3.png</file>
+        <file alias="Phys">icones/Phys.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file alias="default">qss/default.qss</file>

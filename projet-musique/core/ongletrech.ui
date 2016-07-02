@@ -6,26 +6,29 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1094</width>
+    <width>1196</width>
     <height>649</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_2">
+  <layout class="QHBoxLayout" name="horizontalLayout_5">
    <item>
     <widget class="QGroupBox" name="RechGroup">
      <property name="maximumSize">
       <size>
-       <width>520</width>
+       <width>550</width>
        <height>16777215</height>
       </size>
      </property>
      <property name="title">
       <string>Recherche</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
@@ -67,13 +70,50 @@
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout">
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="minimumSize">
+           <size>
+            <width>10</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>10</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background:#1EA7EC;color:#FFFF96;border-radius:6px;  </string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::NoFrame</enum>
+          </property>
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;T&lt;/p&gt;&lt;p&gt;I&lt;/p&gt;&lt;p&gt;T&lt;/p&gt;&lt;p&gt;R&lt;/p&gt;&lt;p&gt;E&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="scaledContents">
+           <bool>true</bool>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
         <item>
          <widget class="QListWidget" name="TitResult">
           <property name="maximumSize">
            <size>
-            <width>500</width>
-            <height>16777215</height>
+            <width>600</width>
+            <height>350</height>
            </size>
           </property>
           <property name="iconSize">
@@ -82,8 +122,52 @@
             <height>100</height>
            </size>
           </property>
+          <property name="resizeMode">
+           <enum>QListView::Adjust</enum>
+          </property>
+          <property name="gridSize">
+           <size>
+            <width>110</width>
+            <height>142</height>
+           </size>
+          </property>
           <property name="viewMode">
            <enum>QListView::IconMode</enum>
+          </property>
+          <property name="uniformItemSizes">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="label_4">
+          <property name="minimumSize">
+           <size>
+            <width>10</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>10</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background:#1EA7EC;color:#FFFF96;</string>
+          </property>
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A&lt;/p&gt;&lt;p&gt;L&lt;/p&gt;&lt;p&gt;B&lt;/p&gt;&lt;p&gt;U&lt;/p&gt;&lt;p&gt;M&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -91,8 +175,8 @@
          <widget class="QListWidget" name="AlbResult">
           <property name="maximumSize">
            <size>
-            <width>500</width>
-            <height>16777215</height>
+            <width>600</width>
+            <height>350</height>
            </size>
           </property>
           <property name="iconSize">
@@ -106,12 +190,44 @@
           </property>
          </widget>
         </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="label_5">
+          <property name="minimumSize">
+           <size>
+            <width>10</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>10</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background:#1EA7EC;color:#FFFF96;</string>
+          </property>
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A&lt;/p&gt;&lt;p&gt;R&lt;/p&gt;&lt;p&gt;T&lt;/p&gt;&lt;p&gt;I&lt;/p&gt;&lt;p&gt;S&lt;/p&gt;&lt;p&gt;T&lt;/p&gt;&lt;p&gt;E&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
         <item>
          <widget class="QListWidget" name="ArtResult">
           <property name="maximumSize">
            <size>
-            <width>500</width>
-            <height>16777215</height>
+            <width>600</width>
+            <height>350</height>
            </size>
           </property>
           <property name="iconSize">
@@ -128,78 +244,367 @@
        </layout>
       </item>
      </layout>
-     <zorder>horizontalLayoutWidget</zorder>
-     <zorder>TitResult</zorder>
-     <zorder>AlbResult</zorder>
-     <zorder>ArtResult</zorder>
-     <zorder>verticalLayoutWidget</zorder>
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="AffichageRes">
-     <property name="title">
-      <string>Affichage</string>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="maximumSize">
+      <size>
+       <width>550</width>
+       <height>16777215</height>
+      </size>
      </property>
-     <widget class="QWidget" name="Artiste" native="true">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>60</y>
-        <width>251</width>
-        <height>281</height>
-       </rect>
-      </property>
-      <widget class="QLabel" name="Nom_Artiste">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>140</y>
-         <width>201</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Nom Artiste</string>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QWidget" name="Titre" native="true">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>359</y>
-        <width>221</width>
-        <height>161</height>
-       </rect>
-      </property>
-      <widget class="QPushButton" name="BoutTit">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>10</y>
-         <width>75</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>PushButton</string>
-       </property>
-      </widget>
-     </widget>
+     <property name="title">
+      <string>Résultats</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <item>
+       <widget class="QWidget" name="ResArt" native="true">
+        <property name="maximumSize">
+         <size>
+          <width>520</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="Artiste_Albums">
+           <property name="styleSheet">
+            <string notr="true">background:#1EA7EC;color:#FFFF96;border-radius:6px;  </string>
+           </property>
+           <property name="text">
+            <string>CHOIX D'ALBUM</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QListWidget" name="AlbumspourArt">
+           <property name="maximumSize">
+            <size>
+             <width>500</width>
+             <height>500</height>
+            </size>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>100</width>
+             <height>100</height>
+            </size>
+           </property>
+           <property name="gridSize">
+            <size>
+             <width>150</width>
+             <height>150</height>
+            </size>
+           </property>
+           <property name="viewMode">
+            <enum>QListView::IconMode</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="ResAlb" native="true">
+        <property name="maximumSize">
+         <size>
+          <width>520</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="Album_Titre">
+           <property name="styleSheet">
+            <string notr="true">background:#1EA7EC;color:#FFFF96;border-radius:6px;  </string>
+           </property>
+           <property name="text">
+            <string>CHOIX DE TITRE</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QListWidget" name="TitresResultats">
+           <property name="iconSize">
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="ResTitre" native="true">
+        <property name="maximumSize">
+         <size>
+          <width>520</width>
+          <height>600</height>
+         </size>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label_7">
+           <property name="styleSheet">
+            <string notr="true">background:#1EA7EC;color:#FFFF96;border-radius:6px;  </string>
+           </property>
+           <property name="text">
+            <string>INFORMATIONS TITRE</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_9">
+           <item>
+            <widget class="QLabel" name="PochTitre">
+             <property name="minimumSize">
+              <size>
+               <width>160</width>
+               <height>160</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>160</width>
+               <height>160</height>
+              </size>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_6">
+             <item>
+              <widget class="QLabel" name="NomTitre">
+               <property name="maximumSize">
+                <size>
+                 <width>250</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="NomAlbum">
+               <property name="maximumSize">
+                <size>
+                 <width>250</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="NomArtiste">
+               <property name="maximumSize">
+                <size>
+                 <width>250</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="Duree">
+               <property name="maximumSize">
+                <size>
+                 <width>250</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_7">
+           <item>
+            <widget class="QPushButton" name="CopierDansDossier">
+             <property name="maximumSize">
+              <size>
+               <width>50</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Copier</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="VoirArtiste">
+             <property name="maximumSize">
+              <size>
+               <width>50</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Artiste</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="voirAlbum">
+             <property name="maximumSize">
+              <size>
+               <width>50</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Album</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="Similaires">
+             <property name="maximumSize">
+              <size>
+               <width>50</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Similaires</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="Modifier">
+             <property name="maximumSize">
+              <size>
+               <width>50</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Modifier</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="OuvrirDossier">
+             <property name="text">
+              <string>Ouvrir</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_6"/>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="ResSimi" native="true">
+        <property name="maximumSize">
+         <size>
+          <width>520</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_7">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label_8">
+           <property name="styleSheet">
+            <string notr="true">background:#1EA7EC;color:#FFFF96;border-radius:6px;  </string>
+           </property>
+           <property name="text">
+            <string>SIMILAIRES</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QListWidget" name="ListeSimilaires">
+           <property name="iconSize">
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>
     <widget class="QGroupBox" name="FusionGroup">
+     <property name="minimumSize">
+      <size>
+       <width>550</width>
+       <height>0</height>
+      </size>
+     </property>
      <property name="title">
       <string>Fusion</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>Rech</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>AlbResult</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

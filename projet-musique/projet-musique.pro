@@ -9,6 +9,10 @@ TEMPLATE = subdirs
 SUBDIRS += \
     taglib \
     QAWSWrapper \
-    core
+    core \
+    Lecteur
+
+
+
 
 DISTFILES += style.astylerc
