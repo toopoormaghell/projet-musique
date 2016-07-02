@@ -187,45 +187,6 @@
     </widget>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayoutArtiste">
-     <item>
-      <widget class="QLabel" name="ArtisteLabel">
-       <property name="text">
-        <string>Artiste de la piste</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QListView" name="Artiste_Titres">
-       <property name="lineWidth">
-        <number>1</number>
-       </property>
-       <property name="midLineWidth">
-        <number>0</number>
-       </property>
-       <property name="dragDropMode">
-        <enum>QAbstractItemView::InternalMove</enum>
-       </property>
-       <property name="defaultDropAction">
-        <enum>Qt::MoveAction</enum>
-       </property>
-       <property name="alternatingRowColors">
-        <bool>true</bool>
-       </property>
-       <property name="selectionMode">
-        <enum>QAbstractItemView::SingleSelection</enum>
-       </property>
-       <property name="movement">
-        <enum>QListView::Free</enum>
-       </property>
-       <property name="selectionRectVisible">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
       <widget class="QPushButton" name="Enregistrer">
