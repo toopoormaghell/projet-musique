@@ -6,6 +6,8 @@
 #include <QDialog>
 #include "util.h"
 #include "QAWSWrapper.h"
+class QTableModel;
+class QComboBoxDelegate;
 
 
 
@@ -78,6 +80,9 @@ private:
     void RecupererAlbum();
     void listeNumeros();
     void AjoutConnex();
+
+    // Model for the table showing the result of the request
+    QTableModel* m_tableModel;
 
     // Make this class not copiable
     Q_DISABLE_COPY( DialogAjouterPhys )

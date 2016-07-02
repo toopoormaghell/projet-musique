@@ -180,6 +180,13 @@
     </layout>
    </item>
    <item>
+    <widget class="QTableView" name="tableView">
+     <attribute name="verticalHeaderVisible">
+      <bool>false</bool>
+     </attribute>
+    </widget>
+   </item>
+   <item>
     <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
       <widget class="QLabel" name="label_3">
@@ -249,9 +256,12 @@
       </widget>
      </item>
      <item>
-      <widget class="QListWidget" name="Artiste_Titres">
+      <widget class="QListView" name="Artiste_Titres">
        <property name="lineWidth">
         <number>1</number>
+       </property>
+       <property name="midLineWidth">
+        <number>0</number>
        </property>
        <property name="dragDropMode">
         <enum>QAbstractItemView::InternalMove</enum>
@@ -267,6 +277,9 @@
        </property>
        <property name="movement">
         <enum>QListView::Free</enum>
+       </property>
+       <property name="selectionRectVisible">
+        <bool>false</bool>
        </property>
       </widget>
      </item>

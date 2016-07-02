@@ -7,16 +7,269 @@
 #include "sousdialogajouttitre.h"
 #include "bddalbum.h"
 #include "QAWSWrapperNotifier.h"
+#include <QAbstractTableModel>
+#include <QComboBox>
+#include <QStyledItemDelegate>
+class QTableModel;
+
+class QComboBoxDelegate : public QStyledItemDelegate
+{
+public:
+    QComboBoxDelegate( QObject* parent = 0 ):
+        QStyledItemDelegate( parent )
+    {
+    }
+
+    QWidget* createEditor( QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index ) const
+    {
+        QComboBox* editor = NULL;
+        if ( index.column() == 2 )
+        {
+            editor = new QComboBox( parent );
+        }
+        return editor;
+    }
+
+    void setEditorData( QWidget* editor, const QModelIndex& index ) const;
+
+    void setModelData( QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const
+    {
+
+    }
+
+    void updateEditorGeometry( QWidget* editor, const QStyleOptionViewItem& option, const QModelIndex& index) const
+    {
+        editor->setGeometry( option.rect );
+    }
+};
+
+class LineModel
+{
+public:
+    LineModel():
+        m_track()
+      , m_song()
+      , m_artist()
+    {
+    }
+
+    LineModel( const QString& track, const QString& song, const QString& artist ):
+        m_track( track )
+      , m_song( song )
+      , m_artist( artist )
+    {
+    }
+
+    LineModel( const LineModel& other ):
+        m_track( other.m_track )
+      , m_song( other.m_song )
+      , m_artist( other.m_artist )
+    {
+    }
+
+    LineModel& operator=( const LineModel& rhs )
+    {
+        if ( this != &rhs )
+        {
+            m_track = rhs.m_track;
+            m_song = rhs.m_song;
+            m_artist = rhs.m_artist;
+        }
+        return *this;
+    }
+
+    ~LineModel()
+    {
+    }
+
+    void setTrack( const QString& track )
+    {
+        m_track = track;
+    }
+
+    const QString& track() const
+    {
+        return m_track;
+    }
+
+    void setSong( const QString& song )
+    {
+        m_song = song;
+    }
+
+    const QString& song() const
+    {
+        return m_song;
+    }
+
+    void setArtist( const QString& artist )
+    {
+        m_artist = artist;
+    }
+
+    const QString& artist() const
+    {
+        return m_artist;
+    }
+
+    static int width()
+    {
+        return 3;
+    }
+
+private:
+    QString m_track, m_song, m_artist;
+};
+
+class QTableModel : public QAbstractTableModel
+{
+public:
+    explicit QTableModel( QObject* parent = 0 ):
+        QAbstractTableModel( parent )
+    {
+    }
+
+    virtual Qt::ItemFlags flags( const QModelIndex& index ) const
+    {
+        Q_UNUSED( index )
+        return Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsEnabled;
+    }
+
+    virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const
+    {
+        QVariant valueToReturn;
+        if ( role == Qt::DisplayRole )
+        {
+            if ( ( index.column() == 0 ) && ( index.row() < m_lineList.size() ) )
+                valueToReturn = QVariant( m_lineList[index.row()].track() );
+            else
+                if ( ( index.column() == 1 ) && ( index.row() < m_lineList.size() ) )
+                    valueToReturn = QVariant( m_lineList[index.row()].song() );
+                else
+                    if ( ( index.column() == 2 ) && ( index.row() < m_lineList.size() ) )
+                        valueToReturn = QVariant( m_lineList[index.row()].artist() );
+        }
+        return valueToReturn;
+    }
+
+    virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const
+    {
+        QVariant valueToReturn;
+        if ( ( role == Qt::DisplayRole ) && ( orientation == Qt::Horizontal ) )
+        {
+            if ( section == 0 )
+                valueToReturn = QVariant( tr( "N°" ) );
+            else
+                if ( section == 1 )
+                    valueToReturn = QVariant( tr( "Titre" ) );
+                else
+                    if ( section == 2 )
+                        valueToReturn = QVariant( tr( "Artiste" ) );
+        }
+        return valueToReturn;
+    }
+
+    virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const
+    {
+        Q_UNUSED( parent )
+        return m_lineList.size();
+    }
+
+    virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const
+    {
+        Q_UNUSED( parent )
+        return LineModel::width();
+    }
+
+    virtual bool setData( const QModelIndex& index, const QVariant& value, int role = Qt::EditRole )
+    {
+        bool hasDataChanged = true;
+        if ( role == Qt::EditRole )
+        {
+            if ( ( index.column() == 0 ) && ( index.row() < m_lineList.size() ) )
+                m_lineList[index.row()].setTrack( value.toString() );
+            else
+                if ( ( index.column() == 1 ) && ( index.row() < m_lineList.size() ) )
+                    m_lineList[index.row()].setSong( value.toString() );
+                else
+                    if ( ( index.column() == 2 ) && ( index.row() < m_lineList.size() ) )
+                        m_lineList[index.row()].setArtist( value.toString() );
+                    else
+                        hasDataChanged = false;
+        }
+        else
+            hasDataChanged = false;
+
+        if ( hasDataChanged )
+            Q_EMIT dataChanged( index, index );
+
+        return hasDataChanged;
+    }
+
+    bool insertRows( int row, int count, const QModelIndex& parent = QModelIndex() )
+    {
+        beginInsertRows( parent, row, row + count - 1 );
+
+        for ( int i = row; i <= row + count - 1; ++i )
+            m_lineList.insert( i, LineModel() );
+
+        endInsertRows();
+
+        return true;
+    }
+
+    bool removeRows( int row, int count, const QModelIndex& parent = QModelIndex() )
+    {
+        beginRemoveRows( parent, row, row + count - 1 );
+
+        for ( int i = 0; i < count; ++i )
+            m_lineList.removeAt( row );
+
+        endRemoveRows();
+
+        return true;
+    }
+
+    void clearLines()
+    {
+        if ( rowCount() > 0 )
+            removeRows( 0, rowCount() );
+    }
+
+    void appendLine( const LineModel& line )
+    {
+        insertRows( rowCount() + 1, 1 );
+
+        setData( index( rowCount() - 1, 0 ), line.track() );
+        setData( index( rowCount() - 1, 1 ), line.song() );
+        setData( index( rowCount() - 1, 2 ), line.artist() );
+    }
+
+private:
+    QList<LineModel> m_lineList;
+};
+
+void QComboBoxDelegate::setEditorData( QWidget* editor, const QModelIndex& index ) const
+{
+    QComboBox* comboBox = static_cast<QComboBox*>( editor );
+    QTableModel const* const tableModel = static_cast<QTableModel const* const>( index.model() );
+    for ( int i = 0; i < tableModel->rowCount(); ++i )
+        comboBox->addItem( tableModel->data( tableModel->index( i, 2 ) ).toString() );
+}
 
 
 
 DialogAjouterPhys::DialogAjouterPhys( QWidget* parent ) :
     QDialog( parent )
   , ui( new Ui::DialogAjouterPhys )
+  , m_tableModel( new QTableModel )
 {
-    m_Type = 1;
-
     ui->setupUi( this );
+
+    ui->tableView->setModel( m_tableModel );
+    ui->tableView->setItemDelegate( new QComboBoxDelegate );
+
+    m_Type = 1;
     AffichageListeArtistes( -2 );
 
     AjoutConnex();
@@ -25,12 +278,15 @@ DialogAjouterPhys::DialogAjouterPhys( QWidget* parent ) :
 
 
 DialogAjouterPhys::DialogAjouterPhys( int id_album, QWidget* parent ) :
-    QDialog( parent ),
-    ui( new Ui::DialogAjouterPhys )
+    QDialog( parent )
+  , ui( new Ui::DialogAjouterPhys )
+  , m_tableModel( new QTableModel )
 {
     m_Type = 1;
 
     ui->setupUi( this );
+    ui->tableView->setModel( m_tableModel );
+    ui->tableView->setItemDelegate( new QComboBoxDelegate );
     AffichageListeArtistes( -2 );
 
     m_album = BDDAlbum::RecupAlbumEntite( id_album );
@@ -72,6 +328,15 @@ void DialogAjouterPhys::on_ChercherEAN_clicked()
         m_EAN = "0" + m_EAN;
     }
     m_album = m_research.getAlbumFromEAN( m_EAN );
+
+    const QStringList& artistList = m_research.getArtistsList();
+    m_tableModel->clearLines();
+    int i = 0;
+    Q_FOREACH( TitresPhys titre, m_album.titres )
+    {
+        m_tableModel->appendLine( LineModel( QString::number( titre.Num_Piste ), titre.Titre, artistList.size() > i ? artistList[i] : QString() ) );
+        i++;
+    }
     AfficherAlbum();
 }
 
@@ -88,7 +353,7 @@ void DialogAjouterPhys::AfficherAlbum()
         TitresPhys titre = m_album.titres[cpt];
         ui->Piste->addItem( QString::number( titre.Num_Piste ) );
         ui->Titres->addItem( titre.Titre + "(" + titre.Duree + ")" );
-        ui->Artiste_Titres->addItem( titre.Artiste );
+        //ui->Artiste_Titres->addItem( titre.Artiste );
     }
     AfficherPoch();
 }
@@ -144,7 +409,7 @@ void DialogAjouterPhys::AffichageListeArtistes( int id )
 
 void DialogAjouterPhys::ViderBoiteDialogue()
 {
-    ui->Artiste_Titres->clear();
+    //ui->Artiste_Titres->clear();
     ui->EAN->clear();
     ui->Nom_Album->clear();
     ui->Nom_Artiste->clear();
@@ -154,8 +419,6 @@ void DialogAjouterPhys::ViderBoiteDialogue()
     ui->Annee->clear();
 
     m_album.titres.clear();
-
-
 }
 
 
@@ -194,8 +457,8 @@ void DialogAjouterPhys::RecupererAlbum()
 
         if ( m_Type == 2 )
         {
-            item = ui->Artiste_Titres->item( i );
-            titre.Artiste = item->text();
+            //item = ui->Artiste_Titres->item( i );
+            //titre.Artiste = item->text();
         }
 
         m_album.titres << titre;
@@ -268,7 +531,7 @@ void DialogAjouterPhys::on_Ajouter_Titre_clicked()
 void DialogAjouterPhys::AjouterTitreManuel( const QString& titre, const QString& duree, const QString& artiste )
 {
     ui->Titres->addItem( titre + "(" + duree + ")" );
-    ui->Artiste_Titres->addItem( artiste );
+    //ui->Artiste_Titres->addItem( artiste );
     listeNumeros();
 
 }
