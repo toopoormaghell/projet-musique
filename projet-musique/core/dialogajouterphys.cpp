@@ -351,7 +351,7 @@ void DialogAjouterPhys::AfficherAlbum()
     for ( int cpt = 0; cpt < m_album.titres.count(); cpt++ )
     {
         TitresPhys titre = m_album.titres[cpt];
-        ui->Piste->addItem( QString::number( titre.Num_Piste ) );
+        //ui->Piste->addItem( QString::number( titre.Num_Piste ) );
         ui->Titres->addItem( titre.Titre + "(" + titre.Duree + ")" );
         //ui->Artiste_Titres->addItem( titre.Artiste );
     }
@@ -413,7 +413,7 @@ void DialogAjouterPhys::ViderBoiteDialogue()
     ui->EAN->clear();
     ui->Nom_Album->clear();
     ui->Nom_Artiste->clear();
-    ui->Piste->clear();
+    //ui->Piste->clear();
     ui->Pochette->clear();
     ui->Titres->clear();
     ui->Annee->clear();
@@ -470,10 +470,10 @@ void DialogAjouterPhys::RecupererAlbum()
 
 void DialogAjouterPhys::listeNumeros()
 {
-    ui->Piste->clear();
+    //ui->Piste->clear();
     for ( int i = 1; i < ui->Titres->count() + 1; i++ )
     {
-        ui->Piste->addItem( new QListWidgetItem( QString::number( i ).rightJustified( 2, '0' ) + " - " ) );
+        //ui->Piste->addItem( new QListWidgetItem( QString::number( i ).rightJustified( 2, '0' ) + " - " ) );
     }
 }
 
