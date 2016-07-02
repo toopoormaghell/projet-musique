@@ -352,7 +352,7 @@ void DialogAjouterPhys::AfficherAlbum()
     {
         TitresPhys titre = m_album.titres[cpt];
         //ui->Piste->addItem( QString::number( titre.Num_Piste ) );
-        ui->Titres->addItem( titre.Titre + "(" + titre.Duree + ")" );
+        //ui->Titres->addItem( titre.Titre + "(" + titre.Duree + ")" );
         //ui->Artiste_Titres->addItem( titre.Artiste );
     }
     AfficherPoch();
@@ -415,7 +415,7 @@ void DialogAjouterPhys::ViderBoiteDialogue()
     ui->Nom_Artiste->clear();
     //ui->Piste->clear();
     ui->Pochette->clear();
-    ui->Titres->clear();
+    //ui->Titres->clear();
     ui->Annee->clear();
 
     m_album.titres.clear();
@@ -444,16 +444,16 @@ void DialogAjouterPhys::RecupererAlbum()
     m_album.Poch = image;
 
     //On récupère les titres
-    for ( int i = 0; i < ui->Titres->count(); i++ )
+    for ( int i = 0; i < 0/*ui->Titres->count()*/; i++ )
     {
         TitresPhys titre;
-        QListWidgetItem* item = ui->Titres->item( i );
-        QStringList parsing = item->text().split( "(" );
-        titre.Titre = parsing[0];
+        //QListWidgetItem* item = ui->Titres->item( i );
+        //QStringList parsing = item->text().split( "(" );
+        //titre.Titre = parsing[0];
 
-        QStringList parsing2 = parsing[1].split( ")" );
-        titre.Duree = parsing2[0];
-        titre.Num_Piste = i + 1;
+        //QStringList parsing2 = parsing[1].split( ")" );
+        //titre.Duree = parsing2[0];
+        //titre.Num_Piste = i + 1;
 
         if ( m_Type == 2 )
         {
@@ -461,7 +461,7 @@ void DialogAjouterPhys::RecupererAlbum()
             //titre.Artiste = item->text();
         }
 
-        m_album.titres << titre;
+        //m_album.titres << titre;
     }
 
 }
@@ -471,7 +471,7 @@ void DialogAjouterPhys::RecupererAlbum()
 void DialogAjouterPhys::listeNumeros()
 {
     //ui->Piste->clear();
-    for ( int i = 1; i < ui->Titres->count() + 1; i++ )
+    for ( int i = 1; i < 0/*ui->Titres->count() + 1*/; i++ )
     {
         //ui->Piste->addItem( new QListWidgetItem( QString::number( i ).rightJustified( 2, '0' ) + " - " ) );
     }
@@ -481,19 +481,19 @@ void DialogAjouterPhys::listeNumeros()
 
 void DialogAjouterPhys::on_Supprimer_Titre_clicked()
 {
-    QList<QListWidgetItem*> fileSelected = ui->Titres->selectedItems();
-    if ( fileSelected.size() )
-    {
-        for ( int i = ui->Titres->count() - 1 ; i >= 0 ; i-- )
-        {
-            if ( ui->Titres->item( i )->isSelected() )
-            {
-                QListWidgetItem* item = ui->Titres->takeItem( i );
-                ui->Titres->removeItemWidget( item );
-            }
-        }
-    }
-    listeNumeros();
+//    QList<QListWidgetItem*> fileSelected = ui->Titres->selectedItems();
+//    if ( fileSelected.size() )
+//    {
+//        for ( int i = ui->Titres->count() - 1 ; i >= 0 ; i-- )
+//        {
+//            if ( ui->Titres->item( i )->isSelected() )
+//            {
+//                QListWidgetItem* item = ui->Titres->takeItem( i );
+//                ui->Titres->removeItemWidget( item );
+//            }
+//        }
+//    }
+//    listeNumeros();
 }
 
 
@@ -530,7 +530,7 @@ void DialogAjouterPhys::on_Ajouter_Titre_clicked()
 
 void DialogAjouterPhys::AjouterTitreManuel( const QString& titre, const QString& duree, const QString& artiste )
 {
-    ui->Titres->addItem( titre + "(" + duree + ")" );
+    //ui->Titres->addItem( titre + "(" + duree + ")" );
     //ui->Artiste_Titres->addItem( artiste );
     listeNumeros();
 
