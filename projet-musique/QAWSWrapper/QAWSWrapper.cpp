@@ -195,6 +195,7 @@ AlbumPhys QAWSWrapper::getAlbumFromEAN( const QString& ean )
     message += "valid.";
     getNotifier().emitStepAchieved( message );
 
+    m_artistsList.clear();
     return parseXml( response, m_artistsList );
 }
 
