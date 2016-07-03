@@ -245,8 +245,19 @@ public:
         setData( index( rowCount() - 1, 2 ), line.artist() );
     }
 
+    void setArtistList( const QStringList& list )
+    {
+        m_artistList = list;
+    }
+
+    const QStringList& getArtistList() const
+    {
+        return m_artistList;
+    }
+
 private:
     QList<LineModel> m_lineList;
+    QStringList m_artistList;
 };
 
 void QComboBoxDelegate::setEditorData( QWidget* editor, const QModelIndex& index ) const
@@ -330,6 +341,8 @@ void DialogAjouterPhys::on_ChercherEAN_clicked()
     m_album = m_research.getAlbumFromEAN( m_EAN );
 
     const QStringList& artistList = m_research.getArtistsList();
+    m_tableModel->setArtistList( artistList );
+
     m_tableModel->clearLines();
     int i = 0;
     Q_FOREACH( TitresPhys titre, m_album.titres )
