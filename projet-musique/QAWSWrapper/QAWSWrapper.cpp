@@ -83,6 +83,8 @@ namespace
                             albumToFill.Artiste = reader.text().toString();
                             if ( reader.text().toString() == "Multi-Artistes" )
                                 albumToFill.Artiste = "Artistes Divers";
+                            else
+                                artistsList << reader.text().toString();
                         }
                     }
                     else if ( reader.name() == "ReleaseDate" )
