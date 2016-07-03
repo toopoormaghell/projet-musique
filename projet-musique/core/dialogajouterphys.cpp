@@ -266,8 +266,11 @@ void QComboBoxDelegate::setEditorData( QWidget* editor, const QModelIndex& index
 {
     QComboBox* comboBox = static_cast<QComboBox*>( editor );
     QTableModel const* const tableModel = static_cast<QTableModel const* const>( index.model() );
-    for ( int i = 0; i < tableModel->rowCount(); ++i )
-        comboBox->addItem( tableModel->data( tableModel->index( i, 2 ) ).toString() );
+    const QStringList& list = tableModel->getArtistList();
+    for ( int i = 0; i < list.size(); ++i )
+        comboBox->addItem( list[i] );
+    comboBox->setCurrentIndex( 0 );
+
 }
 
 
