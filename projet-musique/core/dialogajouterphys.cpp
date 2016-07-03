@@ -34,7 +34,9 @@ public:
 
     void setModelData( QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const
     {
-
+        QComboBox* comboBox = static_cast<QComboBox*>( editor );
+        const QString artist = comboBox->currentText();
+        model->setData( model->index( index.row(), 2 ), artist );
     }
 
     void updateEditorGeometry( QWidget* editor, const QStyleOptionViewItem& option, const QModelIndex& index) const
