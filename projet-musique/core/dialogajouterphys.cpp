@@ -347,7 +347,7 @@ void DialogAjouterPhys::on_ChercherEAN_clicked()
     int i = 0;
     Q_FOREACH( TitresPhys titre, m_album.titres )
     {
-        m_tableModel->appendLine( LineModel( QString::number( titre.Num_Piste ), titre.Titre, artistList.size() > i ? artistList[i] : QString() ) );
+        m_tableModel->appendLine( LineModel( QString::number( titre.Num_Piste ), titre.Titre, titre.Artiste ) );
         i++;
     }
     AfficherAlbum();
