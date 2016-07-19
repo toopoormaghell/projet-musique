@@ -7,22 +7,22 @@
 #include <QStringList>
 
 namespace Ui {
-class MainWindow;
+class MainWindowLecteur;
 }
 
-class MainWindow : public QMainWindow
+class MainWindowLecteur : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    explicit MainWindowLecteur(QWidget *parent = 0);
+    ~MainWindowLecteur();
     QStringList m_playlist;
 
 
 
 private:
-    Ui::MainWindow *ui;
+    Ui::MainWindowLecteur *ui;
     DialogControles* m_controles;
 
 };

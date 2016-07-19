@@ -1,10 +1,10 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include "mainwindowlecteur.h"
+#include "ui_mainwindowlecteur.h"
 #include <QStringList>
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindowLecteur::MainWindowLecteur(QWidget *parent) :
     QMainWindow(parent),m_playlist(  ),
-    ui(new Ui::MainWindow),
+    ui(new Ui::MainWindowLecteur),
     m_controles()
 {
     ui->setupUi(this);
@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->widget_2->setPlaylist( m_playlist);
 }
 
-MainWindow::~MainWindow()
+MainWindowLecteur::~MainWindowLecteur()
 {
     delete ui;
 }

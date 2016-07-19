@@ -31,18 +31,18 @@ CONFIG(debug,debug|release) {
 
 SOURCES +=\
     dialogcontroles.cpp \
-    mainwindow.cpp \
-    playermanager.cpp
+    playermanager.cpp \
+    mainwindowlecteur.cpp
 
 HEADERS  += \
     dialogcontroles.h \
-    mainwindow.h \
-    playermanager.h
+    playermanager.h \
+    mainwindowlecteur.h
 
 FORMS    += \
     dialogcontroles.ui \
-    mainwindow.ui \
-    playermanager.ui
+    playermanager.ui \
+    mainwindowlecteur.ui
 
 DISTFILES +=
 
