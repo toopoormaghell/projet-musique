@@ -1,5 +1,5 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef MAINWINDOWLECTEUR_H
+#define MAINWINDOWLECTEUR_H
 
 #include <QWidget>
 #include "dialogcontroles.h"
@@ -27,4 +27,4 @@ private:
 
 };
 
-#endif // MAINWINDOW_H
+#endif // MAINWINDOWLECTEUR_H
