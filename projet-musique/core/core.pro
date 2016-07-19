@@ -27,9 +27,11 @@ INCLUDEPATH += ../taglib/toolkit
 INCLUDEPATH += ../taglib/mpeg
 INCLUDEPATH += ../taglib/mpeg/id3v2
 INCLUDEPATH += ../qawswrapper
+INCLUDEPATH += ../lecteur
 
 LIBS += -ltaglib
 LIBS += -lqawswrapper
+LIBS += -llecteur
 
 
 HEADERS += \
