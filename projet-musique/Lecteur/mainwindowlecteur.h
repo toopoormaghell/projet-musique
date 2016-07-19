@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
+#include <QWidget>
 #include "dialogcontroles.h"
 #include <QMediaPlaylist>
 #include <QStringList>
@@ -10,7 +10,7 @@ namespace Ui {
 class MainWindowLecteur;
 }
 
-class MainWindowLecteur : public QMainWindow
+class MainWindowLecteur : public QWidget
 {
     Q_OBJECT
 

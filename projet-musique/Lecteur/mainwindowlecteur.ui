@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MainWindowLecteur</class>
- <widget class="QMainWindow" name="MainWindowLecteur">
+ <widget class="QWidget" name="MainWindowLecteur">
   <property name="windowModality">
    <enum>Qt::WindowModal</enum>
   </property>

@@ -3,7 +3,7 @@
 #include <QStringList>
 
 MainWindowLecteur::MainWindowLecteur(QWidget *parent) :
-    QMainWindow(parent),m_playlist(  ),
+    QWidget(parent),m_playlist(  ),
     ui(new Ui::MainWindowLecteur),
     m_controles()
 {
