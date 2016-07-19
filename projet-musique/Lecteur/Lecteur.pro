@@ -13,10 +13,20 @@ TEMPLATE = lib
 
 CONFIG += debug_and_release
 CONFIG(debug,debug|release) {
+    DESTDIR = ../../../bin/debug
+    OBJECTS_DIR = ../../../obj/lecteur/debug
+    MOC_DIR = ../../../moc/lecteur/debug
+    UI_DIR = ../../../ui/lecteur/debug
     LIBS += -L../../../bin/debug
+    RCC_DIR += ../../../rcc/debug
 } else {
+    DESTDIR = ../../../bin/release
+    OBJECTS_DIR = ../../../obj/lecteur/release
+    MOC_DIR = ../../../moc/lecteur/release
+    UI_DIR = ../../../ui/lecteur/release
     LIBS += -L../../../bin/release
-  }
+    RCC_DIR += ../../../rcc/release
+}
 
 SOURCES += main.cpp\
     dialogcontroles.cpp \
