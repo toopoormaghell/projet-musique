@@ -9,7 +9,7 @@ QT       += core gui multimedia
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = Lecteur
-TEMPLATE = app
+TEMPLATE = lib
 
 CONFIG += debug_and_release
 CONFIG(debug,debug|release) {
