@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DialogControles</class>
+ <widget class="QWidget" name="DialogControles">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>92</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QPushButton" name="Arret">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>10</y>
+     <width>40</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="iconeslecteur.qrc">
+     <normaloff>:/Icones/stop</normaloff>:/Icones/stop</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>30</width>
+     <height>30</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QSlider" name="Volume">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>22</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="QSlider" name="Position">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>10</y>
+     <width>241</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="tickPosition">
+    <enum>QSlider::NoTicks</enum>
+   </property>
+   <property name="tickInterval">
+    <number>500</number>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="Lecture">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>10</y>
+     <width>40</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normalon>:/Icones/play</normalon>
+    </iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>30</width>
+     <height>30</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QLabel" name="Pochette">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>10</y>
+     <width>75</width>
+     <height>75</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>75</width>
+     <height>75</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>75</width>
+     <height>75</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: 2px solid #259CD8</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="Titre">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>30</y>
+     <width>231</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="Album">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>60</y>
+     <width>251</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="Artiste">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>60</y>
+     <width>231</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="iconeslecteur.qrc"/>
+ </resources>
+ <connections/>
+</ui>
