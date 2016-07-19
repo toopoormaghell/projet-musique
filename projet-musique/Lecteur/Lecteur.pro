@@ -28,7 +28,8 @@ CONFIG(debug,debug|release) {
     RCC_DIR += ../../../rcc/release
 }
 
-SOURCES += main.cpp\
+
+SOURCES +=\
     dialogcontroles.cpp \
     mainwindow.cpp \
     playermanager.cpp
