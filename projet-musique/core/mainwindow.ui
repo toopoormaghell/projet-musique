@@ -19,6 +19,16 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
+     <widget class="MainWindowLecteur" name="widget" native="true">
+      <property name="minimumSize">
+       <size>
+        <width>400</width>
+        <height>200</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
        <number>0</number>
@@ -256,6 +266,12 @@
    <class>OngletRech</class>
    <extends>QWidget</extends>
    <header>ongletrech.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MainWindowLecteur</class>
+   <extends>QWidget</extends>
+   <header>mainwindowlecteur.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
