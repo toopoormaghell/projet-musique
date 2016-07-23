@@ -61,6 +61,9 @@
          <height>150</height>
         </size>
        </property>
+       <property name="verticalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
+       </property>
        <property name="editTriggers">
         <set>QAbstractItemView::NoEditTriggers</set>
        </property>
@@ -197,123 +200,246 @@
           </widget>
          </item>
          <item>
-          <layout class="QVBoxLayout" name="verticalLayout_5">
+          <layout class="QVBoxLayout" name="verticalLayout_8">
            <item>
-            <widget class="QLabel" name="Piste">
-             <property name="minimumSize">
-              <size>
-               <width>50</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>50</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
+            <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_5">
+               <item>
+                <widget class="QLabel" name="Piste">
+                 <property name="minimumSize">
+                  <size>
+                   <width>50</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>50</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="De">
+                 <property name="minimumSize">
+                  <size>
+                   <width>50</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>50</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">color: black;</string>
+                 </property>
+                 <property name="text">
+                  <string>de</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="Sur">
+                 <property name="minimumSize">
+                  <size>
+                   <width>50</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>50</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">color: black;</string>
+                 </property>
+                 <property name="text">
+                  <string>sur</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="Vide">
+                 <property name="minimumSize">
+                  <size>
+                   <width>50</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>50</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_2">
+               <item>
+                <widget class="QLabel" name="Titre">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="NomArtiste">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="NomAlbum">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="Mp3Phys">
+                 <property name="styleSheet">
+                  <string notr="true">color: #182995;</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
            </item>
            <item>
-            <widget class="QLabel" name="De">
-             <property name="minimumSize">
-              <size>
-               <width>50</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>50</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color: black;</string>
-             </property>
-             <property name="text">
-              <string>de</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="Sur">
-             <property name="minimumSize">
-              <size>
-               <width>50</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>50</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color: black;</string>
-             </property>
-             <property name="text">
-              <string>sur</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label">
-             <property name="minimumSize">
-              <size>
-               <width>20</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>20</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
-           <item>
-            <widget class="QLabel" name="Titre">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="NomArtiste">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="NomAlbum">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="Mp3Phys">
-             <property name="styleSheet">
-              <string notr="true">color: #182995;</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
+            <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <item>
+              <widget class="QPushButton" name="LireMP3">
+               <property name="toolTip">
+                <string>Lire MP3 (Maj+L)</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton{
+color: #FFFF96;
+background-color: #1EA7EC;
+border-width: 1px;
+border-color: #339;
+border-style: solid;
+min-width: 30px;
+max-width: 30px;
+min-height: 30px;
+max-height: 30px;
+}</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="IconesMenu.qrc">
+                 <normaloff>:/MP3/lire</normaloff>:/MP3/lire</iconset>
+               </property>
+               <property name="shortcut">
+                <string>Shift+L</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="CopierMP3">
+               <property name="toolTip">
+                <string>Copier MP3</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton{
+color: #FFFF96;
+background-color: #1EA7EC;
+border-width: 1px;
+border-color: #339;
+border-style: solid;
+min-width: 30px;
+max-width: 30px;
+min-height: 30px;
+max-height: 30px;
+}</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="IconesMenu.qrc">
+                 <normaloff>:/MP3/copier</normaloff>:/MP3/copier</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="Tag">
+               <property name="toolTip">
+                <string>Editer Tag</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton{
+color: #FFFF96;
+background-color: #1EA7EC;
+border-width: 1px;
+border-color: #339;
+border-style: solid;
+min-width: 30px;
+max-width: 30px;
+min-height: 30px;
+max-height: 30px;
+}</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="IconesMenu.qrc">
+                 <normaloff>:/MP3/tag</normaloff>:/MP3/tag</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="Playlist">
+               <property name="toolTip">
+                <string>Ajouter Playlist</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton{
+color: #FFFF96;
+background-color: #1EA7EC;
+border-width: 1px;
+border-color: #339;
+border-style: solid;
+min-width: 30px;
+max-width: 30px;
+min-height: 30px;
+max-height: 30px;
+}</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="IconesMenu.qrc">
+                 <normaloff>:/MP3/playlist</normaloff>:/MP3/playlist</iconset>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
          </item>
@@ -547,6 +673,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="IconesMenu.qrc"/>
+ </resources>
  <connections/>
 </ui>

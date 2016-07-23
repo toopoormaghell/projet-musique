@@ -23,6 +23,9 @@ int main( int argc, char* argv[] )
     if ( file.open( QFile::ReadOnly ) )
     {
         w.setStyleSheet( QLatin1String( file.readAll() ) );
+    } else
+    {
+        qDebug() <<"test";
     }
 
     w.setWindowTitle( "Projet Musique" );
