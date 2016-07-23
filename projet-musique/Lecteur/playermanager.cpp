@@ -16,6 +16,7 @@ PlayerManager::PlayerManager(QWidget *parent) :
     afficherIcones();
     playlist->setPlaybackMode( QMediaPlaylist::Loop);
     ui->ListePlaylist->setVisible( false );
+    ui->ListePlaylist->setWindowFlags( Qt::Popup );
 }
 
 PlayerManager::~PlayerManager()
@@ -139,15 +140,8 @@ QString PlayerManager::ExtraireInfosMp3(QString mp3)
 
 void PlayerManager::on_Dossiers_clicked()
 {
-    if ((ui->ListePlaylist->isVisible()) )
-    {
-        ui->ListePlaylist->setVisible( false );
-    }
-    else
-    {
-        ui->ListePlaylist->setVisible( true );
-    }
-
+    ui->ListePlaylist->setVisible( true );
+    ui->ListePlaylist->move( QCursor::pos().x() - ui->ListePlaylist->frameGeometry().width(), QCursor::pos().y() );
 }
 
 void PlayerManager::on_Suppression_clicked()
