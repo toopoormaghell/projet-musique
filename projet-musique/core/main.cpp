@@ -7,7 +7,7 @@
 int main( int argc, char* argv[] )
 {
     QApplication a( argc, argv );
-    MainWindow w;
+    FenetrePrincipale w;
 
     //Application du qt_fr pour la traduction
     QString locale = QLocale::system().name().section( '_', 0, 0 );

@@ -14,7 +14,7 @@
 #include <QPushButton>
 #include "ongletmp3.h"
 
-MainWindow::MainWindow( QWidget* parent ) :
+FenetrePrincipale::FenetrePrincipale( QWidget* parent ) :
     QMainWindow( parent ),
     ui( new Ui::MainWindow ),
     m_progressbar( new QProgressBar ),
@@ -43,7 +43,7 @@ MainWindow::MainWindow( QWidget* parent ) :
     //Si un titre est double cliqué sur l'onglet MP3, il l'indique
     connect ( m_ongletMP3, SIGNAL( fichcopier() ), this, SLOT( AfficherTexte() ) );
 }
-void MainWindow::ajouterToolbar()
+void FenetrePrincipale::ajouterToolbar()
 {
     QPixmap essai( ":/menuIcones/actump3" );
     ui->toolBar->addAction( QIcon( essai ), "Actualiser Mp3", this, SLOT( on_actionActualiser_Mp3_triggered() ) );
@@ -64,7 +64,7 @@ void MainWindow::ajouterToolbar()
     ui->toolBar->addAction( QIcon( essai ), "Configurer Actualiser MP3", this, SLOT( actionconfigactu() ) );
 
 }
-void MainWindow::ajouterStatusBar()
+void FenetrePrincipale::ajouterStatusBar()
 {
     //Propriétés de la statusbar
     ui->statusBar->setContentsMargins( 0, 0, 0, 0 );
@@ -86,29 +86,29 @@ void MainWindow::ajouterStatusBar()
 
     ui->statusBar->adjustSize();
 }
-void MainWindow::stop_clique()
+void FenetrePrincipale::stop_clique()
 {
     emit stopper();
 }
 
-MainWindow::~MainWindow()
+FenetrePrincipale::~FenetrePrincipale()
 {
     delete ui;
     delete m_gestionMP3;
 }
 
-void MainWindow::on_actionActualiser_Mp3_triggered()
+void FenetrePrincipale::on_actionActualiser_Mp3_triggered()
 {
     m_gestionMP3->demarreractualiser();
 }
 
-void MainWindow::on_actionViderBDD_triggered()
+void FenetrePrincipale::on_actionViderBDD_triggered()
 {
     connect( &m_vidage, SIGNAL( vidage() ), this, SLOT( ViderBDD() ) );
 
     m_vidage.show();
 }
-void MainWindow::ViderBDD()
+void FenetrePrincipale::ViderBDD()
 {
     //Problème: il faut attendre que la fenêtre se ferme
     if ( m_vidage.Mp3 && m_vidage.Phys && m_vidage.Config )
@@ -129,23 +129,23 @@ void MainWindow::ViderBDD()
     ActualiserOngletPhys();
 }
 
-void MainWindow::ActualiserOngletPhys()
+void FenetrePrincipale::ActualiserOngletPhys()
 {
     ui->tab_2->vider( "Artiste" );
     ui->tab_2->afficherListeArtiste();
 }
-void MainWindow::on_actionAjouter_Album_triggered()
+void FenetrePrincipale::on_actionAjouter_Album_triggered()
 {
     m_dialogajouterphys->show();
 }
 
-void MainWindow::actionExporter()
+void FenetrePrincipale::actionExporter()
 {
     BDDAfficherPhys::exporterHTML();
 }
 
 
-void MainWindow::actionBDD()
+void FenetrePrincipale::actionBDD()
 {
     m_interaction->clear();
     m_interaction->setText( "Vérification de la BDD..." );
@@ -153,13 +153,13 @@ void MainWindow::actionBDD()
     m_interaction->setText( "Vérification terminée." );
 }
 
-void MainWindow::actionconfigactu()
+void FenetrePrincipale::actionconfigactu()
 {
     DialogConfigActu temp( this );
     temp.exec();
 }
 
-void MainWindow::changerPourcentage()
+void FenetrePrincipale::changerPourcentage()
 {
     m_progressbar->setValue( m_gestionMP3->m_pourcentage );
     m_progressbar->setFormat( "%p%" );
@@ -167,12 +167,12 @@ void MainWindow::changerPourcentage()
     m_interaction->setText( m_gestionMP3->m_fichierlu );
 }
 
-void MainWindow::AfficherTexte()
+void FenetrePrincipale::AfficherTexte()
 {
     m_interaction->clear();
     m_interaction->setText( m_ongletMP3->m_fichierlu );
 }
-void MainWindow::ActualiserOngletMP3()
+void FenetrePrincipale::ActualiserOngletMP3()
 {
     m_progressbar->setValue( 100 );
     m_progressbar->setFormat( "%p%" );
@@ -180,7 +180,7 @@ void MainWindow::ActualiserOngletMP3()
    m_ongletMP3->vider( "Categories" );
    m_ongletMP3->afficherListeType();
 }
-void MainWindow::ActualiserOngletStats()
+void FenetrePrincipale::ActualiserOngletStats()
 {
     ui->tab->AfficherInfos();
 }

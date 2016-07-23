@@ -14,13 +14,13 @@ namespace Ui
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow
+class FenetrePrincipale : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit MainWindow( QWidget* parent = 0 );
-    ~MainWindow();
+    explicit FenetrePrincipale( QWidget* parent = 0 );
+    ~FenetrePrincipale();
 
     void ajouterToolbar();
     void ajouterStatusBar();

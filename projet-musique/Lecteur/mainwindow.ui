@@ -2,210 +2,57 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::WindowModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>675</width>
-    <height>204</height>
+    <width>640</width>
+    <height>274</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <property name="iconSize">
-   <size>
-    <width>48</width>
-    <height>48</height>
-   </size>
-  </property>
-  <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="Lecture">
+  <widget class="QWidget" name="centralwidget">
+   <widget class="DialogControles" name="widget" native="true">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>60</y>
-      <width>51</width>
-      <height>41</height>
+      <x>0</x>
+      <y>0</y>
+      <width>640</width>
+      <height>91</height>
      </rect>
     </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normalon>:/Icones/play</normalon>
-     </iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>48</width>
-      <height>48</height>
-     </size>
-    </property>
    </widget>
-   <widget class="QPushButton" name="Arret">
+   <widget class="PlayerManager" name="widget_2" native="true">
     <property name="geometry">
      <rect>
-      <x>110</x>
-      <y>60</y>
-      <width>51</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="iconeslecteur.qrc">
-      <normaloff>:/Icones/stop</normaloff>:/Icones/stop</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>48</width>
-      <height>48</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Suivant">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>60</y>
-      <width>51</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>48</width>
-      <height>48</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Precedent">
-    <property name="geometry">
-     <rect>
-      <x>54</x>
-      <y>60</y>
-      <width>51</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>48</width>
-      <height>48</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Aleatoire">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>60</y>
-      <width>51</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>48</width>
-      <height>48</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Dossiers">
-    <property name="geometry">
-     <rect>
-      <x>350</x>
-      <y>60</y>
-      <width>51</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>48</width>
-      <height>48</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QLabel" name="Titre">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>120</y>
-      <width>321</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QSlider" name="Position">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>20</y>
-      <width>391</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="QSlider" name="Volume">
-    <property name="geometry">
-     <rect>
-      <x>440</x>
+      <x>450</x>
       <y>10</y>
-      <width>22</width>
-      <height>121</height>
+      <width>191</width>
+      <height>261</height>
      </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
     </property>
    </widget>
   </widget>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>675</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-  </widget>
-  <widget class="QStatusBar" name="statusBar"/>
  </widget>
- <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="iconeslecteur.qrc"/>
- </resources>
+ <customwidgets>
+  <customwidget>
+   <class>DialogControles</class>
+   <extends>QWidget</extends>
+   <header>dialogcontroles.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PlayerManager</class>
+   <extends>QWidget</extends>
+   <header>playermanager.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
  <connections/>
 </ui>

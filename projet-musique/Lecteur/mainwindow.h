@@ -2,7 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QMediaPlayer>
+#include "dialogcontroles.h"
+#include <QMediaPlaylist>
+#include <QStringList>
 
 namespace Ui {
 class MainWindow;
@@ -15,19 +17,14 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    QStringList m_playlist;
 
-private slots:
-    void on_Lecture_clicked();
 
-    void on_Arret_clicked();
-
-    void on_Volume_sliderMoved(int position);
 
 private:
     Ui::MainWindow *ui;
-    void AfficherIcones();
-    QMediaPlayer* player;
-    QString titre;
+    DialogControles* m_controles;
+
 };
 
 #endif // MAINWINDOW_H

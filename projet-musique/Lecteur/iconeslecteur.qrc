@@ -8,5 +8,7 @@
         <file alias="retour">Icones/retour.png</file>
         <file alias="stop">Icones/stop.png</file>
         <file alias="suivant">Icones/suivant.png</file>
+        <file alias="alea">Icones/alea.png</file>
+        <file alias="aleag">Icones/aleag.png</file>
     </qresource>
 </RCC>
