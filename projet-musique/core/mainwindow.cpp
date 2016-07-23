@@ -21,10 +21,11 @@ FenetrePrincipale::FenetrePrincipale( QWidget* parent ) :
     m_gestionMP3( new BDDGestionMp3 ),
     m_interaction( new QLabel ),
     m_ongletMP3 ( ),
+    m_lecteur (  ),
     m_dialogajouterphys( NULL ),
     m_vidage( this ),
     stop( new QPushButton( "Stop" ) )
- {
+{
     ui->setupUi( this );
     m_ongletMP3 = ui->MP3;
     m_dialogajouterphys = new DialogAjouterPhys( this );
@@ -42,6 +43,12 @@ FenetrePrincipale::FenetrePrincipale( QWidget* parent ) :
     connect( stop, SIGNAL( clicked() ), m_gestionMP3, SLOT( stop_clique() ) );
     //Si un titre est double cliqué sur l'onglet MP3, il l'indique
     connect ( m_ongletMP3, SIGNAL( fichcopier() ), this, SLOT( AfficherTexte() ) );
+
+    //Si un titre est ajouté dans la playlist du lecteur
+    connect( m_ongletMP3,SIGNAL(modifplaylist(QStringList)),m_lecteur,SLOT(modifplaylist(QStringList)));
+
+    //Si un titre est supprimé dans la playlist du lecteur
+    connect ( m_lecteur,SIGNAL(suppplaylist(QStringList)),m_ongletMP3,SLOT(suppplaylist(QStringList)));
 }
 void FenetrePrincipale::ajouterToolbar()
 {
@@ -63,6 +70,17 @@ void FenetrePrincipale::ajouterToolbar()
     essai.load( ":menuIcones/config actu" );
     ui->toolBar->addAction( QIcon( essai ), "Configurer Actualiser MP3", this, SLOT( actionconfigactu() ) );
 
+    QWidget* empty = new QWidget();
+    empty->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
+
+    ui->toolBar->addWidget( empty);
+    m_lecteur = new MainWindowLecteur(this);
+    m_lecteur->setMinimumHeight(90);
+    m_lecteur->setMaximumHeight( 90 );
+    m_lecteur->setMinimumWidth( 640 );
+    m_lecteur->setMaximumWidth( 640 );
+    ui->toolBar->addWidget( m_lecteur);
+
 }
 void FenetrePrincipale::ajouterStatusBar()
 {
@@ -82,7 +100,7 @@ void FenetrePrincipale::ajouterStatusBar()
     //Propriétés du widget d'intéraction
     m_interaction->setText( "Prêt" );
     m_interaction->setMaximumHeight( 20 );
-//   m_interaction->setMaximumWidth(700);
+    //   m_interaction->setMaximumWidth(700);
 
     ui->statusBar->adjustSize();
 }
@@ -90,6 +108,7 @@ void FenetrePrincipale::stop_clique()
 {
     emit stopper();
 }
+
 
 FenetrePrincipale::~FenetrePrincipale()
 {
@@ -177,8 +196,8 @@ void FenetrePrincipale::ActualiserOngletMP3()
     m_progressbar->setValue( 100 );
     m_progressbar->setFormat( "%p%" );
     m_interaction->setText( "Fin de l'actualisation." );
-   m_ongletMP3->vider( "Categories" );
-   m_ongletMP3->afficherListeType();
+    m_ongletMP3->vider( "Categories" );
+    m_ongletMP3->afficherListeType();
 }
 void FenetrePrincipale::ActualiserOngletStats()
 {

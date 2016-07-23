@@ -1,0 +1,154 @@
+QWidget{
+background-color: #A8F3FF;
+}
+QPushButton{
+color: #FFFF96;
+background-color: #1EA7EC;
+border-width: 1px;
+border-color: #339;
+border-style: solid;
+min-width: 30px;
+max-width: 30px;
+min-height: 30px;
+max-height: 30px;
+}
+QPushButton#suppression{
+color: #FFFF96;
+background-color: #1EA7EC;
+border-width: 1px;
+border-color: #339;
+border-style: solid;
+min-width: 80px;
+max-width: 80px;
+min-height: 30px;
+max-height: 30px;
+}
+QLabel {
+font-size: 15px;
+color : #1EA7EC;
+}
+QListWidget{
+background-color:#FFFF96;
+border-width: 1px;
+border-color: #339;
+border-style: solid;
+border-radius: 7;
+padding: 3px;
+font-size: 11px;
+padding-left: 5px;
+padding-right: 5px;
+}
+QListWidget::item:selected{
+background : #1EA7EC;
+color: #FFFF96;
+}
+
+QSlider::groove:vertical {
+    background: #FFFF96;
+    position: absolute; /* absolutely position 4px from the left and right of the widget. setting margins on the widget should work too... */
+    left: 4px; right: 4px;
+}
+
+QSlider::handle:vertical {
+    height: 10px;
+    background: #1EA7EC;
+	border: 1px solid #5c5c5c;
+    margin: 0 -4px; /* expand outside the groove */
+}
+
+QSlider::add-page:vertical {
+    background: #FFFF96;
+}
+
+QSlider::sub-page:vertical {
+    background: #FFFF96;
+}
+QSlider::groove:horizontal {
+    border: 1px solid #999999;
+    height: 8px; /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */
+    background: #FFFF96;
+    margin: 2px 0;
+}
+
+QSlider::handle:horizontal {
+    background: #1EA7EC;
+    border: 1px solid #5c5c5c;
+    width: 18px;
+    margin: -2px 0; /* handle is placed by default on the contents rect of the groove. Expand outside the groove */
+    border-radius: 3px;
+}
+QScrollBar:horizontal {
+border: 2px solid #339;
+background: #1EA7EC;
+height: 15px;
+margin: 0px 20px 0 20px;
+}
+QScrollBar::handle:horizontal {
+background: #FFFF96;
+min-width: 20px;
+}
+QScrollBar::add-line:horizontal {
+border: 2px solid #339;
+background: ;
+width: 20px;
+subcontrol-position: right;
+subcontrol-origin: margin;
+}
+QScrollBar:left-arrow:horizontal, QScrollBar::right-arrow:horizontal {
+border: 2px solid #339;
+width: 3px;
+height: 3px;
+background: white;
+}
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+background: none;
+}
+QScrollBar::sub-line:horizontal {
+border: 2px solid #339;
+background: #1EA7EC;
+width: 20px;
+subcontrol-position: left;
+subcontrol-origin: margin;
+}
+QScrollBar:vertical {
+border: 2px solid #339;
+background: #1EA7EC;
+width: 15px;
+margin: 22px 0 22px 0;
+}
+QScrollBar::handle:vertical {
+background: #FFFF96;
+min-height: 20px;
+}
+QScrollBar::add-line:vertical {
+border: 2px solid #339;
+background: #1EA7EC;
+height: 20px;
+subcontrol-position: bottom;
+subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:vertical {
+border: 2px solid #339;
+background: #1EA7EC;
+height: 20px;
+subcontrol-position: top;
+subcontrol-origin: margin;
+}
+QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
+border: 2px solid #339;
+width: 3px;
+height: 3px;
+background: white;
+}
+
+ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+  background: none;
+  }
+  QComboBox {
+  border: 1px solid #339;
+  border-radius: 3px;
+  padding: 1px 18px 1px 3px;
+  min-width: 6em;
+  }
+

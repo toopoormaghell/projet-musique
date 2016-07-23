@@ -9,6 +9,8 @@
 #include "vidagebdddialog.h"
 #include <QPushButton>
 #include "ongletmp3.h"
+#include "mainwindowlecteur.h"
+
 namespace Ui
 {
 class MainWindow;
@@ -41,16 +43,17 @@ private slots:
     void ActualiserOngletMP3();
     void ActualiserOngletPhys();
     void stop_clique();
+
 private:
     Ui::MainWindow* ui;
     QProgressBar* m_progressbar;
     BDDGestionMp3* m_gestionMP3;
     QLabel* m_interaction;
+    OngletMP3* m_ongletMP3;
+    MainWindowLecteur* m_lecteur;
     DialogAjouterPhys* m_dialogajouterphys;
     VidageBDDDialog m_vidage;
     QPushButton* stop;
-    OngletMP3* m_ongletMP3;
-
 };
 
 #endif // MAINWINDOW_H

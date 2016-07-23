@@ -116,7 +116,7 @@ void DialogControles::ChargerMp3()
 {
     player->setMedia(QUrl::fromLocalFile(mp3));
     QPixmap icone( ":/Icones/pause" );
-     ui->Lecture->setIcon( QIcon ( icone ) );
+    ui->Lecture->setIcon( QIcon ( icone ) );
     player->play();
 }
 

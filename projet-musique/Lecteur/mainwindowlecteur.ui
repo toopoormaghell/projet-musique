@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>MainWindowLecteur</class>
+ <widget class="QWidget" name="MainWindowLecteur">
   <property name="windowModality">
    <enum>Qt::WindowModal</enum>
   </property>
@@ -16,7 +16,18 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QWidget" name="centralwidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>641</width>
+     <height>271</height>
+    </rect>
+   </property>
    <widget class="DialogControles" name="widget" native="true">
     <property name="geometry">
      <rect>

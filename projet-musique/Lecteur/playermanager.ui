@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QPushButton" name="Precedent">
    <property name="geometry">
     <rect>
@@ -132,6 +135,9 @@
      <widget class="QPushButton" name="Suppression">
       <property name="text">
        <string>Supprimer</string>
+      </property>
+      <property name="shortcut">
+       <string>Del</string>
       </property>
      </widget>
     </item>

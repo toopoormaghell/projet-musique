@@ -13,8 +13,9 @@ PlayerManager::PlayerManager(QWidget *parent) :
     m_aleatoire ( false )
 {
     ui->setupUi(this);
+    afficherIcones();
     playlist->setPlaybackMode( QMediaPlaylist::Loop);
-            ui->ListePlaylist->setVisible( false );
+    ui->ListePlaylist->setVisible( false );
 }
 
 PlayerManager::~PlayerManager()
@@ -33,8 +34,11 @@ void PlayerManager::setDialogControles(DialogControles* dialogControles)
 
 void PlayerManager::setPlaylist(QStringList temp)
 {
+    m_listechemins = temp;
+    playlist->clear();
     for (int cpt=0;cpt<temp.count();cpt++)
     {
+
         QMediaContent media(QUrl::fromLocalFile(temp[cpt]));
 
         playlist->addMedia(media);
@@ -79,7 +83,28 @@ void PlayerManager::on_Aleatoire_clicked()
 
     }
 
+
 }
+void PlayerManager::afficherIcones()
+{
+    QPixmap icone (":/Icones/aleag");
+    ui->Aleatoire->setIcon( QIcon ( icone ) );
+
+    icone.load( ":/Icones/dossiers");
+    ui->Dossiers->setIcon( QIcon ( icone ) );
+
+    icone.load( ":/Icones/precedent");
+    ui->Precedent->setIcon( QIcon ( icone ) );
+
+    icone.load( ":/Icones/suivant");
+    ui->Suivant->setIcon( QIcon ( icone ) );
+
+    ui->Suppression->setObjectName( "suppression");
+
+
+
+}
+
 void PlayerManager::afficherPlaylist()
 {
     ui->Playlist->clear();
@@ -134,8 +159,10 @@ void PlayerManager::on_Suppression_clicked()
         QListWidgetItem* item = selection[cpt];
 
         playlist->removeMedia( item->data(Qt::UserRole).toInt() );
+        m_listechemins.removeAt( item->data(Qt::UserRole).toInt() );
 
     }
 
-afficherPlaylist();
+    afficherPlaylist();
+    emit SupprimerdansPlaylist( m_listechemins );
 }

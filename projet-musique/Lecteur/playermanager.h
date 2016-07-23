@@ -24,6 +24,7 @@ public:
 signals:
     void changerMp3(QString temp);
     void PremierMP3 ( QString temp);
+    void SupprimerdansPlaylist ( QStringList temp);
 
 private slots:
     void on_Precedent_clicked();
@@ -43,6 +44,8 @@ private:
     bool m_aleatoire;
     void afficherPlaylist();
     QString ExtraireInfosMp3(QString mp3);
+    void afficherIcones();
+    QStringList m_listechemins;
 };
 
 #endif // PLAYERMANAGER_H

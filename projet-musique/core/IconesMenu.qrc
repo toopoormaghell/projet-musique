@@ -17,4 +17,10 @@
     <qresource prefix="/qss">
         <file alias="default">qss/default.qss</file>
     </qresource>
+    <qresource prefix="/MP3">
+        <file alias="lire">icones/MP3/16003.png</file>
+        <file alias="copier">icones/MP3/copier-modifier-icone-4892-96.png</file>
+        <file alias="playlist">icones/MP3/icone_liste-150x150.png</file>
+        <file alias="tag">icones/MP3/Letter-T-icon.png</file>
+    </qresource>
 </RCC>

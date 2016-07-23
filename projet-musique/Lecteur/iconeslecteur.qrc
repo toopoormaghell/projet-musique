@@ -11,4 +11,7 @@
         <file alias="alea">Icones/alea.png</file>
         <file alias="aleag">Icones/aleag.png</file>
     </qresource>
+    <qresource prefix="/qss">
+        <file alias="style">qss/lecteur.qss</file>
+    </qresource>
 </RCC>

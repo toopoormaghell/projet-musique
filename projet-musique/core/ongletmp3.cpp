@@ -21,11 +21,14 @@
 OngletMP3::OngletMP3( QWidget* parent ) :
     QWidget( parent ),
     ui( new Ui::OngletMP3 ),
+    m_PlaylistLecteur ( ),
     m_lignestitres( 0 ),
     m_colonnetitre( 0 )
 
 {
     ui->setupUi( this );
+    m_PlaylistLecteur ;
+
     ActualiserOnglet();
 
 }
@@ -45,6 +48,12 @@ void OngletMP3::ActualiserOnglet()
     connect(ui->ArtistesAnnees,SIGNAL(activated(QModelIndex)),this,SLOT(on_ArtistesAnnees_clicked(QModelIndex)));
     connect(ui->Categories,SIGNAL(activated(QModelIndex)),this,SLOT(on_Categories_clicked(QModelIndex)));
     connect(ui->AlbumsTitres,SIGNAL(activated(QModelIndex)),this,SLOT(on_AlbumsTitres_clicked(QModelIndex)));
+
+}
+
+void OngletMP3::suppplaylist(QStringList temp)
+{
+    m_PlaylistLecteur = temp;
 }
 
 void OngletMP3::vider( QString Type )
@@ -455,7 +464,6 @@ void OngletMP3::on_ArtistesAnnees_clicked( const QModelIndex& index )
 
 void OngletMP3::on_AlbumsTitres_clicked( const QModelIndex& index )
 {
-
     if ( index.column() != 0 )
     {
         if ( !index.data(Qt::UserRole).isNull() )
@@ -559,4 +567,12 @@ int OngletMP3::CompilsAnnees(int annee)
         return 6;
     }
     return 6;
+}
+
+void OngletMP3::on_LireMP3_clicked()
+{
+    BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3 );
+    m_PlaylistLecteur << mp3->m_chemin;
+
+    emit modifplaylist( m_PlaylistLecteur);
 }
