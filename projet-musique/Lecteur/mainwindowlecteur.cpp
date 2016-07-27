@@ -35,6 +35,7 @@ void MainWindowLecteur::modifplaylist(QStringList list)
     m_playlist = list;
 
     ui->widget_2->setPlaylist( m_playlist);
+
 }
 void MainWindowLecteur::SupprimerdansPlaylist(QStringList temp)
 {

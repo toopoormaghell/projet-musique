@@ -1,7 +1,7 @@
 QWidget{
 background-color: #A8F3FF;
 }
-FenetrePrincipale {
+MainWindow {
 border: 2px solid gray;
 border-radius: 4px;
 background-color: #BBFFFF;

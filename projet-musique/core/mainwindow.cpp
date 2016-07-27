@@ -41,8 +41,8 @@ FenetrePrincipale::FenetrePrincipale( QWidget* parent ) :
     connect( m_dialogajouterphys, SIGNAL( ajout() ), this, SLOT( ActualiserOngletPhys() ) );
     //Si le bouton STOP est cliqué, il renvoie un signal
     connect( stop, SIGNAL( clicked() ), m_gestionMP3, SLOT( stop_clique() ) );
-    //Si un titre est double cliqué sur l'onglet MP3, il l'indique
-    connect ( m_ongletMP3, SIGNAL( fichcopier() ), this, SLOT( AfficherTexte() ) );
+    //Si uune action est faite dans l'onglet MP3, la barre de status l'affiche
+    connect ( m_ongletMP3, SIGNAL( EnvoyerTexte() ), this, SLOT( AfficherTexte() ) );
 
     //Si un titre est ajouté dans la playlist du lecteur
     connect( m_ongletMP3,SIGNAL(modifplaylist(QStringList)),m_lecteur,SLOT(modifplaylist(QStringList)));
@@ -77,8 +77,8 @@ void FenetrePrincipale::ajouterToolbar()
     m_lecteur = new MainWindowLecteur(this);
     m_lecteur->setMinimumHeight(90);
     m_lecteur->setMaximumHeight( 90 );
-    m_lecteur->setMinimumWidth( 640 );
-    m_lecteur->setMaximumWidth( 640 );
+    m_lecteur->setMinimumWidth( 700 );
+    m_lecteur->setMaximumWidth( 700 );
     ui->toolBar->addWidget( m_lecteur);
 
 }

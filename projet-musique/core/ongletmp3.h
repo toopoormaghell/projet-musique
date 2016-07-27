@@ -34,11 +34,13 @@ public:
     void ActualiserOnglet();
     QStringList m_PlaylistLecteur;
     QString m_fichierlu;
+
 public slots:
-     void suppplaylist(QStringList temp);
+    void suppplaylist(QStringList temp);
 signals:
-    void fichcopier();
+    void EnvoyerTexte();
     void modifplaylist( QStringList index);
+
 private slots:
     void on_AlbumsTitres_doubleClicked( const QModelIndex& index );
     void on_buttonBox_clicked( QAbstractButton* button );
@@ -50,6 +52,14 @@ private slots:
     void on_Similaires_clicked(const QModelIndex &index);
 
     void on_LireMP3_clicked();
+
+    void on_CopierMP3_clicked();
+
+     void on_LireArtiste_clicked();
+
+    void on_LireAlbum_clicked();
+
+    void on_LireAnnee_clicked();
 
 private:
     Ui::OngletMP3* ui;
@@ -66,7 +76,7 @@ private:
     int m_artiste;
 
 
-
+    void EnvoyerTexteAMain();
     void afficherMP3ouAlbum( const QString& MouA );
 
     int CompilsAnnees(int annee);

@@ -35,9 +35,13 @@ void DialogControles::ChangerMP3(QString temp)
 
 void DialogControles::Changer(QString temp)
 {
+    if (mp3 != temp)
+    {
     mp3 = temp;
     player->setMedia(QUrl::fromLocalFile(mp3));
     AfficherInfos();
+    on_Lecture_clicked();
+    }
 }
 void DialogControles::AfficherIcones()
 {

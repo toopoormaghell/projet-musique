@@ -54,14 +54,14 @@ void PlayerManager::on_Precedent_clicked()
 {
 
     playlist->previous();
-
+    ui->Nb->setText(QString::number(playlist->currentIndex()+1 ) +"/"+ QString::number( playlist->mediaCount() ) );
     emit changerMp3(playlist->currentMedia().canonicalUrl().toString());
 }
 
 void PlayerManager::on_Suivant_clicked()
 {
     playlist->next();
-
+    ui->Nb->setText(QString::number(playlist->currentIndex()+1 ) +"/"+ QString::number( playlist->mediaCount() ) );
     emit changerMp3(playlist->currentMedia().canonicalUrl().toString());
 }
 
@@ -102,8 +102,6 @@ void PlayerManager::afficherIcones()
 
     ui->Suppression->setObjectName( "suppression");
 
-
-
 }
 
 void PlayerManager::afficherPlaylist()
@@ -113,11 +111,11 @@ void PlayerManager::afficherPlaylist()
     {
 
         QListWidgetItem* item = new QListWidgetItem;
-
         item->setText(  ExtraireInfosMp3( playlist->media( cpt ).canonicalUrl().toString() ) );
         item->setData(Qt::UserRole, cpt);
         ui->Playlist->addItem( item );
     }
+     ui->Nb->setText(QString::number(playlist->currentIndex()+1 ) +"/"+ QString::number( playlist->mediaCount() ) );
 }
 QString PlayerManager::ExtraireInfosMp3(QString mp3)
 {

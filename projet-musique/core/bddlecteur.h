@@ -1,0 +1,20 @@
+#ifndef BDDLECTEUR_H
+#define BDDLECTEUR_H
+
+#include <QObject>
+#include "bddsingleton.h"
+
+class BDDLecteur : public QObject
+{
+    Q_OBJECT
+public:
+    explicit BDDLecteur(QObject *parent = 0);
+    QStringList listeTitresAlbum ( QString Album);
+    QStringList listeTitresArtiste (QString Artiste );
+QStringList listeTitresAnnee ( QString Annee);
+signals:
+
+public slots:
+};
+
+#endif // BDDLECTEUR_H
