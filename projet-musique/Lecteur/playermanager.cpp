@@ -158,3 +158,10 @@ void PlayerManager::on_Suppression_clicked()
     afficherPlaylist();
     emit SupprimerdansPlaylist( m_listechemins );
 }
+
+void PlayerManager::on_Playlist_clicked(const QModelIndex &index)
+{
+    playlist->setCurrentIndex( index.row() );
+    ui->Nb->setText(QString::number(playlist->currentIndex()+1 ) +"/"+ QString::number( playlist->mediaCount() ) );
+    emit changerMp3(playlist->currentMedia().canonicalUrl().toString());
+}

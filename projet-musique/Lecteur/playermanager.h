@@ -36,6 +36,8 @@ private slots:
 
     void on_Suppression_clicked();
 
+    void on_Playlist_clicked(const QModelIndex &index);
+
 private:
     Ui::PlayerManager *ui;
     DialogControles* m_controles;
