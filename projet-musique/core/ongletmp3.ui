@@ -567,6 +567,33 @@ max-height: 30px;
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_5">
              <item>
+              <widget class="QPushButton" name="DialogueLecteurAnnee">
+               <property name="toolTip">
+                <string>Lecteur : Choisir une année...</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton{
+color: #FFFF96;
+background-color: #1EA7EC;
+border-width: 1px;
+border-color: #339;
+border-style: solid;
+min-width: 30px;
+max-width: 30px;
+min-height: 30px;
+max-height: 30px;
+}</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="IconesMenu.qrc">
+                 <normaloff>:/MP3/lire</normaloff>:/MP3/lire</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QPushButton" name="CopierMP3">
                <property name="toolTip">
                 <string>Copier MP3</string>

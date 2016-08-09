@@ -39,10 +39,20 @@ void PlayerManager::setPlaylist(QStringList temp)
     playlist->clear();
     for (int cpt=0;cpt<temp.count();cpt++)
     {
+        QFile fichier(temp[cpt]);
 
-        QMediaContent media(QUrl::fromLocalFile(temp[cpt]));
 
-        playlist->addMedia(media);
+        if(fichier.exists() )
+
+        {
+            QMediaContent media(QUrl::fromLocalFile(temp[cpt]));
+
+            playlist->addMedia(media);
+
+        }
+
+
+
     }
     playlist->setCurrentIndex(0);
     emit PremierMP3(playlist->currentMedia().canonicalUrl().toString());
@@ -115,7 +125,7 @@ void PlayerManager::afficherPlaylist()
         item->setData(Qt::UserRole, cpt);
         ui->Playlist->addItem( item );
     }
-     ui->Nb->setText(QString::number(playlist->currentIndex()+1 ) +"/"+ QString::number( playlist->mediaCount() ) );
+    ui->Nb->setText(QString::number(playlist->currentIndex()+1 ) +"/"+ QString::number( playlist->mediaCount() ) );
 }
 QString PlayerManager::ExtraireInfosMp3(QString mp3)
 {
@@ -127,13 +137,18 @@ QString PlayerManager::ExtraireInfosMp3(QString mp3)
     const char* encodedName = arrFileName.constData();
     TagLib::FileRef f( encodedName );
 
-    //On récupère l'artiste, l'album, le titre et le numéro de piste
-    TagLib::String artist = f.tag()->artist();
-    TagLib::String title =  f.tag()->title();
-    TagLib::uint track = f.tag() -> track();
+    if ( !f.isNull() )
+    {
+        //On récupère l'artiste, l'album, le titre et le numéro de piste
+        TagLib::String artist = f.tag()->artist();
+        TagLib::String title =  f.tag()->title();
+        TagLib::uint track = f.tag() -> track();
 
-    return QString::number(track).rightJustified(2,'0') + " - " + TStringToQString( title ) + " / " + TStringToQString( artist ) ;
-
+        return QString::number(track).rightJustified(2,'0') + " - " + TStringToQString( title ) + " / " + TStringToQString( artist ) ;
+    } else
+    {
+        return "pas de mp3.";
+    }
 }
 
 void PlayerManager::on_Dossiers_clicked()

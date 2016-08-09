@@ -7,7 +7,6 @@
 #include "bddmp3.h"
 #include "bddtype.h"
 #include <algorithm>
-#include <QDebug>
 #include "modificationartistedialog.h"
 #include <time.h>
 #include <QFile>
@@ -18,6 +17,7 @@
 #include "modifieralbumdialog.h"
 #include <QDir>
 #include "bddlecteur.h"
+#include <QInputDialog>
 
 OngletMP3::OngletMP3( QWidget* parent ) :
     QWidget( parent ),
@@ -26,6 +26,7 @@ OngletMP3::OngletMP3( QWidget* parent ) :
     ui( new Ui::OngletMP3 ),
     m_lignestitres( 0 ),
     m_colonnetitre( 0 )
+
 
 {
     ui->setupUi( this );
@@ -593,7 +594,7 @@ void OngletMP3::on_CopierMP3_clicked()
 
     if (  mp3->m_artiste->m_nomFormate == "indochine" )
     {
-        doss +=  mp3->m_artiste->m_nomFormate;
+        doss +=  mp3->m_artiste->m_nom;
     }
     QDir dir( doss );
     dir.mkpath(doss);
@@ -606,24 +607,29 @@ void OngletMP3::on_CopierMP3_clicked()
 
 void OngletMP3::on_LireArtiste_clicked()
 {
-    BDDLecteur* lect;
+
     BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3 );
-    m_PlaylistLecteur = lect->listeTitresArtiste( QString::number(mp3->m_artiste->m_id) );
+    m_PlaylistLecteur = m_lecteur->listeTitresArtiste( QString::number(mp3->m_artiste->m_id) );
     emit modifplaylist(m_PlaylistLecteur);
 }
 
 void OngletMP3::on_LireAlbum_clicked()
 {
-    BDDLecteur* lect;
     BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3 );
-    m_PlaylistLecteur = lect->listeTitresAlbum( QString::number(mp3->m_album->m_id) );
+    m_PlaylistLecteur = m_lecteur->listeTitresAlbum( QString::number(mp3->m_album->m_id) );
     emit modifplaylist(m_PlaylistLecteur);
 }
 
 void OngletMP3::on_LireAnnee_clicked()
 {
-    BDDLecteur* lect;
     BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3 );
-    m_PlaylistLecteur = lect->listeTitresAnnee( QString::number(mp3->m_album->m_annee ) );
+    m_PlaylistLecteur = m_lecteur->listeTitresAnnee( QString::number(mp3->m_album->m_annee ) );
+    emit modifplaylist(m_PlaylistLecteur);
+}
+
+void OngletMP3::on_DialogueLecteurAnnee_clicked()
+{
+    QString annee = QInputDialog::getText(this, "Année", "Quelle année voulez-vous écouter ?");
+    m_PlaylistLecteur = m_lecteur->listeTitresAnnee( annee );
     emit modifplaylist(m_PlaylistLecteur);
 }
