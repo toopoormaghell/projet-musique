@@ -165,3 +165,10 @@ void PlayerManager::on_Playlist_clicked(const QModelIndex &index)
     ui->Nb->setText(QString::number(playlist->currentIndex()+1 ) +"/"+ QString::number( playlist->mediaCount() ) );
     emit changerMp3(playlist->currentMedia().canonicalUrl().toString());
 }
+
+void PlayerManager::FinMP3()
+{
+    playlist->next();
+    ui->Nb->setText(QString::number(playlist->currentIndex()+1 ) +"/"+ QString::number( playlist->mediaCount() ) );
+    emit changerMp3(playlist->currentMedia().canonicalUrl().toString());
+}

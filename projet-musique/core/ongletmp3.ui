@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>951</width>
-    <height>789</height>
+    <width>900</width>
+    <height>900</height>
    </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>1000</height>
+   </size>
   </property>
   <property name="font">
    <font>
@@ -773,7 +779,7 @@ max-height: 30px;
             <property name="maximumSize">
              <size>
               <width>500</width>
-              <height>16777215</height>
+              <height>200</height>
              </size>
             </property>
             <property name="iconSize">

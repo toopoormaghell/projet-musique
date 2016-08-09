@@ -19,6 +19,8 @@ public:
     explicit DialogControles( QWidget *parent = 0);
     ~DialogControles();
     QMediaPlayer* player;
+signals:
+    void FinMP3();
 public slots:
     void ChangerMP3(QString temp);
     void Changer(QString temp);
@@ -35,6 +37,7 @@ private slots:
 
     void on_Position_sliderReleased();
 
+    void ArriverFin(QMediaPlayer::MediaStatus status);
 private:
     Ui::DialogControles *ui;
     void AfficherIcones();
