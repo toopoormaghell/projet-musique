@@ -65,7 +65,7 @@ void BDDSingleton::creationBase()
     tables << "CREATE TABLE Configuration('Intitule' TEXT,'Valeur' TEXT)";
     tables << "INSERT INTO Configuration VALUES ('DossierParDef','F:/Albums')";
     tables << "INSERT INTO Configuration VALUES ('ActualiserAlbums','Oui')";
-    tables << "INSERT INTO Configuration VALUES ('ActualiserCompil','Non')";
+    tables << "INSERT INTO Configuration VALUES ('ActualiserCompil','Oui')";
     tables << "INSERT INTO Configuration VALUES ('ActualiserLives','Non')";
     tables << "INSERT INTO Configuration VALUES ('Version', '3')";
     tables << "INSERT INTO Type VALUES(01,'Album')";
@@ -185,7 +185,7 @@ void BDDSingleton::verifierBDD()
         QString Alb = rec.value("Album_Formate").toString();
         FormaterEntiteBDD ( nom );
         if ( nom != Alb)
-        madatabase.exec( "UPDATE Album SET Album_Formate = '"+ nom +"' WHERE Id_Album = "+ Id_Alb +" " );
+            madatabase.exec( "UPDATE Album SET Album_Formate = '"+ nom +"' WHERE Id_Album = "+ Id_Alb +" " );
     }
     /*----- ARTISTE -----*/
     //Vide
@@ -202,8 +202,8 @@ void BDDSingleton::verifierBDD()
         QString Id_Art = rec.value( "Id_Artiste").toString();
         QString Art = rec.value("Artiste_Formate").toString();
         FormaterEntiteBDD ( nom );
-if ( nom != Art)
-        madatabase.exec( "UPDATE Artiste SET Artiste_Formate = '"+ nom +"' WHERE Id_Artiste = "+ Id_Art +" " );
+        if ( nom != Art)
+            madatabase.exec( "UPDATE Artiste SET Artiste_Formate = '"+ nom +"' WHERE Id_Artiste = "+ Id_Art +" " );
     }
     /*----- TITRE -----*/
     //Vide
@@ -221,7 +221,7 @@ if ( nom != Art)
         QString Titre_Formate = rec.value("Titre_Formate").toString();
         FormaterEntiteBDD ( nom );
         if ( nom != Titre_Formate )
-        madatabase.exec( "UPDATE Titre SET Titre_Formate = '"+ nom +"' WHERE Id_Titre = "+ Id_Titre +" " );
+            madatabase.exec( "UPDATE Titre SET Titre_Formate = '"+ nom +"' WHERE Id_Titre = "+ Id_Titre +" " );
     }
 
     /*----- MP3 -----*/
