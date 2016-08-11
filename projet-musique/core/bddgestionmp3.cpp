@@ -183,6 +183,7 @@ void BDDGestionMp3::actualiserMp3( QString chemin )
         m_Chemins[mp3.m_id][1] = "trouve";
 
     }
+
 }
 
 void BDDGestionMp3::supprimerAnciensMP3( )

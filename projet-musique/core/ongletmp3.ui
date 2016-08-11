@@ -118,8 +118,17 @@
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetFixedSize</enum>
+     </property>
      <item>
       <widget class="QTableWidget" name="AlbumsTitres">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="baseSize">
         <size>
          <width>0</width>
@@ -806,7 +815,7 @@ max-height: 30px;
             <property name="maximumSize">
              <size>
               <width>500</width>
-              <height>200</height>
+              <height>175</height>
              </size>
             </property>
             <property name="iconSize">
@@ -890,7 +899,7 @@ max-height: 30px;
             <property name="maximumSize">
              <size>
               <width>500</width>
-              <height>16777215</height>
+              <height>150</height>
              </size>
             </property>
             <property name="iconSize">

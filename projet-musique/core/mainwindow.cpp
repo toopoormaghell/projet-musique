@@ -79,7 +79,10 @@ void FenetrePrincipale::ajouterToolbar()
     m_lecteur->setMaximumHeight( 85 );
     m_lecteur->setMinimumWidth( 700 );
     m_lecteur->setMaximumWidth( 700 );
-    ui->toolBar->addWidget( m_lecteur);
+   ui->toolBar->addWidget( m_lecteur);
+
+
+
 
 }
 void FenetrePrincipale::ajouterStatusBar()
@@ -102,7 +105,7 @@ void FenetrePrincipale::ajouterStatusBar()
     m_interaction->setMaximumHeight( 20 );
     //   m_interaction->setMaximumWidth(700);
 
-    ui->statusBar->adjustSize();
+  //  ui->statusBar->adjustSize();
 }
 void FenetrePrincipale::stop_clique()
 {
