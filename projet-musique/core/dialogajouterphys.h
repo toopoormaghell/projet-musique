@@ -7,7 +7,7 @@
 #include "util.h"
 #include "QAWSWrapper.h"
 class QTableModel;
-class QComboBoxDelegate;
+class QCompletedLineEditDelegate;
 
 
 

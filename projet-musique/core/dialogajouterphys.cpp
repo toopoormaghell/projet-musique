@@ -12,10 +12,10 @@
 #include <QStyledItemDelegate>
 class QTableModel;
 
-class QComboBoxDelegate : public QStyledItemDelegate
+class QCompletedLineEditDelegate : public QStyledItemDelegate
 {
 public:
-    QComboBoxDelegate( QObject* parent = 0 ):
+    QCompletedLineEditDelegate( QObject* parent = 0 ):
         QStyledItemDelegate( parent )
     {
     }
@@ -251,7 +251,7 @@ private:
     QList<LineModel> m_lineList;
 };
 
-void QComboBoxDelegate::setEditorData( QWidget* editor, const QModelIndex& index ) const
+void QCompletedLineEditDelegate::setEditorData( QWidget* editor, const QModelIndex& index ) const
 {
     QComboBox* comboBox = static_cast<QComboBox*>( editor );
     QTableModel const* const tableModel = static_cast<QTableModel const* const>( index.model() );
@@ -272,7 +272,7 @@ DialogAjouterPhys::DialogAjouterPhys( QWidget* parent ) :
     ui->setupUi( this );
 
     ui->tableView->setModel( m_tableModel );
-    ui->tableView->setItemDelegate( new QComboBoxDelegate );
+    ui->tableView->setItemDelegate( new QCompletedLineEditDelegate );
 
     m_Type = 1;
     AffichageListeArtistes( -2 );
@@ -291,7 +291,7 @@ DialogAjouterPhys::DialogAjouterPhys( int id_album, QWidget* parent ) :
 
     ui->setupUi( this );
     ui->tableView->setModel( m_tableModel );
-    ui->tableView->setItemDelegate( new QComboBoxDelegate );
+    ui->tableView->setItemDelegate( new QCompletedLineEditDelegate );
     AffichageListeArtistes( -2 );
 
     m_album = BDDAlbum::RecupAlbumEntite( id_album );
