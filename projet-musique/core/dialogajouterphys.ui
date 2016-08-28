@@ -135,6 +135,13 @@
            </property>
           </widget>
          </item>
+         <item>
+          <widget class="QLineEdit" name="Commentaires">
+           <property name="text">
+            <string>COMMENTAIRES</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </item>
       </layout>

@@ -7,9 +7,11 @@
 #include "sousdialogajouttitre.h"
 #include "bddalbum.h"
 #include "QAWSWrapperNotifier.h"
+#include "BDDAfficherPhys.h"
 #include <QAbstractTableModel>
-#include <QComboBox>
+#include <QLineEdit>
 #include <QStyledItemDelegate>
+#include <QCompleter>
 class QTableModel;
 
 class QCompletedLineEditDelegate : public QStyledItemDelegate
@@ -22,10 +24,10 @@ public:
 
     QWidget* createEditor( QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index ) const
     {
-        QComboBox* editor = NULL;
+        QLineEdit* editor = NULL;
         if ( index.column() == 2 )
         {
-            editor = new QComboBox( parent );
+            editor = new QLineEdit( parent );
         }
         return editor;
     }
@@ -34,14 +36,20 @@ public:
 
     void setModelData( QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const
     {
-        QComboBox* comboBox = static_cast<QComboBox*>( editor );
-        const QString artist = comboBox->currentText();
-        model->setData( model->index( index.row(), 2 ), artist );
+        if ( index.column() == 2 )
+        {
+            QLineEdit* lineEdit = static_cast<QLineEdit*>( editor );
+            const QString artist = lineEdit->text();
+            model->setData( model->index( index.row(), 2 ), artist );
+        }
     }
 
     void updateEditorGeometry( QWidget* editor, const QStyleOptionViewItem& option, const QModelIndex& index) const
     {
-        editor->setGeometry( option.rect );
+        if ( index.column() == 2 )
+        {
+            editor->setGeometry( option.rect );
+        }
     }
 };
 
@@ -253,13 +261,12 @@ private:
 
 void QCompletedLineEditDelegate::setEditorData( QWidget* editor, const QModelIndex& index ) const
 {
-    QComboBox* comboBox = static_cast<QComboBox*>( editor );
+    QLineEdit* lineEdit = static_cast<QLineEdit*>( editor );
     QTableModel const* const tableModel = static_cast<QTableModel const* const>( index.model() );
-    const QStringList& list = tableModel->getArtistList();
-    for ( int i = 0; i < list.size(); ++i )
-        comboBox->addItem( list[i] );
-    comboBox->setCurrentIndex( 0 );
-
+    QStringList completion (BDDAfficherPhys().ListeArtistesPossibles() );
+    QCompleter* completer = new QCompleter( completion );
+    completer->setCaseSensitivity( Qt::CaseInsensitive );
+    lineEdit->setCompleter( completer );
 }
 
 
@@ -448,24 +455,28 @@ void DialogAjouterPhys::RecupererAlbum()
     m_album.Poch = image;
 
     //On récupère les titres
-    for ( int i = 0; i < 0/*ui->Titres->count()*/; i++ )
+    for ( int i = 0; i < m_tableModel->rowCount(); i++ )
     {
         TitresPhys titre;
         //QListWidgetItem* item = ui->Titres->item( i );
         //QStringList parsing = item->text().split( "(" );
         //titre.Titre = parsing[0];
+        titre.Titre = m_tableModel->data( m_tableModel->index(i, 1 ) ).toString();
 
         //QStringList parsing2 = parsing[1].split( ")" );
         //titre.Duree = parsing2[0];
+        titre.Duree = "0:00";
         //titre.Num_Piste = i + 1;
+        titre.Num_Piste = m_tableModel->data( m_tableModel->index(i, 0 ) ).toInt();
 
         if ( m_Type == 2 )
         {
             //item = ui->Artiste_Titres->item( i );
             //titre.Artiste = item->text();
+            titre.Artiste = m_tableModel->data( m_tableModel->index(i, 2 ) ).toString();
         }
 
-        //m_album.titres << titre;
+        m_album.titres << titre;
     }
 
 }
