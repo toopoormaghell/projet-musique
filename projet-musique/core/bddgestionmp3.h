@@ -40,6 +40,7 @@
 ** ViderBDD() : permet d'enlever les MP3 de la BDD
 ** stop-clique() : arrête d'actualiser les mp3
 ** pourcentage() et fin() sont des signaux pour l'ongletMP3
+** reconstruirelisteCategories : permet d'optimiser la liste d'artistes
 *************************************************************************/
 class BDDGestionMp3 : public QObject
 {
@@ -51,6 +52,7 @@ public:
     QString m_fichierlu;
     int m_pourcentage;
     void ViderBDD();
+    void ReconstruireListeCategorie();
 signals:
     void pourcentage();
     void fin();

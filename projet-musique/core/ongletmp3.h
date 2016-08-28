@@ -83,6 +83,7 @@ private:
     void afficherMP3ouAlbum( const QString& MouA );
 
     int CompilsAnnees(int annee);
+    void copier();
 };
 
 #endif // ONGLETMP3_H

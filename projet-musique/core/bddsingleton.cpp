@@ -6,6 +6,7 @@
 #include <QDir>
 #include <QFileInfo>
 #include "util.h"
+#include "bddgestionmp3.h"
 
 BDDSingleton BDDSingleton::s_singleton;
 
@@ -239,6 +240,9 @@ void BDDSingleton::verifierBDD()
     //Non valide
     madatabase.exec( "UPDATE Phys SET Categorie = '1' WHERE Categorie NOT IN ( SELECT DISTINCT Id_Type FROM Type ) " );
 
+//BDDGestionMp3::ReconstruireListeCategorie();
+//temp.ReconstruireListeCategorie();
+
 }
 void BDDSingleton::changementversion()
 {
@@ -253,7 +257,8 @@ void BDDSingleton::changementversion()
     {
     case 0:  madatabase.exec("INSERT INTO Configuration VALUES ('Version', '1')");
     case 1 : version2();
-    case 2  : version3();break;
+    case 2  : version3();
+    case 3: version4();break;
     default: break;
     }
 }
@@ -282,6 +287,14 @@ void BDDSingleton::version3()
 
     //On change la version
     madatabase.exec("UPDATE Configuration SET Valeur='3' WHERE Intitule= 'Version' ");
+}
+void BDDSingleton::version4()
+{
+//On ajoute un champ dans la table Type
+    madatabase.exec("INSERT INTO Type VALUES( 11,'Inecoutes')" );
+
+    //On change la version
+    madatabase.exec("UPDATE Configuration SET Valeur='4' WHERE Intitule= 'Version' ");
 }
 
 void BDDSingleton::supprimerdossiersvides()

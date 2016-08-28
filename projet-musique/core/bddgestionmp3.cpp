@@ -14,15 +14,15 @@
 
 BDDGestionMp3::BDDGestionMp3( QObject* parent ) :
     QObject( parent )
-    , m_fichierlu()
-    , m_pourcentage( 0 )
-    , m_filelist()
-    , m_Chemins()
-    , m_type( 0 )
-    , m_iteration( 0 )
-    , m_souscat( 0 )
-    , m_Categories()
-    , m_iterateur()
+  , m_fichierlu()
+  , m_pourcentage( 0 )
+  , m_filelist()
+  , m_Chemins()
+  , m_type( 0 )
+  , m_iteration( 0 )
+  , m_souscat( 0 )
+  , m_Categories()
+  , m_iterateur()
 {
 
 }
@@ -102,18 +102,18 @@ QString BDDGestionMp3::dossiercategorie()
 {
     switch ( m_type )
     {
-        case ( 1 ):
-            return getdossierpardef();
-            break;
-        case ( 2 ):
-            return "F:/Compil";
-            break;
-        case ( 3 ):
-            return "F:/Live";
-            break;
-        default:
-            return "";
-            break;
+    case ( 1 ):
+        return getdossierpardef();
+        break;
+    case ( 2 ):
+        return "F:/Compil";
+        break;
+    case ( 3 ):
+        return "F:/Live";
+        break;
+    default:
+        return "";
+        break;
     }
 }
 void BDDGestionMp3::creerfilefichiers()
@@ -227,7 +227,7 @@ void BDDGestionMp3::supprstep()
             QTimer::singleShot( 0, this, SLOT( init() ) );
         else
         {
-
+            ReconstruireListeCategorie();
             emit fin();
             BDDSingleton::getInstance().supprimerdossiersvides();
         }
@@ -301,6 +301,26 @@ void BDDGestionMp3::SousCatParChemin( QString chemin )
     {
         m_souscat = 10;
     }
+}
+void BDDGestionMp3::ReconstruireListeCategorie()
+{
+    //On met dans une autre catégorie les artistes qui ont moins de 10 Mp3 à leur actif
+    QString queryStr = "UPDATE MP3 SET Categorie = '11' WHERE Id_Relation IN ( SELECT Id_Relation FROM Relations WHERE  Id_Artiste IN ( SELECT Id_Artiste FROM Relations R, MP3 M            WHERE M.Id_Relation = R.Id_Relation AND M.Categorie = 1 GROUP BY R.Id_Artiste HAVING COUNT(M.Id_Relation)<10 ) ) " ;
+    madatabase.exec( queryStr );
+
+    //Les albums de ces mp3 changent aussi de categories
+    queryStr = "UPDATE Album SET Type = '11' WHERE Id_Album IN ( SELECT Id_Album FROM Relations WHERE Id_Artiste IN ( SELECT Id_Artiste FROM Relations R, MP3 M            WHERE M.Id_Relation = R.Id_Relation AND M.Categorie = 1 GROUP BY R.Id_Artiste HAVING COUNT(M.Id_Relation)<10 ) ) " ;
+    madatabase.exec( queryStr );
+
+
+    //On ajoute dans cette même catégorie les artistes qui ont qu'un seul album à leur actif
+    queryStr = " UPDATE MP3 SET Categorie = '11' WHERE Id_Relation IN ( SELECT Id_Relation FROM Relations WHERE Id_Album IN ( SELECT R.Id_Album FROM Relations R, MP3 M  WHERE  M.Categorie = 1 AND M.Id_Relation = R.Id_Relation GROUP BY R.Id_Artiste HAVING COUNT ( DISTINCT R.Id_Album) < 2 ))" ;
+    madatabase.exec( queryStr );
+
+    //Les albums de ces mp3 changent aussi de categories
+    queryStr = " UPDATE Album SET Type = '11' WHERE Id_Album IN ( SELECT Id_Album FROM Relations WHERE Id_Album IN ( SELECT R.Id_Album FROM Relations R, MP3 M  WHERE  M.Categorie = 1 AND M.Id_Relation = R.Id_Relation GROUP BY R.Id_Artiste HAVING COUNT ( DISTINCT R.Id_Album) < 2 ))" ;
+    madatabase.exec( queryStr );
+
 }
 
 QImage BDDGestionMp3::ImageAlbum( const TagLib::FileRef& f )

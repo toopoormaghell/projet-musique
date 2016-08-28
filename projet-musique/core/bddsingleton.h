@@ -32,6 +32,7 @@ private:
     static BDDSingleton s_singleton;
     void version2();
     void version3();
+    void version4();
 };
 
 #define madatabase (BDDSingleton::getInstance().getDataBase())
