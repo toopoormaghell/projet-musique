@@ -7,7 +7,6 @@
 #include "bddmp3.h"
 #include "bddtype.h"
 #include <algorithm>
-#include <QDebug>
 #include "modificationartistedialog.h"
 #include <time.h>
 #include <QFile>
@@ -17,17 +16,20 @@
 #include "util.h"
 #include "modifieralbumdialog.h"
 #include <QDir>
+#include "bddlecteur.h"
+#include <QInputDialog>
 
 OngletMP3::OngletMP3( QWidget* parent ) :
     QWidget( parent ),
-    ui( new Ui::OngletMP3 ),
     m_PlaylistLecteur ( ),
+    m_fichierlu ( ),
+    ui( new Ui::OngletMP3 ),
     m_lignestitres( 0 ),
     m_colonnetitre( 0 )
 
+
 {
     ui->setupUi( this );
-    m_PlaylistLecteur ;
 
     ActualiserOnglet();
 
@@ -250,12 +252,6 @@ void OngletMP3::afficherTitresAlbum( QString Album, int Cate, int row )
 
     ui->AlbumsTitres->setColumnCount( nbcol );
 
-    /*  if( maxlignes != 6)
-    {
-        m_ajoutlignes = 0;
-    }
-
-    */
     for ( int cpt = 0; cpt < titres.count(); cpt = cpt + 2 )
     {
         QTableWidgetItem* item = new QTableWidgetItem;
@@ -288,6 +284,7 @@ void OngletMP3::afficherInfosTitre()
         ui->NomAlbum->setText( mp3->m_album->m_nom );
         ui->NomArtiste->setText( mp3->m_artiste->m_nom );
 
+        ui->Annee->setText( QString::number( mp3->m_album->m_annee ) );
         if ( mp3->m_titre->m_mp3 && mp3->m_titre->m_phys )
             ui->Mp3Phys->setText( "Existe en MP3 et Phys" );
 
@@ -388,24 +385,15 @@ void OngletMP3::on_AlbumsTitres_doubleClicked( const QModelIndex& index )
 
     if ( !index.data(Qt::UserRole).isNull() )
     {
-        m_mp3 = index.data( Qt::UserRole ).toInt();
-        BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3 );
-        QFileInfo fich( mp3->m_chemin );
-        QString doss = ("C:/Users/Alex/Desktop/Nouveau Dossier/");
-
-        if (  mp3->m_artiste->m_nomFormate == "indochine" )
-        {
-            doss +=  mp3->m_artiste->m_nomFormate;
-        }
-        QDir dir( doss );
-        dir.mkpath(doss);
-        QString nouvelemplacementchemin =  doss + "/" + fich.fileName();
-        QFile::copy( mp3->m_chemin, nouvelemplacementchemin );
-
-        m_fichierlu = nouvelemplacementchemin + " ajouté. ";
-        emit fichcopier();
+       copier();
     }
 }
+
+void OngletMP3::EnvoyerTexteAMain()
+{
+    emit EnvoyerTexte();
+}
+
 void OngletMP3::on_buttonBox_clicked( QAbstractButton* button )
 {
     if ( button->text() == "Enregistrer" )
@@ -516,9 +504,9 @@ void OngletMP3::on_Similaires_clicked(const QModelIndex &index)
     }
     afficheralbumsettitres();
 
-    //On sélection l'album et le titre
+    //On sélectionne l'album et le titre
     m_album =  mp3->m_album->m_id;
-    m_mp3 = mp3->m_titre->m_id;
+    m_mp3 = mp3->m_id;
 
     for (int row = 0; row<ui->AlbumsTitres->rowCount() ; row++)
     {
@@ -529,7 +517,7 @@ void OngletMP3::on_Similaires_clicked(const QModelIndex &index)
 
             if ( item!= NULL)
             {
-                if (item->data(Qt::UserRole).toInt() == m_mp3)
+                if (item->data(Qt::UserRole).toInt() == m_mp3 )
                 {
                     ui->AlbumsTitres->setCurrentCell(row,col);
                 }
@@ -566,13 +554,81 @@ int OngletMP3::CompilsAnnees(int annee)
     {
         return 6;
     }
-    return 6;
+    if ( annee >=2015 && annee<2020 )
+    {
+        return 7;
+    }
+    return 7;
 }
 
 void OngletMP3::on_LireMP3_clicked()
 {
     BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3 );
+    m_PlaylistLecteur.clear();
     m_PlaylistLecteur << mp3->m_chemin;
+    emit modifplaylist(m_PlaylistLecteur);
+    m_fichierlu = QString::number( mp3->m_titre->m_num_piste ).rightJustified( 2, '0' ) + " - "+ mp3->m_titre->m_nom + " ajouté au lecteur.";
+    EnvoyerTexteAMain();
+}
 
-    emit modifplaylist( m_PlaylistLecteur);
+void OngletMP3::on_CopierMP3_clicked()
+{
+
+    copier();
+}
+
+void OngletMP3::copier()
+{
+    BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3 );
+    QFileInfo fich( mp3->m_chemin );
+    QString doss = ("C:/Users/Alex/Desktop/Musique/");
+
+    if (  mp3->m_artiste->m_nomFormate == "indochine" )
+    {
+        doss +=  mp3->m_artiste->m_nom;
+    }
+    QDir dir( doss );
+    dir.mkpath(doss);
+    QString nouvelemplacementchemin =  doss + "/" + fich.fileName();
+    QFile::copy( mp3->m_chemin, nouvelemplacementchemin );
+
+    m_fichierlu = nouvelemplacementchemin + " ajouté au dossier de copie. ";
+    EnvoyerTexteAMain();
+}
+
+void OngletMP3::on_LireArtiste_clicked()
+{
+
+    BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3 );
+    m_PlaylistLecteur = m_lecteur->listeTitresArtiste( QString::number(mp3->m_artiste->m_id) );
+    emit modifplaylist(m_PlaylistLecteur);
+    m_fichierlu = mp3->m_artiste->m_nom + " ajouté au lecteur.";
+    EnvoyerTexteAMain();
+}
+
+void OngletMP3::on_LireAlbum_clicked()
+{
+    BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3 );
+    m_PlaylistLecteur = m_lecteur->listeTitresAlbum( QString::number(mp3->m_album->m_id) );
+    emit modifplaylist(m_PlaylistLecteur);
+    m_fichierlu = mp3->m_album->m_nom + " ajouté au lecteur.";
+    EnvoyerTexteAMain();
+}
+
+void OngletMP3::on_LireAnnee_clicked()
+{
+    BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3 );
+    m_PlaylistLecteur = m_lecteur->listeTitresAnnee( QString::number(mp3->m_album->m_annee ) );
+    emit modifplaylist(m_PlaylistLecteur);
+    m_fichierlu = QString::number(mp3->m_album->m_annee ) + " ajouté au lecteur.";
+    EnvoyerTexteAMain();
+}
+
+void OngletMP3::on_DialogueLecteurAnnee_clicked()
+{
+    QString annee = QInputDialog::getText(this, "Année", "Quelle année voulez-vous écouter ?");
+    m_PlaylistLecteur = m_lecteur->listeTitresAnnee( annee );
+    emit modifplaylist(m_PlaylistLecteur);
+    m_fichierlu =  annee + " ajouté au lecteur.";
+    EnvoyerTexteAMain();
 }

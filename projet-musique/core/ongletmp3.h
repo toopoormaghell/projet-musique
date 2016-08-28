@@ -5,7 +5,7 @@
 #include "bddaffichermp3.h"
 #include <QAbstractButton>
 #include <QTableWidgetItem>
-
+#include "bddlecteur.h"
 
 namespace Ui
 {
@@ -34,11 +34,13 @@ public:
     void ActualiserOnglet();
     QStringList m_PlaylistLecteur;
     QString m_fichierlu;
+
 public slots:
-     void suppplaylist(QStringList temp);
+    void suppplaylist(QStringList temp);
 signals:
-    void fichcopier();
+    void EnvoyerTexte();
     void modifplaylist( QStringList index);
+
 private slots:
     void on_AlbumsTitres_doubleClicked( const QModelIndex& index );
     void on_buttonBox_clicked( QAbstractButton* button );
@@ -51,10 +53,21 @@ private slots:
 
     void on_LireMP3_clicked();
 
+    void on_CopierMP3_clicked();
+
+    void on_LireArtiste_clicked();
+
+    void on_LireAlbum_clicked();
+
+    void on_LireAnnee_clicked();
+
+    void on_DialogueLecteurAnnee_clicked();
+
 private:
     Ui::OngletMP3* ui;
     BDDAfficherMp3 m_bddInterface; //Permet de récupérer les infos de la BDD
     int m_lignestitres;
+    BDDLecteur* m_lecteur;
 
     int m_colonnetitre;
     int m_ajoutlignes;
@@ -66,10 +79,11 @@ private:
     int m_artiste;
 
 
-
+    void EnvoyerTexteAMain();
     void afficherMP3ouAlbum( const QString& MouA );
 
     int CompilsAnnees(int annee);
+    void copier();
 };
 
 #endif // ONGLETMP3_H

@@ -20,6 +20,7 @@ MainWindowLecteur::MainWindowLecteur(QWidget *parent) :
     ui->widget_2->setPlaylist( m_playlist);
     ui->widget_2->raise();
     connect( ui->widget_2,SIGNAL(SupprimerdansPlaylist(QStringList)),this,SLOT(SupprimerdansPlaylist(QStringList)));
+    connect( ui->widget,SIGNAL(FinMP3()),ui->widget_2,SLOT(FinMP3()));
 }
 
 MainWindowLecteur::~MainWindowLecteur()
@@ -35,6 +36,7 @@ void MainWindowLecteur::modifplaylist(QStringList list)
     m_playlist = list;
 
     ui->widget_2->setPlaylist( m_playlist);
+
 }
 void MainWindowLecteur::SupprimerdansPlaylist(QStringList temp)
 {

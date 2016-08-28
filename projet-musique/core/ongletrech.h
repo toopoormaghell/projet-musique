@@ -27,7 +27,8 @@ private slots:
     void on_voirAlbum_clicked();
     void on_VoirArtiste_clicked();
     void on_Similaires_clicked();
-    void on_OuvrirDossier_clicked();
+
+    void on_CopierDansDossier_clicked();
 
 private:
     Ui::OngletRech* ui;

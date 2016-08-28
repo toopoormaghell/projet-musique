@@ -6,6 +6,7 @@
 #include <QDir>
 #include <QFileInfo>
 #include "util.h"
+#include "bddgestionmp3.h"
 
 BDDSingleton BDDSingleton::s_singleton;
 
@@ -65,7 +66,7 @@ void BDDSingleton::creationBase()
     tables << "CREATE TABLE Configuration('Intitule' TEXT,'Valeur' TEXT)";
     tables << "INSERT INTO Configuration VALUES ('DossierParDef','F:/Albums')";
     tables << "INSERT INTO Configuration VALUES ('ActualiserAlbums','Oui')";
-    tables << "INSERT INTO Configuration VALUES ('ActualiserCompil','Non')";
+    tables << "INSERT INTO Configuration VALUES ('ActualiserCompil','Oui')";
     tables << "INSERT INTO Configuration VALUES ('ActualiserLives','Non')";
     tables << "INSERT INTO Configuration VALUES ('Version', '3')";
     tables << "INSERT INTO Type VALUES(01,'Album')";
@@ -185,7 +186,7 @@ void BDDSingleton::verifierBDD()
         QString Alb = rec.value("Album_Formate").toString();
         FormaterEntiteBDD ( nom );
         if ( nom != Alb)
-        madatabase.exec( "UPDATE Album SET Album_Formate = '"+ nom +"' WHERE Id_Album = "+ Id_Alb +" " );
+            madatabase.exec( "UPDATE Album SET Album_Formate = '"+ nom +"' WHERE Id_Album = "+ Id_Alb +" " );
     }
     /*----- ARTISTE -----*/
     //Vide
@@ -202,8 +203,8 @@ void BDDSingleton::verifierBDD()
         QString Id_Art = rec.value( "Id_Artiste").toString();
         QString Art = rec.value("Artiste_Formate").toString();
         FormaterEntiteBDD ( nom );
-if ( nom != Art)
-        madatabase.exec( "UPDATE Artiste SET Artiste_Formate = '"+ nom +"' WHERE Id_Artiste = "+ Id_Art +" " );
+        if ( nom != Art)
+            madatabase.exec( "UPDATE Artiste SET Artiste_Formate = '"+ nom +"' WHERE Id_Artiste = "+ Id_Art +" " );
     }
     /*----- TITRE -----*/
     //Vide
@@ -221,7 +222,7 @@ if ( nom != Art)
         QString Titre_Formate = rec.value("Titre_Formate").toString();
         FormaterEntiteBDD ( nom );
         if ( nom != Titre_Formate )
-        madatabase.exec( "UPDATE Titre SET Titre_Formate = '"+ nom +"' WHERE Id_Titre = "+ Id_Titre +" " );
+            madatabase.exec( "UPDATE Titre SET Titre_Formate = '"+ nom +"' WHERE Id_Titre = "+ Id_Titre +" " );
     }
 
     /*----- MP3 -----*/
@@ -239,6 +240,9 @@ if ( nom != Art)
     //Non valide
     madatabase.exec( "UPDATE Phys SET Categorie = '1' WHERE Categorie NOT IN ( SELECT DISTINCT Id_Type FROM Type ) " );
 
+//BDDGestionMp3::ReconstruireListeCategorie();
+//temp.ReconstruireListeCategorie();
+
 }
 void BDDSingleton::changementversion()
 {
@@ -253,7 +257,8 @@ void BDDSingleton::changementversion()
     {
     case 0:  madatabase.exec("INSERT INTO Configuration VALUES ('Version', '1')");
     case 1 : version2();
-    case 2  : version3();break;
+    case 2  : version3();
+    case 3: version4();break;
     default: break;
     }
 }
@@ -282,6 +287,14 @@ void BDDSingleton::version3()
 
     //On change la version
     madatabase.exec("UPDATE Configuration SET Valeur='3' WHERE Intitule= 'Version' ");
+}
+void BDDSingleton::version4()
+{
+//On ajoute un champ dans la table Type
+    madatabase.exec("INSERT INTO Type VALUES( 11,'Inecoutes')" );
+
+    //On change la version
+    madatabase.exec("UPDATE Configuration SET Valeur='4' WHERE Intitule= 'Version' ");
 }
 
 void BDDSingleton::supprimerdossiersvides()

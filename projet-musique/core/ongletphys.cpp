@@ -196,51 +196,54 @@ void OngletPhys::afficherListeCompils()
 }
 void OngletPhys::AfficherInfosAlbum( int Type )
 {
+
     BDDPhys* phys = BDDPhys::RecupererPhys( m_selection );
 
-    //On affiche l'année et le nom de l'album
-    ui->Annee->setText( QString::number( phys->m_album->m_annee ) );
-    ui->NomAlbum->setText( phys->m_album->m_nom );
-
-    //On affiche la pochette
-    QPixmap scaled( QPixmap::fromImage( phys->m_album->m_pochette->m_image ) );
-    scaled = scaled.scaled( 150, 150 );
-    ui->Pochette->setPixmap( scaled );
-
-    QPixmap mp3( ":/Autres/Mp3" );
-    QPixmap nonmp3 (":/Autres/Faux");
-    //On affiche les titres
-    for ( int i = 0; i < phys->m_titres.count(); i++ )
+    if ( m_selection != 0  )
     {
-        QListWidgetItem* item = new QListWidgetItem;
+        //On affiche l'année et le nom de l'album
+        ui->Annee->setText( QString::number( phys->m_album->m_annee ) );
+        ui->NomAlbum->setText( phys->m_album->m_nom );
 
-        QString temp;
-        temp = QString::number( phys->m_titres[i]->m_num_piste ).rightJustified( 2, '0' ) + " - " + phys->m_titres[i]->m_nom + "(" + phys->m_titres[i]->m_duree + ")";
-        //Si c'est une compil, on ajoute les artistes derrière
-        if ( Type == 3 )
+        //On affiche la pochette
+        QPixmap scaled( QPixmap::fromImage( phys->m_album->m_pochette->m_image ) );
+        scaled = scaled.scaled( 150, 150 );
+        ui->Pochette->setPixmap( scaled );
+
+        QPixmap mp3( ":/Autres/Mp3" );
+        QPixmap nonmp3 (":/Autres/Faux");
+        //On affiche les titres
+        for ( int i = 0; i < phys->m_titres.count(); i++ )
         {
-            if ( m_artiste.toInt() == phys->m_titres[i]->m_artiste->m_id )
+            QListWidgetItem* item = new QListWidgetItem;
+
+            QString temp;
+            temp = QString::number( phys->m_titres[i]->m_num_piste ).rightJustified( 2, '0' ) + " - " + phys->m_titres[i]->m_nom + "(" + phys->m_titres[i]->m_duree + ")";
+            //Si c'est une compil, on ajoute les artistes derrière
+            if ( Type == 3 )
             {
-                //On Ajoute une couleur pour le titre où l'artiste est le bon
-                QBrush m_brush;
-                m_brush.setColor( Qt::blue );
-                item->setForeground( m_brush );
+                if ( m_artiste.toInt() == phys->m_titres[i]->m_artiste->m_id )
+                {
+                    //On Ajoute une couleur pour le titre où l'artiste est le bon
+                    QBrush m_brush;
+                    m_brush.setColor( Qt::blue );
+                    item->setForeground( m_brush );
+                }
+                temp = temp + " - " + phys->m_titres[i]->m_artiste->m_nom;
             }
-            temp = temp + " - " + phys->m_titres[i]->m_artiste->m_nom;
-        }
-        item->setText( temp );
-        //On affiche l'icone si le mp3 existe aussi
-        if ( phys->m_titres[i]->m_mp3  )
-        {
-            item->setIcon( QIcon( mp3 ) );
-        } else
-        {
-            item->setIcon( QIcon ( nonmp3 ) );
-        }
-        ui->Titres->addItem( item );
+            item->setText( temp );
+            //On affiche l'icone si le mp3 existe aussi
+            if ( phys->m_titres[i]->m_mp3  )
+            {
+                item->setIcon( QIcon( mp3 ) );
+            } else
+            {
+                item->setIcon( QIcon ( nonmp3 ) );
+            }
+            ui->Titres->addItem( item );
 
+        }
     }
-
     delete phys;
 }
 

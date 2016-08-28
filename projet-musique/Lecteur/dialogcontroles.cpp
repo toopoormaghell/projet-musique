@@ -16,12 +16,20 @@ DialogControles::DialogControles( QWidget *parent) :
 
     connect( player,SIGNAL( positionChanged(qint64)), this, SLOT(avancerSlider( qint64 )));
     connect( player,SIGNAL(durationChanged(qint64)),this,SLOT(changerduree(qint64)));
-
+    connect( player,SIGNAL(mediaStatusChanged(QMediaPlayer::MediaStatus)),this,SLOT(ArriverFin(QMediaPlayer::MediaStatus)) );
 }
 
 DialogControles::~DialogControles()
 {
     delete ui;
+}
+
+void DialogControles::ArriverFin(QMediaPlayer::MediaStatus status)
+{
+    if ( status == QMediaPlayer::EndOfMedia )
+    {
+        emit FinMP3();
+    }
 }
 
 void DialogControles::ChangerMP3(QString temp)
@@ -35,9 +43,13 @@ void DialogControles::ChangerMP3(QString temp)
 
 void DialogControles::Changer(QString temp)
 {
-    mp3 = temp;
-    player->setMedia(QUrl::fromLocalFile(mp3));
-    AfficherInfos();
+    if (mp3 != temp)
+    {
+        mp3 = temp;
+        player->setMedia(QUrl::fromLocalFile(mp3));
+        AfficherInfos();
+        on_Lecture_clicked();
+    }
 }
 void DialogControles::AfficherIcones()
 {
