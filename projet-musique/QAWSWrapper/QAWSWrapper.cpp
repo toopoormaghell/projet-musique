@@ -1,4 +1,7 @@
 #include "QAWSWrapper.h"
+#include "QAWSGlobalInfo.h"
+#include "QAWSWrapperNotifier.h"
+
 #include <QString>
 #include <QUrl>
 #include <QUrlQuery>
@@ -14,76 +17,27 @@
 
 namespace
 {
-    /**
-     * @brief Return the US market place URL
-     */
-    QString getMarketPlaceURL()
+    bool isReponseValid( const QByteArray& xmlToParse )
     {
-        return QString( "webservices.amazon.fr" );
-    }
-
-    /**
-     * @brief Return the market place URI to get XML
-     */
-    QString getMarketPlaceURI()
-    {
-        return QString( "/onca/xml" );
-    }
-
-    /**
-     * @brief Return the associate tag
-     *
-     * The associate tag is an alphanumeric token that uniquely identifies
-     * someone as an associate
-     */
-    QString getAssociateTag()
-    {
-        return QString( "990460715344" );
-    }
-
-    /**
-     * @brief Return the access key ID
-     *
-     * The Amazon Web Services access key ID which uniquely identifies someone.
-     */
-    QString getAccessKeyID()
-    {
-        return QString( "AKIAJOCTDCSVNM5IJ5PQ" );
-    }
-
-    /**
-     * @brief Return the secret access key
-     *
-     * A key that is used in conjunction with the Access Key ID to
-     * cryptographically sign an API request.
-     */
-    QString getSecretAccessKey()
-    {
-        return QString( "fVKexEofcDNu7s1DAUlbygltFqnb+GoYseafq5+6" );
-    }
-
-    /**
-     * @brief Return current time stamp with the ISO formatting
-     */
-    QString getTimeStamp()
-    {
-        return QDateTime::currentDateTimeUtc().toString( Qt::ISODate );
-    }
-
-    /**
-     * @brief Return the string to sign
-     */
-    QString getStringToSign( const QUrlQuery& listOfParameters )
-    {
-        QString stringToSign( QString( "GET\n%1\n%2\n" ).arg( getMarketPlaceURL() ).arg( getMarketPlaceURI() ) );
-        stringToSign += listOfParameters.query();
-        return stringToSign;
+        bool isValid = false;
+        QXmlStreamReader reader( xmlToParse );
+        while ( !reader.atEnd() )
+        {
+            reader.readNext();
+            if ( ( reader.tokenType() == QXmlStreamReader::StartElement ) &&
+                 ( reader.name() == "IsValid" ) )
+            {
+                reader.readNext();
+                if ( reader.tokenType() == QXmlStreamReader::Characters )
+                    isValid = ( reader.text() == "True" );
+            }
+        }
+        return isValid;
     }
 
     AlbumPhys parseXml( const QByteArray& xmlToParse, QStringList& artistsList )
     {
         AlbumPhys albumToFill;
-        bool isValid = false;
         unsigned int trackNumber = 1;
 
         QXmlStreamReader reader( xmlToParse );
@@ -94,14 +48,7 @@ namespace
             {
                 case QXmlStreamReader::StartElement:
                 {
-                    // look for the validity of the request
-                    if ( reader.name() == "IsValid" )
-                    {
-                        reader.readNext();
-                        if ( reader.tokenType() == QXmlStreamReader::Characters )
-                            isValid = ( reader.text() == "True" );
-                    }
-                    else if ( reader.name() == "Track" )
+                    if ( reader.name() == "Track" )
                     {
                         reader.readNext();
                         if ( reader.tokenType() == QXmlStreamReader::Characters )
@@ -109,7 +56,7 @@ namespace
                             TitresPhys titre;
                             titre.Titre = reader.text().toString();
                             titre.Num_Piste = trackNumber;
-                            titre.Duree="0:00";
+                            titre.Duree = "0:00";
                             trackNumber++;
                             albumToFill.titres.append( titre );
                         }
@@ -134,8 +81,10 @@ namespace
                         if ( reader.tokenType() == QXmlStreamReader::Characters )
                         {
                             albumToFill.Artiste = reader.text().toString();
-                            if ( reader.text().toString() == "Multi-Artistes" )
+                            if ( reader.text().toString() == "Various Artists" )
                                 albumToFill.Artiste = "Artistes Divers";
+                            else
+                                artistsList << reader.text().toString();
                         }
                     }
                     else if ( reader.name() == "ReleaseDate" )
@@ -178,10 +127,6 @@ namespace
         {
             qDebug() << "error while reading XML:" << reader.error();
         }
-        else if ( !isValid )
-        {
-            qDebug() << "invalide request";
-        }
 
         return albumToFill;
     }
@@ -190,17 +135,9 @@ namespace
 
 
 QAWSWrapper::QAWSWrapper():
-    m_artistsList()
+    m_notifier( new QAWSWrapperNotifier )
+  , m_artistsList()
 {
-
-}
-
-
-
-QAWSWrapper::QAWSWrapper( const QAWSWrapper& other ):
-    m_artistsList( other.m_artistsList )
-{
-
 }
 
 
@@ -211,46 +148,38 @@ QAWSWrapper::~QAWSWrapper()
 
 
 
-QAWSWrapper& QAWSWrapper::operator=( const QAWSWrapper& rhs )
+QAWSWrapperNotifier& QAWSWrapper::getNotifier()
 {
-    if ( this != &rhs )
-        m_artistsList = rhs.m_artistsList;
-    return *this;
+    return *m_notifier;
 }
 
 
 
 AlbumPhys QAWSWrapper::getAlbumFromEAN( const QString& ean )
 {
-    AlbumPhys albumRelatedToEAN;
-
     // Build the list of parameters that the URL must contain
     QUrlQuery listOfParameters;
-    listOfParameters.addQueryItem( "AWSAccessKeyId", getAccessKeyID() );
-    listOfParameters.addQueryItem( "AssociateTag", getAssociateTag() );
+    listOfParameters.addQueryItem( "AWSAccessKeyId", QAWSGlobalInfo::getAccessKeyID() );
+    listOfParameters.addQueryItem( "AssociateTag", QAWSGlobalInfo::getAssociateTag() );
     listOfParameters.addQueryItem( "IdType", "EAN" );
     listOfParameters.addQueryItem( "ItemId", ean );
     listOfParameters.addQueryItem( "Operation", "ItemLookup" );
     listOfParameters.addQueryItem( "ResponseGroup", QString( "Tracks,Small,Images,ItemAttributes" ).toUtf8().toPercentEncoding() );
     listOfParameters.addQueryItem( "SearchIndex", "Music" );
     listOfParameters.addQueryItem( "Service", "AWSECommerceService" );
-    listOfParameters.addQueryItem( "Timestamp", getTimeStamp().toUtf8().toPercentEncoding() );
-    //qDebug() << listOfParameters.query();
+    listOfParameters.addQueryItem( "Timestamp", QDateTime::currentDateTimeUtc().toString( Qt::ISODate ).toUtf8().toPercentEncoding() );
 
     // Prepare the string that will be used to compute the signature
-    QString stringToSign( getStringToSign( listOfParameters ) );
-//    qDebug() << stringToSign;
+    QString stringToSign( QString( "GET\n%1\n%2\n" ).arg( QAWSGlobalInfo::getMarketPlaceURL() ).arg( QAWSGlobalInfo::getMarketPlaceURI() ) );
+    stringToSign += listOfParameters.query();
 
     // Compute the signature of the string
-    QString signature = QMessageAuthenticationCode::hash( stringToSign.toLatin1(), getSecretAccessKey().toLatin1(), QCryptographicHash::Sha256 ).toBase64();
-//    qDebug() << signature;
-
+    QString signature = QMessageAuthenticationCode::hash( stringToSign.toLatin1(), QAWSGlobalInfo::getSecretAccessKey(), QCryptographicHash::Sha256 ).toBase64();
 
     // Build the signed URL
     listOfParameters.addQueryItem( "Signature", signature.toUtf8().toPercentEncoding() );
-    QUrl signedUrl( QString( "http://%1%2" ).arg( getMarketPlaceURL() ).arg( getMarketPlaceURI() ) );
+    QUrl signedUrl( QString( "http://%1%2" ).arg( QAWSGlobalInfo::getMarketPlaceURL() ).arg( QAWSGlobalInfo::getMarketPlaceURI() ) );
     signedUrl.setQuery( listOfParameters );
-//    qDebug() << signedUrl.toString();
 
     QNetworkRequest networkRequestApi( signedUrl );
     QNetworkAccessManager* networkAccessManagerApi = new QNetworkAccessManager;
@@ -260,9 +189,16 @@ AlbumPhys QAWSWrapper::getAlbumFromEAN( const QString& ean )
     QObject::connect( networkReplyApi, SIGNAL( finished() ), &loop, SLOT( quit() ) );
     loop.exec();
 
-    albumRelatedToEAN = parseXml( networkReplyApi->readAll(), m_artistsList );
+    QByteArray response( networkReplyApi->readAll() );
 
-    return albumRelatedToEAN;
+    QString message;
+    message += "Amazon Web Services response is ";
+    message += isReponseValid( response ) ? "" : "not ";
+    message += "valid.";
+    getNotifier().emitStepAchieved( message );
+
+    m_artistsList.clear();
+    return parseXml( response, m_artistsList );
 }
 
 

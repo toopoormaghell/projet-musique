@@ -5,7 +5,7 @@
 #include "bddgestionmp3.h"
 #include <QProgressBar>
 #include <QLabel>
-#include "dialogajouterphys.h"
+#include "DialogAjouterPhys.h"
 #include "vidagebdddialog.h"
 #include <QPushButton>
 #include "ongletmp3.h"

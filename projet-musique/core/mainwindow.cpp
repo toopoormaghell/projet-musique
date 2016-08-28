@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 #include "bddgestionmp3.h"
 #include "bddsingleton.h"
-#include "dialogajouterphys.h"
+#include "DialogAjouterPhys.h"
 #include <QToolBar>
 #include <QAction>
 #include <QMessageBox>

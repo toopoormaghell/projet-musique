@@ -135,6 +135,13 @@
            </property>
           </widget>
          </item>
+         <item>
+          <widget class="QLineEdit" name="Commentaires">
+           <property name="text">
+            <string>COMMENTAIRES</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </item>
       </layout>
@@ -180,97 +187,14 @@
     </layout>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_3">
-     <item>
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>N°</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QListWidget" name="Piste">
-       <property name="minimumSize">
-        <size>
-         <width>40</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>40</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="alternatingRowColors">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QVBoxLayout" name="verticalLayout_4">
-     <item>
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>Titre de la piste</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QListWidget" name="Titres">
-       <property name="dragDropMode">
-        <enum>QAbstractItemView::InternalMove</enum>
-       </property>
-       <property name="defaultDropAction">
-        <enum>Qt::MoveAction</enum>
-       </property>
-       <property name="alternatingRowColors">
-        <bool>true</bool>
-       </property>
-       <property name="selectionMode">
-        <enum>QAbstractItemView::MultiSelection</enum>
-       </property>
-       <property name="movement">
-        <enum>QListView::Free</enum>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QVBoxLayout" name="verticalLayoutArtiste">
-     <item>
-      <widget class="QLabel" name="ArtisteLabel">
-       <property name="text">
-        <string>Artiste de la piste</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QListWidget" name="Artiste_Titres">
-       <property name="lineWidth">
-        <number>1</number>
-       </property>
-       <property name="dragDropMode">
-        <enum>QAbstractItemView::InternalMove</enum>
-       </property>
-       <property name="defaultDropAction">
-        <enum>Qt::MoveAction</enum>
-       </property>
-       <property name="alternatingRowColors">
-        <bool>true</bool>
-       </property>
-       <property name="selectionMode">
-        <enum>QAbstractItemView::SingleSelection</enum>
-       </property>
-       <property name="movement">
-        <enum>QListView::Free</enum>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    <widget class="QTableView" name="tableView">
+     <attribute name="horizontalHeaderStretchLastSection">
+      <bool>true</bool>
+     </attribute>
+     <attribute name="verticalHeaderVisible">
+      <bool>false</bool>
+     </attribute>
+    </widget>
    </item>
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_2">

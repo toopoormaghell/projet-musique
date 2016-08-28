@@ -4,28 +4,31 @@
 
 
 #include "QAWSWrapper_global.h"
+#include <QScopedPointer>
 #include "util.h"
+class QAWSWrapperNotifier;
 
 
 
-/**
- * @brief Class wrapping calls to Amazon Web Service API
- *
- * This class contains one method that returns an AlbumPhys object.
- * It makes the necessary stuff to get all the information associated
- * to an EAN.
- */
 class QAWSWRAPPERSHARED_EXPORT QAWSWrapper
 {
 public:
-    // Default constructor, not implemented on purpose
+    /**
+     * @brief Constructor with one parameter
+     * @param ean EAN from which to take information
+     */
     QAWSWrapper();
-    // Default copy constructor, not implemented on purpose
-    QAWSWrapper( const QAWSWrapper& other );
-    // Destructor
+
+    /**
+     * @brief Destructor
+     */
     ~QAWSWrapper();
-    // Default assignement operator, not implemented on purpose
-    QAWSWrapper& operator=( const QAWSWrapper& rhs );
+
+    /**
+     * @brief Return the notifier for the object
+     * @return A const reference to the notifier used to emit signals
+     */
+    QAWSWrapperNotifier& getNotifier();
 
     // Return the album related to the given EAN
     AlbumPhys getAlbumFromEAN( const QString& ean );
@@ -36,8 +39,15 @@ public:
 
 
 private:
+    // Notifier to emit signals
+    QScopedPointer<QAWSWrapperNotifier> m_notifier;
     // List of the artists received from the AWS
     QStringList m_artistsList;
+
+    // Default copy constructor, not implemented on purpose
+    QAWSWrapper( const QAWSWrapper& other );
+    // Default assignement operator, not implemented on purpose
+    QAWSWrapper& operator=( const QAWSWrapper& rhs );
 };
 
 

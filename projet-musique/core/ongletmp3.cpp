@@ -11,7 +11,7 @@
 #include <time.h>
 #include <QFile>
 #include <QFileInfo>
-#include "dialogajouterphys.h"
+#include "DialogAjouterPhys.h"
 #include "bddaffichermp3.h"
 #include "util.h"
 #include "modifieralbumdialog.h"

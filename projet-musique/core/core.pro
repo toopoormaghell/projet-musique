@@ -52,7 +52,6 @@ HEADERS += \
     mainwindow.h \
     bddtype.h \
     bddtitre.h \
-    dialogajouterphys.h \
     rechercheurl.h \
     dialogconfigactu.h \
     bddconfig.h \
@@ -66,6 +65,7 @@ HEADERS += \
     ongletrech.h \
     bddrech.h \
     dialogchoixpochette.h \
+    DialogAjouterPhys.h \
     bddlecteur.h \
     ongletfusion.h
 
@@ -88,7 +88,6 @@ SOURCES += main.cpp \
     mainwindow.cpp \
     bddtype.cpp \
     bddtitre.cpp \
-    dialogajouterphys.cpp \
     rechercheurl.cpp \
     dialogconfigactu.cpp \
     bddconfig.cpp \
@@ -102,6 +101,7 @@ SOURCES += main.cpp \
     ongletrech.cpp \
     bddrech.cpp \
     dialogchoixpochette.cpp \
+    DialogAjouterPhys.cpp \
     bddlecteur.cpp \
     ongletfusion.cpp
 
@@ -109,7 +109,6 @@ FORMS += \
     ongletmp3.ui \
     ongletphys.ui \
     mainwindow.ui \
-    dialogajouterphys.ui \
     dialogconfigactu.ui \
     sousdialogajouttitre.ui \
     vidagebdddialog.ui \
@@ -119,6 +118,7 @@ FORMS += \
     modificationartistedialog.ui \
     ongletrech.ui \
     dialogchoixpochette.ui \
+    DialogAjouterPhys.ui \
     ongletfusion.ui
 
 
