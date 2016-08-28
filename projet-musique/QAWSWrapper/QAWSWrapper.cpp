@@ -81,7 +81,7 @@ namespace
                         if ( reader.tokenType() == QXmlStreamReader::Characters )
                         {
                             albumToFill.Artiste = reader.text().toString();
-                            if ( reader.text().toString() == "Multi-Artistes" )
+                            if ( reader.text().toString() == "Various Artists" )
                                 albumToFill.Artiste = "Artistes Divers";
                             else
                                 artistsList << reader.text().toString();
