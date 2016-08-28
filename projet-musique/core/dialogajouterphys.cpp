@@ -12,6 +12,39 @@
 #include <QStyledItemDelegate>
 class QTableModel;
 
+class QComboBoxDelegate : public QStyledItemDelegate
+{
+public:
+    QComboBoxDelegate( QObject* parent = 0 ):
+        QStyledItemDelegate( parent )
+    {
+    }
+
+    QWidget* createEditor( QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index ) const
+    {
+        QComboBox* editor = NULL;
+        if ( index.column() == 2 )
+        {
+            editor = new QComboBox( parent );
+        }
+        return editor;
+    }
+
+    void setEditorData( QWidget* editor, const QModelIndex& index ) const;
+
+    void setModelData( QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const
+    {
+        QComboBox* comboBox = static_cast<QComboBox*>( editor );
+        const QString artist = comboBox->currentText();
+        model->setData( model->index( index.row(), 2 ), artist );
+    }
+
+    void updateEditorGeometry( QWidget* editor, const QStyleOptionViewItem& option, const QModelIndex& index) const
+    {
+        editor->setGeometry( option.rect );
+    }
+};
+
 class LineModel
 {
 public:
@@ -218,6 +251,17 @@ private:
     QList<LineModel> m_lineList;
 };
 
+void QComboBoxDelegate::setEditorData( QWidget* editor, const QModelIndex& index ) const
+{
+    QComboBox* comboBox = static_cast<QComboBox*>( editor );
+    QTableModel const* const tableModel = static_cast<QTableModel const* const>( index.model() );
+    const QStringList& list = tableModel->getArtistList();
+    for ( int i = 0; i < list.size(); ++i )
+        comboBox->addItem( list[i] );
+    comboBox->setCurrentIndex( 0 );
+
+}
+
 
 
 DialogAjouterPhys::DialogAjouterPhys( QWidget* parent ) :
@@ -228,6 +272,7 @@ DialogAjouterPhys::DialogAjouterPhys( QWidget* parent ) :
     ui->setupUi( this );
 
     ui->tableView->setModel( m_tableModel );
+    ui->tableView->setItemDelegate( new QComboBoxDelegate );
 
     m_Type = 1;
     AffichageListeArtistes( -2 );
@@ -246,6 +291,7 @@ DialogAjouterPhys::DialogAjouterPhys( int id_album, QWidget* parent ) :
 
     ui->setupUi( this );
     ui->tableView->setModel( m_tableModel );
+    ui->tableView->setItemDelegate( new QComboBoxDelegate );
     AffichageListeArtistes( -2 );
 
     m_album = BDDAlbum::RecupAlbumEntite( id_album );
