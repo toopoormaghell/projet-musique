@@ -43,9 +43,8 @@ FenetrePrincipale::FenetrePrincipale( QWidget* parent ) :
     connect( stop, SIGNAL( clicked() ), m_gestionMP3, SLOT( stop_clique() ) );
     //Si uune action est faite dans l'onglet MP3, la barre de status l'affiche
     connect ( m_ongletMP3, SIGNAL( EnvoyerTexte() ), this, SLOT( AfficherTexte() ) );
-
     //Si un titre est ajouté dans la playlist du lecteur
-    connect( m_ongletMP3,SIGNAL(modifplaylist(QStringList)),m_lecteur,SLOT(modifplaylist(QStringList)));
+   connect( m_ongletMP3,SIGNAL(modifplaylist(QStringList)),m_lecteur,SLOT(modifplaylist(QStringList)));
 
     //Si un titre est supprimé dans la playlist du lecteur
     connect ( m_lecteur,SIGNAL(suppplaylist(QStringList)),m_ongletMP3,SLOT(suppplaylist(QStringList)));
@@ -106,6 +105,7 @@ void FenetrePrincipale::ajouterStatusBar()
     //   m_interaction->setMaximumWidth(700);
 
   //  ui->statusBar->adjustSize();
+
 }
 void FenetrePrincipale::stop_clique()
 {

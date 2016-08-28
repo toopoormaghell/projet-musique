@@ -212,5 +212,6 @@ background: white;
  image:url(nonmp3phys.png);
  }
 QGroupBox::title {
-color:red;
+color:#1EA7EC;
+font-size: 15px;
 }

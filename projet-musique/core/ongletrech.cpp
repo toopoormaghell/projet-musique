@@ -7,6 +7,9 @@
 #include "bddpoch.h"
 #include <QDebug>
 #include "bddmp3.h"
+#include <QFileInfo>
+#include <QDir>
+#include <QFile>
 
 OngletRech::OngletRech( QWidget* parent ) :
     QWidget( parent ),
@@ -36,6 +39,7 @@ void OngletRech::on_pushButton_clicked()
 }
 void OngletRech::affichageResultats()
 {
+
     affichageTitres();
     affichageAlbums();
     affichageArtistes();
@@ -281,7 +285,25 @@ void OngletRech::on_Similaires_clicked()
 
 }
 
-void OngletRech::on_OuvrirDossier_clicked()
+void OngletRech::on_CopierDansDossier_clicked()
 {
+    BDDTitre* titre = BDDTitre::RecupererTitre( m_titre.toInt() );
 
+    if ( titre->m_mp3 )
+    {
+        BDDMp3* mp3 = BDDMp3::RecupererMP3ParTitre( m_titre.toInt() );
+
+        QFileInfo fich( mp3->m_chemin );
+        QString doss = ("C:/Users/Alex/Desktop/Musique/");
+
+        if (  mp3->m_artiste->m_nomFormate == "indochine" )
+        {
+            doss +=  mp3->m_artiste->m_nom;
+        }
+        QDir dir( doss );
+        dir.mkpath(doss);
+        QString nouvelemplacementchemin =  doss + "/" + fich.fileName();
+        QFile::copy( mp3->m_chemin, nouvelemplacementchemin );
+
+    }
 }

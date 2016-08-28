@@ -247,7 +247,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QGroupBox" name="ResGroup">
      <property name="maximumSize">
       <size>
        <width>550</width>
@@ -470,7 +470,11 @@
               </size>
              </property>
              <property name="text">
-              <string>Copier</string>
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="IconesMenu.qrc">
+               <normaloff>:/MP3/copier</normaloff>:/MP3/copier</iconset>
              </property>
             </widget>
            </item>
@@ -582,22 +586,6 @@
      </layout>
     </widget>
    </item>
-   <item>
-    <widget class="QGroupBox" name="FusionGroup">
-     <property name="minimumSize">
-      <size>
-       <width>550</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="title">
-      <string>Fusion</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
  <tabstops>
@@ -605,6 +593,8 @@
   <tabstop>pushButton</tabstop>
   <tabstop>AlbResult</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="IconesMenu.qrc"/>
+ </resources>
  <connections/>
 </ui>

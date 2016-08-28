@@ -504,9 +504,9 @@ void OngletMP3::on_Similaires_clicked(const QModelIndex &index)
     }
     afficheralbumsettitres();
 
-    //On sélection l'album et le titre
+    //On sélectionne l'album et le titre
     m_album =  mp3->m_album->m_id;
-    m_mp3 = mp3->m_titre->m_id;
+    m_mp3 = mp3->m_id;
 
     for (int row = 0; row<ui->AlbumsTitres->rowCount() ; row++)
     {
@@ -517,7 +517,7 @@ void OngletMP3::on_Similaires_clicked(const QModelIndex &index)
 
             if ( item!= NULL)
             {
-                if (item->data(Qt::UserRole).toInt() == m_mp3)
+                if (item->data(Qt::UserRole).toInt() == m_mp3 )
                 {
                     ui->AlbumsTitres->setCurrentCell(row,col);
                 }

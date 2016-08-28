@@ -29,6 +29,7 @@ public:
     QString m_chemin;
 
     static BDDMp3* RecupererMp3ParChemin( QString& chemin );
+    static BDDMp3* RecupererMP3ParTitre ( const int& id );
 private:
     // Indique que les membres ont été créés par RecupererMp3 et doivent donc être détruits explicitement
     bool m_membersAreSelfCreated;

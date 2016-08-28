@@ -64,6 +64,11 @@
         <string>Recherche</string>
        </attribute>
       </widget>
+      <widget class="OngletFusion" name="Fusion">
+       <attribute name="title">
+        <string>Fusion</string>
+       </attribute>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -301,6 +306,12 @@
    <class>OngletRech</class>
    <extends>QWidget</extends>
    <header>ongletrech.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>OngletFusion</class>
+   <extends>QWidget</extends>
+   <header>ongletfusion.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
