@@ -206,6 +206,20 @@
       </widget>
      </item>
      <item>
+      <widget class="QCheckBox" name="findArtists">
+       <property name="text">
+        <string>find artists</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="swapColumns">
+       <property name="text">
+        <string>swap columns</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="verticalSpacer_5">
        <property name="orientation">
         <enum>Qt::Vertical</enum>

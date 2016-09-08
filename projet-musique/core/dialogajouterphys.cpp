@@ -25,7 +25,7 @@ public:
     QWidget* createEditor( QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index ) const
     {
         QLineEdit* editor = NULL;
-        if ( index.column() == 2 )
+        if ((index.column() == 1) || (index.column() == 2))
         {
             editor = new QLineEdit( parent );
         }
@@ -36,17 +36,17 @@ public:
 
     void setModelData( QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const
     {
-        if ( index.column() == 2 )
+        if ((index.column() == 1) || (index.column() == 2))
         {
             QLineEdit* lineEdit = static_cast<QLineEdit*>( editor );
             const QString artist = lineEdit->text();
-            model->setData( model->index( index.row(), 2 ), artist );
+            model->setData( index, artist );
         }
     }
 
     void updateEditorGeometry( QWidget* editor, const QStyleOptionViewItem& option, const QModelIndex& index) const
     {
-        if ( index.column() == 2 )
+        if ((index.column() == 1) || (index.column() == 2 ))
         {
             editor->setGeometry( option.rect );
         }
@@ -136,6 +136,8 @@ class QTableModel : public QAbstractTableModel
 public:
     explicit QTableModel( QObject* parent = 0 ):
         QAbstractTableModel( parent )
+      , m_findArtists(false)
+      , m_swapColumns(false)
     {
     }
 
@@ -154,10 +156,36 @@ public:
                 valueToReturn = QVariant( m_lineList[index.row()].track() );
             else
                 if ( ( index.column() == 1 ) && ( index.row() < m_lineList.size() ) )
-                    valueToReturn = QVariant( m_lineList[index.row()].song() );
+                {
+                    if (findArtists())
+                    {
+                        QStringList toto = m_lineList[index.row()].song().split( " - ");
+                        if ( swapColumns())
+                            valueToReturn = QVariant( toto.last() );
+                        else
+                            valueToReturn = QVariant( toto.first() );
+                    }
+                    else
+                    {
+                        valueToReturn = QVariant( m_lineList[index.row()].song() );
+                    }
+                }
                 else
                     if ( ( index.column() == 2 ) && ( index.row() < m_lineList.size() ) )
-                        valueToReturn = QVariant( m_lineList[index.row()].artist() );
+                    {
+                        if (findArtists())
+                        {
+                            QStringList toto = m_lineList[index.row()].song().split( " - ");
+                            if ( swapColumns())
+                                valueToReturn = QVariant( toto.first() );
+                            else
+                                valueToReturn = QVariant( toto.last() );
+                        }
+                        else
+                        {
+                            valueToReturn = QVariant( m_lineList[index.row()].artist() );
+                        }
+                    }
         }
         return valueToReturn;
     }
@@ -200,10 +228,36 @@ public:
                 m_lineList[index.row()].setTrack( value.toString() );
             else
                 if ( ( index.column() == 1 ) && ( index.row() < m_lineList.size() ) )
-                    m_lineList[index.row()].setSong( value.toString() );
+                {
+                    if (findArtists())
+                    {
+                        QStringList toto = m_lineList[index.row()].song().split( " - ");
+                        if ( swapColumns())
+                            m_lineList[index.row()].setSong( toto.last() + " - " + value.toString() );
+                        else
+                            m_lineList[index.row()].setSong( value.toString() + " - " + toto.last() );
+                    }
+                    else
+                    {
+                        m_lineList[index.row()].setSong( value.toString() );
+                    }
+                }
                 else
                     if ( ( index.column() == 2 ) && ( index.row() < m_lineList.size() ) )
-                        m_lineList[index.row()].setArtist( value.toString() );
+                    {
+                        if (findArtists())
+                        {
+                            QStringList toto = m_lineList[index.row()].song().split( " - ");
+                            if ( swapColumns())
+                                m_lineList[index.row()].setSong( value.toString() + " - " + toto.first() );
+                            else
+                                m_lineList[index.row()].setSong( toto.first() + " - " + value.toString() );
+                        }
+                        else
+                        {
+                            m_lineList[index.row()].setArtist( value.toString() );
+                        }
+                    }
                     else
                         hasDataChanged = false;
         }
@@ -255,18 +309,51 @@ public:
         setData( index( rowCount() - 1, 2 ), line.artist() );
     }
 
+    void setFindArtists( const bool findArtist)
+    {
+        if ( m_findArtists != findArtist )
+        {
+            m_findArtists = findArtist;
+            Q_EMIT dataChanged( index(0,1), index(rowCount()-1, columnCount()-1) );
+        }
+    }
+
+    bool findArtists() const
+    {
+        return m_findArtists;
+    }
+
+    void setSwapColumns( const bool swapColumns)
+    {
+        if ( m_swapColumns != swapColumns)
+        {
+            m_swapColumns = swapColumns;
+            Q_EMIT dataChanged( index(0,1), index(rowCount()-1, columnCount()-1) );
+        }
+    }
+
+    bool swapColumns() const
+    {
+        return m_swapColumns;
+    }
+
 private:
     QList<LineModel> m_lineList;
+    bool m_findArtists;
+    bool m_swapColumns;
 };
 
 void QCompletedLineEditDelegate::setEditorData( QWidget* editor, const QModelIndex& index ) const
 {
-    QLineEdit* lineEdit = static_cast<QLineEdit*>( editor );
-    QTableModel const* const tableModel = static_cast<QTableModel const* const>( index.model() );
-    QStringList completion (BDDAfficherPhys().ListeArtistesPossibles() );
-    QCompleter* completer = new QCompleter( completion );
-    completer->setCaseSensitivity( Qt::CaseInsensitive );
-    lineEdit->setCompleter( completer );
+    if ( index.column() == 2)
+    {
+        QLineEdit* lineEdit = static_cast<QLineEdit*>( editor );
+        QTableModel const* const tableModel = static_cast<QTableModel const* const>( index.model() );
+        QStringList completion (BDDAfficherPhys().ListeArtistesPossibles() );
+        QCompleter* completer = new QCompleter( completion );
+        completer->setCaseSensitivity( Qt::CaseInsensitive );
+        lineEdit->setCompleter( completer );
+    }
 }
 
 
@@ -312,6 +399,8 @@ void DialogAjouterPhys::AjoutConnex()
 {
     connect( ui->buttonGroup, SIGNAL( buttonClicked( int ) ), this, SLOT( AffichageListeArtistes( int ) ) ) ;
     QObject::connect( &m_research.getNotifier(), SIGNAL( stepAchieved( QString ) ), this, SLOT( AfficherInteraction( QString ) ) );
+    QObject::connect( ui->findArtists, SIGNAL( stateChanged(int) ), this, SLOT( on_findArtists_stateChanged(int) ) );
+    QObject::connect( ui->swapColumns, SIGNAL( stateChanged(int) ), this, SLOT( on_swapColumns_stateChanged(int) ) );
 }
 
 
@@ -340,6 +429,8 @@ void DialogAjouterPhys::on_ChercherEAN_clicked()
         m_EAN = "0" + m_EAN;
     }
     m_album = m_research.getAlbumFromEAN( m_EAN );
+
+    ui->findArtists->setChecked(false);
 
     m_tableModel->clearLines();
     int i = 0;
@@ -556,4 +647,15 @@ void DialogAjouterPhys::AjouterTitreManuel( const QString& titre, const QString&
 void DialogAjouterPhys::AfficherInteraction(QString message)
 {
     ui->Interaction->append( message );
+}
+
+void DialogAjouterPhys::on_findArtists_stateChanged(int newValue)
+{
+    m_tableModel->setFindArtists(newValue==Qt::Checked);
+    ui->swapColumns->setEnabled(newValue==Qt::Checked );
+}
+
+void DialogAjouterPhys::on_swapColumns_stateChanged(int newValue)
+{
+    m_tableModel->setSwapColumns(newValue == Qt::Checked);
 }
