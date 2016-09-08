@@ -11,9 +11,9 @@ class BDDGestionPhys : public QObject
 
 public:
     explicit BDDGestionPhys( QObject* parent = 0 );
-    void ajouterAlbum(QImage Poch, QString Album, QString Artiste, QString ean, int Annee, QList<TitresPhys> titres, int Type );
+    void ajouterAlbum(QImage Poch, QString Album, QString Artiste, QString ean, int Annee, QList<TitresPhys> titres, int Type , QString Commentaires);
     void SupprimerenBDDPhys( int Id );
-    void modifierAlbum(QString Album, QString Artiste, QString ean, int Annee, QList<TitresPhys> titres, int Type, int Id_Poch, int Id_Album);
+    void modifierAlbum(QString Album, QString Artiste, QString ean, int Annee, QList<TitresPhys> titres, int Type, int Id_Poch, int Id_Album, QString Commentaires);
 
 };
 

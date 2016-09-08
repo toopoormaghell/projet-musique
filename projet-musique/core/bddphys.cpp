@@ -8,7 +8,7 @@
 #include <QtSql>
 
 
-BDDPhys::BDDPhys( const BDDAlbum& album, const QString& ean, const int& type, QObject* parent ):
+BDDPhys::BDDPhys(const BDDAlbum& album, const QString& ean, const int& type, const QString& Commentaires, QObject* parent ):
     QObject( parent ),
     m_id( -1 ),
     m_album( &album ),
@@ -16,6 +16,7 @@ BDDPhys::BDDPhys( const BDDAlbum& album, const QString& ean, const int& type, QO
     m_titres(),
     m_type( BDDType::RecupererType( type ) ),
     m_ean( ean ),
+    m_commentaires ( Commentaires),
     m_membersAreSelfCreatad( false )
 {
     recupererId();
@@ -70,7 +71,7 @@ BDDPhys* BDDPhys::RecupererPhys( const int id )
 
 void BDDPhys::ajouterBDD()
 {
-    QString queryStr = "INSERT INTO Phys VALUES (null,'" + QString::number( m_album->m_id ) + "','" + QString::number( m_type->m_id ) + "','" + m_ean + "')";
+    QString queryStr = "INSERT INTO Phys VALUES (null,'" + QString::number( m_album->m_id ) + "','" + QString::number( m_type->m_id ) + "','" + m_ean + "','" + m_commentaires + "')";
     QSqlQuery query =  madatabase.exec( queryStr );
     m_id = query.lastInsertId().toInt();
 }
@@ -99,7 +100,8 @@ BDDPhys::BDDPhys( const int id, QObject* parent ):
     m_artiste( NULL ),
     m_titres(),
     m_type(),
-    m_ean( -1 )
+    m_ean( -1 ),
+    m_commentaires()
 {
     Q_UNUSED( parent );
     QString queryStr = "SELECT * FROM Phys WHERE Id_Album='" + QString::number( id ) + "'";
@@ -110,6 +112,7 @@ BDDPhys::BDDPhys( const int id, QObject* parent ):
 
         m_type = BDDType::RecupererType( rec.value( "Categorie" ).toInt() );
         m_album = BDDAlbum::RecupererAlbum( rec.value( "Id_Album" ).toInt() );
+        m_commentaires = rec.value("Commentaire").toString();
         RecupererTitres();
         m_membersAreSelfCreatad = true;
     }
@@ -130,5 +133,8 @@ void BDDPhys::RecupererTitres()
 }
 void BDDPhys::updateBDD()
 {
+
+    QString queryStr = "UPDATE Phys SET CodeBarres = '" + m_ean + "', Commentaire = '" + m_commentaires + "', Categorie = '"+ QString::number( m_type->m_id ) +"' WHERE Id_Album ='" + QString::number(m_album->m_id ) +"' ";
+    madatabase.exec( queryStr );
 
 }

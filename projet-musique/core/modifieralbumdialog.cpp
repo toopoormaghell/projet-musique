@@ -9,6 +9,7 @@
 #include "dialogchoixpochette.h"
 #include "bddpoch.h"
 #include <QAbstractButton>
+#include "bddphys.h"
 
 ModifierAlbumDialog::ModifierAlbumDialog( int selection, QWidget* parent ) :
     QDialog( parent ),
@@ -54,6 +55,10 @@ void ModifierAlbumDialog::AfficherAlbum()
     //On affiche le type de l'album
 
     ui->Type->setCurrentText( m_album.Type_Str );
+
+    //On va chercher les commentaires sur l'album physique
+    BDDPhys* phys = BDDPhys::RecupererPhys( m_album.Id_Album );
+    ui->Commentaires->setText( phys->m_commentaires );
 }
 void ModifierAlbumDialog::ListeNumeros()
 {
@@ -111,7 +116,7 @@ void ModifierAlbumDialog::on_buttonBox_accepted()
 {
    EnregistrerAlbum();
     BDDGestionPhys m_bddinterface;
-    m_bddinterface.modifierAlbum(  m_album.Album, m_album.Artiste, QString::number( m_album.Id_Release ), m_album.Annee, m_album.titres, m_album.Type, m_album.Id_Poch, m_album.Id_Album );
+    m_bddinterface.modifierAlbum(  m_album.Album, m_album.Artiste, QString::number( m_album.Id_Release ), m_album.Annee, m_album.titres, m_album.Type, m_album.Id_Poch, m_album.Id_Album, ui->Commentaires->text() );
 
 }
 

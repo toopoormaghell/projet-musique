@@ -386,7 +386,7 @@ void DialogAjouterPhys::on_Enregistrer_clicked()
 {
     RecupererAlbum();
     BDDGestionPhys m_bddinterface;
-    m_bddinterface.ajouterAlbum( m_album.Poch, m_album.Album, m_album.Artiste, m_EAN, m_album.Annee, m_album.titres, m_Type );
+    m_bddinterface.ajouterAlbum( m_album.Poch, m_album.Album, m_album.Artiste, m_EAN, m_album.Annee, m_album.titres, m_Type, ui->Commentaires->text() );
     ui->Interaction->append( "Album enregistré." );
     emit ajout();
     ViderBoiteDialogue();
