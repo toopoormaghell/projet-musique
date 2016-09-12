@@ -17,7 +17,7 @@ public:
     static BDDRelation* RecupererRelation( const int id );
     void supprimerenBDDMP3() const;
     void supprimerenBDDPhys() const;
-
+   void supprimerModifier() const;
     int m_id;
     int m_id_artiste;
     int m_id_album;
@@ -28,6 +28,7 @@ private:
     void recupererId();
 
     void updateBDD();
+
 };
 
 #endif // BDDRELATION_H

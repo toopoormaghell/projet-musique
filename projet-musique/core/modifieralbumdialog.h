@@ -8,7 +8,7 @@
 
 namespace Ui
 {
-    class ModifierAlbumDialog;
+class ModifierAlbumDialog;
 }
 
 class ModifierAlbumDialog : public QDialog
@@ -21,11 +21,9 @@ public:
 
 private slots:
     void Supprimer_Titre();
- void on_buttonBox_accepted();
-
+    void on_buttonBox_accepted();
     void on_Parcourir_clicked();
-
-
+    void on_Supprimer_clicked();
 
 private:
     //Affichage des données dans la fenêtre

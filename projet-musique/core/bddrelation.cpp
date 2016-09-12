@@ -93,6 +93,10 @@ void BDDRelation::supprimerenBDDMP3() const
     }
 
 }
+void BDDRelation::supprimerModifier() const
+{
+    madatabase.exec( "DELETE FROM Relations WHERE Id_Relation='" + QString::number( m_id ) + "'" );
+}
 void BDDRelation::supprimerenBDDPhys() const
 {
 

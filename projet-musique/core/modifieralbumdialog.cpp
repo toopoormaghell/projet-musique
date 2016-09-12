@@ -77,7 +77,7 @@ void ModifierAlbumDialog::EnregistrerAlbum()
     m_album.Annee = ui->Annee->text().toInt();
     m_album.Type = ui->Type->currentIndex() + 1;
 
-
+    m_album.titres.clear();
     //On récupère les titres
     for ( int i = 0; i < ui->Titres->count(); i++ )
     {
@@ -106,6 +106,8 @@ void ModifierAlbumDialog::Supprimer_Titre()
             {
                 QListWidgetItem* item = ui->Titres->takeItem( i );
                 ui->Titres->removeItemWidget( item );
+                ui->Duree->takeItem( i);
+                ui->Duree->removeItemWidget( item );
             }
         }
     }
@@ -114,9 +116,13 @@ void ModifierAlbumDialog::Supprimer_Titre()
 
 void ModifierAlbumDialog::on_buttonBox_accepted()
 {
-   EnregistrerAlbum();
+    EnregistrerAlbum();
     BDDGestionPhys m_bddinterface;
+
     m_bddinterface.modifierAlbum(  m_album.Album, m_album.Artiste, QString::number( m_album.Id_Release ), m_album.Annee, m_album.titres, m_album.Type, m_album.Id_Poch, m_album.Id_Album, ui->Commentaires->text() );
+
+
+    delete ui;
 
 }
 
@@ -132,4 +138,9 @@ void ModifierAlbumDialog::on_Parcourir_clicked()
         delete pochtemp;
     }
     AfficherAlbum();
+}
+
+void ModifierAlbumDialog::on_Supprimer_clicked()
+{
+    Supprimer_Titre();
 }

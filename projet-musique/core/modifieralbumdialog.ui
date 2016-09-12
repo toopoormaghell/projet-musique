@@ -64,8 +64,8 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>535</x>
-     <y>570</y>
+     <x>550</x>
+     <y>580</y>
      <width>291</width>
      <height>23</height>
     </rect>
@@ -96,8 +96,14 @@
      <height>411</height>
     </rect>
    </property>
+   <property name="dragDropMode">
+    <enum>QAbstractItemView::InternalMove</enum>
+   </property>
    <property name="alternatingRowColors">
     <bool>true</bool>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::MultiSelection</enum>
    </property>
   </widget>
   <widget class="QListWidget" name="Num_Pistes">
@@ -175,6 +181,19 @@
      <width>541</width>
      <height>51</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="Supprimer">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>190</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Supprimer Titres Sélectionnés</string>
    </property>
   </widget>
  </widget>

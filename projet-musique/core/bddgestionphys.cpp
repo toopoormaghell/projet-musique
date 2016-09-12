@@ -60,11 +60,24 @@ void BDDGestionPhys::modifierAlbum( QString Album, QString Artiste, QString ean,
     alb->m_nomFormate = Album ;
     alb->updateBDD();
 
+    //On supprime la liste des titres déjà présents dans la bdd
+    AlbumPhys albphys = BDDAlbum::RecupAlbumEntite( Id_Album);
+    for ( int i=0;i< albphys.titres.count();i++ )
+    {
 
+        BDDTitre tit( albphys.titres[i].Titre.replace( "'", "$" ), albphys.titres[i].Num_Piste, albphys.titres[i].Duree, *alb );
+        BDDRelation rel (*alb, art, tit);
+
+        tit.supprimerenBDD();
+        rel.supprimerenBDDPhys();
+    }
+
+   //Et On remet les titres
     for ( int cpt = 0; cpt < titres.count(); cpt++ )
     {
         TitresPhys temp = titres[cpt];
         BDDTitre tit( temp.Titre.replace( "'", "$" ), temp.Num_Piste, temp.Duree, *alb );
+
         if ( Type == 2 )
         {
             BDDArtiste artTitre( temp.Artiste, *poch );
