@@ -66,7 +66,6 @@ private:
     void actualiserMp3( QString chemin );
     QString getdossierpardef();
     void SousCatParChemin( QString chemin );
-    QImage ImageAlbum( const TagLib::FileRef& f );
     void creerfilefichiers();
     //Actualiser MP3 + Supprimer MP3
     void supprimerAnciensMP3();
