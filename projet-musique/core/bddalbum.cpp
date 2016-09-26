@@ -153,7 +153,8 @@ AlbumPhys BDDAlbum::RecupAlbumEntite( const int id )
         titre.Num_Piste = TitreEnCours->m_num_piste;
         titre.Titre = TitreEnCours->m_nom;
         titre.MP3Phys = TitreEnCours->m_mp3 && TitreEnCours->m_phys;
-
+        titre.MP3 = TitreEnCours->m_mp3;
+        titre.Phys = TitreEnCours->m_phys;
         albphys.titres << titre;
 
     }
