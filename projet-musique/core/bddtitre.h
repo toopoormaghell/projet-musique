@@ -27,6 +27,7 @@ public:
     BDDArtiste const* m_artiste;
     BDDAlbum const* m_album;
 
+    void mp3physfusion();
 private:
     void ajouterBDD();
     //Indique que l'artiste et l'album ont été créés par RécupérerTitre et doivent donc être détruits explicitement

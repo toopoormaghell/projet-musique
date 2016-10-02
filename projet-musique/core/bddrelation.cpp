@@ -41,9 +41,12 @@ void BDDRelation::recupererId()
         m_id = -1;
     }
 }
+
+
 void BDDRelation::updateBDD()
 {
-
+    QString queryStr = "UPDATE Relations SET Id_Titre ='" + QString::number( m_id_titre ) + "', Id_Artiste='" + QString::number( m_id_artiste ) + "', Id_Album= '" + QString::number( m_id_album ) + "' WHERE Id_Relation = '" + QString::number( m_id ) + "'";
+    madatabase.exec( queryStr );
 }
 
 BDDRelation* BDDRelation::RecupererRelation( const int id )
@@ -69,7 +72,34 @@ BDDRelation::BDDRelation( const int id, QObject* parent ):
         m_id_titre = rec.value( "Id_Titre" ).toInt();
     }
 }
+BDDRelation::BDDRelation(const int id, QString Type, QObject *parent):
+    QObject ( parent ),
+    m_id(),
+    m_id_artiste(),
+    m_id_album(),
+    m_id_titre()
+{
+    QString queryStr="";
+    if ( Type == "Titre" )
+    {
+        queryStr = "SELECT Id_Titre, Id_Album, Id_Artiste, Id_Relation FROM Relations WHERE Id_Titre='" + QString::number( id ) + "'";
 
+    }
+    QSqlQuery query = madatabase.exec( queryStr );
+    while ( query.next() )
+    {
+        QSqlRecord rec = query.record();
+
+        m_id_album = rec.value( "Id_Album" ).toInt();
+        m_id_artiste = rec.value( "Id_Artiste" ).toInt();
+        m_id_titre = rec.value( "Id_Titre" ).toInt();
+        m_id = rec.value("Id_Relation").toInt();
+    }
+
+
+
+
+}
 void BDDRelation::ajouterBDD()
 {
     QString  queryStr = "INSERT INTO Relations VALUES (null,'" + QString::number( m_id_titre ) + "','" + QString::number( m_id_album ) + "','" + QString::number( m_id_artiste ) + "')";
@@ -96,6 +126,11 @@ void BDDRelation::supprimerenBDDMP3() const
 void BDDRelation::supprimerModifier() const
 {
     madatabase.exec( "DELETE FROM Relations WHERE Id_Relation='" + QString::number( m_id ) + "'" );
+}
+
+BDDRelation *BDDRelation::RecupererRelationParTitre(const int id)
+{
+    return new BDDRelation(id, "Titre");
 }
 void BDDRelation::supprimerenBDDPhys() const
 {

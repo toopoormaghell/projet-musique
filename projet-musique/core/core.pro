@@ -67,7 +67,11 @@ HEADERS += \
     dialogchoixpochette.h \
     DialogAjouterPhys.h \
     bddlecteur.h \
-    ongletfusion.h
+    ongletfusion.h \
+    MyQLabel.h \
+    bddfusion.h \
+    tags.h \
+    dialogchoixtitrefusion.h
 
 
 SOURCES += main.cpp \
@@ -103,7 +107,11 @@ SOURCES += main.cpp \
     dialogchoixpochette.cpp \
     DialogAjouterPhys.cpp \
     bddlecteur.cpp \
-    ongletfusion.cpp
+    ongletfusion.cpp \
+    MyQLabel.cpp \
+    bddfusion.cpp \
+    tags.cpp \
+    dialogchoixtitrefusion.cpp
 
 FORMS += \
     ongletmp3.ui \
@@ -119,7 +127,8 @@ FORMS += \
     ongletrech.ui \
     dialogchoixpochette.ui \
     DialogAjouterPhys.ui \
-    ongletfusion.ui
+    ongletfusion.ui \
+    dialogchoixtitrefusion.ui
 
 
 OTHER_FILES += \

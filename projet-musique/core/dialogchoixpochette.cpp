@@ -48,7 +48,7 @@ void DialogChoixPochette::AfficherPochettes()
         //on affiche la pochette
         QPixmap scaled( QPixmap::fromImage( poch->m_image ) );
         item->setIcon( QIcon( scaled ) );
-        item->setData( poch->m_id, Qt::UserRole );
+        item->setData(  Qt::UserRole, poch->m_id );
         item->setText(  poch->m_chemin );
 
         //On ajoute l'item dans le modèle
