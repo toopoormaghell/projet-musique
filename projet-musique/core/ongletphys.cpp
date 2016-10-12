@@ -6,9 +6,9 @@
 #include "bddalbum.h"
 #include "bddtitre.h"
 #include "bddphys.h"
-#include "modifieralbumdialog.h"
+#include "DialogModifierAlbum.h"
 #include "bddgestionphys.h"
-#include "modificationartistedialog.h"
+#include "DialogModifierArtiste.h"
 #include <QDebug>
 
 OngletPhys::OngletPhys( QWidget* parent ) :
@@ -300,7 +300,7 @@ void OngletPhys::on_Singles_itemPressed( QListWidgetItem* item )
 
 void OngletPhys::on_Modifier_clicked()
 {
-    ModifierAlbumDialog modif( m_selection, this );
+    DialogModifierAlbum modif( m_selection, this );
     modif.exec();
 }
 void OngletPhys::on_SupprimerAlbum_clicked()
@@ -314,7 +314,7 @@ void OngletPhys::on_Artistes_doubleClicked( const QModelIndex& index )
 
     int choix = index.data( Qt::UserRole ).toInt();
     BDDArtiste* artiste = BDDArtiste::RecupererArtiste( choix );
-    ModificationArtisteDialog temp( artiste, this );
+    DialogModifierArtiste temp( artiste, this );
     temp.exec();
     vider( "Artiste" );
     afficherListeArtiste();

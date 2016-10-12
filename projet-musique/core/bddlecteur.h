@@ -11,10 +11,8 @@ public:
     explicit BDDLecteur(QObject *parent = 0);
     QStringList listeTitresAlbum ( QString Album);
     QStringList listeTitresArtiste (QString Artiste );
-QStringList listeTitresAnnee ( QString Annee);
-signals:
+    QStringList listeTitresAnnee ( QString Annee);
 
-public slots:
 };
 
 #endif // BDDLECTEUR_H

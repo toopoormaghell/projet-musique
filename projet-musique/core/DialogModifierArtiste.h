@@ -6,16 +6,16 @@
 
 namespace Ui
 {
-    class ModificationArtisteDialog;
+    class DialogModifierArtiste;
 }
 
-class ModificationArtisteDialog : public QDialog
+class DialogModifierArtiste : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit ModificationArtisteDialog( BDDArtiste* Artiste, QWidget* parent = 0 );
-    ~ModificationArtisteDialog();
+    explicit DialogModifierArtiste( BDDArtiste* Artiste, QWidget* parent = 0 );
+    ~DialogModifierArtiste();
 
 private slots:
     void on_Inversion_clicked();
@@ -25,7 +25,7 @@ private slots:
     void on_buttonBox_accepted();
 
 private:
-    Ui::ModificationArtisteDialog* ui;
+    Ui::DialogModifierArtiste* ui;
     BDDArtiste* m_artiste;
     void AfficherArtiste();
     void Enregistrer();

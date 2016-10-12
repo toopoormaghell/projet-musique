@@ -1,11 +1,11 @@
-#include "sousdialogajouttitre.h"
-#include "ui_sousdialogajouttitre.h"
+#include "DialogAjoutTitre.h"
+#include "ui_DialogAjoutTitre.h"
 #include "bddafficherphys.h"
 #include <QCompleter>
 
-SousDialogAjoutTitre::SousDialogAjoutTitre( int Type, QWidget* parent ) :
+DialogAjoutTitre::DialogAjoutTitre( int Type, QWidget* parent ) :
     QDialog( parent ),
-    ui( new Ui::SousDialogAjoutTitre )
+    ui( new Ui::DialogAjoutTitre )
 {
     ui->setupUi( this );
     ActualiserOnglet( Type );
@@ -13,11 +13,11 @@ SousDialogAjoutTitre::SousDialogAjoutTitre( int Type, QWidget* parent ) :
 
 }
 
-SousDialogAjoutTitre::~SousDialogAjoutTitre()
+DialogAjoutTitre::~DialogAjoutTitre()
 {
     delete ui;
 }
-void SousDialogAjoutTitre::ActualiserOnglet( int Type )
+void DialogAjoutTitre::ActualiserOnglet( int Type )
 {
     AjouterListeTitres();
     AjouterListeArtistes();
@@ -35,14 +35,14 @@ void SousDialogAjoutTitre::ActualiserOnglet( int Type )
 }
 
 
-void SousDialogAjoutTitre::RecupererDonnees()
+void DialogAjoutTitre::RecupererDonnees()
 {
     m_Duree = ui->Duree->text();
     m_Artiste = ui->Artiste->text();
     m_Titre = ui->Titre->text();
 }
 
-void SousDialogAjoutTitre::on_buttonBox_clicked( QAbstractButton* button )
+void DialogAjoutTitre::on_buttonBox_clicked( QAbstractButton* button )
 {
     if ( ui->buttonBox->standardButton( button ) == QDialogButtonBox::Save )
     {
@@ -54,23 +54,23 @@ void SousDialogAjoutTitre::on_buttonBox_clicked( QAbstractButton* button )
         RecupererDonnees();
     }
 }
-void SousDialogAjoutTitre::Raccourci()
+void DialogAjoutTitre::Raccourci()
 {
     RecupererDonnees();
     emit enregistr( m_Titre, m_Duree, m_Artiste );
 }
 
-void SousDialogAjoutTitre::on_Sauvegarde_clicked()
+void DialogAjoutTitre::on_Sauvegarde_clicked()
 {
     RecupererDonnees();
     emit enregistr( m_Titre, m_Duree, m_Artiste );
 }
-void SousDialogAjoutTitre::AjouterListeTitres()
+void DialogAjoutTitre::AjouterListeTitres()
 {
     BDDAfficherPhys temp;
     ui->Titre->setCompleter( new QCompleter( temp.ListeTitresPossibles() ) );
 }
-void SousDialogAjoutTitre::AjouterListeArtistes()
+void DialogAjoutTitre::AjouterListeArtistes()
 {
     BDDAfficherPhys temp;
     ui->Artiste->setCompleter( new QCompleter( temp.ListeArtistesPossibles() ) );

@@ -8,16 +8,16 @@
 
 namespace Ui
 {
-class ModifierAlbumDialog;
+class DialogModifierAlbum;
 }
 
-class ModifierAlbumDialog : public QDialog
+class DialogModifierAlbum : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit ModifierAlbumDialog( int selection, QWidget* parent = 0 );
-    ~ModifierAlbumDialog();
+    explicit DialogModifierAlbum( int selection, QWidget* parent = 0 );
+    ~DialogModifierAlbum();
 
 private slots:
     void Supprimer_Titre();
@@ -33,7 +33,7 @@ private:
     void EnregistrerAlbum();
 
     //Données utilisées dans la classe
-    Ui::ModifierAlbumDialog* ui;
+    Ui::DialogModifierAlbum* ui;
     BDDGestionPhys* m_bddinterface;
     int m_selection;
     AlbumPhys m_album;

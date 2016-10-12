@@ -4,7 +4,7 @@
 #include "bddgestionphys.h"
 #include "util.h"
 #include <QFileDialog>
-#include "sousdialogajouttitre.h"
+#include "DialogAjoutTitre.h"
 #include "bddalbum.h"
 #include "QAWSWrapperNotifier.h"
 #include "BDDAfficherPhys.h"
@@ -12,6 +12,7 @@
 #include <QLineEdit>
 #include <QStyledItemDelegate>
 #include <QCompleter>
+
 class QTableModel;
 
 class QCompletedLineEditDelegate : public QStyledItemDelegate
@@ -622,7 +623,7 @@ void DialogAjouterPhys::on_pushButton_clicked()
 
 void DialogAjouterPhys::on_Ajouter_Titre_clicked()
 {
-    SousDialogAjoutTitre toto( m_Type, this );
+    DialogAjoutTitre toto( m_Type, this );
     connect( &toto, SIGNAL( enregistr( QString, QString, QString ) ), this, SLOT( AjouterTitreManuel( QString, QString, QString ) ) );
     int retVal = toto.exec();
     if ( ( retVal == QDialog::Accepted ) && !toto.m_Titre.isEmpty() )

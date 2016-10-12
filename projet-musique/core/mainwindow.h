@@ -6,7 +6,7 @@
 #include <QProgressBar>
 #include <QLabel>
 #include "DialogAjouterPhys.h"
-#include "vidagebdddialog.h"
+#include "DialogVidageBDD.h"
 #include <QPushButton>
 #include "ongletmp3.h"
 #include "mainwindowlecteur.h"
@@ -53,7 +53,7 @@ private:
     OngletMP3* m_ongletMP3;
     MainWindowLecteur* m_lecteur;
     DialogAjouterPhys* m_dialogajouterphys;
-    VidageBDDDialog m_vidage;
+    DialogVidageBDD m_vidage;
     QPushButton* stop;
 };
 

@@ -7,7 +7,7 @@
 #include <QAction>
 #include <QMessageBox>
 #include "dialogconfigactu.h"
-#include "vidagebdddialog.h"
+#include "DialogVidageBDD.h"
 #include "QDebug"
 #include <QWidget>
 #include <QStatusBar>

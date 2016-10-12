@@ -7,14 +7,14 @@
 #include "bddmp3.h"
 #include "bddtype.h"
 #include <algorithm>
-#include "modificationartistedialog.h"
+#include "DialogModifierArtiste.h"
 #include <time.h>
 #include <QFile>
 #include <QFileInfo>
 #include "DialogAjouterPhys.h"
 #include "bddaffichermp3.h"
 #include "util.h"
-#include "modifieralbumdialog.h"
+#include "DialogModifierAlbum.h"
 #include <QDir>
 #include "bddlecteur.h"
 #include <QInputDialog>
@@ -403,7 +403,7 @@ void OngletMP3::on_buttonBox_clicked( QAbstractButton* button )
     }
     if ( button->text() == "Modifier" )
     {
-        ModifierAlbumDialog mod( m_album, this );
+        DialogModifierAlbum mod( m_album, this );
         mod.exec();
     }
 }
@@ -412,7 +412,7 @@ void OngletMP3::on_ArtistesAnnees_doubleClicked( const QModelIndex& index )
 {
     m_artiste = index.data( Qt::UserRole ).toInt();
     BDDArtiste* artiste = BDDArtiste::RecupererArtiste( m_artiste );
-    ModificationArtisteDialog temp( artiste, this );
+    DialogModifierArtiste temp( artiste, this );
     temp.exec();
     vider( "Artiste" );
     affichageartistes();
