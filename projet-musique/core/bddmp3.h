@@ -7,7 +7,7 @@ class BDDAlbum;
 class BDDTitre;
 class BDDRelation;
 class BDDType;
-
+class BDDPoch;
 class BDDMp3 : public QObject
 {
     Q_OBJECT
@@ -28,8 +28,9 @@ public:
     BDDType const* m_type;
     QString m_chemin;
 
-    static BDDMp3* RecupererMp3ParChemin( QString& chemin );
+    static BDDMp3* RecupererMp3ParChemin( const QString& chemin );
     static BDDMp3* RecupererMP3ParTitre ( const int& id );
+    void ChangerTag (const QString& NouveauAlbum, const QString& NouveauTitre, const QString& NouveauArtiste, const int &NouvelleAnnee, const int &NouvellePiste, const QString &NouvellePoch);
 private:
     // Indique que les membres ont été créés par RecupererMp3 et doivent donc être détruits explicitement
     bool m_membersAreSelfCreated;

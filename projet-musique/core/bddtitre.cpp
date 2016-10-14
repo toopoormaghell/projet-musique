@@ -31,7 +31,8 @@ BDDTitre::BDDTitre(const QString& nom, const int& num_piste, const QString& dure
 
 void BDDTitre::updateBDD()
 {
-
+    QString queryStr = "UPDATE Titre SET Titre_Formate ='" + m_nomFormate + "', Titre ='" +  m_nom  + "', Num_Piste= '" + QString::number( m_num_piste ) + "' WHERE Id_Titre = '" + QString::number( m_id ) + "'";
+    madatabase.exec( queryStr );
 }
 BDDTitre::~BDDTitre()
 {
@@ -68,7 +69,7 @@ void BDDTitre::ajouterBDD()
 
 void BDDTitre::recupererId()
 {
-    QString queryStr = "Select T.Id_Titre As 'Titre' from Titre T, Relations R WHERE T.Titre_Formate='" + m_nomFormate + "' AND T.Num_Piste='" + QString::number( m_num_piste ) + "' AND T.Id_Titre=R.Id_Titre AND R.Id_Album='"+ QString::number( m_album->m_id )+"'" ;
+    QString queryStr = "Select T.Id_Titre As 'Titre' from Titre T, Relations R WHERE T.Titre_Formate='" + m_nomFormate + "' AND T.Id_Titre=R.Id_Titre AND R.Id_Album='"+ QString::number( m_album->m_id )+"'" ;
 
     QSqlQuery query = madatabase.exec( queryStr );
 
@@ -97,6 +98,26 @@ void BDDTitre::mp3etphys()
 
     //Deuxième étape: le titre existe ou non sur album phys
     queryStr = " SELECT R.Id_Relation FROM Relations R, Phys P WHERE R.Id_Titre IN (SELECT Id_Titre FROM Titre WHERE Titre_Formate = '" + m_nomFormate + "') AND R.Id_Artiste IN (SELECT Id_Artiste FROM Relations WHERE Id_Titre IN (SELECT Id_Titre FROM Titre  WHERE Id_Titre = '" + QString::number( m_id ) + "')) AND P.Id_Album = R.Id_Album ";
+
+    query = madatabase.exec( queryStr );
+    if ( query.first() )
+    {
+        m_phys = true;
+    }
+}
+void BDDTitre::mp3physfusion()
+{
+    m_mp3 = false; m_phys= false;
+    //Première étape: le titre existe ou non en MP3
+    QString queryStr = "SELECT M.Id_MP3 FROM Relations R, MP3 M WHERE R.Id_Titre = '" + QString::number( m_id ) + "' AND M.Id_Relation = R.Id_Relation";
+
+    QSqlQuery query = madatabase.exec( queryStr );
+    if ( query.first() )
+    {
+        m_mp3 = true;
+    }
+    //Deuxième étape: le titre existe ou non sur album phys
+    queryStr = " SELECT P.Id_Phys FROM Relations R, Phys P WHERE R.Id_Titre = '" + QString::number( m_id ) + "')) AND P.Id_Album = R.Id_Album ";
 
     query = madatabase.exec( queryStr );
     if ( query.first() )

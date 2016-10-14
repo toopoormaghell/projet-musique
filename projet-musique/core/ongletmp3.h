@@ -48,19 +48,12 @@ private slots:
     void on_Categories_clicked( const QModelIndex& index );
     void on_ArtistesAnnees_clicked( const QModelIndex& index );
     void on_AlbumsTitres_clicked( const QModelIndex& index );
-
     void on_Similaires_clicked(const QModelIndex &index);
-
     void on_LireMP3_clicked();
-
     void on_CopierMP3_clicked();
-
     void on_LireArtiste_clicked();
-
     void on_LireAlbum_clicked();
-
     void on_LireAnnee_clicked();
-
     void on_DialogueLecteurAnnee_clicked();
 
 private:

@@ -55,19 +55,23 @@ HEADERS += \
     rechercheurl.h \
     dialogconfigactu.h \
     bddconfig.h \
-    sousdialogajouttitre.h \
-    vidagebdddialog.h \
-    modifieralbumdialog.h \
-    choixalbumphysdialog.h \
     ongletstats.h \
     bddstats.h \
-    modificationartistedialog.h \
     ongletrech.h \
     bddrech.h \
     dialogchoixpochette.h \
     DialogAjouterPhys.h \
     bddlecteur.h \
-    ongletfusion.h
+    ongletfusion.h \
+    MyQLabel.h \
+    bddfusion.h \
+    tags.h \
+    dialogchoixtitrefusion.h \
+    DialogChoixAlbumPhys.h \
+    DialogModifierArtiste.h \
+    DialogModifierAlbum.h \
+    DialogVidageBDD.h \
+    DialogAjoutTitre.h
 
 
 SOURCES += main.cpp \
@@ -91,35 +95,40 @@ SOURCES += main.cpp \
     rechercheurl.cpp \
     dialogconfigactu.cpp \
     bddconfig.cpp \
-    sousdialogajouttitre.cpp \
-    vidagebdddialog.cpp \
-    modifieralbumdialog.cpp \
-    choixalbumphysdialog.cpp \
     ongletstats.cpp \
     bddstats.cpp \
-    modificationartistedialog.cpp \
     ongletrech.cpp \
     bddrech.cpp \
     dialogchoixpochette.cpp \
     DialogAjouterPhys.cpp \
     bddlecteur.cpp \
-    ongletfusion.cpp
+    ongletfusion.cpp \
+    MyQLabel.cpp \
+    bddfusion.cpp \
+    tags.cpp \
+    dialogchoixtitrefusion.cpp \
+    DialogChoixAlbumPhys.cpp \
+    DialogModifierArtiste.cpp \
+    DialogModifierAlbum.cpp \
+    DialogVidageBDD.cpp \
+    DialogAjoutTitre.cpp
 
 FORMS += \
     ongletmp3.ui \
     ongletphys.ui \
     mainwindow.ui \
     dialogconfigactu.ui \
-    sousdialogajouttitre.ui \
-    vidagebdddialog.ui \
-    modifieralbumdialog.ui \
-    choixalbumphysdialog.ui \
     ongletstats.ui \
-    modificationartistedialog.ui \
     ongletrech.ui \
     dialogchoixpochette.ui \
     DialogAjouterPhys.ui \
-    ongletfusion.ui
+    ongletfusion.ui \
+    dialogchoixtitrefusion.ui \
+    DialogChoixAlbumPhys.ui \
+    DialogModifierArtiste.ui \
+    DialogModifierAlbum.ui \
+    DialogVidageBDD.ui \
+    DialogAjoutTitre.ui
 
 
 OTHER_FILES += \

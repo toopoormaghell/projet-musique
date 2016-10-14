@@ -6,6 +6,8 @@
 #include "bddtype.h"
 #include "bddrelation.h"
 #include <QtSql>
+#include "tags.h"
+#include "bddpoch.h"
 
 BDDMp3::BDDMp3( const QString& Chemin, const BDDRelation& relation, const int& type, QObject* parent ):
     QObject( parent ),
@@ -68,7 +70,7 @@ BDDMp3* BDDMp3::RecupererMp3( const int id )
 {
     return new BDDMp3( id );
 }
-BDDMp3* BDDMp3::RecupererMp3ParChemin( QString& chemin )
+BDDMp3* BDDMp3::RecupererMp3ParChemin( const QString& chemin )
 {
     return new BDDMp3( chemin );
 }
@@ -86,6 +88,20 @@ BDDMp3 *BDDMp3::RecupererMP3ParTitre(const int& id)
     }
 
     return new BDDMp3( id_mp3 );
+}
+
+void BDDMp3::ChangerTag(const QString &NouveauAlbum, const QString &NouveauTitre, const QString &NouveauArtiste, const int &NouvelleAnnee, const int &NouvellePiste, const QString &NouvellePoch)
+{
+    Tags t ( m_chemin );
+    t.setAlbum( NouveauAlbum );
+    t.setArtist( NouveauArtiste );
+    t.setTitle( NouveauTitre );
+    t.setTrack( NouvellePiste );
+    t.setYear( NouvelleAnnee );
+    t.save();
+    t.fermerTag();
+
+    Tags::setPoch( NouvellePoch, m_chemin );
 }
 
 BDDMp3::BDDMp3( const int id, QObject* parent ):
@@ -147,7 +163,9 @@ BDDMp3::BDDMp3( const QString& chemin, QObject* parent ):
 }
 void BDDMp3::updateBDD()
 {
+    QString queryStr = "UPDATE MP3 SET Id_Relation ='" + QString::number( m_relation->m_id ) + "', Chemin ='" + m_chemin.replace( "'", "$" ) + "', Categorie = '" + QString::number( m_type->m_id ) + "'  WHERE Id_MP3 = '" + QString::number( m_id ) + "'";
 
+    madatabase.exec( queryStr );
 }
 void BDDMp3::supprimerenBDD() const
 {

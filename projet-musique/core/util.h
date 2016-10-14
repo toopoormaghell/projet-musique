@@ -17,6 +17,9 @@ typedef struct _TitresPhys
     QString id;
     QString Artiste;
     bool MP3Phys;
+    bool MP3;
+    bool Phys;
+    bool Garde;
 
     _TitresPhys():
         Num_Piste( 0 ),
@@ -24,7 +27,10 @@ typedef struct _TitresPhys
         Titre(),
         id(),
         Artiste(),
-        MP3Phys( false )
+        MP3Phys( false ),
+        MP3( false ),
+        Phys ( false ),
+        Garde ( false )
     {}
 
     char* toString() const
@@ -34,8 +40,12 @@ typedef struct _TitresPhys
                      "Titre='%3' "
                      "id='%4' "
                      "Artiste='%5' "
-                     "MP3Phys='%6'\n" );
-        QString tmp2 = tmp.arg( QString::number( Num_Piste ), Duree, Titre, id, Artiste, QString::number( MP3Phys ) );
+                     "MP3Phys='%6'\n"
+                     "MP3='%7'\n"
+                     "Phys='%8'\n"
+                     "Garde='%9'\n"
+                     );
+        QString tmp2 = tmp.arg( QString::number( Num_Piste ), Duree, Titre, id, Artiste, QString::number( MP3Phys ),QString::number( MP3 ),QString::number( Phys ), QString::number( Garde) );
         return tmp2.toLatin1().data();
     }
 } TitresPhys;

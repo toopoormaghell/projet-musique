@@ -6,7 +6,7 @@
 #include <QMap>
 #include "bddpoch.h"
 #include "bddalbum.h"
-#include "choixalbumphysdialog.h"
+#include "DialogChoixAlbumPhys.h"
 RechercheURL::RechercheURL( QObject* parent ):
     QObject( parent )
     , m_interaction()
@@ -57,7 +57,7 @@ AlbumPhys RechercheURL::RequeteAlbums( QString rech, int Type )
     BDDPoch* toto = BDDPoch::recupererPoch( m_album.Album, m_album.Artiste );
     if ( toto == NULL )
     {
-        ChoixAlbumPhysDialog choixalbum( m_album.Artiste );
+        DialogChoixAlbumPhys choixalbum( m_album.Artiste );
         choixalbum.exec();
         int id_alb = 0;
         if ( choixalbum.m_selection != 0 )

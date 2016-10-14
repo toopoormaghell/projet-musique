@@ -50,7 +50,8 @@ private Q_SLOTS:
      */
     void AfficherInteraction( QString message );
 
-
+    void on_findArtists_stateChanged( int newValue );
+    void on_swapColumns_stateChanged(int newValue);
 
 signals:
     void ajout();

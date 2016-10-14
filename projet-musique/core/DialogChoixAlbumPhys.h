@@ -11,13 +11,13 @@ namespace Ui
     class ChoixAlbumPhysDialog;
 }
 
-class ChoixAlbumPhysDialog : public QDialog
+class DialogChoixAlbumPhys : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit ChoixAlbumPhysDialog( QString artiste, QWidget* parent = 0 );
-    ~ChoixAlbumPhysDialog();
+    explicit DialogChoixAlbumPhys( QString artiste, QWidget* parent = 0 );
+    ~DialogChoixAlbumPhys();
     int m_selection;
 private slots:
     void on_buttonBox_accepted();

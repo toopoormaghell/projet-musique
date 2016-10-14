@@ -5,16 +5,16 @@
 
 namespace Ui
 {
-    class VidageBDDDialog;
+    class DialogVidageBDD;
 }
 
-class VidageBDDDialog : public QDialog
+class DialogVidageBDD : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit VidageBDDDialog( QWidget* parent = 0 );
-    ~VidageBDDDialog();
+    explicit DialogVidageBDD( QWidget* parent = 0 );
+    ~DialogVidageBDD();
 
     bool Mp3;
     bool Phys;
@@ -31,7 +31,7 @@ private slots:
     void on_buttonBox_accepted();
 
 private:
-    Ui::VidageBDDDialog* ui;
+    Ui::DialogVidageBDD* ui;
 
 };
 

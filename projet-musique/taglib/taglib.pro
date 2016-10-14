@@ -31,6 +31,7 @@ SOURCES += \
     fileref.cpp \
     tag.cpp \
     tagunion.cpp \
+tagutils.cpp \
     ape/apefile.cpp \
     ape/apefooter.cpp \
     ape/apeitem.cpp \
@@ -63,12 +64,17 @@ SOURCES += \
     mpeg/id3v1/id3v1genres.cpp \
     mpeg/id3v1/id3v1tag.cpp \
     mpeg/id3v2/frames/attachedpictureframe.cpp \
+ mpeg/id3v2/frames/chapterframe.cpp \
     mpeg/id3v2/frames/commentsframe.cpp \
+ mpeg/id3v2/frames/eventtimingcodesframe.cpp \
     mpeg/id3v2/frames/generalencapsulatedobjectframe.cpp \
     mpeg/id3v2/frames/ownershipframe.cpp \
+ mpeg/id3v2/frames/podcastframe.cpp \
     mpeg/id3v2/frames/popularimeterframe.cpp \
     mpeg/id3v2/frames/privateframe.cpp \
     mpeg/id3v2/frames/relativevolumeframe.cpp \
+ mpeg/id3v2/frames/synchronizedlyricsframe.cpp \
+ mpeg/id3v2/frames/tableofcontentsframe.cpp \
     mpeg/id3v2/frames/textidentificationframe.cpp \
     mpeg/id3v2/frames/uniquefileidentifierframe.cpp \
     mpeg/id3v2/frames/unknownframe.cpp \
@@ -105,12 +111,15 @@ SOURCES += \
     toolkit/tbytevectorlist.cpp \
     toolkit/tbytevectorstream.cpp \
     toolkit/tdebug.cpp \
+    toolkit/tdebuglistener.cpp \
     toolkit/tfile.cpp \
     toolkit/tfilestream.cpp \
     toolkit/tiostream.cpp \
     toolkit/tpropertymap.cpp \
+toolkit/trefcounter.cpp \
     toolkit/tstring.cpp \
     toolkit/tstringlist.cpp \
+toolkit/tzlib.cpp \
     toolkit/unicode.cpp \
     trueaudio/trueaudiofile.cpp \
     trueaudio/trueaudioproperties.cpp \
@@ -121,8 +130,6 @@ SOURCES += \
     ogg/opus/opusproperties.cpp \
     ogg/opus/opusfile.cpp \
     riff/wav/infotag.cpp \
-    toolkit/tdebuglistener.cpp \
-    toolkit/trefcounter.cpp
 
 HEADERS += \
     audioproperties.h \
@@ -130,6 +137,7 @@ HEADERS += \
     tag.h \
     taglib_export.h \
     tagunion.h \
+    tagutils.h \
     taglib_config.h \
     ape/apefile.h \
     ape/apefooter.h \
@@ -141,6 +149,7 @@ HEADERS += \
     asf/asfpicture.h \
     asf/asfproperties.h \
     asf/asftag.h \
+    asf/asfutil.h \
     flac/flacfile.h \
     flac/flacmetadatablock.h \
     flac/flacpicture.h \
@@ -164,12 +173,17 @@ HEADERS += \
     mpeg/id3v1/id3v1genres.h \
     mpeg/id3v1/id3v1tag.h \
     mpeg/id3v2/frames/attachedpictureframe.h \
+ mpeg/id3v2/frames/chapterframe.h \
     mpeg/id3v2/frames/commentsframe.h \
+ mpeg/id3v2/frames/eventtimingcodesframe.h \
     mpeg/id3v2/frames/generalencapsulatedobjectframe.h \
     mpeg/id3v2/frames/ownershipframe.h \
+ mpeg/id3v2/frames/podcastframe.h \
     mpeg/id3v2/frames/popularimeterframe.h \
     mpeg/id3v2/frames/privateframe.h \
     mpeg/id3v2/frames/relativevolumeframe.h \
+ mpeg/id3v2/frames/synchronizedlyricsframe.h \
+ mpeg/id3v2/frames/tableofcontentsframe.h \
     mpeg/id3v2/frames/textidentificationframe.h \
     mpeg/id3v2/frames/uniquefileidentifierframe.h \
     mpeg/id3v2/frames/unknownframe.h \
@@ -185,6 +199,7 @@ HEADERS += \
     mpeg/mpegfile.h \
     mpeg/mpegheader.h \
     mpeg/mpegproperties.h \
+mpeg/mpegutils.h \
     mpeg/xingheader.h \
     ogg/flac/oggflacfile.h \
     ogg/speex/speexfile.h \
@@ -200,6 +215,7 @@ HEADERS += \
     riff/wav/wavfile.h \
     riff/wav/wavproperties.h \
     riff/rifffile.h \
+riff/riffutils.h \
     s3m/s3mfile.h \
     s3m/s3mproperties.h \
     toolkit/taglib.h \
@@ -207,14 +223,18 @@ HEADERS += \
     toolkit/tbytevectorlist.h \
     toolkit/tbytevectorstream.h \
     toolkit/tdebug.h \
+ toolkit/tdebuglisterner.h \
     toolkit/tfile.h \
     toolkit/tfilestream.h \
     toolkit/tiostream.h \
     toolkit/tlist.h \
     toolkit/tmap.h \
     toolkit/tpropertymap.h \
+toolkit/trefcounter.h \
     toolkit/tstring.h \
     toolkit/tstringlist.h \
+toolkit/tutils.h \
+toolkit/tzlib.h \
     toolkit/unicode.h \
     trueaudio/trueaudiofile.h \
     trueaudio/trueaudioproperties.h \
@@ -225,9 +245,6 @@ HEADERS += \
     ogg/opus/opusproperties.h \
     ogg/opus/opusfile.h \
     riff/wav/infotag.h \
-    toolkit/tdebuglistener.h \
-    toolkit/trefcounter.h \
-    toolkit/tutils.h
 
 INCLUDEPATH += . \
                ape \

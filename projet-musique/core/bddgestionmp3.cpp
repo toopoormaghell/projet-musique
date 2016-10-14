@@ -11,6 +11,7 @@
 #include <QtSql>
 #include <QDir>
 #include <QTimer>
+#include "tags.h"
 
 BDDGestionMp3::BDDGestionMp3( QObject* parent ) :
     QObject( parent )
@@ -149,19 +150,17 @@ void BDDGestionMp3::actualiserMp3( QString chemin )
     m_fichierlu = chemin;
 
     m_souscat = m_type;
-    // conversion du QString pour le nom du fichier MP3 ainsi que son chemin
-    QByteArray arrFileName = QFile::encodeName( chemin );
-    const char* encodedName = arrFileName.constData();
-    TagLib::FileRef f( encodedName );
+
+    Tags fich ( chemin );
 
     //On récupère l'artiste, l'album, le titre et le numéro de piste
-    TagLib::String artist = f.tag()->artist();
-    TagLib::String album =  f.tag()->album();
-    TagLib::uint date = f.tag()->year();
-    TagLib::String title =  f.tag()->title();
-    TagLib::uint track = f.tag() -> track();
+    QString artist = fich.getArtist();
+    QString album =  fich.getAlbum();
+    int date = fich.getYear();
+    QString title =  fich.getTitle();
+    int track = fich.getTrack();
 
-    int dureesec = f.audioProperties()->length();
+    int dureesec = fich.getDuree();
     int min = dureesec / 60;
     int sec = dureesec % 60;
     SousCatParChemin( chemin );
@@ -169,10 +168,10 @@ void BDDGestionMp3::actualiserMp3( QString chemin )
 
     //On ajoute en BDD
 
-    BDDPoch poch( ImageAlbum( f ), TStringToQString( album ).replace( "'", "$" ), TStringToQString( artist ).replace( "'", "$" ) );
-    BDDArtiste art( TStringToQString( artist ).replace( "'", "$" ), poch );
-    BDDAlbum alb( TStringToQString( album ).replace( "'", "$" ), poch, date, m_souscat, art );
-    BDDTitre tit( TStringToQString( title ).replace( "'", "$" ), track, QString::number( min ) + ":" + QString::number( sec ).rightJustified( 2, '0' ), alb );
+    BDDPoch poch( fich.getPoch() ,  album.replace( "'", "$" ),  artist.replace( "'", "$" ) );
+    BDDArtiste art( artist.replace( "'", "$" ), poch );
+    BDDAlbum alb( album.replace( "'", "$" ), poch, date, m_souscat, art );
+    BDDTitre tit( title.replace( "'", "$" ), track, QString::number( min ) + ":" + QString::number( sec ).rightJustified( 2, '0' ), alb );
     BDDRelation rel( alb, art, tit );
 
     BDDMp3 mp3( chemin.replace( "'", "$" ), rel, m_souscat );
@@ -323,26 +322,6 @@ void BDDGestionMp3::ReconstruireListeCategorie()
 
 }
 
-QImage BDDGestionMp3::ImageAlbum( const TagLib::FileRef& f )
-{
-    //On s'occupe de la pochette de l'album qu'on enregistre
-    QImage Image;
-    TagLib::ID3v2::Tag Tag( f.file(), 0 );
-    TagLib::ID3v2::FrameList Liste = Tag.frameListMap()["APIC"];
-    TagLib::ID3v2::AttachedPictureFrame* Pic = static_cast<TagLib::ID3v2::AttachedPictureFrame*>( Liste.front() );
-
-    if ( ( Pic == NULL ) || Pic->picture().isEmpty() )
-    {
-        Image.fromData( "./Pochettes/def.jpg" );
-
-    }
-    else
-    {
-        Image.loadFromData( ( const uchar* ) Pic->picture().data(), Pic->picture().size() );
-    }
-
-    return Image;
-}
 void BDDGestionMp3::SupprimerenBDDMP3( int Id )
 {
 

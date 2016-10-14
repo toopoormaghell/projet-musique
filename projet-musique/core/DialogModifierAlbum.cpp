@@ -1,5 +1,5 @@
-#include "modifieralbumdialog.h"
-#include "ui_modifieralbumdialog.h"
+#include "DialogModifierAlbum.h"
+#include "ui_DialogModifierAlbum.h"
 #include "util.h"
 #include <QListWidgetItem>
 #include "bddgestionphys.h"
@@ -9,10 +9,11 @@
 #include "dialogchoixpochette.h"
 #include "bddpoch.h"
 #include <QAbstractButton>
+#include "bddphys.h"
 
-ModifierAlbumDialog::ModifierAlbumDialog( int selection, QWidget* parent ) :
+DialogModifierAlbum::DialogModifierAlbum( int selection, QWidget* parent ) :
     QDialog( parent ),
-    ui( new Ui::ModifierAlbumDialog ),
+    ui( new Ui::DialogModifierAlbum ),
     m_selection( selection )
 {
     ui->setupUi( this );
@@ -21,12 +22,12 @@ ModifierAlbumDialog::ModifierAlbumDialog( int selection, QWidget* parent ) :
     AfficherAlbum();
 }
 
-ModifierAlbumDialog::~ModifierAlbumDialog()
+DialogModifierAlbum::~DialogModifierAlbum()
 {
     delete ui;
 }
 
-void ModifierAlbumDialog::AfficherAlbum()
+void DialogModifierAlbum::AfficherAlbum()
 {
 
     //On met le nom, l'artiste, l'année
@@ -54,8 +55,12 @@ void ModifierAlbumDialog::AfficherAlbum()
     //On affiche le type de l'album
 
     ui->Type->setCurrentText( m_album.Type_Str );
+
+    //On va chercher les commentaires sur l'album physique
+    BDDPhys* phys = BDDPhys::RecupererPhys( m_album.Id_Album );
+    ui->Commentaires->setText( phys->m_commentaires );
 }
-void ModifierAlbumDialog::ListeNumeros()
+void DialogModifierAlbum::ListeNumeros()
 {
     ui->Num_Pistes->clear();
     for ( int i = 1; i < ui->Titres->count() + 1; i++ )
@@ -64,7 +69,7 @@ void ModifierAlbumDialog::ListeNumeros()
     }
 }
 
-void ModifierAlbumDialog::EnregistrerAlbum()
+void DialogModifierAlbum::EnregistrerAlbum()
 {
 
     m_album.Album = ui->Album->text();
@@ -72,7 +77,7 @@ void ModifierAlbumDialog::EnregistrerAlbum()
     m_album.Annee = ui->Annee->text().toInt();
     m_album.Type = ui->Type->currentIndex() + 1;
 
-
+    m_album.titres.clear();
     //On récupère les titres
     for ( int i = 0; i < ui->Titres->count(); i++ )
     {
@@ -90,7 +95,7 @@ void ModifierAlbumDialog::EnregistrerAlbum()
     }
 
 }
-void ModifierAlbumDialog::Supprimer_Titre()
+void DialogModifierAlbum::Supprimer_Titre()
 {
     QList<QListWidgetItem*> fileSelected = ui->Titres->selectedItems();
     if ( fileSelected.size() )
@@ -101,21 +106,27 @@ void ModifierAlbumDialog::Supprimer_Titre()
             {
                 QListWidgetItem* item = ui->Titres->takeItem( i );
                 ui->Titres->removeItemWidget( item );
+                ui->Duree->takeItem( i);
+                ui->Duree->removeItemWidget( item );
             }
         }
     }
     ListeNumeros();
 }
 
-void ModifierAlbumDialog::on_buttonBox_accepted()
+void DialogModifierAlbum::on_buttonBox_accepted()
 {
-   EnregistrerAlbum();
+    EnregistrerAlbum();
     BDDGestionPhys m_bddinterface;
-    m_bddinterface.modifierAlbum(  m_album.Album, m_album.Artiste, QString::number( m_album.Id_Release ), m_album.Annee, m_album.titres, m_album.Type, m_album.Id_Poch, m_album.Id_Album );
+
+    m_bddinterface.modifierAlbum(  m_album.Album, m_album.Artiste, QString::number( m_album.Id_Release ), m_album.Annee, m_album.titres, m_album.Type, m_album.Id_Poch, m_album.Id_Album, ui->Commentaires->text() );
+
+
+    delete ui;
 
 }
 
-void ModifierAlbumDialog::on_Parcourir_clicked()
+void DialogModifierAlbum::on_Parcourir_clicked()
 {
     DialogChoixPochette dial(m_album.Artiste);
     dial.exec();
@@ -127,4 +138,9 @@ void ModifierAlbumDialog::on_Parcourir_clicked()
         delete pochtemp;
     }
     AfficherAlbum();
+}
+
+void DialogModifierAlbum::on_Supprimer_clicked()
+{
+    Supprimer_Titre();
 }

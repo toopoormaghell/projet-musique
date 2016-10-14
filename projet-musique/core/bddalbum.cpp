@@ -149,11 +149,12 @@ AlbumPhys BDDAlbum::RecupAlbumEntite( const int id )
 
         titre.Artiste = TitreEnCours->m_artiste->m_nom;
         titre.Duree = TitreEnCours->m_duree;
-        titre.id = TitreEnCours->m_id;
+        titre.id = QString::number( TitreEnCours->m_id ) ;
         titre.Num_Piste = TitreEnCours->m_num_piste;
         titre.Titre = TitreEnCours->m_nom;
         titre.MP3Phys = TitreEnCours->m_mp3 && TitreEnCours->m_phys;
-
+        titre.MP3 = TitreEnCours->m_mp3;
+        titre.Phys = TitreEnCours->m_phys;
         albphys.titres << titre;
 
     }

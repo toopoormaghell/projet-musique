@@ -1,39 +1,38 @@
-#ifndef SOUSDIALOGAJOUTTITRE_H
-#define SOUSDIALOGAJOUTTITRE_H
+#ifndef DIALOGAJOUTTITRE_H
+#define DIALOGAJOUTTITRE_H
 
 #include <QDialog>
 #include <QAbstractButton>
 namespace Ui
 {
-    class SousDialogAjoutTitre;
+    class DialogAjoutTitre;
 }
 
-class SousDialogAjoutTitre : public QDialog
+class DialogAjoutTitre : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit SousDialogAjoutTitre( int Type, QWidget* parent = 0 );
-    ~SousDialogAjoutTitre();
+    explicit DialogAjoutTitre( int Type, QWidget* parent = 0 );
+    ~DialogAjoutTitre();
 
     QString m_Duree;
     QString m_Titre;
     QString m_Artiste;
     void ActualiserOnglet( int Type );
+
 signals:
     void enregistr( QString, QString, QString );
+
 private slots:
     void on_buttonBox_clicked( QAbstractButton* button );
-
     void on_Sauvegarde_clicked();
-
     void Raccourci();
 private:
-    Ui::SousDialogAjoutTitre* ui;
-
+    Ui::DialogAjoutTitre* ui;
     void RecupererDonnees();
     void AjouterListeTitres();
     void AjouterListeArtistes();
 };
 
-#endif // SOUSDIALOGAJOUTTITRE_H
+#endif // DIALOGAJOUTTITRE_H

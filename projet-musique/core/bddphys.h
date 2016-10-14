@@ -12,7 +12,7 @@ class BDDPhys : public QObject
 {
     Q_OBJECT
 public:
-    explicit BDDPhys( const BDDAlbum& album, const QString& ean, const int& type, QObject* parent = 0 );
+    explicit BDDPhys( const BDDAlbum& album, const QString& ean, const int& type, const QString& Commentaires, QObject* parent = 0 );
     virtual ~BDDPhys();
 
     void deleteBDD();
@@ -24,7 +24,7 @@ public:
     QList<BDDTitre*>   m_titres;
     BDDType const* m_type;
     QString m_ean;
-
+    QString m_commentaires;
 private:
     bool m_membersAreSelfCreatad;
     void ajouterBDD();

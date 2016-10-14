@@ -1,10 +1,11 @@
-#include "choixalbumphysdialog.h"
+#include "DialogChoixAlbumPhys.h"
 #include "ui_choixalbumphysdialog.h"
 #include "bddaffichermp3.h"
 #include "bddalbum.h"
 #include "bddpoch.h"
 #include "bddartiste.h"
-ChoixAlbumPhysDialog::ChoixAlbumPhysDialog( QString artiste, QWidget* parent ) :
+
+DialogChoixAlbumPhys::DialogChoixAlbumPhys( QString artiste, QWidget* parent ) :
     QDialog( parent ),
     ui( new Ui::ChoixAlbumPhysDialog ),
     m_artiste( artiste )
@@ -15,11 +16,11 @@ ChoixAlbumPhysDialog::ChoixAlbumPhysDialog( QString artiste, QWidget* parent ) :
     ui->ListeAlbums->setModel( &m_albums );
 }
 
-ChoixAlbumPhysDialog::~ChoixAlbumPhysDialog()
+DialogChoixAlbumPhys::~DialogChoixAlbumPhys()
 {
     delete ui;
 }
-void ChoixAlbumPhysDialog::AfficherAlbums()
+void DialogChoixAlbumPhys::AfficherAlbums()
 {
     //Création du modèle pour le QListView
     m_albums.clear();
@@ -44,19 +45,19 @@ void ChoixAlbumPhysDialog::AfficherAlbums()
         m_albums.setItem( cpt, item );
     }
 }
-void ChoixAlbumPhysDialog::on_buttonBox_accepted()
+void DialogChoixAlbumPhys::on_buttonBox_accepted()
 {
     m_selection = RecupererAlbumSelectionne();
 
 }
-int ChoixAlbumPhysDialog::RecupererAlbumSelectionne()
+int DialogChoixAlbumPhys::RecupererAlbumSelectionne()
 {
     QModelIndex index = ui->ListeAlbums->currentIndex();
 
     return index.data( Qt::UserRole ).toInt();
 }
 
-void ChoixAlbumPhysDialog::on_buttonBox_rejected()
+void DialogChoixAlbumPhys::on_buttonBox_rejected()
 {
     m_selection = 0;
 }
