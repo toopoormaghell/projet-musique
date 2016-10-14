@@ -6,7 +6,7 @@
 DialogAjoutTitre::DialogAjoutTitre( int Type, int Nb_Piste, QWidget* parent ) :
     QDialog( parent ),
     m_Piste ( QString::number( Nb_Piste+1 ) ),
-    ui( new Ui::SousDialogAjoutTitre )
+    ui( new Ui::DialogAjoutTitre )
 {
     ui->setupUi( this );
     ActualiserOnglet( Type );
