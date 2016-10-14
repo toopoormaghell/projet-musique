@@ -13,10 +13,10 @@ class DialogAjoutTitre : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogAjoutTitre( int Type, QWidget* parent = 0 );
+    explicit DialogAjoutTitre( int Type, int Nb_Piste, QWidget* parent = 0 );
     ~DialogAjoutTitre();
 
-    QString m_Duree;
+    QString m_Piste;
     QString m_Titre;
     QString m_Artiste;
     void ActualiserOnglet( int Type );

@@ -135,10 +135,18 @@ private:
 class QTableModel : public QAbstractTableModel
 {
 public:
+    enum ModelType
+    {
+        MONO_ARTIST,
+        MULTI_ARTISTS
+    };
+
     explicit QTableModel( QObject* parent = 0 ):
         QAbstractTableModel( parent )
       , m_findArtists(false)
       , m_swapColumns(false)
+      , m_lineList()
+      , m_modelType( MONO_ARTIST )
     {
     }
 
@@ -338,10 +346,22 @@ public:
         return m_swapColumns;
     }
 
+    ModelType modelType() const
+    {
+        return m_modelType;
+    }
+
+    void setModelType( const ModelType modelType )
+    {
+        m_modelType = modelType;
+        Q_EMIT dataChanged( index(0, 0), index(0,2) );
+    }
+
 private:
     QList<LineModel> m_lineList;
     bool m_findArtists;
     bool m_swapColumns;
+    ModelType m_modelType;
 };
 
 void QCompletedLineEditDelegate::setEditorData( QWidget* editor, const QModelIndex& index ) const
@@ -370,7 +390,7 @@ DialogAjouterPhys::DialogAjouterPhys( QWidget* parent ) :
     ui->tableView->setItemDelegate( new QCompletedLineEditDelegate );
 
     m_Type = 1;
-    AffichageListeArtistes( -2 );
+    AffichageListeArtistes( -3 );
 
     AjoutConnex();
 }
@@ -451,13 +471,7 @@ void DialogAjouterPhys::AfficherAlbum()
     ui->Nom_Album->setText( m_album.Album );
     ui->Nom_Artiste->setText( m_album.Artiste );
 
-    for ( int cpt = 0; cpt < m_album.titres.count(); cpt++ )
-    {
-        TitresPhys titre = m_album.titres[cpt];
-        //ui->Piste->addItem( QString::number( titre.Num_Piste ) );
-        //ui->Titres->addItem( titre.Titre + "(" + titre.Duree + ")" );
-        //ui->Artiste_Titres->addItem( titre.Artiste );
-    }
+
     AfficherPoch();
 }
 
@@ -490,21 +504,21 @@ void DialogAjouterPhys::AffichageListeArtistes( int id )
 {
     switch ( id )
     {
-        case ( -2 ):
-            m_Type = 1;
-            //ui->Artiste_Titres->setHidden( true );
-            //ui->ArtisteLabel->setHidden( true );
-            break;
-        case ( -3 ):
-            m_Type = 2;
-            //ui->Artiste_Titres->setHidden( false );
-            //ui->ArtisteLabel->setHidden( false );
-            break;
-        case ( -4 ):
-            m_Type = 3;
-            //ui->Artiste_Titres->setHidden( true );
-            //ui->ArtisteLabel->setHidden( true );
-            break;
+    case ( -2 ):
+        m_Type = 1;
+        ui->tableView->setColumnHidden( 2, true );
+        //            m_tableModel->setModelType( QTableModel::MONO_ARTIST );
+        break;
+    case ( -3 ):
+        m_Type = 2;
+        ui->tableView->setColumnHidden( 2, false );
+        //            m_tableModel->setModelType( QTableModel::MULTI_ARTISTS );
+        break;
+    case ( -4 ):
+        m_Type = 3;
+        ui->tableView->setColumnHidden( 2, true );
+        //            m_tableModel->setModelType( QTableModel::MONO_ARTIST );
+        break;
     }
 }
 
@@ -512,16 +526,15 @@ void DialogAjouterPhys::AffichageListeArtistes( int id )
 
 void DialogAjouterPhys::ViderBoiteDialogue()
 {
-    //ui->Artiste_Titres->clear();
+
     ui->EAN->clear();
     ui->Nom_Album->clear();
     ui->Nom_Artiste->clear();
-    //ui->Piste->clear();
     ui->Pochette->clear();
-    //ui->Titres->clear();
     ui->Annee->clear();
 
     m_album.titres.clear();
+    m_tableModel->clearLines();
 }
 
 
@@ -550,21 +563,14 @@ void DialogAjouterPhys::RecupererAlbum()
     for ( int i = 0; i < m_tableModel->rowCount(); i++ )
     {
         TitresPhys titre;
-        //QListWidgetItem* item = ui->Titres->item( i );
-        //QStringList parsing = item->text().split( "(" );
-        //titre.Titre = parsing[0];
         titre.Titre = m_tableModel->data( m_tableModel->index(i, 1 ) ).toString();
 
-        //QStringList parsing2 = parsing[1].split( ")" );
-        //titre.Duree = parsing2[0];
         titre.Duree = "0:00";
-        //titre.Num_Piste = i + 1;
+
         titre.Num_Piste = m_tableModel->data( m_tableModel->index(i, 0 ) ).toInt();
 
         if ( m_Type == 2 )
         {
-            //item = ui->Artiste_Titres->item( i );
-            //titre.Artiste = item->text();
             titre.Artiste = m_tableModel->data( m_tableModel->index(i, 2 ) ).toString();
         }
 
@@ -575,32 +581,22 @@ void DialogAjouterPhys::RecupererAlbum()
 
 
 
-void DialogAjouterPhys::listeNumeros()
-{
-    //ui->Piste->clear();
-    for ( int i = 1; i < 0/*ui->Titres->count() + 1*/; i++ )
-    {
-        //ui->Piste->addItem( new QListWidgetItem( QString::number( i ).rightJustified( 2, '0' ) + " - " ) );
-    }
-}
-
-
-
 void DialogAjouterPhys::on_Supprimer_Titre_clicked()
 {
-//    QList<QListWidgetItem*> fileSelected = ui->Titres->selectedItems();
-//    if ( fileSelected.size() )
-//    {
-//        for ( int i = ui->Titres->count() - 1 ; i >= 0 ; i-- )
-//        {
-//            if ( ui->Titres->item( i )->isSelected() )
-//            {
-//                QListWidgetItem* item = ui->Titres->takeItem( i );
-//                ui->Titres->removeItemWidget( item );
-//            }
-//        }
-//    }
-//    listeNumeros();
+    // QModelIndexList selectedItemsList = ui->tableView->selectedIndexes()
+
+    //    if ( fileSelected.size() )
+    //    {
+    //        for ( int i = ui->Titres->count() - 1 ; i >= 0 ; i-- )
+    //        {
+    //            if ( ui->Titres->item( i )->isSelected() )
+    //            {
+    //                QListWidgetItem* item = ui->Titres->takeItem( i );
+    //                ui->Titres->removeItemWidget( item );
+    //            }
+    //        }
+    //    }
+    //    listeNumeros();
 }
 
 
@@ -608,9 +604,9 @@ void DialogAjouterPhys::on_Supprimer_Titre_clicked()
 void DialogAjouterPhys::on_pushButton_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName( this,
-                       "Ouvrir l'image contenant la pochette",
-                       "C:/Users/Nico/Desktop",
-                       "Images (*.png *.xpm *.jpg *.bmp)" );
+                                                     "Ouvrir l'image contenant la pochette",
+                                                     "C:/Users/Nico/Desktop",
+                                                     "Images (*.png *.xpm *.jpg *.bmp)" );
     QPixmap* pixmap = new QPixmap();
     QImage* image = new QImage( fileName );
     pixmap->convertFromImage( *image );
@@ -623,26 +619,15 @@ void DialogAjouterPhys::on_pushButton_clicked()
 
 void DialogAjouterPhys::on_Ajouter_Titre_clicked()
 {
-    DialogAjoutTitre toto( m_Type, this );
-    connect( &toto, SIGNAL( enregistr( QString, QString, QString ) ), this, SLOT( AjouterTitreManuel( QString, QString, QString ) ) );
+    SousDialogAjoutTitre toto( m_Type, m_tableModel->rowCount(), this );
+   // connect( &toto, SIGNAL( enregistr( QString, QString, QString ) ), this, SLOT( AjouterTitreManuel( QString, QString, QString ) ) );
     int retVal = toto.exec();
     if ( ( retVal == QDialog::Accepted ) && !toto.m_Titre.isEmpty() )
     {
-        AjouterTitreManuel( toto.m_Titre, toto.m_Duree, toto.m_Artiste );
+        m_tableModel->appendLine( LineModel( toto.m_Piste , toto.m_Titre, toto.m_Artiste ) );
     }
 
 }
-
-
-
-void DialogAjouterPhys::AjouterTitreManuel( const QString& titre, const QString& duree, const QString& artiste )
-{
-    //ui->Titres->addItem( titre + "(" + duree + ")" );
-    //ui->Artiste_Titres->addItem( artiste );
-    listeNumeros();
-
-}
-
 
 
 void DialogAjouterPhys::AfficherInteraction(QString message)

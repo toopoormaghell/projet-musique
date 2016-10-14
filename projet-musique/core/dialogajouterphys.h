@@ -63,7 +63,7 @@ private slots:
     void on_Supprimer_Titre_clicked();
     void on_pushButton_clicked();
     void on_Ajouter_Titre_clicked();
-    void AjouterTitreManuel( const QString& titre, const QString& duree, const QString& artiste );
+
 
 private:
     void recupererEAN();
@@ -79,7 +79,7 @@ private:
     int m_Type;
 
     void RecupererAlbum();
-    void listeNumeros();
+
     void AjoutConnex();
 
     // Model for the table showing the result of the request
