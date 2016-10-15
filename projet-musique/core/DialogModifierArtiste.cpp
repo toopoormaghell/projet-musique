@@ -53,4 +53,5 @@ void DialogModifierArtiste::Enregistrer()
 void DialogModifierArtiste::on_buttonBox_accepted()
 {
     Enregistrer();
+    this->close();
 }

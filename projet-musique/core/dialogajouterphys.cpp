@@ -620,15 +620,19 @@ void DialogAjouterPhys::on_pushButton_clicked()
 void DialogAjouterPhys::on_Ajouter_Titre_clicked()
 {
     DialogAjoutTitre toto( m_Type, m_tableModel->rowCount(), this );
-   // connect( &toto, SIGNAL( enregistr( QString, QString, QString ) ), this, SLOT( AjouterTitreManuel( QString, QString, QString ) ) );
-    int retVal = toto.exec();
-    if ( ( retVal == QDialog::Accepted ) && !toto.m_Titre.isEmpty() )
-    {
-        m_tableModel->appendLine( LineModel( toto.m_Piste , toto.m_Titre, toto.m_Artiste ) );
-    }
+
+    connect( &toto, SIGNAL( enregistr( QString, QString, QString ) ), this, SLOT( AjouterTitreManuel( QString, QString, QString ) ) );
+
+    toto.exec();
 
 }
-
+void DialogAjouterPhys::AjouterTitreManuel( QString Piste, QString Titre, QString Artiste )
+{
+    if ( !Titre.isEmpty() )
+    {
+        m_tableModel->appendLine( LineModel ( Piste,Titre, Artiste ) );
+    }
+}
 
 void DialogAjouterPhys::AfficherInteraction(QString message)
 {

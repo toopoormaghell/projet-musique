@@ -122,7 +122,7 @@ void DialogModifierAlbum::on_buttonBox_accepted()
     m_bddinterface.modifierAlbum(  m_album.Album, m_album.Artiste, QString::number( m_album.Id_Release ), m_album.Annee, m_album.titres, m_album.Type, m_album.Id_Poch, m_album.Id_Album, ui->Commentaires->text() );
 
 
-    delete ui;
+    this->close();
 
 }
 

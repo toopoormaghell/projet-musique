@@ -2,6 +2,7 @@
 #include "ui_DialogAjoutTitre.h"
 #include "bddafficherphys.h"
 #include <QCompleter>
+#include <QDebug>
 
 DialogAjoutTitre::DialogAjoutTitre( int Type, int Nb_Piste, QWidget* parent ) :
     QDialog( parent ),
@@ -45,18 +46,7 @@ void DialogAjoutTitre::RecupererDonnees()
     m_Titre = ui->Titre->text();
 }
 
-void DialogAjoutTitre::on_buttonBox_clicked( QAbstractButton* button )
-{
-    if ( ui->buttonBox->standardButton( button ) == QDialogButtonBox::Save )
-    {
-        RecupererDonnees();
-        emit enregistr( m_Titre, m_Piste, m_Artiste );
-    }
-    if ( ui->buttonBox->standardButton( button ) == QDialogButtonBox::Ok )
-    {
-        RecupererDonnees();
-    }
-}
+
 void DialogAjoutTitre::Raccourci()
 {
     RecupererDonnees();
@@ -77,4 +67,14 @@ void DialogAjoutTitre::AjouterListeArtistes()
 {
     BDDAfficherPhys temp;
     ui->Artiste->setCompleter( new QCompleter( temp.ListeArtistesPossibles() ) );
+}
+
+void DialogAjoutTitre::on_buttonBox_clicked(QAbstractButton *button)
+{
+    if (ui->buttonBox->standardButton( button ) == QDialogButtonBox::Ok )
+    {
+        RecupererDonnees();
+        emit enregistr( m_Titre, m_Piste, m_Artiste );
+        this->close();
+    }
 }
