@@ -50,13 +50,13 @@ void DialogAjoutTitre::RecupererDonnees()
 void DialogAjoutTitre::Raccourci()
 {
     RecupererDonnees();
-    emit enregistr( m_Titre, m_Piste, m_Artiste );
+    emit enregistr(m_Piste, m_Titre , m_Artiste );
 }
 
 void DialogAjoutTitre::on_Sauvegarde_clicked()
 {
     RecupererDonnees();
-    emit enregistr( m_Titre, m_Piste, m_Artiste );
+    emit enregistr(m_Piste, m_Titre , m_Artiste );
 }
 void DialogAjoutTitre::AjouterListeTitres()
 {
@@ -74,7 +74,7 @@ void DialogAjoutTitre::on_buttonBox_clicked(QAbstractButton *button)
     if (ui->buttonBox->standardButton( button ) == QDialogButtonBox::Ok )
     {
         RecupererDonnees();
-        emit enregistr( m_Titre, m_Piste, m_Artiste );
+        emit enregistr(m_Piste, m_Titre , m_Artiste );
         this->close();
     }
 }

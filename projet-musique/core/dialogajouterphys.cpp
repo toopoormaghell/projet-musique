@@ -390,7 +390,7 @@ DialogAjouterPhys::DialogAjouterPhys( QWidget* parent ) :
     ui->tableView->setItemDelegate( new QCompletedLineEditDelegate );
 
     m_Type = 1;
-    AffichageListeArtistes( -3 );
+    AffichageListeArtistes( -2 );
 
     AjoutConnex();
 }
@@ -510,12 +510,12 @@ void DialogAjouterPhys::AffichageListeArtistes( int id )
         //            m_tableModel->setModelType( QTableModel::MONO_ARTIST );
         break;
     case ( -3 ):
-        m_Type = 2;
+         m_Type = 2;
         ui->tableView->setColumnHidden( 2, false );
         //            m_tableModel->setModelType( QTableModel::MULTI_ARTISTS );
         break;
     case ( -4 ):
-        m_Type = 3;
+         m_Type = 3;
         ui->tableView->setColumnHidden( 2, true );
         //            m_tableModel->setModelType( QTableModel::MONO_ARTIST );
         break;
