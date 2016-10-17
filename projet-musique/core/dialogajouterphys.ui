@@ -76,9 +76,6 @@
        <property name="text">
         <string>Chercher EAN</string>
        </property>
-       <property name="shortcut">
-        <string>Return</string>
-       </property>
       </widget>
      </item>
      <item>
@@ -217,14 +214,14 @@
      <item>
       <widget class="QCheckBox" name="findArtists">
        <property name="text">
-        <string>find artists</string>
+        <string>Séparer Artistes</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QCheckBox" name="swapColumns">
        <property name="text">
-        <string>swap columns</string>
+        <string>Echanger Colonnes</string>
        </property>
       </widget>
      </item>

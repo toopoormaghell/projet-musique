@@ -366,14 +366,23 @@ private:
 
 void QCompletedLineEditDelegate::setEditorData( QWidget* editor, const QModelIndex& index ) const
 {
-    if ( index.column() == 2)
+    if (index.column() == 2)
     {
+        QVariant value = index.model()->data(index);
         QLineEdit* lineEdit = static_cast<QLineEdit*>( editor );
-        QTableModel const* const tableModel = static_cast<QTableModel const* const>( index.model() );
+        lineEdit->setText(value.toString());
+        lineEdit->selectAll();
         QStringList completion (BDDAfficherPhys().ListeArtistesPossibles() );
         QCompleter* completer = new QCompleter( completion );
         completer->setCaseSensitivity( Qt::CaseInsensitive );
         lineEdit->setCompleter( completer );
+    }
+    if (index.column() == 1)
+    {
+        QVariant value = index.model()->data(index);
+        QLineEdit* lineEdit = static_cast<QLineEdit*>( editor );
+        lineEdit->setText(value.toString());
+        lineEdit->selectAll();
     }
 }
 
@@ -471,7 +480,6 @@ void DialogAjouterPhys::AfficherAlbum()
     ui->Nom_Album->setText( m_album.Album );
     ui->Nom_Artiste->setText( m_album.Artiste );
 
-
     AfficherPoch();
 }
 
@@ -488,6 +496,7 @@ void DialogAjouterPhys::AfficherPoch()
 
 
 
+
 void DialogAjouterPhys::on_Enregistrer_clicked()
 {
     RecupererAlbum();
@@ -497,6 +506,7 @@ void DialogAjouterPhys::on_Enregistrer_clicked()
     emit ajout();
     ViderBoiteDialogue();
 }
+
 
 
 
@@ -510,12 +520,12 @@ void DialogAjouterPhys::AffichageListeArtistes( int id )
         //            m_tableModel->setModelType( QTableModel::MONO_ARTIST );
         break;
     case ( -3 ):
-         m_Type = 2;
+        m_Type = 2;
         ui->tableView->setColumnHidden( 2, false );
         //            m_tableModel->setModelType( QTableModel::MULTI_ARTISTS );
         break;
     case ( -4 ):
-         m_Type = 3;
+        m_Type = 3;
         ui->tableView->setColumnHidden( 2, true );
         //            m_tableModel->setModelType( QTableModel::MONO_ARTIST );
         break;
@@ -524,9 +534,9 @@ void DialogAjouterPhys::AffichageListeArtistes( int id )
 
 
 
+
 void DialogAjouterPhys::ViderBoiteDialogue()
 {
-
     ui->EAN->clear();
     ui->Nom_Album->clear();
     ui->Nom_Artiste->clear();
@@ -536,6 +546,7 @@ void DialogAjouterPhys::ViderBoiteDialogue()
     m_album.titres.clear();
     m_tableModel->clearLines();
 }
+
 
 
 
@@ -573,7 +584,6 @@ void DialogAjouterPhys::RecupererAlbum()
         {
             titre.Artiste = m_tableModel->data( m_tableModel->index(i, 2 ) ).toString();
         }
-
         m_album.titres << titre;
     }
 
@@ -581,22 +591,21 @@ void DialogAjouterPhys::RecupererAlbum()
 
 
 
+
 void DialogAjouterPhys::on_Supprimer_Titre_clicked()
 {
-    // QModelIndexList selectedItemsList = ui->tableView->selectedIndexes()
 
-    //    if ( fileSelected.size() )
-    //    {
-    //        for ( int i = ui->Titres->count() - 1 ; i >= 0 ; i-- )
-    //        {
-    //            if ( ui->Titres->item( i )->isSelected() )
-    //            {
-    //                QListWidgetItem* item = ui->Titres->takeItem( i );
-    //                ui->Titres->removeItemWidget( item );
-    //            }
-    //        }
-    //    }
-    //    listeNumeros();
+    QItemSelectionModel* selection = ui->tableView->selectionModel();
+
+    if ( selection->hasSelection() )
+    {
+        QModelIndexList listeLignes = selection->selectedRows();
+        qSort( listeLignes.begin(), listeLignes.end() , qGreater<QModelIndex>() );
+        Q_FOREACH ( QModelIndex ligne,listeLignes )
+        {
+            m_tableModel->removeRow( ligne.row() );
+        }
+    }
 }
 
 
@@ -616,7 +625,6 @@ void DialogAjouterPhys::on_pushButton_clicked()
 }
 
 
-
 void DialogAjouterPhys::on_Ajouter_Titre_clicked()
 {
     DialogAjoutTitre toto( m_Type, m_tableModel->rowCount(), this );
@@ -626,6 +634,9 @@ void DialogAjouterPhys::on_Ajouter_Titre_clicked()
     toto.exec();
 
 }
+
+
+
 void DialogAjouterPhys::AjouterTitreManuel( QString Piste, QString Titre, QString Artiste )
 {
     if ( !Titre.isEmpty() )
@@ -634,16 +645,22 @@ void DialogAjouterPhys::AjouterTitreManuel( QString Piste, QString Titre, QStrin
     }
 }
 
+
+
 void DialogAjouterPhys::AfficherInteraction(QString message)
 {
     ui->Interaction->append( message );
 }
+
+
 
 void DialogAjouterPhys::on_findArtists_stateChanged(int newValue)
 {
     m_tableModel->setFindArtists(newValue==Qt::Checked);
     ui->swapColumns->setEnabled(newValue==Qt::Checked );
 }
+
+
 
 void DialogAjouterPhys::on_swapColumns_stateChanged(int newValue)
 {
