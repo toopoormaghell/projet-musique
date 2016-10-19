@@ -259,6 +259,33 @@
       </spacer>
      </item>
      <item>
+      <widget class="QPushButton" name="buttonUp">
+       <property name="text">
+        <string>Monter</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="buttonDown">
+       <property name="text">
+        <string>Descendre</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer_6">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
       <widget class="QPushButton" name="Supprimer_Titre">
        <property name="text">
         <string>Supprimer Titre</string>

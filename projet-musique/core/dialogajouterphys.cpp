@@ -431,6 +431,8 @@ void DialogAjouterPhys::AjoutConnex()
     QObject::connect( &m_research.getNotifier(), SIGNAL( stepAchieved( QString ) ), this, SLOT( AfficherInteraction( QString ) ) );
     QObject::connect( ui->findArtists, SIGNAL( stateChanged(int) ), this, SLOT( on_findArtists_stateChanged(int) ) );
     QObject::connect( ui->swapColumns, SIGNAL( stateChanged(int) ), this, SLOT( on_swapColumns_stateChanged(int) ) );
+    QObject::connect(ui->buttonUp, SIGNAL(clicked(bool)), this, SLOT(moveUp_clicked()));
+    QObject::connect(ui->buttonDown, SIGNAL(clicked(bool)), this, SLOT(moveDown_clicked()));
 }
 
 
@@ -605,6 +607,9 @@ void DialogAjouterPhys::on_Supprimer_Titre_clicked()
         {
             m_tableModel->removeRow( ligne.row() );
         }
+
+        for(int i=0; i<m_tableModel->rowCount(); ++i)
+            m_tableModel->setData(m_tableModel->index(i,0), QString::number(i+1));
     }
 }
 
@@ -665,4 +670,61 @@ void DialogAjouterPhys::on_findArtists_stateChanged(int newValue)
 void DialogAjouterPhys::on_swapColumns_stateChanged(int newValue)
 {
     m_tableModel->setSwapColumns(newValue == Qt::Checked);
+}
+
+void DialogAjouterPhys::moveUp_clicked()
+{
+    QItemSelectionModel* selection = ui->tableView->selectionModel();
+
+    if (selection->hasSelection())
+    {
+        QModelIndexList listeLignes = selection->selectedRows();
+        qSort( listeLignes.begin(), listeLignes.end() , qGreater<QModelIndex>() );
+        Q_FOREACH( QModelIndex ligne, listeLignes )
+        {
+            if (ligne.row() > 0)
+            {
+                m_tableModel->insertRow( ligne.row()-1 );
+                m_tableModel->setData(m_tableModel->index(ligne.row()-1, 0),
+                                      m_tableModel->data(m_tableModel->index(ligne.row()+1,0)));
+                m_tableModel->setData(m_tableModel->index(ligne.row()-1, 1),
+                                      m_tableModel->data(m_tableModel->index(ligne.row()+1,1)));
+                m_tableModel->setData(m_tableModel->index(ligne.row()-1, 2),
+                                      m_tableModel->data(m_tableModel->index(ligne.row()+1,2)));
+                m_tableModel->removeRow(ligne.row()+1);
+            }
+        }
+        for(int i=0; i<m_tableModel->rowCount(); ++i)
+            m_tableModel->setData(m_tableModel->index(i,0), QString::number(i+1));
+
+    }
+
+// ui->tableView->setSelectionModel( selection );
+}
+
+void DialogAjouterPhys::moveDown_clicked()
+{
+    QItemSelectionModel* selection = ui->tableView->selectionModel();
+
+    if ( selection->hasSelection() )
+    {
+        QModelIndexList listeLignes = selection->selectedRows();
+        qSort( listeLignes.begin(), listeLignes.end() , qGreater<QModelIndex>() );
+        Q_FOREACH(QModelIndex ligne, listeLignes)
+        {
+            if (ligne.row() < m_tableModel->rowCount()-1)
+            {
+                m_tableModel->insertRow(ligne.row()+2);
+                m_tableModel->setData(m_tableModel->index(ligne.row()+2, 0),
+                                      m_tableModel->data(m_tableModel->index(ligne.row(),0)));
+                m_tableModel->setData(m_tableModel->index(ligne.row()+2, 1),
+                                      m_tableModel->data(m_tableModel->index(ligne.row(),1)));
+                m_tableModel->setData(m_tableModel->index(ligne.row()+2, 2),
+                                      m_tableModel->data(m_tableModel->index(ligne.row(),2)));
+                m_tableModel->removeRow(ligne.row());
+            }
+        }
+        for(int i=0; i<m_tableModel->rowCount(); ++i)
+            m_tableModel->setData(m_tableModel->index(i,0), QString::number(i+1));
+    }
 }

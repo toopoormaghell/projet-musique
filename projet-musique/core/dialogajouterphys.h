@@ -64,6 +64,8 @@ private slots:
     void on_pushButton_clicked();
     void on_Ajouter_Titre_clicked();
     void AjouterTitreManuel(QString Piste, QString Titre, QString Artiste);
+    void moveUp_clicked();
+    void moveDown_clicked();
 
 private:
     void recupererEAN();
