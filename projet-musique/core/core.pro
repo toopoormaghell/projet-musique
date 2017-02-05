@@ -52,7 +52,6 @@ HEADERS += \
     mainwindow.h \
     bddtype.h \
     bddtitre.h \
-    rechercheurl.h \
     dialogconfigactu.h \
     bddconfig.h \
     ongletstats.h \
@@ -71,7 +70,8 @@ HEADERS += \
     DialogModifierArtiste.h \
     DialogModifierAlbum.h \
     DialogVidageBDD.h \
-    DialogAjoutTitre.h
+    DialogAjoutTitre.h \
+    bddverification.h
 
 
 SOURCES += main.cpp \
@@ -92,7 +92,6 @@ SOURCES += main.cpp \
     mainwindow.cpp \
     bddtype.cpp \
     bddtitre.cpp \
-    rechercheurl.cpp \
     dialogconfigactu.cpp \
     bddconfig.cpp \
     ongletstats.cpp \
@@ -111,7 +110,8 @@ SOURCES += main.cpp \
     DialogModifierArtiste.cpp \
     DialogModifierAlbum.cpp \
     DialogVidageBDD.cpp \
-    DialogAjoutTitre.cpp
+    DialogAjoutTitre.cpp \
+    bddverification.cpp
 
 FORMS += \
     ongletmp3.ui \

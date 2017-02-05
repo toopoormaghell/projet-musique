@@ -23,14 +23,14 @@ public:
     void AfficherInfosAlbum( int Type );
     void vider( QString type );
     void afficherListeCompils();
-
+    void afficherListeAlbSansMP3();
 
     void AfficherArtisteSelectionne();
     void afficherListeSingles();
 
     void actualiserOnglet();
 
-
+ void remplirStats();
 
 private slots:
     void on_Modifier_clicked();
@@ -51,6 +51,7 @@ private:
     int m_selection;
 
     void afficherListeCds();
+
 };
 
 #endif // ONGLETPHYS_H

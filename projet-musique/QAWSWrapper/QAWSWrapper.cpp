@@ -107,6 +107,7 @@ namespace
                         if ( reader.tokenType() == QXmlStreamReader::Characters )
                         {
                             QUrl urlCover( reader.text().toString() );
+                            qDebug() << reader.text().toString();
                             QNetworkRequest coverRequest( urlCover );
                             QNetworkAccessManager* accessCover = new QNetworkAccessManager;
                             QNetworkReply* coverReply = accessCover->get( coverRequest );

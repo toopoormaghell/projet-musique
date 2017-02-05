@@ -25,6 +25,7 @@ public:
 
     QWidget* createEditor( QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index ) const
     {
+        Q_UNUSED (option)
         QLineEdit* editor = NULL;
         if ((index.column() == 1) || (index.column() == 2))
         {
@@ -376,6 +377,7 @@ void QCompletedLineEditDelegate::setEditorData( QWidget* editor, const QModelInd
         QCompleter* completer = new QCompleter( completion );
         completer->setCaseSensitivity( Qt::CaseInsensitive );
         lineEdit->setCompleter( completer );
+
     }
     if (index.column() == 1)
     {
@@ -383,6 +385,10 @@ void QCompletedLineEditDelegate::setEditorData( QWidget* editor, const QModelInd
         QLineEdit* lineEdit = static_cast<QLineEdit*>( editor );
         lineEdit->setText(value.toString());
         lineEdit->selectAll();
+        QStringList completion (BDDAfficherPhys().ListeTitresPossibles() );
+        QCompleter* completer = new QCompleter( completion );
+        completer->setCaseSensitivity( Qt::CaseInsensitive );
+        lineEdit->setCompleter( completer );
     }
 }
 
@@ -454,28 +460,30 @@ void DialogAjouterPhys::recupererEAN()
 void DialogAjouterPhys::on_ChercherEAN_clicked()
 {
     recupererEAN();
-
-    //On vérifie qu'il y a bien 13 caractères
-    while ( m_EAN.count() != 13 )
+    if ( m_EAN.count() < 14 )
     {
-        m_EAN = "0" + m_EAN;
-    }
-    m_album = m_research.getAlbumFromEAN( m_EAN );
+        //On vérifie qu'il y a bien 13 caractères
+        while ( m_EAN.count() != 13 )
+        {
+            m_EAN = "0" + m_EAN;
+        }
+        m_album = m_research.getAlbumFromEAN( m_EAN );
 
-    ui->findArtists->setChecked(false);
+        ui->findArtists->setChecked(false);
 
-    m_tableModel->clearLines();
-    int i = 0;
-    Q_FOREACH( TitresPhys titre, m_album.titres )
-    {
-        m_tableModel->appendLine( LineModel( QString::number( titre.Num_Piste ), titre.Titre, titre.Artiste ) );
-        i++;
+        m_tableModel->clearLines();
+        int i = 0;
+        Q_FOREACH( TitresPhys titre, m_album.titres )
+        {
+            m_tableModel->appendLine( LineModel( QString::number( titre.Num_Piste ), titre.Titre, titre.Artiste ) );
+            i++;
+        }
+        AfficherAlbum();
+    } else {
+        ui->Interaction->append("L'EAN possède trop de chiffres.");
     }
-    AfficherAlbum();
+
 }
-
-
-
 void DialogAjouterPhys::AfficherAlbum()
 {
     ui->Annee->setText( QString::number( m_album.Annee ) );
@@ -501,6 +509,7 @@ void DialogAjouterPhys::AfficherPoch()
 
 void DialogAjouterPhys::on_Enregistrer_clicked()
 {
+    ui->Interaction->append("Album en cours d'enregistrement.");
     RecupererAlbum();
     BDDGestionPhys m_bddinterface;
     m_bddinterface.ajouterAlbum( m_album.Poch, m_album.Album, m_album.Artiste, m_EAN, m_album.Annee, m_album.titres, m_Type, ui->Commentaires->text() );
@@ -544,7 +553,7 @@ void DialogAjouterPhys::ViderBoiteDialogue()
     ui->Nom_Artiste->clear();
     ui->Pochette->clear();
     ui->Annee->clear();
-
+    ui->Commentaires->clear();
     m_album.titres.clear();
     m_tableModel->clearLines();
 }
@@ -692,14 +701,18 @@ void DialogAjouterPhys::moveUp_clicked()
                 m_tableModel->setData(m_tableModel->index(ligne.row()-1, 2),
                                       m_tableModel->data(m_tableModel->index(ligne.row()+1,2)));
                 m_tableModel->removeRow(ligne.row()+1);
+
+                ui->tableView->selectRow( ligne.row()-1 );
             }
+
         }
         for(int i=0; i<m_tableModel->rowCount(); ++i)
             m_tableModel->setData(m_tableModel->index(i,0), QString::number(i+1));
 
+
     }
 
-// ui->tableView->setSelectionModel( selection );
+    // ui->tableView->setSelectionModel( selection );
 }
 
 void DialogAjouterPhys::moveDown_clicked()

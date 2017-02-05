@@ -2,6 +2,7 @@
 #include "ui_mainwindowlecteur.h"
 #include <QStringList>
 #include <QFile>
+
 MainWindowLecteur::MainWindowLecteur(QWidget *parent) :
     QWidget(parent),m_playlist(  ),
     ui(new Ui::MainWindowLecteur),

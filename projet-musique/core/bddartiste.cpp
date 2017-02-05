@@ -13,8 +13,8 @@ BDDArtiste::BDDArtiste(const QString& artiste, const BDDPoch& pochette, QObject*
     m_nomFormate( artiste ),
     m_isPochetteSelfCreated( false )
 {
-    FormaterEntiteBDD( m_nomFormate );
-    recupererId();
+    QString art = artiste;
+    TrouverId( art );
 
     if ( m_id == -1 )
         ajouterBDD();
@@ -40,7 +40,7 @@ void BDDArtiste::recupererId()
         QSqlRecord rec = query.record();
         m_id = rec.value( "Artiste" ).toInt();
         m_pochette = BDDPoch::recupererBDD(rec.value("Poch").toInt());
-       m_isPochetteSelfCreated = true;
+        m_isPochetteSelfCreated = true;
     }
     else
     {
@@ -109,7 +109,7 @@ BDDArtiste* BDDArtiste::RecupererArtparNom( QString& nom )
 
 void BDDArtiste::TrouverId( QString& nom )
 {
-    m_id = 0;
+    m_id = -1;
     ChoisirArtisteEchange( nom );
     m_nomFormate = nom;
     FormaterEntiteBDD( m_nomFormate );
@@ -169,7 +169,8 @@ void BDDArtiste::ChoisirArtisteEchange( QString& nom )
         if ( query.first() )
         {
             QSqlRecord rec = query.record();
-            nom = rec.value( "Artiste" ).toString();
+            m_nom = rec.value( "Artiste" ).toString();
+            m_nomFormate = nom;
         }
     }
 }

@@ -3,6 +3,7 @@
 #include "bddrech.h"
 #include "bddtitre.h"
 #include "bddalbum.h"
+#include "bddrelation.h"
 #include "bddartiste.h"
 #include "bddpoch.h"
 #include <QDebug>
@@ -183,16 +184,17 @@ void OngletRech::affichageTitresParAlbum()
 
     for ( int i = 0; i < result.count(); i++ )
     {
-        BDDTitre* titre = BDDTitre::RecupererTitre( result[i] );
+        BDDRelation* rel = BDDRelation::RecupererRelation( result[i] );
+        BDDTitre* titre = BDDTitre::RecupererTitre( rel->m_id_titre );
         QListWidgetItem* item = new QListWidgetItem;
         item->setText( titre->m_nom );
         item->setData( Qt::UserRole, titre->m_id );
         //On s'occupe d'afficher si c'est le titre existe en MP3 et Phys
-        if ( titre->m_mp3 )
+        if ( rel->m_mp3 )
         {
             item->setIcon( QIcon( mp3 ) );
         }
-        if ( titre->m_phys)
+        if ( rel->m_phys)
         {
             item->setIcon( QIcon( phys ) );
         }
@@ -219,6 +221,7 @@ void OngletRech::AffichInfosTitres()
     AlbumPhys alb = BDDAlbum::RecupAlbumEntite( m_album.toInt());
     BDDArtiste* art = BDDArtiste::RecupererArtparNom( alb.Artiste );
     m_artiste = QString::number(art->m_id);
+    BDDRelation* rel = BDDRelation::RecupererRelationParTitre( titre->m_id );
 
     //On affiche la pochette
     QPixmap scaled ( QPixmap::fromImage( alb.Poch ) );
@@ -226,16 +229,16 @@ void OngletRech::AffichInfosTitres()
     ui->PochTitre->setPixmap( scaled );
 
     //On affiche le nom du titre
-    ui->NomTitre->setText(QString::number( titre->m_num_piste ).rightJustified( 2, '0' ) + " - " + titre->m_nom );
+    ui->NomTitre->setText(QString::number( rel->m_num_piste ).rightJustified( 2, '0' ) + " - " + titre->m_nom );
     //On affiche le nom de l'album
     ui->NomAlbum->setText(alb.Album+"("+QString::number ( alb.Annee ) +")");
     //On affiche le nom de l'artiste
     ui->NomArtiste->setText(alb.Artiste);
     //On affiche la durée
-    ui->Duree->setText(titre->m_duree);
+    ui->Duree->setText(rel->m_duree);
 
     //On ajoute un bouton ou non
-    if ( titre->m_mp3 )
+    if ( rel->m_mp3 )
     {
         ui->OuvrirDossier->setVisible( true);
     } else
@@ -288,8 +291,8 @@ void OngletRech::on_Similaires_clicked()
 void OngletRech::on_CopierDansDossier_clicked()
 {
     BDDTitre* titre = BDDTitre::RecupererTitre( m_titre.toInt() );
-
-    if ( titre->m_mp3 )
+    BDDRelation* rel = BDDRelation::RecupererRelationParTitre( m_titre.toInt() );
+    if ( rel->m_mp3 )
     {
         BDDMp3* mp3 = BDDMp3::RecupererMP3ParTitre( m_titre.toInt() );
 

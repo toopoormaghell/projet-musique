@@ -71,12 +71,13 @@ void BDDFusion::fusionalbums( QPair<QString,QString> Choix1_Album,  QPair<QImage
     {
         //On change le numéro de piste
         BDDTitre * titre = BDDTitre::RecupererTitre( RecupererMP3( ChoixFusion_Titres[cpt] ) );
-        titre->m_num_piste = cpt+1;
-        titre->updateBDD();
+        BDDRelation* rel = BDDRelation::RecupererRelationParTitre( titre->m_id );
+        rel->m_num_piste = cpt+1;
+        rel->updateBDD();
 
 
         //si le titre est un mp3, on change aussi son tag
-        if ( titre->m_mp3 )
+        if ( rel->m_mp3 )
         {
             BDDMp3* mp3 = BDDMp3::RecupererMP3ParTitre( titre->m_id );
             mp3->ChangerTag(AlbumChoix,titre->m_nom,mp3->m_artiste->m_nom,ChoixFusion_Annee,cpt,PochChoix);
@@ -97,12 +98,12 @@ void BDDFusion::SupprimerTitresEnTrop(  QList<TitresPhys> titresph, QString Albu
             BDDTitre* tit = BDDTitre::RecupererTitre( rel->m_id_titre );
             tit->mp3physfusion();
 
-            if ( tit->m_mp3 )
+            if ( rel->m_mp3 )
             {
                 BDDMp3* mp3 = BDDMp3::RecupererMP3ParTitre( tit->m_id );
                 int nouveau = RecupererNouveauTitre( tit->m_id );
                 BDDTitre* nvtit = BDDTitre::RecupererTitre( nouveau );
-                mp3->ChangerTag(AlbumChoix,nvtit->m_nom,mp3->m_artiste->m_nom,ChoixFusion_Annee,tit->m_num_piste,PochChoix);
+                mp3->ChangerTag(AlbumChoix,nvtit->m_nom,mp3->m_artiste->m_nom,ChoixFusion_Annee,rel->m_num_piste,PochChoix);
 
                 mp3->m_relation = BDDRelation::RecupererRelationParTitre( nvtit->m_id );
                 mp3->updateBDD();

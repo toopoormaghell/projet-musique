@@ -44,10 +44,10 @@ FenetrePrincipale::FenetrePrincipale( QWidget* parent ) :
     //Si uune action est faite dans l'onglet MP3, la barre de status l'affiche
     connect ( m_ongletMP3, SIGNAL( EnvoyerTexte() ), this, SLOT( AfficherTexte() ) );
     //Si un titre est ajouté dans la playlist du lecteur
-   connect( m_ongletMP3,SIGNAL(modifplaylist(QStringList)),m_lecteur,SLOT(modifplaylist(QStringList)));
-
+    connect( m_ongletMP3,SIGNAL(modifplaylist(QStringList)),m_lecteur,SLOT(modifplaylist(QStringList)));
     //Si un titre est supprimé dans la playlist du lecteur
     connect ( m_lecteur,SIGNAL(suppplaylist(QStringList)),m_ongletMP3,SLOT(suppplaylist(QStringList)));
+
 }
 void FenetrePrincipale::ajouterToolbar()
 {
@@ -78,7 +78,7 @@ void FenetrePrincipale::ajouterToolbar()
     m_lecteur->setMaximumHeight( 85 );
     m_lecteur->setMinimumWidth( 700 );
     m_lecteur->setMaximumWidth( 700 );
-   ui->toolBar->addWidget( m_lecteur);
+    ui->toolBar->addWidget( m_lecteur);
 
 
 
@@ -104,7 +104,7 @@ void FenetrePrincipale::ajouterStatusBar()
     m_interaction->setMaximumHeight( 20 );
     //   m_interaction->setMaximumWidth(700);
 
-  //  ui->statusBar->adjustSize();
+    //  ui->statusBar->adjustSize();
 
 }
 void FenetrePrincipale::stop_clique()
@@ -163,7 +163,9 @@ void FenetrePrincipale::on_actionAjouter_Album_triggered()
 
 void FenetrePrincipale::actionExporter()
 {
+    m_interaction->setText( "Exportation en cours..." );
     BDDAfficherPhys::exporterHTML();
+    m_interaction->setText( "Exportation terminée." );
 }
 
 

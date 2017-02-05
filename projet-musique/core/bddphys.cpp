@@ -13,7 +13,7 @@ BDDPhys::BDDPhys(const BDDAlbum& album, const QString& ean, const int& type, con
     m_id( -1 ),
     m_album( &album ),
     m_artiste( NULL ),
-    m_titres(),
+    m_relations(),
     m_type( BDDType::RecupererType( type ) ),
     m_ean( ean ),
     m_commentaires ( Commentaires),
@@ -38,9 +38,9 @@ BDDPhys::~BDDPhys()
         delete m_artiste;
         delete m_album;
         delete m_type;
-        for ( int i = 0; i < m_titres.count(); ++i )
-            delete m_titres[i];
-        m_titres.clear();
+        for ( int i = 0; i < m_relations.count(); ++i )
+            delete m_relations[i];
+        m_relations.clear();
     }
 }
 
@@ -50,14 +50,14 @@ void BDDPhys::deleteBDD()
 
     madatabase.exec( queryStr );
 
-    for ( int i = 0; i < m_titres.count(); i++ )
+    for ( int i = 0; i < m_relations.count(); i++ )
     {
-        if ( !m_titres[i]->m_mp3 )
+        if ( !m_relations[i]->m_mp3 )
         {
-            BDDRelation rel( *m_album, *m_artiste, *m_titres[i] );
+     /*       BDDRelation rel( *m_album, *m_artiste, *m_relations[i],  );
             rel.supprimerenBDDPhys();
-            m_titres[i]->supprimerenBDD();
-        }
+            m_relations[i]->supprimerenBDD();
+     */   }
     }
     m_album->supprimerenBDD();
     m_artiste->supprimerenBDD();
@@ -98,7 +98,7 @@ BDDPhys::BDDPhys( const int id, QObject* parent ):
     m_id( id ),
     m_album( NULL ),
     m_artiste( NULL ),
-    m_titres(),
+    m_relations(),
     m_type(),
     m_ean( -1 ),
     m_commentaires()
@@ -119,7 +119,7 @@ BDDPhys::BDDPhys( const int id, QObject* parent ):
 }
 void BDDPhys::RecupererTitres()
 {
-    QString queryStr = " SELECT R.Id_Titre, R.Id_Artiste FROM Relations R,Titre T WHERE R.Id_Album='" + QString::number( m_album->m_id ) + "' AND T.Id_Titre=R.Id_Titre ORDER BY T.Num_Piste";
+    QString queryStr = " SELECT Id_Relation, Id_Artiste FROM Relations  WHERE Id_Album='" + QString::number( m_album->m_id ) + "' ORDER BY Num_Piste";
     QSqlQuery query = madatabase.exec( queryStr );
     while ( query.next() )
     {
@@ -127,7 +127,7 @@ void BDDPhys::RecupererTitres()
 
         delete m_artiste;
         m_artiste = BDDArtiste::RecupererArtiste( rec.value( "Id_Artiste" ).toInt() );
-        m_titres <<   BDDTitre::RecupererTitre( rec.value( "Id_Titre" ).toInt() );
+        m_relations <<   BDDRelation::RecupererRelation( rec.value( "Id_Relation" ).toInt() );
 
     }
 }

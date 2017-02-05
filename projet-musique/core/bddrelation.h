@@ -12,7 +12,7 @@ class BDDRelation : public QObject
 {
     Q_OBJECT
 public:
-    explicit BDDRelation( const BDDAlbum& album, const BDDArtiste& artiste, const BDDTitre& titre, QObject* parent = 0 );
+    explicit BDDRelation( const BDDAlbum& album, const BDDArtiste& artiste, const BDDTitre& titre,const int& num_piste, const QString& duree,const int& mp3, const int &phys, QObject* parent = 0 );
 
     static BDDRelation* RecupererRelation( const int id );
     void supprimerenBDDMP3() const;
@@ -24,6 +24,10 @@ public:
     int m_id_artiste;
     int m_id_album;
     int m_id_titre;
+    int m_num_piste;
+    QString m_duree;
+    int m_mp3;
+    int m_phys;
 private:
     BDDRelation( const int id, QObject* parent = NULL );
     void ajouterBDD();

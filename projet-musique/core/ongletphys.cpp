@@ -10,6 +10,8 @@
 #include "bddgestionphys.h"
 #include "DialogModifierArtiste.h"
 #include <QDebug>
+#include "bddrelation.h"
+
 
 OngletPhys::OngletPhys( QWidget* parent ) :
     QWidget( parent ),
@@ -27,8 +29,8 @@ OngletPhys::OngletPhys( QWidget* parent ) :
     connect (ui->Artistes,SIGNAL(activated(QModelIndex)),this,SLOT(on_Artistes_clicked(QModelIndex)));
     connect (ui->Compil,SIGNAL(itemActivated(QListWidgetItem*)),this,SLOT(on_Compil_itemPressed(QListWidgetItem*)));
     connect (ui->Singles,SIGNAL(itemActivated(QListWidgetItem*)),this,SLOT(on_Singles_itemPressed(QListWidgetItem*)));
-    connect (ui->Modifier,SIGNAL(pressed()),this,SLOT(on_Modifier_clicked()));
-    connect (ui->SupprimerAlbum,SIGNAL(pressed()),this,SLOT(on_SupprimerAlbum_clicked()));
+    // connect (ui->Modifier,SIGNAL(pressed()),this,SLOT(on_Modifier_clicked()));
+    //    connect (ui->SupprimerAlbum,SIGNAL(pressed()),this,SLOT(on_SupprimerAlbum_clicked()));
 }
 
 OngletPhys::~OngletPhys()
@@ -40,10 +42,13 @@ void OngletPhys::actualiserOnglet()
     afficherListeArtiste();
     afficherListeCds();
     AfficherInfosAlbum( 1 );
+
 }
 
 void OngletPhys::afficherListeArtiste()
 {
+    vider("Artiste");
+
     //Affichage des artistes
     QList<int> artistes = m_bddInterface.ListeArtiste();
 
@@ -196,9 +201,10 @@ void OngletPhys::afficherListeCompils()
 }
 void OngletPhys::AfficherInfosAlbum( int Type )
 {
+    vider("Infos");
 
     BDDPhys* phys = BDDPhys::RecupererPhys( m_selection );
-
+    int nbtitresmp3 = 0;
     if ( m_selection != 0  )
     {
         //On affiche l'année et le nom de l'album
@@ -213,28 +219,31 @@ void OngletPhys::AfficherInfosAlbum( int Type )
         QPixmap mp3( ":/Autres/Mp3" );
         QPixmap nonmp3 (":/Autres/Faux");
         //On affiche les titres
-        for ( int i = 0; i < phys->m_titres.count(); i++ )
+        for ( int i = 0; i < phys->m_relations.count(); i++ )
         {
+            BDDTitre* titre = BDDTitre::RecupererTitre( phys->m_relations[i]->m_id_titre );
             QListWidgetItem* item = new QListWidgetItem;
 
             QString temp;
-            temp = QString::number( phys->m_titres[i]->m_num_piste ).rightJustified( 2, '0' ) + " - " + phys->m_titres[i]->m_nom + "(" + phys->m_titres[i]->m_duree + ")";
+            temp = QString::number( phys->m_relations[i]->m_num_piste ).rightJustified( 2, '0' ) + " - " + titre->m_nom + "(" + phys->m_relations[i]->m_duree + ")";
             //Si c'est une compil, on ajoute les artistes derrière
             if ( Type == 3 )
             {
-                if ( m_artiste.toInt() == phys->m_titres[i]->m_artiste->m_id )
+                BDDArtiste* art = BDDArtiste::RecupererArtiste( phys->m_relations[i]->m_id_artiste );
+                if ( m_artiste.toInt() == art->m_id )
                 {
                     //On Ajoute une couleur pour le titre où l'artiste est le bon
                     QBrush m_brush;
                     m_brush.setColor( Qt::blue );
                     item->setForeground( m_brush );
                 }
-                temp = temp + " - " + phys->m_titres[i]->m_artiste->m_nom;
+                temp = temp + " - " + art->m_nom;
             }
             item->setText( temp );
             //On affiche l'icone si le mp3 existe aussi
-            if ( phys->m_titres[i]->m_mp3  )
+            if ( phys->m_relations[i]->m_mp3  )
             {
+                nbtitresmp3++;
                 item->setIcon( QIcon( mp3 ) );
             } else
             {
@@ -242,7 +251,12 @@ void OngletPhys::AfficherInfosAlbum( int Type )
             }
             ui->Titres->addItem( item );
 
+
         }
+        ui->NbTitresAlb->setText(QString::number( phys->m_relations.count() ) );
+        ui->NbTitresMP3Alb->setText(QString::number( nbtitresmp3 ));
+        if ( phys->m_relations.count()!=0)
+            ui->PourcentageAlb->setText( QString::number( nbtitresmp3*100/phys->m_relations.count() ) +" %" );
     }
     delete phys;
 }
@@ -307,6 +321,8 @@ void OngletPhys::on_SupprimerAlbum_clicked()
 {
     BDDGestionPhys temp;
     temp.SupprimerenBDDPhys( m_selection );
+
+    actualiserOnglet();
 }
 
 void OngletPhys::on_Artistes_doubleClicked( const QModelIndex& index )
@@ -325,6 +341,7 @@ void OngletPhys::afficherListeCds()
     afficherListeSingles();
     AfficherArtisteSelectionne();
     afficherListeCompils();
+    remplirStats();
 
     //Si on est sur "l'artiste" Compil
     if ( m_artiste == "-1" )
@@ -389,4 +406,51 @@ void OngletPhys::on_Artistes_clicked( const QModelIndex& index )
 {
     m_artiste = index.data( Qt::UserRole ).toString();
     afficherListeCds();
+}
+void OngletPhys::remplirStats()
+{
+    ui->NbAlb->setText( QString::number( m_Albums ) );
+    ui->NbCompil->setText( QString::number( m_Compils ) );
+    ui->NbSingle->setText( QString::number( m_Singles ) );
+    ui->NbCD->setText( QString::number( m_Albums + m_Compils + m_Singles ));
+
+    QList <int> titres = m_bddInterface.TitresParArtistes( m_artiste );
+    ui->NbTitres->setText( QString::number( titres[0] ) );
+    ui->NbTitresMP3->setText( QString::number( titres[1] ) );
+    int Pourcentage = titres[1]*100/titres[0];
+    ui->Pourcentage->setText(QString::number( Pourcentage )+" %");
+
+    afficherListeAlbSansMP3();
+
+}
+void OngletPhys::afficherListeAlbSansMP3()
+{
+    ui->AlbSansMP3->clear();
+
+    //Affichage des albums
+    QList<int> albums = m_bddInterface.AlbSansMP3( m_artiste );
+
+    for ( int cpt = 0; cpt < albums.count(); cpt++ )
+    {
+
+        BDDAlbum* album = BDDAlbum::RecupererAlbum( albums[cpt] );
+
+        if ( album->m_id > 0 )
+        {
+            QListWidgetItem* item = new QListWidgetItem;
+            QPixmap scaled( QPixmap::fromImage( album->m_pochette->m_image ) );
+
+            item->setIcon( QIcon( scaled ) );
+
+
+            //On s'occupe du nom de l'album
+            item->setData( Qt::UserRole, albums[cpt] );
+            item->setText( QString::number( album->m_annee ) + " - " + album->m_nom );
+
+            ui->AlbSansMP3->addItem( item );
+
+        }
+        delete album;
+    }
+
 }

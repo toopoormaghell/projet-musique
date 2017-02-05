@@ -27,6 +27,7 @@ void DialogAjoutTitre::ActualiserOnglet( int Type )
     {
         ui->Artiste->setHidden( 0 );
         ui->label_2->setHidden( 0 );
+
     }
     else
     {
@@ -44,6 +45,9 @@ void DialogAjoutTitre::RecupererDonnees()
     m_Piste = QString::number( ui->Num_Piste->value() );
     m_Artiste = ui->Artiste->text();
     m_Titre = ui->Titre->text();
+
+    ui->Titre->clear();
+    ui->Artiste->clear();
 }
 
 
@@ -57,16 +61,24 @@ void DialogAjoutTitre::on_Sauvegarde_clicked()
 {
     RecupererDonnees();
     emit enregistr(m_Piste, m_Titre , m_Artiste );
+
+    ui->Num_Piste->setValue( m_Piste.toInt()+1 );
+
+
 }
 void DialogAjoutTitre::AjouterListeTitres()
 {
     BDDAfficherPhys temp;
-    ui->Titre->setCompleter( new QCompleter( temp.ListeTitresPossibles() ) );
+    QCompleter* completer = new QCompleter( temp.ListeTitresPossibles() );
+    completer->setCaseSensitivity( Qt::CaseInsensitive );
+    ui->Titre->setCompleter( completer );
 }
 void DialogAjoutTitre::AjouterListeArtistes()
 {
     BDDAfficherPhys temp;
-    ui->Artiste->setCompleter( new QCompleter( temp.ListeArtistesPossibles() ) );
+    QCompleter* completer = new QCompleter( temp.ListeArtistesPossibles() );
+    completer->setCaseSensitivity( Qt::CaseInsensitive );
+    ui->Artiste->setCompleter( completer );
 }
 
 void DialogAjoutTitre::on_buttonBox_clicked(QAbstractButton *button)

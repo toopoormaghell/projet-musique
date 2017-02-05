@@ -4,7 +4,6 @@
 #include <QObject>
 class BDDArtiste;
 class BDDAlbum;
-class BDDTitre;
 class BDDRelation;
 class BDDType;
 
@@ -21,7 +20,7 @@ public:
     int m_id;
     BDDAlbum const* m_album;
     BDDArtiste const* m_artiste;
-    QList<BDDTitre*>   m_titres;
+    QList<BDDRelation*>   m_relations;
     BDDType const* m_type;
     QString m_ean;
     QString m_commentaires;

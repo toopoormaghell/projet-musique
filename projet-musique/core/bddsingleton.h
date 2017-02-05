@@ -20,6 +20,8 @@ public:
     void verifierBDD();
     void supprimerdossiersvides();
     void changementversion();
+
+
 private:
     // Constructeur privé : singleton
     BDDSingleton();
@@ -33,6 +35,8 @@ private:
     void version2();
     void version3();
     void version4();
+    void version5();
+    void TitresVersion5();
 };
 
 #define madatabase (BDDSingleton::getInstance().getDataBase())

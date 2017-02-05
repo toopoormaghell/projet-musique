@@ -6,12 +6,16 @@
 #include "bddalbum.h"
 #include "bddartiste.h"
 
-BDDRelation::BDDRelation( const BDDAlbum& album, const BDDArtiste& artiste, const BDDTitre& titre, QObject* parent ) :
+BDDRelation::BDDRelation(const BDDAlbum& album, const BDDArtiste& artiste, const BDDTitre& titre, const int& num_piste, const QString& duree, const int &mp3, const int &phys, QObject* parent ) :
     QObject( parent ),
     m_id( -1 ),
     m_id_artiste( artiste.m_id ),
     m_id_album( album.m_id ),
-    m_id_titre( titre.m_id )
+    m_id_titre( titre.m_id ),
+    m_num_piste ( num_piste ),
+    m_duree ( duree ),
+    m_mp3 ( mp3 ),
+    m_phys ( phys )
 {
 
     recupererId();
@@ -45,7 +49,7 @@ void BDDRelation::recupererId()
 
 void BDDRelation::updateBDD()
 {
-    QString queryStr = "UPDATE Relations SET Id_Titre ='" + QString::number( m_id_titre ) + "', Id_Artiste='" + QString::number( m_id_artiste ) + "', Id_Album= '" + QString::number( m_id_album ) + "' WHERE Id_Relation = '" + QString::number( m_id ) + "'";
+    QString queryStr = "UPDATE Relations SET Id_Titre ='" + QString::number( m_id_titre ) + "', Id_Artiste='" + QString::number( m_id_artiste ) + "', Id_Album= '" + QString::number( m_id_album ) + "', Duree = '" +  m_duree + "', Num_Piste='" + QString::number( m_num_piste ) + "', MP3='" + QString::number( m_mp3 ) + "', Phys='" + QString::number( m_phys ) + "' WHERE Id_Relation = '" + QString::number( m_id ) + "'";
     madatabase.exec( queryStr );
 }
 
@@ -59,9 +63,13 @@ BDDRelation::BDDRelation( const int id, QObject* parent ):
     m_id( id ),
     m_id_artiste(),
     m_id_album(),
-    m_id_titre()
+    m_id_titre(),
+    m_duree(),
+    m_num_piste(),
+    m_mp3(),
+    m_phys()
 {
-    QString queryStr = "SELECT Id_Titre, Id_Album, Id_Artiste FROM Relations WHERE Id_Relation='" + QString::number( id ) + "'";
+    QString queryStr = "SELECT Id_Titre, Id_Album, Id_Artiste, Duree, Num_Piste, MP3, Phys FROM Relations WHERE Id_Relation='" + QString::number( id ) + "'";
     QSqlQuery query = madatabase.exec( queryStr );
     while ( query.next() )
     {
@@ -70,6 +78,10 @@ BDDRelation::BDDRelation( const int id, QObject* parent ):
         m_id_album = rec.value( "Id_Album" ).toInt();
         m_id_artiste = rec.value( "Id_Artiste" ).toInt();
         m_id_titre = rec.value( "Id_Titre" ).toInt();
+        m_duree = rec.value("Duree").toString();
+        m_num_piste = rec.value("Num_Piste").toInt();
+        m_mp3 = rec.value("MP3").toInt();
+        m_phys = rec.value("Phys").toInt();
     }
 }
 BDDRelation::BDDRelation(const int id, QString Type, QObject *parent):
@@ -77,12 +89,16 @@ BDDRelation::BDDRelation(const int id, QString Type, QObject *parent):
     m_id(),
     m_id_artiste(),
     m_id_album(),
-    m_id_titre()
+    m_id_titre(),
+    m_duree(),
+    m_num_piste(),
+    m_mp3(),
+    m_phys()
 {
     QString queryStr="";
     if ( Type == "Titre" )
     {
-        queryStr = "SELECT Id_Titre, Id_Album, Id_Artiste, Id_Relation FROM Relations WHERE Id_Titre='" + QString::number( id ) + "'";
+        queryStr = "SELECT Id_Titre, Id_Album, Id_Artiste, Id_Relation, Duree, Num_Piste, MP3, Phys FROM Relations WHERE Id_Titre='" + QString::number( id ) + "'";
 
     }
     QSqlQuery query = madatabase.exec( queryStr );
@@ -94,6 +110,10 @@ BDDRelation::BDDRelation(const int id, QString Type, QObject *parent):
         m_id_artiste = rec.value( "Id_Artiste" ).toInt();
         m_id_titre = rec.value( "Id_Titre" ).toInt();
         m_id = rec.value("Id_Relation").toInt();
+        m_duree = rec.value("Duree").toString();
+        m_num_piste = rec.value("Num_Piste").toInt();
+        m_mp3 = rec.value("MP3").toInt();
+        m_phys = rec.value("Phys").toInt();
     }
 
 
@@ -102,7 +122,7 @@ BDDRelation::BDDRelation(const int id, QString Type, QObject *parent):
 }
 void BDDRelation::ajouterBDD()
 {
-    QString  queryStr = "INSERT INTO Relations VALUES (null,'" + QString::number( m_id_titre ) + "','" + QString::number( m_id_album ) + "','" + QString::number( m_id_artiste ) + "')";
+    QString  queryStr = "INSERT INTO Relations VALUES (null,'" + QString::number( m_id_titre ) + "','" + QString::number( m_id_album ) + "','" + QString::number( m_id_artiste ) + "','" + m_duree + "','" + QString::number( m_num_piste ) + "','" + QString::number( m_mp3 ) + "','" + QString::number( m_phys ) + "')";
 
     QSqlQuery query =     madatabase.exec( queryStr );
     m_id = query.lastInsertId().toInt();

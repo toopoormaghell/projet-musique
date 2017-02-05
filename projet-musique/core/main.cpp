@@ -3,10 +3,13 @@
 #include <QFile>
 #include <QTranslator>
 #include <QLocale>
+#include "bddsingleton.h"
 #include <QLibraryInfo>
 int main( int argc, char* argv[] )
 {
     QApplication a( argc, argv );
+    BDDSingleton::getInstance().changementversion();
+
     FenetrePrincipale w;
 
     //Application du qt_fr pour la traduction
@@ -29,7 +32,7 @@ int main( int argc, char* argv[] )
     }
 
     w.setWindowTitle( "Projet Musique" );
-w.setWindowIcon( QIcon( ":/menuIcones/Musique" ));
+    w.setWindowIcon( QIcon( ":/menuIcones/Musique" ));
     w.show();
 
     return a.exec();

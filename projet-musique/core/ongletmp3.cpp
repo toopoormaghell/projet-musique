@@ -5,6 +5,7 @@
 #include "bddalbum.h"
 #include "bddtitre.h"
 #include "bddmp3.h"
+#include "bddrelation.h"
 #include "bddtype.h"
 #include <algorithm>
 #include "DialogModifierArtiste.h"
@@ -277,15 +278,16 @@ void OngletMP3::afficherInfosTitre()
 
     BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3 );
     if ( mp3->m_album != NULL)
-    { ui->Piste->setText( QString::number( mp3->m_titre->m_num_piste ).rightJustified( 2, '0' ) + " - " );
-        QString temp = mp3->m_titre->m_nom.toUpper() + "(" + mp3->m_titre->m_duree + ")";
+    { ui->Piste->setText( QString::number( mp3->m_relation->m_num_piste ).rightJustified( 2, '0' ) + " - " );
+
+        QString temp = mp3->m_titre->m_nom.toUpper() + "(" + mp3->m_relation->m_duree + ")";
         ui->Titre->setText( temp );
 
         ui->NomAlbum->setText( mp3->m_album->m_nom );
         ui->NomArtiste->setText( mp3->m_artiste->m_nom );
 
         ui->Annee->setText( QString::number( mp3->m_album->m_annee ) );
-        if ( mp3->m_titre->m_mp3 && mp3->m_titre->m_phys )
+        if ( mp3->m_relation->m_mp3 && mp3->m_relation->m_phys )
             ui->Mp3Phys->setText( "Existe en MP3 et Phys" );
 
         QPixmap scaled( QPixmap::fromImage( mp3->m_album->m_pochette->m_image ) );
@@ -567,7 +569,7 @@ void OngletMP3::on_LireMP3_clicked()
     m_PlaylistLecteur.clear();
     m_PlaylistLecteur << mp3->m_chemin;
     emit modifplaylist(m_PlaylistLecteur);
-    m_fichierlu = QString::number( mp3->m_titre->m_num_piste ).rightJustified( 2, '0' ) + " - "+ mp3->m_titre->m_nom + " ajouté au lecteur.";
+    m_fichierlu = QString::number( mp3->m_relation->m_num_piste ).rightJustified( 2, '0' ) + " - "+ mp3->m_titre->m_nom + " ajouté au lecteur.";
     EnvoyerTexteAMain();
 }
 

@@ -36,7 +36,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>60</y>
+     <y>120</y>
      <width>351</width>
      <height>20</height>
     </rect>
@@ -62,7 +62,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>40</y>
+     <y>100</y>
      <width>161</width>
      <height>16</height>
     </rect>
@@ -107,51 +107,22 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>110</y>
+     <y>50</y>
      <width>81</width>
      <height>31</height>
     </rect>
    </property>
+   <property name="maximum">
+    <number>999</number>
+   </property>
   </widget>
  </widget>
  <tabstops>
+  <tabstop>Num_Piste</tabstop>
   <tabstop>Titre</tabstop>
-  <tabstop>Sauvegarde</tabstop>
   <tabstop>Artiste</tabstop>
+  <tabstop>Sauvegarde</tabstop>
  </tabstops>
  <resources/>
- <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>SousDialogAjoutTitre</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>SousDialogAjoutTitre</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

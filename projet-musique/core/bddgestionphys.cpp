@@ -25,15 +25,15 @@ void BDDGestionPhys::ajouterAlbum(QImage Poch, QString Album, QString Artiste, Q
     for ( int cpt = 0; cpt < titres.count(); cpt++ )
     {
         TitresPhys temp = titres[cpt];
-        BDDTitre tit( temp.Titre.replace( "'", "$" ), temp.Num_Piste, temp.Duree, alb );
+        BDDTitre tit( temp.Titre.replace( "'", "$" ),  alb );
         if ( Type == 2 )
         {
             BDDArtiste artTitre( temp.Artiste, poch );
-            BDDRelation rel( alb, artTitre, tit );
+            BDDRelation rel( alb, artTitre, tit, temp.Num_Piste, temp.Duree, 0,1 );
         }
         else
         {
-            BDDRelation rel( alb, art, tit );
+            BDDRelation rel( alb, art, tit, temp.Num_Piste, temp.Duree, 0,1 );
         }
     }
 
@@ -65,8 +65,8 @@ void BDDGestionPhys::modifierAlbum( QString Album, QString Artiste, QString ean,
     for ( int i=0;i< albphys.titres.count();i++ )
     {
 
-        BDDTitre tit( albphys.titres[i].Titre.replace( "'", "$" ), albphys.titres[i].Num_Piste, albphys.titres[i].Duree, *alb );
-        BDDRelation rel (*alb, art, tit);
+        BDDTitre tit( albphys.titres[i].Titre.replace( "'", "$" ),  *alb );
+        BDDRelation rel (*alb, art, tit, albphys.titres[i].Num_Piste, albphys.titres[i].Duree,titres[i].MP3 ? 1 : 0,titres[i].Phys ? 1 : 0);
 
         tit.supprimerenBDD();
         rel.supprimerenBDDPhys();
@@ -76,16 +76,18 @@ void BDDGestionPhys::modifierAlbum( QString Album, QString Artiste, QString ean,
     for ( int cpt = 0; cpt < titres.count(); cpt++ )
     {
         TitresPhys temp = titres[cpt];
-        BDDTitre tit( temp.Titre.replace( "'", "$" ), temp.Num_Piste, temp.Duree, *alb );
+        BDDTitre tit( temp.Titre.replace( "'", "$" ), *alb );
 
         if ( Type == 2 )
         {
             BDDArtiste artTitre( temp.Artiste, *poch );
-            BDDRelation rel( *alb, artTitre, tit );
+            BDDRelation rel (*alb, artTitre, tit, temp.Num_Piste, temp.Duree,temp.MP3 ? 1 : 0,temp.Phys ? 1 : 0);
+
         }
         else
         {
-            BDDRelation rel( *alb, art, tit );
+            BDDRelation rel (*alb, art, tit, temp.Num_Piste, temp.Duree,temp.MP3 ? 1 : 0,temp.Phys ? 1 : 0);
+
         }
     }
 

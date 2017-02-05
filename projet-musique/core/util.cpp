@@ -29,6 +29,7 @@ void EnleverAccents( QString& Nom )
     Nom.replace( "'", "$" );
     Nom.replace( ",", " " );
     Nom.replace( "ô", "o" );
+    Nom.replace( "&", " " );
     Nom.replace( "$", " " );
     Nom.replace( ".", " " );
     Nom.replace( "-", " " );

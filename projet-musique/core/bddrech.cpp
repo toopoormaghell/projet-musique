@@ -65,7 +65,7 @@ QList<int> BDDRech::RechArt( QString rech )
 QList<int> BDDRech::TitresPourAlb(QString rech)
 {
     QList<int> liste;
-    QString queryStr = "SELECT DISTINCT R.Id_Titre FROM Relations R, Titre T WHERE R.Id_Album = '" + rech + "' AND R.Id_Titre = T.Id_Titre ORDER BY T.Num_Piste";
+    QString queryStr = "SELECT DISTINCT R.Id_Titre FROM Relations R WHERE R.Id_Album = '" + rech + "'  ORDER BY R.Num_Piste";
 
     QSqlQuery query = madatabase.exec( queryStr );
 
@@ -73,7 +73,7 @@ QList<int> BDDRech::TitresPourAlb(QString rech)
     {
         QSqlRecord rec = query.record();
 
-        liste << rec.value( "Id_Titre" ).toInt();
+        liste << rec.value( "Id_Relation" ).toInt();
 
     }
     return liste;
