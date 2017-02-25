@@ -22,11 +22,12 @@ class FenetrePrincipale : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit FenetrePrincipale( QWidget* parent = 0 );
+    explicit FenetrePrincipale(const QStringList &couleurs, QWidget* parent = 0 );
     ~FenetrePrincipale();
 
     void ajouterToolbar();
     void ajouterStatusBar();
+
 signals:
     void stopper();
 
@@ -55,6 +56,7 @@ private:
     DialogAjouterPhys* m_dialogajouterphys;
     DialogVidageBDD m_vidage;
     QPushButton* stop;
+    QStringList m_couleurs;
 };
 
 #endif // MAINWINDOW_H

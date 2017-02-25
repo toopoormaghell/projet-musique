@@ -15,9 +15,10 @@ class MainWindowLecteur : public QWidget
     Q_OBJECT
 
 public:
-    explicit MainWindowLecteur(QWidget *parent = 0);
+    explicit MainWindowLecteur(const QStringList& couleurs,QWidget *parent = 0);
     ~MainWindowLecteur();
     QStringList m_playlist;
+
 public slots:
     void modifplaylist(QStringList list);
     void SupprimerdansPlaylist(QStringList temp);
@@ -25,6 +26,7 @@ signals:
     void suppplaylist(QStringList temp);
 private:
     Ui::MainWindowLecteur *ui;
+    QStringList m_couleurs;
     DialogControles* m_controles;
 
 };

@@ -14,7 +14,7 @@
 #include <QPushButton>
 #include "ongletmp3.h"
 
-FenetrePrincipale::FenetrePrincipale( QWidget* parent ) :
+FenetrePrincipale::FenetrePrincipale(const QStringList& couleurs, QWidget* parent ) :
     QMainWindow( parent ),
     ui( new Ui::MainWindow ),
     m_progressbar( new QProgressBar ),
@@ -24,7 +24,8 @@ FenetrePrincipale::FenetrePrincipale( QWidget* parent ) :
     m_lecteur (  ),
     m_dialogajouterphys( NULL ),
     m_vidage( this ),
-    stop( new QPushButton( "Stop" ) )
+    stop( new QPushButton( "Stop" ) ),
+    m_couleurs(couleurs)
 {
     ui->setupUi( this );
     m_ongletMP3 = ui->MP3;
@@ -73,13 +74,12 @@ void FenetrePrincipale::ajouterToolbar()
     empty->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
 
     ui->toolBar->addWidget( empty);
-    m_lecteur = new MainWindowLecteur(this);
+    m_lecteur = new MainWindowLecteur(m_couleurs, this);
     m_lecteur->setMinimumHeight(85);
     m_lecteur->setMaximumHeight( 85 );
     m_lecteur->setMinimumWidth( 700 );
     m_lecteur->setMaximumWidth( 700 );
     ui->toolBar->addWidget( m_lecteur);
-
 
 
 
@@ -107,6 +107,7 @@ void FenetrePrincipale::ajouterStatusBar()
     //  ui->statusBar->adjustSize();
 
 }
+
 void FenetrePrincipale::stop_clique()
 {
     emit stopper();
