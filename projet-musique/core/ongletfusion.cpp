@@ -45,6 +45,7 @@ void OngletFusion::affichageChoixPossibles()
         QPixmap scaled( QPixmap::fromImage( artiste->m_pochette->m_image ) );
         item->setIcon( QIcon( scaled ) );
         ui->ChoixFusions->addItem( item );
+        delete artiste;
     }
 }
 
@@ -74,6 +75,7 @@ void OngletFusion::AffichageFusions(QString id)
         QPixmap scaled( QPixmap::fromImage( alb->m_pochette->m_image ) );
         item->setIcon( QIcon( scaled ) );
         ui->ChoixFusions->addItem( item );
+        delete alb;
     }
     nb_passage++;
 }

@@ -33,7 +33,7 @@ private:
 
     BDDPoch( const int id, QObject* parent = NULL );
     BDDPoch( const QString& album, const QString& artiste, QObject* parent );
-
+    bool  m_ImageSelfCreated;
 };
 
 

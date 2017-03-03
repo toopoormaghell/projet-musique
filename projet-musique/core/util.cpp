@@ -25,6 +25,7 @@ void EnleverAccents( QString& Nom )
     Nom.replace( "/", " " );
     Nom.replace( "â", "a" );
     Nom.replace( "û", "u" );
+    Nom.replace( "ù" , "u" );
     Nom.replace( "Â", "a" );
     Nom.replace( "'", "$" );
     Nom.replace( ",", " " );
@@ -34,7 +35,18 @@ void EnleverAccents( QString& Nom )
     Nom.replace( ".", " " );
     Nom.replace( "-", " " );
     Nom.replace( "À", "a" );
+    Nom.replace( "î" ,"i" );
+    Nom.replace( "+", " " );
+    Nom.replace( "ç", "c" );
     Nom.replace( "É", "e" );
+    Nom.replace( "ï", "i" );
+    Nom.replace( '"'," " );
+    Nom.replace( "#", " " );
+    Nom.replace( "(", " " );
+    Nom.replace( "%","pourcent" );
+    Nom.replace( ")"," " );
+    Nom.replace( "["," " );
+    Nom.replace( "]"," " );
 
     Nom =  Nom.toLower();
 }

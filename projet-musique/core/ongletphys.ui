@@ -130,11 +130,14 @@
              <height>16777215</height>
             </size>
            </property>
+           <property name="accessibleName">
+            <string>TitreWidget</string>
+           </property>
            <property name="autoFillBackground">
             <bool>false</bool>
            </property>
            <property name="styleSheet">
-            <string notr="true">background:#1EA7EC;color:#FFFF96;border-radius:6px;  </string>
+            <string notr="true"/>
            </property>
            <property name="frameShape">
             <enum>QFrame::NoFrame</enum>
@@ -231,8 +234,11 @@
              <height>16777215</height>
             </size>
            </property>
+           <property name="accessibleName">
+            <string>TitreWidget</string>
+           </property>
            <property name="styleSheet">
-            <string notr="true">background:#1EA7EC;color:#FFFF96;</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>S&lt;br&gt;I&lt;br&gt;N&lt;br&gt;G&lt;br&gt;L&lt;br&gt;E&lt;br&gt;S</string>
@@ -308,8 +314,11 @@
              <height>16777215</height>
             </size>
            </property>
+           <property name="accessibleName">
+            <string>TitreWidget</string>
+           </property>
            <property name="styleSheet">
-            <string notr="true">background:#1EA7EC;color:#FFFF96;</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>C&lt;br&gt;O&lt;br&gt;M&lt;br&gt;P&lt;br&gt;I&lt;br&gt;L&lt;br&gt;S</string>
@@ -379,8 +388,11 @@
              <height>16777215</height>
             </size>
            </property>
+           <property name="accessibleName">
+            <string>TitreWidget</string>
+           </property>
            <property name="styleSheet">
-            <string notr="true">background:#1EA7EC;color:#FFFF96;</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>S&lt;br&gt;T&lt;br&gt;A&lt;br&gt;T&lt;br&gt;S</string>
@@ -673,8 +685,11 @@
              <height>150</height>
             </size>
            </property>
+           <property name="accessibleName">
+            <string>Pochette</string>
+           </property>
            <property name="styleSheet">
-            <string notr="true">border: 2px solid #259CD8</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string/>

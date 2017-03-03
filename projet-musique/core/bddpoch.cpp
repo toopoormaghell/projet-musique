@@ -8,7 +8,8 @@ BDDPoch::BDDPoch( const QImage& image, const QString& album, const QString& arti
     QObject( parent ),
     m_id( -1 ),
     m_image( image ),
-    m_chemin()
+    m_chemin(),
+    m_ImageSelfCreated( false )
 {
     QString artisteFormate( artiste );
     QString albumFormate( album );
@@ -31,6 +32,7 @@ BDDPoch::BDDPoch( const QImage& image, const QString& album, const QString& arti
 
 BDDPoch::~BDDPoch()
 {
+
 
 }
 QString BDDPoch::creerchemin( const QString& album, const QString& artiste )
@@ -131,7 +133,8 @@ BDDPoch::BDDPoch( const int id, QObject* parent ):
     QObject( parent ),
     m_id( id ),
     m_image( NULL ),
-    m_chemin()
+    m_chemin(),
+    m_ImageSelfCreated( false )
 {
     QString queryStr = "SELECT Chemin FROM Pochette WHERE Id_Pochette='" + QString::number( id ) + "'";
     QSqlQuery query = madatabase.exec( queryStr );
@@ -141,6 +144,7 @@ BDDPoch::BDDPoch( const int id, QObject* parent ):
 
         m_chemin = rec.value( "Chemin" ).toString();
         m_image.load( m_chemin );
+        m_ImageSelfCreated = true;
     }
 }
 void BDDPoch::supprimerenBDD() const

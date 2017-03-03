@@ -218,8 +218,11 @@
              <height>150</height>
             </size>
            </property>
+           <property name="accessibleName">
+            <string>Pochette</string>
+           </property>
            <property name="styleSheet">
-            <string notr="true">border: 2px solid #259CD8</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string/>
@@ -418,8 +421,11 @@
                    <height>16777215</height>
                   </size>
                  </property>
+                 <property name="accessibleName">
+                  <string>MP3Phys</string>
+                 </property>
                  <property name="styleSheet">
-                  <string notr="true">color: #182995;</string>
+                  <string notr="true"/>
                  </property>
                  <property name="text">
                   <string/>
@@ -435,18 +441,11 @@
                  <property name="toolTip">
                   <string>Lire MP3 (Maj+L)</string>
                  </property>
+                 <property name="accessibleName">
+                  <string>raccourcis</string>
+                 </property>
                  <property name="styleSheet">
-                  <string notr="true">QPushButton{
-color: #FFFF96;
-background-color: #1EA7EC;
-border-width: 1px;
-border-color: #339;
-border-style: solid;
-min-width: 30px;
-max-width: 30px;
-min-height: 30px;
-max-height: 30px;
-}</string>
+                  <string notr="true"/>
                  </property>
                  <property name="text">
                   <string/>
@@ -465,18 +464,11 @@ max-height: 30px;
                  <property name="toolTip">
                   <string>Lire Artiste (Maj + R)</string>
                  </property>
+                 <property name="accessibleName">
+                  <string>raccourcis</string>
+                 </property>
                  <property name="styleSheet">
-                  <string notr="true">QPushButton{
-color: #FFFF96;
-background-color: #1EA7EC;
-border-width: 1px;
-border-color: #339;
-border-style: solid;
-min-width: 30px;
-max-width: 30px;
-min-height: 30px;
-max-height: 30px;
-}</string>
+                  <string notr="true"/>
                  </property>
                  <property name="text">
                   <string/>
@@ -495,18 +487,11 @@ max-height: 30px;
                  <property name="toolTip">
                   <string>Lire Album ( Maj + AB )</string>
                  </property>
+                 <property name="accessibleName">
+                  <string>raccourcis</string>
+                 </property>
                  <property name="styleSheet">
-                  <string notr="true">QPushButton{
-color: #FFFF96;
-background-color: #1EA7EC;
-border-width: 1px;
-border-color: #339;
-border-style: solid;
-min-width: 30px;
-max-width: 30px;
-min-height: 30px;
-max-height: 30px;
-}</string>
+                  <string notr="true"/>
                  </property>
                  <property name="text">
                   <string/>
@@ -525,18 +510,11 @@ max-height: 30px;
                  <property name="toolTip">
                   <string>Lire Annee ( Maj +A )</string>
                  </property>
+                 <property name="accessibleName">
+                  <string>raccourcis</string>
+                 </property>
                  <property name="styleSheet">
-                  <string notr="true">QPushButton{
-color: #FFFF96;
-background-color: #1EA7EC;
-border-width: 1px;
-border-color: #339;
-border-style: solid;
-min-width: 30px;
-max-width: 30px;
-min-height: 30px;
-max-height: 30px;
-}</string>
+                  <string notr="true"/>
                  </property>
                  <property name="text">
                   <string/>
@@ -580,18 +558,11 @@ max-height: 30px;
                <property name="toolTip">
                 <string>Lecteur : Choisir une année...</string>
                </property>
+               <property name="accessibleName">
+                <string>raccourcis</string>
+               </property>
                <property name="styleSheet">
-                <string notr="true">QPushButton{
-color: #FFFF96;
-background-color: #1EA7EC;
-border-width: 1px;
-border-color: #339;
-border-style: solid;
-min-width: 30px;
-max-width: 30px;
-min-height: 30px;
-max-height: 30px;
-}</string>
+                <string notr="true"/>
                </property>
                <property name="text">
                 <string/>
@@ -607,18 +578,11 @@ max-height: 30px;
                <property name="toolTip">
                 <string>Copier MP3</string>
                </property>
+               <property name="accessibleName">
+                <string>raccourcis</string>
+               </property>
                <property name="styleSheet">
-                <string notr="true">QPushButton{
-color: #FFFF96;
-background-color: #1EA7EC;
-border-width: 1px;
-border-color: #339;
-border-style: solid;
-min-width: 30px;
-max-width: 30px;
-min-height: 30px;
-max-height: 30px;
-}</string>
+                <string notr="true"/>
                </property>
                <property name="text">
                 <string/>
@@ -634,18 +598,11 @@ max-height: 30px;
                <property name="toolTip">
                 <string>Editer Tag</string>
                </property>
+               <property name="accessibleName">
+                <string>raccourcis</string>
+               </property>
                <property name="styleSheet">
-                <string notr="true">QPushButton{
-color: #FFFF96;
-background-color: #1EA7EC;
-border-width: 1px;
-border-color: #339;
-border-style: solid;
-min-width: 30px;
-max-width: 30px;
-min-height: 30px;
-max-height: 30px;
-}</string>
+                <string notr="true"/>
                </property>
                <property name="text">
                 <string/>
@@ -661,18 +618,11 @@ max-height: 30px;
                <property name="toolTip">
                 <string>Ajouter Playlist</string>
                </property>
+               <property name="accessibleName">
+                <string>raccourcis</string>
+               </property>
                <property name="styleSheet">
-                <string notr="true">QPushButton{
-color: #FFFF96;
-background-color: #1EA7EC;
-border-width: 1px;
-border-color: #339;
-border-style: solid;
-min-width: 30px;
-max-width: 30px;
-min-height: 30px;
-max-height: 30px;
-}</string>
+                <string notr="true"/>
                </property>
                <property name="text">
                 <string/>
@@ -715,8 +665,11 @@ max-height: 30px;
               <height>16777215</height>
              </size>
             </property>
+            <property name="accessibleName">
+             <string>TitreWidget</string>
+            </property>
             <property name="styleSheet">
-             <string notr="true">background:#1EA7EC;color:#FFFF96;border-radius:6px;  </string>
+             <string notr="true"/>
             </property>
             <property name="text">
              <string>LISTE DES TITRES DE L'ALBUM</string>
@@ -793,8 +746,11 @@ max-height: 30px;
               <height>16777215</height>
              </size>
             </property>
+            <property name="accessibleName">
+             <string>TitreWidget</string>
+            </property>
             <property name="styleSheet">
-             <string notr="true">background:#1EA7EC;color:#FFFF96;border-radius:6px;  </string>
+             <string notr="true"/>
             </property>
             <property name="text">
              <string>SIMILAIRES</string>
@@ -877,8 +833,11 @@ max-height: 30px;
               <height>16777215</height>
              </size>
             </property>
+            <property name="accessibleName">
+             <string>TitreWidget</string>
+            </property>
             <property name="styleSheet">
-             <string notr="true">background:#1EA7EC;color:#FFFF96;border-radius:6px;  </string>
+             <string notr="true"/>
             </property>
             <property name="text">
              <string>PLAYLIST</string>

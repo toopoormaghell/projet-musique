@@ -78,7 +78,7 @@ void OngletPhys::afficherListeArtiste()
             item->setText( artiste->m_nom );
             ui->Artistes->addItem( item );
         }
-        artiste->deleteArtiste();
+        delete artiste;
     }
     if (ui->Artistes->count() > 0)
     {
@@ -235,9 +235,11 @@ void OngletPhys::AfficherInfosAlbum( int Type )
                     //On Ajoute une couleur pour le titre où l'artiste est le bon
                     QBrush m_brush;
                     m_brush.setColor( Qt::blue );
-                    item->setForeground( m_brush );
+                     item->setForeground( m_brush );
+
                 }
                 temp = temp + " - " + art->m_nom;
+                delete art;
             }
             item->setText( temp );
             //On affiche l'icone si le mp3 existe aussi
@@ -250,7 +252,7 @@ void OngletPhys::AfficherInfosAlbum( int Type )
                 item->setIcon( QIcon ( nonmp3 ) );
             }
             ui->Titres->addItem( item );
-
+            delete titre;
 
         }
         ui->NbTitresAlb->setText(QString::number( phys->m_relations.count() ) );
@@ -334,6 +336,7 @@ void OngletPhys::on_Artistes_doubleClicked( const QModelIndex& index )
     temp.exec();
     vider( "Artiste" );
     afficherListeArtiste();
+    delete artiste;
 }
 void OngletPhys::afficherListeCds()
 {
@@ -350,8 +353,10 @@ void OngletPhys::afficherListeCds()
         ui->label_2->setHidden( true );
         ui->Albums->setHidden( true );
         ui->label->setHidden( true );
-        ui->Compil->setFixedHeight( 450 );
-        ui->label_3->setFixedHeight( 450 );
+        ui->Compil->setFixedHeight( 450);
+        ui->label_3->setFixedHeight( 450);
+        ui->Compil->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+
     }
     //Sinon, on vérifie le nombre d'albums pour en afficher le plus possible
     else
@@ -367,6 +372,8 @@ void OngletPhys::afficherListeCds()
         ui->label_3->setFixedHeight( 150 );
         ui->Albums->setFixedHeight( 150 );
         ui->label->setFixedHeight( 150 );
+        ui->Compil->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
 
         if ( ( m_Singles == 0 || m_Compils == 0 ) && m_Albums > 12 )
 

@@ -43,6 +43,7 @@ void DialogChoixTitreFusion::AfficherTitres()
         }
     }
     ui->TitresProposes->setCurrentRow( 0 );
+    delete titre;
 }
 int DialogChoixTitreFusion::RecupererTitreSelectionne()
 {

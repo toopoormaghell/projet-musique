@@ -86,6 +86,7 @@ void OngletStats::AfficherArtistesCompilMP3()
         item->setText( art->m_nom );
         item->setData( Qt::UserRole, temp[i] );
         ui->ArtistesDansCompil->addItem( item );
+        delete art;
     }
 }
 void OngletStats::AfficherMP3ArtisteCompilMP3()
@@ -99,7 +100,7 @@ void OngletStats::AfficherMP3ArtisteCompilMP3()
         item->setText( titre->m_nom );
         item->setData( Qt::UserRole, temp[i] );
         ui->MP3Artiste5->addItem( item );
-
+        delete titre;
     }
 }
 int OngletStats::choixArtiste()

@@ -59,6 +59,7 @@ void DialogModifierAlbum::AfficherAlbum()
     //On va chercher les commentaires sur l'album physique
     BDDPhys* phys = BDDPhys::RecupererPhys( m_album.Id_Album );
     ui->Commentaires->setText( phys->m_commentaires );
+    delete phys;
 }
 void DialogModifierAlbum::ListeNumeros()
 {

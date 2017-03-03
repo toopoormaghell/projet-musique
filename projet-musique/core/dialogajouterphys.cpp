@@ -488,8 +488,13 @@ void DialogAjouterPhys::AfficherAlbum()
 {
     ui->Annee->setText( QString::number( m_album.Annee ) );
     ui->Nom_Album->setText( m_album.Album );
-    ui->Nom_Artiste->setText( m_album.Artiste );
-
+    if ( m_Type ==2)
+    {
+        ui->Nom_Artiste->setText("Artistes Divers");
+    } else
+    {
+        ui->Nom_Artiste->setText( m_album.Artiste );
+    }
     AfficherPoch();
 }
 
@@ -528,17 +533,16 @@ void DialogAjouterPhys::AffichageListeArtistes( int id )
     case ( -2 ):
         m_Type = 1;
         ui->tableView->setColumnHidden( 2, true );
-        //            m_tableModel->setModelType( QTableModel::MONO_ARTIST );
         break;
     case ( -3 ):
         m_Type = 2;
         ui->tableView->setColumnHidden( 2, false );
-        //            m_tableModel->setModelType( QTableModel::MULTI_ARTISTS );
+
         break;
     case ( -4 ):
         m_Type = 3;
         ui->tableView->setColumnHidden( 2, true );
-        //            m_tableModel->setModelType( QTableModel::MONO_ARTIST );
+
         break;
     }
 }

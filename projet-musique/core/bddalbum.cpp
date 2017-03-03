@@ -27,7 +27,7 @@ BDDAlbum::BDDAlbum(const QString& album, const BDDPoch& pochette, int annee, int
     }
     else
     {
-        updateBDD();
+        //      updateBDD();
     }
 }
 
@@ -117,6 +117,7 @@ void BDDAlbum::supprimerenBDD() const
 
     }
     m_pochette->supprimerenBDD();
+    m_artiste->supprimerenBDD();
 }
 AlbumPhys BDDAlbum::RecupAlbumEntite( const int id )
 {
@@ -136,6 +137,7 @@ AlbumPhys BDDAlbum::RecupAlbumEntite( const int id )
     //On récupère le Type
     BDDType* typ = BDDType::RecupererType( albphys.Type );
     albphys.Type_Str = typ->m_type;
+    delete typ;
 
     //On récupère les titres liés à l'album
     QString queryStr = "SELECT DISTINCT R.Id_Titre, R.Duree, R.Num_Piste, R.MP3, R.Phys FROM Relations R, Titre T WHERE R.Id_Album='" + QString::number( id ) + "' AND T.Id_Titre=R.Id_Titre ORDER BY Num_Piste";
@@ -156,6 +158,7 @@ AlbumPhys BDDAlbum::RecupAlbumEntite( const int id )
         titre.MP3 = rec.value("MP3").toBool();
         titre.Phys = rec.value("Phys").toBool();
         albphys.titres << titre;
+        delete TitreEnCours;
 
     }
     return albphys;

@@ -174,9 +174,3 @@ void BDDArtiste::ChoisirArtisteEchange( QString& nom )
         }
     }
 }
-
-void BDDArtiste::deleteArtiste()
-{
-    delete m_pochette;
-
-}

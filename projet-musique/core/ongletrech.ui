@@ -88,11 +88,14 @@
             <height>16777215</height>
            </size>
           </property>
+          <property name="accessibleName">
+           <string>TitreWidget</string>
+          </property>
           <property name="autoFillBackground">
            <bool>false</bool>
           </property>
           <property name="styleSheet">
-           <string notr="true">background:#1EA7EC;color:#FFFF96;border-radius:6px;  </string>
+           <string notr="true"/>
           </property>
           <property name="frameShape">
            <enum>QFrame::NoFrame</enum>
@@ -160,8 +163,11 @@
             <height>16777215</height>
            </size>
           </property>
+          <property name="accessibleName">
+           <string>TitreWidget</string>
+          </property>
           <property name="styleSheet">
-           <string notr="true">background:#1EA7EC;color:#FFFF96;</string>
+           <string notr="true"/>
           </property>
           <property name="text">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A&lt;/p&gt;&lt;p&gt;L&lt;/p&gt;&lt;p&gt;B&lt;/p&gt;&lt;p&gt;U&lt;/p&gt;&lt;p&gt;M&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -211,8 +217,11 @@
             <height>16777215</height>
            </size>
           </property>
+          <property name="accessibleName">
+           <string>TitreWidget</string>
+          </property>
           <property name="styleSheet">
-           <string notr="true">background:#1EA7EC;color:#FFFF96;</string>
+           <string notr="true"/>
           </property>
           <property name="text">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A&lt;/p&gt;&lt;p&gt;R&lt;/p&gt;&lt;p&gt;T&lt;/p&gt;&lt;p&gt;I&lt;/p&gt;&lt;p&gt;S&lt;/p&gt;&lt;p&gt;T&lt;/p&gt;&lt;p&gt;E&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -275,8 +284,11 @@
          </property>
          <item>
           <widget class="QLabel" name="Artiste_Albums">
+           <property name="accessibleName">
+            <string>TitreWidget</string>
+           </property>
            <property name="styleSheet">
-            <string notr="true">background:#1EA7EC;color:#FFFF96;border-radius:6px;  </string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>CHOIX D'ALBUM</string>
@@ -328,8 +340,11 @@
          </property>
          <item>
           <widget class="QLabel" name="Album_Titre">
+           <property name="accessibleName">
+            <string>TitreWidget</string>
+           </property>
            <property name="styleSheet">
-            <string notr="true">background:#1EA7EC;color:#FFFF96;border-radius:6px;  </string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>CHOIX DE TITRE</string>
@@ -366,8 +381,11 @@
          </property>
          <item>
           <widget class="QLabel" name="label_7">
+           <property name="accessibleName">
+            <string>TitreWidget</string>
+           </property>
            <property name="styleSheet">
-            <string notr="true">background:#1EA7EC;color:#FFFF96;border-radius:6px;  </string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>INFORMATIONS TITRE</string>
@@ -392,6 +410,9 @@
                <width>160</width>
                <height>160</height>
               </size>
+             </property>
+             <property name="accessibleName">
+              <string>Pochette</string>
              </property>
              <property name="text">
               <string/>
@@ -559,8 +580,11 @@
          </property>
          <item>
           <widget class="QLabel" name="label_8">
+           <property name="accessibleName">
+            <string>TitreWidget</string>
+           </property>
            <property name="styleSheet">
-            <string notr="true">background:#1EA7EC;color:#FFFF96;border-radius:6px;  </string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>SIMILAIRES</string>

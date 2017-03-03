@@ -61,6 +61,7 @@ void OngletRech::affichageTitres()
         QPixmap scaled( QPixmap::fromImage( titre->m_album->m_pochette->m_image ) );
         item->setIcon( QIcon( scaled ) );
         ui->TitResult->addItem( item );
+        delete titre;
     }
 }
 void OngletRech::affichageAlbums()
@@ -79,6 +80,7 @@ void OngletRech::affichageAlbums()
         QPixmap scaled( QPixmap::fromImage( alb->m_pochette->m_image ) );
         item->setIcon( QIcon( scaled ) );
         ui->AlbResult->addItem( item );
+        delete alb;
     }
 
 }
@@ -98,6 +100,7 @@ void OngletRech::affichageArtistes()
         QPixmap scaled( QPixmap::fromImage( artiste->m_pochette->m_image ) );
         item->setIcon( QIcon( scaled ) );
         ui->ArtResult->addItem( item );
+        delete artiste;
     }
 }
 void OngletRech::on_ArtResult_clicked( const QModelIndex& index )
@@ -168,7 +171,9 @@ void OngletRech::affichageResultatspourArtiste()
         QPixmap scaled( QPixmap::fromImage( alb->m_pochette->m_image ) );
         item->setIcon( QIcon( scaled ) );
         ui->AlbumspourArt->addItem( item );
+        delete alb;
     }
+    delete art;
 }
 void OngletRech::affichageTitresParAlbum()
 {
@@ -199,7 +204,10 @@ void OngletRech::affichageTitresParAlbum()
             item->setIcon( QIcon( phys ) );
         }
         ui->TitresResultats->addItem( item );
+        delete rel;
+        delete titre;
     }
+    delete alb;
 }
 
 
@@ -245,6 +253,9 @@ void OngletRech::AffichInfosTitres()
     {
         ui->OuvrirDossier->setVisible( false );
     }
+    delete rel;
+    delete art;
+    delete titre;
 }
 
 void OngletRech::on_voirAlbum_clicked()
@@ -285,12 +296,12 @@ void OngletRech::on_Similaires_clicked()
 
         delete mp3;
     }
-
+    delete titre;
 }
 
 void OngletRech::on_CopierDansDossier_clicked()
 {
-    BDDTitre* titre = BDDTitre::RecupererTitre( m_titre.toInt() );
+
     BDDRelation* rel = BDDRelation::RecupererRelationParTitre( m_titre.toInt() );
     if ( rel->m_mp3 )
     {
@@ -307,6 +318,7 @@ void OngletRech::on_CopierDansDossier_clicked()
         dir.mkpath(doss);
         QString nouvelemplacementchemin =  doss + "/" + fich.fileName();
         QFile::copy( mp3->m_chemin, nouvelemplacementchemin );
-
+        delete mp3;
     }
+    delete rel;
 }

@@ -138,8 +138,11 @@
               <height>150</height>
              </size>
             </property>
+            <property name="accessibleName">
+             <string>Pochette</string>
+            </property>
             <property name="styleSheet">
-             <string notr="true">border: 2px solid #259CD8</string>
+             <string notr="true"/>
             </property>
             <property name="text">
              <string/>
@@ -320,8 +323,11 @@
               <height>150</height>
              </size>
             </property>
+            <property name="accessibleName">
+             <string>Pochette</string>
+            </property>
             <property name="styleSheet">
-             <string notr="true">border: 2px solid #259CD8</string>
+             <string notr="true"/>
             </property>
             <property name="text">
              <string/>
@@ -503,8 +509,11 @@
               <height>150</height>
              </size>
             </property>
+            <property name="accessibleName">
+             <string>Pochette</string>
+            </property>
             <property name="styleSheet">
-             <string notr="true">border: 2px solid #259CD8</string>
+             <string notr="true"/>
             </property>
             <property name="text">
              <string/>

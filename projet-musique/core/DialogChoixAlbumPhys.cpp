@@ -43,7 +43,9 @@ void DialogChoixAlbumPhys::AfficherAlbums()
         item->setText( QString::number( album->m_annee ) + " - " + album->m_nom );
         //On ajoute l'item dans le modèle
         m_albums.setItem( cpt, item );
+        delete album;
     }
+    delete art;
 }
 void DialogChoixAlbumPhys::on_buttonBox_accepted()
 {

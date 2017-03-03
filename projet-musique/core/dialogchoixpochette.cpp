@@ -53,7 +53,10 @@ void DialogChoixPochette::AfficherPochettes()
 
         //On ajoute l'item dans le modèle
         m_pochettes.setItem( cpt, item );
+
+        delete poch;
     }
+    delete art;
 }
 int DialogChoixPochette::RecupererPochetteSelectionnee()
 {

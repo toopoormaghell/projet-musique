@@ -58,7 +58,7 @@ void BDDSingleton::creationBase()
     tables << "CREATE TABLE Pochette ('Id_Pochette' INTEGER PRIMARY KEY,'Chemin' VARCHAR(512))";
     tables << "CREATE TABLE Type ('Id_Type' INTEGER PRIMARY KEY,'Type' VARCHAR(255))";
     tables << "INSERT INTO Pochette VALUES (01,'./pochettes/def.jpg')";
-    tables << "INSERT INTO Artiste VALUES (01,'Divers','01','divers')";
+    tables << "INSERT INTO Artiste VALUES (01,'Artistes Divers','01','artistesdivers')";
     tables << "CREATE TABLE Relations('Id_Relation' INTEGER PRIMARY KEY,'Id_Titre' INTEGER,'Id_Album' INTEGER,'Id_Artiste' INTEGER,'Num_Piste' TINYINT,'Duree' VARCHAR(255))";
     tables << "CREATE TABLE Configuration('Intitule' TEXT,'Valeur' TEXT)";
     tables << "INSERT INTO Configuration VALUES ('DossierParDef','F:/Albums')";
@@ -339,40 +339,9 @@ void BDDSingleton::version5()
     madatabase.exec("DROP TABLE TitresPlaylist");
     madatabase.exec("DROP TABLE ErreurPochettes");
 
-    TitresVersion5();
+    BDDVersion5 * verif= new BDDVersion5;
+
     //On change la version
-    //   madatabase.exec("UPDATE Configuration SET Valeur='5' WHERE Intitule= 'Version' ");
-
-}
-void BDDSingleton::TitresVersion5()
-{
-    //Le but, c'est d'enlever tous les titres qui sont en double
-    //Première requete: on récupère les titres et un Id_Titre des doubles
-    QString queryStr = "SELECT Id_Titre, Titre_Formate FROM Titre GROUP BY Titre_Formate HAVING COUNT(*) > 1";
-    QSqlQuery  query = madatabase.exec(queryStr);
-    while (query.next() ) {
-        QSqlRecord rec=query.record();
-        QString titre_formate = rec.value( "Titre_Formate" ).toString();
-        QString Id_Titre = rec.value( "Id_Titre" ).toString();
-
-        //On récupère maintenant l'id des titres en double
-        queryStr = "SELECT Id_Titre FROM Titre WHERE Titre_Formate = '"+ titre_formate +"' And Id_Titre != " + Id_Titre + " ORDER BY Titre_Formate";
-
-        QSqlQuery  query2 = madatabase.exec(queryStr);
-
-        while (query2.next() ) {
-            QSqlRecord rec2=query2.record();
-            QString Id_double = rec2.value( "Id_Titre" ).toString();
-
-            madatabase.exec("UPDATE Relations SET Id_Titre = " + Id_Titre + " WHERE Id_Titre = " + Id_double + "" );
-            madatabase.exec( "DELETE FROM Titre WHERE Id_Titre = " + Id_double + "" );
-        }
-
-    }
-
-    BDDVerification * verif;
-
-       verif->VirguleArtistes();
-   verif->CompilsPhysiqueMp3();
+ //   madatabase.exec("UPDATE Configuration SET Valeur='5' WHERE Intitule= 'Version' ");
 
 }
