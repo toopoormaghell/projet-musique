@@ -45,6 +45,7 @@ BDDAlbum::~BDDAlbum()
         delete m_type;
         delete m_pochette;
         delete m_artiste;
+
     }
 }
 void BDDAlbum::recupererId()
@@ -140,7 +141,7 @@ AlbumPhys BDDAlbum::RecupAlbumEntite( const int id )
     delete typ;
 
     //On récupère les titres liés à l'album
-    QString queryStr = "SELECT DISTINCT R.Id_Titre, R.Duree, R.Num_Piste, R.MP3, R.Phys FROM Relations R, Titre T WHERE R.Id_Album='" + QString::number( id ) + "' AND T.Id_Titre=R.Id_Titre ORDER BY Num_Piste";
+    QString queryStr = "SELECT DISTINCT R.Id_Titre, R.Duree, R.Num_Piste, R.MP3, R.Phys,  R.Id_Artiste FROM Relations R, Titre T WHERE R.Id_Album='" + QString::number( id ) + "' AND T.Id_Titre=R.Id_Titre ORDER BY Num_Piste";
     QSqlQuery query = madatabase.exec( queryStr );
 
     while ( query.next() )
@@ -148,8 +149,9 @@ AlbumPhys BDDAlbum::RecupAlbumEntite( const int id )
         TitresPhys titre;
         QSqlRecord rec = query.record();
         BDDTitre*  TitreEnCours = BDDTitre::RecupererTitre( rec.value( "Id_Titre" ).toInt() );
+        BDDArtiste* art = BDDArtiste::RecupererArtiste(rec.value( "Id_Artiste" ).toInt());
 
-        titre.Artiste = TitreEnCours->m_artiste->m_nom;
+        titre.Artiste = art->m_nom;
         titre.Duree = rec.value( "Duree" ).toString();
         titre.id = QString::number( TitreEnCours->m_id ) ;
         titre.Num_Piste = rec.value( "Num_Piste" ).toInt();
@@ -159,6 +161,7 @@ AlbumPhys BDDAlbum::RecupAlbumEntite( const int id )
         titre.Phys = rec.value("Phys").toBool();
         albphys.titres << titre;
         delete TitreEnCours;
+        delete art;
 
     }
     return albphys;

@@ -8,6 +8,7 @@
 #include "bddrelation.h"
 #include "bddtype.h"
 #include "bddconfig.h"
+#include "bddsupport.h"
 #include <QtSql>
 #include <QDir>
 #include <QTimer>
@@ -174,7 +175,7 @@ void BDDGestionMp3::actualiserMp3( QString chemin )
     BDDArtiste art( artist.replace( "'", "$" ), ( m_souscat==2 ?*def : poch ) );
     BDDAlbum alb( album.replace( "'", "$" ),  poch, date, m_souscat, art  );
 
-    BDDTitre tit( title.replace( "'", "$" ), alb );
+    BDDTitre tit( title.replace( "'", "$" ));
     BDDRelation rel( alb, art, tit, track, QString::number( min ) + ":" + QString::number( sec ).rightJustified( 2, '0' ), 1,0,1);
     BDDMp3 mp3( chemin.replace( "'", "$" ), rel, m_souscat );
 
@@ -287,7 +288,7 @@ void BDDGestionMp3::SousCatParChemin( QString chemin )
     {
         m_souscat = 6;
     }
-    if ( chemin.contains( "Era" ) )
+    if ( chemin.contains( "New Age" ) )
     {
         m_souscat = 7;
     }

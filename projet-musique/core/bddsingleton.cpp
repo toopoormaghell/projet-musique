@@ -156,9 +156,20 @@ void BDDSingleton::verifierBDD()
         }
     }
     //Non utilisée
-    madatabase.exec("DELETE FROM Pochette WHERE Id_Pochette !=1 AND Id_Pochette NOT IN ( SELECT DISTINCT Id_Pochette FROM Artiste ) AND Id_Pochette NOT IN ( SELECT DISTINCT Id_Pochette FROM Album)" );
+    //Première chose on récupère les pochettes non utilisées
+    queryStr = "SELECT Id_Pochette, Chemin FROM Pochette WHERE Id_Pochette !=1 AND Id_Pochette NOT IN ( SELECT DISTINCT Id_Pochette FROM Artiste ) AND Id_Pochette NOT IN ( SELECT DISTINCT Id_Pochette FROM Album)";
+    query = madatabase.exec(queryStr);
+    while (query.next() ) {
+        QSqlRecord rec=query.record();
+        QString chemin = rec.value("Chemin").toString();
+        QFile::remove( chemin );
+        madatabase.exec("DELETE FROM Pochette WHERE Id_Pochette= '"+rec.value("Id_Pochette").toString()+"'");
+    }
+
     //Vide
     madatabase.exec("DELETE FROM Pochette WHERE Chemin = ''");
+
+
     /*----- RELATION -----*/
     //Vide
     madatabase.exec( "DELETE FROM Relations WHERE Id_Album ='' OR Id_Artiste = '' OR Id_Titre = '' OR Id_Relation = '' ");
@@ -236,6 +247,8 @@ void BDDSingleton::verifierBDD()
     madatabase.exec( "DELETE FROM Phys WHERE Id_Album NOT IN (SELECT  Id_Album FROM Relations)" );
     //Non valide
     madatabase.exec( "UPDATE Phys SET Categorie = '1' WHERE Categorie NOT IN ( SELECT DISTINCT Id_Type FROM Type ) " );
+
+
 
     //BDDGestionMp3::ReconstruireListeCategorie();
     //temp.ReconstruireListeCategorie();
@@ -342,6 +355,6 @@ void BDDSingleton::version5()
     BDDVersion5 * verif= new BDDVersion5;
 
     //On change la version
- //   madatabase.exec("UPDATE Configuration SET Valeur='5' WHERE Intitule= 'Version' ");
+    //   madatabase.exec("UPDATE Configuration SET Valeur='5' WHERE Intitule= 'Version' ");
 
 }

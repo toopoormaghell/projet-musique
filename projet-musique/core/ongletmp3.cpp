@@ -6,6 +6,7 @@
 #include "bddtitre.h"
 #include "bddmp3.h"
 #include "bddrelation.h"
+#include "bddsupport.h"
 #include "bddtype.h"
 #include <algorithm>
 #include "DialogModifierArtiste.h"
@@ -301,7 +302,7 @@ void OngletMP3::afficherInfosTitre()
 }
 void OngletMP3::Similaires( const int id )
 {
-    //On récupère les titres similaires du titre sélectionné
+   //On récupère les titres similaires du titre sélectionné
     BDDTitre* titre = BDDTitre::RecupererTitre( id );
     QList<int> Simi = titre->Similaires( id );
     //On affiche chaque titre similaire
@@ -324,6 +325,7 @@ void OngletMP3::Similaires( const int id )
         delete mp3;
     }
     delete titre;
+
 }
 void OngletMP3::affichageartistes()
 {
@@ -381,6 +383,7 @@ void OngletMP3::afficherListeAnnees()
     }
     ui->ArtistesAnnees->setCurrentRow( 0 );
     m_artiste = ui->ArtistesAnnees->currentItem()->data( Qt::UserRole ).toInt();
+
     delete poch;
 
 }

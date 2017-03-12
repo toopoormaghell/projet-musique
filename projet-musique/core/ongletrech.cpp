@@ -58,8 +58,9 @@ void OngletRech::affichageTitres()
         item->setText( titre->m_nom );
         item->setData( Qt::UserRole, titre->m_id );
         //On s'occupe de sa pochette
-        QPixmap scaled( QPixmap::fromImage( titre->m_album->m_pochette->m_image ) );
-        item->setIcon( QIcon( scaled ) );
+    /*    QPixmap scaled( QPixmap::fromImage( titre->m_album->m_pochette->m_image ) );
+        item->setIcon( QIcon( scaled ) )
+*/;
         ui->TitResult->addItem( item );
         delete titre;
     }

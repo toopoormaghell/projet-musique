@@ -71,7 +71,8 @@ HEADERS += \
     DialogModifierAlbum.h \
     DialogVidageBDD.h \
     DialogAjoutTitre.h \
-    bddverification.h
+    bddverification.h \
+    bddsupport.h
 
 
 SOURCES += main.cpp \
@@ -111,7 +112,8 @@ SOURCES += main.cpp \
     DialogModifierAlbum.cpp \
     DialogVidageBDD.cpp \
     DialogAjoutTitre.cpp \
-    bddverification.cpp
+    bddverification.cpp \
+    bddsupport.cpp
 
 FORMS += \
     ongletmp3.ui \

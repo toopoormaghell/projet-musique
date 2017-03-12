@@ -26,7 +26,10 @@ BDDArtiste::BDDArtiste(const QString& artiste, const BDDPoch& pochette, QObject*
 BDDArtiste::~BDDArtiste()
 {
     if ( m_isPochetteSelfCreated )
+    {
+
         delete m_pochette;
+    }
 }
 
 void BDDArtiste::recupererId()

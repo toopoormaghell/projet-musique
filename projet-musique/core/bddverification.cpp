@@ -196,3 +196,8 @@ void BDDVersion5::ChangerArtisteDansCompilAlbum()
     madatabase.exec("UPDATE Album SET Id_Artiste= 1 WHERE Type = 2");
 
 }
+void BDDVersion5::ChangerCategorie()
+{
+madatabase.exec("UPDATE Phys SET Categorie = '13' WHERE Categorie ='2'");
+madatabase.exec("UPDATE MP3 SET Categorie = '12' WHERE Categorie ='1'");
+}

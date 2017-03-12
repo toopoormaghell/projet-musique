@@ -8,7 +8,7 @@ class BDDTitre : public QObject
 {
     Q_OBJECT
 public:
-    explicit BDDTitre(const QString& nom,  const BDDAlbum &album, QObject* parent = 0  );
+    explicit BDDTitre(const QString& nom, QObject* parent = 0  );
     ~BDDTitre();
 
     void updateBDD();
@@ -20,8 +20,8 @@ public:
     QString m_nom;
     QString m_nomFormate;
     QList<int> Similaires( const int id );
-    BDDArtiste const* m_artiste;
-    BDDAlbum const* m_album;
+  //  BDDArtiste const* m_artiste;
+  //  BDDAlbum const* m_album;
 
     void mp3physfusion();
 private:

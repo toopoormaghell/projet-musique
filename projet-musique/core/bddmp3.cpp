@@ -9,7 +9,7 @@
 #include "tags.h"
 #include "bddpoch.h"
 
-BDDMp3::BDDMp3( const QString& Chemin, const BDDRelation& relation, const int& type, QObject* parent ):
+BDDMp3::BDDMp3(const QString& Chemin, const BDDRelation& relation, const int& type, QObject* parent ):
     QObject( parent ),
     m_id( -1 ),
     m_relation( &relation ),
@@ -36,6 +36,7 @@ BDDMp3::~BDDMp3()
 {
     if ( m_membersAreSelfCreated )
     {
+
         delete m_titre;
         delete m_artiste;
         delete m_album;
@@ -129,8 +130,8 @@ BDDMp3::BDDMp3( const int id, QObject* parent ):
         m_type = BDDType::RecupererType( rec.value( "Categorie" ).toInt() );
         m_relation = BDDRelation::RecupererRelation( rec.value( "Id_Relation" ).toInt() );
 
-          m_album = BDDAlbum::RecupererAlbum( m_relation->m_id_album );
-         m_artiste = BDDArtiste::RecupererArtiste( m_relation->m_id_artiste );
+        m_album = BDDAlbum::RecupererAlbum( m_relation->m_id_album );
+        m_artiste = BDDArtiste::RecupererArtiste( m_relation->m_id_artiste );
         m_titre = BDDTitre::RecupererTitre( m_relation->m_id_titre );
         m_membersAreSelfCreated = true;
 
@@ -173,9 +174,10 @@ void BDDMp3::updateBDD()
 void BDDMp3::supprimerenBDD() const
 {
     QString queryStr = "DELETE FROM MP3 WHERE Id_MP3='" + QString::number( m_id ) + "'";
-    //   madatabase.exec( queryStr );
-    //   m_relation->supprimerenBDDMP3();
-    //  m_album->supprimerenBDD();
-    //  m_artiste->supprimerenBDD();
-    //   m_titre->supprimerenBDD();
+
+    m_relation->supprimerenBDDMP3();
+    m_album->supprimerenBDD();
+    m_artiste->supprimerenBDD();
+    m_titre->supprimerenBDD();
+    madatabase.exec( queryStr );
 }

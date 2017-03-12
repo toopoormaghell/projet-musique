@@ -83,7 +83,7 @@ QList<int> bddstats::ListeArtistesCompils()
     while ( query.next() )
     {
         QSqlRecord rec = query.record();
-        if ( rec.value( "Nb" ).toInt() > 4 )
+        if ( rec.value( "Nb" ).toInt() > 9 )
         {
             artistes << rec.value( "Id_Artiste" ).toInt();
         }

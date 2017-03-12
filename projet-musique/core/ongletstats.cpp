@@ -57,12 +57,15 @@ void OngletStats::AfficherInfosCategoriesMP3()
     ui->NbMp3Gene->setText( "<dd>Génériques: " + QString::number( temp ) );
     //Reprises
     temp = m_bddInterface.NbMp3Categorie( 10 );
+
     nb = temp + nb;
     ui->NbMp3Reprises->setText( "<dd><dd>Reprises: " + QString::number( temp ) );
     //Albums
-    temp = m_bddInterface.NbMp3Categorie( 1 );
+    temp = m_bddInterface.NbMp3Categorie( 1 )+ m_bddInterface.NbMp3Categorie( 11 );
+
     nb = temp + nb;
     ui->NbMp3Album->setText( "<dd><dd>Albums: " + QString::number( temp ) );
+
 
     ui->NbMp3ScAlbum->setText( "Categorie Albums: " + QString::number( nb ) );
     ui->NbMp3Compil->setText( "Categorie Compils: " + QString::number( m_bddInterface.NbMp3Categorie( 2 ) ) );

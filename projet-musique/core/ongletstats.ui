@@ -206,7 +206,7 @@
            </size>
           </property>
           <property name="text">
-           <string>Artistes dont le nombre de MP3 dans Compils dépassent 5 :</string>
+           <string>Artistes dont le nombre de MP3 dans Compils dépassent 10 :</string>
           </property>
          </widget>
         </item>
