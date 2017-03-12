@@ -11,7 +11,7 @@ class BDDAlbum : public QObject
 {
     Q_OBJECT
 public:
-    explicit BDDAlbum(const QString& album, const BDDPoch& pochette, int annee, int type, const BDDArtiste &artiste, QObject* parent = 0  );
+    explicit BDDAlbum(const QString& album, const BDDPoch& pochette, int annee, const BDDType& type, const BDDArtiste& artiste, QObject* parent = 0);
     virtual ~BDDAlbum();
 
     void updateBDD();
@@ -20,10 +20,10 @@ public:
 
     int m_id;
     QString m_nom;
+    BDDPoch const* m_pochette;
     QString m_nomFormate;
     int m_annee;
-    BDDType* m_type;
-    BDDPoch const* m_pochette;
+    BDDType const* m_type;
     BDDArtiste const* m_artiste;
 
     static AlbumPhys RecupAlbumEntite( const int id );
@@ -35,7 +35,7 @@ private:
     void recupererId();
 
     //Constructeur avec une id
-    BDDAlbum( const int id, QObject* parent = NULL );
+    explicit BDDAlbum(const int id, QObject* parent = NULL);
 
 };
 

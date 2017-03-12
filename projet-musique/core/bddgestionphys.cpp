@@ -21,7 +21,7 @@ void BDDGestionPhys::ajouterAlbum(QImage Poch, QString Album, QString Artiste, Q
     BDDPoch* def = BDDPoch::recupererBDD(1);
 
     BDDArtiste art( Artiste, ( Type==2 ?*def : poch ) );
-    BDDAlbum alb( Album, poch, Annee, Type, art );
+    BDDAlbum alb( Album, poch, Annee, *BDDType::RecupererType(Type), art );
 
     for ( int cpt = 0; cpt < titres.count(); cpt++ )
     {
