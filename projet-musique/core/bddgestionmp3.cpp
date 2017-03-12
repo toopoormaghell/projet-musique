@@ -177,7 +177,7 @@ void BDDGestionMp3::actualiserMp3( QString chemin )
 
     BDDTitre tit( title.replace( "'", "$" ));
     BDDRelation rel( alb, art, tit, track, QString::number( min ) + ":" + QString::number( sec ).rightJustified( 2, '0' ), 1,0,1);
-    BDDMp3 mp3( chemin.replace( "'", "$" ), rel, m_souscat );
+    BDDMp3 mp3( chemin.replace( "'", "$" ), rel, *BDDType::RecupererType(m_souscat) );
 
 
     if ( m_Chemins.find( mp3.m_id ) != m_Chemins.end() )
