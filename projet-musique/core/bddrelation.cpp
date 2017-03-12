@@ -6,41 +6,38 @@
 #include "bddalbum.h"
 #include "bddartiste.h"
 
-BDDRelation::BDDRelation(const BDDAlbum& album, const BDDArtiste& artiste, const BDDTitre& titre, const int& num_piste, const QString& duree, const int &mp3, const int &phys, int MP3Phys, QObject* parent ) :
-    QObject( parent ),
-    m_id( -1 ),
-    m_id_artiste( artiste.m_id ),
-    m_id_album( album.m_id ),
-    m_id_titre( titre.m_id ),
-    m_num_piste ( num_piste ),
-    m_duree ( duree ),
-    m_mp3 ( mp3 ),
-    m_phys ( phys ),
-    m_areSelfCreated( false )
+BDDRelation::BDDRelation(const BDDAlbum& album, const BDDArtiste& artiste, const BDDTitre& titre, const int num_piste, const QString& duree, const int mp3, const int phys, const int MP3Phys, QObject* parent):
+    QObject(parent)
+  , m_id(-1)
+  , m_titre(&titre)
+  , m_album(&album)
+  , m_artiste(&artiste)
+  , m_num_piste(num_piste)
+  , m_duree(duree)
+  , m_mp3(mp3)
+  , m_phys(phys)
+  , m_areSelfCreated(false)
 {
-
     recupererId();
-    if ( m_id == -1 )
-    {
+    if (m_id == -1)
         ajouterBDD();
-    }
     else
-    {
         updateBDD(MP3Phys);
-    }
 }
 
 BDDRelation::~BDDRelation()
 {
-    if ( m_areSelfCreated )
+    if (m_areSelfCreated)
     {
-
+        delete m_artiste;
+        delete m_album;
+        delete m_titre;
     }
 }
 void BDDRelation::recupererId()
 {
     //on vérifie si la relation existe ou non
-    QString queryStr = "SELECT Id_Relation from Relations WHERE Id_Titre='" + QString::number( m_id_titre ) + "' AND Id_Artiste='" + QString::number( m_id_artiste ) + "' AND Id_Album='" + QString::number( m_id_album ) + "'";
+    QString queryStr = "SELECT Id_Relation from Relations WHERE Id_Titre='" + QString::number( m_titre->m_id ) + "' AND Id_Artiste='" + QString::number( m_artiste->m_id ) + "' AND Id_Album='" + QString::number( m_album->m_id ) + "'";
 
     QSqlQuery query = madatabase.exec( queryStr );
 
@@ -62,15 +59,15 @@ void BDDRelation::updateBDD(const int MP3Phys)
     //MP3Phys = 1 si ca vient des MP3
     //MP3Phys = 0 si ca vient des Phys
     //MP3Phys = 2 si c'est juste une update
-    queryStr = "UPDATE Relations SET Id_Titre ='" + QString::number( m_id_titre ) + "', Id_Artiste='" + QString::number( m_id_artiste ) + "', Id_Album= '" + QString::number( m_id_album ) + "', Duree = '" +  m_duree + "', Num_Piste='" + QString::number( m_num_piste ) + "', MP3='" + QString::number( m_mp3 ) + "', Phys='" + QString::number( m_phys ) + "' WHERE Id_Relation = '" + QString::number( m_id ) + "'";
+    queryStr = "UPDATE Relations SET Id_Titre ='" + QString::number( m_titre->m_id ) + "', Id_Artiste='" + QString::number( m_artiste->m_id ) + "', Id_Album= '" + QString::number( m_album->m_id ) + "', Duree = '" +  m_duree + "', Num_Piste='" + QString::number( m_num_piste ) + "', MP3='" + QString::number( m_mp3 ) + "', Phys='" + QString::number( m_phys ) + "' WHERE Id_Relation = '" + QString::number( m_id ) + "'";
 
     if (MP3Phys == 1)
     {
-        queryStr = "UPDATE Relations SET Id_Titre ='" + QString::number( m_id_titre ) + "', Id_Artiste='" + QString::number( m_id_artiste ) + "', Id_Album= '" + QString::number( m_id_album ) + "', Duree = '" +  m_duree + "', Num_Piste='" + QString::number( m_num_piste ) + "', MP3='" + QString::number( m_mp3 ) + "' WHERE Id_Relation = '" + QString::number( m_id ) + "'";
+        queryStr = "UPDATE Relations SET Id_Titre ='" + QString::number( m_titre->m_id ) + "', Id_Artiste='" + QString::number( m_artiste->m_id ) + "', Id_Album= '" + QString::number( m_album->m_id ) + "', Duree = '" +  m_duree + "', Num_Piste='" + QString::number( m_num_piste ) + "', MP3='" + QString::number( m_mp3 ) + "' WHERE Id_Relation = '" + QString::number( m_id ) + "'";
     }
     if (MP3Phys == 0)
     {
-        queryStr = "UPDATE Relations SET Id_Titre ='" + QString::number( m_id_titre ) + "', Id_Artiste='" + QString::number( m_id_artiste ) + "', Id_Album= '" + QString::number( m_id_album ) + "', Duree = '" +  m_duree + "', Num_Piste='" + QString::number( m_num_piste ) + "', Phys='" + QString::number( m_phys ) + "' WHERE Id_Relation = '" + QString::number( m_id ) + "'";
+        queryStr = "UPDATE Relations SET Id_Titre ='" + QString::number( m_titre->m_id ) + "', Id_Artiste='" + QString::number( m_artiste->m_id ) + "', Id_Album= '" + QString::number( m_album->m_id ) + "', Duree = '" +  m_duree + "', Num_Piste='" + QString::number( m_num_piste ) + "', Phys='" + QString::number( m_phys ) + "' WHERE Id_Relation = '" + QString::number( m_id ) + "'";
     }
 
     madatabase.exec( queryStr );
@@ -81,75 +78,73 @@ BDDRelation* BDDRelation::RecupererRelation( const int id )
     return new BDDRelation( id );
 }
 
-BDDRelation::BDDRelation( const int id, QObject* parent ):
-    QObject( parent ),
-    m_id( id ),
-    m_id_artiste(),
-    m_id_album(),
-    m_id_titre(),
-    m_num_piste(),
-    m_duree(),
-    m_mp3(),
-    m_phys(),
-    m_areSelfCreated( false )
+BDDRelation::BDDRelation(const int id, QObject* parent):
+    QObject(parent)
+  , m_id(id)
+  , m_titre(NULL)
+  , m_album(NULL)
+  , m_artiste(NULL)
+  , m_num_piste(-1)
+  , m_duree()
+  , m_mp3(-1)
+  , m_phys(-1)
+  , m_areSelfCreated(false)
 {
-    QString queryStr = "SELECT Id_Titre, Id_Album, Id_Artiste, Duree, Num_Piste, MP3, Phys FROM Relations WHERE Id_Relation='" + QString::number( id ) + "'";
-    QSqlQuery query = madatabase.exec( queryStr );
-    while ( query.next() )
+    QString queryStr = "SELECT Id_Titre, Id_Album, Id_Artiste, Duree, Num_Piste, MP3, Phys FROM Relations WHERE Id_Relation='" + QString::number(id) + "'";
+    QSqlQuery query = madatabase.exec(queryStr);
+    while (query.next())
     {
         QSqlRecord rec = query.record();
 
-        m_id_album = rec.value( "Id_Album" ).toInt();
-        m_id_artiste = rec.value( "Id_Artiste" ).toInt();
-        m_id_titre = rec.value( "Id_Titre" ).toInt();
-        m_duree = rec.value("Duree").toString();
+        m_titre = BDDTitre::RecupererTitre(rec.value("Id_Titre").toInt());
+        m_album = BDDAlbum::RecupererAlbum(rec.value("Id_Album").toInt());
+        m_artiste = BDDArtiste::RecupererArtiste(rec.value("Id_Artiste").toInt());
         m_num_piste = rec.value("Num_Piste").toInt();
+        m_duree = rec.value("Duree").toString();
         m_mp3 = rec.value("MP3").toInt();
         m_phys = rec.value("Phys").toInt();
         m_areSelfCreated= true;
     }
 }
-BDDRelation::BDDRelation(const int id, QString Type, QObject *parent):
-    QObject ( parent ),
-    m_id(),
-    m_id_artiste(),
-    m_id_album(),
-    m_id_titre(),
-    m_num_piste(),
-    m_duree(),
-    m_mp3(),
-    m_phys(),
-    m_areSelfCreated( false )
+
+BDDRelation::BDDRelation(const int id, QString Type, QObject* parent):
+    QObject(parent)
+  , m_id(-1)
+  , m_titre(NULL)
+  , m_album(NULL)
+  , m_artiste(NULL)
+  , m_num_piste()
+  , m_duree()
+  , m_mp3()
+  , m_phys()
+  , m_areSelfCreated(false)
 {
     QString queryStr="";
-    if ( Type == "Titre" )
+    if (Type == "Titre")
     {
-        queryStr = "SELECT Id_Titre, Id_Album, Id_Artiste, Id_Relation, Duree, Num_Piste, MP3, Phys FROM Relations WHERE Id_Titre='" + QString::number( id ) + "'";
+        queryStr = "SELECT Id_Titre, Id_Album, Id_Artiste, Id_Relation, Duree, Num_Piste, MP3, Phys FROM Relations WHERE Id_Titre='" + QString::number(id) + "'";
 
     }
-    QSqlQuery query = madatabase.exec( queryStr );
-    while ( query.next() )
+    QSqlQuery query = madatabase.exec(queryStr);
+    while (query.next())
     {
         QSqlRecord rec = query.record();
 
-        m_id_album = rec.value( "Id_Album" ).toInt();
-        m_id_artiste = rec.value( "Id_Artiste" ).toInt();
-        m_id_titre = rec.value( "Id_Titre" ).toInt();
         m_id = rec.value("Id_Relation").toInt();
-        m_duree = rec.value("Duree").toString();
+        m_titre = BDDTitre::RecupererTitre(rec.value("Id_Titre").toInt());
+        m_album = BDDAlbum::RecupererAlbum(rec.value("Id_Album").toInt());
+        m_artiste = BDDArtiste::RecupererArtiste(rec.value("Id_Artiste").toInt());
         m_num_piste = rec.value("Num_Piste").toInt();
+        m_duree = rec.value("Duree").toString();
         m_mp3 = rec.value("MP3").toInt();
         m_phys = rec.value("Phys").toInt();
         m_areSelfCreated= true;
     }
-
-
-
-
 }
+
 void BDDRelation::ajouterBDD()
 {
-    QString  queryStr = "INSERT INTO Relations VALUES (null,'" + QString::number( m_id_titre ) + "','" + QString::number( m_id_album ) + "','" + QString::number( m_id_artiste ) + "','" + m_duree + "','" + QString::number( m_num_piste ) + "','" + QString::number( m_mp3 ) + "','" + QString::number( m_phys ) + "')";
+    QString  queryStr = "INSERT INTO Relations VALUES (null,'" + QString::number( m_titre->m_id ) + "','" + QString::number( m_album->m_id ) + "','" + QString::number( m_artiste->m_id ) + "','" + m_duree + "','" + QString::number( m_num_piste ) + "','" + QString::number( m_mp3 ) + "','" + QString::number( m_phys ) + "')";
 
     QSqlQuery query =     madatabase.exec( queryStr );
     m_id = query.lastInsertId().toInt();
@@ -159,7 +154,7 @@ void BDDRelation::ajouterBDD()
 void BDDRelation::supprimerenBDDMP3() const
 {
 
-    QString queryStr = "SELECT Id_Phys FROM Phys WHERE Id_Album='" + QString::number( m_id_album ) + "'";
+    QString queryStr = "SELECT Id_Phys FROM Phys WHERE Id_Album='" + QString::number( m_album->m_id ) + "'";
 
     QSqlQuery query = madatabase.exec( queryStr );
 

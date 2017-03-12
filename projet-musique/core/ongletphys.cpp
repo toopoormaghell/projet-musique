@@ -221,7 +221,7 @@ void OngletPhys::AfficherInfosAlbum( int Type )
         //On affiche les titres
         for ( int i = 0; i < phys->m_relations.count(); i++ )
         {
-            BDDTitre* titre = BDDTitre::RecupererTitre( phys->m_relations[i]->m_id_titre );
+            BDDTitre* titre = BDDTitre::RecupererTitre( phys->m_relations[i]->m_titre->m_id );
             QListWidgetItem* item = new QListWidgetItem;
 
             QString temp;
@@ -229,7 +229,7 @@ void OngletPhys::AfficherInfosAlbum( int Type )
             //Si c'est une compil, on ajoute les artistes derrière
             if ( Type == 3 )
             {
-                BDDArtiste* art = BDDArtiste::RecupererArtiste( phys->m_relations[i]->m_id_artiste );
+                BDDArtiste* art = BDDArtiste::RecupererArtiste( phys->m_relations[i]->m_artiste->m_id );
                 if ( m_artiste.toInt() == art->m_id )
                 {
                     //On Ajoute une couleur pour le titre où l'artiste est le bon

@@ -80,7 +80,7 @@ void BDDFusion::fusionalbums( QPair<QString,QString> Choix1_Album,  QPair<QImage
         if ( rel->m_mp3 )
         {
             BDDMp3* mp3 = BDDMp3::RecupererMP3ParTitre( titre->m_id );
-            mp3->ChangerTag(AlbumChoix,titre->m_nom,mp3->m_artiste->m_nom,ChoixFusion_Annee,cpt,PochChoix);
+            mp3->ChangerTag(AlbumChoix,titre->m_nom,mp3->m_relation->m_artiste->m_nom,ChoixFusion_Annee,cpt,PochChoix);
             delete mp3;
         }
         delete rel;
@@ -99,7 +99,7 @@ void BDDFusion::SupprimerTitresEnTrop(  QList<TitresPhys> titresph, QString Albu
         if (! titresph[cpt].Garde)
         {
             BDDRelation* rel = BDDRelation::RecupererRelationParTitre( titresph[cpt].id.toInt() );
-            BDDTitre* tit = BDDTitre::RecupererTitre( rel->m_id_titre );
+            BDDTitre* tit = BDDTitre::RecupererTitre( rel->m_titre->m_id );
             tit->mp3physfusion();
 
             if ( rel->m_mp3 )
@@ -107,7 +107,7 @@ void BDDFusion::SupprimerTitresEnTrop(  QList<TitresPhys> titresph, QString Albu
                 BDDMp3* mp3 = BDDMp3::RecupererMP3ParTitre( tit->m_id );
                 int nouveau = RecupererNouveauTitre( tit->m_id );
                 BDDTitre* nvtit = BDDTitre::RecupererTitre( nouveau );
-                mp3->ChangerTag(AlbumChoix,nvtit->m_nom,mp3->m_artiste->m_nom,ChoixFusion_Annee,rel->m_num_piste,PochChoix);
+                mp3->ChangerTag(AlbumChoix,nvtit->m_nom,mp3->m_relation->m_artiste->m_nom,ChoixFusion_Annee,rel->m_num_piste,PochChoix);
 
                 mp3->m_relation = BDDRelation::RecupererRelationParTitre( nvtit->m_id );
                 mp3->updateBDD();

@@ -191,7 +191,7 @@ void OngletRech::affichageTitresParAlbum()
     for ( int i = 0; i < result.count(); i++ )
     {
         BDDRelation* rel = BDDRelation::RecupererRelation( result[i] );
-        BDDTitre* titre = BDDTitre::RecupererTitre( rel->m_id_titre );
+        BDDTitre* titre = BDDTitre::RecupererTitre( rel->m_titre->m_id );
         QListWidgetItem* item = new QListWidgetItem;
         item->setText( titre->m_nom );
         item->setData( Qt::UserRole, titre->m_id );
@@ -286,11 +286,11 @@ void OngletRech::on_Similaires_clicked()
         //On affiche les infos du titre dans un item
         QListWidgetItem* item = new QListWidgetItem;
         item->setData( Qt::UserRole, mp3->m_id );
-        item->setText( QString::number( mp3->m_album->m_annee ) + " - " + mp3->m_titre->m_nom );
-        item->setToolTip( mp3->m_titre->m_nom );
+        item->setText( QString::number( mp3->m_relation->m_album->m_annee ) + " - " + mp3->m_relation->m_titre->m_nom );
+        item->setToolTip( mp3->m_relation->m_titre->m_nom );
         item->setFlags( Qt::ItemIsEnabled );
         //On s'occupe de sa pochette
-        QPixmap scaled( QPixmap::fromImage( mp3->m_album->m_pochette->m_image ) );
+        QPixmap scaled( QPixmap::fromImage( mp3->m_relation->m_album->m_pochette->m_image ) );
         item->setIcon( QIcon( scaled ) );
 
         ui->ListeSimilaires->addItem( item );
@@ -311,9 +311,9 @@ void OngletRech::on_CopierDansDossier_clicked()
         QFileInfo fich( mp3->m_chemin );
         QString doss = ("C:/Users/Alex/Desktop/Musique/");
 
-        if (  mp3->m_artiste->m_nomFormate == "indochine" )
+        if (  mp3->m_relation->m_artiste->m_nomFormate == "indochine" )
         {
-            doss +=  mp3->m_artiste->m_nom;
+            doss +=  mp3->m_relation->m_artiste->m_nom;
         }
         QDir dir( doss );
         dir.mkpath(doss);

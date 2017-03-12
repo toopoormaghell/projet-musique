@@ -278,24 +278,24 @@ void OngletMP3::afficherInfosTitre()
     vider( "Titre" );
 
     BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3 );
-    if ( mp3->m_album != NULL)
+    if ( mp3->m_relation->m_album != NULL)
     { ui->Piste->setText( QString::number( mp3->m_relation->m_num_piste ).rightJustified( 2, '0' ) + " - " );
 
-        QString temp = mp3->m_titre->m_nom.toUpper() + "(" + mp3->m_relation->m_duree + ")";
+        QString temp = mp3->m_relation->m_titre->m_nom.toUpper() + "(" + mp3->m_relation->m_duree + ")";
         ui->Titre->setText( temp );
 
-        ui->NomAlbum->setText( mp3->m_album->m_nom );
-        ui->NomArtiste->setText( mp3->m_artiste->m_nom );
+        ui->NomAlbum->setText( mp3->m_relation->m_album->m_nom );
+        ui->NomArtiste->setText( mp3->m_relation->m_artiste->m_nom );
 
-        ui->Annee->setText( QString::number( mp3->m_album->m_annee ) );
+        ui->Annee->setText( QString::number( mp3->m_relation->m_album->m_annee ) );
         if ( mp3->m_relation->m_mp3 && mp3->m_relation->m_phys )
             ui->Mp3Phys->setText( "Existe en MP3 et Phys" );
 
-        QPixmap scaled( QPixmap::fromImage( mp3->m_album->m_pochette->m_image ) );
+        QPixmap scaled( QPixmap::fromImage( mp3->m_relation->m_album->m_pochette->m_image ) );
         scaled = scaled.scaled( 150, 150 );
         ui->Pochette->setPixmap( scaled );
 
-        Similaires( mp3->m_titre->m_id );
+        Similaires( mp3->m_relation->m_titre->m_id );
     }
     delete mp3;
 
@@ -314,11 +314,11 @@ void OngletMP3::Similaires( const int id )
         //On affiche les infos du titre dans un item
         QListWidgetItem* item = new QListWidgetItem;
         item->setData( Qt::UserRole, mp3->m_id );
-        item->setText( QString::number( mp3->m_album->m_annee ) + " - " + mp3->m_titre->m_nom );
-        item->setToolTip( mp3->m_titre->m_nom );
+        item->setText( QString::number( mp3->m_relation->m_album->m_annee ) + " - " + mp3->m_relation->m_titre->m_nom );
+        item->setToolTip( mp3->m_relation->m_titre->m_nom );
         item->setFlags( Qt::ItemIsEnabled );
         //On s'occupe de sa pochette
-        QPixmap scaled( QPixmap::fromImage( mp3->m_album->m_pochette->m_image ) );
+        QPixmap scaled( QPixmap::fromImage( mp3->m_relation->m_album->m_pochette->m_image ) );
         item->setIcon( QIcon( scaled ) );
 
         ui->Similaires->addItem( item );
@@ -497,11 +497,11 @@ void OngletMP3::on_Similaires_clicked(const QModelIndex &index)
     //On sélectionne le bon artiste/la bonne année
     if ( m_categorie != 2 )
     {
-        m_artiste = mp3->m_artiste->m_id;
+        m_artiste = mp3->m_relation->m_artiste->m_id;
 
     } else
     {
-        m_artiste = CompilsAnnees( mp3->m_album->m_annee );
+        m_artiste = CompilsAnnees( mp3->m_relation->m_album->m_annee );
     }
     for (int i = 0; i<ui->ArtistesAnnees->count(); i++)
     {
@@ -513,7 +513,7 @@ void OngletMP3::on_Similaires_clicked(const QModelIndex &index)
     afficheralbumsettitres();
 
     //On sélectionne l'album et le titre
-    m_album =  mp3->m_album->m_id;
+    m_album =  mp3->m_relation->m_album->m_id;
     m_mp3 = mp3->m_id;
 
     for (int row = 0; row<ui->AlbumsTitres->rowCount() ; row++)
@@ -576,7 +576,7 @@ void OngletMP3::on_LireMP3_clicked()
     m_PlaylistLecteur.clear();
     m_PlaylistLecteur << mp3->m_chemin;
     emit modifplaylist(m_PlaylistLecteur);
-    m_fichierlu = QString::number( mp3->m_relation->m_num_piste ).rightJustified( 2, '0' ) + " - "+ mp3->m_titre->m_nom + " ajouté au lecteur.";
+    m_fichierlu = QString::number( mp3->m_relation->m_num_piste ).rightJustified( 2, '0' ) + " - "+ mp3->m_relation->m_titre->m_nom + " ajouté au lecteur.";
     EnvoyerTexteAMain();
     delete mp3;
 }
@@ -593,9 +593,9 @@ void OngletMP3::copier()
     QFileInfo fich( mp3->m_chemin );
     QString doss = ("C:/Users/Alex/Desktop/Musique/");
 
-    if (  mp3->m_artiste->m_nomFormate == "indochine" )
+    if (  mp3->m_relation->m_artiste->m_nomFormate == "indochine" )
     {
-        doss +=  mp3->m_artiste->m_nom;
+        doss +=  mp3->m_relation->m_artiste->m_nom;
     }
     QDir dir( doss );
     dir.mkpath(doss);
@@ -611,9 +611,9 @@ void OngletMP3::on_LireArtiste_clicked()
 {
 
     BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3 );
-    m_PlaylistLecteur = m_lecteur->listeTitresArtiste( QString::number(mp3->m_artiste->m_id) );
+    m_PlaylistLecteur = m_lecteur->listeTitresArtiste( QString::number(mp3->m_relation->m_artiste->m_id) );
     emit modifplaylist(m_PlaylistLecteur);
-    m_fichierlu = mp3->m_artiste->m_nom + " ajouté au lecteur.";
+    m_fichierlu = mp3->m_relation->m_artiste->m_nom + " ajouté au lecteur.";
     EnvoyerTexteAMain();
     delete mp3;
 }
@@ -621,9 +621,9 @@ void OngletMP3::on_LireArtiste_clicked()
 void OngletMP3::on_LireAlbum_clicked()
 {
     BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3 );
-    m_PlaylistLecteur = m_lecteur->listeTitresAlbum( QString::number(mp3->m_album->m_id) );
+    m_PlaylistLecteur = m_lecteur->listeTitresAlbum( QString::number(mp3->m_relation->m_album->m_id) );
     emit modifplaylist(m_PlaylistLecteur);
-    m_fichierlu = mp3->m_album->m_nom + " ajouté au lecteur.";
+    m_fichierlu = mp3->m_relation->m_album->m_nom + " ajouté au lecteur.";
     EnvoyerTexteAMain();
     delete mp3;
 }
@@ -631,9 +631,9 @@ void OngletMP3::on_LireAlbum_clicked()
 void OngletMP3::on_LireAnnee_clicked()
 {
     BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3 );
-    m_PlaylistLecteur = m_lecteur->listeTitresAnnee( QString::number(mp3->m_album->m_annee ) );
+    m_PlaylistLecteur = m_lecteur->listeTitresAnnee( QString::number(mp3->m_relation->m_album->m_annee ) );
     emit modifplaylist(m_PlaylistLecteur);
-    m_fichierlu = QString::number(mp3->m_album->m_annee ) + " ajouté au lecteur.";
+    m_fichierlu = QString::number(mp3->m_relation->m_album->m_annee ) + " ajouté au lecteur.";
     EnvoyerTexteAMain();
     delete mp3;
 }
