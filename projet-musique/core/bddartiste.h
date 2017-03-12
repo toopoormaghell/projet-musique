@@ -10,7 +10,7 @@ class BDDArtiste : public QObject
     Q_OBJECT
 public:
 
-    explicit BDDArtiste(const QString& artiste, const BDDPoch& pochette, QObject* parent = NULL );
+    explicit BDDArtiste(const QString& artiste, const BDDPoch& pochette, QObject* parent = NULL);
     virtual ~BDDArtiste();
 
     void updateBDD();
@@ -34,9 +34,9 @@ private:
     void recupererId();
     void TrouverId( QString& nom );
     // Constructeur avec une id
-    BDDArtiste( const int id, QObject* parent = NULL );
+    explicit BDDArtiste(const int id, QObject* parent = NULL);
     //Construceur avec un nom d'artiste
-    BDDArtiste( const QString& artiste, QObject* parent = NULL );
+    explicit BDDArtiste(const QString& artiste, QObject* parent = NULL);
 };
 
 

@@ -5,31 +5,27 @@
 #include <QtGui>
 #include "util.h"
 
-BDDArtiste::BDDArtiste(const QString& artiste, const BDDPoch& pochette, QObject* parent) :
-    QObject( parent ),
-    m_id( -1 ),
-    m_nom( artiste ),
-    m_pochette( &pochette ),
-    m_nomFormate( artiste ),
-    m_isPochetteSelfCreated( false )
+BDDArtiste::BDDArtiste(const QString& artiste, const BDDPoch& pochette, QObject* parent):
+    QObject(parent)
+  , m_id(-1)
+  , m_nom(artiste)
+  , m_pochette(&pochette)
+  , m_nomFormate(artiste)
+  , m_isPochetteSelfCreated(false)
 {
     QString art = artiste;
-    TrouverId( art );
+    TrouverId(art);
 
-    if ( m_id == -1 )
+    if (m_id == -1)
         ajouterBDD();
     else
         updateBDD();
-
 }
 
 BDDArtiste::~BDDArtiste()
 {
     if ( m_isPochetteSelfCreated )
-    {
-
         delete m_pochette;
-    }
 }
 
 void BDDArtiste::recupererId()
@@ -64,45 +60,45 @@ BDDArtiste* BDDArtiste::RecupererArtiste( const int id )
     return new BDDArtiste( id );
 }
 
-BDDArtiste::BDDArtiste( const int id , QObject* parent ):
-    QObject( parent ),
-    m_id( id ),
-    m_nom(),
-    m_pochette(),
-    m_nomFormate()
+BDDArtiste::BDDArtiste(const int id, QObject* parent):
+    QObject(parent)
+  , m_id(id)
+  , m_nom()
+  , m_pochette(NULL)
+  , m_nomFormate()
 {
-    QString queryStr = "SELECT Artiste, Artiste_Formate, Id_Pochette FROM Artiste WHERE Id_Artiste='" + QString::number( id ) + "'";
-    QSqlQuery query = madatabase.exec( queryStr );
-    while ( query.next() )
+    QString queryStr = "SELECT Artiste, Artiste_Formate, Id_Pochette FROM Artiste WHERE Id_Artiste='" + QString::number(id) + "'";
+    QSqlQuery query = madatabase.exec(queryStr);
+    while (query.next())
     {
         QSqlRecord rec = query.record();
 
-        m_nom = rec.value( "Artiste" ).toString().replace( "$", "'" );;
-        m_nomFormate = rec.value( "Artiste_Formate" ).toString();
-        m_pochette = BDDPoch::recupererBDD( rec.value( "Id_Pochette" ).toInt() );
+        m_nom = rec.value("Artiste").toString().replace("$", "'");
+        m_pochette = BDDPoch::recupererBDD(rec.value("Id_Pochette").toInt());
+        m_nomFormate = rec.value("Artiste_Formate").toString();
         m_isPochetteSelfCreated = true;
     }
 }
-BDDArtiste::BDDArtiste( const QString& artiste, QObject* parent ):
-    QObject( parent ),
-    m_id( 0 ),
-    m_nom( artiste ),
-    m_pochette(),
-    m_nomFormate( artiste )
+
+BDDArtiste::BDDArtiste(const QString& artiste, QObject* parent):
+    QObject(parent)
+  , m_id(0)
+  , m_nom(artiste)
+  , m_pochette(NULL)
+  , m_nomFormate(artiste)
 {
-    TrouverId( m_nom );
-    QString queryStr = "SELECT Artiste, Artiste_Formate, Id_Pochette FROM Artiste WHERE Id_Artiste='" + QString::number( m_id ) + "'";
-    QSqlQuery query = madatabase.exec( queryStr );
-    while ( query.next() )
+    TrouverId(m_nom);
+    QString queryStr = "SELECT Artiste, Artiste_Formate, Id_Pochette FROM Artiste WHERE Id_Artiste='" + QString::number(m_id) + "'";
+    QSqlQuery query = madatabase.exec(queryStr);
+    while (query.next())
     {
         QSqlRecord rec = query.record();
 
-        m_nom = rec.value( "Artiste" ).toString().replace( "$", "'" );;
-        m_nomFormate = rec.value( "Artiste_Formate" ).toString();
-        m_pochette = BDDPoch::recupererBDD( rec.value( "Id_Pochette" ).toInt() );
+        m_nom = rec.value("Artiste").toString().replace("$", "'");
+        m_pochette = BDDPoch::recupererBDD(rec.value("Id_Pochette").toInt());
+        m_nomFormate = rec.value("Artiste_Formate").toString();
         m_isPochetteSelfCreated = true;
     }
-
 }
 
 BDDArtiste* BDDArtiste::RecupererArtparNom( QString& nom )
