@@ -10,7 +10,11 @@
 #include "bddgestionphys.h"
 #include "DialogModifierArtiste.h"
 #include <QDebug>
+#include <QSqlQuery>
+#include <QSqlRecord>
+#include "bddsingleton.h"
 #include "bddrelation.h"
+#include <QScopedPointer>
 
 
 OngletPhys::OngletPhys( QWidget* parent ) :
@@ -219,17 +223,25 @@ void OngletPhys::AfficherInfosAlbum( int Type )
         QPixmap mp3( ":/Autres/Mp3" );
         QPixmap nonmp3 (":/Autres/Faux");
         //On affiche les titres
-        for ( int i = 0; i < phys->m_relations.count(); i++ )
+
+        QString queryStr = "SELECT Id_Relation, Id_Artiste FROM Relations  WHERE Id_Album='" + QString::number( phys->m_album->m_id ) + "' ORDER BY Num_Piste";
+        QSqlQuery query = madatabase.exec( queryStr );
+        int relationCount = 0;
+        while ( query.next() )
         {
-            BDDTitre* titre = BDDTitre::RecupererTitre( phys->m_relations[i]->m_titre->m_id );
+            QSqlRecord rec = query.record();
+            QScopedPointer<BDDRelation> relation(BDDRelation::RecupererRelation( rec.value( "Id_Relation" ).toInt() ));
+            relationCount++;
+
+            BDDTitre* titre = BDDTitre::RecupererTitre( relation->m_titre->m_id );
             QListWidgetItem* item = new QListWidgetItem;
 
             QString temp;
-            temp = QString::number( phys->m_relations[i]->m_num_piste ).rightJustified( 2, '0' ) + " - " + titre->m_nom + "(" + phys->m_relations[i]->m_duree + ")";
+            temp = QString::number( relation->m_num_piste ).rightJustified( 2, '0' ) + " - " + titre->m_nom + "(" + relation->m_duree + ")";
             //Si c'est une compil, on ajoute les artistes derrière
             if ( Type == 3 )
             {
-                BDDArtiste* art = BDDArtiste::RecupererArtiste( phys->m_relations[i]->m_artiste->m_id );
+                BDDArtiste* art = BDDArtiste::RecupererArtiste( relation->m_artiste->m_id );
                 if ( m_artiste.toInt() == art->m_id )
                 {
                     //On Ajoute une couleur pour le titre où l'artiste est le bon
@@ -243,7 +255,7 @@ void OngletPhys::AfficherInfosAlbum( int Type )
             }
             item->setText( temp );
             //On affiche l'icone si le mp3 existe aussi
-            if ( phys->m_relations[i]->m_mp3  )
+            if ( relation->m_mp3  )
             {
                 nbtitresmp3++;
                 item->setIcon( QIcon( mp3 ) );
@@ -255,10 +267,10 @@ void OngletPhys::AfficherInfosAlbum( int Type )
             delete titre;
 
         }
-        ui->NbTitresAlb->setText(QString::number( phys->m_relations.count() ) );
+        ui->NbTitresAlb->setText(QString::number( relationCount ) );
         ui->NbTitresMP3Alb->setText(QString::number( nbtitresmp3 ));
-        if ( phys->m_relations.count()!=0)
-            ui->PourcentageAlb->setText( QString::number( nbtitresmp3*100/phys->m_relations.count() ) +" %" );
+        if ( relationCount!=0)
+            ui->PourcentageAlb->setText( QString::number( nbtitresmp3*100/relationCount ) +" %" );
     }
     delete phys;
 }

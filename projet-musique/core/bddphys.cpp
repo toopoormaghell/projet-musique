@@ -8,39 +8,28 @@
 #include <QtSql>
 
 
-BDDPhys::BDDPhys(const BDDAlbum& album, const QString& ean, const int& type, const QString& Commentaires, QObject* parent ):
-    QObject( parent ),
-    m_id( -1 ),
-    m_album( &album ),
-    m_artiste( NULL ),
-    m_relations(),
-    m_type( BDDType::RecupererType( type ) ),
-    m_ean( ean ),
-    m_commentaires ( Commentaires),
-    m_membersAreSelfCreatad( false )
+BDDPhys::BDDPhys(const BDDAlbum& album, const QString& ean, const BDDType& type, const QString& Commentaires, QObject* parent):
+    QObject(parent)
+  , m_id(-1)
+  , m_album(&album)
+  , m_type(&type)
+  , m_ean(ean)
+  , m_commentaires(Commentaires)
+  , m_membersAreSelfCreatad(false)
 {
     recupererId();
-    if ( m_id == -1 )
-    {
+    if (m_id == -1)
         ajouterBDD();
-    }
     else
-    {
         updateBDD();
-    }
 }
+
 BDDPhys::~BDDPhys()
 {
-    if ( m_membersAreSelfCreatad )
+    if (m_membersAreSelfCreatad)
     {
-        m_id = 0;
-        m_ean = "";
-        delete m_artiste;
-        delete m_album;
         delete m_type;
-        for ( int i = 0; i < m_relations.count(); ++i )
-            delete m_relations[i];
-        m_relations.clear();
+        delete m_album;
     }
 }
 
@@ -50,18 +39,7 @@ void BDDPhys::deleteBDD()
 
     madatabase.exec( queryStr );
 
-    for ( int i = 0; i < m_relations.count(); i++ )
-    {
-        if ( !m_relations[i]->m_mp3 )
-        {
-     /*       BDDRelation rel( *m_album, *m_artiste, *m_relations[i],  );
-            rel.supprimerenBDDPhys();
-            m_relations[i]->supprimerenBDD();
-     */   }
-    }
     m_album->supprimerenBDD();
-    m_artiste->supprimerenBDD();
-
 }
 
 BDDPhys* BDDPhys::RecupererPhys( const int id )
@@ -93,44 +71,29 @@ void BDDPhys::recupererId()
     }
 }
 
-BDDPhys::BDDPhys( const int id, QObject* parent ):
-    QObject( parent ),
-    m_id( id ),
-    m_album( NULL ),
-    m_artiste( NULL ),
-    m_relations(),
-    m_type(),
-    m_ean( -1 ),
-    m_commentaires()
+BDDPhys::BDDPhys(const int id, QObject* parent):
+    QObject(parent)
+  , m_id(id)
+  , m_album(NULL)
+  , m_type(NULL)
+  , m_ean(-1)
+  , m_commentaires()
+  , m_membersAreSelfCreatad(false)
 {
-    Q_UNUSED( parent );
-    QString queryStr = "SELECT * FROM Phys WHERE Id_Album='" + QString::number( id ) + "'";
-    QSqlQuery query = madatabase.exec( queryStr );
-    if ( query.first() )
+    QString queryStr = "SELECT * FROM Phys WHERE Id_Album='" + QString::number(id) + "'";
+    QSqlQuery query = madatabase.exec(queryStr);
+    if (query.first())
     {
         QSqlRecord rec = query.record();
 
-        m_type = BDDType::RecupererType( rec.value( "Categorie" ).toInt() );
-        m_album = BDDAlbum::RecupererAlbum( rec.value( "Id_Album" ).toInt() );
+        m_album = BDDAlbum::RecupererAlbum(rec.value("Id_Album").toInt());
+        m_type = BDDType::RecupererType(rec.value("Categorie").toInt());
+        m_ean = rec.value("EAN").toString();
         m_commentaires = rec.value("Commentaire").toString();
-        RecupererTitres();
         m_membersAreSelfCreatad = true;
     }
 }
-void BDDPhys::RecupererTitres()
-{
-    QString queryStr = " SELECT Id_Relation, Id_Artiste FROM Relations  WHERE Id_Album='" + QString::number( m_album->m_id ) + "' ORDER BY Num_Piste";
-    QSqlQuery query = madatabase.exec( queryStr );
-    while ( query.next() )
-    {
-        QSqlRecord rec = query.record();
 
-        delete m_artiste;
-        m_artiste = BDDArtiste::RecupererArtiste( rec.value( "Id_Artiste" ).toInt() );
-        m_relations <<   BDDRelation::RecupererRelation( rec.value( "Id_Relation" ).toInt() );
-
-    }
-}
 void BDDPhys::updateBDD()
 {
 

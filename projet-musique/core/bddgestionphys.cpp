@@ -39,7 +39,7 @@ void BDDGestionPhys::ajouterAlbum(QImage Poch, QString Album, QString Artiste, Q
     }
 
 
-    BDDPhys phys( alb, ean, Type, Commentaires );
+    BDDPhys phys( alb, ean, *BDDType::RecupererType(Type), Commentaires );
 
     delete def;
 }
@@ -94,7 +94,7 @@ void BDDGestionPhys::modifierAlbum( QString Album, QString Artiste, QString ean,
         }
     }
 
-    BDDPhys phys( *alb, ean, Type, Commentaires );
+    BDDPhys phys( *alb, ean, *BDDType::RecupererType(Type), Commentaires );
     delete alb->m_type;
     delete alb;
     delete poch;
