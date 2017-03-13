@@ -4,24 +4,23 @@
 #include "bddsingleton.h"
 #include "util.h"
 
-BDDPoch::BDDPoch( const QImage& image, const QString& album, const QString& artiste, QObject* parent ) :
-    QObject( parent ),
-    m_id( -1 ),
-    m_image( image ),
-    m_chemin(),
-    m_ImageSelfCreated( false )
+BDDPoch::BDDPoch(const QImage& image, const QString& album, const QString& artiste, QObject* parent):
+    QObject(parent)
+  , m_id(-1)
+  , m_chemin()
+  , m_image(image)
 {
-    QString artisteFormate( artiste );
-    QString albumFormate( album );
-    FormaterEntiteBDD( artisteFormate );
-    FormaterEntiteBDD( albumFormate );
-    m_chemin = creerchemin( album, artiste );
+    QString artisteFormate(artiste);
+    QString albumFormate(album);
+    FormaterEntiteBDD(artisteFormate);
+    FormaterEntiteBDD(albumFormate);
+    m_chemin = creerchemin(album, artiste);
 
     recupererId();
 
-    if ( m_id == -1 )
+    if (m_id == -1)
     {
-        sauverImage( albumFormate, artisteFormate );
+        sauverImage(albumFormate, artisteFormate);
         ajouterBDD();
     }
     else
@@ -30,11 +29,6 @@ BDDPoch::BDDPoch( const QImage& image, const QString& album, const QString& arti
     }
 }
 
-BDDPoch::~BDDPoch()
-{
-
-
-}
 QString BDDPoch::creerchemin( const QString& album, const QString& artiste )
 {
 
@@ -129,24 +123,23 @@ BDDPoch* BDDPoch::recupererPoch( const QString& album, const QString& artiste )
 }
 
 
-BDDPoch::BDDPoch( const int id, QObject* parent ):
-    QObject( parent ),
-    m_id( id ),
-    m_image( NULL ),
-    m_chemin(),
-    m_ImageSelfCreated( false )
+BDDPoch::BDDPoch(const int id, QObject* parent):
+    QObject(parent)
+  , m_id(id)
+  , m_chemin()
+  , m_image()
 {
-    QString queryStr = "SELECT Chemin FROM Pochette WHERE Id_Pochette='" + QString::number( id ) + "'";
-    QSqlQuery query = madatabase.exec( queryStr );
-    while ( query.next() )
+    QString queryStr = "SELECT Chemin FROM Pochette WHERE Id_Pochette='" + QString::number(id) + "'";
+    QSqlQuery query = madatabase.exec(queryStr);
+    while (query.next())
     {
         QSqlRecord rec = query.record();
 
-        m_chemin = rec.value( "Chemin" ).toString();
-        m_image.load( m_chemin );
-        m_ImageSelfCreated = true;
+        m_chemin = rec.value("Chemin").toString();
+        m_image.load(m_chemin);
     }
 }
+
 void BDDPoch::supprimerenBDD() const
 {
 
