@@ -2,14 +2,12 @@
 #define BDDTITRE_H
 
 #include <QObject>
-class BDDArtiste;
-class BDDAlbum;
+
 class BDDTitre : public QObject
 {
     Q_OBJECT
 public:
-    explicit BDDTitre(const QString& nom, QObject* parent = 0  );
-    ~BDDTitre();
+    explicit BDDTitre(const QString& nom, QObject* parent = 0);
 
     void updateBDD();
     void supprimerenBDD()const;
@@ -19,9 +17,9 @@ public:
     int m_id;
     QString m_nom;
     QString m_nomFormate;
+
     QList<int> Similaires( const int id );
-  //  BDDArtiste const* m_artiste;
-  //  BDDAlbum const* m_album;
+
 
     void mp3physfusion();
 private:
@@ -31,7 +29,7 @@ private:
     void recupererId();
 
     //Constructeur avec une id
-    BDDTitre( const int id, QObject* parent = NULL );
+    explicit BDDTitre(const int id, QObject* parent = NULL);
 
 };
 
