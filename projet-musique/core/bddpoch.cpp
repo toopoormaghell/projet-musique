@@ -17,7 +17,7 @@ BDDPoch::BDDPoch(const QImage& image, const QString& album, const QString& artis
 
     recupererId();
 
-    if (m_id == -1)
+    if (id() == -1)
     {
         sauverImage(albumFormate, artisteFormate);
         ajouterBDD();
@@ -72,12 +72,12 @@ void BDDPoch::recupererId()
     if ( query.first() )
     {
         QSqlRecord rec = query.record();
-        m_id = rec.value( "Poch" ).toInt();
+        setId(rec.value( "Poch" ).toInt());
 
     }
     else
     {
-        m_id = -1;
+        setId(-1);
     }
 }
 void BDDPoch::ajouterBDD()
@@ -85,7 +85,7 @@ void BDDPoch::ajouterBDD()
     QString queryStr = "INSERT INTO Pochette VALUES (null,'" + m_chemin + "')";
     QSqlQuery query = madatabase.exec( queryStr );
 
-    m_id = query.lastInsertId().toInt();
+    setId(query.lastInsertId().toInt());
 }
 
 void BDDPoch::updateBDD()
@@ -142,14 +142,14 @@ void BDDPoch::supprimerenBDD() const
 {
 
     //On vérifie si la pochette n'existe plus ni dans l'artiste, ni dans l'album
-    QString queryStr = "SELECT Id_Pochette FROM Artiste WHERE Id_Pochette='" + QString::number( m_id ) + "' UNION SELECT Id_Pochette FROM Album WHERE Id_Pochette='" + QString::number( m_id ) + "'";
+    QString queryStr = "SELECT Id_Pochette FROM Artiste WHERE Id_Pochette='" + QString::number( id() ) + "' UNION SELECT Id_Pochette FROM Album WHERE Id_Pochette='" + QString::number( id() ) + "'";
     QSqlQuery  query2 = madatabase.exec( queryStr );
 
     //si la requête ne renvoie pas de résultat, on efface du coup la pochette
     if ( !query2.first() )
     {
 
-        queryStr =  "DELETE FROM Pochette WHERE Id_Pochette='" + QString::number( m_id ) + "'";
+        queryStr =  "DELETE FROM Pochette WHERE Id_Pochette='" + QString::number( id() ) + "'";
         madatabase.exec( queryStr );
         QFile::remove( m_chemin );
     }

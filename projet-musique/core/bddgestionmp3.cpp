@@ -180,9 +180,9 @@ void BDDGestionMp3::actualiserMp3( QString chemin )
     BDDMp3 mp3( chemin.replace( "'", "$" ), rel, *BDDType::RecupererType(m_souscat) );
 
 
-    if ( m_Chemins.find( mp3.m_id ) != m_Chemins.end() )
+    if ( m_Chemins.find( mp3.id() ) != m_Chemins.end() )
     {
-        m_Chemins[mp3.m_id][1] = "trouve";
+        m_Chemins[mp3.id()][1] = "trouve";
 
     }
     delete def;

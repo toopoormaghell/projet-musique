@@ -129,7 +129,7 @@ void OngletMP3::afficheralbumsettitres()
         //Pour chaque album...
         BDDAlbum* album = BDDAlbum::RecupererAlbum( albums[cpt] );
 
-        if ( album->m_id > 0 )
+        if ( album->id() > 0 )
         {
             if ( ( m_categorie != 2 && cpt > 0 ) || ( m_categorie == 2 && cpt % 2 == 0  && cpt > 0 ) )
             {
@@ -149,19 +149,19 @@ void OngletMP3::afficheralbumsettitres()
             QPixmap scaled( QPixmap::fromImage( album->m_pochette->m_image ) );
             item->setIcon( QIcon( scaled ) );
             item->setTextAlignment( Qt::AlignCenter | Qt::AlignBottom );
-            item->setData( Qt::UserRole, album->m_id );
+            item->setData( Qt::UserRole, album->id() );
             ui->AlbumsTitres->setSpan( m_lignestitres, m_colonnetitre, 5, 1 );
             ui->AlbumsTitres->setItem( m_lignestitres, m_colonnetitre, item );
 
             item = new QTableWidgetItem;
             //On s'occupe d'afficher le nom du titre de l'album
-            item->setData( Qt::UserRole, album->m_id );
+            item->setData( Qt::UserRole, album->id() );
             item->setTextAlignment( Qt::AlignLeft );
             item->setText( QString::number( album->m_annee ) + " - " + album->m_nom );
             item->setFlags( Qt::ItemIsEnabled );
             ui->AlbumsTitres->setItem( m_lignestitres + 5, m_colonnetitre, item );
             //On appelle la fonction chargée d'afficher les titres
-            afficherTitresAlbum( QString::number( album->m_id ), m_categorie, m_lignestitres );
+            afficherTitresAlbum( QString::number( album->id() ), m_categorie, m_lignestitres );
 
             if ( m_categorie == 2 )
             {
@@ -295,7 +295,7 @@ void OngletMP3::afficherInfosTitre()
         scaled = scaled.scaled( 150, 150 );
         ui->Pochette->setPixmap( scaled );
 
-        Similaires( mp3->m_relation->m_titre->m_id );
+        Similaires( mp3->m_relation->m_titre->id() );
     }
     delete mp3;
 
@@ -313,7 +313,7 @@ void OngletMP3::Similaires( const int id )
 
         //On affiche les infos du titre dans un item
         QListWidgetItem* item = new QListWidgetItem;
-        item->setData( Qt::UserRole, mp3->m_id );
+        item->setData( Qt::UserRole, mp3->id() );
         item->setText( QString::number( mp3->m_relation->m_album->m_annee ) + " - " + mp3->m_relation->m_titre->m_nom );
         item->setToolTip( mp3->m_relation->m_titre->m_nom );
         item->setFlags( Qt::ItemIsEnabled );
@@ -338,7 +338,7 @@ void OngletMP3::affichageartistes()
         for ( int cpt = 0; cpt < artistes.count(); cpt++ )
         {
             BDDArtiste* artiste = BDDArtiste::RecupererArtiste( artistes[cpt] );
-            if ( artiste->m_id > 0 )
+            if ( artiste->id() > 0 )
             {
                 QListWidgetItem* item = new  QListWidgetItem;
                 QPixmap scaled( QPixmap::fromImage( artiste->m_pochette->m_image ) );
@@ -484,7 +484,7 @@ void OngletMP3::on_Similaires_clicked(const QModelIndex &index)
     BDDMp3* mp3 = BDDMp3::RecupererMp3( index.data( Qt::UserRole ).toInt() );
 
     //On selectionne la bonne categorie
-    m_categorie = mp3->m_type->m_id;
+    m_categorie = mp3->m_type->id();
     for (int i = 0; i<ui->Categories->count(); i++)
     {
         if ( ui->Categories->item(i)->data( Qt::UserRole).toInt() == m_categorie)
@@ -497,7 +497,7 @@ void OngletMP3::on_Similaires_clicked(const QModelIndex &index)
     //On sélectionne le bon artiste/la bonne année
     if ( m_categorie != 2 )
     {
-        m_artiste = mp3->m_relation->m_artiste->m_id;
+        m_artiste = mp3->m_relation->m_artiste->id();
 
     } else
     {
@@ -513,8 +513,8 @@ void OngletMP3::on_Similaires_clicked(const QModelIndex &index)
     afficheralbumsettitres();
 
     //On sélectionne l'album et le titre
-    m_album =  mp3->m_relation->m_album->m_id;
-    m_mp3 = mp3->m_id;
+    m_album =  mp3->m_relation->m_album->id();
+    m_mp3 = mp3->id();
 
     for (int row = 0; row<ui->AlbumsTitres->rowCount() ; row++)
     {
@@ -611,7 +611,7 @@ void OngletMP3::on_LireArtiste_clicked()
 {
 
     BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3 );
-    m_PlaylistLecteur = m_lecteur->listeTitresArtiste( QString::number(mp3->m_relation->m_artiste->m_id) );
+    m_PlaylistLecteur = m_lecteur->listeTitresArtiste( QString::number(mp3->m_relation->m_artiste->id()) );
     emit modifplaylist(m_PlaylistLecteur);
     m_fichierlu = mp3->m_relation->m_artiste->m_nom + " ajouté au lecteur.";
     EnvoyerTexteAMain();
@@ -621,7 +621,7 @@ void OngletMP3::on_LireArtiste_clicked()
 void OngletMP3::on_LireAlbum_clicked()
 {
     BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3 );
-    m_PlaylistLecteur = m_lecteur->listeTitresAlbum( QString::number(mp3->m_relation->m_album->m_id) );
+    m_PlaylistLecteur = m_lecteur->listeTitresAlbum( QString::number(mp3->m_relation->m_album->id()) );
     emit modifplaylist(m_PlaylistLecteur);
     m_fichierlu = mp3->m_relation->m_album->m_nom + " ajouté au lecteur.";
     EnvoyerTexteAMain();

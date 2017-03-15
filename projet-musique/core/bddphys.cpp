@@ -17,7 +17,7 @@ BDDPhys::BDDPhys(const BDDAlbum& album, const QString& ean, const BDDType& type,
   , m_membersAreSelfCreatad(false)
 {
     recupererId();
-    if (m_id == -1)
+    if (id() == -1)
         ajouterBDD();
     else
         updateBDD();
@@ -34,7 +34,7 @@ BDDPhys::~BDDPhys()
 
 void BDDPhys::deleteBDD()
 {
-    QString queryStr = "DELETE FROM Phys WHERE Id_Album='" + QString::number( m_id ) + "'";
+    QString queryStr = "DELETE FROM Phys WHERE Id_Album='" + QString::number( id() ) + "'";
 
     madatabase.exec( queryStr );
 
@@ -48,25 +48,25 @@ BDDPhys* BDDPhys::RecupererPhys( const int id )
 
 void BDDPhys::ajouterBDD()
 {
-    QString queryStr = "INSERT INTO Phys VALUES (null,'" + QString::number( m_album->m_id ) + "','" + QString::number( m_type->m_id ) + "','" + m_ean + "','" + m_commentaires + "')";
+    QString queryStr = "INSERT INTO Phys VALUES (null,'" + QString::number( m_album->id() ) + "','" + QString::number( m_type->id() ) + "','" + m_ean + "','" + m_commentaires + "')";
     QSqlQuery query =  madatabase.exec( queryStr );
-    m_id = query.lastInsertId().toInt();
+    setId(query.lastInsertId().toInt());
 }
 
 void BDDPhys::recupererId()
 {
-    QString queryStr = "Select Id_Phys As 'Phys' from Phys WHERE Id_Album='" + QString::number( m_album->m_id ) + "'";
+    QString queryStr = "Select Id_Phys As 'Phys' from Phys WHERE Id_Album='" + QString::number( m_album->id() ) + "'";
     QSqlQuery query = madatabase.exec( queryStr );
 
     if ( query.first() )
     {
         QSqlRecord rec = query.record();
-        m_id = rec.value( " Id_Phys " ).toInt();
+        setId(rec.value( " Id_Phys " ).toInt());
 
     }
     else
     {
-        m_id = -1;
+        setId(-1);
     }
 }
 
@@ -95,7 +95,7 @@ BDDPhys::BDDPhys(const int id, QObject* parent):
 void BDDPhys::updateBDD()
 {
 
-    QString queryStr = "UPDATE Phys SET CodeBarres = '" + m_ean + "', Commentaire = '" + m_commentaires + "', Categorie = '"+ QString::number( m_type->m_id ) +"' WHERE Id_Album ='" + QString::number(m_album->m_id ) +"' ";
+    QString queryStr = "UPDATE Phys SET CodeBarres = '" + m_ean + "', Commentaire = '" + m_commentaires + "', Categorie = '"+ QString::number( m_type->id() ) +"' WHERE Id_Album ='" + QString::number(m_album->id() ) +"' ";
     madatabase.exec( queryStr );
 
 }

@@ -70,7 +70,7 @@ void OngletPhys::afficherListeArtiste()
     {
         BDDArtiste* artiste = BDDArtiste::RecupererArtiste( artistes[cpt] );
 
-        if ( artiste->m_id > 0 )
+        if ( artiste->id() > 0 )
         {
             QListWidgetItem* item = new QListWidgetItem;
             QPixmap scaled( QPixmap::fromImage( artiste->m_pochette->m_image ) );
@@ -107,7 +107,7 @@ void OngletPhys::afficherListeAlbum()
 
         BDDAlbum* album = BDDAlbum::RecupererAlbum( albums[cpt] );
 
-        if ( album->m_id > 0 )
+        if ( album->id() > 0 )
         {
             QListWidgetItem* item = new QListWidgetItem;
             QPixmap scaled( QPixmap::fromImage( album->m_pochette->m_image ) );
@@ -139,7 +139,7 @@ void OngletPhys::afficherListeSingles()
 
         BDDAlbum* album = BDDAlbum::RecupererAlbum( singles[cpt] );
 
-        if ( album->m_id > 0 )
+        if ( album->id() > 0 )
         {
             QListWidgetItem* item = new QListWidgetItem;
             QPixmap scaled( QPixmap::fromImage( album->m_pochette->m_image ) );
@@ -184,7 +184,7 @@ void OngletPhys::afficherListeCompils()
 
         BDDAlbum* album = BDDAlbum::RecupererAlbum( albums[cpt] );
 
-        if ( album->m_id > 0 )
+        if ( album->id() > 0 )
         {
             QListWidgetItem* item = new QListWidgetItem;
             QPixmap scaled( QPixmap::fromImage( album->m_pochette->m_image ) );
@@ -224,7 +224,7 @@ void OngletPhys::AfficherInfosAlbum( int Type )
         QPixmap nonmp3 (":/Autres/Faux");
         //On affiche les titres
 
-        QString queryStr = "SELECT Id_Relation, Id_Artiste FROM Relations  WHERE Id_Album='" + QString::number( phys->m_album->m_id ) + "' ORDER BY Num_Piste";
+        QString queryStr = "SELECT Id_Relation, Id_Artiste FROM Relations  WHERE Id_Album='" + QString::number( phys->m_album->id() ) + "' ORDER BY Num_Piste";
         QSqlQuery query = madatabase.exec( queryStr );
         int relationCount = 0;
         while ( query.next() )
@@ -233,7 +233,7 @@ void OngletPhys::AfficherInfosAlbum( int Type )
             QScopedPointer<BDDRelation> relation(BDDRelation::RecupererRelation( rec.value( "Id_Relation" ).toInt() ));
             relationCount++;
 
-            BDDTitre* titre = BDDTitre::RecupererTitre( relation->m_titre->m_id );
+            BDDTitre* titre = BDDTitre::RecupererTitre( relation->m_titre->id() );
             QListWidgetItem* item = new QListWidgetItem;
 
             QString temp;
@@ -241,8 +241,8 @@ void OngletPhys::AfficherInfosAlbum( int Type )
             //Si c'est une compil, on ajoute les artistes derrière
             if ( Type == 3 )
             {
-                BDDArtiste* art = BDDArtiste::RecupererArtiste( relation->m_artiste->m_id );
-                if ( m_artiste.toInt() == art->m_id )
+                BDDArtiste* art = BDDArtiste::RecupererArtiste( relation->m_artiste->id() );
+                if ( m_artiste.toInt() == art->id() )
                 {
                     //On Ajoute une couleur pour le titre où l'artiste est le bon
                     QBrush m_brush;
@@ -454,7 +454,7 @@ void OngletPhys::afficherListeAlbSansMP3()
 
         BDDAlbum* album = BDDAlbum::RecupererAlbum( albums[cpt] );
 
-        if ( album->m_id > 0 )
+        if ( album->id() > 0 )
         {
             QListWidgetItem* item = new QListWidgetItem;
             QPixmap scaled( QPixmap::fromImage( album->m_pochette->m_image ) );

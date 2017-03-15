@@ -35,32 +35,32 @@ void BDDFusion::fusionalbums( QPair<QString,QString> Choix1_Album,  QPair<QImage
     if ( ChoixFusion_Album == 1 && ChoixFusion_Pochette == 1 )
     {
         fusionnerAlb( Alb1,ChoixFusion_Annee );
-        SupprimerAlbum( Alb2, Alb1->m_id );
-        SupprimerPoch( Poch2, Poch1->m_id);
+        SupprimerAlbum( Alb2, Alb1->id() );
+        SupprimerPoch( Poch2, Poch1->id());
         AlbumChoix = Alb1->m_nom;
         PochChoix = Poch1->m_chemin;
 
     } else if ( ChoixFusion_Album == 1 && ChoixFusion_Pochette == 2 )
     {
         fusionnerAlb( Alb1,ChoixFusion_Annee,Poch2 );
-        SupprimerAlbum( Alb2, Alb1->m_id );
-        SupprimerPoch( Poch1, Poch2->m_id );
+        SupprimerAlbum( Alb2, Alb1->id() );
+        SupprimerPoch( Poch1, Poch2->id() );
         AlbumChoix = Alb1->m_nom;
         PochChoix = Poch1->m_chemin;
 
     } else if ( ChoixFusion_Album == 2 && ChoixFusion_Pochette == 1 )
     {
         fusionnerAlb( Alb2,ChoixFusion_Annee, Poch1 );
-        SupprimerAlbum( Alb1, Alb2->m_id);
-        SupprimerPoch( Poch2, Poch1->m_id);
+        SupprimerAlbum( Alb1, Alb2->id());
+        SupprimerPoch( Poch2, Poch1->id());
         AlbumChoix = Alb2->m_nom;
         PochChoix = Poch2->m_chemin;
 
     } else if ( ChoixFusion_Album == 2 && ChoixFusion_Pochette == 2)
     {
         fusionnerAlb( Alb2, ChoixFusion_Annee);
-        SupprimerAlbum( Alb1, Alb2->m_id);
-        SupprimerPoch( Poch1, Poch2->m_id );
+        SupprimerAlbum( Alb1, Alb2->id());
+        SupprimerPoch( Poch1, Poch2->id() );
         AlbumChoix = Alb2->m_nom;
         PochChoix = Poch2->m_chemin;
     }
@@ -71,7 +71,7 @@ void BDDFusion::fusionalbums( QPair<QString,QString> Choix1_Album,  QPair<QImage
     {
         //On change le numéro de piste
         BDDTitre * titre = BDDTitre::RecupererTitre( RecupererMP3( ChoixFusion_Titres[cpt] ) );
-        BDDRelation* rel = BDDRelation::RecupererRelationParTitre( titre->m_id );
+        BDDRelation* rel = BDDRelation::RecupererRelationParTitre( titre->id() );
         rel->m_num_piste = cpt+1;
         rel->updateBDD(2);
 
@@ -79,7 +79,7 @@ void BDDFusion::fusionalbums( QPair<QString,QString> Choix1_Album,  QPair<QImage
         //si le titre est un mp3, on change aussi son tag
         if ( rel->m_mp3 )
         {
-            BDDMp3* mp3 = BDDMp3::RecupererMP3ParTitre( titre->m_id );
+            BDDMp3* mp3 = BDDMp3::RecupererMP3ParTitre( titre->id() );
             mp3->ChangerTag(AlbumChoix,titre->m_nom,mp3->m_relation->m_artiste->m_nom,ChoixFusion_Annee,cpt,PochChoix);
             delete mp3;
         }
@@ -99,17 +99,17 @@ void BDDFusion::SupprimerTitresEnTrop(  QList<TitresPhys> titresph, QString Albu
         if (! titresph[cpt].Garde)
         {
             BDDRelation* rel = BDDRelation::RecupererRelationParTitre( titresph[cpt].id.toInt() );
-            BDDTitre* tit = BDDTitre::RecupererTitre( rel->m_titre->m_id );
+            BDDTitre* tit = BDDTitre::RecupererTitre( rel->m_titre->id() );
             tit->mp3physfusion();
 
             if ( rel->m_mp3 )
             {
-                BDDMp3* mp3 = BDDMp3::RecupererMP3ParTitre( tit->m_id );
-                int nouveau = RecupererNouveauTitre( tit->m_id );
+                BDDMp3* mp3 = BDDMp3::RecupererMP3ParTitre( tit->id() );
+                int nouveau = RecupererNouveauTitre( tit->id() );
                 BDDTitre* nvtit = BDDTitre::RecupererTitre( nouveau );
                 mp3->ChangerTag(AlbumChoix,nvtit->m_nom,mp3->m_relation->m_artiste->m_nom,ChoixFusion_Annee,rel->m_num_piste,PochChoix);
 
-                mp3->m_relation = BDDRelation::RecupererRelationParTitre( nvtit->m_id );
+                mp3->m_relation = BDDRelation::RecupererRelationParTitre( nvtit->id() );
                 mp3->updateBDD();
                 rel->supprimerModifier();
                 delete mp3->m_relation;
@@ -142,10 +142,10 @@ void BDDFusion::fusionnerAlb( BDDAlbum* Alb, int ChoixFusion_Annee )
 void BDDFusion::SupprimerAlbum(BDDAlbum* Alb, int NouvelId)
 {
     //On met à jour l'id des relations
-    QString queryStr = "UPDATE Relations SET Id_Album  ='" + QString::number( NouvelId ) + "'  WHERE Id_Album = '" + QString::number( Alb->m_id ) + "'";
+    QString queryStr = "UPDATE Relations SET Id_Album  ='" + QString::number( NouvelId ) + "'  WHERE Id_Album = '" + QString::number( Alb->id() ) + "'";
     madatabase.exec( queryStr );
     //On met à jour l'id des albums phys
-    queryStr = "UPDATE Phys SET Id_Album  ='" + QString::number( NouvelId ) + "'  WHERE Id_Album = '" + QString::number( Alb->m_id ) + "'";
+    queryStr = "UPDATE Phys SET Id_Album  ='" + QString::number( NouvelId ) + "'  WHERE Id_Album = '" + QString::number( Alb->id() ) + "'";
     madatabase.exec( queryStr );
 
     Alb->supprimerenBDD();
@@ -154,11 +154,11 @@ void BDDFusion::SupprimerAlbum(BDDAlbum* Alb, int NouvelId)
 void BDDFusion::SupprimerPoch(BDDPoch* Poch, int NouvelId)
 {
     //On met à jour l'id des albums
-    QString queryStr = "UPDATE Album SET Id_Pochette  ='" + QString::number( NouvelId ) + "'  WHERE Id_Pochette = '" + QString::number( Poch->m_id ) + "'";
+    QString queryStr = "UPDATE Album SET Id_Pochette  ='" + QString::number( NouvelId ) + "'  WHERE Id_Pochette = '" + QString::number( Poch->id() ) + "'";
     madatabase.exec( queryStr );
 
     //On met à jour l'id des artistes
-    queryStr = "UPDATE Artiste SET Id_Pochette  ='" + QString::number( NouvelId ) + "'  WHERE Id_Pochette = '" + QString::number( Poch->m_id ) + "'";
+    queryStr = "UPDATE Artiste SET Id_Pochette  ='" + QString::number( NouvelId ) + "'  WHERE Id_Pochette = '" + QString::number( Poch->id() ) + "'";
     madatabase.exec( queryStr );
 
     Poch->supprimerenBDD();

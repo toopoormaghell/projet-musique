@@ -14,7 +14,7 @@ BDDTitre::BDDTitre(const QString& nom, QObject* parent):
 {
     FormaterEntiteBDD(m_nomFormate);
     recupererId();
-    if (m_id == -1)
+    if (id() == -1)
         ajouterBDD();
     else
         updateBDD();
@@ -22,18 +22,18 @@ BDDTitre::BDDTitre(const QString& nom, QObject* parent):
 
 void BDDTitre::updateBDD()
 {
-    QString queryStr = "UPDATE Titre SET Titre_Formate ='" + m_nomFormate + "', Titre ='" +  m_nom  + "' WHERE Id_Titre = '" + QString::number( m_id ) + "'";
+    QString queryStr = "UPDATE Titre SET Titre_Formate ='" + m_nomFormate + "', Titre ='" +  m_nom  + "' WHERE Id_Titre = '" + QString::number( id() ) + "'";
     madatabase.exec( queryStr );
 }
 
 void BDDTitre::supprimerenBDD() const
 {
-    QString queryStr = "SELECT Id_Relation from Relations WHERE Id_Titre='" + QString::number( m_id ) + "'";
+    QString queryStr = "SELECT Id_Relation from Relations WHERE Id_Titre='" + QString::number( id() ) + "'";
     QSqlQuery query = madatabase.exec( queryStr );
 
     if ( !query.first() )
     {
-        madatabase.exec( "DELETE FROM Titre WHERE Id_Titre='" + QString::number( m_id ) + "'" );
+        madatabase.exec( "DELETE FROM Titre WHERE Id_Titre='" + QString::number( id() ) + "'" );
     }
 }
 
@@ -48,7 +48,7 @@ void BDDTitre::ajouterBDD()
 
     QSqlQuery query =  madatabase.exec( queryStr );
 
-    m_id = query.lastInsertId().toInt();
+    setId(query.lastInsertId().toInt());
 }
 
 void BDDTitre::recupererId()
@@ -60,12 +60,12 @@ void BDDTitre::recupererId()
     if ( query.first() )
     {
         QSqlRecord rec = query.record();
-        m_id = rec.value( "Titre" ).toInt();
+        setId(rec.value( "Titre" ).toInt());
 
     }
     else
     {
-        m_id = -1;
+        setId(-1);
     }
 }
 
@@ -73,7 +73,7 @@ void BDDTitre::mp3physfusion()
 {
  /*   m_mp3 = false; m_phys= false;
     //Première étape: le titre existe ou non en MP3
-    QString queryStr = "SELECT M.Id_MP3 FROM Relations R, MP3 M WHERE R.Id_Titre = '" + QString::number( m_id ) + "' AND M.Id_Relation = R.Id_Relation";
+    QString queryStr = "SELECT M.Id_MP3 FROM Relations R, MP3 M WHERE R.Id_Titre = '" + QString::number( id() ) + "' AND M.Id_Relation = R.Id_Relation";
 
     QSqlQuery query = madatabase.exec( queryStr );
     if ( query.first() )
@@ -81,7 +81,7 @@ void BDDTitre::mp3physfusion()
         m_mp3 = true;
     }
     //Deuxième étape: le titre existe ou non sur album phys
-    queryStr = " SELECT P.Id_Phys FROM Relations R, Phys P WHERE R.Id_Titre = '" + QString::number( m_id ) + "')) AND P.Id_Album = R.Id_Album ";
+    queryStr = " SELECT P.Id_Phys FROM Relations R, Phys P WHERE R.Id_Titre = '" + QString::number( id() ) + "')) AND P.Id_Album = R.Id_Album ";
 
     query = madatabase.exec( queryStr );
     if ( query.first() )

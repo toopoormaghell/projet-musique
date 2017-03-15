@@ -20,7 +20,7 @@ BDDAlbum::BDDAlbum(const QString& album, const BDDPoch& pochette, int annee, con
 {
     FormaterEntiteBDD(m_nomFormate);
     recupererId();
-    if (m_id == -1)
+    if (id() == -1)
         ajouterBDD();
     else
         updateBDD();
@@ -28,7 +28,7 @@ BDDAlbum::BDDAlbum(const QString& album, const BDDPoch& pochette, int annee, con
 
 void BDDAlbum::updateBDD()
 {
-    QString queryStr = "UPDATE Album SET Album_Formate ='" + m_nomFormate + "', Id_Pochette='" + QString::number( m_pochette->m_id ) + "', Annee= '" + QString::number( m_annee ) + "', Id_Artiste= '" + QString::number( m_artiste->m_id ) + "'  WHERE Id_Album = '" + QString::number( m_id ) + "'";
+    QString queryStr = "UPDATE Album SET Album_Formate ='" + m_nomFormate + "', Id_Pochette='" + QString::number( m_pochette->id() ) + "', Annee= '" + QString::number( m_annee ) + "', Id_Artiste= '" + QString::number( m_artiste->id() ) + "'  WHERE Id_Album = '" + QString::number( id() ) + "'";
     madatabase.exec( queryStr );
 }
 
@@ -44,17 +44,17 @@ BDDAlbum::~BDDAlbum()
 }
 void BDDAlbum::recupererId()
 {
-    QString queryStr = "Select Id_Album As 'Album' from Album WHERE Album_Formate='" + m_nomFormate + "' AND Id_Artiste='" + QString::number( m_artiste->m_id ) + "'" ;
+    QString queryStr = "Select Id_Album As 'Album' from Album WHERE Album_Formate='" + m_nomFormate + "' AND Id_Artiste='" + QString::number( m_artiste->id() ) + "'" ;
     QSqlQuery query = madatabase.exec( queryStr );
 
     if ( query.first() )
     {
         QSqlRecord rec = query.record();
-        m_id = rec.value( "Album" ).toInt();
+        setId(rec.value( "Album" ).toInt());
     }
     else
     {
-        m_id = -1;
+        setId(-1);
     }
 }
 
@@ -90,24 +90,24 @@ BDDAlbum* BDDAlbum::RecupererAlbum( const int id )
 
 void BDDAlbum::ajouterBDD()
 {
-    QString queryStr = "INSERT INTO Album VALUES (null,'" + m_nom + "','" + QString::number( m_pochette->m_id ) + "','" + m_nomFormate + "','" + QString::number( m_annee ) + "','" + QString::number( m_type->m_id ) + "','" + QString::number( m_artiste->m_id )+ "')";
+    QString queryStr = "INSERT INTO Album VALUES (null,'" + m_nom + "','" + QString::number( m_pochette->id() ) + "','" + m_nomFormate + "','" + QString::number( m_annee ) + "','" + QString::number( m_type->id() ) + "','" + QString::number( m_artiste->id() )+ "')";
     QSqlQuery query = madatabase.exec( queryStr );
 
-    m_id = query.lastInsertId().toInt();
+    setId(query.lastInsertId().toInt());
 }
 
 void BDDAlbum::supprimerenBDD() const
 {
 
     //On vérifie si l'album existe ou non dans la table des relations
-    QString queryStri =  "Select Id_Relation As 'Relation' from Relations WHERE Id_Album='" + QString::number( m_id ) + "'" ;
+    QString queryStri =  "Select Id_Relation As 'Relation' from Relations WHERE Id_Album='" + QString::number( id() ) + "'" ;
     QSqlQuery  query2 = madatabase.exec( queryStri );
 
     //si la deuxième requête ne renvoie pas de résultat, on efface du coup l'album
     if ( !query2.first() )
     {
 
-        madatabase.exec( "DELETE FROM Album WHERE Id_Album='" + QString::number( m_id ) + "'" );
+        madatabase.exec( "DELETE FROM Album WHERE Id_Album='" + QString::number( id() ) + "'" );
 
     }
     m_pochette->supprimerenBDD();
@@ -121,10 +121,10 @@ AlbumPhys BDDAlbum::RecupAlbumEntite( const int id )
     BDDAlbum* alb = BDDAlbum::RecupererAlbum( id );
     albphys.Album = alb->m_nom;
     albphys.Annee = alb->m_annee;
-    albphys.Id_Album = alb->m_id;
+    albphys.Id_Album = alb->id();
     albphys.Poch = alb->m_pochette->m_image;
-    albphys.Id_Poch = alb->m_pochette->m_id;
-    albphys.Type = alb->m_type->m_id;
+    albphys.Id_Poch = alb->m_pochette->id();
+    albphys.Type = alb->m_type->id();
     albphys.Artiste = alb->m_artiste->m_nom;
     delete alb;
 
@@ -146,7 +146,7 @@ AlbumPhys BDDAlbum::RecupAlbumEntite( const int id )
 
         titre.Artiste = art->m_nom;
         titre.Duree = rec.value( "Duree" ).toString();
-        titre.id = QString::number( TitreEnCours->m_id ) ;
+        titre.id = QString::number( TitreEnCours->id() ) ;
         titre.Num_Piste = rec.value( "Num_Piste" ).toInt();
         titre.Titre = TitreEnCours->m_nom;
         titre.MP3Phys = rec.value("MP3").toBool() && rec.value("Phys").toBool();
