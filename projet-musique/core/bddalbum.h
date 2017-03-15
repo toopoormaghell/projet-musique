@@ -2,12 +2,13 @@
 #define BDDALBUM_H
 
 #include "util.h"
+#include "idowner.h"
 #include <QObject>
 class BDDArtiste;
 class BDDPoch;
 class BDDType;
 
-class BDDAlbum : public QObject
+class BDDAlbum : public IdOwner
 {
     Q_OBJECT
 public:
@@ -18,7 +19,6 @@ public:
     void supprimerenBDD() const;
     static BDDAlbum* RecupererAlbum( const int Id );
 
-    int m_id;
     QString m_nom;
     BDDPoch const* m_pochette;
     QString m_nomFormate;

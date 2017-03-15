@@ -7,8 +7,7 @@
 #include "bddalbum.h"
 
 BDDTitre::BDDTitre(const QString& nom, QObject* parent):
-    QObject(parent),
-    m_id(-1)
+    IdOwner(-1, parent)
   , m_nom(nom)
   , m_nomFormate(nom)
   , m_areAlbumAndArtisteSelfCreated(false)
@@ -93,8 +92,7 @@ void BDDTitre::mp3physfusion()
 }
 
 BDDTitre::BDDTitre(const int id, QObject* parent):
-    QObject(parent)
-  , m_id(id)
+    IdOwner(id, parent)
   , m_nom()
   , m_nomFormate()
 {
@@ -114,7 +112,7 @@ QList<int> BDDTitre::Similaires( const int id )
     QList<int> listeSimilaires;
     BDDTitre* titre = RecupererTitre( id );
 
-    QString queryStr = "SELECT M.Id_MP3 FROM MP3 M, Relations R WHERE R.Id_Titre=='" + QString::number( id ) + "' AND R.Id_Relation = M.Id_Relation";
+    QString queryStr = "SELECT M.Id_MP3 FROM MP3 M, Relations R WHERE R.Id_Titre =='" + QString::number( id ) + "' AND R.Id_Relation = M.Id_Relation";
     delete titre;
     QSqlQuery query = madatabase.exec( queryStr );
     while ( query.next() )

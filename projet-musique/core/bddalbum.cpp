@@ -8,8 +8,7 @@
 #include "bddtitre.h"
 
 BDDAlbum::BDDAlbum(const QString& album, const BDDPoch& pochette, int annee, const BDDType& type, const BDDArtiste& artiste , QObject* parent):
-    QObject(parent)
-  , m_id(-1)
+    IdOwner(-1, parent)
   , m_nom(album)
   , m_pochette(&pochette)
   , m_nomFormate(album)
@@ -60,8 +59,7 @@ void BDDAlbum::recupererId()
 }
 
 BDDAlbum::BDDAlbum(const int id, QObject* parent):
-    QObject(parent)
-  , m_id(id)
+    IdOwner(id, parent)
   , m_nom()
   , m_pochette(NULL)
   , m_nomFormate()

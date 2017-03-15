@@ -2,13 +2,14 @@
 #define BDDMP3_H
 
 #include <QObject>
+#include "idowner.h"
 class BDDArtiste;
 class BDDAlbum;
 class BDDTitre;
 class BDDRelation;
 class BDDType;
 class BDDPoch;
-class BDDMp3 : public QObject
+class BDDMp3 : public IdOwner
 {
     Q_OBJECT
 public:
@@ -20,7 +21,6 @@ public:
     void supprimerenBDD() const;
     static BDDMp3* RecupererMp3( const int id );
 
-    int m_id;
     BDDRelation const* m_relation;
     QString m_chemin;
     BDDType const* m_type;

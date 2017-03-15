@@ -2,14 +2,14 @@
 #define BDDSUPPORT_H
 
 #include <QObject>
+#include "idowner.h"
 
-class BDDSupport : public QObject
+class BDDSupport : public IdOwner
 {
     Q_OBJECT
 public:
     static BDDSupport* RecupererSupport( const int id );
 
-    int m_id;
     QString m_support;
 
     static QList<int> NbSupport();

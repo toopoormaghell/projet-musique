@@ -9,8 +9,7 @@
 
 
 BDDPhys::BDDPhys(const BDDAlbum& album, const QString& ean, const BDDType& type, const QString& Commentaires, QObject* parent):
-    QObject(parent)
-  , m_id(-1)
+    IdOwner(-1, parent)
   , m_album(&album)
   , m_type(&type)
   , m_ean(ean)
@@ -72,8 +71,7 @@ void BDDPhys::recupererId()
 }
 
 BDDPhys::BDDPhys(const int id, QObject* parent):
-    QObject(parent)
-  , m_id(id)
+    IdOwner(id, parent)
   , m_album(NULL)
   , m_type(NULL)
   , m_ean(-1)

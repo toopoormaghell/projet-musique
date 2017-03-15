@@ -9,9 +9,8 @@ BDDSupport* BDDSupport::RecupererSupport( const int id )
 }
 
 BDDSupport::BDDSupport( const int id, QObject* parent ):
-    QObject( parent ),
-    m_id( id ),
-    m_support()
+    IdOwner(id, parent)
+  , m_support()
 {
     QString queryStr = "SELECT Support FROM Support WHERE Id_Support='" + QString::number( id ) + "'";
     QSqlQuery query = madatabase.exec( queryStr );

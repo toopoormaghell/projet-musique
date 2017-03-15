@@ -5,8 +5,7 @@
 #include "util.h"
 
 BDDPoch::BDDPoch(const QImage& image, const QString& album, const QString& artiste, QObject* parent):
-    QObject(parent)
-  , m_id(-1)
+    IdOwner(-1, parent)
   , m_chemin()
   , m_image(image)
 {
@@ -124,8 +123,7 @@ BDDPoch* BDDPoch::recupererPoch( const QString& album, const QString& artiste )
 
 
 BDDPoch::BDDPoch(const int id, QObject* parent):
-    QObject(parent)
-  , m_id(id)
+    IdOwner(id, parent)
   , m_chemin()
   , m_image()
 {

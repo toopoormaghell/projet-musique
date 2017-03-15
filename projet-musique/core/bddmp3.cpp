@@ -10,8 +10,7 @@
 #include "bddpoch.h"
 
 BDDMp3::BDDMp3(const QString& Chemin, const BDDRelation& relation, const BDDType& type, QObject* parent):
-    QObject(parent)
-  , m_id(-1)
+    IdOwner(-1, parent)
   , m_relation(&relation)
   , m_chemin(Chemin)
   , m_type(&type)
@@ -95,8 +94,7 @@ void BDDMp3::ChangerTag(const QString &NouveauAlbum, const QString &NouveauTitre
 }
 
 BDDMp3::BDDMp3(const int id, QObject* parent):
-    QObject(parent)
-  , m_id(id)
+    IdOwner(id, parent)
   , m_relation(NULL)
   , m_chemin()
   , m_type(NULL)
@@ -118,8 +116,7 @@ BDDMp3::BDDMp3(const int id, QObject* parent):
 }
 
 BDDMp3::BDDMp3(const QString& chemin, QObject* parent):
-    QObject(parent)
-  , m_id(-1)
+    IdOwner(-1, parent)
   , m_relation(NULL)
   , m_chemin(chemin)
   , m_type(NULL)

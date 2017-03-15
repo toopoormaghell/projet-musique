@@ -9,8 +9,7 @@ BDDType* BDDType::RecupererType( const int id )
 }
 
 BDDType::BDDType(const int id, QObject* parent):
-    QObject(parent)
-  , m_id(id)
+    IdOwner(id, parent)
   , m_type()
 {
     QString queryStr = "SELECT Type FROM Type WHERE Id_Type='" + QString::number(id) + "'";

@@ -2,13 +2,14 @@
 #define BDDRELATION_H
 
 #include <QObject>
+#include "idowner.h"
 
 class BDDAlbum;
 class BDDTitre;
 class BDDArtiste;
 
 
-class BDDRelation : public QObject
+class BDDRelation : public IdOwner
 {
     Q_OBJECT
 public:
@@ -22,7 +23,6 @@ public:
     static BDDRelation* RecupererRelationParTitre (const int id);
     void updateBDD(const int MP3Phys);
 
-    int m_id;
     BDDTitre const* m_titre;
     BDDAlbum const* m_album;
     BDDArtiste const* m_artiste;

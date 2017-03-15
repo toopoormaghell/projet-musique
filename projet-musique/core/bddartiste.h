@@ -2,10 +2,11 @@
 #define BDDARTISTE_H
 
 #include <QObject>
+#include "idowner.h"
 class BDDPoch;
 
 
-class BDDArtiste : public QObject
+class BDDArtiste : public IdOwner
 {
     Q_OBJECT
 public:
@@ -19,7 +20,6 @@ public:
     static void EchangerArtiste( QString& nom );
     void ChoisirArtisteEchange( QString& nom );
 
-    int m_id;
     QString m_nom;
     BDDPoch const* m_pochette;
     QString m_nomFormate;

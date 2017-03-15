@@ -6,8 +6,7 @@
 #include "util.h"
 
 BDDArtiste::BDDArtiste(const QString& artiste, const BDDPoch& pochette, QObject* parent):
-    QObject(parent)
-  , m_id(-1)
+    IdOwner(-1, parent)
   , m_nom(artiste)
   , m_pochette(&pochette)
   , m_nomFormate(artiste)
@@ -61,8 +60,7 @@ BDDArtiste* BDDArtiste::RecupererArtiste( const int id )
 }
 
 BDDArtiste::BDDArtiste(const int id, QObject* parent):
-    QObject(parent)
-  , m_id(id)
+    IdOwner(id, parent)
   , m_nom()
   , m_pochette(NULL)
   , m_nomFormate()
@@ -81,8 +79,7 @@ BDDArtiste::BDDArtiste(const int id, QObject* parent):
 }
 
 BDDArtiste::BDDArtiste(const QString& artiste, QObject* parent):
-    QObject(parent)
-  , m_id(0)
+    IdOwner(0, parent)
   , m_nom(artiste)
   , m_pochette(NULL)
   , m_nomFormate(artiste)

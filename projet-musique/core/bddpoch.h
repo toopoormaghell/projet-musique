@@ -5,8 +5,9 @@
 #include <QString>
 #include <QImage>
 #include <QList>
+#include "idowner.h"
 
-class BDDPoch : public QObject
+class BDDPoch : public IdOwner
 {
     Q_OBJECT
 
@@ -18,7 +19,6 @@ public:
     static BDDPoch* recupererBDD( const int id );
     static BDDPoch* recupererPoch( const QString& album, const QString& artiste );
 
-    int m_id;
     QString m_chemin;
     QImage m_image;
 

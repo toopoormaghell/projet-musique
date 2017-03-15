@@ -2,10 +2,11 @@
 #define BDDPHYS_H
 
 #include <QObject>
+#include "idowner.h"
 class BDDAlbum;
 class BDDType;
 
-class BDDPhys : public QObject
+class BDDPhys : public IdOwner
 {
     Q_OBJECT
 public:
@@ -15,7 +16,6 @@ public:
     void deleteBDD();
     static BDDPhys* RecupererPhys( const int id );
 
-    int m_id;
     BDDAlbum const* m_album;
     BDDType const* m_type;
     QString m_ean;

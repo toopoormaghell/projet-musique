@@ -2,8 +2,9 @@
 #define BDDTITRE_H
 
 #include <QObject>
+#include "idowner.h"
 
-class BDDTitre : public QObject
+class BDDTitre : public IdOwner
 {
     Q_OBJECT
 public:
@@ -14,7 +15,6 @@ public:
 
     static BDDTitre* RecupererTitre( const int id );
 
-    int m_id;
     QString m_nom;
     QString m_nomFormate;
 

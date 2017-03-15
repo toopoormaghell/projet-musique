@@ -7,8 +7,7 @@
 #include "bddartiste.h"
 
 BDDRelation::BDDRelation(const BDDAlbum& album, const BDDArtiste& artiste, const BDDTitre& titre, const int num_piste, const QString& duree, const int mp3, const int phys, const int MP3Phys, QObject* parent):
-    QObject(parent)
-  , m_id(-1)
+    IdOwner(-1, parent)
   , m_titre(&titre)
   , m_album(&album)
   , m_artiste(&artiste)
@@ -79,8 +78,7 @@ BDDRelation* BDDRelation::RecupererRelation( const int id )
 }
 
 BDDRelation::BDDRelation(const int id, QObject* parent):
-    QObject(parent)
-  , m_id(id)
+    IdOwner(id, parent)
   , m_titre(NULL)
   , m_album(NULL)
   , m_artiste(NULL)
@@ -108,8 +106,7 @@ BDDRelation::BDDRelation(const int id, QObject* parent):
 }
 
 BDDRelation::BDDRelation(const int id, QString Type, QObject* parent):
-    QObject(parent)
-  , m_id(-1)
+    IdOwner(-1, parent)
   , m_titre(NULL)
   , m_album(NULL)
   , m_artiste(NULL)
