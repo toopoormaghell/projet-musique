@@ -141,7 +141,7 @@ BDDRelation::BDDRelation(const int id, QString Type, QObject* parent):
 
 void BDDRelation::ajouterBDD()
 {
-    QString  queryStr = "INSERT INTO Relations VALUES (null,'" + QString::number( m_titre->id() ) + "','" + QString::number( m_album->id() ) + "','" + QString::number( m_artiste->id() ) + "','" + m_duree + "','" + QString::number( m_num_piste ) + "','" + QString::number( m_mp3 ) + "','" + QString::number( m_phys ) + "')";
+    QString  queryStr = "INSERT INTO Relations VALUES (null,'" + QString::number( m_titre->id() ) + "','" + QString::number( m_album->id() ) + "','" + QString::number( m_artiste->id() ) + "','" + QString::number( m_num_piste ) + "','" + m_duree + "','" + QString::number( m_mp3 ) + "','" + QString::number( m_phys ) + "')";
 
     QSqlQuery query =     madatabase.exec( queryStr );
     setId(query.lastInsertId().toInt());
