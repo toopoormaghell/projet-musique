@@ -125,9 +125,11 @@
      <height>75</height>
     </size>
    </property>
+   <property name="accessibleName">
+    <string>Pochette</string>
+   </property>
    <property name="styleSheet">
-    <string notr="true">border: 2px solid #259CD8;font-size: 15px;
-color : #1EA7EC;</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string/>
@@ -156,8 +158,7 @@ color : #1EA7EC;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font-size: 15px;
-color : #1EA7EC;</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string/>

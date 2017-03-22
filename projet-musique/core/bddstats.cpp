@@ -63,7 +63,7 @@ int bddstats::NbPhysCategorie( int type )
 }
 int bddstats::NbChansonsPhys()
 {
-    QString queryStr = "SELECT COUNT(R.Id_Relation)AS 'Nb' FROM Phys P, Relations R  WHERE R.Id_Album = P.Id_Album";
+    QString queryStr = "SELECT COUNT(*)AS 'Nb' FROM Phys P, Relations R  WHERE R.Id_Album = P.Id_Album";
     QSqlQuery query = madatabase.exec( queryStr );
 
     if ( query.first() )
@@ -83,7 +83,7 @@ QList<int> bddstats::ListeArtistesCompils()
     while ( query.next() )
     {
         QSqlRecord rec = query.record();
-        if ( rec.value( "Nb" ).toInt() > 4 )
+        if ( rec.value( "Nb" ).toInt() > 9 )
         {
             artistes << rec.value( "Id_Artiste" ).toInt();
         }

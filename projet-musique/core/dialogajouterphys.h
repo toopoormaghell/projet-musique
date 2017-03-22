@@ -13,7 +13,7 @@ class QCompletedLineEditDelegate;
 
 namespace Ui
 {
-    class DialogAjouterPhys;
+class DialogAjouterPhys;
 }
 
 
@@ -63,7 +63,9 @@ private slots:
     void on_Supprimer_Titre_clicked();
     void on_pushButton_clicked();
     void on_Ajouter_Titre_clicked();
-
+    void AjouterTitreManuel(QString Piste, QString Titre, QString Artiste);
+    void moveUp_clicked();
+    void moveDown_clicked();
 
 private:
     void recupererEAN();
@@ -87,6 +89,7 @@ private:
 
     // Make this class not copiable
     Q_DISABLE_COPY( DialogAjouterPhys )
+
 };
 
 

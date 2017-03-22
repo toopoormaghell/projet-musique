@@ -2,31 +2,28 @@
 #define BDDMP3_H
 
 #include <QObject>
+#include "idowner.h"
 class BDDArtiste;
 class BDDAlbum;
 class BDDTitre;
 class BDDRelation;
 class BDDType;
 class BDDPoch;
-class BDDMp3 : public QObject
+class BDDMp3 : public IdOwner
 {
     Q_OBJECT
 public:
 
-    explicit BDDMp3( const QString& Chemin, const BDDRelation& relation, const int& type, QObject* parent = 0 );
+    explicit BDDMp3(const QString& Chemin, const BDDRelation& relation, const BDDType& type, QObject* parent = 0);
     virtual ~BDDMp3();
 
     void updateBDD();
     void supprimerenBDD() const;
     static BDDMp3* RecupererMp3( const int id );
 
-    int m_id;
     BDDRelation const* m_relation;
-    BDDAlbum const* m_album;
-    BDDArtiste const* m_artiste;
-    BDDTitre const* m_titre;
-    BDDType const* m_type;
     QString m_chemin;
+    BDDType const* m_type;
 
     static BDDMp3* RecupererMp3ParChemin( const QString& chemin );
     static BDDMp3* RecupererMP3ParTitre ( const int& id );
@@ -39,9 +36,9 @@ private:
     void recupererId();
 
     //Constructeur avec une ide
-    BDDMp3( const int id, QObject* parent = NULL );
+    explicit BDDMp3(const int id, QObject* parent = NULL);
     //Constructeur avec un chemin
-    BDDMp3( const QString& chemin, QObject* parent = NULL );
+    explicit BDDMp3(const QString& chemin, QObject* parent = NULL);
 };
 
 #endif // BDDMP3_H

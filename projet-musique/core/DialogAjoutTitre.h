@@ -5,7 +5,7 @@
 #include <QAbstractButton>
 namespace Ui
 {
-    class DialogAjoutTitre;
+class DialogAjoutTitre;
 }
 
 class DialogAjoutTitre : public QDialog
@@ -25,9 +25,10 @@ signals:
     void enregistr( QString, QString, QString );
 
 private slots:
-    void on_buttonBox_clicked( QAbstractButton* button );
     void on_Sauvegarde_clicked();
     void Raccourci();
+     void on_buttonBox_clicked(QAbstractButton *button);
+
 private:
     Ui::DialogAjoutTitre* ui;
     void RecupererDonnees();

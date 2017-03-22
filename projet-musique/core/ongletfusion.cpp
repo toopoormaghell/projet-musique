@@ -40,11 +40,12 @@ void OngletFusion::affichageChoixPossibles()
         BDDArtiste* artiste = BDDArtiste::RecupererArtiste( result[i] );
         QListWidgetItem* item = new QListWidgetItem;
         item->setText( artiste->m_nom );
-        item->setData( Qt::UserRole, artiste->m_id );
+        item->setData( Qt::UserRole, artiste->id() );
         //On s'occupe de sa pochette
         QPixmap scaled( QPixmap::fromImage( artiste->m_pochette->m_image ) );
         item->setIcon( QIcon( scaled ) );
         ui->ChoixFusions->addItem( item );
+        delete artiste;
     }
 }
 
@@ -69,11 +70,12 @@ void OngletFusion::AffichageFusions(QString id)
 
         QListWidgetItem* item = new QListWidgetItem;
         item->setText( alb->m_nom );
-        item->setData( Qt::UserRole, alb->m_id );
+        item->setData( Qt::UserRole, alb->id() );
         //On s'occupe de sa pochette
         QPixmap scaled( QPixmap::fromImage( alb->m_pochette->m_image ) );
         item->setIcon( QIcon( scaled ) );
         ui->ChoixFusions->addItem( item );
+        delete alb;
     }
     nb_passage++;
 }

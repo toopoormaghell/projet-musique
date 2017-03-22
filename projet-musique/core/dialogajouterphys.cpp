@@ -25,6 +25,7 @@ public:
 
     QWidget* createEditor( QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index ) const
     {
+        Q_UNUSED (option)
         QLineEdit* editor = NULL;
         if ((index.column() == 1) || (index.column() == 2))
         {
@@ -366,11 +367,25 @@ private:
 
 void QCompletedLineEditDelegate::setEditorData( QWidget* editor, const QModelIndex& index ) const
 {
-    if ( index.column() == 2)
+    if (index.column() == 2)
     {
+        QVariant value = index.model()->data(index);
         QLineEdit* lineEdit = static_cast<QLineEdit*>( editor );
-        QTableModel const* const tableModel = static_cast<QTableModel const* const>( index.model() );
+        lineEdit->setText(value.toString());
+        lineEdit->selectAll();
         QStringList completion (BDDAfficherPhys().ListeArtistesPossibles() );
+        QCompleter* completer = new QCompleter( completion );
+        completer->setCaseSensitivity( Qt::CaseInsensitive );
+        lineEdit->setCompleter( completer );
+
+    }
+    if (index.column() == 1)
+    {
+        QVariant value = index.model()->data(index);
+        QLineEdit* lineEdit = static_cast<QLineEdit*>( editor );
+        lineEdit->setText(value.toString());
+        lineEdit->selectAll();
+        QStringList completion (BDDAfficherPhys().ListeTitresPossibles() );
         QCompleter* completer = new QCompleter( completion );
         completer->setCaseSensitivity( Qt::CaseInsensitive );
         lineEdit->setCompleter( completer );
@@ -390,7 +405,7 @@ DialogAjouterPhys::DialogAjouterPhys( QWidget* parent ) :
     ui->tableView->setItemDelegate( new QCompletedLineEditDelegate );
 
     m_Type = 1;
-    AffichageListeArtistes( -3 );
+    AffichageListeArtistes( -2 );
 
     AjoutConnex();
 }
@@ -422,6 +437,8 @@ void DialogAjouterPhys::AjoutConnex()
     QObject::connect( &m_research.getNotifier(), SIGNAL( stepAchieved( QString ) ), this, SLOT( AfficherInteraction( QString ) ) );
     QObject::connect( ui->findArtists, SIGNAL( stateChanged(int) ), this, SLOT( on_findArtists_stateChanged(int) ) );
     QObject::connect( ui->swapColumns, SIGNAL( stateChanged(int) ), this, SLOT( on_swapColumns_stateChanged(int) ) );
+    QObject::connect(ui->buttonUp, SIGNAL(clicked(bool)), this, SLOT(moveUp_clicked()));
+    QObject::connect(ui->buttonDown, SIGNAL(clicked(bool)), this, SLOT(moveDown_clicked()));
 }
 
 
@@ -443,35 +460,41 @@ void DialogAjouterPhys::recupererEAN()
 void DialogAjouterPhys::on_ChercherEAN_clicked()
 {
     recupererEAN();
-
-    //On vérifie qu'il y a bien 13 caractères
-    while ( m_EAN.count() != 13 )
+    if ( m_EAN.count() < 14 )
     {
-        m_EAN = "0" + m_EAN;
-    }
-    m_album = m_research.getAlbumFromEAN( m_EAN );
+        //On vérifie qu'il y a bien 13 caractères
+        while ( m_EAN.count() != 13 )
+        {
+            m_EAN = "0" + m_EAN;
+        }
+        m_album = m_research.getAlbumFromEAN( m_EAN );
 
-    ui->findArtists->setChecked(false);
+        ui->findArtists->setChecked(false);
 
-    m_tableModel->clearLines();
-    int i = 0;
-    Q_FOREACH( TitresPhys titre, m_album.titres )
-    {
-        m_tableModel->appendLine( LineModel( QString::number( titre.Num_Piste ), titre.Titre, titre.Artiste ) );
-        i++;
+        m_tableModel->clearLines();
+        int i = 0;
+        Q_FOREACH( TitresPhys titre, m_album.titres )
+        {
+            m_tableModel->appendLine( LineModel( QString::number( titre.Num_Piste ), titre.Titre, titre.Artiste ) );
+            i++;
+        }
+        AfficherAlbum();
+    } else {
+        ui->Interaction->append("L'EAN possède trop de chiffres.");
     }
-    AfficherAlbum();
+
 }
-
-
-
 void DialogAjouterPhys::AfficherAlbum()
 {
     ui->Annee->setText( QString::number( m_album.Annee ) );
     ui->Nom_Album->setText( m_album.Album );
-    ui->Nom_Artiste->setText( m_album.Artiste );
-
-
+    if ( m_Type ==2)
+    {
+        ui->Nom_Artiste->setText("Artistes Divers");
+    } else
+    {
+        ui->Nom_Artiste->setText( m_album.Artiste );
+    }
     AfficherPoch();
 }
 
@@ -488,8 +511,10 @@ void DialogAjouterPhys::AfficherPoch()
 
 
 
+
 void DialogAjouterPhys::on_Enregistrer_clicked()
 {
+    ui->Interaction->append("Album en cours d'enregistrement.");
     RecupererAlbum();
     BDDGestionPhys m_bddinterface;
     m_bddinterface.ajouterAlbum( m_album.Poch, m_album.Album, m_album.Artiste, m_EAN, m_album.Annee, m_album.titres, m_Type, ui->Commentaires->text() );
@@ -500,6 +525,7 @@ void DialogAjouterPhys::on_Enregistrer_clicked()
 
 
 
+
 void DialogAjouterPhys::AffichageListeArtistes( int id )
 {
     switch ( id )
@@ -507,35 +533,35 @@ void DialogAjouterPhys::AffichageListeArtistes( int id )
     case ( -2 ):
         m_Type = 1;
         ui->tableView->setColumnHidden( 2, true );
-        //            m_tableModel->setModelType( QTableModel::MONO_ARTIST );
         break;
     case ( -3 ):
         m_Type = 2;
         ui->tableView->setColumnHidden( 2, false );
-        //            m_tableModel->setModelType( QTableModel::MULTI_ARTISTS );
+
         break;
     case ( -4 ):
         m_Type = 3;
         ui->tableView->setColumnHidden( 2, true );
-        //            m_tableModel->setModelType( QTableModel::MONO_ARTIST );
+
         break;
     }
 }
 
 
 
+
 void DialogAjouterPhys::ViderBoiteDialogue()
 {
-
     ui->EAN->clear();
     ui->Nom_Album->clear();
     ui->Nom_Artiste->clear();
     ui->Pochette->clear();
     ui->Annee->clear();
-
+    ui->Commentaires->clear();
     m_album.titres.clear();
     m_tableModel->clearLines();
 }
+
 
 
 
@@ -573,7 +599,6 @@ void DialogAjouterPhys::RecupererAlbum()
         {
             titre.Artiste = m_tableModel->data( m_tableModel->index(i, 2 ) ).toString();
         }
-
         m_album.titres << titre;
     }
 
@@ -581,22 +606,24 @@ void DialogAjouterPhys::RecupererAlbum()
 
 
 
+
 void DialogAjouterPhys::on_Supprimer_Titre_clicked()
 {
-    // QModelIndexList selectedItemsList = ui->tableView->selectedIndexes()
 
-    //    if ( fileSelected.size() )
-    //    {
-    //        for ( int i = ui->Titres->count() - 1 ; i >= 0 ; i-- )
-    //        {
-    //            if ( ui->Titres->item( i )->isSelected() )
-    //            {
-    //                QListWidgetItem* item = ui->Titres->takeItem( i );
-    //                ui->Titres->removeItemWidget( item );
-    //            }
-    //        }
-    //    }
-    //    listeNumeros();
+    QItemSelectionModel* selection = ui->tableView->selectionModel();
+
+    if ( selection->hasSelection() )
+    {
+        QModelIndexList listeLignes = selection->selectedRows();
+        qSort( listeLignes.begin(), listeLignes.end() , qGreater<QModelIndex>() );
+        Q_FOREACH ( QModelIndex ligne,listeLignes )
+        {
+            m_tableModel->removeRow( ligne.row() );
+        }
+
+        for(int i=0; i<m_tableModel->rowCount(); ++i)
+            m_tableModel->setData(m_tableModel->index(i,0), QString::number(i+1));
+    }
 }
 
 
@@ -616,18 +643,26 @@ void DialogAjouterPhys::on_pushButton_clicked()
 }
 
 
-
 void DialogAjouterPhys::on_Ajouter_Titre_clicked()
 {
     DialogAjoutTitre toto( m_Type, m_tableModel->rowCount(), this );
-   // connect( &toto, SIGNAL( enregistr( QString, QString, QString ) ), this, SLOT( AjouterTitreManuel( QString, QString, QString ) ) );
-    int retVal = toto.exec();
-    if ( ( retVal == QDialog::Accepted ) && !toto.m_Titre.isEmpty() )
-    {
-        m_tableModel->appendLine( LineModel( toto.m_Piste , toto.m_Titre, toto.m_Artiste ) );
-    }
+
+    connect( &toto, SIGNAL( enregistr( QString, QString, QString ) ), this, SLOT( AjouterTitreManuel( QString, QString, QString ) ) );
+
+    toto.exec();
 
 }
+
+
+
+void DialogAjouterPhys::AjouterTitreManuel( QString Piste, QString Titre, QString Artiste )
+{
+    if ( !Titre.isEmpty() )
+    {
+        m_tableModel->appendLine( LineModel ( Piste,Titre, Artiste ) );
+    }
+}
+
 
 
 void DialogAjouterPhys::AfficherInteraction(QString message)
@@ -635,13 +670,78 @@ void DialogAjouterPhys::AfficherInteraction(QString message)
     ui->Interaction->append( message );
 }
 
+
+
 void DialogAjouterPhys::on_findArtists_stateChanged(int newValue)
 {
     m_tableModel->setFindArtists(newValue==Qt::Checked);
     ui->swapColumns->setEnabled(newValue==Qt::Checked );
 }
 
+
+
 void DialogAjouterPhys::on_swapColumns_stateChanged(int newValue)
 {
     m_tableModel->setSwapColumns(newValue == Qt::Checked);
+}
+
+void DialogAjouterPhys::moveUp_clicked()
+{
+    QItemSelectionModel* selection = ui->tableView->selectionModel();
+
+    if (selection->hasSelection())
+    {
+        QModelIndexList listeLignes = selection->selectedRows();
+        qSort( listeLignes.begin(), listeLignes.end() , qGreater<QModelIndex>() );
+        Q_FOREACH( QModelIndex ligne, listeLignes )
+        {
+            if (ligne.row() > 0)
+            {
+                m_tableModel->insertRow( ligne.row()-1 );
+                m_tableModel->setData(m_tableModel->index(ligne.row()-1, 0),
+                                      m_tableModel->data(m_tableModel->index(ligne.row()+1,0)));
+                m_tableModel->setData(m_tableModel->index(ligne.row()-1, 1),
+                                      m_tableModel->data(m_tableModel->index(ligne.row()+1,1)));
+                m_tableModel->setData(m_tableModel->index(ligne.row()-1, 2),
+                                      m_tableModel->data(m_tableModel->index(ligne.row()+1,2)));
+                m_tableModel->removeRow(ligne.row()+1);
+
+                ui->tableView->selectRow( ligne.row()-1 );
+            }
+
+        }
+        for(int i=0; i<m_tableModel->rowCount(); ++i)
+            m_tableModel->setData(m_tableModel->index(i,0), QString::number(i+1));
+
+
+    }
+
+    // ui->tableView->setSelectionModel( selection );
+}
+
+void DialogAjouterPhys::moveDown_clicked()
+{
+    QItemSelectionModel* selection = ui->tableView->selectionModel();
+
+    if ( selection->hasSelection() )
+    {
+        QModelIndexList listeLignes = selection->selectedRows();
+        qSort( listeLignes.begin(), listeLignes.end() , qGreater<QModelIndex>() );
+        Q_FOREACH(QModelIndex ligne, listeLignes)
+        {
+            if (ligne.row() < m_tableModel->rowCount()-1)
+            {
+                m_tableModel->insertRow(ligne.row()+2);
+                m_tableModel->setData(m_tableModel->index(ligne.row()+2, 0),
+                                      m_tableModel->data(m_tableModel->index(ligne.row(),0)));
+                m_tableModel->setData(m_tableModel->index(ligne.row()+2, 1),
+                                      m_tableModel->data(m_tableModel->index(ligne.row(),1)));
+                m_tableModel->setData(m_tableModel->index(ligne.row()+2, 2),
+                                      m_tableModel->data(m_tableModel->index(ligne.row(),2)));
+                m_tableModel->removeRow(ligne.row());
+            }
+        }
+        for(int i=0; i<m_tableModel->rowCount(); ++i)
+            m_tableModel->setData(m_tableModel->index(i,0), QString::number(i+1));
+    }
 }

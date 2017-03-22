@@ -37,7 +37,7 @@ void DialogChoixPochette::AfficherPochettes()
     BDDArtiste* art = BDDArtiste::RecupererArtparNom(m_artiste);
 
 
-    QList<int> listepoch = BDDPoch::pochettesparart( QString::number( art->m_id ) );
+    QList<int> listepoch = BDDPoch::pochettesparart( QString::number( art->id() ) );
 
     for (int cpt = 0; cpt < listepoch.count(); cpt ++)
     {
@@ -48,12 +48,15 @@ void DialogChoixPochette::AfficherPochettes()
         //on affiche la pochette
         QPixmap scaled( QPixmap::fromImage( poch->m_image ) );
         item->setIcon( QIcon( scaled ) );
-        item->setData(  Qt::UserRole, poch->m_id );
+        item->setData(  Qt::UserRole, poch->id() );
         item->setText(  poch->m_chemin );
 
         //On ajoute l'item dans le modèle
         m_pochettes.setItem( cpt, item );
+
+        delete poch;
     }
+    delete art;
 }
 int DialogChoixPochette::RecupererPochetteSelectionnee()
 {

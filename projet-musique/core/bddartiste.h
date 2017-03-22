@@ -2,15 +2,16 @@
 #define BDDARTISTE_H
 
 #include <QObject>
+#include "idowner.h"
 class BDDPoch;
 
 
-class BDDArtiste : public QObject
+class BDDArtiste : public IdOwner
 {
     Q_OBJECT
 public:
 
-    explicit BDDArtiste(const QString& artiste, const BDDPoch& pochette, QObject* parent = NULL );
+    explicit BDDArtiste(const QString& artiste, const BDDPoch& pochette, QObject* parent = NULL);
     virtual ~BDDArtiste();
 
     void updateBDD();
@@ -18,9 +19,7 @@ public:
     static BDDArtiste* RecupererArtiste( const int id );
     static void EchangerArtiste( QString& nom );
     void ChoisirArtisteEchange( QString& nom );
-    void deleteArtiste();
 
-    int m_id;
     QString m_nom;
     BDDPoch const* m_pochette;
     QString m_nomFormate;
@@ -35,9 +34,9 @@ private:
     void recupererId();
     void TrouverId( QString& nom );
     // Constructeur avec une id
-    BDDArtiste( const int id, QObject* parent = NULL );
+    explicit BDDArtiste(const int id, QObject* parent = NULL);
     //Construceur avec un nom d'artiste
-    BDDArtiste( const QString& artiste, QObject* parent = NULL );
+    explicit BDDArtiste(const QString& artiste, QObject* parent = NULL);
 };
 
 

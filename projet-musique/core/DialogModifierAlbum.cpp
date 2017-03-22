@@ -59,6 +59,7 @@ void DialogModifierAlbum::AfficherAlbum()
     //On va chercher les commentaires sur l'album physique
     BDDPhys* phys = BDDPhys::RecupererPhys( m_album.Id_Album );
     ui->Commentaires->setText( phys->m_commentaires );
+    delete phys;
 }
 void DialogModifierAlbum::ListeNumeros()
 {
@@ -122,7 +123,7 @@ void DialogModifierAlbum::on_buttonBox_accepted()
     m_bddinterface.modifierAlbum(  m_album.Album, m_album.Artiste, QString::number( m_album.Id_Release ), m_album.Annee, m_album.titres, m_album.Type, m_album.Id_Poch, m_album.Id_Album, ui->Commentaires->text() );
 
 
-    delete ui;
+    this->close();
 
 }
 
@@ -134,7 +135,7 @@ void DialogModifierAlbum::on_Parcourir_clicked()
     {
         BDDPoch* pochtemp = BDDPoch::recupererBDD(dial.m_selection);
         m_album.Poch = pochtemp->m_image;
-        m_album.Id_Poch = pochtemp->m_id;
+        m_album.Id_Poch = pochtemp->id();
         delete pochtemp;
     }
     AfficherAlbum();

@@ -8,6 +8,7 @@
 #include "bddrelation.h"
 #include "bddtype.h"
 #include "bddconfig.h"
+#include "bddsupport.h"
 #include <QtSql>
 #include <QDir>
 #include <QTimer>
@@ -169,19 +170,22 @@ void BDDGestionMp3::actualiserMp3( QString chemin )
     //On ajoute en BDD
 
     BDDPoch poch( fich.getPoch() ,  album.replace( "'", "$" ),  artist.replace( "'", "$" ) );
-    BDDArtiste art( artist.replace( "'", "$" ), poch );
-    BDDAlbum alb( album.replace( "'", "$" ), poch, date, m_souscat, art );
-    BDDTitre tit( title.replace( "'", "$" ), track, QString::number( min ) + ":" + QString::number( sec ).rightJustified( 2, '0' ), alb );
-    BDDRelation rel( alb, art, tit );
+    BDDPoch* def = BDDPoch::recupererBDD(1);
 
-    BDDMp3 mp3( chemin.replace( "'", "$" ), rel, m_souscat );
+    BDDArtiste art( artist.replace( "'", "$" ), ( m_souscat==2 ?*def : poch ) );
+    BDDAlbum alb( album.replace( "'", "$" ),  poch, date, *BDDType::RecupererType(m_souscat), art  );
+
+    BDDTitre tit( title.replace( "'", "$" ));
+    BDDRelation rel( alb, art, tit, track, QString::number( min ) + ":" + QString::number( sec ).rightJustified( 2, '0' ), 1,0,1);
+    BDDMp3 mp3( chemin.replace( "'", "$" ), rel, *BDDType::RecupererType(m_souscat) );
 
 
-    if ( m_Chemins.find( mp3.m_id ) != m_Chemins.end() )
+    if ( m_Chemins.find( mp3.id() ) != m_Chemins.end() )
     {
-        m_Chemins[mp3.m_id][1] = "trouve";
+        m_Chemins[mp3.id()][1] = "trouve";
 
     }
+    delete def;
 
 }
 
@@ -284,7 +288,7 @@ void BDDGestionMp3::SousCatParChemin( QString chemin )
     {
         m_souscat = 6;
     }
-    if ( chemin.contains( "Era" ) )
+    if ( chemin.contains( "New Age" ) )
     {
         m_souscat = 7;
     }
@@ -328,7 +332,8 @@ void BDDGestionMp3::SupprimerenBDDMP3( int Id )
     BDDMp3* mp3 = BDDMp3::RecupererMp3( Id );
     m_fichierlu = "Suppression de ..." + mp3->m_chemin;
     mp3->supprimerenBDD();
-    mp3->~BDDMp3();
+    delete mp3;
+
 }
 void BDDGestionMp3::ViderBDD()
 {

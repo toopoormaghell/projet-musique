@@ -39,10 +39,10 @@ QList<int> BDDAfficherMp3::ListeArtiste( QString type )
 
 }
 
-QStringList BDDAfficherMp3::listeTitresAlbumMp3( QString Album, QString Categorie )
+QStringList BDDAfficherMp3::listeTitresAlbumMp3( QString Id_Album, QString Categorie )
 {
     QStringList titres;
-    QString queryStr = "SELECT DISTINCT Titre, Duree, Num_Piste, M.Id_MP3 FROM Titre T, Mp3 M, Relations R WHERE R.Id_Titre = T.Id_Titre AND R.Id_Album=" + Album + " AND R.Id_Relation=M.Id_Relation";
+    QString queryStr = "SELECT DISTINCT Titre, Duree, Num_Piste, M.Id_MP3 FROM Titre T, Mp3 M, Relations R WHERE R.Id_Titre = T.Id_Titre AND R.Id_Album=" + Id_Album + " AND R.Id_Relation=M.Id_Relation";
     if ( Categorie != "0" )
     {
         queryStr = queryStr + " AND M.Categorie='" + Categorie + "'";

@@ -2,19 +2,19 @@
 #define BDDTYPE_H
 
 #include <QObject>
+#include "idowner.h"
 
-class BDDType : public QObject
+class BDDType : public IdOwner
 {
     Q_OBJECT
 public:
     static BDDType* RecupererType( const int id );
 
-    int m_id;
     QString m_type;
 
     static QList<int> NbCategories();
 private:
-    BDDType( const int id, QObject* parent = NULL );
+    explicit BDDType(const int id, QObject* parent = NULL);
 
 };
 

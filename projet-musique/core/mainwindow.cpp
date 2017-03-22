@@ -14,7 +14,7 @@
 #include <QPushButton>
 #include "ongletmp3.h"
 
-FenetrePrincipale::FenetrePrincipale( QWidget* parent ) :
+FenetrePrincipale::FenetrePrincipale(const QStringList& couleurs, QWidget* parent ) :
     QMainWindow( parent ),
     ui( new Ui::MainWindow ),
     m_progressbar( new QProgressBar ),
@@ -24,7 +24,8 @@ FenetrePrincipale::FenetrePrincipale( QWidget* parent ) :
     m_lecteur (  ),
     m_dialogajouterphys( NULL ),
     m_vidage( this ),
-    stop( new QPushButton( "Stop" ) )
+    stop( new QPushButton( "Stop" ) ),
+    m_couleurs(couleurs)
 {
     ui->setupUi( this );
     m_ongletMP3 = ui->MP3;
@@ -44,10 +45,10 @@ FenetrePrincipale::FenetrePrincipale( QWidget* parent ) :
     //Si uune action est faite dans l'onglet MP3, la barre de status l'affiche
     connect ( m_ongletMP3, SIGNAL( EnvoyerTexte() ), this, SLOT( AfficherTexte() ) );
     //Si un titre est ajouté dans la playlist du lecteur
-   connect( m_ongletMP3,SIGNAL(modifplaylist(QStringList)),m_lecteur,SLOT(modifplaylist(QStringList)));
-
+    connect( m_ongletMP3,SIGNAL(modifplaylist(QStringList)),m_lecteur,SLOT(modifplaylist(QStringList)));
     //Si un titre est supprimé dans la playlist du lecteur
     connect ( m_lecteur,SIGNAL(suppplaylist(QStringList)),m_ongletMP3,SLOT(suppplaylist(QStringList)));
+
 }
 void FenetrePrincipale::ajouterToolbar()
 {
@@ -73,13 +74,12 @@ void FenetrePrincipale::ajouterToolbar()
     empty->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
 
     ui->toolBar->addWidget( empty);
-    m_lecteur = new MainWindowLecteur(this);
+    m_lecteur = new MainWindowLecteur(m_couleurs, this);
     m_lecteur->setMinimumHeight(85);
     m_lecteur->setMaximumHeight( 85 );
     m_lecteur->setMinimumWidth( 700 );
     m_lecteur->setMaximumWidth( 700 );
-   ui->toolBar->addWidget( m_lecteur);
-
+    ui->toolBar->addWidget( m_lecteur);
 
 
 
@@ -104,9 +104,10 @@ void FenetrePrincipale::ajouterStatusBar()
     m_interaction->setMaximumHeight( 20 );
     //   m_interaction->setMaximumWidth(700);
 
-  //  ui->statusBar->adjustSize();
+    //  ui->statusBar->adjustSize();
 
 }
+
 void FenetrePrincipale::stop_clique()
 {
     emit stopper();
@@ -163,7 +164,9 @@ void FenetrePrincipale::on_actionAjouter_Album_triggered()
 
 void FenetrePrincipale::actionExporter()
 {
+    m_interaction->setText( "Exportation en cours..." );
     BDDAfficherPhys::exporterHTML();
+    m_interaction->setText( "Exportation terminée." );
 }
 
 

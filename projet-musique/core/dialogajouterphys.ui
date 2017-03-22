@@ -76,9 +76,6 @@
        <property name="text">
         <string>Chercher EAN</string>
        </property>
-       <property name="shortcut">
-        <string>Return</string>
-       </property>
       </widget>
      </item>
      <item>
@@ -217,14 +214,14 @@
      <item>
       <widget class="QCheckBox" name="findArtists">
        <property name="text">
-        <string>find artists</string>
+        <string>Séparer Artistes</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QCheckBox" name="swapColumns">
        <property name="text">
-        <string>swap columns</string>
+        <string>Echanger Colonnes</string>
        </property>
       </widget>
      </item>
@@ -250,6 +247,33 @@
      </item>
      <item>
       <spacer name="verticalSpacer_4">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="buttonUp">
+       <property name="text">
+        <string>Monter</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="buttonDown">
+       <property name="text">
+        <string>Descendre</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer_6">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>

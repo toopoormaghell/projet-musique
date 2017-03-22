@@ -20,8 +20,9 @@ public:
     static QStringList ListeAlbumSauvegarde( int Cate );
     QStringList ListeTitresPossibles();
     QStringList ListeArtistesPossibles();
+    QList<int> TitresParArtistes( QString Id_Artiste );
 
-
+    QList<int> AlbSansMP3(QString Id_Artiste);
 };
 
 #endif // BDDAFFICHERPHYS_H

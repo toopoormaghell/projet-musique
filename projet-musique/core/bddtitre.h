@@ -2,30 +2,24 @@
 #define BDDTITRE_H
 
 #include <QObject>
-class BDDArtiste;
-class BDDAlbum;
-class BDDTitre : public QObject
+#include "idowner.h"
+
+class BDDTitre : public IdOwner
 {
     Q_OBJECT
 public:
-    explicit BDDTitre(const QString& nom, const int& num_piste, const QString& duree, const BDDAlbum &album, QObject* parent = 0  );
-    ~BDDTitre();
+    explicit BDDTitre(const QString& nom, QObject* parent = 0);
 
     void updateBDD();
     void supprimerenBDD()const;
 
     static BDDTitre* RecupererTitre( const int id );
 
-    int m_id;
     QString m_nom;
     QString m_nomFormate;
-    int m_num_piste;
-    QString m_duree;
-    bool m_mp3;
-    bool m_phys;
+
     QList<int> Similaires( const int id );
-    BDDArtiste const* m_artiste;
-    BDDAlbum const* m_album;
+
 
     void mp3physfusion();
 private:
@@ -33,9 +27,9 @@ private:
     //Indique que l'artiste et l'album ont été créés par RécupérerTitre et doivent donc être détruits explicitement
     bool m_areAlbumAndArtisteSelfCreated;
     void recupererId();
-    void mp3etphys();
+
     //Constructeur avec une id
-    BDDTitre( const int id, QObject* parent = NULL );
+    explicit BDDTitre(const int id, QObject* parent = NULL);
 
 };
 

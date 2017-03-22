@@ -1,12 +1,12 @@
 #include "bddsingleton.h"
-
 #include <QStringList>
 #include <qdebug.h>
 #include <QtSql>
 #include <QDir>
 #include <QFileInfo>
-#include "util.h"
 #include "bddgestionmp3.h"
+#include "bddverification.h"
+#include "util.h"
 
 BDDSingleton BDDSingleton::s_singleton;
 
@@ -30,7 +30,7 @@ BDDSingleton::BDDSingleton():
     {
         creationBase();
     }
-    changementversion();
+
 }
 
 BDDSingleton::~BDDSingleton()
@@ -53,16 +53,13 @@ void BDDSingleton::creationBase()
     tables << "CREATE TABLE MP3 ('Id_MP3' INTEGER PRIMARY KEY,'Id_Relation' INTEGER, 'Chemin' VARCHAR(512),'Categorie' VARCHAR(255))";
     tables << "CREATE TABLE Artiste ('Id_Artiste' INTEGER PRIMARY KEY,'Artiste' VARCHAR(255),'Id_Pochette' INTEGER, 'Artiste_Formate' VARCHAR(255))";
     tables << "CREATE TABLE Album ('Id_Album' INTEGER PRIMARY KEY,'Album' VARCHAR(255),'Id_Pochette' INTEGER,'Album_Formate' VARCHAR(255),'Annee' VARCHAR(255), 'Type' VARCHAR(255), 'Id_Artiste' INTEGER)";
-    tables << "CREATE TABLE Titre ('Id_Titre' INTEGER PRIMARY KEY,'Titre' VARCHAR(255),'Num_Piste' TINYINT,'Titre_Formate' VARCHAR(255),'Duree' VARCHAR(255))";
+    tables << "CREATE TABLE Titre ('Id_Titre' INTEGER PRIMARY KEY,'Titre' VARCHAR(255),'Titre_Formate' VARCHAR(255))";
     tables << "CREATE TABLE Phys ('Id_Phys' INTEGER PRIMARY KEY,'Id_Album' SMALLINT,'Categorie' VARCHAR(255),'CodeBarres' VARCHAR(255), 'Commentaire' VARCHAR(512))";
-    tables << "CREATE TABLE TitresPlaylist ('Id_Playlist' SMALLINT,'Id_Relation' SMALLINT, 'Num_Piste' TINYINT)";
-    tables << "CREATE TABLE InfosPlaylist ('Id_Playlist' INTEGER PRIMARY KEY,'Nom' VARCHAR(255),'Type' VARCHAR(255),'NomAlbum' VARCHAR(255),'Id_Pochette' SMALLINT)";
     tables << "CREATE TABLE Pochette ('Id_Pochette' INTEGER PRIMARY KEY,'Chemin' VARCHAR(512))";
     tables << "CREATE TABLE Type ('Id_Type' INTEGER PRIMARY KEY,'Type' VARCHAR(255))";
     tables << "INSERT INTO Pochette VALUES (01,'./pochettes/def.jpg')";
-    tables << "INSERT INTO Artiste VALUES (01,'Divers','01','divers')";
-    tables << "CREATE TABLE ErreurPochettes('Id_Erreur' INTEGER PRIMARY KEY,'Id_Pochette' SMALLINT,'Chemin' VARCHAR(255))";
-    tables << "CREATE TABLE Relations('Id_Relation' INTEGER PRIMARY KEY,'Id_Titre' INTEGER,'Id_Album' INTEGER,'Id_Artiste' INTEGER)";
+    tables << "INSERT INTO Artiste VALUES (01,'Artistes Divers','01','artistesdivers')";
+    tables << "CREATE TABLE Relations('Id_Relation' INTEGER PRIMARY KEY,'Id_Titre' INTEGER,'Id_Album' INTEGER,'Id_Artiste' INTEGER,'Num_Piste' TINYINT,'Duree' VARCHAR(255))";
     tables << "CREATE TABLE Configuration('Intitule' TEXT,'Valeur' TEXT)";
     tables << "INSERT INTO Configuration VALUES ('DossierParDef','F:/Albums')";
     tables << "INSERT INTO Configuration VALUES ('ActualiserAlbums','Oui')";
@@ -89,7 +86,7 @@ void BDDSingleton::viderBDD()
     QStringList tables;
     QSqlQuery query;
     //Vidage de la base de données.
-    tables <<  "MP3" << "Artiste" << "Album" << "Titre" << "Phys" << "Pochette" << "InfosPlaylist" << "TitresPlaylist" << "Relations" << "ErreurPochettes" << "Configuration";
+    tables <<  "MP3" << "Artiste" << "Album" << "Titre" << "Phys" << "Pochette" << "Relations"  << "Configuration";
     int compt = 0;
     while ( compt < tables.size() )
     {
@@ -159,9 +156,20 @@ void BDDSingleton::verifierBDD()
         }
     }
     //Non utilisée
-    madatabase.exec("DELETE FROM Pochette WHERE Id_Pochette !=1 AND Id_Pochette NOT IN ( SELECT DISTINCT Id_Pochette FROM Artiste ) AND Id_Pochette NOT IN ( SELECT DISTINCT Id_Pochette FROM Album)" );
+    //Première chose on récupère les pochettes non utilisées
+    queryStr = "SELECT Id_Pochette, Chemin FROM Pochette WHERE Id_Pochette !=1 AND Id_Pochette NOT IN ( SELECT DISTINCT Id_Pochette FROM Artiste ) AND Id_Pochette NOT IN ( SELECT DISTINCT Id_Pochette FROM Album)";
+    query = madatabase.exec(queryStr);
+    while (query.next() ) {
+        QSqlRecord rec=query.record();
+        QString chemin = rec.value("Chemin").toString();
+        QFile::remove( chemin );
+        madatabase.exec("DELETE FROM Pochette WHERE Id_Pochette= '"+rec.value("Id_Pochette").toString()+"'");
+    }
+
     //Vide
     madatabase.exec("DELETE FROM Pochette WHERE Chemin = ''");
+
+
     /*----- RELATION -----*/
     //Vide
     madatabase.exec( "DELETE FROM Relations WHERE Id_Album ='' OR Id_Artiste = '' OR Id_Titre = '' OR Id_Relation = '' ");
@@ -240,8 +248,10 @@ void BDDSingleton::verifierBDD()
     //Non valide
     madatabase.exec( "UPDATE Phys SET Categorie = '1' WHERE Categorie NOT IN ( SELECT DISTINCT Id_Type FROM Type ) " );
 
-//BDDGestionMp3::ReconstruireListeCategorie();
-//temp.ReconstruireListeCategorie();
+
+
+    //BDDGestionMp3::ReconstruireListeCategorie();
+    //temp.ReconstruireListeCategorie();
 
 }
 void BDDSingleton::changementversion()
@@ -252,13 +262,14 @@ void BDDSingleton::changementversion()
     //selon la version, certaines requêtes sont lancées
     query.next();
     version = query.record().value("Valeur").toInt();
-
+    query.finish();
     switch (version)
     {
     case 0:  madatabase.exec("INSERT INTO Configuration VALUES ('Version', '1')");
     case 1 : version2();
     case 2  : version3();
-    case 3: version4();break;
+    case 3: version4();
+    case 4: version5();break;
     default: break;
     }
 }
@@ -290,7 +301,7 @@ void BDDSingleton::version3()
 }
 void BDDSingleton::version4()
 {
-//On ajoute un champ dans la table Type
+    //On ajoute un champ dans la table Type
     madatabase.exec("INSERT INTO Type VALUES( 11,'Inecoutes')" );
 
     //On change la version
@@ -309,4 +320,41 @@ void BDDSingleton::supprimerdossiersvides()
 
         }
     }
+}
+void BDDSingleton::version5()
+{
+
+    madatabase.exec("DROP TABLE ErreurPochettes");
+
+    //Dans la table Relations, on ajoute maintenant la durée, le num_piste, si c'est un MP3 ou si c'est un Phys
+    madatabase.exec("ALTER TABLE Relations ADD Num_Piste TINYINT");
+    madatabase.exec("ALTER TABLE Relations ADD Duree VARCHAR(255)"); madatabase.exec("ALTER TABLE Relations ADD MP3 TINYINT DEFAULT '0'");
+    madatabase.exec("ALTER TABLE Relations ADD Phys TINYINT DEFAULT '0'");
+
+    //On remplit la durée et le num_pisteqt
+    madatabase.exec("UPDATE Relations SET Duree = (SELECT Duree FROM Titre T WHERE Relations.Id_Titre = T.Id_Titre)");
+    madatabase.exec("UPDATE Relations SET Num_Piste = (SELECT Num_Piste FROM Titre T WHERE Relations.Id_Titre = T.Id_Titre)");
+
+    //On dit si c'est un MP3
+    madatabase.exec("UPDATE Relations SET MP3=1  WHERE  Id_Relation = (SELECT M.Id_Relation FROM MP3 M WHERE Relations.Id_Relation = M.Id_Relation)");
+    //On dit si c'est un Phys
+    madatabase.exec("UPDATE Relations SET Phys=1  WHERE Id_Album = (SELECT P.Id_Album FROM Phys P WHERE Relations.Id_Album = P.Id_Album)");
+
+    //On supprime dans la table Titre la durée et le num_piste
+    madatabase.exec("CREATE TABLE Titre_Nouveau ('Id_Titre' INTEGER PRIMARY KEY,'Titre' VARCHAR(255),'Titre_Formate' VARCHAR(255))");
+
+    madatabase.exec("INSERT into Titre_Nouveau ( 'Id_Titre','Titre','Titre_Formate') SELECT Id_Titre,Titre,Titre_Formate FROM Titre T");
+    madatabase.exec("DROP Table Titre");
+    madatabase.exec("ALTER TABLE Titre_Nouveau RENAME TO Titre");
+
+    //On supprime les 2 tables de Playlist et celle des pochettes erreurs
+    madatabase.exec("DROP Table InfosPlaylist");
+    madatabase.exec("DROP TABLE TitresPlaylist");
+    madatabase.exec("DROP TABLE ErreurPochettes");
+
+    BDDVersion5 * verif= new BDDVersion5;
+
+    //On change la version
+    //   madatabase.exec("UPDATE Configuration SET Valeur='5' WHERE Intitule= 'Version' ");
+
 }
