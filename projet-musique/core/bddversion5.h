@@ -15,6 +15,8 @@ public:
     void ChangerArtisteDansCompilAlbum();
     void DoublonsTitresEnlever();
     void ChangerCategorie();
+    void passageversion5();
+    void ModificationBDD();
 private:
     void Reformatage(QString Entite, QString Id_Entite, int Categorie);
     void ExecutionRequeteFormate(QString queryStr, int Categorie);

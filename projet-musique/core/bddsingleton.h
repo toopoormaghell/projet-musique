@@ -36,7 +36,7 @@ private:
     void version3();
     void version4();
     void version5();
-    void TitresVersion5();
+    void version6();
 };
 
 #define madatabase (BDDSingleton::getInstance().getDataBase())

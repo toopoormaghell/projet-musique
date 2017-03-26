@@ -129,6 +129,7 @@ void OngletMP3::afficheralbumsettitres()
         //Pour chaque album...
         BDDAlbum* album = BDDAlbum::RecupererAlbum( albums[cpt] );
 
+        m_album = album->id();
         if ( album->id() > 0 )
         {
             if ( ( m_categorie != 2 && cpt > 0 ) || ( m_categorie == 2 && cpt % 2 == 0  && cpt > 0 ) )
@@ -295,14 +296,14 @@ void OngletMP3::afficherInfosTitre()
         scaled = scaled.scaled( 150, 150 );
         ui->Pochette->setPixmap( scaled );
 
-        Similaires( mp3->m_relation->m_titre->id() );
+   //     Similaires( mp3->m_relation->m_titre->id() );
     }
     delete mp3;
 
 }
 void OngletMP3::Similaires( const int id )
 {
-   //On récupère les titres similaires du titre sélectionné
+    //On récupère les titres similaires du titre sélectionné
     BDDTitre* titre = BDDTitre::RecupererTitre( id );
     QList<int> Simi = titre->Similaires( id );
     //On affiche chaque titre similaire
@@ -392,7 +393,7 @@ void OngletMP3::on_AlbumsTitres_doubleClicked( const QModelIndex& index )
 
     if ( !index.data(Qt::UserRole).isNull() )
     {
-       copier();
+        copier();
     }
 }
 
@@ -484,7 +485,7 @@ void OngletMP3::on_Similaires_clicked(const QModelIndex &index)
     BDDMp3* mp3 = BDDMp3::RecupererMp3( index.data( Qt::UserRole ).toInt() );
 
     //On selectionne la bonne categorie
-    m_categorie = mp3->m_type->id();
+    m_categorie = mp3->m_relation->m_album->m_type->id();
     for (int i = 0; i<ui->Categories->count(); i++)
     {
         if ( ui->Categories->item(i)->data( Qt::UserRole).toInt() == m_categorie)

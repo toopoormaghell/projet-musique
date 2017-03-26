@@ -15,7 +15,7 @@ public:
     QStringList listeTitresAlbumMp3(QString Id_Album, QString Categorie );
     QStringList MP3Artiste( QString id_artiste );
     QList<int> listeAlbums( QString Id_Artiste, QString Categorie );
-    QStringList RecupererListeTypes( const QString categorie );
+    QStringList RecupererListeTypes(QString Categorie);
 
 private:
     QString AnneesSwitch( int annee );
