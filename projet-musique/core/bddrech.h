@@ -14,7 +14,7 @@ public:
 
     QList<int> TitresPourAlb (QString rech);
     QList<int> AlbumsPourArt (QString rech);
-    QString AlbPourTitre(QString rech);
+    QList<int> AlbPourTitre(QString rech);
 };
 
 #endif // BDDRECH_H

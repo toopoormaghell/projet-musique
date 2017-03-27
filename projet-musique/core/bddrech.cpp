@@ -13,7 +13,7 @@ QList<int> BDDRech::RechTitres( QString rech )
 {
     QList<int> liste;
     FormaterEntiteBDD( rech );
-    QString queryStr = "SELECT DISTINCT Id_Titre FROM Titre WHERE Titre_Formate LIKE '%" + rech + "%' ORDER BY Titre";
+    QString queryStr = "SELECT DISTINCT Id_Relation FROM Titre T, Relations R WHERE T.Titre_Formate LIKE '%" + rech + "%' AND R.Id_Titre= T.Id_Titre ORDER BY T.Titre";
 
     QSqlQuery query = madatabase.exec( queryStr );
 
@@ -21,7 +21,7 @@ QList<int> BDDRech::RechTitres( QString rech )
     {
         QSqlRecord rec = query.record();
 
-        liste << rec.value( "Id_Titre" ).toInt();
+        liste << rec.value( "Id_Relation" ).toInt();
 
     }
     return liste;
@@ -65,7 +65,7 @@ QList<int> BDDRech::RechArt( QString rech )
 QList<int> BDDRech::TitresPourAlb(QString rech)
 {
     QList<int> liste;
-    QString queryStr = "SELECT DISTINCT R.Id_Titre FROM Relations R WHERE R.Id_Album = '" + rech + "'  ORDER BY R.Num_Piste";
+    QString queryStr = "SELECT DISTINCT Id_Relation FROM Relations WHERE Id_Album = '" + rech + "'  ORDER BY Num_Piste";
 
     QSqlQuery query = madatabase.exec( queryStr );
 
@@ -95,15 +95,17 @@ QList<int> BDDRech::AlbumsPourArt(QString rech)
     }
     return liste;
 }
-QString BDDRech::AlbPourTitre(QString rech)
+QList<int> BDDRech::AlbPourTitre(QString rech)
 {
-    QString queryStr = "SELECT Id_Album FROM Relations WHERE Id_Titre = '" + rech + "' ";
+    QList<int> listeAlbums;
+    QString queryStr = "SELECT DISTINCT Id_Album FROM Relations WHERE Id_Titre = '" + rech + "' ";
 
     QSqlQuery query = madatabase.exec( queryStr );
 
-    query.next();
-    QSqlRecord rec = query.record();
+    while ( query.next() )
+    {
+        QSqlRecord rec = query.record();
 
-    return rec.value( "Id_Album" ).toString();
-
+        listeAlbums << rec.value( "Id_Album" ).toInt();
+    } return listeAlbums;
 }

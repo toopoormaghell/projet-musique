@@ -53,16 +53,18 @@ void OngletRech::affichageTitres()
 
     for ( int i = 0; i < result.count(); i++ )
     {
-        BDDTitre* titre = BDDTitre::RecupererTitre( result[i] );
+        BDDRelation* relation = BDDRelation::RecupererRelation( result[i] );
         QListWidgetItem* item = new QListWidgetItem;
-        item->setText( titre->m_nom );
-        item->setData( Qt::UserRole, titre->id() );
+        item->setText( relation->m_titre->m_nom );
+        item->setData( Qt::UserRole, relation->id() );
         //On s'occupe de sa pochette
-    /*    QPixmap scaled( QPixmap::fromImage( titre->m_album->m_pochette->m_image ) );
-        item->setIcon( QIcon( scaled ) )
-*/;
+        QPixmap scaled( QPixmap::fromImage( relation->m_album->m_pochette->m_image ) );
+        item->setIcon( QIcon( scaled ) );
+
         ui->TitResult->addItem( item );
-        delete titre;
+        delete relation;
+
+
     }
 }
 void OngletRech::affichageAlbums()
@@ -191,10 +193,9 @@ void OngletRech::affichageTitresParAlbum()
     for ( int i = 0; i < result.count(); i++ )
     {
         BDDRelation* rel = BDDRelation::RecupererRelation( result[i] );
-        BDDTitre* titre = BDDTitre::RecupererTitre( rel->m_titre->id() );
         QListWidgetItem* item = new QListWidgetItem;
-        item->setText( titre->m_nom );
-        item->setData( Qt::UserRole, titre->id() );
+        item->setText(  rel->m_titre->m_nom );
+        item->setData( Qt::UserRole, rel->id() );
         //On s'occupe d'afficher si c'est le titre existe en MP3 et Phys
         if ( rel->m_mp3 )
         {
@@ -206,7 +207,7 @@ void OngletRech::affichageTitresParAlbum()
         }
         ui->TitresResultats->addItem( item );
         delete rel;
-        delete titre;
+
     }
     delete alb;
 }
@@ -225,24 +226,19 @@ void OngletRech::on_TitresResultats_clicked(const QModelIndex &index)
 }
 void OngletRech::AffichInfosTitres()
 {
-    BDDTitre* titre = BDDTitre::RecupererTitre(m_titre.toInt());
-    m_album = appelBDD->AlbPourTitre( m_titre);
-    AlbumPhys alb = BDDAlbum::RecupAlbumEntite( m_album.toInt());
-    BDDArtiste* art = BDDArtiste::RecupererArtparNom( alb.Artiste );
-    m_artiste = QString::number(art->id());
-    BDDRelation* rel = BDDRelation::RecupererRelationParTitre( titre->id() );
+    BDDRelation* rel = BDDRelation::RecupererRelation( m_titre.toInt() );
 
     //On affiche la pochette
-    QPixmap scaled ( QPixmap::fromImage( alb.Poch ) );
+    QPixmap scaled ( QPixmap::fromImage( rel->m_album->m_pochette->m_image ) );
     scaled = scaled.scaled( 150, 150 );
     ui->PochTitre->setPixmap( scaled );
 
     //On affiche le nom du titre
-    ui->NomTitre->setText(QString::number( rel->m_num_piste ).rightJustified( 2, '0' ) + " - " + titre->m_nom );
+    ui->NomTitre->setText(QString::number( rel->m_num_piste ).rightJustified( 2, '0' ) + " - " + rel->m_titre->m_nom );
     //On affiche le nom de l'album
-    ui->NomAlbum->setText(alb.Album+"("+QString::number ( alb.Annee ) +")");
+    ui->NomAlbum->setText(rel->m_album->m_nom+"("+QString::number ( rel->m_album->m_annee ) +")");
     //On affiche le nom de l'artiste
-    ui->NomArtiste->setText(alb.Artiste);
+    ui->NomArtiste->setText(rel->m_artiste->m_nom);
     //On affiche la durée
     ui->Duree->setText(rel->m_duree);
 
@@ -255,8 +251,7 @@ void OngletRech::AffichInfosTitres()
         ui->OuvrirDossier->setVisible( false );
     }
     delete rel;
-    delete art;
-    delete titre;
+
 }
 
 void OngletRech::on_voirAlbum_clicked()
@@ -273,7 +268,7 @@ void OngletRech::on_VoirArtiste_clicked()
 
 void OngletRech::on_Similaires_clicked()
 {
-    ui->ResSimi->setVisible( true );
+ /*   ui->ResSimi->setVisible( true );
     ui->ListeSimilaires->clear();
     BDDTitre* titre = BDDTitre::RecupererTitre( m_titre.toInt() );
     QList<int> Simi = titre->Similaires( m_titre.toInt() );
@@ -298,6 +293,8 @@ void OngletRech::on_Similaires_clicked()
         delete mp3;
     }
     delete titre;
+
+    */
 }
 
 void OngletRech::on_CopierDansDossier_clicked()
