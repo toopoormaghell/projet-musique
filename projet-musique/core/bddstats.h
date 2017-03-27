@@ -15,6 +15,7 @@ public:
     int NbChansonsPhys();
     QList<int> ListeArtistesCompils();
     QList<int> ListeMp3ArtisteCompil( int Id_Artiste );
+    int NbCompilCategorie(int type);
 signals:
 
 public slots:

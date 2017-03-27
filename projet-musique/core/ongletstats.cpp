@@ -54,14 +54,18 @@ void OngletStats::AfficherInfosCategoriesMP3()
     //Generiques
     temp = m_bddInterface.NbMp3Categorie( 9 );
     nb = temp + nb;
-    ui->NbMp3Gene->setText( "<dd>Génériques: " + QString::number( temp ) );
+    ui->NbMp3Gene->setText( "<dd>Associatif: " + QString::number( temp ) );
+    //Inécoutés
+    temp = m_bddInterface.NbMp3Categorie( 3 );
+    nb = temp + nb;
+    ui->NbMp3Gene->setText( "<dd>Inécoutés: " + QString::number( temp ) );
     //Reprises
     temp = m_bddInterface.NbMp3Categorie( 10 );
 
     nb = temp + nb;
     ui->NbMp3Reprises->setText( "<dd><dd>Reprises: " + QString::number( temp ) );
     //Albums
-    temp = m_bddInterface.NbMp3Categorie( 1 )+ m_bddInterface.NbMp3Categorie( 11 );
+    temp = m_bddInterface.NbMp3Categorie( 1 );
 
     nb = temp + nb;
     ui->NbMp3Album->setText( "<dd><dd>Albums: " + QString::number( temp ) );
@@ -69,7 +73,14 @@ void OngletStats::AfficherInfosCategoriesMP3()
 
     ui->NbMp3ScAlbum->setText( "Categorie Albums: " + QString::number( nb ) );
     ui->NbMp3Compil->setText( "Categorie Compils: " + QString::number( m_bddInterface.NbMp3Categorie( 2 ) ) );
-
+    //on détaille un peu les mp3 Compil
+    ui->NbAvant1980->setText(" <dd>Avant 1980: " + QString::number( m_bddInterface.NbCompilCategorie( 0 ) ) );
+    ui->Nb1980->setText(" <dd>1980-1989: " + QString::number( m_bddInterface.NbCompilCategorie( 1 ) ) );
+    ui->Nb1990->setText(" <dd>1990-1999: " + QString::number( m_bddInterface.NbCompilCategorie( 2 ) ) );
+    ui->Nb2000->setText(" <dd>2000-2004: " + QString::number( m_bddInterface.NbCompilCategorie( 3 ) ) );
+    ui->Nb2005->setText(" <dd>2005-2009: " + QString::number( m_bddInterface.NbCompilCategorie( 4 ) ) );
+    ui->Nb2010->setText(" <dd>2010-2014: " + QString::number( m_bddInterface.NbCompilCategorie( 5 ) ) );
+    ui->Nb2015->setText(" <dd>2015-2019: " + QString::number( m_bddInterface.NbCompilCategorie( 6 ) ) );
 }
 void OngletStats::AfficherInfosCategoriesPhys()
 {
