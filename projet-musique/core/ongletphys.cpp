@@ -367,7 +367,7 @@ void OngletPhys::afficherListeCds()
         ui->label->setHidden( true );
         ui->Compil->setFixedHeight( 450);
         ui->label_3->setFixedHeight( 450);
-        ui->Compil->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+
 
     }
     //Sinon, on vérifie le nombre d'albums pour en afficher le plus possible
@@ -384,7 +384,7 @@ void OngletPhys::afficherListeCds()
         ui->label_3->setFixedHeight( 150 );
         ui->Albums->setFixedHeight( 150 );
         ui->label->setFixedHeight( 150 );
-        ui->Compil->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
 
 
         if ( ( m_Singles == 0 || m_Compils == 0 ) && m_Albums > 12 )

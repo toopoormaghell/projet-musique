@@ -169,7 +169,7 @@
            </property>
            <property name="font">
             <font>
-             <family>Myriad Pro</family>
+             <family>Segoe UI</family>
              <pointsize>11</pointsize>
             </font>
            </property>
@@ -262,8 +262,14 @@
              <height>150</height>
             </size>
            </property>
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
            <property name="verticalScrollBarPolicy">
-            <enum>Qt::ScrollBarAlwaysOff</enum>
+            <enum>Qt::ScrollBarAsNeeded</enum>
            </property>
            <property name="iconSize">
             <size>
@@ -286,7 +292,7 @@
            <property name="gridSize">
             <size>
              <width>110</width>
-             <height>130</height>
+             <height>142</height>
             </size>
            </property>
            <property name="viewMode">
@@ -296,7 +302,10 @@
             <bool>true</bool>
            </property>
            <property name="batchSize">
-            <number>150</number>
+            <number>142</number>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -342,8 +351,14 @@
              <height>150</height>
             </size>
            </property>
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
            <property name="verticalScrollBarPolicy">
-            <enum>Qt::ScrollBarAlwaysOff</enum>
+            <enum>Qt::ScrollBarAsNeeded</enum>
            </property>
            <property name="iconSize">
             <size>
@@ -362,14 +377,20 @@
            </property>
            <property name="gridSize">
             <size>
-             <width>130</width>
-             <height>150</height>
+             <width>110</width>
+             <height>142</height>
             </size>
            </property>
            <property name="viewMode">
             <enum>QListView::IconMode</enum>
            </property>
            <property name="uniformItemSizes">
+            <bool>true</bool>
+           </property>
+           <property name="batchSize">
+            <number>142</number>
+           </property>
+           <property name="wordWrap">
             <bool>true</bool>
            </property>
           </widget>
