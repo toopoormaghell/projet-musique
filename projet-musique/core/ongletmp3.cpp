@@ -296,7 +296,7 @@ void OngletMP3::afficherInfosTitre()
         scaled = scaled.scaled( 150, 150 );
         ui->Pochette->setPixmap( scaled );
 
-   //     Similaires( mp3->m_relation->m_titre->id() );
+        Similaires( mp3->m_relation->m_titre->id() );
     }
     delete mp3;
 
