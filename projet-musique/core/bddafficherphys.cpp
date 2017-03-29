@@ -12,7 +12,7 @@ QList<int> BDDAfficherPhys::ListeArtiste()
 {
     QList<int> liste;
 
-    QString queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, Phys P,Relations R WHERE A.Id_Artiste!='01' AND R.Id_Album=P.Id_Album AND R.Id_Artiste=A.Id_Artiste AND P.Support!='2' ORDER BY Artiste";
+    QString queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, Album B, Phys P,Relations R WHERE A.Id_Artiste!='01' AND R.Id_Album=P.Id_Album AND R.Id_Artiste=A.Id_Artiste AND P.Support!='2' AND B.Id_Album = R.Id_Album AND B.Type =1 ORDER BY Artiste";
 
     QSqlQuery query = madatabase.exec( queryStr );
 

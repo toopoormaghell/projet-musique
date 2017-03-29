@@ -359,9 +359,10 @@ public:
     }
 
 private:
-    QList<LineModel> m_lineList;
     bool m_findArtists;
     bool m_swapColumns;
+    QList<LineModel> m_lineList;
+
     ModelType m_modelType;
 };
 
@@ -433,12 +434,15 @@ DialogAjouterPhys::DialogAjouterPhys( int id_album, QWidget* parent ) :
 
 void DialogAjouterPhys::AjoutConnex()
 {
-    connect( ui->buttonGroup, SIGNAL( buttonClicked( int ) ), this, SLOT( AffichageListeArtistes( int ) ) ) ;
+    QObject::connect( ui->buttonGroup, SIGNAL( buttonClicked( int ) ), this, SLOT( AffichageListeArtistes( int ) ) ) ;
+    QObject::connect( ui->buttonGroup_2, SIGNAL( buttonClicked( int ) ), this, SLOT ( RecupererType ( int ) ) );
     QObject::connect( &m_research.getNotifier(), SIGNAL( stepAchieved( QString ) ), this, SLOT( AfficherInteraction( QString ) ) );
     QObject::connect( ui->findArtists, SIGNAL( stateChanged(int) ), this, SLOT( on_findArtists_stateChanged(int) ) );
     QObject::connect( ui->swapColumns, SIGNAL( stateChanged(int) ), this, SLOT( on_swapColumns_stateChanged(int) ) );
-    QObject::connect(ui->buttonUp, SIGNAL(clicked(bool)), this, SLOT(moveUp_clicked()));
-    QObject::connect(ui->buttonDown, SIGNAL(clicked(bool)), this, SLOT(moveDown_clicked()));
+    QObject::connect( ui->buttonUp, SIGNAL(clicked(bool)), this, SLOT(moveUp_clicked()));
+    QObject::connect( ui->buttonDown, SIGNAL(clicked(bool)), this, SLOT(moveDown_clicked()));
+
+
 }
 
 
@@ -480,7 +484,7 @@ void DialogAjouterPhys::on_ChercherEAN_clicked()
         }
         AfficherAlbum();
     } else {
-        ui->Interaction->append("L'EAN possède trop de chiffres.");
+        AfficherInteraction( "L'EAN possède trop de chiffres." );
     }
 
 }
@@ -517,37 +521,41 @@ void DialogAjouterPhys::on_Enregistrer_clicked()
     ui->Interaction->append("Album en cours d'enregistrement.");
     RecupererAlbum();
     BDDGestionPhys m_bddinterface;
-    m_bddinterface.ajouterAlbum( m_album.Poch, m_album.Album, m_album.Artiste, m_EAN, m_album.Annee, m_album.titres, m_Type, ui->Commentaires->text() );
-    ui->Interaction->append( "Album enregistré." );
+    m_bddinterface.ajouterAlbum( m_album.Poch, m_album.Album, m_album.Artiste, m_EAN, m_album.Annee, m_album.titres, m_Support, ui->Commentaires->text(), m_Type );
+    AfficherInteraction( "Album enregistré." );
     emit ajout();
     ViderBoiteDialogue();
 }
 
 
-
-
 void DialogAjouterPhys::AffichageListeArtistes( int id )
 {
-    switch ( id )
+    m_Support = (id*-1)-1;
+    switch ( m_Support )
     {
-    case ( -2 ):
-        m_Type = 1;
+    case ( 1 ):
+
         ui->tableView->setColumnHidden( 2, true );
         break;
-    case ( -3 ):
-        m_Type = 2;
+    case ( 2 ):
+
         ui->tableView->setColumnHidden( 2, false );
 
         break;
-    case ( -4 ):
-        m_Type = 3;
+    case ( 3 ):
+
         ui->tableView->setColumnHidden( 2, true );
 
         break;
     }
+
 }
+void DialogAjouterPhys::RecupererType( int id )
+{
+    m_Type = (id*-1)-1;
 
 
+}
 
 
 void DialogAjouterPhys::ViderBoiteDialogue()
@@ -579,6 +587,7 @@ void DialogAjouterPhys::RecupererAlbum()
     m_album.Artiste = ui->Nom_Artiste->text().replace( "'", "$" );
     m_album.Annee = ui->Annee->text().toInt();
     m_album.Type = m_Type;
+    m_album.Support = m_Support;
 
     //On récupère la pochette
     const QPixmap* pixmap = ui->Pochette->pixmap();
