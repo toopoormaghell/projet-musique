@@ -119,3 +119,29 @@ QList<int> bddstats::ListeMp3ArtisteCompil( int Id_Artiste )
     }
     return mp3;
 }
+int bddstats::NbTotalMp3Phys()
+{
+    QString queryStr = "SELECT COUNT(*)AS 'Nb' FROM Relations WHERE Mp3=1 AND Phys=1";
+    QSqlQuery query = madatabase.exec( queryStr );
+
+    if ( query.first() )
+    {
+        QSqlRecord rec = query.record();
+
+        return rec.value( "Nb" ).toInt();
+    }
+    return -1;
+}
+int bddstats::NbTotalAlbumMP3Phys()
+{
+    QString queryStr = "SELECT COUNT( DISTINCT Id_Album )AS 'Nb' FROM Relations WHERE Mp3=1 AND Phys=1";
+    QSqlQuery query = madatabase.exec( queryStr );
+
+    if ( query.first() )
+    {
+        QSqlRecord rec = query.record();
+
+        return rec.value( "Nb" ).toInt();
+    }
+    return -1;
+}

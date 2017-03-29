@@ -286,6 +286,13 @@
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QLabel" name="PourcentMP3Phys">
+          <property name="text">
+           <string>TextLabel</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </item>
@@ -347,6 +354,13 @@
         </item>
         <item>
          <widget class="QLabel" name="Nb_Chansons">
+          <property name="text">
+           <string>TextLabel</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="PourcentAlbumPhysMp3">
           <property name="text">
            <string>TextLabel</string>
           </property>
