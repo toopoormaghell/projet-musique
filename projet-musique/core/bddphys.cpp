@@ -3,15 +3,15 @@
 #include "bddalbum.h"
 #include "bddartiste.h"
 #include "bddtitre.h"
-#include "bddtype.h"
+#include "bddsupport.h"
 #include "bddrelation.h"
 #include <QtSql>
 
 
-BDDPhys::BDDPhys(const BDDAlbum& album, const QString& ean, const BDDType& type, const QString& Commentaires, QObject* parent):
+BDDPhys::BDDPhys(const BDDAlbum& album, const QString& ean, const BDDSupport& support, const QString& Commentaires, QObject* parent):
     IdOwner(-1, parent)
   , m_album(&album)
-  , m_type(&type)
+  , m_support(&support)
   , m_ean(ean)
   , m_commentaires(Commentaires)
   , m_membersAreSelfCreatad(false)
@@ -27,7 +27,7 @@ BDDPhys::~BDDPhys()
 {
     if (m_membersAreSelfCreatad)
     {
-        delete m_type;
+        delete m_support;
         delete m_album;
     }
 }
@@ -48,7 +48,7 @@ BDDPhys* BDDPhys::RecupererPhys( const int id )
 
 void BDDPhys::ajouterBDD()
 {
-    QString queryStr = "INSERT INTO Phys VALUES (null,'" + QString::number( m_album->id() ) + "','" + QString::number( m_type->id() ) + "','" + m_ean + "','" + m_commentaires + "')";
+    QString queryStr = "INSERT INTO Phys VALUES (null,'" + QString::number( m_album->id() ) + "','" + QString::number( m_support->id() ) + "','" + m_ean + "','" + m_commentaires + "')";
     QSqlQuery query =  madatabase.exec( queryStr );
     setId(query.lastInsertId().toInt());
 }
@@ -73,7 +73,7 @@ void BDDPhys::recupererId()
 BDDPhys::BDDPhys(const int id, QObject* parent):
     IdOwner(id, parent)
   , m_album(NULL)
-  , m_type(NULL)
+  , m_support(NULL)
   , m_ean(-1)
   , m_commentaires()
   , m_membersAreSelfCreatad(false)
@@ -85,7 +85,7 @@ BDDPhys::BDDPhys(const int id, QObject* parent):
         QSqlRecord rec = query.record();
 
         m_album = BDDAlbum::RecupererAlbum(rec.value("Id_Album").toInt());
-        m_type = BDDType::RecupererType(rec.value("Categorie").toInt());
+        m_support = BDDSupport::RecupererSupport(rec.value("Support").toInt());
         m_ean = rec.value("EAN").toString();
         m_commentaires = rec.value("Commentaire").toString();
         m_membersAreSelfCreatad = true;
@@ -95,7 +95,7 @@ BDDPhys::BDDPhys(const int id, QObject* parent):
 void BDDPhys::updateBDD()
 {
 
-    QString queryStr = "UPDATE Phys SET CodeBarres = '" + m_ean + "', Commentaire = '" + m_commentaires + "', Categorie = '"+ QString::number( m_type->id() ) +"' WHERE Id_Album ='" + QString::number(m_album->id() ) +"' ";
+    QString queryStr = "UPDATE Phys SET CodeBarres = '" + m_ean + "', Commentaire = '" + m_commentaires + "', Support = '"+ QString::number( m_support->id() ) +"' WHERE Id_Album ='" + QString::number(m_album->id() ) +"' ";
     madatabase.exec( queryStr );
 
 }
