@@ -3,6 +3,8 @@
 #include "bddtype.h"
 #include "bddartiste.h"
 #include "bddtitre.h"
+#include "bddmp3.h"
+#include "bddrelation.h"
 
 OngletStats::OngletStats( QWidget* parent ) :
     QWidget( parent ),
@@ -26,6 +28,7 @@ void OngletStats::AfficherInfos()
     AfficherInfosCategoriesPhys();
     AfficherInfosCategoriesMP3();
     AfficherArtistesCompilMP3();
+    AfficherDoublonsMP3();
 
 }
 void OngletStats::AfficherInfosCategoriesMP3()
@@ -121,6 +124,21 @@ void OngletStats::AfficherMP3ArtisteCompilMP3()
         item->setData( Qt::UserRole, temp[i] );
         ui->MP3Artiste5->addItem( item );
         delete titre;
+    }
+}
+
+void OngletStats::AfficherDoublonsMP3()
+{
+    QList<int> temp = m_bddInterface.ListeMP3Doublons();
+    ui->DoublonsMP3->clear();
+    for ( int i = 0; i < temp.count(); i++ )
+    {
+        BDDMp3* mp3 = BDDMp3::RecupererMp3( temp[i] );
+        QListWidgetItem* item =  new QListWidgetItem;
+        item->setText( mp3->m_relation->m_titre->m_nom+" ( "+mp3->m_chemin +" )" );
+        item->setData( Qt::UserRole, temp[i] );
+        ui->DoublonsMP3->addItem( item );
+        delete mp3;
     }
 }
 int OngletStats::choixArtiste()

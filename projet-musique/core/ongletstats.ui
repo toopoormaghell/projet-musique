@@ -264,7 +264,7 @@
           <property name="maximumSize">
            <size>
             <width>500</width>
-            <height>16777215</height>
+            <height>400</height>
            </size>
           </property>
          </widget>
@@ -281,7 +281,24 @@
           <property name="maximumSize">
            <size>
             <width>500</width>
-            <height>16777215</height>
+            <height>400</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="DoublonsMP3_2">
+          <property name="text">
+           <string>MP3 en Double:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QListWidget" name="DoublonsMP3">
+          <property name="maximumSize">
+           <size>
+            <width>500</width>
+            <height>400</height>
            </size>
           </property>
          </widget>

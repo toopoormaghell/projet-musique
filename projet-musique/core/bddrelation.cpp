@@ -159,6 +159,9 @@ void BDDRelation::supprimerenBDDMP3() const
     {
 
         madatabase.exec( "DELETE FROM Relations WHERE Id_Relation='" + QString::number( id() ) + "'" );
+    } else
+    {
+        madatabase.exec("UPDATE Relations SET MP3 = 0 WHERE Id_Relation='" + QString::number( id() ) + "'" );
     }
 
 }
@@ -182,6 +185,9 @@ void BDDRelation::supprimerenBDDPhys() const
     {
 
         madatabase.exec( "DELETE FROM Relations WHERE Id_Relation='" + QString::number( id() ) + "'" );
+    } else
+    {
+        madatabase.exec("UPDATE Relations SET Phys = 0 WHERE Id_Relation='" + QString::number( id() ) + "'" );
     }
 
 }

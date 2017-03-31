@@ -58,6 +58,7 @@ void BDDSingleton::creationBase()
     tables << "CREATE TABLE Phys ('Id_Phys' INTEGER PRIMARY KEY,'Id_Album' SMALLINT,'Categorie' VARCHAR(255),'CodeBarres' VARCHAR(255), 'Commentaire' VARCHAR(512))";
     tables << "CREATE TABLE Pochette ('Id_Pochette' INTEGER PRIMARY KEY,'Chemin' VARCHAR(512))";
     tables << "CREATE TABLE Type ('Id_Type' INTEGER PRIMARY KEY,'Type' VARCHAR(255))";
+    tables << "CREATE TABLE Support ('Id_Support' INTEGER PRIMARY KEY,'Support' VARCHAR(255))";
     tables << "INSERT INTO Pochette VALUES (01,'./pochettes/def.jpg')";
     tables << "INSERT INTO Artiste VALUES (01,'Artistes Divers','01','artistesdivers')";
     tables << "CREATE TABLE Relations('Id_Relation' INTEGER PRIMARY KEY,'Id_Titre' INTEGER,'Id_Album' INTEGER,'Id_Artiste' INTEGER,'Num_Piste' TINYINT,'Duree' VARCHAR(255))";
@@ -77,6 +78,11 @@ void BDDSingleton::creationBase()
     tables << "INSERT INTO Type VALUES(08,'Classique')";
     tables << "INSERT INTO Type VALUES(09,'Associatif')";
     tables << "INSERT INTO Type VALUES(10,'Reprise')";
+    tables << "INSERT INTO Support VALUES(01,'Album')";
+    tables << "INSERT INTO Support VALUES(02,'Compil')";
+    tables << "INSERT INTO Support VALUES(03,'Single')";
+    tables << "INSERT INTO Support VALUES(04,'MP3')";
+
     for ( int i = 0; i < tables.size(); i++ )
     {
         query = madatabase.exec( tables[i] );
@@ -174,8 +180,14 @@ void BDDSingleton::verifierBDD()
     /*----- RELATION -----*/
     //Vide
     madatabase.exec( "DELETE FROM Relations WHERE Id_Album ='' OR Id_Artiste = '' OR Id_Titre = '' OR Id_Relation = '' ");
+    //MP3 ou Phys
+    madatabase.exec("UPDATE Relations SET MP3 =0 WHERE MP3 =1 AND Id_Relation NOT IN ( SELECT Id_Relation FROM MP3 ) ");
+    madatabase.exec("UPDATE Relations SET MP3 =1 WHERE MP3 =0 AND Id_Relation  IN ( SELECT Id_Relation FROM MP3 ) ");
+    madatabase.exec("UPDATE Relations SET Phys =0 WHERE Phys =1 AND Id_Album NOT IN ( SELECT Id_Album FROM PHYS ) ");
+    madatabase.exec("UPDATE Relations SET Phys =1 WHERE Phys =0 AND Id_Album IN ( SELECT Id_Album FROM PHYS ) ");
     //Non utilisé
     madatabase.exec( "DELETE FROM Relations WHERE Id_Album NOT IN ( SELECT DISTINCT Id_Album FROM Phys) AND Id_Relation NOT IN ( SELECT DISTINCT Id_Relation FROM MP3) " );
+    madatabase.exec( "DELETE FROM Relations WHERE MP3 =0 AND Phys = 0" );
     //Non valide
     madatabase.exec( "DELETE FROM Relations WHERE Id_Album NOT IN (SELECT DISTINCT Id_Album FROM Album) OR Id_Artiste NOT IN ( SELECT DISTINCT Id_Artiste FROM Artiste) OR Id_Titre NOT IN ( SELECT DISTINCT Id_Titre FROM Titre) OR Id_Pochette NOT IN ( SELECT DISTINCT Id_Pochette From Pochette)" );
     /*----- ALBUM -----*/

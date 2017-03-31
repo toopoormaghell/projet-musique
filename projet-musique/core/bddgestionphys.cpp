@@ -5,6 +5,7 @@
 #include "bddalbum.h"
 #include "bddtitre.h"
 #include "bddrelation.h"
+#include "bddsupport.h"
 #include "bddtype.h"
 #include "bddphys.h"
 #include <QDebug>
@@ -14,7 +15,7 @@ BDDGestionPhys::BDDGestionPhys( QObject* parent ) :
 {
 }
 
-void BDDGestionPhys::ajouterAlbum(QImage Poch, QString Album, QString Artiste, QString ean, int Annee, QList<TitresPhys> titres, int Type, QString Commentaires)
+void BDDGestionPhys::ajouterAlbum(QImage Poch, QString Album, QString Artiste, QString ean, int Annee, QList<TitresPhys> titres, int Support, QString Commentaires, int Type)
 {
 
     BDDPoch poch(Poch, Album, Artiste);
@@ -39,7 +40,7 @@ void BDDGestionPhys::ajouterAlbum(QImage Poch, QString Album, QString Artiste, Q
     }
 
 
-    BDDPhys phys( alb, ean, *BDDType::RecupererType(Type), Commentaires );
+    BDDPhys phys( alb, ean, *BDDSupport::RecupererSupport(Support), Commentaires );
 
     delete def;
 }
@@ -50,7 +51,7 @@ void BDDGestionPhys::SupprimerenBDDPhys( int Id )
     delete phys;
 }
 
-void BDDGestionPhys::modifierAlbum( QString Album, QString Artiste, QString ean, int Annee, QList<TitresPhys> titres, int Type, int Id_Poch, int Id_Album, QString Commentaires)
+void BDDGestionPhys::modifierAlbum( QString Album, QString Artiste, QString ean, int Annee, QList<TitresPhys> titres, int Type, int Id_Poch, int Id_Album, QString Commentaires, int Support)
 {
     BDDPoch* poch  = BDDPoch::recupererBDD( Id_Poch );
     BDDArtiste art( Artiste, *poch );
@@ -94,7 +95,7 @@ void BDDGestionPhys::modifierAlbum( QString Album, QString Artiste, QString ean,
         }
     }
 
-    BDDPhys phys( *alb, ean, *BDDType::RecupererType(Type), Commentaires );
+    BDDPhys phys( *alb, ean, *BDDSupport::RecupererSupport(Support), Commentaires );
     delete alb->m_type;
     delete alb;
     delete poch;

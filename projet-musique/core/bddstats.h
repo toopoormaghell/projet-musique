@@ -18,7 +18,7 @@ public:
     int NbCompilCategorie(int type);
     int NbTotalMp3Phys();
     int NbTotalAlbumMP3Phys();
-
+    QList<int> ListeMP3Doublons();
 
 
 };

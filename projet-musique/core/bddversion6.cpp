@@ -57,6 +57,9 @@ void BDDVersion6::ModificationBDD()
     //Phys
     //Pas besoin de remettre à jour, c'est déjà le cas
 
+    //Type 11 supprimé
+    madatabase.exec("DELETE FROM Type WHERE Id_Type=11");
+
     //On change la version
     madatabase.exec("UPDATE Configuration SET Valeur='6' WHERE Intitule= 'Version' ");
 }

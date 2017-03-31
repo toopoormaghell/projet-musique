@@ -50,7 +50,7 @@ int bddstats::NbMp3Categorie( int type )
 }
 int bddstats::NbCompilCategorie( int type )
 {
-BDDAfficherMp3 * temp= new BDDAfficherMp3;
+    BDDAfficherMp3 * temp= new BDDAfficherMp3;
 
 
     QString queryStr = "SELECT COUNT(*)AS 'Nb' FROM MP3 M, Album B, Relations R  WHERE M.Id_Relation = R.Id_Relation AND  B.Id_Album = R.Id_Album AND B.Type='2' AND " + temp->AnneesSwitch ( type ) ;
@@ -144,4 +144,26 @@ int bddstats::NbTotalAlbumMP3Phys()
         return rec.value( "Nb" ).toInt();
     }
     return -1;
+}
+
+QList<int> bddstats::ListeMP3Doublons()
+{
+    QList<int> mp3;
+
+    QString queryStr = "SELECT Id_Relation FROM MP3 GROUP BY Id_Relation HAVING COUNT(*) >1";
+    QSqlQuery query = madatabase.exec( queryStr );
+    while ( query.next() )
+    {
+
+        QSqlRecord rec = query.record();
+        queryStr = "SELECT Id_MP3 FROM MP3 WHERE Id_Relation = '" + rec.value( "Id_Relation" ).toString()+"'";
+
+        QSqlQuery query2 = madatabase.exec( queryStr );
+        while ( query2.next() )
+        {
+            QSqlRecord rec2 = query2.record();
+            mp3 << rec2.value("Id_MP3").toInt();
+        }
+    }
+    return mp3;
 }

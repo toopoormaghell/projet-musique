@@ -28,6 +28,7 @@ private:
     void AfficherArtistesCompilMP3();
     int choixArtiste();
     void AfficherMP3ArtisteCompilMP3();
+    void AfficherDoublonsMP3();
 };
 
 #endif // ONGLETSTATS_H
