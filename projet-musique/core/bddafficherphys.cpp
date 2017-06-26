@@ -252,7 +252,7 @@ QList<int> BDDAfficherPhys::TitresParArtistes(QString Id_Artiste)
         titres << rec.value( "NbTitres" ).toInt();
     }
 
-    if ( Id_Artiste == "-1" )
+ /*   if ( Id_Artiste == "-1" )
     {
         queryStr = "SELECT T2.Titre AS 'Titre', A.Album AS 'Album' FROM Relations Rel2, Titre T2, MP3 M, Album A WHERE Rel2.Id_Titre = T2.Id_Titre AND M.Id_Relation = Rel2.Id_Relation AND A.Id_Album = Rel2.Id_Album  AND T2.Titre_Formate IN (  SELECT T.Titre_Formate  FROM Phys P, Relations R, Titre T  WHERE P.Id_Album = R.Id_Album  AND P.Support ='2' AND T.Id_Titre = R.Id_Titre AND Rel2.Id_Artiste = R.Id_Artiste) ";
 
@@ -263,10 +263,10 @@ QList<int> BDDAfficherPhys::TitresParArtistes(QString Id_Artiste)
         {
             QSqlRecord rec = query.record();
 
-            qDebug() << rec.value("Album").toString() << rec.value( "Titre").toString();
+           // qDebug() << rec.value("Album").toString() << rec.value( "Titre").toString();
         }
     }
-
+*/
     return titres;
 }
 

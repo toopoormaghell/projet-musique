@@ -22,6 +22,7 @@ public:
     void changementversion();
 
 
+    void CDCompilMP3();
 private:
     // Constructeur privé : singleton
     BDDSingleton();

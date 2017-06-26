@@ -3,9 +3,9 @@
 #include "util.h"
 #include <QListWidgetItem>
 #include "bddgestionphys.h"
-#include <QDebug>
 #include "bddafficherphys.h"
 #include "bddalbum.h"
+#include "bddtype.h"
 #include "dialogchoixpochette.h"
 #include "bddpoch.h"
 #include <QAbstractButton>
@@ -48,13 +48,13 @@ void DialogModifierAlbum::AfficherAlbum()
         QListWidgetItem* item = new QListWidgetItem;
         item->setText( m_album.titres[comp].Titre );
         item->setFlags( item->flags() | Qt::ItemIsEditable );
+        item->setData( Qt::UserRole, m_album.titres[comp].MP3  );
         ui->Titres->addItem( item );
         ui->Duree->addItem( m_album.titres[comp].Duree );
         ListeNumeros();
     }
     //On affiche le type de l'album
-
-    ui->Type->setCurrentText( m_album.Type_Str );
+    ui->Type->setCurrentText(BDDType::RecupererType( m_album.Type )->m_type );
 
     //On va chercher les commentaires sur l'album physique
     BDDPhys* phys = BDDPhys::RecupererPhys( m_album.Id_Album );
@@ -74,6 +74,7 @@ void DialogModifierAlbum::EnregistrerAlbum()
 {
 
     m_album.Album = ui->Album->text();
+
     m_album.Artiste = ui->Artiste->text();
     m_album.Annee = ui->Annee->text().toInt();
     m_album.Type = ui->Type->currentIndex() + 1;
@@ -86,7 +87,7 @@ void DialogModifierAlbum::EnregistrerAlbum()
         titre.Titre = ui->Titres->item( i )->text();
         titre.Duree = ui->Duree->item( i )->text();
         titre.Num_Piste = i + 1;
-
+        titre.MP3 = ui->Titres->item (i )->data( Qt::UserRole).toBool() ;
         if ( m_album.Type == 2 )
         {
             //A faire l'edition de compilation
@@ -120,7 +121,7 @@ void DialogModifierAlbum::on_buttonBox_accepted()
     EnregistrerAlbum();
     BDDGestionPhys m_bddinterface;
 
-    m_bddinterface.modifierAlbum(  m_album.Album, m_album.Artiste, QString::number( m_album.Id_Release ), m_album.Annee, m_album.titres, m_album.Type, m_album.Id_Poch, m_album.Id_Album, ui->Commentaires->text() );
+    m_bddinterface.modifierAlbum(  m_album.Album, m_album.Artiste, QString::number( m_album.Id_Release ), m_album.Annee, m_album.titres, m_album.Type, m_album.Id_Poch, m_album.Id_Album, ui->Commentaires->text(), m_album.Support );
 
 
     this->close();

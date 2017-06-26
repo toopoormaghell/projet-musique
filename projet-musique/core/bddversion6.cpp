@@ -1,6 +1,8 @@
 #include "bddversion6.h"
 #include "bddsingleton.h"
 #include <QtSql>
+#include <QFile>
+#include "bddpoch.h"
 
 BDDVersion6::BDDVersion6()
 {
@@ -38,14 +40,14 @@ void BDDVersion6::ModificationBDD()
     //Phys
     for ( int i = 1; i < 3 ; i++ )
     {
-        madatabase.exec( "UPDATE Album SET Type = "+ QString::number( i ) +"                         WHERE Id_Album IN ( SELECT B.Id_Album FROM Album B, Phys P WHERE B.Id_Album = P.Id_Album AND P.Support = "+ QString::number( i ) +" ) " );
+        madatabase.exec( "UPDATE Album SET Type = "+ QString::number( i ) +" WHERE Id_Album IN ( SELECT B.Id_Album FROM Album B, Phys P WHERE B.Id_Album = P.Id_Album AND P.Support = "+ QString::number( i ) +" ) " );
     }
     madatabase.exec( "UPDATE Album SET Type = 1  WHERE Id_Album IN ( SELECT B.Id_Album FROM Album B, Phys P WHERE B.Id_Album = P.Id_Album AND P.Support = 3 ) " );
 
     //MP3
     for ( int i = 1; i < 10 ; i++ )
     {
-        madatabase.exec( "UPDATE Album SET Type = "+ QString::number( i ) +"                         WHERE Id_Album IN ( SELECT B.Id_Album FROM Album B, Mp3 M, Relations R               WHERE B.Id_Album = R.Id_Album AND M.Id_Relation = R.Id_Relation                        AND M.Support = "+ QString::number( i ) +" ) " );
+        madatabase.exec( "UPDATE Album SET Type = "+ QString::number( i ) +"   WHERE Id_Album IN ( SELECT B.Id_Album FROM Album B, Mp3 M, Relations R   WHERE B.Id_Album = R.Id_Album AND M.Id_Relation = R.Id_Relation  AND M.Support = "+ QString::number( i ) +" ) " );
     }
     madatabase.exec( "UPDATE Album SET Type = 3  WHERE Id_Album IN ( SELECT B.Id_Album FROM Album B, Mp3 M, Relations R  WHERE B.Id_Album = R.Id_Album AND M.Id_Relation = R.Id_Relation  AND M.Support = 11 ) " );
 
@@ -60,6 +62,16 @@ void BDDVersion6::ModificationBDD()
     //Type 11 supprimé
     madatabase.exec("DELETE FROM Type WHERE Id_Type=11");
 
+
     //On change la version
     madatabase.exec("UPDATE Configuration SET Valeur='6' WHERE Intitule= 'Version' ");
+
 }
+
+void BDDVersion6::ModificationCategories()
+{
+    madatabase.exec( "UPDATE Album SET Type = 8  WHERE Id_Album IN (SELECT DISTINCT (Id_Album) FROM Relations R, Artiste A  WHERE A.Artiste_Formate = 'classique'            AND R.Id_Artiste = A.Id_Artiste " );
+
+
+}
+

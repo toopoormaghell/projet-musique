@@ -352,3 +352,8 @@ void BDDSingleton::version6()
     version->ModificationBDD();
 
 }
+void BDDSingleton::CDCompilMP3()
+{
+    madatabase.exec("UPDATE Relations SET PHYS = 1 WHERE Id_Relation IN ( SELECT DISTINCT Id_Relation FROM Relations R, Phys P WHERE R.Id_Album = P.Id_Album  AND P.Support = 2  AND EXISTS ( SELECT R2.Id_Relation FROM Relations R2 WHERE R.Id_Artiste = R2.Id_Artiste AND R.Id_Titre = R2.Id_Titre AND R2.MP3=1 ) )");
+
+}

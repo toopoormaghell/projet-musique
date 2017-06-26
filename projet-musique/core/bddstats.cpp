@@ -134,7 +134,7 @@ int bddstats::NbTotalMp3Phys()
 }
 int bddstats::NbTotalAlbumMP3Phys()
 {
-    QString queryStr = "SELECT COUNT( DISTINCT Id_Album )AS 'Nb' FROM Relations WHERE Mp3=1 AND Phys=1";
+    QString queryStr = "SELECT COUNT( DISTINCT R.Id_Album )AS 'Nb' FROM Relations R,Phys P WHERE R.Mp3=1 AND R.Phys=1 AND R.Id_Album = P.Id_Album";
     QSqlQuery query = madatabase.exec( queryStr );
 
     if ( query.first() )
