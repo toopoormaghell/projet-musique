@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1073</width>
-    <height>684</height>
+    <height>708</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -378,6 +378,13 @@
         </item>
         <item>
          <widget class="QLabel" name="PourcentAlbumPhysMp3">
+          <property name="text">
+           <string>TextLabel</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="PourcentPhysMP3">
           <property name="text">
            <string>TextLabel</string>
           </property>

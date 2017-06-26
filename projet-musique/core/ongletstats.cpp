@@ -84,8 +84,12 @@ void OngletStats::AfficherInfosCategoriesMP3()
     ui->Nb2005->setText(" <dd>2005-2009: " + QString::number( m_bddInterface.NbCompilCategorie( 4 ) ) );
     ui->Nb2010->setText(" <dd>2010-2014: " + QString::number( m_bddInterface.NbCompilCategorie( 5 ) ) );
     ui->Nb2015->setText(" <dd>2015-2019: " + QString::number( m_bddInterface.NbCompilCategorie( 6 ) ) );
+    int pourcent=0;
+    if ( nb != 0)
+    {
+        pourcent   = m_bddInterface.NbTotalMp3Phys()*100/nb;
+    }
 
-    int pourcent= m_bddInterface.NbTotalMp3Phys()*100/nb;
     ui->PourcentMP3Phys->setText( "Pourcentage de mp3 en CD: "+QString::number( pourcent )+"%" );
 
 }
@@ -95,8 +99,10 @@ void OngletStats::AfficherInfosCategoriesPhys()
     ui->NbPhysCompil->setText( "<dd>Singles : " + QString::number( m_bddInterface.NbPhysCategorie( 3 ) ) );
     ui->NbPhysSingle->setText( "<dd>Compils : " + QString::number( m_bddInterface.NbPhysCategorie( 2 ) ) );
     ui->Nb_Chansons->setText( "Nombre de chansons : " + QString::number( m_bddInterface.NbChansonsPhys() ) );
-      int pourcent= m_bddInterface.NbTotalAlbumMP3Phys()*100/ m_bddInterface.NbPhysTotal();
-    ui->PourcentAlbumPhysMp3->setText( "Pourcentage d'albums répresentés en MP3: "+QString::number( pourcent )+"%" );
+    int pourcent= m_bddInterface.NbTotalAlbumMP3Phys()*100/ m_bddInterface.NbPhysTotal();
+    ui->PourcentAlbumPhysMp3->setText( "Pourcentage d'albums représentés en MP3: "+QString::number( pourcent )+"%" );
+    pourcent = m_bddInterface.NbTotalMp3Phys()*100/  m_bddInterface.NbChansonsPhys() ;
+    ui->PourcentPhysMP3->setText("Pourcentage de titres physiques représentés en MP3: "+QString::number( pourcent )+"%" );
 }
 void OngletStats::AfficherArtistesCompilMP3()
 {
@@ -140,6 +146,7 @@ void OngletStats::AfficherDoublonsMP3()
         ui->DoublonsMP3->addItem( item );
         delete mp3;
     }
+
 }
 int OngletStats::choixArtiste()
 {
