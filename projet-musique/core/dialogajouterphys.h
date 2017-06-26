@@ -67,6 +67,7 @@ private slots:
     void moveUp_clicked();
     void moveDown_clicked();
 
+    void RecupererType(int id);
 private:
     void recupererEAN();
     void AfficherAlbum();
@@ -79,6 +80,7 @@ private:
     QString m_affichage;
     QString m_EAN;
     int m_Type;
+    int m_Support;
 
     void RecupererAlbum();
 

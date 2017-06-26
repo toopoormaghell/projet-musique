@@ -5,8 +5,9 @@
 #include <QDir>
 #include <QFileInfo>
 #include "bddgestionmp3.h"
-#include "bddverification.h"
+#include "bddversion5.h"
 #include "util.h"
+#include "bddversion6.h"
 
 BDDSingleton BDDSingleton::s_singleton;
 
@@ -57,6 +58,7 @@ void BDDSingleton::creationBase()
     tables << "CREATE TABLE Phys ('Id_Phys' INTEGER PRIMARY KEY,'Id_Album' SMALLINT,'Categorie' VARCHAR(255),'CodeBarres' VARCHAR(255), 'Commentaire' VARCHAR(512))";
     tables << "CREATE TABLE Pochette ('Id_Pochette' INTEGER PRIMARY KEY,'Chemin' VARCHAR(512))";
     tables << "CREATE TABLE Type ('Id_Type' INTEGER PRIMARY KEY,'Type' VARCHAR(255))";
+    tables << "CREATE TABLE Support ('Id_Support' INTEGER PRIMARY KEY,'Support' VARCHAR(255))";
     tables << "INSERT INTO Pochette VALUES (01,'./pochettes/def.jpg')";
     tables << "INSERT INTO Artiste VALUES (01,'Artistes Divers','01','artistesdivers')";
     tables << "CREATE TABLE Relations('Id_Relation' INTEGER PRIMARY KEY,'Id_Titre' INTEGER,'Id_Album' INTEGER,'Id_Artiste' INTEGER,'Num_Piste' TINYINT,'Duree' VARCHAR(255))";
@@ -68,14 +70,19 @@ void BDDSingleton::creationBase()
     tables << "INSERT INTO Configuration VALUES ('Version', '3')";
     tables << "INSERT INTO Type VALUES(01,'Album')";
     tables << "INSERT INTO Type VALUES(02,'Compil')";
-    tables << "INSERT INTO Type VALUES(03,'Single')";
+    tables << "INSERT INTO Type VALUES(03,'Inécouté')";
     tables << "INSERT INTO Type VALUES(04,'BOF')";
     tables << "INSERT INTO Type VALUES(05,'Spectacle musical')";
-    tables << "INSERT INTO Type VALUES(06,'Télé Réalités')";
+    tables << "INSERT INTO Type VALUES(06,'Télé Réalité')";
     tables << "INSERT INTO Type VALUES(07,'New Age')";
     tables << "INSERT INTO Type VALUES(08,'Classique')";
-    tables << "INSERT INTO Type VALUES(09,'Générique')";
-    tables << "INSERT INTO Type VALUES(10,'Reprises')";
+    tables << "INSERT INTO Type VALUES(09,'Associatif')";
+    tables << "INSERT INTO Type VALUES(10,'Reprise')";
+    tables << "INSERT INTO Support VALUES(01,'Album')";
+    tables << "INSERT INTO Support VALUES(02,'Compil')";
+    tables << "INSERT INTO Support VALUES(03,'Single')";
+    tables << "INSERT INTO Support VALUES(04,'MP3')";
+
     for ( int i = 0; i < tables.size(); i++ )
     {
         query = madatabase.exec( tables[i] );
@@ -173,8 +180,14 @@ void BDDSingleton::verifierBDD()
     /*----- RELATION -----*/
     //Vide
     madatabase.exec( "DELETE FROM Relations WHERE Id_Album ='' OR Id_Artiste = '' OR Id_Titre = '' OR Id_Relation = '' ");
+    //MP3 ou Phys
+    madatabase.exec("UPDATE Relations SET MP3 =0 WHERE MP3 =1 AND Id_Relation NOT IN ( SELECT Id_Relation FROM MP3 ) ");
+    madatabase.exec("UPDATE Relations SET MP3 =1 WHERE MP3 =0 AND Id_Relation  IN ( SELECT Id_Relation FROM MP3 ) ");
+    madatabase.exec("UPDATE Relations SET Phys =0 WHERE Phys =1 AND Id_Album NOT IN ( SELECT Id_Album FROM PHYS ) ");
+    madatabase.exec("UPDATE Relations SET Phys =1 WHERE Phys =0 AND Id_Album IN ( SELECT Id_Album FROM PHYS ) ");
     //Non utilisé
     madatabase.exec( "DELETE FROM Relations WHERE Id_Album NOT IN ( SELECT DISTINCT Id_Album FROM Phys) AND Id_Relation NOT IN ( SELECT DISTINCT Id_Relation FROM MP3) " );
+    madatabase.exec( "DELETE FROM Relations WHERE MP3 =0 AND Phys = 0" );
     //Non valide
     madatabase.exec( "DELETE FROM Relations WHERE Id_Album NOT IN (SELECT DISTINCT Id_Album FROM Album) OR Id_Artiste NOT IN ( SELECT DISTINCT Id_Artiste FROM Artiste) OR Id_Titre NOT IN ( SELECT DISTINCT Id_Titre FROM Titre) OR Id_Pochette NOT IN ( SELECT DISTINCT Id_Pochette From Pochette)" );
     /*----- ALBUM -----*/
@@ -267,9 +280,10 @@ void BDDSingleton::changementversion()
     {
     case 0:  madatabase.exec("INSERT INTO Configuration VALUES ('Version', '1')");
     case 1 : version2();
-    case 2  : version3();
-    case 3: version4();
-    case 4: version5();break;
+    case 2 : version3();
+    case 3 : version4();
+    case 4 : version5();
+    case 5 : version6(); break;
     default: break;
     }
 }
@@ -324,37 +338,22 @@ void BDDSingleton::supprimerdossiersvides()
 void BDDSingleton::version5()
 {
 
-    madatabase.exec("DROP TABLE ErreurPochettes");
-
-    //Dans la table Relations, on ajoute maintenant la durée, le num_piste, si c'est un MP3 ou si c'est un Phys
-    madatabase.exec("ALTER TABLE Relations ADD Num_Piste TINYINT");
-    madatabase.exec("ALTER TABLE Relations ADD Duree VARCHAR(255)"); madatabase.exec("ALTER TABLE Relations ADD MP3 TINYINT DEFAULT '0'");
-    madatabase.exec("ALTER TABLE Relations ADD Phys TINYINT DEFAULT '0'");
-
-    //On remplit la durée et le num_pisteqt
-    madatabase.exec("UPDATE Relations SET Duree = (SELECT Duree FROM Titre T WHERE Relations.Id_Titre = T.Id_Titre)");
-    madatabase.exec("UPDATE Relations SET Num_Piste = (SELECT Num_Piste FROM Titre T WHERE Relations.Id_Titre = T.Id_Titre)");
-
-    //On dit si c'est un MP3
-    madatabase.exec("UPDATE Relations SET MP3=1  WHERE  Id_Relation = (SELECT M.Id_Relation FROM MP3 M WHERE Relations.Id_Relation = M.Id_Relation)");
-    //On dit si c'est un Phys
-    madatabase.exec("UPDATE Relations SET Phys=1  WHERE Id_Album = (SELECT P.Id_Album FROM Phys P WHERE Relations.Id_Album = P.Id_Album)");
-
-    //On supprime dans la table Titre la durée et le num_piste
-    madatabase.exec("CREATE TABLE Titre_Nouveau ('Id_Titre' INTEGER PRIMARY KEY,'Titre' VARCHAR(255),'Titre_Formate' VARCHAR(255))");
-
-    madatabase.exec("INSERT into Titre_Nouveau ( 'Id_Titre','Titre','Titre_Formate') SELECT Id_Titre,Titre,Titre_Formate FROM Titre T");
-    madatabase.exec("DROP Table Titre");
-    madatabase.exec("ALTER TABLE Titre_Nouveau RENAME TO Titre");
-
-    //On supprime les 2 tables de Playlist et celle des pochettes erreurs
-    madatabase.exec("DROP Table InfosPlaylist");
-    madatabase.exec("DROP TABLE TitresPlaylist");
-    madatabase.exec("DROP TABLE ErreurPochettes");
-
     BDDVersion5 * verif= new BDDVersion5;
+    verif->ModificationBDD();
+    verif->passageversion5();
 
     //On change la version
-    //   madatabase.exec("UPDATE Configuration SET Valeur='5' WHERE Intitule= 'Version' ");
+    madatabase.exec("UPDATE Configuration SET Valeur='5' WHERE Intitule= 'Version' ");
+
+}
+void BDDSingleton::version6()
+{
+    BDDVersion6* version = new BDDVersion6;
+    version->ModificationBDD();
+
+}
+void BDDSingleton::CDCompilMP3()
+{
+    madatabase.exec("UPDATE Relations SET PHYS = 1 WHERE Id_Relation IN ( SELECT DISTINCT Id_Relation FROM Relations R, Phys P WHERE R.Id_Album = P.Id_Album  AND P.Support = 2  AND EXISTS ( SELECT R2.Id_Relation FROM Relations R2 WHERE R.Id_Artiste = R2.Id_Artiste AND R.Id_Titre = R2.Id_Titre AND R2.MP3=1 ) )");
 
 }

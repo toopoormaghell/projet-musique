@@ -62,8 +62,8 @@ typedef struct _AlbumPhys
     int Id_Release;
     QImage Poch;
     int Id_Album;
-    QString Type_Str;
     int Id_Poch;
+    int Support;
     _AlbumPhys():
         Type( 1 ),
         Album(),
@@ -73,8 +73,8 @@ typedef struct _AlbumPhys
         Id_Release( 1 ),
         Poch(),
         Id_Album( 1 ),
-        Type_Str(),
-        Id_Poch ( -1 )
+        Id_Poch ( -1 ),
+        Support ( 1 )
     {}
     char* toString() const
     {
@@ -89,8 +89,8 @@ typedef struct _AlbumPhys
                      "Id_Release='%6'\n"
                      "Poch='%7'\n"
                      "Id_Album='%8'\n"
-                     "Type_Str='%9'\n" );
-        QString tmp3 = tmp.arg( QString::number( Type ), Album, Artiste, QString::number( Annee ), tmp2, QString::number( Id_Release ), QString::number( Poch.byteCount() ), QString::number( Id_Album ), Type_Str );
+                     "Support='%9'\n");
+        QString tmp3 = tmp.arg( QString::number( Type ), Album, Artiste, QString::number( Annee ), tmp2, QString::number( Id_Release ), QString::number( Poch.byteCount() ), QString::number( Id_Album ),  QString::number( Support ) );
         return tmp3.toLatin1().data();
     }
 } AlbumPhys;

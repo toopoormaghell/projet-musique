@@ -13,6 +13,7 @@
 #include <QStatusBar>
 #include <QPushButton>
 #include "ongletmp3.h"
+#include "dialogverifications.h"
 
 FenetrePrincipale::FenetrePrincipale(const QStringList& couleurs, QWidget* parent ) :
     QMainWindow( parent ),
@@ -172,10 +173,10 @@ void FenetrePrincipale::actionExporter()
 
 void FenetrePrincipale::actionBDD()
 {
-    m_interaction->clear();
-    m_interaction->setText( "Vérification de la BDD..." );
-    BDDSingleton::getInstance().verifierBDD();
-    m_interaction->setText( "Vérification terminée." );
+    DialogVerifications temp( this );
+    temp.exec();
+
+
 }
 
 void FenetrePrincipale::actionconfigactu()

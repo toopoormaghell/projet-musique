@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1073</width>
-    <height>684</height>
+    <height>708</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -185,6 +185,55 @@
          </widget>
         </item>
         <item>
+         <widget class="QLabel" name="NbAvant1980">
+          <property name="text">
+           <string>TextLabel</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="Nb1980">
+          <property name="text">
+           <string>TextLabel</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="Nb1990">
+          <property name="text">
+           <string>TextLabel</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="Nb2000">
+          <property name="text">
+           <string>TextLabel</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="Nb2005">
+          <property name="text">
+           <string>TextLabel</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="Nb2010">
+          <property name="text">
+           <string>TextLabel</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="Nb2015">
+          <property name="text">
+           <string>TextLabel</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <spacer name="verticalSpacer_2">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -215,13 +264,13 @@
           <property name="maximumSize">
            <size>
             <width>500</width>
-            <height>16777215</height>
+            <height>400</height>
            </size>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_4">
+         <widget class="QLabel" name="Mp3Art10">
           <property name="text">
            <string>MP3 de l'artiste concerné dans Compil :</string>
           </property>
@@ -232,8 +281,32 @@
           <property name="maximumSize">
            <size>
             <width>500</width>
-            <height>16777215</height>
+            <height>400</height>
            </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="DoublonsMP3_2">
+          <property name="text">
+           <string>MP3 en Double:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QListWidget" name="DoublonsMP3">
+          <property name="maximumSize">
+           <size>
+            <width>500</width>
+            <height>400</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="PourcentMP3Phys">
+          <property name="text">
+           <string>TextLabel</string>
           </property>
          </widget>
         </item>
@@ -298,6 +371,20 @@
         </item>
         <item>
          <widget class="QLabel" name="Nb_Chansons">
+          <property name="text">
+           <string>TextLabel</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="PourcentAlbumPhysMp3">
+          <property name="text">
+           <string>TextLabel</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="PourcentPhysMP3">
           <property name="text">
            <string>TextLabel</string>
           </property>

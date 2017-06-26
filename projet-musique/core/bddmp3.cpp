@@ -3,17 +3,17 @@
 #include "bddalbum.h"
 #include "bddartiste.h"
 #include "bddtitre.h"
-#include "bddtype.h"
+#include "bddsupport.h"
 #include "bddrelation.h"
 #include <QtSql>
 #include "tags.h"
 #include "bddpoch.h"
 
-BDDMp3::BDDMp3(const QString& Chemin, const BDDRelation& relation, const BDDType& type, QObject* parent):
+BDDMp3::BDDMp3(const QString& Chemin, const BDDRelation& relation, const BDDSupport& support, QObject* parent):
     IdOwner(-1, parent)
   , m_relation(&relation)
   , m_chemin(Chemin)
-  , m_type(&type)
+  , m_support(&support)
   , m_membersAreSelfCreated(false)
 {
     recupererId();
@@ -28,14 +28,14 @@ BDDMp3::~BDDMp3()
 {
     if ( m_membersAreSelfCreated )
     {
-        delete m_type;
+        delete m_support;
         delete m_relation;
     }
 }
 
 void BDDMp3::recupererId()
 {
-    QString queryStr = "SELECT Id_MP3 FROM MP3 WHERE Id_Relation='" + QString::number( m_relation->id() ) + "' AND Chemin='" + m_chemin + "'";
+    QString queryStr = "SELECT Id_MP3 FROM MP3 WHERE Chemin='" + m_chemin + "'";
     QSqlQuery query = madatabase.exec( queryStr );
 
     if ( query.first() )
@@ -51,7 +51,7 @@ void BDDMp3::recupererId()
 }
 void BDDMp3::ajouterBDD()
 {
-    QString queryStr = "INSERT INTO MP3 VALUES (null,'" + QString::number( m_relation->id() ) + "','" + m_chemin + "','" + QString::number( m_type->id() ) + "')";
+    QString queryStr = "INSERT INTO MP3 VALUES (null,'" + QString::number( m_relation->id() ) + "','" + m_chemin + "','" + QString::number( m_support->id() ) + "')";
     QSqlQuery query = madatabase.exec( queryStr );
     setId(query.lastInsertId().toInt());
 }
@@ -97,7 +97,7 @@ BDDMp3::BDDMp3(const int id, QObject* parent):
     IdOwner(id, parent)
   , m_relation(NULL)
   , m_chemin()
-  , m_type(NULL)
+  , m_support(NULL)
   , m_membersAreSelfCreated(false)
 
 {
@@ -110,7 +110,7 @@ BDDMp3::BDDMp3(const int id, QObject* parent):
 
         m_relation = BDDRelation::RecupererRelation(rec.value("Id_Relation" ).toInt());
         m_chemin = rec.value("Chemin").toString().replace("$", "'");
-        m_type = BDDType::RecupererType(rec.value("Categorie").toInt());
+        m_support = BDDSupport::RecupererSupport(rec.value("Support").toInt());
         m_membersAreSelfCreated = true;
     }
 }
@@ -119,7 +119,7 @@ BDDMp3::BDDMp3(const QString& chemin, QObject* parent):
     IdOwner(-1, parent)
   , m_relation(NULL)
   , m_chemin(chemin)
-  , m_type(NULL)
+  , m_support(NULL)
 {
     m_chemin = m_chemin.replace("'", "$");
     QString queryStr = "SELECT * FROM MP3 WHERE Chemin='" + m_chemin + "'";
@@ -131,21 +131,25 @@ BDDMp3::BDDMp3(const QString& chemin, QObject* parent):
 
         setId(rec.value("Id_Relation").toInt());
         m_relation = BDDRelation::RecupererRelation(rec.value("Id_Relation").toInt());
-        m_type = BDDType::RecupererType(rec.value("Categorie").toInt());
+        m_support = BDDSupport::RecupererSupport(rec.value("Support").toInt());
         m_membersAreSelfCreated = true;
     }
 }
 
 void BDDMp3::updateBDD()
 {
-    QString queryStr = "UPDATE MP3 SET Id_Relation ='" + QString::number( m_relation->id() ) + "', Chemin ='" + m_chemin.replace( "'", "$" ) + "', Categorie = '" + QString::number( m_type->id() ) + "'  WHERE Id_MP3 = '" + QString::number( id() ) + "'";
+    QString queryStr = "UPDATE MP3 SET Id_Relation ='" + QString::number( m_relation->id() ) + "', Chemin ='" + m_chemin.replace( "'", "$" ) + "', Support = '" + QString::number( m_support->id() ) + "'  WHERE Id_MP3 = '" + QString::number( id() ) + "'";
 
     madatabase.exec( queryStr );
 }
 void BDDMp3::supprimerenBDD() const
 {
-    QString queryStr = "DELETE FROM MP3 WHERE Id_MP3='" + QString::number( id() ) + "'";
+    if ( id() != 0 )
+    {
+        QString queryStr = "DELETE FROM MP3 WHERE Id_MP3='" + QString::number( id() ) + "'";
 
-    m_relation->supprimerenBDDMP3();
-    madatabase.exec( queryStr );
+        m_relation->supprimerenBDDMP3();
+
+        madatabase.exec( queryStr );
+    }
 }

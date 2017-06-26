@@ -4,20 +4,20 @@
 #include <QObject>
 #include "idowner.h"
 class BDDAlbum;
-class BDDType;
+class BDDSupport;
 
 class BDDPhys : public IdOwner
 {
     Q_OBJECT
 public:
-    explicit BDDPhys(const BDDAlbum& album, const QString& ean, const BDDType& type, const QString& Commentaires, QObject* parent = 0);
+    explicit BDDPhys(const BDDAlbum& album, const QString& ean, const BDDSupport& support, const QString& Commentaires, QObject* parent = 0);
     virtual ~BDDPhys();
 
     void deleteBDD();
     static BDDPhys* RecupererPhys( const int id );
 
     BDDAlbum const* m_album;
-    BDDType const* m_type;
+    BDDSupport const* m_support;
     QString m_ean;
     QString m_commentaires;
 

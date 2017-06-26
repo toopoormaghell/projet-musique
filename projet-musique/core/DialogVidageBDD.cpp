@@ -2,7 +2,6 @@
 #include "ui_DialogVidageBDD.h"
 #include "bddsingleton.h"
 #include "bddgestionmp3.h"
-#include "QDebug"
 DialogVidageBDD::DialogVidageBDD( QWidget* parent ) :
     QDialog( parent ),
     Mp3( true ),

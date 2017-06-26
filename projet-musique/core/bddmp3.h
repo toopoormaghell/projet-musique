@@ -7,14 +7,14 @@ class BDDArtiste;
 class BDDAlbum;
 class BDDTitre;
 class BDDRelation;
-class BDDType;
+class BDDSupport;
 class BDDPoch;
 class BDDMp3 : public IdOwner
 {
     Q_OBJECT
 public:
 
-    explicit BDDMp3(const QString& Chemin, const BDDRelation& relation, const BDDType& type, QObject* parent = 0);
+    explicit BDDMp3(const QString& Chemin, const BDDRelation& relation, const BDDSupport& support, QObject* parent = 0);
     virtual ~BDDMp3();
 
     void updateBDD();
@@ -23,7 +23,7 @@ public:
 
     BDDRelation const* m_relation;
     QString m_chemin;
-    BDDType const* m_type;
+    BDDSupport const* m_support;
 
     static BDDMp3* RecupererMp3ParChemin( const QString& chemin );
     static BDDMp3* RecupererMP3ParTitre ( const int& id );

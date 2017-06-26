@@ -177,7 +177,7 @@ void BDDGestionMp3::actualiserMp3( QString chemin )
 
     BDDTitre tit( title.replace( "'", "$" ));
     BDDRelation rel( alb, art, tit, track, QString::number( min ) + ":" + QString::number( sec ).rightJustified( 2, '0' ), 1,0,1);
-    BDDMp3 mp3( chemin.replace( "'", "$" ), rel, *BDDType::RecupererType(m_souscat) );
+    BDDMp3 mp3( chemin.replace( "'", "$" ), rel, *BDDSupport::RecupererSupport(4) );
 
 
     if ( m_Chemins.find( mp3.id() ) != m_Chemins.end() )
@@ -199,7 +199,8 @@ void BDDGestionMp3::supprimerAnciensMP3( )
 }
 void BDDGestionMp3::supprstep()
 {
-    if ( m_iterateur != m_Chemins.constEnd() )
+
+    if ( m_iterateur != m_Chemins.constEnd() && m_Chemins.count()!=0 )
     {
         try
         {
@@ -214,8 +215,8 @@ void BDDGestionMp3::supprstep()
                 SupprimerenBDDMP3( cle );
             }
             m_iteration++;
-            m_Chemins.remove( cle );
-            m_iterateur = m_Chemins.constBegin();
+        //    m_Chemins.remove( cle );
+            m_iterateur++;
         }
         catch ( std::bad_alloc& e )
         {
@@ -232,18 +233,20 @@ void BDDGestionMp3::supprstep()
         {
             ReconstruireListeCategorie();
             emit fin();
+            BDDSingleton::getInstance().CDCompilMP3();
             BDDSingleton::getInstance().supprimerdossiersvides();
         }
     }
 }
 void BDDGestionMp3::recupererMp3( int Type )
 {
-    QMap < int, QStringList > Chemins;
 
-    QString queryStri = "Select Id_MP3, Chemin FROM MP3 WHERE Categorie='" + QString::number( Type ) + "'";
+
+    QString queryStri = "Select Id_MP3, Chemin FROM MP3 M, Relations R, Album B WHERE R.Id_Relation = M.Id_Relation AND R.Id_Album = B.Id_Album AND B.Type='" + QString::number( Type ) + "'";
+
     if ( Type == 1 )
     {
-        queryStri = "Select Id_MP3, Chemin FROM MP3 WHERE Categorie NOT IN(2)";
+        queryStri = "Select Id_MP3, Chemin FROM MP3 M, Relations R, Album B WHERE R.Id_Relation = M.Id_Relation AND R.Id_Album = B.Id_Album AND B.Type NOT IN(2)";
     }
 
     QSqlQuery  query =  madatabase.exec( queryStri );
@@ -257,10 +260,9 @@ void BDDGestionMp3::recupererMp3( int Type )
 
         infos  << Chem << "Pas Trouvé";
 
-        Chemins.insert( Mp3, infos );
+        m_Chemins.insert( Mp3, infos );
 
     }
-    m_Chemins = Chemins;
 
 }
 QString BDDGestionMp3::getdossierpardef()
@@ -308,20 +310,20 @@ void BDDGestionMp3::SousCatParChemin( QString chemin )
 void BDDGestionMp3::ReconstruireListeCategorie()
 {
     //On met dans une autre catégorie les artistes qui ont moins de 10 Mp3 à leur actif
-    QString queryStr = "UPDATE MP3 SET Categorie = '11' WHERE Id_Relation IN ( SELECT Id_Relation FROM Relations WHERE  Id_Artiste IN ( SELECT Id_Artiste FROM Relations R, MP3 M            WHERE M.Id_Relation = R.Id_Relation AND M.Categorie = 1 GROUP BY R.Id_Artiste HAVING COUNT(M.Id_Relation)<10 ) ) " ;
+    QString queryStr = "UPDATE Album SET Type = '3' WHERE Id_Album IN ( SELECT Id_Album FROM Relations WHERE  Id_Artiste IN ( SELECT Id_Artiste FROM Relations R, MP3 M, Album B  WHERE M.Id_Relation = R.Id_Relation AND R.Id_Album = B.Id_Album AND B.Type = 1 GROUP BY R.Id_Artiste HAVING COUNT(M.Id_Relation)<10 ) ) " ;
     madatabase.exec( queryStr );
 
     //Les albums de ces mp3 changent aussi de categories
-    queryStr = "UPDATE Album SET Type = '11' WHERE Id_Album IN ( SELECT Id_Album FROM Relations WHERE Id_Artiste IN ( SELECT Id_Artiste FROM Relations R, MP3 M            WHERE M.Id_Relation = R.Id_Relation AND M.Categorie = 1 GROUP BY R.Id_Artiste HAVING COUNT(M.Id_Relation)<10 ) ) " ;
+    queryStr = "UPDATE Album SET Type = '3' WHERE Id_Album IN ( SELECT Id_Album FROM Relations WHERE Id_Artiste IN ( SELECT Id_Artiste FROM Relations R, MP3 M, Album B            WHERE M.Id_Relation = R.Id_Relation AND R.Id_Album = B.Id_Album AND B.Type = 1 GROUP BY R.Id_Artiste HAVING COUNT(M.Id_Relation)<10 ) ) " ;
     madatabase.exec( queryStr );
 
 
     //On ajoute dans cette même catégorie les artistes qui ont qu'un seul album à leur actif
-    queryStr = " UPDATE MP3 SET Categorie = '11' WHERE Id_Relation IN ( SELECT Id_Relation FROM Relations WHERE Id_Album IN ( SELECT R.Id_Album FROM Relations R, MP3 M  WHERE  M.Categorie = 1 AND M.Id_Relation = R.Id_Relation GROUP BY R.Id_Artiste HAVING COUNT ( DISTINCT R.Id_Album) < 2 ))" ;
+    queryStr = " UPDATE Album SET Type = '3' WHERE Id_Album IN ( SELECT Id_Album FROM Relations WHERE Id_Album IN ( SELECT R.Id_Album FROM Relations R, MP3 M, Album B  WHERE  R.Id_Album = B.Id_Album AND B.Type = 1 AND M.Id_Relation = R.Id_Relation GROUP BY R.Id_Artiste HAVING COUNT ( DISTINCT R.Id_Album) < 2 ))" ;
     madatabase.exec( queryStr );
 
     //Les albums de ces mp3 changent aussi de categories
-    queryStr = " UPDATE Album SET Type = '11' WHERE Id_Album IN ( SELECT Id_Album FROM Relations WHERE Id_Album IN ( SELECT R.Id_Album FROM Relations R, MP3 M  WHERE  M.Categorie = 1 AND M.Id_Relation = R.Id_Relation GROUP BY R.Id_Artiste HAVING COUNT ( DISTINCT R.Id_Album) < 2 ))" ;
+    queryStr = " UPDATE Album SET Type = '3' WHERE Id_Album IN ( SELECT Id_Album FROM Relations WHERE Id_Album IN ( SELECT R.Id_Album FROM Relations R, MP3 M  WHERE  , Album B  WHERE  R.Id_Album = B.Id_Album AND B.Type = 1 AND M.Id_Relation = R.Id_Relation GROUP BY R.Id_Artiste HAVING COUNT ( DISTINCT R.Id_Album) < 2 ))" ;
     madatabase.exec( queryStr );
 
 }
@@ -339,10 +341,11 @@ void BDDGestionMp3::ViderBDD()
 {
     QList<int> tempCat = BDDType::NbCategories();
 
-    for ( int i = 0; tempCat.count(); i++ )
+    for ( int i = 0; i<tempCat.count()-1; i++ )
     {
         recupererMp3( tempCat[i] );
-        if ( m_Chemins.isEmpty() )
-            supprimerAnciensMP3();
+
     }
+    if ( ! m_Chemins.isEmpty() )
+        supprimerAnciensMP3();
 }

@@ -9,7 +9,6 @@
 #include "DialogModifierAlbum.h"
 #include "bddgestionphys.h"
 #include "DialogModifierArtiste.h"
-#include <QDebug>
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include "bddsingleton.h"
@@ -33,7 +32,7 @@ OngletPhys::OngletPhys( QWidget* parent ) :
     connect (ui->Artistes,SIGNAL(activated(QModelIndex)),this,SLOT(on_Artistes_clicked(QModelIndex)));
     connect (ui->Compil,SIGNAL(itemActivated(QListWidgetItem*)),this,SLOT(on_Compil_itemPressed(QListWidgetItem*)));
     connect (ui->Singles,SIGNAL(itemActivated(QListWidgetItem*)),this,SLOT(on_Singles_itemPressed(QListWidgetItem*)));
-    // connect (ui->Modifier,SIGNAL(pressed()),this,SLOT(on_Modifier_clicked()));
+   connect (ui->Modifier,SIGNAL(pressed()),this,SLOT(on_Modifier_clicked()));
     //    connect (ui->SupprimerAlbum,SIGNAL(pressed()),this,SLOT(on_SupprimerAlbum_clicked()));
 }
 
@@ -222,8 +221,8 @@ void OngletPhys::AfficherInfosAlbum( int Type )
 
         QPixmap mp3( ":/Autres/Mp3" );
         QPixmap nonmp3 (":/Autres/Faux");
-        //On affiche les titres
 
+        //On affiche les titres
         QString queryStr = "SELECT Id_Relation, Id_Artiste FROM Relations  WHERE Id_Album='" + QString::number( phys->m_album->id() ) + "' ORDER BY Num_Piste";
         QSqlQuery query = madatabase.exec( queryStr );
         int relationCount = 0;
@@ -247,7 +246,7 @@ void OngletPhys::AfficherInfosAlbum( int Type )
                     //On Ajoute une couleur pour le titre où l'artiste est le bon
                     QBrush m_brush;
                     m_brush.setColor( Qt::blue );
-                     item->setForeground( m_brush );
+                    item->setForeground( m_brush );
 
                 }
                 temp = temp + " - " + art->m_nom;
@@ -367,7 +366,7 @@ void OngletPhys::afficherListeCds()
         ui->label->setHidden( true );
         ui->Compil->setFixedHeight( 450);
         ui->label_3->setFixedHeight( 450);
-        ui->Compil->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+
 
     }
     //Sinon, on vérifie le nombre d'albums pour en afficher le plus possible
@@ -384,7 +383,7 @@ void OngletPhys::afficherListeCds()
         ui->label_3->setFixedHeight( 150 );
         ui->Albums->setFixedHeight( 150 );
         ui->label->setFixedHeight( 150 );
-        ui->Compil->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
 
 
         if ( ( m_Singles == 0 || m_Compils == 0 ) && m_Albums > 12 )
@@ -436,7 +435,9 @@ void OngletPhys::remplirStats()
     QList <int> titres = m_bddInterface.TitresParArtistes( m_artiste );
     ui->NbTitres->setText( QString::number( titres[0] ) );
     ui->NbTitresMP3->setText( QString::number( titres[1] ) );
-    int Pourcentage = titres[1]*100/titres[0];
+    int Pourcentage = 0;
+    if ( titres[0] != 0)
+        Pourcentage = titres[1]*100/titres[0];
     ui->Pourcentage->setText(QString::number( Pourcentage )+" %");
 
     afficherListeAlbSansMP3();
@@ -472,4 +473,24 @@ void OngletPhys::afficherListeAlbSansMP3()
         delete album;
     }
 
+}
+
+void OngletPhys::on_AlbSansMP3_pressed(const QModelIndex &index)
+{
+    m_selection = index.data( Qt::UserRole ).toInt();
+
+    vider( "Infos" );
+    if ( m_artiste !="-1" )
+    {
+        ui->Compil->clearSelection();
+        ui->Singles->clearSelection();
+        AfficherInfosAlbum( 1 );
+    } else
+    {
+        ui->Albums->clearSelection();
+        ui->Singles->clearSelection();
+        AfficherInfosAlbum( 2 );
+    }
+
+    //  AfficherArtisteSelectionne();
 }

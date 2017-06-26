@@ -151,16 +151,20 @@ void BDDRelation::ajouterBDD()
 void BDDRelation::supprimerenBDDMP3() const
 {
 
-    QString queryStr = "SELECT Id_Phys FROM Phys WHERE Id_Album='" + QString::number( m_album->id() ) + "'";
-
-    QSqlQuery query = madatabase.exec( queryStr );
-
-    if ( !query.first() )
+    if ( id() != -1 )
     {
+        QString queryStr = "SELECT Id_Phys FROM Phys WHERE Id_Album='" + QString::number( m_album->id() ) + "'";
 
-        madatabase.exec( "DELETE FROM Relations WHERE Id_Relation='" + QString::number( id() ) + "'" );
+        QSqlQuery query = madatabase.exec( queryStr );
+
+        if ( !query.first() )
+        {
+            madatabase.exec( "DELETE FROM Relations WHERE Id_Relation='" + QString::number( id() ) + "'" );
+        } else
+        {
+            madatabase.exec("UPDATE Relations SET MP3 = 0 WHERE Id_Relation='" + QString::number( id() ) + "'" );
+        }
     }
-
 }
 void BDDRelation::supprimerModifier() const
 {
@@ -182,6 +186,9 @@ void BDDRelation::supprimerenBDDPhys() const
     {
 
         madatabase.exec( "DELETE FROM Relations WHERE Id_Relation='" + QString::number( id() ) + "'" );
+    } else
+    {
+        madatabase.exec("UPDATE Relations SET Phys = 0 WHERE Id_Relation='" + QString::number( id() ) + "'" );
     }
 
 }

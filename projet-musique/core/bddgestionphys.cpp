@@ -5,19 +5,22 @@
 #include "bddalbum.h"
 #include "bddtitre.h"
 #include "bddrelation.h"
+#include "bddsupport.h"
 #include "bddtype.h"
 #include "bddphys.h"
-#include <QDebug>
+
 
 BDDGestionPhys::BDDGestionPhys( QObject* parent ) :
     QObject( parent )
 {
 }
 
-void BDDGestionPhys::ajouterAlbum(QImage Poch, QString Album, QString Artiste, QString ean, int Annee, QList<TitresPhys> titres, int Type, QString Commentaires)
+void BDDGestionPhys::ajouterAlbum(QImage Poch, QString Album, QString Artiste, QString ean, int Annee, QList<TitresPhys> titres, int Support, QString Commentaires, int Type)
 {
 
-    BDDPoch poch(Poch, Album, Artiste);
+    BDDPoch poch(Poch, Album, ( Support==2 ? "Compil":Artiste ) );
+
+
     BDDPoch* def = BDDPoch::recupererBDD(1);
 
     BDDArtiste art( Artiste, ( Type==2 ?*def : poch ) );
@@ -39,7 +42,7 @@ void BDDGestionPhys::ajouterAlbum(QImage Poch, QString Album, QString Artiste, Q
     }
 
 
-    BDDPhys phys( alb, ean, *BDDType::RecupererType(Type), Commentaires );
+    BDDPhys phys( alb, ean, *BDDSupport::RecupererSupport(Support), Commentaires );
 
     delete def;
 }
@@ -50,7 +53,7 @@ void BDDGestionPhys::SupprimerenBDDPhys( int Id )
     delete phys;
 }
 
-void BDDGestionPhys::modifierAlbum( QString Album, QString Artiste, QString ean, int Annee, QList<TitresPhys> titres, int Type, int Id_Poch, int Id_Album, QString Commentaires)
+void BDDGestionPhys::modifierAlbum( QString Album, QString Artiste, QString ean, int Annee, QList<TitresPhys> titres, int Type, int Id_Poch, int Id_Album, QString Commentaires, int Support)
 {
     BDDPoch* poch  = BDDPoch::recupererBDD( Id_Poch );
     BDDArtiste art( Artiste, *poch );
@@ -61,7 +64,9 @@ void BDDGestionPhys::modifierAlbum( QString Album, QString Artiste, QString ean,
     alb->m_nom = Album;
     FormaterEntiteBDD ( Album );
     alb->m_nomFormate = Album ;
+
     alb->updateBDD();
+
 
     //On supprime la liste des titres déjà présents dans la bdd
     AlbumPhys albphys = BDDAlbum::RecupAlbumEntite( Id_Album);
@@ -70,6 +75,8 @@ void BDDGestionPhys::modifierAlbum( QString Album, QString Artiste, QString ean,
 
         BDDTitre tit( albphys.titres[i].Titre.replace( "'", "$" ) );
         BDDRelation rel (*alb, art, tit, albphys.titres[i].Num_Piste, albphys.titres[i].Duree,titres[i].MP3 ? 1 : 0,titres[i].Phys ? 1 : 0, 1);
+
+
 
         tit.supprimerenBDD();
         rel.supprimerenBDDPhys();
@@ -94,7 +101,7 @@ void BDDGestionPhys::modifierAlbum( QString Album, QString Artiste, QString ean,
         }
     }
 
-    BDDPhys phys( *alb, ean, *BDDType::RecupererType(Type), Commentaires );
+    BDDPhys phys( *alb, ean, *BDDSupport::RecupererSupport(Support), Commentaires );
     delete alb->m_type;
     delete alb;
     delete poch;

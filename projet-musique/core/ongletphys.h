@@ -41,6 +41,8 @@ private slots:
     void on_Artistes_doubleClicked( const QModelIndex& index );
     void on_Artistes_clicked( const QModelIndex& index );
 
+     void on_AlbSansMP3_pressed(const QModelIndex &index);
+
 private:
     Ui::OngletPhys* ui;
     BDDAfficherPhys m_bddInterface;

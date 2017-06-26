@@ -91,6 +91,7 @@ void BDDPoch::ajouterBDD()
 void BDDPoch::updateBDD()
 {
 
+    madatabase.exec("UPDATE Pochette SET Chemin = '" + m_chemin + "' WHERE Id_Pochette = '" + QString::number(id()) + "'");
 }
 
 BDDPoch* BDDPoch::recupererBDD( const int id )
@@ -140,19 +141,22 @@ BDDPoch::BDDPoch(const int id, QObject* parent):
 
 void BDDPoch::supprimerenBDD() const
 {
-
-    //On vérifie si la pochette n'existe plus ni dans l'artiste, ni dans l'album
-    QString queryStr = "SELECT Id_Pochette FROM Artiste WHERE Id_Pochette='" + QString::number( id() ) + "' UNION SELECT Id_Pochette FROM Album WHERE Id_Pochette='" + QString::number( id() ) + "'";
-    QSqlQuery  query2 = madatabase.exec( queryStr );
-
-    //si la requête ne renvoie pas de résultat, on efface du coup la pochette
-    if ( !query2.first() )
+    if ( id() != -1 )
     {
 
-        queryStr =  "DELETE FROM Pochette WHERE Id_Pochette='" + QString::number( id() ) + "'";
-        madatabase.exec( queryStr );
-        QFile::remove( m_chemin );
-    }
+        //On vérifie si la pochette n'existe plus ni dans l'artiste, ni dans l'album
+        QString queryStr = "SELECT Id_Pochette FROM Artiste WHERE Id_Pochette='" + QString::number( id() ) + "' UNION SELECT Id_Pochette FROM Album WHERE Id_Pochette='" + QString::number( id() ) + "'";
+        QSqlQuery  query2 = madatabase.exec( queryStr );
 
+        //si la requête ne renvoie pas de résultat, on efface du coup la pochette
+        if ( !query2.first() )
+        {
+
+            queryStr =  "DELETE FROM Pochette WHERE Id_Pochette='" + QString::number( id() ) + "'";
+            madatabase.exec( queryStr );
+            QFile::remove( m_chemin );
+        }
+
+    }
 }
 

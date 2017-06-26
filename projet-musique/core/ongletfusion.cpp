@@ -3,7 +3,6 @@
 #include "bddartiste.h"
 #include "bddpoch.h"
 #include "bddalbum.h"
-#include <QDebug>
 #include "util.h"
 #include "MyQLabel.h"
 #include "bddfusion.h"

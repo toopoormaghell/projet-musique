@@ -3,6 +3,8 @@
 #include "bddtype.h"
 #include "bddartiste.h"
 #include "bddtitre.h"
+#include "bddmp3.h"
+#include "bddrelation.h"
 
 OngletStats::OngletStats( QWidget* parent ) :
     QWidget( parent ),
@@ -26,6 +28,7 @@ void OngletStats::AfficherInfos()
     AfficherInfosCategoriesPhys();
     AfficherInfosCategoriesMP3();
     AfficherArtistesCompilMP3();
+    AfficherDoublonsMP3();
 
 }
 void OngletStats::AfficherInfosCategoriesMP3()
@@ -54,14 +57,18 @@ void OngletStats::AfficherInfosCategoriesMP3()
     //Generiques
     temp = m_bddInterface.NbMp3Categorie( 9 );
     nb = temp + nb;
-    ui->NbMp3Gene->setText( "<dd>Génériques: " + QString::number( temp ) );
+    ui->NbMp3Gene->setText( "<dd>Associatif: " + QString::number( temp ) );
+    //Inécoutés
+    temp = m_bddInterface.NbMp3Categorie( 3 );
+    nb = temp + nb;
+    ui->NbMp3Gene->setText( "<dd>Inécoutés: " + QString::number( temp ) );
     //Reprises
     temp = m_bddInterface.NbMp3Categorie( 10 );
 
     nb = temp + nb;
     ui->NbMp3Reprises->setText( "<dd><dd>Reprises: " + QString::number( temp ) );
     //Albums
-    temp = m_bddInterface.NbMp3Categorie( 1 )+ m_bddInterface.NbMp3Categorie( 11 );
+    temp = m_bddInterface.NbMp3Categorie( 1 );
 
     nb = temp + nb;
     ui->NbMp3Album->setText( "<dd><dd>Albums: " + QString::number( temp ) );
@@ -69,6 +76,21 @@ void OngletStats::AfficherInfosCategoriesMP3()
 
     ui->NbMp3ScAlbum->setText( "Categorie Albums: " + QString::number( nb ) );
     ui->NbMp3Compil->setText( "Categorie Compils: " + QString::number( m_bddInterface.NbMp3Categorie( 2 ) ) );
+    //on détaille un peu les mp3 Compil
+    ui->NbAvant1980->setText(" <dd>Avant 1980: " + QString::number( m_bddInterface.NbCompilCategorie( 0 ) ) );
+    ui->Nb1980->setText(" <dd>1980-1989: " + QString::number( m_bddInterface.NbCompilCategorie( 1 ) ) );
+    ui->Nb1990->setText(" <dd>1990-1999: " + QString::number( m_bddInterface.NbCompilCategorie( 2 ) ) );
+    ui->Nb2000->setText(" <dd>2000-2004: " + QString::number( m_bddInterface.NbCompilCategorie( 3 ) ) );
+    ui->Nb2005->setText(" <dd>2005-2009: " + QString::number( m_bddInterface.NbCompilCategorie( 4 ) ) );
+    ui->Nb2010->setText(" <dd>2010-2014: " + QString::number( m_bddInterface.NbCompilCategorie( 5 ) ) );
+    ui->Nb2015->setText(" <dd>2015-2019: " + QString::number( m_bddInterface.NbCompilCategorie( 6 ) ) );
+    int pourcent=0;
+    if ( nb != 0)
+    {
+        pourcent   = m_bddInterface.NbTotalMp3Phys()*100/nb;
+    }
+
+    ui->PourcentMP3Phys->setText( "Pourcentage de mp3 en CD: "+QString::number( pourcent )+"%" );
 
 }
 void OngletStats::AfficherInfosCategoriesPhys()
@@ -77,6 +99,10 @@ void OngletStats::AfficherInfosCategoriesPhys()
     ui->NbPhysCompil->setText( "<dd>Singles : " + QString::number( m_bddInterface.NbPhysCategorie( 3 ) ) );
     ui->NbPhysSingle->setText( "<dd>Compils : " + QString::number( m_bddInterface.NbPhysCategorie( 2 ) ) );
     ui->Nb_Chansons->setText( "Nombre de chansons : " + QString::number( m_bddInterface.NbChansonsPhys() ) );
+    int pourcent= m_bddInterface.NbTotalAlbumMP3Phys()*100/ m_bddInterface.NbPhysTotal();
+    ui->PourcentAlbumPhysMp3->setText( "Pourcentage d'albums représentés en MP3: "+QString::number( pourcent )+"%" );
+    pourcent = m_bddInterface.NbTotalMp3Phys()*100/  m_bddInterface.NbChansonsPhys() ;
+    ui->PourcentPhysMP3->setText("Pourcentage de titres physiques représentés en MP3: "+QString::number( pourcent )+"%" );
 }
 void OngletStats::AfficherArtistesCompilMP3()
 {
@@ -105,6 +131,22 @@ void OngletStats::AfficherMP3ArtisteCompilMP3()
         ui->MP3Artiste5->addItem( item );
         delete titre;
     }
+}
+
+void OngletStats::AfficherDoublonsMP3()
+{
+    QList<int> temp = m_bddInterface.ListeMP3Doublons();
+    ui->DoublonsMP3->clear();
+    for ( int i = 0; i < temp.count(); i++ )
+    {
+        BDDMp3* mp3 = BDDMp3::RecupererMp3( temp[i] );
+        QListWidgetItem* item =  new QListWidgetItem;
+        item->setText( mp3->m_relation->m_titre->m_nom+" ( "+mp3->m_chemin +" )" );
+        item->setData( Qt::UserRole, temp[i] );
+        ui->DoublonsMP3->addItem( item );
+        delete mp3;
+    }
+
 }
 int OngletStats::choixArtiste()
 {
