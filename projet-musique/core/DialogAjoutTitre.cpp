@@ -2,7 +2,7 @@
 #include "ui_DialogAjoutTitre.h"
 #include "bddafficherphys.h"
 #include <QCompleter>
-#include <QDebug>
+
 
 DialogAjoutTitre::DialogAjoutTitre( int Type, int Nb_Piste, QWidget* parent ) :
     QDialog( parent ),

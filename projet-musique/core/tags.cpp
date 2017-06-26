@@ -9,7 +9,6 @@
 #include <id3v2/id3v2tag.h>
 #include <mpegfile.h>
 #include <QFile>
-#include <QDebug>
 #include <mpegfile.h>
 #include <id3v2tag.h>
 #include <frames/attachedpictureframe.h>

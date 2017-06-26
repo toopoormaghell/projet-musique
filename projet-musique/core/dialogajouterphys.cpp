@@ -1,6 +1,5 @@
 #include "DialogAjouterPhys.h"
 #include "ui_dialogajouterphys.h"
-#include "qdebug.h"
 #include "bddgestionphys.h"
 #include "util.h"
 #include <QFileDialog>

@@ -6,7 +6,6 @@
 #include "bddrelation.h"
 #include "bddartiste.h"
 #include "bddpoch.h"
-#include <QDebug>
 #include "bddmp3.h"
 #include <QFileInfo>
 #include <QDir>
