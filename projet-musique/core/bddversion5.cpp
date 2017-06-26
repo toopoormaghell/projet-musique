@@ -30,7 +30,8 @@ void BDDVersion5::ModificationBDD()
 
     //Dans la table Relations, on ajoute maintenant la durée, le num_piste, si c'est un MP3 ou si c'est un Phys
     madatabase.exec("ALTER TABLE Relations ADD Num_Piste TINYINT");
-    madatabase.exec("ALTER TABLE Relations ADD Duree VARCHAR(255)"); madatabase.exec("ALTER TABLE Relations ADD MP3 TINYINT DEFAULT '0'");
+    madatabase.exec("ALTER TABLE Relations ADD Duree VARCHAR(255)");
+    madatabase.exec("ALTER TABLE Relations ADD MP3 TINYINT DEFAULT '0'");
     madatabase.exec("ALTER TABLE Relations ADD Phys TINYINT DEFAULT '0'");
 
     //On remplit la durée et le num_pisteqt
