@@ -215,8 +215,8 @@ void BDDGestionMp3::supprstep()
                 SupprimerenBDDMP3( cle );
             }
             m_iteration++;
-            m_Chemins.remove( cle );
-            m_iterateur = m_Chemins.constBegin();
+        //    m_Chemins.remove( cle );
+            m_iterateur++;
         }
         catch ( std::bad_alloc& e )
         {
@@ -233,6 +233,7 @@ void BDDGestionMp3::supprstep()
         {
             ReconstruireListeCategorie();
             emit fin();
+            BDDSingleton::getInstance().CDCompilMP3();
             BDDSingleton::getInstance().supprimerdossiersvides();
         }
     }

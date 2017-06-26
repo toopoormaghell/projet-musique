@@ -121,18 +121,22 @@ void BDDArtiste::updateBDD()
 
 void BDDArtiste::supprimerenBDD() const
 {
-    //On vérifie si l'artiste existe ou non dans la table des relations
-    QString queryStri =  "Select Id_Relation As 'Relation' from Relations WHERE Id_Artiste='" + QString::number( id() ) + "'" ;
-    QSqlQuery  query2 = madatabase.exec( queryStri );
-
-    //si la requête ne renvoie pas de résultat, on efface du coup l'artiste
-    if ( !query2.first() )
+    if ( id() != -1 )
     {
+        //On vérifie si l'artiste existe ou non dans la table des relations
+        QString queryStri =  "Select Id_Relation As 'Relation' from Relations WHERE Id_Artiste='" + QString::number( id() ) + "'" ;
+        QSqlQuery  query2 = madatabase.exec( queryStri );
 
-        madatabase.exec( "DELETE FROM Artiste WHERE Id_Artiste='" + QString::number( id() ) + "'" );
+        //si la requête ne renvoie pas de résultat, on efface du coup l'artiste
+        if ( !query2.first() )
+        {
+
+            madatabase.exec( "DELETE FROM Artiste WHERE Id_Artiste='" + QString::number( id() ) + "'" );
+
+        }
+        m_pochette->supprimerenBDD();
 
     }
-    m_pochette->supprimerenBDD();
 }
 
 void BDDArtiste::EchangerArtiste( QString& nom )

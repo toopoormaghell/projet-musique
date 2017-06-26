@@ -34,11 +34,14 @@ BDDPhys::~BDDPhys()
 
 void BDDPhys::deleteBDD()
 {
-    QString queryStr = "DELETE FROM Phys WHERE Id_Album='" + QString::number( id() ) + "'";
+    if ( id() != 0 )
+    {
+        QString queryStr = "DELETE FROM Phys WHERE Id_Album='" + QString::number( id() ) + "'";
 
-    madatabase.exec( queryStr );
+        madatabase.exec( queryStr );
 
-    m_album->supprimerenBDD();
+        m_album->supprimerenBDD();
+    }
 }
 
 BDDPhys* BDDPhys::RecupererPhys( const int id )

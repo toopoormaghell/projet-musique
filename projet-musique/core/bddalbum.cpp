@@ -98,20 +98,24 @@ void BDDAlbum::ajouterBDD()
 
 void BDDAlbum::supprimerenBDD() const
 {
-
-    //On vérifie si l'album existe ou non dans la table des relations
-    QString queryStri =  "Select Id_Relation As 'Relation' from Relations WHERE Id_Album='" + QString::number( id() ) + "'" ;
-    QSqlQuery  query2 = madatabase.exec( queryStri );
-
-    //si la deuxième requête ne renvoie pas de résultat, on efface du coup l'album
-    if ( !query2.first() )
+    if ( id() != -1 )
     {
 
-        madatabase.exec( "DELETE FROM Album WHERE Id_Album='" + QString::number( id() ) + "'" );
+        //On vérifie si l'album existe ou non dans la table des relations
+        QString queryStri =  "Select Id_Relation As 'Relation' from Relations WHERE Id_Album='" + QString::number( id() ) + "'" ;
+        QSqlQuery  query2 = madatabase.exec( queryStri );
 
+        //si la deuxième requête ne renvoie pas de résultat, on efface du coup l'album
+        if ( !query2.first() )
+        {
+
+            madatabase.exec( "DELETE FROM Album WHERE Id_Album='" + QString::number( id() ) + "'" );
+
+        }
+
+        m_pochette->supprimerenBDD();
+        m_artiste->supprimerenBDD();
     }
-    m_pochette->supprimerenBDD();
-    m_artiste->supprimerenBDD();
 }
 AlbumPhys BDDAlbum::RecupAlbumEntite( const int id )
 {
@@ -130,7 +134,6 @@ AlbumPhys BDDAlbum::RecupAlbumEntite( const int id )
 
     //On récupère le Type
     BDDType* typ = BDDType::RecupererType( albphys.Type );
-    albphys.Type_Str = typ->m_type;
     delete typ;
 
     //On récupère les titres liés à l'album

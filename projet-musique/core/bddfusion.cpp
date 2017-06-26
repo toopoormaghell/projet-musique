@@ -1,6 +1,5 @@
 #include "bddfusion.h"
 #include "util.h"
-#include <QDebug>
 #include "bddalbum.h"
 #include "bddtitre.h"
 #include "bddpoch.h"
@@ -13,6 +12,7 @@
 #include <QtSql>
 #include "tags.h"
 #include "dialogchoixtitrefusion.h"
+#include "QDebug"
 
 BDDFusion::BDDFusion(QWidget *parent) : QWidget(parent)
 {

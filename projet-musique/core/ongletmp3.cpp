@@ -279,7 +279,7 @@ void OngletMP3::afficherInfosTitre()
     vider( "Titre" );
 
     BDDMp3* mp3 = BDDMp3::RecupererMp3( m_mp3 );
-    if ( mp3->m_relation->m_album != NULL)
+    if ( mp3->m_relation != NULL && mp3->m_chemin != "")
     { ui->Piste->setText( QString::number( mp3->m_relation->m_num_piste ).rightJustified( 2, '0' ) + " - " );
 
         QString temp = mp3->m_relation->m_titre->m_nom.toUpper() + "(" + mp3->m_relation->m_duree + ")";

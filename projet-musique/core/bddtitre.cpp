@@ -2,7 +2,6 @@
 #include "bddsingleton.h"
 #include "util.h"
 #include <QtSql>
-#include <QDebug>
 #include "bddartiste.h"
 #include "bddalbum.h"
 
@@ -28,12 +27,15 @@ void BDDTitre::updateBDD()
 
 void BDDTitre::supprimerenBDD() const
 {
-    QString queryStr = "SELECT Id_Relation from Relations WHERE Id_Titre='" + QString::number( id() ) + "'";
-    QSqlQuery query = madatabase.exec( queryStr );
-
-    if ( !query.first() )
+    if ( id() != -1 )
     {
-        madatabase.exec( "DELETE FROM Titre WHERE Id_Titre='" + QString::number( id() ) + "'" );
+        QString queryStr = "SELECT Id_Relation from Relations WHERE Id_Titre='" + QString::number( id() ) + "'";
+        QSqlQuery query = madatabase.exec( queryStr );
+
+        if ( !query.first() )
+        {
+            madatabase.exec( "DELETE FROM Titre WHERE Id_Titre='" + QString::number( id() ) + "'" );
+        }
     }
 }
 
@@ -71,7 +73,7 @@ void BDDTitre::recupererId()
 
 void BDDTitre::mp3physfusion()
 {
- /*   m_mp3 = false; m_phys= false;
+    /*   m_mp3 = false; m_phys= false;
     //Première étape: le titre existe ou non en MP3
     QString queryStr = "SELECT M.Id_MP3 FROM Relations R, MP3 M WHERE R.Id_Titre = '" + QString::number( id() ) + "' AND M.Id_Relation = R.Id_Relation";
 

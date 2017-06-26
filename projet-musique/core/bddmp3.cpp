@@ -35,7 +35,7 @@ BDDMp3::~BDDMp3()
 
 void BDDMp3::recupererId()
 {
-    QString queryStr = "SELECT Id_MP3 FROM MP3 WHERE Id_Relation='" + QString::number( m_relation->id() ) + "' AND Chemin='" + m_chemin + "'";
+    QString queryStr = "SELECT Id_MP3 FROM MP3 WHERE Chemin='" + m_chemin + "'";
     QSqlQuery query = madatabase.exec( queryStr );
 
     if ( query.first() )
@@ -144,8 +144,12 @@ void BDDMp3::updateBDD()
 }
 void BDDMp3::supprimerenBDD() const
 {
-    QString queryStr = "DELETE FROM MP3 WHERE Id_MP3='" + QString::number( id() ) + "'";
+    if ( id() != 0 )
+    {
+        QString queryStr = "DELETE FROM MP3 WHERE Id_MP3='" + QString::number( id() ) + "'";
 
-    m_relation->supprimerenBDDMP3();
-    madatabase.exec( queryStr );
+        m_relation->supprimerenBDDMP3();
+
+        madatabase.exec( queryStr );
+    }
 }
