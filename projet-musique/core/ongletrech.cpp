@@ -162,6 +162,7 @@ void OngletRech::affichageResultatspourArtiste()
     ui->Artiste_Albums->setText( art->m_nom.toUpper() );
     //On s'occupe d'afficher les albums
     QList<int> result= appelBDD->AlbumsPourArt( m_artiste );
+    ui->Artiste_Albums->setText( art->m_nom.toUpper() + "( "+ QString::number(result.count() )+ " albums)" );
     for ( int i = 0; i < result.count(); i++ )
     {
         BDDAlbum* alb = BDDAlbum::RecupererAlbum( result[i] );

@@ -30,6 +30,8 @@ private slots:
 
     void on_CopierDansDossier_clicked();
 
+
+
 private:
     Ui::OngletRech* ui;
     void affichageResultats();

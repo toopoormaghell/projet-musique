@@ -18,7 +18,7 @@
     <widget class="QGroupBox" name="RechGroup">
      <property name="maximumSize">
       <size>
-       <width>550</width>
+       <width>750</width>
        <height>16777215</height>
       </size>
      </property>
@@ -115,7 +115,7 @@
          <widget class="QListWidget" name="TitResult">
           <property name="maximumSize">
            <size>
-            <width>600</width>
+            <width>700</width>
             <height>350</height>
            </size>
           </property>
@@ -181,7 +181,7 @@
          <widget class="QListWidget" name="AlbResult">
           <property name="maximumSize">
            <size>
-            <width>600</width>
+            <width>700</width>
             <height>350</height>
            </size>
           </property>
@@ -235,7 +235,7 @@
          <widget class="QListWidget" name="ArtResult">
           <property name="maximumSize">
            <size>
-            <width>600</width>
+            <width>700</width>
             <height>350</height>
            </size>
           </property>
@@ -259,7 +259,7 @@
     <widget class="QGroupBox" name="ResGroup">
      <property name="maximumSize">
       <size>
-       <width>550</width>
+       <width>1000</width>
        <height>16777215</height>
       </size>
      </property>
@@ -274,7 +274,7 @@
        <widget class="QWidget" name="ResArt" native="true">
         <property name="maximumSize">
          <size>
-          <width>520</width>
+          <width>980</width>
           <height>16777215</height>
          </size>
         </property>
@@ -302,7 +302,7 @@
           <widget class="QListWidget" name="AlbumspourArt">
            <property name="maximumSize">
             <size>
-             <width>500</width>
+             <width>16777215</width>
              <height>500</height>
             </size>
            </property>
@@ -330,7 +330,7 @@
        <widget class="QWidget" name="ResAlb" native="true">
         <property name="maximumSize">
          <size>
-          <width>520</width>
+          <width>980</width>
           <height>16777215</height>
          </size>
         </property>
@@ -356,6 +356,12 @@
          </item>
          <item>
           <widget class="QListWidget" name="TitresResultats">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="iconSize">
             <size>
              <width>30</width>
@@ -371,7 +377,7 @@
        <widget class="QWidget" name="ResTitre" native="true">
         <property name="maximumSize">
          <size>
-          <width>520</width>
+          <width>980</width>
           <height>600</height>
          </size>
         </property>
@@ -570,7 +576,7 @@
        <widget class="QWidget" name="ResSimi" native="true">
         <property name="maximumSize">
          <size>
-          <width>520</width>
+          <width>980</width>
           <height>16777215</height>
          </size>
         </property>
@@ -596,6 +602,12 @@
          </item>
          <item>
           <widget class="QListWidget" name="ListeSimilaires">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="iconSize">
             <size>
              <width>30</width>
