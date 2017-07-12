@@ -17,7 +17,7 @@ int main( int argc, char* argv[] )
     //Choix des couleurs
     srand(time(NULL));
     int nombreMystere = (rand() % (4 - 1 + 1)) + 1;
-nombreMystere = 1;
+
     switch ( nombreMystere )
     {
     case 1: couleurs << "#A8F3FF" << "#1EA7EC" << "#FFFF96" << "#1EA7EC" << "#333399" << "#1EA7EC"; break;
