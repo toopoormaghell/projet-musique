@@ -2,6 +2,7 @@
 #include "bddsingleton.h"
 #include <QtSql>
 #include "bddpoch.h"
+#include "bddversion5.h"
 
 GestionVerifications::GestionVerifications()
 {
@@ -122,4 +123,10 @@ void GestionVerifications::PochCompils()
             QFile::remove( Chemin );
         }
     }
+}
+void GestionVerifications::ReformatageEntites()
+{
+    BDDVersion5* temp;
+    temp->ReformatageCompletEntites();
+
 }

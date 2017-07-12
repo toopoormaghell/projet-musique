@@ -107,6 +107,7 @@ void BDDSingleton::viderBDD()
 
     creationBase();
 
+
 }
 /*******************************************************
  *Permet de supprimer les fichiers des pochettes
@@ -188,6 +189,11 @@ void BDDSingleton::verifierBDD()
     //Non utilisé
     madatabase.exec( "DELETE FROM Relations WHERE Id_Album NOT IN ( SELECT DISTINCT Id_Album FROM Phys) AND Id_Relation NOT IN ( SELECT DISTINCT Id_Relation FROM MP3) " );
     madatabase.exec( "DELETE FROM Relations WHERE MP3 =0 AND Phys = 0" );
+    madatabase.exec( "DELETE FROM Relations WHERE Id_Titre IS NULL  OR Id_Titre = 0" );
+    madatabase.exec( "DELETE FROM Relations WHERE Id_Album = 0  OR Id_Album IS NULL" );
+    madatabase.exec( "DELETE FROM Relations WHERE Id_Artiste = 0 OR Id_Artiste IS NULL" );
+    madatabase.exec( "DELETE FROM Relations WHERE Num_Piste = 0 OR Num_Piste IS NULL" );
+
     //Non valide
     madatabase.exec( "DELETE FROM Relations WHERE Id_Album NOT IN (SELECT DISTINCT Id_Album FROM Album) OR Id_Artiste NOT IN ( SELECT DISTINCT Id_Artiste FROM Artiste) OR Id_Titre NOT IN ( SELECT DISTINCT Id_Titre FROM Titre) OR Id_Pochette NOT IN ( SELECT DISTINCT Id_Pochette From Pochette)" );
     /*----- ALBUM -----*/
@@ -260,6 +266,9 @@ void BDDSingleton::verifierBDD()
     madatabase.exec( "DELETE FROM Phys WHERE Id_Album NOT IN (SELECT  Id_Album FROM Relations)" );
     //Non valide
     madatabase.exec( "UPDATE Phys SET Categorie = '1' WHERE Categorie NOT IN ( SELECT DISTINCT Id_Type FROM Type ) " );
+
+
+
 
 
 

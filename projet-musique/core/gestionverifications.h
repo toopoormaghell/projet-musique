@@ -11,6 +11,7 @@ public:
     void verifierbdd();
     void titresphysetmp3();
     void PochCompils();
+    void ReformatageEntites();
 private:
     QStringList creerfilepochettes();
 };

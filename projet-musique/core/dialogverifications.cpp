@@ -38,9 +38,17 @@ void DialogVerifications::on_mp3phys_clicked()
 
 void DialogVerifications::on_PochCompils_clicked()
 {
-    ui->interaction->append("Début de la modification des pochettes des compilations");
+    ui->interaction->append("Début de la modification des pochettes des compilations...");
     m_gestion->PochCompils();
-    ui->interaction->append("Fin de la modification des pochettes des compilations");
+    ui->interaction->append("Fin de la modification des pochettes des compilations.");
 
     on_pochvides_clicked();
+}
+
+void DialogVerifications::on_Reformatage_clicked()
+{
+    ui->interaction->append("Début de la modification du reformatage des entités en BDD...");
+    m_gestion->ReformatageEntites();
+    ui->interaction->append("Fin de la modification du reformatage des entités en BDD.");
+
 }

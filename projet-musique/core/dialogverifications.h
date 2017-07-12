@@ -26,6 +26,8 @@ private slots:
 
     void on_PochCompils_clicked();
 
+    void on_Reformatage_clicked();
+
 private:
     Ui::DialogVerifications *ui;
     GestionVerifications* m_gestion;

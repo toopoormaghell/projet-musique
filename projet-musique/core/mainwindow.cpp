@@ -146,6 +146,7 @@ void FenetrePrincipale::ViderBDD()
         if ( m_vidage.Mp3 )
         {
             m_gestionMP3->ViderBDD();
+            BDDSingleton::getInstance().verifierBDD();
 
         }
     }
