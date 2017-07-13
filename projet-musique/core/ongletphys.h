@@ -27,10 +27,10 @@ public:
 
     void AfficherArtisteSelectionne();
     void afficherListeSingles();
-
+void AfficherCategories();
     void actualiserOnglet();
 
- void remplirStats();
+    void remplirStats();
 
 private slots:
     void on_Modifier_clicked();
@@ -41,7 +41,9 @@ private slots:
     void on_Artistes_doubleClicked( const QModelIndex& index );
     void on_Artistes_clicked( const QModelIndex& index );
 
-     void on_AlbSansMP3_pressed(const QModelIndex &index);
+    void on_AlbSansMP3_pressed(const QModelIndex &index);
+
+    void on_Categories_clicked(const QModelIndex &index);
 
 private:
     Ui::OngletPhys* ui;
@@ -51,8 +53,9 @@ private:
     int m_Compils;
     int m_Singles;
     int m_selection;
-
+    int m_categorie;
     void afficherListeCds();
+
 
 };
 

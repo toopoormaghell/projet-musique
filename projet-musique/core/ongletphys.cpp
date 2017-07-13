@@ -13,7 +13,9 @@
 #include <QSqlRecord>
 #include "bddsingleton.h"
 #include "bddrelation.h"
+#include "bddtype.h"
 #include <QScopedPointer>
+#include <QDebug>
 
 
 OngletPhys::OngletPhys( QWidget* parent ) :
@@ -32,7 +34,7 @@ OngletPhys::OngletPhys( QWidget* parent ) :
     connect (ui->Artistes,SIGNAL(activated(QModelIndex)),this,SLOT(on_Artistes_clicked(QModelIndex)));
     connect (ui->Compil,SIGNAL(itemActivated(QListWidgetItem*)),this,SLOT(on_Compil_itemPressed(QListWidgetItem*)));
     connect (ui->Singles,SIGNAL(itemActivated(QListWidgetItem*)),this,SLOT(on_Singles_itemPressed(QListWidgetItem*)));
-   connect (ui->Modifier,SIGNAL(pressed()),this,SLOT(on_Modifier_clicked()));
+    connect (ui->Modifier,SIGNAL(pressed()),this,SLOT(on_Modifier_clicked()));
     //    connect (ui->SupprimerAlbum,SIGNAL(pressed()),this,SLOT(on_SupprimerAlbum_clicked()));
 }
 
@@ -42,9 +44,38 @@ OngletPhys::~OngletPhys()
 }
 void OngletPhys::actualiserOnglet()
 {
-    afficherListeArtiste();
+    AfficherCategories();
     afficherListeCds();
     AfficherInfosAlbum( 1 );
+
+}
+
+void OngletPhys::AfficherCategories()
+{
+
+    ui->Categories->clear();
+    QStringList types;
+    types << "Tout" << "0";
+    types << BDDType::RecupererListeTypes( "Phys" );
+
+
+    QImage image( "./Pochettes/def.jpg" );
+
+    for ( int cpt = 0; cpt < types.count(); cpt = cpt + 2 )
+    {
+        QPixmap scaled( QPixmap::fromImage( image ) );
+        scaled = scaled.scaled( 150, 150 );
+        QListWidgetItem* item = new QListWidgetItem;
+        item->setIcon( QIcon( scaled ) );
+        item->setData( Qt::UserRole, types[cpt + 1] );
+        item->setText( types[cpt] );
+
+        ui->Categories->addItem( item );
+    }
+    ui->Categories->setCurrentRow( 1 );
+    m_categorie = 1;
+
+    afficherListeArtiste();
 
 }
 
@@ -53,20 +84,11 @@ void OngletPhys::afficherListeArtiste()
     vider("Artiste");
 
     //Affichage des artistes
-    QList<int> artistes = m_bddInterface.ListeArtiste();
-
-    //Ajout de l'artiste " Compils"
-    QListWidgetItem* item = new QListWidgetItem;
-    QImage image( "./Pochettes/def.jpg" );
-    QPixmap scaled( QPixmap::fromImage( image ) );
-    scaled = scaled.scaled( 150, 150 );
-    item->setIcon( QIcon( scaled ) );
-    item->setData( Qt::UserRole, -1 );
-    item->setText( "Compils" );
-    ui->Artistes->addItem( item );
+    QList<int> artistes = m_bddInterface.ListeArtiste( m_categorie );
 
     for ( int cpt = 0; cpt < artistes.count(); cpt++ )
     {
+
         BDDArtiste* artiste = BDDArtiste::RecupererArtiste( artistes[cpt] );
 
         if ( artiste->id() > 0 )
@@ -85,7 +107,7 @@ void OngletPhys::afficherListeArtiste()
     }
     if (ui->Artistes->count() > 0)
     {
-        ui->Artistes->setCurrentRow( 1 );
+        ui->Artistes->setCurrentRow( 0 );
     } else
     {
         ui->Artistes->setCurrentRow( 0 );
@@ -97,7 +119,7 @@ void OngletPhys::afficherListeAlbum()
     ui->Albums->clear();
 
     //Affichage des albums
-    QList<int> albums = m_bddInterface.listeAlbums( m_artiste );
+    QList<int> albums = m_bddInterface.listeAlbums( m_artiste, m_categorie );
     m_Albums = 0;
     m_Albums = albums.count();
 
@@ -129,7 +151,7 @@ void OngletPhys::afficherListeSingles()
     ui->Singles->clear();
 
     //Affichage des albums
-    QList<int> singles = m_bddInterface.listeSingles( m_artiste );
+    QList<int> singles = m_bddInterface.listeSingles( m_artiste, m_categorie );
     m_Singles = 0;
     m_Singles = singles.count();
 
@@ -156,15 +178,17 @@ void OngletPhys::afficherListeSingles()
 }
 void OngletPhys::AfficherArtisteSelectionne()
 {
-    if ( m_artiste == "-1" )
+    switch ( m_categorie )
     {
-        ui->Artiste->setText( "Compils" );
-    }
-    else
-    {
-        BDDArtiste* artiste = BDDArtiste::RecupererArtiste( m_artiste.toInt() );
-        ui->Artiste->setText( artiste->m_nom );
-        delete artiste;
+    case ( 2 ) : ui->Artiste->setText( "Compils" ); break;
+    case ( 4 ) : ui->Artiste->setText( "BOF" ); break;
+    case ( 5 ) : ui->Artiste->setText( "Spectacle Musical" ); break;
+    case ( 6 ) : ui->Artiste->setText( "Télé-Réalités" ); break;
+    case ( 7 ) : ui->Artiste->setText( "New-Age" ); break;
+    case ( 8 ) : ui->Artiste->setText( "Classique" ); break;
+    case ( 9 ) : ui->Artiste->setText( "Associatif" ); break;
+    case ( 10 ) : ui->Artiste->setText( "Reprises" ); break;
+    default :  BDDArtiste* artiste = BDDArtiste::RecupererArtiste( m_artiste.toInt() ); ui->Artiste->setText( artiste->m_nom ); delete artiste;
     }
 
 }
@@ -174,7 +198,7 @@ void OngletPhys::afficherListeCompils()
     ui->Compil->clear();
 
     //Affichage des albums
-    QList<int> albums = m_bddInterface.listeCompils( m_artiste );
+    QList<int> albums = m_bddInterface.listeCompils( m_artiste, m_categorie );
     m_Compils = 0;
     m_Compils = albums.count();
 
@@ -357,8 +381,8 @@ void OngletPhys::afficherListeCds()
     afficherListeCompils();
     remplirStats();
 
-    //Si on est sur "l'artiste" Compil
-    if ( m_artiste == "-1" )
+    //Si on est sur le type Compil
+    if ( m_categorie == 2 )
     {
         ui->Singles->setHidden( true );
         ui->label_2->setHidden( true );
@@ -492,5 +516,12 @@ void OngletPhys::on_AlbSansMP3_pressed(const QModelIndex &index)
         AfficherInfosAlbum( 2 );
     }
 
-    //  AfficherArtisteSelectionne();
+      AfficherArtisteSelectionne();
+}
+
+void OngletPhys::on_Categories_clicked(const QModelIndex &index)
+{
+    m_categorie = index.data( Qt::UserRole ).toInt();
+    afficherListeArtiste();
+
 }

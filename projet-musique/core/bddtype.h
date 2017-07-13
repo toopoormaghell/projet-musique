@@ -13,6 +13,7 @@ public:
     QString m_type;
 
     static QList<int> NbCategories();
+    static QStringList RecupererListeTypes(QString Categorie);
 private:
     explicit BDDType(const int id, QObject* parent = NULL);
 

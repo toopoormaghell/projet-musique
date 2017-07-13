@@ -126,7 +126,11 @@ QStringList BDDAfficherMp3::RecupererListeTypes( QString Categorie )
     QStringList liste;
     QString queryStr;
     if ( Categorie == "MP3" )
-    queryStr= "SELECT DISTINCT Type FROM Album B,Relations R WHERE R.Id_Album = B.Id_Album AND R.Mp3=1 ORDER BY Type";
+    queryStr= "SELECT DISTINCT Type FROM Album B,Relations R, MP3 M WHERE R.Id_Album = B.Id_Album AND R.Id_Relation = M.Id_Relation ORDER BY Type";
+else {
+        queryStr= "SELECT DISTINCT Type FROM Album B,Phys P WHERE P.Id_Album = B.Id_Album  ORDER BY Type";
+
+    }
 
     QSqlQuery query = madatabase.exec( queryStr );
     while ( query.next() )
