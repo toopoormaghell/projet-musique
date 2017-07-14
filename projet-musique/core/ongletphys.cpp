@@ -472,7 +472,7 @@ void OngletPhys::afficherListeAlbSansMP3()
     ui->AlbSansMP3->clear();
 
     //Affichage des albums
-    QList<int> albums = m_bddInterface.AlbSansMP3( m_artiste );
+    QList<int> albums = m_bddInterface.AlbSansMP3( m_artiste, m_categorie );
 
     for ( int cpt = 0; cpt < albums.count(); cpt++ )
     {
