@@ -17,10 +17,12 @@ public:
     void ChangerCategorie();
     void passageversion5();
     void ModificationBDD();
+    void MajusculesCompletEntites();
 private:
     void Reformatage(QString Entite, QString Id_Entite, int Categorie);
+ void Majuscules(QString Entite, QString Id_Entite, int Categorie);
     void ExecutionRequeteFormate(QString queryStr, int Categorie);
-
+  void ExecutionRequeteMajuscules(QString queryStr, int Categorie);
 };
 
 #endif // BDDVERIFICATION_H

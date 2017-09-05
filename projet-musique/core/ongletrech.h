@@ -48,6 +48,8 @@ private:
 
     void affichageTitresParAlbum();
     void AffichInfosTitres();
+
+    void affichageTitresParArtiste();
 };
 
 #endif // ONGLETRECH_H

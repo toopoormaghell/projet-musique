@@ -11,6 +11,8 @@ BDDTitre::BDDTitre(const QString& nom, QObject* parent):
   , m_nomFormate(nom)
   , m_areAlbumAndArtisteSelfCreated(false)
 {
+    EnleverAccents ( m_nom );
+    MajusuculeAChaqueMot ( m_nom );
     FormaterEntiteBDD(m_nomFormate);
     recupererId();
     if (id() == -1)

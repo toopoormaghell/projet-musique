@@ -95,9 +95,43 @@ void OngletStats::AfficherInfosCategoriesMP3()
 }
 void OngletStats::AfficherInfosCategoriesPhys()
 {
-    ui->NbPhysAlbum->setText( "<dd>Albums : " + QString::number( m_bddInterface.NbPhysCategorie( 1 ) ) );
-    ui->NbPhysCompil->setText( "<dd>Singles : " + QString::number( m_bddInterface.NbPhysCategorie( 3 ) ) );
-    ui->NbPhysSingle->setText( "<dd>Compils : " + QString::number( m_bddInterface.NbPhysCategorie( 2 ) ) );
+    ui->NbPhysTotalAlbums->setText( "Supports Albums : " + QString::number( m_bddInterface.NbPhysCategorie( 1 ) ) );
+
+
+    //Classique
+    int temp = m_bddInterface.NbPhysType( 8 );
+
+    ui->NbPhysClass->setText( "<dd><dd><dd>Classique: " + QString::number( temp ) );
+    //BOF
+    temp = m_bddInterface.NbPhysType( 4 );
+
+    ui->NbPhysBOF->setText( "<dd><dd><dd>BOF: " + QString::number( temp ) );
+    //Spectacles
+    temp = m_bddInterface.NbPhysType( 5 );
+
+    ui->NbPhysSpect->setText( "<dd><dd><dd>Spectacle Musical: " + QString::number( temp ) );
+    //Tele
+    temp = m_bddInterface.NbPhysType( 6 );
+
+    ui->NbPhysTele->setText( "<dd><dd><dd>Télé Réalités: " + QString::number( temp ) );
+    //New Age
+    temp = m_bddInterface.NbPhysType( 7 );
+
+    ui->NbPhysNA->setText( "<dd><dd>New Age: " + QString::number( temp ) );
+    //Associatif
+    temp = m_bddInterface.NbPhysType( 9 );
+
+    ui->NbPhysAssoc->setText( "<dd><dd>Associatif: " + QString::number( temp ) );
+    //Reprises
+    temp = m_bddInterface.NbPhysType( 10 );
+    ui->NbPhysReprises->setText( "<dd><dd><dd>Reprises: " + QString::number( temp ) );
+    //Albums normaux
+    temp = m_bddInterface.NbPhysType( 1 );
+
+    ui->NbPhysAlbums->setText( "<dd><dd><dd>Albums: " + QString::number( temp ) );
+
+    ui->NbPhysCompil->setText( "Supports Singles : " + QString::number( m_bddInterface.NbPhysCategorie( 3 ) ) );
+    ui->NbPhysSingle->setText( "Supports Compils : " + QString::number( m_bddInterface.NbPhysCategorie( 2 ) ) );
     ui->Nb_Chansons->setText( "Nombre de chansons : " + QString::number( m_bddInterface.NbChansonsPhys() ) );
     int pourcent= m_bddInterface.NbTotalAlbumMP3Phys()*100/ m_bddInterface.NbPhysTotal();
     ui->PourcentAlbumPhysMp3->setText( "Pourcentage d'albums représentés en MP3: "+QString::number( pourcent )+"%" );

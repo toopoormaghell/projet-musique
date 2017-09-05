@@ -12,6 +12,8 @@ public:
     void titresphysetmp3();
     void PochCompils();
     void ReformatageEntites();
+    void ArtistesCompils();
+    void MajusculesEntites();
 private:
     QStringList creerfilepochettes();
 };

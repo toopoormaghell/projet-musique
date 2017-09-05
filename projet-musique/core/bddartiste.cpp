@@ -12,7 +12,10 @@ BDDArtiste::BDDArtiste(const QString& artiste, const BDDPoch& pochette, QObject*
   , m_nomFormate(artiste)
   , m_isPochetteSelfCreated(false)
 {
-    QString art = artiste;
+    EnleverAccents ( m_nom );
+    MajusuculeAChaqueMot ( m_nom );
+
+    QString art = m_nom;
     TrouverId(art);
 
     if (id() == -1)
@@ -86,6 +89,7 @@ BDDArtiste::BDDArtiste(const QString& artiste, QObject* parent):
 {
     TrouverId(m_nom);
     QString queryStr = "SELECT Artiste, Artiste_Formate, Id_Pochette FROM Artiste WHERE Id_Artiste='" + QString::number(id()) + "'";
+
     QSqlQuery query = madatabase.exec(queryStr);
     while (query.next())
     {

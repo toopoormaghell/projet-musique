@@ -36,6 +36,7 @@ void DialogAjoutTitre::ActualiserOnglet( int Type )
     }
 
     ui->Num_Piste->setValue( m_Piste.toInt() );
+    ui->Titre->setFocus( Qt::OtherFocusReason );
 
 }
 
@@ -55,6 +56,7 @@ void DialogAjoutTitre::Raccourci()
 {
     RecupererDonnees();
     emit enregistr(m_Piste, m_Titre , m_Artiste );
+    ui->Titre->setFocus( Qt::OtherFocusReason );
 }
 
 void DialogAjoutTitre::on_Sauvegarde_clicked()
@@ -63,6 +65,7 @@ void DialogAjoutTitre::on_Sauvegarde_clicked()
     emit enregistr(m_Piste, m_Titre , m_Artiste );
 
     ui->Num_Piste->setValue( m_Piste.toInt()+1 );
+    ui->Titre->setFocus( Qt::OtherFocusReason );
 
 
 }

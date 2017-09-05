@@ -2,7 +2,7 @@
 #include <QtSql>
 #include "bddsingleton.h"
 #include "bddalbum.h"
-
+#include "bddtype.h"
 
 BDDAfficherPhys::BDDAfficherPhys( QObject* parent ) :
     QObject( parent )
@@ -23,6 +23,7 @@ QList<int> BDDAfficherPhys::ListeArtiste(int categorie)
     case ( 8 ): queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, Album B, Phys P,Relations R WHERE  R.Id_Album=P.Id_Album AND R.Id_Artiste=A.Id_Artiste AND P.Support!='2' AND B.Id_Album = R.Id_Album AND B.Type =8 ORDER BY Artiste";break;
     case ( 9 ): queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, Album B, Phys P,Relations R WHERE  R.Id_Album=P.Id_Album AND R.Id_Artiste=A.Id_Artiste AND P.Support!='2' AND B.Id_Album = R.Id_Album AND B.Type =9 ORDER BY Artiste";break;
     case ( 10 ): queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, Album B, Phys P,Relations R WHERE  R.Id_Album=P.Id_Album AND R.Id_Artiste=A.Id_Artiste AND P.Support!='2' AND B.Id_Album = R.Id_Album AND B.Type =10 ORDER BY Artiste";break;
+    case ( 11 ): queryStr = "SELECT DISTINCT A.Id_Artiste , A.Artiste FROM Artiste A, Album B, Phys P,Relations R WHERE  R.Id_Album=P.Id_Album AND R.Id_Artiste=A.Id_Artiste AND P.Support!='2' AND B.Id_Album = R.Id_Album AND B.Type =11 AND A. Id_Artiste NOT IN ( SELECT DISTINCT A1.Id_Artiste FROM Artiste A1, Album B1, Phys P1,Relations R1 WHERE  R1.Id_Album=P1.Id_Album AND R1.Id_Artiste=A1.Id_Artiste AND P1.Support!='2' AND B1.Id_Album = R1.Id_Album AND B1.Type =1 ORDER BY Artiste) ORDER BY Artiste";break;
     default: queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, Album B, Phys P,Relations R WHERE  R.Id_Album=P.Id_Album AND R.Id_Artiste=A.Id_Artiste AND P.Support!='2' AND B.Id_Album = R.Id_Album AND B.Type =1 ORDER BY Artiste";
     }
     QSqlQuery query = madatabase.exec( queryStr );
@@ -35,10 +36,10 @@ QList<int> BDDAfficherPhys::ListeArtiste(int categorie)
     }
     return liste;
 }
-QList<int> BDDAfficherPhys::listeAlbums( QString Id_Artiste, int Categorie )
+QList<int> BDDAfficherPhys::listeAlbums( QString Id_Artiste )
 {
     QList<int> albums;
-    QString queryStr = "SELECT DISTINCT B.Id_Album FROM Album B, Phys P,Relations R WHERE R.Id_Artiste=" + Id_Artiste + " AND B.Id_Album = R.Id_Album AND P.Id_Album=R.Id_Album AND P.Support='1' AND B.Type = "+ QString::number( Categorie )+" ORDER BY B.Annee DESC";
+    QString queryStr = "SELECT DISTINCT B.Id_Album FROM Album B, Phys P,Relations R WHERE R.Id_Artiste=" + Id_Artiste + " AND B.Id_Album = R.Id_Album AND P.Id_Album=R.Id_Album AND P.Support='1'  ORDER BY B.Annee DESC";
 
 
     QSqlQuery query = madatabase.exec( queryStr );
@@ -51,10 +52,10 @@ QList<int> BDDAfficherPhys::listeAlbums( QString Id_Artiste, int Categorie )
     }
     return albums;
 }
-QList<int> BDDAfficherPhys::listeSingles( QString Id_Artiste, int Categorie )
+QList<int> BDDAfficherPhys::listeSingles( QString Id_Artiste )
 {
     QList<int> albums;
-    QString queryStr = "SELECT DISTINCT B.Id_Album FROM Album B, Phys P,Relations R WHERE R.Id_Artiste=" + Id_Artiste + " AND B.Id_Album = R.Id_Album AND P.Id_Album=R.Id_Album AND P.Support='3' AND B.Type = "+ QString::number( Categorie )+"  ORDER BY B.Annee DESC";
+    QString queryStr = "SELECT DISTINCT B.Id_Album FROM Album B, Phys P,Relations R WHERE R.Id_Artiste=" + Id_Artiste + " AND B.Id_Album = R.Id_Album AND P.Id_Album=R.Id_Album AND P.Support='3' AND B.Type = '11'  ORDER BY B.Annee DESC";
 
     QSqlQuery query = madatabase.exec( queryStr );
 
@@ -98,7 +99,7 @@ void BDDAfficherPhys::exporterHTML()
         // On choisit le codec correspondant au jeu de caractère que l'on souhaite ; ici, UTF-8
         flux << "<Table>";
         int compcouleur = 0;
-        if ( i != 4 )
+        if ( i != 4  )
         {
             for ( int cpt = 0; cpt < albart.count(); cpt = cpt + 2 )
             {
@@ -142,10 +143,10 @@ QStringList BDDAfficherPhys::ListeAlbumSauvegarde( int Cate )
     switch ( Cate )
     {
     case 1 :
-        QueryStr = "SELECT DISTINCT B.Album, Ar.Artiste FROM Phys P,Album B, Artiste Ar, Relations R WHERE P.Id_Album=R.Id_Album AND R.Id_Album=B.Id_Album AND R.Id_Artiste = Ar.Id_Artiste AND P.Support='1' ORDER BY Ar.Artiste, B.Album";
+        QueryStr = "SELECT  DISTINCT B.Album, Ar.Artiste FROM Phys P,Album B, Artiste Ar, Relations R WHERE P.Id_Album=R.Id_Album AND R.Id_Album=B.Id_Album AND R.Id_Artiste = Ar.Id_Artiste AND P.Support='1' ORDER BY  Ar.Artiste, B.Album";
         break;
     case 2 :
-        QueryStr = "SELECT DISTINCT B.Album FROM Phys P,Album B,Relations R WHERE P.Id_Album=R.Id_Album AND R.Id_Album=B.Id_Album  AND P.Support='2' GROUP BY Album ORDER BY B.Album";
+        QueryStr = "SELECT  DISTINCT B.Album, B.Annee FROM Phys P,Album B,Relations R WHERE P.Id_Album=R.Id_Album AND R.Id_Album=B.Id_Album  AND P.Support='2' GROUP BY Album ORDER BY B.Annee DESC, B.Album";
         break;
     case 3 :
         QueryStr = "SELECT DISTINCT B.Album, Ar.Artiste FROM Phys P,Album B, Artiste Ar, Relations R WHERE P.Id_Album=R.Id_Album AND R.Id_Album=B.Id_Album AND R.Id_Artiste = Ar.Id_Artiste AND P.Support='3' ORDER BY Ar.Artiste, B.Album";
@@ -160,18 +161,25 @@ QStringList BDDAfficherPhys::ListeAlbumSauvegarde( int Cate )
     while ( query.next() )
     {
         QSqlRecord rec = query.record();
-        if ( Cate == 2 )
+        switch ( Cate )
         {
-            albart << rec.value( "Album" ).toString().replace( "$", "'" ) << "Compil" ;
-        }
-        else if ( Cate == 4 )
-        {
-            albart << rec.value( "Artiste" ).toString().replace( "$", "'" ) << rec.value( "Album" ).toString().replace( "$", "'" ) << rec.value( "Titre" ).toString().replace( "$", "'" );
-        }
-        else
-        {
+        case 1:
+            albart <<  rec.value( "Album" ).toString().replace( "$", "'" ) << rec.value( "Artiste" ).toString().replace( "$", "'" );
+            break;
+        case 2 :
+            albart << rec.value( "Album" ).toString().replace( "$", "'" ) << rec.value( "Annee" ).toString() ;
+            break;
+        case 3:
             albart << rec.value( "Album" ).toString().replace( "$", "'" ) << rec.value( "Artiste" ).toString().replace( "$", "'" );
+            break;
+        case 4:
+            albart << rec.value( "Artiste" ).toString().replace( "$", "'" ) << rec.value( "Album" ).toString().replace( "$", "'" ) << rec.value( "Titre" ).toString().replace( "$", "'" );
+            break;
+        default:
+            albart << rec.value( "Album" ).toString().replace( "$", "'" ) << rec.value( "Artiste" ).toString().replace( "$", "'" );
+
         }
+
     }
     return albart;
 

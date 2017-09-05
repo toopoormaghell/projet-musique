@@ -6,6 +6,8 @@
 void FormaterEntiteBDD( QString& Entite );
 QString EchangerArtiste( QString Artiste );
 void EnleverAccents( QString& Nom );
+void EnleverPonctuation( QString& Nom );
+void MajusuculeAChaqueMot( QString& Entite );
 
 #ifndef PHYS_STRUCT
 #define PHYS_STRUCT

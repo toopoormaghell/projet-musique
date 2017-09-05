@@ -1,5 +1,7 @@
 #include "util.h"
 #include <QStringList>
+#include <QDebug>
+
 QString EchangerArtiste( QString Artiste )
 {
     QString Echange = Artiste;
@@ -18,28 +20,33 @@ void EnleverAccents( QString& Nom )
     Nom.replace( "é", "e" );
     Nom.replace( "à", "a" );
     Nom.replace( "ê", "e" );
-    Nom.replace( ":", " " );
-    Nom.replace( "\\", " " );
-    Nom.replace( "?", " " );
-    Nom.replace( "!", " " );
-    Nom.replace( "/", " " );
     Nom.replace( "â", "a" );
     Nom.replace( "û", "u" );
     Nom.replace( "ù" , "u" );
     Nom.replace( "Â", "a" );
-    Nom.replace( "'", "$" );
-    Nom.replace( ",", " " );
     Nom.replace( "ô", "o" );
-    Nom.replace( "&", " " );
-    Nom.replace( "$", " " );
-    Nom.replace( ".", " " );
-    Nom.replace( "-", " " );
     Nom.replace( "À", "a" );
     Nom.replace( "î" ,"i" );
     Nom.replace( "+", " " );
     Nom.replace( "ç", "c" );
     Nom.replace( "É", "e" );
     Nom.replace( "ï", "i" );
+
+
+}
+void EnleverPonctuation( QString& Nom)
+{
+    Nom.replace( ":", " " );
+    Nom.replace( "\\", " " );
+    Nom.replace( "?", " " );
+    Nom.replace( "!", " " );
+    Nom.replace( "/", " " );
+    Nom.replace( "'", "$" );
+    Nom.replace( ",", " " );
+    Nom.replace( "&", " " );
+    Nom.replace( "$", " " );
+    Nom.replace( ".", " " );
+    Nom.replace( "-", " " );
     Nom.replace( '"'," " );
     Nom.replace( "#", " " );
     Nom.replace( "(", " " );
@@ -50,9 +57,12 @@ void EnleverAccents( QString& Nom )
 
     Nom =  Nom.toLower();
 }
+
 void FormaterEntiteBDD( QString& Entite )
 {
     EnleverAccents( Entite );
+    EnleverPonctuation( Entite );
+    MajusuculeAChaqueMot( Entite );
     QString res;
     QStringList temp = Entite.split( " " );
 
@@ -61,4 +71,26 @@ void FormaterEntiteBDD( QString& Entite )
         res += temp[cpt];
     }
     Entite = res;
+}
+
+void MajusuculeAChaqueMot(QString& Entite)
+{
+
+    QString temp;
+
+    QStringList decoupage = Entite.split(" ");
+    for ( int cpt = 0; cpt < decoupage.count(); cpt++ )
+    {
+        QString decoup = decoupage[cpt];
+        decoup =decoup.remove(0,1);
+        temp += decoupage[cpt][0].toUpper()+ decoup;
+       if ( cpt != decoupage.count()-1)
+       {
+           temp +=' ';
+       }
+    }
+
+
+    Entite = temp;
+
 }

@@ -28,6 +28,10 @@ private slots:
 
     void on_Reformatage_clicked();
 
+    void on_pushButton_clicked();
+
+    void on_majuscules_clicked();
+
 private:
     Ui::DialogVerifications *ui;
     GestionVerifications* m_gestion;

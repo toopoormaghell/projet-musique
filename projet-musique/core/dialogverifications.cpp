@@ -52,3 +52,17 @@ void DialogVerifications::on_Reformatage_clicked()
     ui->interaction->append("Fin de la modification du reformatage des entités en BDD.");
 
 }
+
+void DialogVerifications::on_pushButton_clicked()
+{
+    ui->interaction->append("Début de la modification des pochettes des artistes des compilations...");
+    m_gestion->ArtistesCompils();
+    ui->interaction->append("Fin de la modification des pochettes des artistes des compilations.");
+}
+
+void DialogVerifications::on_majuscules_clicked()
+{
+    ui->interaction->append("Début de la modification des majuscules des entités en BDD...");
+    m_gestion->MajusculesEntites();
+    ui->interaction->append("Fin de la modification des majuscules des entités en BDD.");
+}

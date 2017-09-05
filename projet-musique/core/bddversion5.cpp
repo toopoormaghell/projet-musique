@@ -73,7 +73,7 @@ void BDDVersion5::VirguleArtistes()
 }
 void BDDVersion5::CompilsPhysiqueMp3()
 {
-     qDebug() << "CompilsPhysiqueMp3";
+    qDebug() << "CompilsPhysiqueMp3";
     //Pour les compils physiques, deux choses à faire:
     //Première chose, on fait en sorte que les titres existants dans la compil et qui existent aussi en MP3 soient bien marqués MP3 dans la relation avec la compil:
     madatabase.exec("UPDATE Relations SET MP3 = 1 WHERE Id_Album IN ( SELECT DISTINCT P.Id_Album FROM Phys P WHERE P.Categorie='2' ) AND Id_Titre =( SELECT DISTINCT Id_Titre FROM Relations R WHERE R.MP3=1 AND Relations.Id_Artiste = R.Id_Artiste)");
@@ -83,7 +83,7 @@ void BDDVersion5::CompilsPhysiqueMp3()
 }
 void BDDVersion5::SupprimerDoublonsArtiste()
 {
-     qDebug() << "SupprimerDoublonsArtiste";
+    qDebug() << "SupprimerDoublonsArtiste";
     //Le but, c'est d'enlever tous les artistes qui sont en double
     //Première requete: on récupère les artistes et un Id_Artiste des doubles
     QString queryStr = "SELECT Id_Artiste, Artiste_Formate FROM Artiste GROUP BY Artiste_Formate HAVING COUNT(*) > 1";
@@ -162,7 +162,7 @@ void BDDVersion5::SupprimerDoublonsAlbum()
 }
 void BDDVersion5::DoublonsTitresEnlever()
 {
-     qDebug() << "DoublonsTitresEnlever";
+    qDebug() << "DoublonsTitresEnlever";
     //Le but, c'est d'enlever tous les titres qui sont en double
     //Première requete: on récupère les titres et un Id_Titre des doubles
     QString queryStr = "SELECT Id_Titre, Titre_Formate FROM Titre GROUP BY Titre_Formate HAVING COUNT(*) > 1";
@@ -213,19 +213,44 @@ void BDDVersion5::ExecutionRequeteFormate(QString queryStr, int Categorie)
     }
 }
 
+void BDDVersion5::ExecutionRequeteMajuscules(QString queryStr, int Categorie)
+{
+    QSqlQuery  query = madatabase.exec(queryStr);
+    while (query.next() ) {
+        QSqlRecord rec=query.record();
+        QString Entite= rec.value("Entite").toString();
+        QString Id_Entite = rec.value("Id").toString();
+   //     EnleverAccents ( Entite );
+        MajusuculeAChaqueMot(Entite);
+        Majuscules(Entite,Id_Entite,Categorie);
+    }
+}
+
 void BDDVersion5::Reformatage(QString Entite,QString Id_Entite, int Categorie)
 {
     switch ( Categorie )
     {
-    case 1: madatabase.exec("UPDATE Album SET Album_Formate='"+ Entite +"' WHERE Id_Album='"+ Id_Entite +"'");
-    case 2: madatabase.exec("UPDATE Artiste SET Artiste_Formate='"+ Entite +"' WHERE Id_Artiste='"+ Id_Entite +"'");
-    case 3: madatabase.exec("UPDATE Titre SET Titre_Formate='"+ Entite +"' WHERE Id_Titre='"+ Id_Entite +"'");
+    case 1: madatabase.exec("UPDATE Album SET Album_Formate='"+ Entite +"' WHERE Id_Album='"+ Id_Entite +"'");break;
+    case 2: madatabase.exec("UPDATE Artiste SET Artiste_Formate='"+ Entite +"' WHERE Id_Artiste='"+ Id_Entite +"'");break;
+    case 3: madatabase.exec("UPDATE Titre SET Titre_Formate='"+ Entite +"' WHERE Id_Titre='"+ Id_Entite +"'");break;
+    default: break;
     }
 
 }
+
+void BDDVersion5::Majuscules(QString Entite, QString Id_Entite, int Categorie)
+{
+    switch ( Categorie )
+    {
+    case 1: madatabase.exec("UPDATE Album SET Album='"+ Entite +"' WHERE Id_Album='"+ Id_Entite +"'");break;
+    case 2: madatabase.exec("UPDATE Artiste SET Artiste='"+ Entite +"' WHERE Id_Artiste='"+ Id_Entite +"'");break;
+    case 3: madatabase.exec("UPDATE Titre SET Titre='"+ Entite +"' WHERE Id_Titre='"+ Id_Entite +"'");break;
+    default:  break;
+    }
+}
 void BDDVersion5::ChangerArtisteDansCompilAlbum()
 {
-     qDebug() << "ChangerArtisteDansCompilAlbum";
+    qDebug() << "ChangerArtisteDansCompilAlbum";
     //Première chose: on marque bien les albums physiques en compil
     madatabase.exec("UPDATE Album SET Type = 2 WHERE Id_Album IN ( SELECT Id_Album FROM Phys WHERE Categorie = 2 ) ");
 
@@ -235,6 +260,20 @@ void BDDVersion5::ChangerArtisteDansCompilAlbum()
 }
 void BDDVersion5::ChangerCategorie()
 {
-madatabase.exec("UPDATE Phys SET Categorie = '13' WHERE Categorie ='2'");
-madatabase.exec("UPDATE MP3 SET Categorie = '12' WHERE Categorie ='1'");
+    madatabase.exec("UPDATE Phys SET Categorie = '13' WHERE Categorie ='2'");
+    madatabase.exec("UPDATE MP3 SET Categorie = '12' WHERE Categorie ='1'");
+}
+void BDDVersion5::MajusculesCompletEntites()
+{
+    qDebug() << " Majuscules en cours...";
+    //On reformate absolument tous les entités
+    //On commence par récupérer les données des albums
+    QString queryStr = " SELECT Id_Album AS 'Id', Album AS 'Entite' FROM Album";
+    ExecutionRequeteMajuscules(queryStr,1);
+    //On fait ensuite les artistes
+    queryStr = " SELECT Id_Artiste AS 'Id', Artiste AS 'Entite' FROM Artiste";
+    ExecutionRequeteMajuscules(queryStr,2);
+    //On finit par les titres
+    queryStr = " SELECT Id_Titre AS 'Id', Titre AS 'Entite' FROM Titre";
+    ExecutionRequeteMajuscules(queryStr,3);
 }

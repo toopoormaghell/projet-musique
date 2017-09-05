@@ -130,3 +130,17 @@ void GestionVerifications::ReformatageEntites()
     temp->ReformatageCompletEntites();
 
 }
+void GestionVerifications::MajusculesEntites()
+{
+    BDDVersion5* temp;
+    temp->MajusculesCompletEntites();
+
+}
+void GestionVerifications::ArtistesCompils()
+{
+    QString queryStr = "UPDATE Artiste SET Id_Pochette = (SELECT Id_Pochette FROM Album B, Relations R WHERE Artiste.Id_Artiste = R.Id_Artiste AND B.Id_Album = R.Id_Album) WHERE Id_Artiste NOT IN ( SELECT DISTINCT (Id_Artiste) FROM Relations R, Phys P WHERE R.Id_Album = P.Id_Album AND P.Id_Album IN (SELECT DISTINCT Id_Album FROM Phys WHERE Support !=2)   ) AND Id_Artiste IN ( SELECT DISTINCT (Id_Artiste) FROM Relations R, Phys P WHERE R.Id_Album = P.Id_Album AND P.Id_Album IN (SELECT DISTINCT Id_Album FROM Phys) ) ";
+
+    madatabase.exec( queryStr);
+
+
+}

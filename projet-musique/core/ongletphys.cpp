@@ -44,14 +44,15 @@ OngletPhys::~OngletPhys()
 }
 void OngletPhys::actualiserOnglet()
 {
+
     AfficherCategories();
     afficherListeCds();
-    AfficherInfosAlbum( 1 );
-
+    AfficherInfosAlbum( m_categorie );
 }
 
 void OngletPhys::AfficherCategories()
 {
+
 
     ui->Categories->clear();
     QStringList types;
@@ -81,6 +82,7 @@ void OngletPhys::AfficherCategories()
 
 void OngletPhys::afficherListeArtiste()
 {
+
     vider("Artiste");
 
     //Affichage des artistes
@@ -105,21 +107,18 @@ void OngletPhys::afficherListeArtiste()
         }
         delete artiste;
     }
-    if (ui->Artistes->count() > 0)
-    {
-        ui->Artistes->setCurrentRow( 0 );
-    } else
-    {
-        ui->Artistes->setCurrentRow( 0 );
-    }
-    m_artiste = ui->Artistes->currentIndex().data(Qt::UserRole).toString();
+
+    ui->Artistes->setCurrentRow( 0 );
+
+    m_artiste = ui->Artistes->currentIndex().data( Qt::UserRole ).toString();
+
 }
 void OngletPhys::afficherListeAlbum()
 {
     ui->Albums->clear();
 
     //Affichage des albums
-    QList<int> albums = m_bddInterface.listeAlbums( m_artiste, m_categorie );
+    QList<int> albums = m_bddInterface.listeAlbums( m_artiste );
     m_Albums = 0;
     m_Albums = albums.count();
 
@@ -142,7 +141,7 @@ void OngletPhys::afficherListeAlbum()
         }
         delete album;
     }
-    ui->Albums->setCurrentRow( 0 );
+    ui->Albums->setCurrentRow( 0, QItemSelectionModel::Select );
     m_selection = ui->Albums->currentIndex().data( Qt::UserRole ).toInt();
 
 }
@@ -151,7 +150,7 @@ void OngletPhys::afficherListeSingles()
     ui->Singles->clear();
 
     //Affichage des albums
-    QList<int> singles = m_bddInterface.listeSingles( m_artiste, m_categorie );
+    QList<int> singles = m_bddInterface.listeSingles( m_artiste );
     m_Singles = 0;
     m_Singles = singles.count();
 
@@ -267,10 +266,9 @@ void OngletPhys::AfficherInfosAlbum( int Type )
                 BDDArtiste* art = BDDArtiste::RecupererArtiste( relation->m_artiste->id() );
                 if ( m_artiste.toInt() == art->id() )
                 {
-                    //On Ajoute une couleur pour le titre où l'artiste est le bon
-                    QBrush m_brush;
-                    m_brush.setColor( Qt::blue );
-                    item->setForeground( m_brush );
+                    QFont m_police( "Monotype Corsiva", 11, 75 );
+                    item->setTextColor( Qt::blue );
+                    item->setFont( m_police );
 
                 }
                 temp = temp + " - " + art->m_nom;
@@ -364,17 +362,17 @@ void OngletPhys::on_SupprimerAlbum_clicked()
 
 void OngletPhys::on_Artistes_doubleClicked( const QModelIndex& index )
 {
-
     int choix = index.data( Qt::UserRole ).toInt();
     BDDArtiste* artiste = BDDArtiste::RecupererArtiste( choix );
     DialogModifierArtiste temp( artiste, this );
     temp.exec();
-    vider( "Artiste" );
-    afficherListeArtiste();
     delete artiste;
+    actualiserOnglet();
+
 }
 void OngletPhys::afficherListeCds()
 {
+
     afficherListeAlbum();
     afficherListeSingles();
     AfficherArtisteSelectionne();
@@ -446,9 +444,11 @@ void OngletPhys::afficherListeCds()
 
 void OngletPhys::on_Artistes_clicked( const QModelIndex& index )
 {
-    m_artiste = index.data( Qt::UserRole ).toString();
+    Q_UNUSED ( index );
+    m_artiste = ui->Artistes->currentIndex().data( Qt::UserRole ).toString();
     afficherListeCds();
 }
+
 void OngletPhys::remplirStats()
 {
     ui->NbAlb->setText( QString::number( m_Albums ) );
@@ -457,16 +457,19 @@ void OngletPhys::remplirStats()
     ui->NbCD->setText( QString::number( m_Albums + m_Compils + m_Singles ));
 
     QList <int> titres = m_bddInterface.TitresParArtistes( m_artiste );
-    ui->NbTitres->setText( QString::number( titres[0] ) );
-    ui->NbTitresMP3->setText( QString::number( titres[1] ) );
     int Pourcentage = 0;
-    if ( titres[0] != 0)
+    if (titres.count() !=0 )
+    {
+        ui->NbTitres->setText( QString::number( titres[0] ) );
+        ui->NbTitresMP3->setText( QString::number( titres[1] ) );
         Pourcentage = titres[1]*100/titres[0];
+    }
     ui->Pourcentage->setText(QString::number( Pourcentage )+" %");
 
     afficherListeAlbSansMP3();
 
 }
+
 void OngletPhys::afficherListeAlbSansMP3()
 {
     ui->AlbSansMP3->clear();
@@ -516,7 +519,7 @@ void OngletPhys::on_AlbSansMP3_pressed(const QModelIndex &index)
         AfficherInfosAlbum( 2 );
     }
 
-      AfficherArtisteSelectionne();
+    AfficherArtisteSelectionne();
 }
 
 void OngletPhys::on_Categories_clicked(const QModelIndex &index)
@@ -525,3 +528,4 @@ void OngletPhys::on_Categories_clicked(const QModelIndex &index)
     afficherListeArtiste();
 
 }
+

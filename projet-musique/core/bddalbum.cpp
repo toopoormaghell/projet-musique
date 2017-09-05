@@ -18,6 +18,8 @@ BDDAlbum::BDDAlbum(const QString& album, const BDDPoch& pochette, int annee, con
   , m_areTypeAndPochetteSelfCreated(false)
 
 {
+    EnleverAccents (m_nom );
+    MajusuculeAChaqueMot ( m_nom );
     FormaterEntiteBDD(m_nomFormate);
     recupererId();
     if (id() == -1)

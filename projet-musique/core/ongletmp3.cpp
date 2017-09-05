@@ -20,6 +20,7 @@
 #include <QDir>
 #include "bddlecteur.h"
 #include <QInputDialog>
+#include <QDebug>
 
 OngletMP3::OngletMP3( QWidget* parent ) :
     QWidget( parent ),
