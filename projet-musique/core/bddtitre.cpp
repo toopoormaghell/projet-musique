@@ -13,7 +13,7 @@ BDDTitre::BDDTitre(const QString& nom, QObject* parent):
 {
     EnleverAccents ( m_nom );
     MajusuculeAChaqueMot ( m_nom );
-    FormaterEntiteBDD(m_nomFormate);
+    FormaterEntiteBDD( m_nomFormate );
     recupererId();
     if (id() == -1)
         ajouterBDD();

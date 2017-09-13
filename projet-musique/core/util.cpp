@@ -30,7 +30,9 @@ void EnleverAccents( QString& Nom )
     Nom.replace( "+", " " );
     Nom.replace( "ç", "c" );
     Nom.replace( "É", "e" );
+    Nom.replace( "Ê", "e" );
     Nom.replace( "ï", "i" );
+    Nom.replace( "œ", "oe" );
 
 
 }
@@ -62,7 +64,7 @@ void FormaterEntiteBDD( QString& Entite )
 {
     EnleverAccents( Entite );
     EnleverPonctuation( Entite );
-    MajusuculeAChaqueMot( Entite );
+
     QString res;
     QStringList temp = Entite.split( " " );
 

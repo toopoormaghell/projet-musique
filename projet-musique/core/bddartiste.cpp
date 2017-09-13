@@ -14,6 +14,7 @@ BDDArtiste::BDDArtiste(const QString& artiste, const BDDPoch& pochette, QObject*
 {
     EnleverAccents ( m_nom );
     MajusuculeAChaqueMot ( m_nom );
+   FormaterEntiteBDD ( m_nomFormate );
 
     QString art = m_nom;
     TrouverId(art);

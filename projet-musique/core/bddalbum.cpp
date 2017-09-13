@@ -132,11 +132,8 @@ AlbumPhys BDDAlbum::RecupAlbumEntite( const int id )
     albphys.Id_Poch = alb->m_pochette->id();
     albphys.Type = alb->m_type->id();
     albphys.Artiste = alb->m_artiste->m_nom;
-    delete alb;
 
-    //On récupère le Type
-    BDDType* typ = BDDType::RecupererType( albphys.Type );
-    delete typ;
+    delete alb;
 
     //On récupère les titres liés à l'album
     QString queryStr = "SELECT DISTINCT R.Id_Titre, R.Duree, R.Num_Piste, R.MP3, R.Phys,  R.Id_Artiste FROM Relations R, Titre T WHERE R.Id_Album='" + QString::number( id ) + "' AND T.Id_Titre=R.Id_Titre ORDER BY Num_Piste";
@@ -157,10 +154,24 @@ AlbumPhys BDDAlbum::RecupAlbumEntite( const int id )
         titre.MP3Phys = rec.value("MP3").toBool() && rec.value("Phys").toBool();
         titre.MP3 = rec.value("MP3").toBool();
         titre.Phys = rec.value("Phys").toBool();
+
         albphys.titres << titre;
         delete TitreEnCours;
         delete art;
 
     }
     return albphys;
+}
+
+bool BDDAlbum::ExisteEnPhys(const int id)
+{
+    //On récupère les titres liés à l'album
+    QString queryStr = "SELECT * FROM Phys WHERE Id_Album ='"+ QString::number( id )+"'";
+    QSqlQuery query = madatabase.exec( queryStr );
+
+    while ( query.next() )
+    {
+        return true;
+    }
+    return false;
 }

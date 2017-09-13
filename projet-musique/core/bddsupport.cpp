@@ -35,3 +35,22 @@ QList<int> BDDSupport::NbSupport()
     }
     return supp;
 }
+int BDDSupport::RecupererSupportAlb(int Id , QString Categorie)
+{
+    QString queryStr;
+    if ( Categorie == "MP3" )
+    {
+        queryStr = "SELECT Support FROM MP3 M, Relations R WHERE M.Id_Relation = R.Id_Relation AND R.Id_Album ='"+ QString::number( Id) +"'";
+    } else
+    {
+        queryStr = " SELECT Support FROM Phys WHERE Id_Album ='"+ QString::number( Id) +"'";
+    }
+    QSqlQuery query = madatabase.exec( queryStr );
+    while ( query.next() )
+    {
+        QSqlRecord rec = query.record();
+
+        return rec.value( "Support" ).toInt();
+    }
+    return -1;
+}
