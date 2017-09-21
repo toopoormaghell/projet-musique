@@ -129,10 +129,10 @@ void DialogModifierAlbum::EnregistrerAlbum()
 {
 
     m_album.Album = ui->Album->text();
-
     m_album.Artiste = ui->Artiste->text();
     m_album.Annee = ui->Annee->text().toInt();
     m_album.Type = ui->Type->currentIndex() + 1;
+    m_album.Support = ui->SupportPhys->currentIndex() +1;
 
     m_album.titres.clear();
     //On récupère les titres
@@ -143,9 +143,12 @@ void DialogModifierAlbum::EnregistrerAlbum()
         titre.Duree = ui->Duree->item( i )->text();
         titre.Num_Piste = i + 1;
         titre.MP3 = ui->Titres->item (i )->data( Qt::UserRole).toBool() ;
-        if ( m_album.Type == 2 )
+
+
+        if ( m_album.Support == 2 )
         {
             //A faire l'edition de compilation
+            titre.Id_Art =  ui->ArtistesTitres->item( i )->text();
         }
 
         m_album.titres << titre;

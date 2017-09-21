@@ -126,14 +126,14 @@ void GestionVerifications::PochCompils()
 }
 void GestionVerifications::ReformatageEntites()
 {
-    BDDVersion5* temp;
-    temp->ReformatageCompletEntites();
+    BDDVersion5 temp;
+    temp.ReformatageCompletEntites();
 
 }
 void GestionVerifications::MajusculesEntites()
 {
-    BDDVersion5* temp;
-    temp->MajusculesCompletEntites();
+    BDDVersion5 temp;
+    temp.MajusculesCompletEntites();
 
 }
 void GestionVerifications::ArtistesCompils()

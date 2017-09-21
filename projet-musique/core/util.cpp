@@ -56,6 +56,10 @@ void EnleverPonctuation( QString& Nom)
     Nom.replace( ")"," " );
     Nom.replace( "["," " );
     Nom.replace( "]"," " );
+    Nom.replace( "'"," " );
+    Nom.replace(QString("\u2026")," ");
+    Nom.replace("n°","numero");
+    Nom.replace("N°","numero");
 
     Nom =  Nom.toLower();
 }
@@ -86,10 +90,10 @@ void MajusuculeAChaqueMot(QString& Entite)
         QString decoup = decoupage[cpt];
         decoup =decoup.remove(0,1);
         temp += decoupage[cpt][0].toUpper()+ decoup;
-       if ( cpt != decoupage.count()-1)
-       {
-           temp +=' ';
-       }
+        if ( cpt != decoupage.count()-1)
+        {
+            temp +=' ';
+        }
     }
 
 

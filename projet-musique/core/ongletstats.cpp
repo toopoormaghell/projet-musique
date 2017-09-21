@@ -133,10 +133,19 @@ void OngletStats::AfficherInfosCategoriesPhys()
     ui->NbPhysCompil->setText( "Supports Singles : " + QString::number( m_bddInterface.NbPhysCategorie( 3 ) ) );
     ui->NbPhysSingle->setText( "Supports Compils : " + QString::number( m_bddInterface.NbPhysCategorie( 2 ) ) );
     ui->Nb_Chansons->setText( "Nombre de chansons : " + QString::number( m_bddInterface.NbChansonsPhys() ) );
-    int pourcent= m_bddInterface.NbTotalAlbumMP3Phys()*100/ m_bddInterface.NbPhysTotal();
+    int pourcent = 0;
+    if ( m_bddInterface.NbPhysTotal() > 0  )
+    {
+        pourcent= m_bddInterface.NbTotalAlbumMP3Phys()*100/ m_bddInterface.NbPhysTotal();
+    }
+
     ui->PourcentAlbumPhysMp3->setText( "Pourcentage d'albums représentés en MP3: "+QString::number( pourcent )+"%" );
-    pourcent = m_bddInterface.NbTotalMp3Phys()*100/  m_bddInterface.NbChansonsPhys() ;
+    if ( pourcent > 0 )
+    {
+        pourcent = m_bddInterface.NbTotalMp3Phys()*100/  m_bddInterface.NbChansonsPhys() ;
+    }
     ui->PourcentPhysMP3->setText("Pourcentage de titres physiques représentés en MP3: "+QString::number( pourcent )+"%" );
+
 }
 void OngletStats::AfficherArtistesCompilMP3()
 {
