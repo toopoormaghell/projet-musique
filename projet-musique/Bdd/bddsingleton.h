@@ -2,8 +2,10 @@
 #define BDDSINGLETON_H
 
 #include <QtSql/QSqlDatabase>
+#include "bdd_global.h"
+#include "outilsbdd.h"
 
-class BDDSingleton
+class BDDSHARED_EXPORT BDDSingleton
 {
 public:
     // Destructeur : ferme la base de données
@@ -16,13 +18,11 @@ public:
 
     void creationBase();
     void viderBDD();
-    bool removeDir( const QString& dirPath, const bool remove = true, const QString fichier = "def.jpg" );
-    void verifierBDD();
-    void supprimerdossiersvides();
-    void changementversion();
+
+      void changementversion();
 
 
-    void CDCompilMP3();
+
 private:
     // Constructeur privé : singleton
     BDDSingleton();
@@ -33,11 +33,8 @@ private:
     // Base de données SQL
     QSqlDatabase m_database;
     static BDDSingleton s_singleton;
-    void version2();
-    void version3();
-    void version4();
-    void version5();
-    void version6();
+
+     OutilsBDD* m_outils;
 };
 
 #define madatabase (BDDSingleton::getInstance().getDataBase())

@@ -148,7 +148,7 @@ void DialogModifierAlbum::EnregistrerAlbum()
         if ( m_album.Support == 2 )
         {
             //A faire l'edition de compilation
-            titre.Id_Art =  ui->ArtistesTitres->item( i )->text();
+            //titre.Id_Art =  ui->ArtistesTitres->item( i )->text();
         }
 
         m_album.titres << titre;

@@ -4,9 +4,10 @@
 #include <QtSql>
 #include <QDir>
 #include <QFileInfo>
-#include "bddversion5.h"
-#include "util.h"
-#include "bddversion6.h"
+
+#include <util.h>
+#include "outilsbdd.h"
+#include "changementversion.h"
 
 BDDSingleton BDDSingleton::s_singleton;
 
@@ -102,179 +103,14 @@ void BDDSingleton::viderBDD()
 
     //Vidage sur le DD du dossier Pochettes
     QString chemin = ".\\Pochettes";
-    removeDir( chemin, false );
+   m_outils->removeDir( chemin, false );
 
     creationBase();
 
 
 }
-/*******************************************************
- *Permet de supprimer les fichiers des pochettes
- *
- ******************************************************/
-bool BDDSingleton::removeDir( const QString& dirPath, const bool remove, const QString fichier )
-{
-    QDir folder( dirPath );
-    folder.setFilter( QDir::NoDotAndDotDot | QDir::AllEntries );
-    foreach ( QFileInfo fileInfo, folder.entryInfoList() )
-    {
-        if ( fileInfo.isDir() )
-        {
-            if ( !removeDir( fileInfo.filePath() ) )
-                return false;
-        }
-        else if ( fileInfo.isFile() )
-        {
-            if ( ( fileInfo.fileName() != fichier ) && !QFile::remove( fileInfo.filePath() ) )
-            {
-                qDebug() << "Unable to remove file : " << fileInfo.filePath();
-                return false;
-            }
-        }
-        else
-        {
-            qDebug() << "autre chose: " << fileInfo.filePath();
-        }
-    }
-    if ( remove )
-    {
-        if ( !QDir().rmdir( dirPath ) )
-        {
-            qDebug() << "Unable to remove folder : " << dirPath << ". Maybe this folder is not empty";
-            return false;
-        }
-    }
-    return true;
-}
-
-void BDDSingleton::verifierBDD()
-{
-    /*----- POCHETTE -----*/
-    //Non valide ( le chemin n'existe pas dans le système des fichiers )
-    QString queryStr = "SELECT Id_Pochette, Chemin FROM POCHETTE";
-    QSqlQuery query = madatabase.exec(queryStr);
-    while (query.next() ) {
-        QSqlRecord rec=query.record();
-        QString chemin = rec.value("Chemin").toString();
-        if ( !QFile::exists( chemin ) )
-        {
-            QString quer = "DELETE FROM Pochette WHERE Id_Pochette= '"+rec.value("Id_Pochette").toString()+"'";
-            madatabase.exec(quer);
-        }
-    }
-    //Non utilisée
-    //Première chose on récupère les pochettes non utilisées
-    queryStr = "SELECT Id_Pochette, Chemin FROM Pochette WHERE Id_Pochette !=1 AND Id_Pochette NOT IN ( SELECT DISTINCT Id_Pochette FROM Artiste ) AND Id_Pochette NOT IN ( SELECT DISTINCT Id_Pochette FROM Album)";
-    query = madatabase.exec(queryStr);
-    while (query.next() ) {
-        QSqlRecord rec=query.record();
-        QString chemin = rec.value("Chemin").toString();
-        QFile::remove( chemin );
-        madatabase.exec("DELETE FROM Pochette WHERE Id_Pochette= '"+rec.value("Id_Pochette").toString()+"'");
-    }
-
-    //Vide
-    madatabase.exec("DELETE FROM Pochette WHERE Chemin = ''");
 
 
-    /*----- RELATION -----*/
-    //Vide
-    madatabase.exec( "DELETE FROM Relations WHERE Id_Album ='' OR Id_Artiste = '' OR Id_Titre = '' OR Id_Relation = '' ");
-    //MP3 ou Phys
-    madatabase.exec("UPDATE Relations SET MP3 =0 WHERE MP3 =1 AND Id_Relation NOT IN ( SELECT Id_Relation FROM MP3 ) ");
-    madatabase.exec("UPDATE Relations SET MP3 =1 WHERE MP3 =0 AND Id_Relation  IN ( SELECT Id_Relation FROM MP3 ) ");
-    madatabase.exec("UPDATE Relations SET Phys =0 WHERE Phys =1 AND Id_Album NOT IN ( SELECT Id_Album FROM PHYS ) ");
-    madatabase.exec("UPDATE Relations SET Phys =1 WHERE Phys =0 AND Id_Album IN ( SELECT Id_Album FROM PHYS ) ");
-    //Non utilisé
-    madatabase.exec( "DELETE FROM Relations WHERE Id_Album NOT IN ( SELECT DISTINCT Id_Album FROM Phys) AND Id_Relation NOT IN ( SELECT DISTINCT Id_Relation FROM MP3) " );
-    madatabase.exec( "DELETE FROM Relations WHERE MP3 =0 AND Phys = 0" );
-    madatabase.exec( "DELETE FROM Relations WHERE Id_Titre IS NULL  OR Id_Titre = 0" );
-    madatabase.exec( "DELETE FROM Relations WHERE Id_Album = 0  OR Id_Album IS NULL" );
-    madatabase.exec( "DELETE FROM Relations WHERE Id_Artiste = 0 OR Id_Artiste IS NULL" );
-    madatabase.exec( "DELETE FROM Relations WHERE Num_Piste = 0 OR Num_Piste IS NULL" );
-
-    //Non valide
-    madatabase.exec( "DELETE FROM Relations WHERE Id_Album NOT IN (SELECT DISTINCT Id_Album FROM Album) OR Id_Artiste NOT IN ( SELECT DISTINCT Id_Artiste FROM Artiste) OR Id_Titre NOT IN ( SELECT DISTINCT Id_Titre FROM Titre) OR Id_Pochette NOT IN ( SELECT DISTINCT Id_Pochette From Pochette)" );
-    /*----- ALBUM -----*/
-    //Vide
-    madatabase.exec( "DELETE FROM Album WHERE Album = ''" );
-    //Non utilisé
-    madatabase.exec( "DELETE FROM Album WHERE Id_Album NOT IN ( SELECT DISTINCT Id_Album FROM Relations ) " );
-    //Non valide
-    madatabase.exec( "UPDATE Album SET Id_Pochette = '1' WHERE Id_Pochette NOT IN ( SELECT DISTINCT Id_Pochette FROM Pochette ) " );
-    madatabase.exec( "UPDATE Album SET Id_Artiste = '1' WHERE Id_Artiste NOT IN ( SELECT DISTINCT Id_Artiste FROM Artiste ) " );
-    queryStr = "SELECT Album, Id_Album, Album_Formate FROM Album";
-    query = madatabase.exec(queryStr);
-    while (query.next() ) {
-        QSqlRecord rec=query.record();
-        QString nom = rec.value( "Album" ).toString();
-        QString Id_Alb = rec.value( "Id_Album").toString();
-        QString Alb = rec.value("Album_Formate").toString();
-        FormaterEntiteBDD ( nom );
-        if ( nom != Alb)
-            madatabase.exec( "UPDATE Album SET Album_Formate = '"+ nom +"' WHERE Id_Album = "+ Id_Alb +" " );
-    }
-    /*----- ARTISTE -----*/
-    //Vide
-    madatabase.exec( "DELETE FROM Artiste WHERE Artiste = ''" );
-    //Non utilisé
-    madatabase.exec( "DELETE FROM Artiste WHERE Id_Artiste NOT IN ( SELECT DISTINCT Id_Artiste FROM Relations ) " );
-    //Non valide
-    madatabase.exec( "UPDATE Artiste SET Id_Pochette = '1' WHERE Id_Pochette NOT IN ( SELECT DISTINCT Id_Pochette FROM Pochette ) " );
-    queryStr = "SELECT Artiste, Id_Artiste, Artiste_Formate FROM Artiste";
-    query = madatabase.exec(queryStr);
-    while (query.next() ) {
-        QSqlRecord rec=query.record();
-        QString nom = rec.value( "Artiste" ).toString();
-        QString Id_Art = rec.value( "Id_Artiste").toString();
-        QString Art = rec.value("Artiste_Formate").toString();
-        FormaterEntiteBDD ( nom );
-        if ( nom != Art)
-            madatabase.exec( "UPDATE Artiste SET Artiste_Formate = '"+ nom +"' WHERE Id_Artiste = "+ Id_Art +" " );
-    }
-    /*----- TITRE -----*/
-    //Vide
-    madatabase.exec( "DELETE FROM Titre WHERE Titre = ''" );
-    //Non utilisé
-    madatabase.exec( "DELETE FROM Titre WHERE Id_Titre NOT IN ( SELECT DISTINCT Id_Titre FROM Relations ) " );
-    //Non valide
-    madatabase.exec( "UPDATE Titre SET Num_Piste = '1' WHERE Num_Piste = '' " );
-    queryStr = "SELECT Titre, Id_Titre, Titre_Formate FROM Titre";
-    query = madatabase.exec(queryStr);
-    while (query.next() ) {
-        QSqlRecord rec=query.record();
-        QString nom = rec.value( "Titre" ).toString();
-        QString Id_Titre = rec.value( "Id_Titre").toString();
-        QString Titre_Formate = rec.value("Titre_Formate").toString();
-        FormaterEntiteBDD ( nom );
-        if ( nom != Titre_Formate )
-            madatabase.exec( "UPDATE Titre SET Titre_Formate = '"+ nom +"' WHERE Id_Titre = "+ Id_Titre +" " );
-    }
-
-    /*----- MP3 -----*/
-    //Vide
-    madatabase.exec( "DELETE FROM MP3 WHERE Chemin = ''" );
-    //Non utilisé
-    madatabase.exec( "DELETE FROM MP3 WHERE Id_Relation NOT IN (SELECT DISTINCT Id_Relation FROM Relations)" );
-    //Non valide
-    madatabase.exec( "UPDATE MP3 SET Categorie = '1' WHERE Categorie NOT IN ( SELECT DISTINCT Id_Type FROM Type ) " );
-    /*----- PHYS -----*/
-    //Vide
-    madatabase.exec( "DELETE FROM Phys WHERE CodeBarres = ''" );
-    //Non utilisé
-    madatabase.exec( "DELETE FROM Phys WHERE Id_Album NOT IN (SELECT  Id_Album FROM Relations)" );
-    //Non valide
-    madatabase.exec( "UPDATE Phys SET Categorie = '1' WHERE Categorie NOT IN ( SELECT DISTINCT Id_Type FROM Type ) " );
-
-
-
-
-
-
-    //BDDGestionMp3::ReconstruireListeCategorie();
-    //temp.ReconstruireListeCategorie();
-
-}
 void BDDSingleton::changementversion()
 {
     QString queryStr = "SELECT Valeur FROM Configuration WHERE Intitule= 'Version' ";
@@ -284,84 +120,12 @@ void BDDSingleton::changementversion()
     query.next();
     version = query.record().value("Valeur").toInt();
     query.finish();
-    switch (version)
+
+    if ( version != 2 )
     {
-    case 0:  madatabase.exec("INSERT INTO Configuration VALUES ('Version', '1')");
-    case 1 : version2();
-    case 2 : version3();
-    case 3 : version4();
-    case 4 : version5();
-    case 5 : version6(); break;
-    default: break;
+        ChangementVersion* temp = new ChangementVersion;
+        temp->Version();
     }
 }
-void BDDSingleton::version2()
-{
-    //On ajoute une colonne dans la table Album
-    madatabase.exec("ALTER TABLE Album ADD Id_Artiste INTEGER");
-    madatabase.exec("UPDATE Album SET Id_Artiste='1' WHERE Type='2' ");
-    //On crée une liste d'id d'albums et on remplit la liste
-    QString queryStr = "SELECT DISTINCT Id_Album, Id_Artiste FROM Relations R ";
-    QSqlQuery query = madatabase.exec(queryStr);
 
-    while (query.next() ) {
-        QSqlRecord rec=query.record();
 
-        madatabase.exec("UPDATE Album SET Id_Artiste='"+ rec.value("Id_Artiste").toString() +"' WHERE Type!='2' AND Id_Album='" + rec.value("Id_Album").toString() + "'");
-    }
-    //On change la version
-    madatabase.exec("UPDATE Configuration SET Valeur='2' WHERE Intitule= 'Version' ");
-}
-void BDDSingleton::version3()
-{
-    //On ajoute une colonne commentaire dans la table physique
-    madatabase.exec("ALTER TABLE Phys ADD Commentaire VARCHAR(512)");
-    madatabase.exec("UPDATE Phys SET Commentaire='' ");
-
-    //On change la version
-    madatabase.exec("UPDATE Configuration SET Valeur='3' WHERE Intitule= 'Version' ");
-}
-void BDDSingleton::version4()
-{
-    //On ajoute un champ dans la table Type
-    madatabase.exec("INSERT INTO Type VALUES( 11,'Inecoutes')" );
-
-    //On change la version
-    madatabase.exec("UPDATE Configuration SET Valeur='4' WHERE Intitule= 'Version' ");
-}
-
-void BDDSingleton::supprimerdossiersvides()
-{
-    QDir folder( ".\\Pochettes" );
-    folder.setFilter( QDir::NoDotAndDotDot | QDir::AllDirs );
-    foreach ( QFileInfo fileInfo, folder.entryInfoList() )
-    {
-        if ( fileInfo.isDir() )
-        {
-            QDir().rmdir( fileInfo.absoluteFilePath() );
-
-        }
-    }
-}
-void BDDSingleton::version5()
-{
-
-    BDDVersion5 * verif= new BDDVersion5;
-    verif->ModificationBDD();
-    verif->passageversion5();
-
-    //On change la version
-    madatabase.exec("UPDATE Configuration SET Valeur='5' WHERE Intitule= 'Version' ");
-
-}
-void BDDSingleton::version6()
-{
-    BDDVersion6* version = new BDDVersion6;
-    version->ModificationBDD();
-
-}
-void BDDSingleton::CDCompilMP3()
-{
-    madatabase.exec("UPDATE Relations SET PHYS = 1 WHERE Id_Relation IN ( SELECT DISTINCT Id_Relation FROM Relations R, Phys P WHERE R.Id_Album = P.Id_Album  AND P.Support = 2  AND EXISTS ( SELECT R2.Id_Relation FROM Relations R2 WHERE R.Id_Artiste = R2.Id_Artiste AND R.Id_Titre = R2.Id_Titre AND R2.MP3=1 ) )");
-
-}

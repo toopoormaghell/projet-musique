@@ -4,17 +4,34 @@
 #
 #-------------------------------------------------
 
-QT       -= gui
+QT       += gui
 
 TARGET = helpers
 TEMPLATE = lib
 
 DEFINES += HELPERS_LIBRARY
 
-SOURCES += helpers.cpp
+CONFIG += debug_and_release
+CONFIG(debug,debug|release) {
+    DESTDIR =     ../../../bin/debug
+    OBJECTS_DIR = ../../../obj/helpers/debug
+    MOC_DIR =     ../../../moc/helpers/debug
+    UI_DIR =      ../../../ui/helpers/debug
+    LIBS +=     -L../../../bin/debug
+    RCC_DIR +=    ../../../rcc/debug
+} else {
+    DESTDIR = ../../../bin/release
+    OBJECTS_DIR = ../../../obj/helpers/release
+    MOC_DIR = ../../../moc/helpers/release
+    UI_DIR = ../../../ui/helpers/release
+    LIBS += -L../../../bin/release
+    RCC_DIR += ../../../rcc/release
+}
 
-HEADERS += helpers.h\
-        helpers_global.h
+SOURCES += util.cpp
+
+HEADERS += helpers_global.h \
+    util.h
 
 unix {
     target.path = /usr/lib

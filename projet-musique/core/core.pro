@@ -28,14 +28,17 @@ INCLUDEPATH += ../taglib/mpeg
 INCLUDEPATH += ../taglib/mpeg/id3v2
 INCLUDEPATH += ../qawswrapper
 INCLUDEPATH += ../lecteur
+INCLUDEPATH += ../helpers
+INCLUDEPATH += ../bdd
 
 LIBS += -ltaglib
 LIBS += -lqawswrapper
 LIBS += -llecteur
+LIBS += -lhelpers
+LIBS += -lbdd
 
 
 HEADERS += \
-    bddsingleton.h \
     bddartiste.h \
     ongletmp3.h \
     ongletphys.h \
@@ -48,7 +51,6 @@ HEADERS += \
     bddafficherphys.h \
     bddgestionmp3.h \
     bddgestionphys.h \
-    util.h \
     mainwindow.h \
     bddtype.h \
     bddtitre.h \
@@ -73,14 +75,10 @@ HEADERS += \
     DialogAjoutTitre.h \
     bddsupport.h \
     idowner.h \
-    bddversion5.h \
-    bddversion6.h \
-    dialogverifications.h \
-    gestionverifications.h
+    dialogverifications.h
 
 
 SOURCES += main.cpp \
-    bddsingleton.cpp \
     bddartiste.cpp \
     ongletmp3.cpp \
     ongletphys.cpp \
@@ -93,7 +91,6 @@ SOURCES += main.cpp \
     bddafficherphys.cpp \
     bddgestionmp3.cpp \
     bddgestionphys.cpp \
-    util.cpp \
     mainwindow.cpp \
     bddtype.cpp \
     bddtitre.cpp \
@@ -118,10 +115,7 @@ SOURCES += main.cpp \
     DialogAjoutTitre.cpp \
     bddsupport.cpp \
     idowner.cpp \
-    bddversion5.cpp \
-    bddversion6.cpp \
-    dialogverifications.cpp \
-    gestionverifications.cpp
+    dialogverifications.cpp
 
 FORMS += \
     ongletmp3.ui \

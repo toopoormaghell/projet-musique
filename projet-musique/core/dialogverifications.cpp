@@ -1,14 +1,21 @@
 #include "dialogverifications.h"
 #include "ui_dialogverifications.h"
 #include "gestionverifications.h"
-
+#include <QObject>
 
 DialogVerifications::DialogVerifications(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::DialogVerifications)
+    ui( new Ui::DialogVerifications ),
+    m_gestion ( new GestionVerifications )
+
 {
     ui->setupUi(this);
+
+
+     connect (m_gestion ,SIGNAL(EnvoyerTexte(QString)), this ,SLOT(EcrireMessage(QString)));
+
 }
+
 
 DialogVerifications::~DialogVerifications()
 {
@@ -17,52 +24,105 @@ DialogVerifications::~DialogVerifications()
 
 void DialogVerifications::on_pochvides_clicked()
 {
-    ui->interaction->append("Début de la suppression des pochettes non utilisées...");
+
     m_gestion->SuppressionPochettes();
-    ui->interaction->append("Fin de la suppression des pochettes non utilisées.");
+
 }
 
 void DialogVerifications::on_auto_2_clicked()
 {
-    ui->interaction->append("Début de la vérification automatique...");
-    m_gestion->verifierbdd();
-    ui->interaction->append("Fin de la vérification automatique.");
+
+    m_gestion->VerifierBDD();
+
 }
 
 void DialogVerifications::on_mp3phys_clicked()
 {
-    ui->interaction->append("Début de la synchronisation MP3/Phys...");
+
     m_gestion->titresphysetmp3();
-    ui->interaction->append("Fin de la synchronisation MP3/Phys.");
+
 }
 
-void DialogVerifications::on_PochCompils_clicked()
+void DialogVerifications::EcrireMessage(QString texte)
 {
-    ui->interaction->append("Début de la modification des pochettes des compilations...");
-    m_gestion->PochCompils();
-    ui->interaction->append("Fin de la modification des pochettes des compilations.");
-
-    on_pochvides_clicked();
+    ui->interaction->append(texte);
 }
 
 void DialogVerifications::on_Reformatage_clicked()
 {
-    ui->interaction->append("Début de la modification du reformatage des entités en BDD...");
+
     m_gestion->ReformatageEntites();
-    ui->interaction->append("Fin de la modification du reformatage des entités en BDD.");
 
-}
-
-void DialogVerifications::on_pushButton_clicked()
-{
-    ui->interaction->append("Début de la modification des pochettes des artistes des compilations...");
-    m_gestion->ArtistesCompils();
-    ui->interaction->append("Fin de la modification des pochettes des artistes des compilations.");
 }
 
 void DialogVerifications::on_majuscules_clicked()
 {
-    ui->interaction->append("Début de la modification des majuscules des entités en BDD...");
+
     m_gestion->MajusculesEntites();
-    ui->interaction->append("Fin de la modification des majuscules des entités en BDD.");
+
+}
+
+void DialogVerifications::on_ArtisteCompilAlbum_clicked()
+{
+    m_gestion->ArtistesCompils();
+}
+
+void DialogVerifications::on_Virgule_clicked()
+{
+    m_gestion->VirguleArtistes();
+}
+
+void DialogVerifications::on_doublontitre_clicked()
+{
+    m_gestion->SupprimerDoublonsTitre();
+}
+
+void DialogVerifications::on_doublonealbum_clicked()
+{
+    m_gestion->SupprimerDoublonsAlbum();
+}
+
+void DialogVerifications::on_doublonartiste_clicked()
+{
+    m_gestion->SupprimerDoublonsArtiste();
+}
+
+void DialogVerifications::on_integritetout_clicked()
+{
+    m_gestion->VerifierIntegrite();
+}
+
+void DialogVerifications::on_integritepoch_clicked()
+{
+    m_gestion->VerifierPoch();
+}
+
+void DialogVerifications::on_integriterelations_clicked()
+{
+    m_gestion->VerifierRelation();
+}
+
+void DialogVerifications::on_integritemp3_clicked()
+{
+    m_gestion->VerifierMP3();
+}
+
+void DialogVerifications::on_integritephys_clicked()
+{
+    m_gestion->VerifierPhys();
+}
+
+void DialogVerifications::on_integritealbums_clicked()
+{
+    m_gestion->VerifierAlbum();
+}
+
+void DialogVerifications::on_integriteartistes_clicked()
+{
+    m_gestion->VerifierArtiste();
+}
+
+void DialogVerifications::on_integritetitres_clicked()
+{
+    m_gestion->VerifierTitre();
 }

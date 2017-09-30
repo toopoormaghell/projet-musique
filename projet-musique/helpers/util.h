@@ -3,15 +3,17 @@
 
 #include <QObject>
 #include <QImage>
-void FormaterEntiteBDD( QString& Entite );
-QString EchangerArtiste( QString Artiste );
-void EnleverAccents( QString& Nom );
-void EnleverPonctuation( QString& Nom );
-void MajusuculeAChaqueMot( QString& Entite );
+#include "helpers_global.h"
+
+void HELPERSSHARED_EXPORT FormaterEntiteBDD( QString& Entite );
+QString HELPERSSHARED_EXPORT EchangerArtiste( QString Artiste );
+void HELPERSSHARED_EXPORT EnleverAccents( QString& Nom );
+void HELPERSSHARED_EXPORT EnleverPonctuation( QString& Nom );
+void HELPERSSHARED_EXPORT MajusuculeAChaqueMot( QString& Entite );
 
 #ifndef PHYS_STRUCT
 #define PHYS_STRUCT
-typedef struct _TitresPhys
+typedef struct HELPERSSHARED_EXPORT _TitresPhys
 {
     int Num_Piste;
     QString Duree;
@@ -60,7 +62,7 @@ typedef struct _TitresPhys
 
 
 
-typedef struct _AlbumPhys
+typedef struct HELPERSSHARED_EXPORT _AlbumPhys
 {
     int Type;
     QString Album;

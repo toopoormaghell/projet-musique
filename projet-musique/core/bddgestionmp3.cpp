@@ -233,8 +233,8 @@ void BDDGestionMp3::supprstep()
         {
             ReconstruireListeCategorie();
             emit fin();
-            BDDSingleton::getInstance().CDCompilMP3();
-            BDDSingleton::getInstance().supprimerdossiersvides();
+
+
         }
     }
 }
