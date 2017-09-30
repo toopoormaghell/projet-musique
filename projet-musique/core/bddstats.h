@@ -11,7 +11,7 @@ public:
     int NbMp3Total();
     int NbPhysTotal();
     int NbMp3Categorie( int type );
-    int NbPhysCategorie( int type );
+    int NbPhysCategorie(int support );
     int NbChansonsPhys();
     QList<int> ListeArtistesCompils();
     QList<int> ListeMp3ArtisteCompil( int Id_Artiste );
@@ -21,6 +21,7 @@ public:
     QList<int> ListeMP3Doublons();
 
 
+    int NbPhysType(int type);
 };
 
 #endif // BDDSTATS_H

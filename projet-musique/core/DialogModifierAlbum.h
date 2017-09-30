@@ -37,6 +37,7 @@ private:
     BDDGestionPhys* m_bddinterface;
     int m_selection;
     AlbumPhys m_album;
+    void RecupererListeType();
 };
 
 #endif // MODIFIERALBUMDIALOG_H

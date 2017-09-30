@@ -5,7 +5,7 @@
 
 #include "QAWSWrapper_global.h"
 #include <QScopedPointer>
-#include "util.h"
+#include <util.h>
 class QAWSWrapperNotifier;
 
 

@@ -13,6 +13,8 @@ public:
     QString m_support;
 
     static QList<int> NbSupport();
+
+   static int RecupererSupportAlb( int Id, QString Categorie);
 private:
     BDDSupport( const int id, QObject* parent = NULL );
 };

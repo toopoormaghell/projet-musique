@@ -20,6 +20,7 @@
 #include <QDir>
 #include "bddlecteur.h"
 #include <QInputDialog>
+#include <QDebug>
 
 OngletMP3::OngletMP3( QWidget* parent ) :
     QWidget( parent ),
@@ -201,7 +202,7 @@ void OngletMP3::afficherAlbumSelectionne()
 
     ui->Titre->setText( alb.Album );
     ui->NomArtiste->setText( alb.Artiste );
-    ui->NomAlbum->setText( QString::number( alb.Annee ) );
+    ui->Annee->setText( QString::number( alb.Annee ) );
 
     QPixmap scaled( QPixmap::fromImage( alb.Poch ) );
     scaled = scaled.scaled( 150, 150 );
@@ -211,10 +212,20 @@ void OngletMP3::afficherAlbumSelectionne()
     QPixmap mp3physoui( ":/Autres/Vrai" );
     QPixmap mp3physnon( ":/Autres/Faux" );
 
+
+    if ( BDDAlbum::ExisteEnPhys( alb.Id_Album ) )
+    {
+        ui->Mp3Phys->setText( "L'album existe en album physique.");
+    } else
+    {
+        ui->Mp3Phys->setText("");
+    }
+
+
     //Affichage des Titres selon l'album
     if ( alb.titres.count() == 0 )
     {
-        ui->Titres->addItem( "Pas d'album physique existant" );
+        ui->Titres->addItem( "Pas d'album existant" );
     }
 
     for ( int i = 0; i < alb.titres.count(); i++ )
@@ -430,7 +441,8 @@ void OngletMP3::afficherMP3ouAlbum( const QString& MouA )
 {
     if ( MouA == "Album" )
     {
-        ui->Sur->setText( "Annee :" );
+        ui->Sur->setText("");
+        ui->NomAlbum->setText("");
         ui->Play->setVisible( false );
         ui->Simi->setVisible( false );
         ui->TitresAlb->setVisible( true );

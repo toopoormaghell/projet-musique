@@ -18,52 +18,90 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
-    <widget class="QListWidget" name="Artistes">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>150</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>130</height>
-      </size>
-     </property>
-     <property name="font">
-      <font>
-       <family>Segoe UI</family>
-       <pointsize>9</pointsize>
-      </font>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>105</width>
-       <height>105</height>
-      </size>
-     </property>
-     <property name="movement">
-      <enum>QListView::Static</enum>
-     </property>
-     <property name="isWrapping" stdset="0">
-      <bool>false</bool>
-     </property>
-     <property name="resizeMode">
-      <enum>QListView::Adjust</enum>
-     </property>
-     <property name="viewMode">
-      <enum>QListView::IconMode</enum>
-     </property>
-     <property name="uniformItemSizes">
-      <bool>true</bool>
-     </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_15">
      <item>
-      <property name="text">
-       <string>Pas d'Album Physique enregistre</string>
-      </property>
+      <widget class="QListWidget" name="Categories">
+       <property name="minimumSize">
+        <size>
+         <width>250</width>
+         <height>150</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>250</width>
+         <height>150</height>
+        </size>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="movement">
+        <enum>QListView::Static</enum>
+       </property>
+       <property name="resizeMode">
+        <enum>QListView::Adjust</enum>
+       </property>
+       <property name="viewMode">
+        <enum>QListView::IconMode</enum>
+       </property>
+       <property name="uniformItemSizes">
+        <bool>false</bool>
+       </property>
+      </widget>
      </item>
-    </widget>
+     <item>
+      <widget class="QListWidget" name="Artistes">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>150</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>150</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>105</width>
+         <height>105</height>
+        </size>
+       </property>
+       <property name="movement">
+        <enum>QListView::Static</enum>
+       </property>
+       <property name="isWrapping" stdset="0">
+        <bool>false</bool>
+       </property>
+       <property name="resizeMode">
+        <enum>QListView::Adjust</enum>
+       </property>
+       <property name="viewMode">
+        <enum>QListView::IconMode</enum>
+       </property>
+       <property name="uniformItemSizes">
+        <bool>true</bool>
+       </property>
+       <item>
+        <property name="text">
+         <string>Pas d'Album Physique enregistre</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">

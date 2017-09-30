@@ -11,6 +11,7 @@
 #include <QLineEdit>
 #include <QStyledItemDelegate>
 #include <QCompleter>
+#include <QDebug>
 
 class QTableModel;
 
@@ -491,7 +492,7 @@ void DialogAjouterPhys::AfficherAlbum()
 {
     ui->Annee->setText( QString::number( m_album.Annee ) );
     ui->Nom_Album->setText( m_album.Album );
-    if ( m_Type ==2)
+    if ( m_Type ==2 )
     {
         ui->Nom_Artiste->setText("Artistes Divers");
     } else
@@ -552,7 +553,10 @@ void DialogAjouterPhys::AffichageListeArtistes( int id )
 void DialogAjouterPhys::RecupererType( int id )
 {
     m_Type = (id*-1)-1;
-
+    if ( m_Type == 3 )
+    {
+        m_Type = 11;
+    }
 
 }
 

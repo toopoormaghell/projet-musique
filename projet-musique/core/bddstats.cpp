@@ -48,6 +48,7 @@ int bddstats::NbMp3Categorie( int type )
     }
     return -1;
 }
+
 int bddstats::NbCompilCategorie( int type )
 {
     BDDAfficherMp3 * temp= new BDDAfficherMp3;
@@ -64,9 +65,9 @@ int bddstats::NbCompilCategorie( int type )
     }
     return -1;
 }
-int bddstats::NbPhysCategorie( int type )
+int bddstats::NbPhysCategorie( int support )
 {
-    QString queryStr = "SELECT COUNT(*)AS 'Nb' FROM Phys WHERE  Support='" + QString::number( type ) + "'";
+    QString queryStr = "SELECT COUNT(*)AS 'Nb' FROM Phys WHERE  Support='" + QString::number( support ) + "'";
     QSqlQuery query = madatabase.exec( queryStr );
 
     if ( query.first() )
@@ -77,6 +78,20 @@ int bddstats::NbPhysCategorie( int type )
     }
     return -1;
 }
+int bddstats::NbPhysType( int type )
+{
+    QString queryStr = "SELECT COUNT(*)AS 'Nb' FROM Phys P, Album B  WHERE P.Support = 1 AND  B.Id_Album = P.Id_Album AND B.Type='" + QString::number( type ) + "'";
+    QSqlQuery query = madatabase.exec( queryStr );
+
+    if ( query.first() )
+    {
+        QSqlRecord rec = query.record();
+
+        return rec.value( "Nb" ).toInt();
+    }
+    return -1;
+}
+
 int bddstats::NbChansonsPhys()
 {
     QString queryStr = "SELECT COUNT(*)AS 'Nb' FROM Phys P, Relations R  WHERE R.Id_Album = P.Id_Album";

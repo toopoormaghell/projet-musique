@@ -41,9 +41,10 @@ void DialogModifierArtiste::on_ChangerPochette_clicked()
     if ( choixPoch.m_selection != 0 )
     {
         BDDAlbum* alb = BDDAlbum::RecupererAlbum( choixPoch.m_selection );
-        m_artiste->m_pochette = alb->m_pochette;
-        AfficherArtiste();
+        delete m_artiste->m_pochette;
+        m_artiste->m_pochette = BDDPoch::recupererBDD(alb->m_pochette->id());
         delete alb;
+        AfficherArtiste();
     }
 }
 void DialogModifierArtiste::Enregistrer()

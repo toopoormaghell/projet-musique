@@ -6,196 +6,307 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>849</width>
-    <height>611</height>
+    <width>1074</width>
+    <height>760</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Modifier l'album</string>
   </property>
-  <widget class="QLabel" name="Pochette">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>10</y>
-     <width>100</width>
-     <height>100</height>
-    </rect>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>100</width>
-     <height>100</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>100</width>
-     <height>100</height>
-    </size>
-   </property>
-   <property name="text">
-    <string>Pochette</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="Album">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>20</y>
-     <width>281</width>
-     <height>20</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="Artiste">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>70</y>
-     <width>281</width>
-     <height>20</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QDialogButtonBox" name="buttonBox">
-   <property name="geometry">
-    <rect>
-     <x>550</x>
-     <y>580</y>
-     <width>291</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
-   <property name="centerButtons">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="Annee">
-   <property name="geometry">
-    <rect>
-     <x>490</x>
-     <y>50</y>
-     <width>113</width>
-     <height>20</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QListWidget" name="Titres">
-   <property name="geometry">
-    <rect>
-     <x>190</x>
-     <y>120</y>
-     <width>481</width>
-     <height>411</height>
-    </rect>
-   </property>
-   <property name="dragDropMode">
-    <enum>QAbstractItemView::InternalMove</enum>
-   </property>
-   <property name="alternatingRowColors">
-    <bool>true</bool>
-   </property>
-   <property name="selectionMode">
-    <enum>QAbstractItemView::MultiSelection</enum>
-   </property>
-  </widget>
-  <widget class="QListWidget" name="Num_Pistes">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>120</y>
-     <width>51</width>
-     <height>411</height>
-    </rect>
-   </property>
-   <property name="alternatingRowColors">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="Type">
-   <property name="geometry">
-    <rect>
-     <x>670</x>
-     <y>50</y>
-     <width>131</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="maxCount">
-    <number>10</number>
-   </property>
+  <layout class="QVBoxLayout" name="verticalLayout_6">
    <item>
-    <property name="text">
-     <string>Album</string>
-    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Maximum</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QLabel" name="Pochette">
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>150</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>150</width>
+           <height>150</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Pochette</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="Parcourir">
+         <property name="text">
+          <string>Parcourir...</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QLineEdit" name="Album"/>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="Artiste"/>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="Annee"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QLabel" name="LabelSupPhys">
+           <property name="text">
+            <string>Support  Phys:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="LabelSupMp3">
+           <property name="text">
+            <string>Support MP3:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Type :</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QComboBox" name="SupportPhys">
+           <property name="maxCount">
+            <number>10</number>
+           </property>
+           <item>
+            <property name="text">
+             <string>Album</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Compil</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Single</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="SupportMP3">
+           <property name="maxCount">
+            <number>10</number>
+           </property>
+           <item>
+            <property name="text">
+             <string>MP3</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="Type">
+           <property name="maxCount">
+            <number>10</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+    </layout>
    </item>
    <item>
-    <property name="text">
-     <string>Compil</string>
-    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QListWidget" name="Num_Pistes">
+       <property name="maximumSize">
+        <size>
+         <width>50</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="alternatingRowColors">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QListWidget" name="Titres">
+       <property name="maximumSize">
+        <size>
+         <width>400</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="dragDropMode">
+        <enum>QAbstractItemView::InternalMove</enum>
+       </property>
+       <property name="alternatingRowColors">
+        <bool>true</bool>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::MultiSelection</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QListWidget" name="ArtistesTitres">
+       <property name="maximumSize">
+        <size>
+         <width>400</width>
+         <height>16777215</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QListWidget" name="Duree">
+       <property name="maximumSize">
+        <size>
+         <width>150</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="alternatingRowColors">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="Supprimer">
+         <property name="text">
+          <string>Supprimer Titres Sélectionnés</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+    </layout>
    </item>
    <item>
-    <property name="text">
-     <string>Single</string>
-    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="QLineEdit" name="Commentaires"/>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_4">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QDialogButtonBox" name="buttonBox">
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+       </property>
+       <property name="centerButtons">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
-  </widget>
-  <widget class="QListWidget" name="Duree">
-   <property name="geometry">
-    <rect>
-     <x>670</x>
-     <y>120</y>
-     <width>91</width>
-     <height>411</height>
-    </rect>
-   </property>
-   <property name="alternatingRowColors">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="Parcourir">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>120</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Parcourir...</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="Commentaires">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>550</y>
-     <width>541</width>
-     <height>51</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="Supprimer">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>190</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Supprimer Titres Sélectionnés</string>
-   </property>
-  </widget>
+  </layout>
  </widget>
  <resources/>
  <connections/>

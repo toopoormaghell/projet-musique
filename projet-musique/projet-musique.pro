@@ -10,7 +10,9 @@ SUBDIRS += \
     taglib \
     QAWSWrapper \
     core \
-    Lecteur
+    Lecteur \
+    Bdd \
+    helpers
 
 
 

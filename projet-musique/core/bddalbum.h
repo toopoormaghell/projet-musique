@@ -27,6 +27,7 @@ public:
     BDDArtiste const* m_artiste;
 
     static AlbumPhys RecupAlbumEntite( const int id );
+    static bool ExisteEnPhys( const int id );
 private:
     // Indique que le type et la pochette ont été créés par RecupererAlbum, et doivent donc être détruits explicitement
     bool m_areTypeAndPochetteSelfCreated;

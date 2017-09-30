@@ -3,13 +3,17 @@
 
 #include <QObject>
 #include <QImage>
-void FormaterEntiteBDD( QString& Entite );
-QString EchangerArtiste( QString Artiste );
-void EnleverAccents( QString& Nom );
+#include "helpers_global.h"
+
+void HELPERSSHARED_EXPORT FormaterEntiteBDD( QString& Entite );
+QString HELPERSSHARED_EXPORT EchangerArtiste( QString Artiste );
+void HELPERSSHARED_EXPORT EnleverAccents( QString& Nom );
+void HELPERSSHARED_EXPORT EnleverPonctuation( QString& Nom );
+void HELPERSSHARED_EXPORT MajusuculeAChaqueMot( QString& Entite );
 
 #ifndef PHYS_STRUCT
 #define PHYS_STRUCT
-typedef struct _TitresPhys
+typedef struct HELPERSSHARED_EXPORT _TitresPhys
 {
     int Num_Piste;
     QString Duree;
@@ -20,6 +24,8 @@ typedef struct _TitresPhys
     bool MP3;
     bool Phys;
     bool Garde;
+  //  QString Id_Art;
+ //   int Support_MP3;
 
     _TitresPhys():
         Num_Piste( 0 ),
@@ -31,6 +37,8 @@ typedef struct _TitresPhys
         MP3( false ),
         Phys ( false ),
         Garde ( false )
+  //      ,Id_Art()
+  //     , Support_MP3( -1 )
     {}
 
     char* toString() const
@@ -44,6 +52,8 @@ typedef struct _TitresPhys
                      "MP3='%7'\n"
                      "Phys='%8'\n"
                      "Garde='%9'\n"
+   //                  "Id_Art='%10'\n"
+  //                   "Support_MP3='%11'\n"
                      );
         QString tmp2 = tmp.arg( QString::number( Num_Piste ), Duree, Titre, id, Artiste, QString::number( MP3Phys ),QString::number( MP3 ),QString::number( Phys ), QString::number( Garde) );
         return tmp2.toLatin1().data();
@@ -52,7 +62,7 @@ typedef struct _TitresPhys
 
 
 
-typedef struct _AlbumPhys
+typedef struct HELPERSSHARED_EXPORT _AlbumPhys
 {
     int Type;
     QString Album;

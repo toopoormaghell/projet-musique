@@ -1,19 +1,22 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "bddgestionmp3.h"
-#include "bddsingleton.h"
-#include "DialogAjouterPhys.h"
+
 #include <QToolBar>
 #include <QAction>
 #include <QMessageBox>
-#include "dialogconfigactu.h"
-#include "DialogVidageBDD.h"
-#include "QDebug"
 #include <QWidget>
 #include <QStatusBar>
 #include <QPushButton>
+
+
+#include "dialogconfigactu.h"
+#include "DialogVidageBDD.h"
+#include "bddgestionmp3.h"
+#include "bddsingleton.h"
+#include "DialogAjouterPhys.h"
 #include "ongletmp3.h"
 #include "dialogverifications.h"
+#include "gestionverifications.h"
 
 FenetrePrincipale::FenetrePrincipale(const QStringList& couleurs, QWidget* parent ) :
     QMainWindow( parent ),
@@ -146,6 +149,9 @@ void FenetrePrincipale::ViderBDD()
         if ( m_vidage.Mp3 )
         {
             m_gestionMP3->ViderBDD();
+            GestionVerifications* temp = new GestionVerifications;
+            temp->VerifierBDD();
+
 
         }
     }

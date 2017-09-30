@@ -30,6 +30,8 @@ private slots:
 
     void on_CopierDansDossier_clicked();
 
+
+
 private:
     Ui::OngletRech* ui;
     void affichageResultats();
@@ -46,6 +48,8 @@ private:
 
     void affichageTitresParAlbum();
     void AffichInfosTitres();
+
+    void affichageTitresParArtiste();
 };
 
 #endif // ONGLETRECH_H

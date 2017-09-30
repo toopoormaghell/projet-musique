@@ -10,6 +10,8 @@ QT       += gui
 TARGET = QAWSWrapper
 TEMPLATE = lib
 
+LIBS += -lhelpers
+
 CONFIG += debug_and_release
 CONFIG(debug,debug|release) {
     DESTDIR = ../../../bin/debug
@@ -27,6 +29,8 @@ CONFIG(debug,debug|release) {
     RCC_DIR += ../../../rcc/release
 }
 
+INCLUDEPATH += ../helpers
+
 DEFINES += QAWSWRAPPER_LIBRARY
 
 SOURCES += QAWSWrapper.cpp \
@@ -34,7 +38,6 @@ SOURCES += QAWSWrapper.cpp \
 
 HEADERS += QAWSWrapper.h \
     QAWSWrapper_global.h \
-    util.h \
     QAWSGlobalInfo.h \
     QAWSWrapperNotifier.h
 

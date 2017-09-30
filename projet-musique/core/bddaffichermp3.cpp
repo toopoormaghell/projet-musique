@@ -16,7 +16,7 @@ QList<int> BDDAfficherMp3::ListeArtiste( QString type )
 
     if ( type != "2" )
     {
-        QString queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, Album B,Relations R WHERE A.Id_Artiste!='01' AND R.Id_Album=B.Id_Album AND R.Id_Artiste=A.Id_Artiste AND R.MP3 = 1 ";
+        QString queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, Album B,Relations R, MP3 M WHERE A.Id_Artiste!='01' AND R.Id_Album=B.Id_Album AND R.Id_Artiste=A.Id_Artiste AND M.Id_Relation = R.Id_Relation ";
 
         if ( type != "0" )
         {
@@ -43,9 +43,13 @@ QStringList BDDAfficherMp3::listeTitresAlbumMp3( QString Id_Album, QString Categ
 {
     QStringList titres;
     QString queryStr = "SELECT DISTINCT Titre, Duree, Num_Piste, M.Id_MP3 FROM Titre T, Album B, MP3 M, Relations R WHERE R.Id_Titre = T.Id_Titre AND R.Id_Album=" + Id_Album + " AND R.Id_Album=B.Id_Album AND R.Id_Relation = M.Id_Relation";
-    if ( Categorie != "0" )
+    if ( Categorie != "0" && Categorie != "1"  )
     {
         queryStr = queryStr + " AND B.Type='" + Categorie + "'";
+    }
+    if ( Categorie == "1" )
+    {
+        queryStr = queryStr + " AND (B.Type='" + Categorie + "' OR  B.Type='11'       )";
     }
     queryStr = queryStr + " ORDER BY Num_Piste";
     QSqlQuery query = madatabase.exec( queryStr );
@@ -66,16 +70,22 @@ QList<int> BDDAfficherMp3::listeAlbums( QString Id_Artiste, QString Categorie )
 {
     QList<int> albums;
     QString queryStr = "SELECT DISTINCT Al.Id_Album FROM Album Al, Relations R, MP3 M WHERE R.Id_Artiste=" + Id_Artiste + " AND Al.Id_Album = R.Id_Album AND M.Id_Relation = R.Id_Relation ";
-    if ( Categorie != "0" )
+    if ( Categorie != "0" && Categorie != "1" )
     {
         queryStr = queryStr + " AND Al.Type='" + Categorie + "'";
+
     }
-    queryStr = queryStr + " ORDER BY Al.Annee DESC";
+    if ( Categorie == "1" )
+    {
+         queryStr = queryStr + " AND ( Al.Type='" + Categorie + "'  OR Al.Type='11' )";
+    }
+    queryStr = queryStr + " ORDER BY Al.Type, Al.Annee DESC";
 
     if ( Categorie == "2" )
     {
         queryStr = "SELECT DISTINCT Al.Id_Album FROM Album Al, MP3 M, Relations R WHERE Al.Id_Album = R.Id_Album AND Al.Type = 2 AND R.Id_Relation = M.Id_Relation AND " + AnneesSwitch( Id_Artiste.toInt() ) + " ORDER BY Al.Annee, Al.Album";
     }
+
     QSqlQuery query = madatabase.exec( queryStr );
 
     while ( query.next() )
@@ -90,22 +100,22 @@ QString BDDAfficherMp3::AnneesSwitch( int annee )
 {
     switch ( annee )
     {
-        case 0 :
-            return "Annee <1980";
-        case 1 :
-            return " Annee >=1980 AND Annee <1990";
-        case 2 :
-            return " Annee >=1990 AND Annee<2000";
-        case 3 :
-            return " Annee>=2000 AND Annee<2005";
-        case 4 :
-            return " Annee>=2005 AND Annee<2010";
-        case 5 :
-            return " Annee>=2010 AND Annee<2015";
-        case 6 :
-            return " Annee>=2015";
-        default :
-            return " Annee>=2015";
+    case 0 :
+        return "Annee <1980";
+    case 1 :
+        return " Annee >=1980 AND Annee <1990";
+    case 2 :
+        return " Annee >=1990 AND Annee<2000";
+    case 3 :
+        return " Annee>=2000 AND Annee<2005";
+    case 4 :
+        return " Annee>=2005 AND Annee<2010";
+    case 5 :
+        return " Annee>=2010 AND Annee<2015";
+    case 6 :
+        return " Annee>=2015";
+    default :
+        return " Annee>=2015";
     }
 }
 
@@ -126,14 +136,21 @@ QStringList BDDAfficherMp3::RecupererListeTypes( QString Categorie )
     QStringList liste;
     QString queryStr;
     if ( Categorie == "MP3" )
-    queryStr= "SELECT DISTINCT Type FROM Album B,Relations R WHERE R.Id_Album = B.Id_Album AND R.Mp3=1 ORDER BY Type";
+        queryStr= "SELECT DISTINCT Type FROM Album B,Relations R, MP3 M WHERE R.Id_Album = B.Id_Album AND R.Id_Relation = M.Id_Relation ORDER BY Type";
+    else {
+        queryStr= "SELECT DISTINCT Type FROM Album B,Phys P WHERE P.Id_Album = B.Id_Album  ORDER BY Type";
+
+    }
 
     QSqlQuery query = madatabase.exec( queryStr );
     while ( query.next() )
     {
         QSqlRecord rec = query.record();
+        if ( rec.value( "Type" ).toInt() != 11 )
+        {
         liste << BDDType::RecupererType( rec.value( "Type" ).toInt() )->m_type;
         liste << rec.value( "Type" ).toString();
+        }
     }
 
     return liste;
