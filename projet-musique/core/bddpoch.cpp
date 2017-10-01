@@ -33,7 +33,7 @@ QList<int> BDDPoch::pochettesparart(const QString &artiste)
     return listepoch;
 }
 
-void BDDPoch::sauverImage()
+void BDDPoch::sauverImage() const
 {
     QDir dossier;
     QDir toCreate(QFileInfo(m_chemin).dir());
