@@ -6,8 +6,8 @@
 
 BDDPoch::BDDPoch(const QImage& image, const QString& album, const QString& artiste, QObject* parent):
     IdOwner(-1, parent)
-  , m_chemin()
   , m_image(image)
+  , m_chemin()
 {
     QString artisteFormate(artiste);
     QString albumFormate(album);
@@ -125,8 +125,8 @@ BDDPoch* BDDPoch::recupererPoch( const QString& album, const QString& artiste )
 
 BDDPoch::BDDPoch(const int id, QObject* parent):
     IdOwner(id, parent)
-  , m_chemin()
   , m_image()
+  , m_chemin()
 {
     QString queryStr = "SELECT Chemin FROM Pochette WHERE Id_Pochette='" + QString::number(id) + "'";
     QSqlQuery query = madatabase.exec(queryStr);

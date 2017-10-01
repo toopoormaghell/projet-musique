@@ -19,9 +19,8 @@ public:
     static BDDPoch* recupererBDD( const int id );
     static BDDPoch* recupererPoch( const QString& album, const QString& artiste );
 
-    QString m_chemin;
     QImage m_image;
-
+    QString m_chemin;
 
     static QString creerchemin( const QString& album, const QString& artiste );
     static QList<int> pochettesparart( const QString& artiste );
