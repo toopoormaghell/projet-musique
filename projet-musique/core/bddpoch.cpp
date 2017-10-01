@@ -40,29 +40,6 @@ void BDDPoch::sauverImage()
     dossier.mkdir(toCreate.path());
     m_image.save(m_chemin);
 }
-void BDDPoch::recupererId()
-{
-    QString queryStr = " Select Id_Pochette As 'Poch' from Pochette WHERE Chemin='" + m_chemin + "'";
-    QSqlQuery query = madatabase.exec( queryStr );
-
-    if ( query.first() )
-    {
-        QSqlRecord rec = query.record();
-        setId(rec.value( "Poch" ).toInt());
-
-    }
-    else
-    {
-        setId(-1);
-    }
-}
-void BDDPoch::ajouterBDD()
-{
-    QString queryStr = "INSERT INTO Pochette VALUES (null,'" + m_chemin + "')";
-    QSqlQuery query = madatabase.exec( queryStr );
-
-    setId(query.lastInsertId().toInt());
-}
 
 void BDDPoch::updateBDD()
 {
