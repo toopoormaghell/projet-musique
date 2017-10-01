@@ -94,9 +94,21 @@ void BDDPoch::updateBDD()
     madatabase.exec("UPDATE Pochette SET Chemin = '" + m_chemin + "' WHERE Id_Pochette = '" + QString::number(id()) + "'");
 }
 
-BDDPoch* BDDPoch::recupererBDD( const int id )
+BDDPoch* BDDPoch::recupererBDD(const int id)
 {
-    return new BDDPoch( id );
+    QString queryStr = "SELECT Chemin FROM Pochette WHERE Id_Pochette='" + QString::number(id) + "'";
+    QSqlQuery query = madatabase.exec(queryStr);
+
+    QString chemin;
+    QImage image;
+    while (query.next())
+    {
+        QSqlRecord rec = query.record();
+
+        chemin = rec.value("Chemin").toString();
+        image.load(chemin);
+    }
+    return new BDDPoch(id, image, chemin);
 }
 
 BDDPoch* BDDPoch::recupererPoch( const QString& album, const QString& artiste )
@@ -123,20 +135,11 @@ BDDPoch* BDDPoch::recupererPoch( const QString& album, const QString& artiste )
 }
 
 
-BDDPoch::BDDPoch(const int id, QObject* parent):
+BDDPoch::BDDPoch(const int id, const QImage& image, const QString& chemin, QObject* parent):
     IdOwner(id, parent)
-  , m_image()
-  , m_chemin()
+  , m_image(image)
+  , m_chemin(chemin)
 {
-    QString queryStr = "SELECT Chemin FROM Pochette WHERE Id_Pochette='" + QString::number(id) + "'";
-    QSqlQuery query = madatabase.exec(queryStr);
-    while (query.next())
-    {
-        QSqlRecord rec = query.record();
-
-        m_chemin = rec.value("Chemin").toString();
-        m_image.load(m_chemin);
-    }
 }
 
 void BDDPoch::supprimerenBDD() const
@@ -159,4 +162,3 @@ void BDDPoch::supprimerenBDD() const
 
     }
 }
-

@@ -30,7 +30,7 @@ private:
     void recupererId();
     void ajouterBDD();
 
-    explicit BDDPoch(const int id, QObject* parent = NULL);
+    explicit BDDPoch(const int id, const QImage& image, const QString& chemin,QObject* parent = NULL);
 };
 
 
