@@ -23,7 +23,7 @@ public:
     static QList<int> pochettesparart(const QString& artiste);
 
 private:
-    void sauverImage(const QString& album, const QString& artiste);
+    void sauverImage();
     void recupererId();
     void ajouterBDD();
     static QString creerchemin(const QString& album, const QString& artiste);

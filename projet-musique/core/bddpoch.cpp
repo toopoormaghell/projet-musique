@@ -33,13 +33,12 @@ QList<int> BDDPoch::pochettesparart(const QString &artiste)
     return listepoch;
 }
 
-void BDDPoch::sauverImage( const QString& album, const QString& artiste )
+void BDDPoch::sauverImage()
 {
     QDir dossier;
-    QString chemin = "./pochettes/" + artiste;
-    dossier.mkdir( chemin );
-    chemin += "/" + album + ".jpg";
-    m_image.save( chemin );
+    QDir toCreate(QFileInfo(m_chemin).dir());
+    dossier.mkdir(toCreate.path());
+    m_image.save(m_chemin);
 }
 void BDDPoch::recupererId()
 {
@@ -67,8 +66,18 @@ void BDDPoch::ajouterBDD()
 
 void BDDPoch::updateBDD()
 {
-
-    madatabase.exec("UPDATE Pochette SET Chemin = '" + m_chemin + "' WHERE Id_Pochette = '" + QString::number(id()) + "'");
+    sauverImage();
+    if (id() == -1)
+    {
+        QString queryStr = "INSERT INTO Pochette VALUES (null,'" + m_chemin + "')";
+        QSqlQuery query = madatabase.exec( queryStr );
+        setId(query.lastInsertId().toInt());
+    }
+    else
+    {
+        QString queryStr = "UPDATE Pochette SET Chemin = '" + m_chemin + "' WHERE Id_Pochette = '" + QString::number(id()) + "'";
+        madatabase.exec(queryStr);
+    }
 }
 
 BDDPoch* BDDPoch::recupererBDD(const int id)

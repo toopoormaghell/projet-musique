@@ -170,6 +170,7 @@ void BDDGestionMp3::actualiserMp3( QString chemin )
     //On ajoute en BDD
 
     BDDPoch* poch = BDDPoch::recupererBDD(fich.getPoch(), album.replace( "'", "$" ), artist.replace( "'", "$" ));
+    poch->updateBDD();
     BDDPoch* def = BDDPoch::recupererBDD(1);
 
     BDDArtiste art( artist.replace( "'", "$" ), ( m_souscat==2 ?*def : *poch ) );

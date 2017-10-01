@@ -18,6 +18,7 @@ BDDGestionPhys::BDDGestionPhys( QObject* parent ) :
 void BDDGestionPhys::ajouterAlbum(QImage Poch, QString Album, QString Artiste, QString ean, int Annee, QList<TitresPhys> titres, int Support, QString Commentaires, int Type)
 {
     BDDPoch* poch = BDDPoch::recupererBDD(Poch, Album, (Support==2 ? "Compil":Artiste));
+    poch->updateBDD();
 
     BDDPoch* def = BDDPoch::recupererBDD(1);
 
