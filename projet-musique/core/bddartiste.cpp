@@ -8,8 +8,8 @@
 BDDArtiste::BDDArtiste(const QString& artiste, BDDPoch& pochette, QObject* parent):
     IdOwner(-1, parent)
   , m_nom(artiste)
-  , m_pochette(&pochette)
   , m_nomFormate(artiste)
+  , m_pochette(&pochette)
   , m_isPochetteSelfCreated(false)
 {
     EnleverAccents ( m_nom );
@@ -66,8 +66,8 @@ BDDArtiste* BDDArtiste::RecupererArtiste( const int id )
 BDDArtiste::BDDArtiste(const int id, QObject* parent):
     IdOwner(id, parent)
   , m_nom()
-  , m_pochette(NULL)
   , m_nomFormate()
+  , m_pochette(NULL)
 {
     QString queryStr = "SELECT Artiste, Artiste_Formate, Id_Pochette FROM Artiste WHERE Id_Artiste='" + QString::number(id) + "'";
     QSqlQuery query = madatabase.exec(queryStr);
@@ -85,8 +85,8 @@ BDDArtiste::BDDArtiste(const int id, QObject* parent):
 BDDArtiste::BDDArtiste(const QString& artiste, QObject* parent):
     IdOwner(0, parent)
   , m_nom(artiste)
-  , m_pochette(NULL)
   , m_nomFormate(artiste)
+  , m_pochette(NULL)
 {
     TrouverId(m_nom);
     QString queryStr = "SELECT Artiste, Artiste_Formate, Id_Pochette FROM Artiste WHERE Id_Artiste='" + QString::number(id()) + "'";
