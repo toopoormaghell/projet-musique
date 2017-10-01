@@ -22,13 +22,13 @@ public:
     BDDPoch* m_pochette;
 
     static void EchangerArtiste( QString& nom );
-    void ChoisirArtisteEchange( QString& nom );
 
 private:
     // Indique que le créateur de la pochette est RecupererArstiste, la pochette doit donc être détruite
     bool m_isPochetteSelfCreated;
     void ajouterBDD();
     void recupererId();
+    void ChoisirArtisteEchange( QString& nom );
     void TrouverId( QString& nom );
 
     explicit BDDArtiste(const int id, QObject* parent = NULL);
