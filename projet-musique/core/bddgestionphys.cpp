@@ -17,14 +17,12 @@ BDDGestionPhys::BDDGestionPhys( QObject* parent ) :
 
 void BDDGestionPhys::ajouterAlbum(QImage Poch, QString Album, QString Artiste, QString ean, int Annee, QList<TitresPhys> titres, int Support, QString Commentaires, int Type)
 {
-
-    BDDPoch poch(Poch, Album, ( Support==2 ? "Compil":Artiste ) );
-
+    BDDPoch* poch = BDDPoch::recupererBDD(Poch, Album, (Support==2 ? "Compil":Artiste));
 
     BDDPoch* def = BDDPoch::recupererBDD(1);
 
-    BDDArtiste art( Artiste, ( Type==2 ?*def : poch ) );
-    BDDAlbum alb( Album, poch, Annee, *BDDType::RecupererType(Type), art );
+    BDDArtiste art( Artiste, ( Type==2 ?*def : *poch ) );
+    BDDAlbum alb( Album, *poch, Annee, *BDDType::RecupererType(Type), art );
 
     for ( int cpt = 0; cpt < titres.count(); cpt++ )
     {
@@ -45,6 +43,7 @@ void BDDGestionPhys::ajouterAlbum(QImage Poch, QString Album, QString Artiste, Q
     BDDPhys phys( alb, ean, *BDDSupport::RecupererSupport(Support), Commentaires );
 
     delete def;
+    delete poch;
 }
 void BDDGestionPhys::SupprimerenBDDPhys( int Id )
 {

@@ -169,11 +169,11 @@ void BDDGestionMp3::actualiserMp3( QString chemin )
 
     //On ajoute en BDD
 
-    BDDPoch poch( fich.getPoch() ,  album.replace( "'", "$" ),  artist.replace( "'", "$" ) );
+    BDDPoch* poch = BDDPoch::recupererBDD(fich.getPoch(), album.replace( "'", "$" ), artist.replace( "'", "$" ));
     BDDPoch* def = BDDPoch::recupererBDD(1);
 
-    BDDArtiste art( artist.replace( "'", "$" ), ( m_souscat==2 ?*def : poch ) );
-    BDDAlbum alb( album.replace( "'", "$" ),  poch, date, *BDDType::RecupererType(m_souscat), art  );
+    BDDArtiste art( artist.replace( "'", "$" ), ( m_souscat==2 ?*def : *poch ) );
+    BDDAlbum alb( album.replace( "'", "$" ),  *poch, date, *BDDType::RecupererType(m_souscat), art  );
 
     BDDTitre tit( title.replace( "'", "$" ));
     BDDRelation rel( alb, art, tit, track, QString::number( min ) + ":" + QString::number( sec ).rightJustified( 2, '0' ), 1,0,1);
@@ -186,7 +186,7 @@ void BDDGestionMp3::actualiserMp3( QString chemin )
 
     }
     delete def;
-
+    delete poch;
 }
 
 void BDDGestionMp3::supprimerAnciensMP3( )
