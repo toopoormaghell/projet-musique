@@ -111,30 +111,6 @@ BDDPoch* BDDPoch::recupererBDD(const int id)
     return new BDDPoch(id, image, chemin);
 }
 
-BDDPoch* BDDPoch::recupererPoch( const QString& album, const QString& artiste )
-
-{
-    QString chemin = creerchemin( album, artiste );
-
-    QString queryStr = " Select Id_Pochette As 'Poch' from Pochette WHERE Chemin='" + chemin + "'";
-    QSqlQuery query = madatabase.exec( queryStr );
-
-    if ( query.first() )
-    {
-
-        QSqlRecord rec = query.record();
-        int id = rec.value( "Poch" ).toInt();
-        return recupererBDD( id );
-    }
-    else
-    {
-        return NULL;
-    }
-
-
-}
-
-
 BDDPoch::BDDPoch(const int id, const QImage& image, const QString& chemin, QObject* parent):
     IdOwner(id, parent)
   , m_image(image)
