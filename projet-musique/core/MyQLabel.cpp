@@ -1,7 +1,8 @@
 #include "MyQLabel.h"
 #include <QMouseEvent>
 
-MyQLabel::MyQLabel(QObject* parent)
+MyQLabel::MyQLabel(QWidget *parent):
+    QLabel(parent)
 {
 
 }
