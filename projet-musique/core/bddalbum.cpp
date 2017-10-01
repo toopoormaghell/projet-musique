@@ -7,7 +7,7 @@
 #include "bddartiste.h"
 #include "bddtitre.h"
 
-BDDAlbum::BDDAlbum(const QString& album, const BDDPoch& pochette, int annee, const BDDType& type, const BDDArtiste& artiste , QObject* parent):
+BDDAlbum::BDDAlbum(const QString& album, BDDPoch &pochette, int annee, const BDDType& type, const BDDArtiste& artiste , QObject* parent):
     IdOwner(-1, parent)
   , m_nom(album)
   , m_pochette(&pochette)
@@ -30,6 +30,7 @@ BDDAlbum::BDDAlbum(const QString& album, const BDDPoch& pochette, int annee, con
 
 void BDDAlbum::updateBDD()
 {
+    m_pochette->updateBDD();
     QString queryStr = "UPDATE Album SET Album_Formate ='" + m_nomFormate + "', Id_Pochette='" + QString::number( m_pochette->id() ) + "', Annee= '" + QString::number( m_annee ) + "', Id_Artiste= '" + QString::number( m_artiste->id() ) + "'  WHERE Id_Album = '" + QString::number( id() ) + "'";
     madatabase.exec( queryStr );
 }

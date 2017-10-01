@@ -5,7 +5,7 @@
 #include <QtGui>
 #include "util.h"
 
-BDDArtiste::BDDArtiste(const QString& artiste, const BDDPoch& pochette, QObject* parent):
+BDDArtiste::BDDArtiste(const QString& artiste, BDDPoch& pochette, QObject* parent):
     IdOwner(-1, parent)
   , m_nom(artiste)
   , m_pochette(&pochette)
@@ -119,6 +119,7 @@ void BDDArtiste::TrouverId( QString& nom )
 
 void BDDArtiste::updateBDD()
 {
+    m_pochette->updateBDD();
     QString queryStri = " UPDATE Artiste SET Artiste ='" + m_nom + "', Artiste_Formate='" + m_nomFormate + "', Id_Pochette='" + QString::number( m_pochette->id() ) + "' WHERE Id_Artiste='" + QString::number( id() ) + "'";
     madatabase.exec( queryStri );
 

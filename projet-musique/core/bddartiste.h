@@ -11,7 +11,7 @@ class BDDArtiste : public IdOwner
     Q_OBJECT
 public:
 
-    explicit BDDArtiste(const QString& artiste, const BDDPoch& pochette, QObject* parent = NULL);
+    explicit BDDArtiste(const QString& artiste, BDDPoch &pochette, QObject* parent = NULL);
     virtual ~BDDArtiste();
 
     void updateBDD();
@@ -21,7 +21,7 @@ public:
     void ChoisirArtisteEchange( QString& nom );
 
     QString m_nom;
-    BDDPoch const* m_pochette;
+    BDDPoch* m_pochette;
     QString m_nomFormate;
 
 
