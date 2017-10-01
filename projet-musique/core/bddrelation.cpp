@@ -96,7 +96,7 @@ BDDRelation::BDDRelation(const int id, QObject* parent):
 
         m_titre = BDDTitre::RecupererTitre(rec.value("Id_Titre").toInt());
         m_album = BDDAlbum::RecupererAlbum(rec.value("Id_Album").toInt());
-        m_artiste = BDDArtiste::RecupererArtiste(rec.value("Id_Artiste").toInt());
+        m_artiste = BDDArtiste::recupererBDD(rec.value("Id_Artiste").toInt());
         m_num_piste = rec.value("Num_Piste").toInt();
         m_duree = rec.value("Duree").toString();
         m_mp3 = rec.value("MP3").toInt();
@@ -130,7 +130,7 @@ BDDRelation::BDDRelation(const int id, QString Type, QObject* parent):
         setId(rec.value("Id_Relation").toInt());
         m_titre = BDDTitre::RecupererTitre(rec.value("Id_Titre").toInt());
         m_album = BDDAlbum::RecupererAlbum(rec.value("Id_Album").toInt());
-        m_artiste = BDDArtiste::RecupererArtiste(rec.value("Id_Artiste").toInt());
+        m_artiste = BDDArtiste::recupererBDD(rec.value("Id_Artiste").toInt());
         m_num_piste = rec.value("Num_Piste").toInt();
         m_duree = rec.value("Duree").toString();
         m_mp3 = rec.value("MP3").toInt();

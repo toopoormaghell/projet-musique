@@ -81,7 +81,7 @@ BDDAlbum::BDDAlbum(const int id, QObject* parent):
         m_nomFormate = rec.value("Album_Formate").toString();
         m_annee = rec.value("Annee").toInt();
         m_type = BDDType::RecupererType(rec.value("Type").toInt());
-        m_artiste = BDDArtiste::RecupererArtiste(rec.value("Id_artiste").toInt());
+        m_artiste = BDDArtiste::recupererBDD(rec.value("Id_artiste").toInt());
         m_areTypeAndPochetteSelfCreated = true;
     }
 }
@@ -145,7 +145,7 @@ AlbumPhys BDDAlbum::RecupAlbumEntite( const int id )
         TitresPhys titre;
         QSqlRecord rec = query.record();
         BDDTitre*  TitreEnCours = BDDTitre::RecupererTitre( rec.value( "Id_Titre" ).toInt() );
-        BDDArtiste* art = BDDArtiste::RecupererArtiste(rec.value( "Id_Artiste" ).toInt());
+        BDDArtiste* art = BDDArtiste::recupererBDD(rec.value( "Id_Artiste" ).toInt());
 
         titre.Artiste = art->m_nom;
         titre.Duree = rec.value( "Duree" ).toString();

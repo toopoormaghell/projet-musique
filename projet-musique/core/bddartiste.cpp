@@ -58,7 +58,7 @@ void BDDArtiste::ajouterBDD()
     setId(query.lastInsertId().toInt());
 }
 
-BDDArtiste* BDDArtiste::RecupererArtiste( const int id )
+BDDArtiste* BDDArtiste::recupererBDD(const int id)
 {
     return new BDDArtiste( id );
 }

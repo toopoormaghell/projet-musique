@@ -14,7 +14,7 @@ public:
     void supprimerenBDD() const;
     explicit BDDArtiste(const QString& artiste, BDDPoch &pochette, QObject* parent = NULL);
     virtual ~BDDArtiste();
-    static BDDArtiste* RecupererArtiste( const int id );
+    static BDDArtiste* recupererBDD(const int id);
     static BDDArtiste* RecupererArtparNom( QString& nom );
 
     QString m_nom;

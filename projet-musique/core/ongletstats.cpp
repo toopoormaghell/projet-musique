@@ -153,7 +153,7 @@ void OngletStats::AfficherArtistesCompilMP3()
 
     for ( int i = 0; i < temp.count(); i++ )
     {
-        BDDArtiste* art = BDDArtiste::RecupererArtiste( temp[i] );
+        BDDArtiste* art = BDDArtiste::recupererBDD( temp[i] );
         QListWidgetItem* item =  new QListWidgetItem;
         item->setText( art->m_nom );
         item->setData( Qt::UserRole, temp[i] );
