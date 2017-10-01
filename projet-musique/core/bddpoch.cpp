@@ -64,7 +64,7 @@ BDDPoch* BDDPoch::recupererBDD(const int id)
 
     QString chemin;
     QImage image;
-    while (query.next())
+    if (query.first())
     {
         QSqlRecord rec = query.record();
 
