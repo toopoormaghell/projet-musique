@@ -1,5 +1,5 @@
 #include "DialogChoixAlbumPhys.h"
-#include "ui_choixalbumphysdialog.h"
+#include "ui_dialogchoixalbumphys.h"
 #include "bddaffichermp3.h"
 #include "bddalbum.h"
 #include "bddpoch.h"
