@@ -21,13 +21,13 @@ public:
     QImage m_image;
     QString m_chemin;
 
-    static QString creerchemin(const QString& album, const QString& artiste);
     static QList<int> pochettesparart(const QString& artiste);
 
 private:
     void sauverImage(const QString& album, const QString& artiste);
     void recupererId();
     void ajouterBDD();
+    static QString creerchemin(const QString& album, const QString& artiste);
 
     explicit BDDPoch(const int id, const QImage& image, const QString& chemin,QObject* parent = NULL);
 };
