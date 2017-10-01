@@ -102,7 +102,5 @@ void BDDGestionPhys::modifierAlbum( QString Album, QString Artiste, QString ean,
     }
 
     BDDPhys phys( *alb, ean, *BDDSupport::RecupererSupport(Support), Commentaires );
-    delete alb->m_type;
     delete alb;
-    delete poch;
 }
