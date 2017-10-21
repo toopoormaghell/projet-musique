@@ -114,8 +114,7 @@ BDDArtiste* BDDArtiste::RecupererArtparNom( QString& nom )
 void BDDArtiste::TrouverId( QString& nom )
 {
     setId(-1);
-    ChoisirArtisteEchange( nom );
-    m_nomFormate = nom;
+    m_nomFormate = ChoisirArtisteEchange(nom);
     FormaterEntiteBDD( m_nomFormate );
     recupererId();
 }
@@ -161,25 +160,25 @@ void BDDArtiste::EchangerArtiste( QString& nom )
     }
 
 }
-void BDDArtiste::ChoisirArtisteEchange( QString& nom )
+QString BDDArtiste::ChoisirArtisteEchange(const QString& nom)
 {
     QString temp = nom;
-    FormaterEntiteBDD( nom );
-    QString queryStri = "SELECT Artiste FROM Artiste WHERE Artiste_Formate='" + nom + "'";
+    FormaterEntiteBDD(temp);
+    QString queryStri = "SELECT Artiste FROM Artiste WHERE Artiste_Formate='" + temp + "'";
     QSqlQuery query = madatabase.exec( queryStri );
 
     if ( !query.first() )
     {
-        nom = temp;
-        EchangerArtiste( nom );
-        FormaterEntiteBDD( nom );
-        queryStri = "SELECT Artiste FROM Artiste WHERE Artiste_Formate='" + nom + "'";
+        temp = nom;
+        EchangerArtiste( temp );
+        FormaterEntiteBDD( temp );
+        queryStri = "SELECT Artiste FROM Artiste WHERE Artiste_Formate='" + temp + "'";
         query = madatabase.exec( queryStri );
         if ( query.first() )
         {
             QSqlRecord rec = query.record();
-            m_nom = rec.value( "Artiste" ).toString();
-            m_nomFormate = nom;
+            temp = rec.value( "Artiste" ).toString();
         }
     }
+    return temp;
 }
