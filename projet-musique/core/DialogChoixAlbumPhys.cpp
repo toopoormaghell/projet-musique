@@ -26,7 +26,7 @@ void DialogChoixAlbumPhys::AfficherAlbums()
     m_albums.clear();
 
     //Première chose, on récupère l'artiste
-    BDDArtiste* art = BDDArtiste::RecupererArtparNom( m_artiste );
+    BDDArtiste* art = BDDArtiste::recupererBDD( m_artiste );
 
     QList<int> albums = m_bddInterface.listeAlbums( QString::number( art->id() ), "0" );
 

@@ -34,7 +34,7 @@ void DialogChoixPochette::AfficherPochettes()
     m_pochettes.clear();
 
     //On récupère en premier l'id de l'artiste
-    BDDArtiste* art = BDDArtiste::RecupererArtparNom(m_artiste);
+    BDDArtiste* art = BDDArtiste::recupererBDD(m_artiste);
 
 
     QList<int> listepoch = BDDPoch::pochettesparart( QString::number( art->id() ) );

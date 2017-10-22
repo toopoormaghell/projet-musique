@@ -81,31 +81,10 @@ BDDArtiste::BDDArtiste(const int id, const QString& nom, const QString& nomForma
 {
 }
 
-BDDArtiste::BDDArtiste(const QString& artiste, QObject* parent):
-    IdOwner(-1, parent)
-  , m_nom(artiste)
-  , m_nomFormate(artiste)
-  , m_pochette(nullptr)
+BDDArtiste* BDDArtiste::recupererBDD(const QString& nom)
 {
-    const int id = TrouverId(m_nom);
-    QString queryStr = "SELECT Artiste, Artiste_Formate, Id_Pochette FROM Artiste WHERE Id_Artiste='" + QString::number(id) + "'";
-
-    QSqlQuery query = madatabase.exec(queryStr);
-    while (query.next())
-    {
-        QSqlRecord rec = query.record();
-
-        setId(id);
-        m_nom = rec.value("Artiste").toString().replace("$", "'");
-        m_nomFormate = rec.value("Artiste_Formate").toString();
-        m_pochette = BDDPoch::recupererBDD(rec.value("Id_Pochette").toInt());
-        m_isPochetteSelfCreated = true;
-    }
-}
-
-BDDArtiste* BDDArtiste::RecupererArtparNom( QString& nom )
-{
-    return new BDDArtiste( nom );
+    const int id = TrouverId(nom);
+    return recupererBDD(id);
 }
 
 int BDDArtiste::TrouverId(const QString &nom )

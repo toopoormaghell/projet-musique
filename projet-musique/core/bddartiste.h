@@ -15,7 +15,7 @@ public:
     explicit BDDArtiste(const QString& artiste, BDDPoch &pochette, QObject* parent = NULL);
     virtual ~BDDArtiste();
     static BDDArtiste* recupererBDD(const int id);
-    static BDDArtiste* RecupererArtparNom( QString& nom );
+    static BDDArtiste* recupererBDD(const QString& nom);
 
     QString m_nom;
     QString m_nomFormate;
@@ -32,7 +32,6 @@ private:
     static int TrouverId(const QString& nom );
 
     explicit BDDArtiste(const int id, const QString &nom, const QString &nomFormate, BDDPoch *pochette, QObject* parent = NULL);
-    explicit BDDArtiste(const QString& artiste, QObject* parent = NULL);
 };
 
 
