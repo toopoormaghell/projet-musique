@@ -27,7 +27,7 @@ private:
     // Indique que le créateur de la pochette est RecupererArstiste, la pochette doit donc être détruite
     bool m_isPochetteSelfCreated;
     void ajouterBDD();
-    void recupererId();
+    static int recupererId(const QString &nomFormate);
     static QString ChoisirArtisteEchange(const QString& nom);
     void TrouverId( QString& nom );
 

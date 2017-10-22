@@ -31,23 +31,18 @@ BDDArtiste::~BDDArtiste()
         delete m_pochette;
 }
 
-void BDDArtiste::recupererId()
+int BDDArtiste::recupererId(const QString& nomFormate)
 {
-
-    QString queryStr = "Select Id_Artiste As 'Artiste', Id_Pochette AS 'Poch' from Artiste WHERE Artiste_Formate='" + m_nomFormate + "'" ;
+    QString queryStr = "Select Id_Artiste As 'Artiste', Id_Pochette AS 'Poch' from Artiste WHERE Artiste_Formate='" + nomFormate + "'" ;
     QSqlQuery query = madatabase.exec( queryStr );
 
+    int id = -1;
     if ( query.first() )
     {
         QSqlRecord rec = query.record();
-        setId(rec.value( "Artiste" ).toInt());
-        m_pochette = BDDPoch::recupererBDD(rec.value("Poch").toInt());
-        m_isPochetteSelfCreated = true;
+        id = rec.value( "Artiste" ).toInt();
     }
-    else
-    {
-        setId(-1);
-    }
+    return id;
 }
 
 void BDDArtiste::ajouterBDD()
@@ -116,7 +111,7 @@ void BDDArtiste::TrouverId( QString& nom )
     setId(-1);
     m_nomFormate = ChoisirArtisteEchange(nom);
     FormaterEntiteBDD( m_nomFormate );
-    recupererId();
+    setId(recupererId(m_nomFormate));
 }
 
 void BDDArtiste::updateBDD()
