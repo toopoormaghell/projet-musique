@@ -14,10 +14,11 @@ BDDArtiste::BDDArtiste(const QString& artiste, BDDPoch& pochette, QObject* paren
 {
     EnleverAccents ( m_nom );
     MajusuculeAChaqueMot ( m_nom );
-   FormaterEntiteBDD ( m_nomFormate );
+    FormaterEntiteBDD ( m_nomFormate );
 
     QString art = m_nom;
-    TrouverId(art);
+    const int ID = TrouverId(art);
+    setId(ID);
 
     if (id() == -1)
         ajouterBDD();
@@ -81,22 +82,23 @@ BDDArtiste::BDDArtiste(const int id, const QString& nom, const QString& nomForma
 }
 
 BDDArtiste::BDDArtiste(const QString& artiste, QObject* parent):
-    IdOwner(0, parent)
+    IdOwner(-1, parent)
   , m_nom(artiste)
   , m_nomFormate(artiste)
-  , m_pochette(NULL)
+  , m_pochette(nullptr)
 {
-    TrouverId(m_nom);
-    QString queryStr = "SELECT Artiste, Artiste_Formate, Id_Pochette FROM Artiste WHERE Id_Artiste='" + QString::number(id()) + "'";
+    const int id = TrouverId(m_nom);
+    QString queryStr = "SELECT Artiste, Artiste_Formate, Id_Pochette FROM Artiste WHERE Id_Artiste='" + QString::number(id) + "'";
 
     QSqlQuery query = madatabase.exec(queryStr);
     while (query.next())
     {
         QSqlRecord rec = query.record();
 
+        setId(id);
         m_nom = rec.value("Artiste").toString().replace("$", "'");
-        m_pochette = BDDPoch::recupererBDD(rec.value("Id_Pochette").toInt());
         m_nomFormate = rec.value("Artiste_Formate").toString();
+        m_pochette = BDDPoch::recupererBDD(rec.value("Id_Pochette").toInt());
         m_isPochetteSelfCreated = true;
     }
 }
@@ -106,12 +108,11 @@ BDDArtiste* BDDArtiste::RecupererArtparNom( QString& nom )
     return new BDDArtiste( nom );
 }
 
-void BDDArtiste::TrouverId( QString& nom )
+int BDDArtiste::TrouverId(const QString &nom )
 {
-    setId(-1);
-    m_nomFormate = ChoisirArtisteEchange(nom);
-    FormaterEntiteBDD( m_nomFormate );
-    setId(recupererId(m_nomFormate));
+    QString nomFormate = ChoisirArtisteEchange(nom);
+    FormaterEntiteBDD(nomFormate);
+    return recupererId(nomFormate);
 }
 
 void BDDArtiste::updateBDD()

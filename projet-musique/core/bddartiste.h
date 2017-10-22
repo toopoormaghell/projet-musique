@@ -29,7 +29,7 @@ private:
     void ajouterBDD();
     static int recupererId(const QString &nomFormate);
     static QString ChoisirArtisteEchange(const QString& nom);
-    void TrouverId( QString& nom );
+    static int TrouverId(const QString& nom );
 
     explicit BDDArtiste(const int id, const QString &nom, const QString &nomFormate, BDDPoch *pochette, QObject* parent = NULL);
     explicit BDDArtiste(const QString& artiste, QObject* parent = NULL);
