@@ -24,8 +24,6 @@ public:
     static void EchangerArtiste( QString& nom );
 
 private:
-    // Indique que le créateur de la pochette est RecupererArstiste, la pochette doit donc être détruite
-    bool m_isPochetteSelfCreated;
     void ajouterBDD();
     static int recupererId(const QString &nomFormate);
     static QString ChoisirArtisteEchange(const QString& nom);

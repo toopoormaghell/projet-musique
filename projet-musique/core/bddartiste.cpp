@@ -10,7 +10,6 @@ BDDArtiste::BDDArtiste(const QString& artiste, BDDPoch& pochette, QObject* paren
   , m_nom(artiste)
   , m_nomFormate(artiste)
   , m_pochette(&pochette)
-  , m_isPochetteSelfCreated(false)
 {
     EnleverAccents ( m_nom );
     MajusuculeAChaqueMot ( m_nom );
@@ -28,8 +27,7 @@ BDDArtiste::BDDArtiste(const QString& artiste, BDDPoch& pochette, QObject* paren
 
 BDDArtiste::~BDDArtiste()
 {
-    if ( m_isPochetteSelfCreated )
-        delete m_pochette;
+    delete m_pochette;
 }
 
 int BDDArtiste::recupererId(const QString& nomFormate)
