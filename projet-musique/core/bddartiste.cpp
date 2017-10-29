@@ -5,26 +5,6 @@
 #include <QtGui>
 #include "util.h"
 
-BDDArtiste::BDDArtiste(const QString& artiste, BDDPoch& pochette, QObject* parent):
-    IdOwner(-1, parent)
-  , m_nom(artiste)
-  , m_nomFormate(artiste)
-  , m_pochette(&pochette)
-{
-    EnleverAccents ( m_nom );
-    MajusuculeAChaqueMot ( m_nom );
-    FormaterEntiteBDD ( m_nomFormate );
-
-    QString art = m_nom;
-    const int ID = TrouverId(art);
-    setId(ID);
-
-    if (id() == -1)
-        ajouterBDD();
-    else
-        updateBDD();
-}
-
 BDDArtiste::~BDDArtiste()
 {
     delete m_pochette;
@@ -42,14 +22,6 @@ int BDDArtiste::recupererId(const QString& nomFormate)
         id = rec.value( "Artiste" ).toInt();
     }
     return id;
-}
-
-void BDDArtiste::ajouterBDD()
-{
-
-    QString queryStr = "INSERT INTO Artiste VALUES (null,'" + m_nom + "','" + QString::number( m_pochette->id() ) + "','" + m_nomFormate + "')";
-    QSqlQuery query = madatabase.exec( queryStr );
-    setId(query.lastInsertId().toInt());
 }
 
 BDDArtiste* BDDArtiste::recupererBDD(const int id)
@@ -85,6 +57,19 @@ BDDArtiste* BDDArtiste::recupererBDD(const QString& nom)
     return recupererBDD(id);
 }
 
+BDDArtiste* BDDArtiste::recupererBDD(const QString& artiste, BDDPoch& pochette)
+{
+    QString nom(artiste);
+    EnleverAccents(nom);
+    MajusuculeAChaqueMot(nom);
+    QString nomFormate(nom);
+    FormaterEntiteBDD(nomFormate);
+
+    const int id = TrouverId(nom);
+
+    return new BDDArtiste(id, nom, nomFormate, &pochette);
+}
+
 int BDDArtiste::TrouverId(const QString &nom )
 {
     QString nomFormate = ChoisirArtisteEchange(nom);
@@ -95,9 +80,18 @@ int BDDArtiste::TrouverId(const QString &nom )
 void BDDArtiste::updateBDD()
 {
     m_pochette->updateBDD();
-    QString queryStri = " UPDATE Artiste SET Artiste ='" + m_nom + "', Artiste_Formate='" + m_nomFormate + "', Id_Pochette='" + QString::number( m_pochette->id() ) + "' WHERE Id_Artiste='" + QString::number( id() ) + "'";
-    madatabase.exec( queryStri );
+    if (id() == -1)
+    {
+        QString queryStr = "INSERT INTO Artiste VALUES (null,'" + m_nom + "','" + QString::number( m_pochette->id() ) + "','" + m_nomFormate + "')";
+        QSqlQuery query = madatabase.exec( queryStr );
+        setId(query.lastInsertId().toInt());
+    }
+    else
+    {
 
+        QString queryStri = " UPDATE Artiste SET Artiste ='" + m_nom + "', Artiste_Formate='" + m_nomFormate + "', Id_Pochette='" + QString::number( m_pochette->id() ) + "' WHERE Id_Artiste='" + QString::number( id() ) + "'";
+        madatabase.exec( queryStri );
+    }
 }
 
 void BDDArtiste::supprimerenBDD() const
@@ -111,12 +105,9 @@ void BDDArtiste::supprimerenBDD() const
         //si la requête ne renvoie pas de résultat, on efface du coup l'artiste
         if ( !query2.first() )
         {
-
             madatabase.exec( "DELETE FROM Artiste WHERE Id_Artiste='" + QString::number( id() ) + "'" );
-
         }
         m_pochette->supprimerenBDD();
-
     }
 }
 

@@ -12,10 +12,11 @@ class BDDArtiste : public IdOwner
 public:
     void updateBDD();
     void supprimerenBDD() const;
-    explicit BDDArtiste(const QString& artiste, BDDPoch &pochette, QObject* parent = NULL);
+
     virtual ~BDDArtiste();
     static BDDArtiste* recupererBDD(const int id);
     static BDDArtiste* recupererBDD(const QString& nom);
+    static BDDArtiste* recupererBDD(const QString& artiste, BDDPoch &pochette);
 
     QString m_nom;
     QString m_nomFormate;
@@ -24,7 +25,6 @@ public:
     static void EchangerArtiste( QString& nom );
 
 private:
-    void ajouterBDD();
     static int recupererId(const QString &nomFormate);
     static QString ChoisirArtisteEchange(const QString& nom);
     static int TrouverId(const QString& nom );
