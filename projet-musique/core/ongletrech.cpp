@@ -96,7 +96,7 @@ void OngletRech::affichageArtistes()
 
     for ( int i = 0; i < result.count(); i++ )
     {
-        BDDArtiste* artiste = BDDArtiste::RecupererArtiste( result[i] );
+        BDDArtiste* artiste = BDDArtiste::recupererBDD( result[i] );
         QListWidgetItem* item = new QListWidgetItem;
         item->setText( artiste->m_nom );
         item->setData( Qt::UserRole, artiste->id() );
@@ -161,7 +161,7 @@ void OngletRech::affichageResultatspourArtiste()
     ui->AlbumspourArt->clear();
 
     //On affiche le nom de l'artiste
-    BDDArtiste* art = BDDArtiste::RecupererArtiste( m_artiste.toInt());
+    BDDArtiste* art = BDDArtiste::recupererBDD( m_artiste.toInt());
     ui->Artiste_Albums->setText( art->m_nom.toUpper() );
     //On s'occupe d'afficher les albums
     QList<int> result= appelBDD->AlbumsPourArt( m_artiste );

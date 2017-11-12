@@ -34,7 +34,7 @@ void DialogChoixPochette::AfficherPochettes()
     m_pochettes.clear();
 
     //On récupère en premier l'id de l'artiste
-    BDDArtiste* art = BDDArtiste::RecupererArtparNom(m_artiste);
+    BDDArtiste* art = BDDArtiste::recupererBDD(m_artiste);
 
 
     QList<int> listepoch = BDDPoch::pochettesparart( QString::number( art->id() ) );
@@ -48,7 +48,7 @@ void DialogChoixPochette::AfficherPochettes()
         //on affiche la pochette
         QPixmap scaled( QPixmap::fromImage( poch->m_image ) );
         item->setIcon( QIcon( scaled ) );
-        item->setData(  Qt::UserRole, poch->id() );
+        item->setData(poch->id(), Qt::UserRole );
         item->setText(  poch->m_chemin );
 
         //On ajoute l'item dans le modèle

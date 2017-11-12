@@ -8,7 +8,7 @@ QT       += sql
 
 QT       += gui
 
-TARGET = Bdd
+TARGET = bdd
 TEMPLATE = lib
 
 DEFINES += BDD_LIBRARY

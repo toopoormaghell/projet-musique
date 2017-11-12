@@ -349,7 +349,7 @@ void OngletMP3::affichageartistes()
         QList<int> artistes = m_bddInterface.ListeArtiste( QString::number( m_categorie ) );
         for ( int cpt = 0; cpt < artistes.count(); cpt++ )
         {
-            BDDArtiste* artiste = BDDArtiste::RecupererArtiste( artistes[cpt] );
+            BDDArtiste* artiste = BDDArtiste::recupererBDD( artistes[cpt] );
             if ( artiste->id() > 0 )
             {
                 QListWidgetItem* item = new  QListWidgetItem;
@@ -430,7 +430,7 @@ void OngletMP3::on_buttonBox_clicked( QAbstractButton* button )
 void OngletMP3::on_ArtistesAnnees_doubleClicked( const QModelIndex& index )
 {
     m_artiste = index.data( Qt::UserRole ).toInt();
-    BDDArtiste* artiste = BDDArtiste::RecupererArtiste( m_artiste );
+    BDDArtiste* artiste = BDDArtiste::recupererBDD( m_artiste );
     DialogModifierArtiste temp( artiste, this );
     temp.exec();
     vider( "Artiste" );

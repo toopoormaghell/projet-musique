@@ -91,7 +91,7 @@ void OngletPhys::afficherListeArtiste()
     for ( int cpt = 0; cpt < artistes.count(); cpt++ )
     {
 
-        BDDArtiste* artiste = BDDArtiste::RecupererArtiste( artistes[cpt] );
+        BDDArtiste* artiste = BDDArtiste::recupererBDD( artistes[cpt] );
 
         if ( artiste->id() > 0 )
         {
@@ -187,7 +187,7 @@ void OngletPhys::AfficherArtisteSelectionne()
     case ( 8 ) : ui->Artiste->setText( "Classique" ); break;
     case ( 9 ) : ui->Artiste->setText( "Associatif" ); break;
     case ( 10 ) : ui->Artiste->setText( "Reprises" ); break;
-    default :  BDDArtiste* artiste = BDDArtiste::RecupererArtiste( m_artiste.toInt() ); ui->Artiste->setText( artiste->m_nom ); delete artiste;
+    default :  BDDArtiste* artiste = BDDArtiste::recupererBDD( m_artiste.toInt() ); ui->Artiste->setText( artiste->m_nom ); delete artiste;
     }
 
 }
@@ -263,7 +263,7 @@ void OngletPhys::AfficherInfosAlbum( int Type )
             //Si c'est une compil, on ajoute les artistes derrière
             if ( Type == 3 )
             {
-                BDDArtiste* art = BDDArtiste::RecupererArtiste( relation->m_artiste->id() );
+                BDDArtiste* art = BDDArtiste::recupererBDD( relation->m_artiste->id() );
                 if ( m_artiste.toInt() == art->id() )
                 {
                     QFont m_police( "Monotype Corsiva", 11, 75 );
@@ -363,7 +363,7 @@ void OngletPhys::on_SupprimerAlbum_clicked()
 void OngletPhys::on_Artistes_doubleClicked( const QModelIndex& index )
 {
     int choix = index.data( Qt::UserRole ).toInt();
-    BDDArtiste* artiste = BDDArtiste::RecupererArtiste( choix );
+    BDDArtiste* artiste = BDDArtiste::recupererBDD( choix );
     DialogModifierArtiste temp( artiste, this );
     temp.exec();
     delete artiste;

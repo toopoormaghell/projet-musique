@@ -9,7 +9,7 @@ class MyQLabel : public QLabel
 {
     Q_OBJECT
 public:
-    explicit MyQLabel (QObject* parent=0);
+    explicit MyQLabel (QWidget* parent=0);
     void mousePressEvent(QMouseEvent *e);
 signals :
     void clic();

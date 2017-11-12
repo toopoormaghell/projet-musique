@@ -36,7 +36,7 @@ void OngletFusion::affichageChoixPossibles()
 
     for ( int i = 0; i < result.count(); i++ )
     {
-        BDDArtiste* artiste = BDDArtiste::RecupererArtiste( result[i] );
+        BDDArtiste* artiste = BDDArtiste::recupererBDD( result[i] );
         QListWidgetItem* item = new QListWidgetItem;
         item->setText( artiste->m_nom );
         item->setData( Qt::UserRole, artiste->id() );

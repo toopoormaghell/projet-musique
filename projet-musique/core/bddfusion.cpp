@@ -89,7 +89,10 @@ void BDDFusion::fusionalbums( QPair<QString,QString> Choix1_Album,  QPair<QImage
 
     SupprimerTitresEnTrop( m_Choix1_Titres << m_Choix2_Titres, AlbumChoix, ChoixFusion_Annee, PochChoix );
 
-    delete Alb1, Alb2, Poch1, Poch2;
+    delete Alb1;
+    delete Alb2;
+    delete Poch1;
+    delete Poch2;
 
 }
 void BDDFusion::SupprimerTitresEnTrop(  QList<TitresPhys> titresph, QString AlbumChoix, int ChoixFusion_Annee, QString PochChoix )

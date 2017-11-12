@@ -12,7 +12,7 @@ class BDDAlbum : public IdOwner
 {
     Q_OBJECT
 public:
-    explicit BDDAlbum(const QString& album, const BDDPoch& pochette, int annee, const BDDType& type, const BDDArtiste& artiste, QObject* parent = 0);
+    explicit BDDAlbum(const QString& album, BDDPoch& pochette, int annee, const BDDType& type, const BDDArtiste& artiste, QObject* parent = 0);
     virtual ~BDDAlbum();
 
     void updateBDD();
@@ -20,7 +20,7 @@ public:
     static BDDAlbum* RecupererAlbum( const int Id );
 
     QString m_nom;
-    BDDPoch const* m_pochette;
+    BDDPoch* m_pochette;
     QString m_nomFormate;
     int m_annee;
     BDDType const* m_type;

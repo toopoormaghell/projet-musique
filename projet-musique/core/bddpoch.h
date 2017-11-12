@@ -12,26 +12,21 @@ class BDDPoch : public IdOwner
     Q_OBJECT
 
 public:
-    explicit BDDPoch(const QImage& image, const QString& album, const QString& artiste, QObject* parent = NULL);
-
     void updateBDD();
     void supprimerenBDD() const;
-    static BDDPoch* recupererBDD( const int id );
-    static BDDPoch* recupererPoch( const QString& album, const QString& artiste );
+    static BDDPoch* recupererBDD(const int id);
+    static BDDPoch* recupererBDD(const QImage& image, const QString& album, const QString& artiste);
 
-    QString m_chemin;
     QImage m_image;
+    QString m_chemin;
 
-
-    static QString creerchemin( const QString& album, const QString& artiste );
-    static QList<int> pochettesparart( const QString& artiste );
+    static QList<int> pochettesparart(const QString& artiste);
 
 private:
-    void sauverImage( const QString& album, const QString& artiste );
-    void recupererId();
-    void ajouterBDD();
+    void sauverImage() const;
+    static QString creerchemin(const QString& album, const QString& artiste);
 
-    explicit BDDPoch(const int id, QObject* parent = NULL);
+    explicit BDDPoch(const int id, const QImage& image, const QString& chemin,QObject* parent = NULL);
 };
 
 
