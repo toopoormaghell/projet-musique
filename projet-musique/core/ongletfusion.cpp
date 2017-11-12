@@ -65,7 +65,7 @@ void OngletFusion::AffichageFusions(QString id)
     QList<int> result= appelBDD->AlbumsPourArt( id );
     for ( int i = 0; i < result.count(); i++ )
     {
-        BDDAlbum* alb = BDDAlbum::RecupererAlbum( result[i] );
+        BDDAlbum* alb = BDDAlbum::recupererBDD( result[i] );
 
         QListWidgetItem* item = new QListWidgetItem;
         item->setText( alb->m_nom );

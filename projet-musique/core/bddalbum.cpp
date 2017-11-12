@@ -7,96 +7,87 @@
 #include "bddartiste.h"
 #include "bddtitre.h"
 
-BDDAlbum::BDDAlbum(const QString& album, BDDPoch &pochette, int annee, const BDDType& type, const BDDArtiste& artiste , QObject* parent):
-    IdOwner(-1, parent)
-  , m_nom(album)
-  , m_pochette(&pochette)
-  , m_nomFormate(album)
-  , m_annee(annee)
-  , m_type(&type)
-  , m_artiste(&artiste)
-  , m_areTypeAndPochetteSelfCreated(false)
-
-{
-    EnleverAccents (m_nom );
-    MajusuculeAChaqueMot ( m_nom );
-    FormaterEntiteBDD(m_nomFormate);
-    recupererId();
-    if (id() == -1)
-        ajouterBDD();
-    else
-        updateBDD();
-}
-
-void BDDAlbum::updateBDD()
-{
-    m_pochette->updateBDD();
-    QString queryStr = "UPDATE Album SET Album_Formate ='" + m_nomFormate + "', Id_Pochette='" + QString::number( m_pochette->id() ) + "', Annee= '" + QString::number( m_annee ) + "', Id_Artiste= '" + QString::number( m_artiste->id() ) + "'  WHERE Id_Album = '" + QString::number( id() ) + "'";
-    madatabase.exec( queryStr );
-}
 
 
 BDDAlbum::~BDDAlbum()
 {
-    if ( m_areTypeAndPochetteSelfCreated )
-    {
-        delete m_artiste;
-        delete m_type;
-        delete m_pochette;
-    }
+
+    delete m_artiste;
+    delete m_type;
+    delete m_pochette;
+
 }
-void BDDAlbum::recupererId()
+
+int BDDAlbum::recupererId(const QString& nomFormate, const QString& id_Artiste)
 {
-    QString queryStr = "Select Id_Album As 'Album' from Album WHERE Album_Formate='" + m_nomFormate + "' AND Id_Artiste='" + QString::number( m_artiste->id() ) + "'" ;
+    QString queryStr = "Select Id_Album As 'Album' from Album WHERE Album_Formate='" + nomFormate + "' AND Id_Artiste='" + id_Artiste + "'" ;
     QSqlQuery query = madatabase.exec( queryStr );
+
+    int id = -1;
+    if ( query.first() )
+    {
+        QSqlRecord rec = query.record();
+        id = (rec.value( "Album" ).toInt());
+    }
+    return id;
+}
+
+
+void BDDAlbum::updateBDD()
+{
+    m_pochette->updateBDD();
+
+    if ( id() ==-1 )
+    {
+        QString queryStr = "INSERT INTO Album VALUES (null,'" + m_nom + "','" + QString::number( m_pochette->id() ) + "','" + m_nomFormate + "','" + QString::number( m_annee ) + "','" + QString::number( m_type->id() ) + "','" + QString::number( m_artiste->id() )+ "')";
+        QSqlQuery query = madatabase.exec( queryStr );
+
+        setId(query.lastInsertId().toInt());
+    }
+    else
+    {
+        QString queryStr = "UPDATE Album SET Album_Formate ='" + m_nomFormate + "', Id_Pochette='" + QString::number( m_pochette->id() ) + "', Annee= '" + QString::number( m_annee ) + "', Id_Artiste= '" + QString::number( m_artiste->id() ) + "'  WHERE Id_Album = '" + QString::number( id() ) + "'";
+        madatabase.exec( queryStr );
+    }
+
+}
+
+BDDAlbum* BDDAlbum::recupererBDD(const int id)
+{
+    QString queryStr = "SELECT Album, Album_Formate, Id_Pochette, Annee, Type, Id_Artiste FROM Album WHERE Id_Album='" + QString::number(id) + "'";
+    QSqlQuery query = madatabase.exec(queryStr);
+
+    QString nom, nomFormate;
+    int Annee;
+    BDDPoch* pochette = nullptr;
+    BDDArtiste* art = nullptr;
+    BDDType* type = nullptr;
 
     if ( query.first() )
     {
         QSqlRecord rec = query.record();
-        setId(rec.value( "Album" ).toInt());
+
+        nom = rec.value("Album").toString().replace("$", "'");
+        pochette = BDDPoch::recupererBDD(rec.value("Id_Pochette").toInt());
+        nomFormate = rec.value("Album_Formate").toString();
+        Annee = rec.value("Annee").toInt();
+        type = BDDType::RecupererType(rec.value("Type").toInt());
+        art = BDDArtiste::recupererBDD(rec.value("Id_artiste").toInt());
+
     }
-    else
-    {
-        setId(-1);
-    }
+
+    return new BDDAlbum(id,nom,nomFormate,pochette,Annee,type,art );
 }
-
-BDDAlbum::BDDAlbum(const int id, QObject* parent):
-    IdOwner(id, parent)
-  , m_nom()
-  , m_pochette(NULL)
-  , m_nomFormate()
-  , m_annee(1)
-  , m_type(NULL)
-  , m_artiste(NULL)
+BDDAlbum::BDDAlbum(const int id, const QString& nom, const QString& nomFormate, BDDPoch* pochette, int annee, const BDDType* type, const BDDArtiste* artiste, QObject* parent):
+    IdOwner( id,parent )
+  , m_nom( nom )
+  , m_nomFormate (nomFormate)
+  , m_pochette ( pochette )
+  , m_annee ( annee )
+  , m_type ( type )
+  , m_artiste ( artiste )
 {
-    QString queryStr = "SELECT Album, Album_Formate, Id_Pochette, Annee, Type, Id_Artiste FROM Album WHERE Id_Album='" + QString::number(id) + "'";
-    QSqlQuery query = madatabase.exec(queryStr);
-    while (query.next())
-    {
-        QSqlRecord rec = query.record();
 
-        m_nom = rec.value("Album").toString().replace("$", "'");
-        m_pochette = BDDPoch::recupererBDD(rec.value("Id_Pochette").toInt());
-        m_nomFormate = rec.value("Album_Formate").toString();
-        m_annee = rec.value("Annee").toInt();
-        m_type = BDDType::RecupererType(rec.value("Type").toInt());
-        m_artiste = BDDArtiste::recupererBDD(rec.value("Id_artiste").toInt());
-        m_areTypeAndPochetteSelfCreated = true;
-    }
-}
-
-BDDAlbum* BDDAlbum::RecupererAlbum( const int id )
-{
-    return new BDDAlbum( id );
-}
-
-void BDDAlbum::ajouterBDD()
-{
-    QString queryStr = "INSERT INTO Album VALUES (null,'" + m_nom + "','" + QString::number( m_pochette->id() ) + "','" + m_nomFormate + "','" + QString::number( m_annee ) + "','" + QString::number( m_type->id() ) + "','" + QString::number( m_artiste->id() )+ "')";
-    QSqlQuery query = madatabase.exec( queryStr );
-
-    setId(query.lastInsertId().toInt());
 }
 
 void BDDAlbum::supprimerenBDD() const
@@ -120,12 +111,34 @@ void BDDAlbum::supprimerenBDD() const
         m_artiste->supprimerenBDD();
     }
 }
+int BDDAlbum::TrouverId(const QString &nom, const int &id_Artiste)
+{
+    QString nomFormate = nom;
+    FormaterEntiteBDD( nomFormate );
+    return recupererId( nomFormate,QString::number( id_Artiste ) );
+
+}
+
+
+BDDAlbum* BDDAlbum::recupererBDD(const QString& album, BDDPoch &pochette, int annee, const BDDType& type, const BDDArtiste& artiste)
+{
+    QString nom (album );
+    EnleverAccents (nom );
+    MajusuculeAChaqueMot ( nom );
+    QString nomFormate( nom );
+    FormaterEntiteBDD( nomFormate );
+
+    const int id = TrouverId(nom, artiste.id() );
+
+    return new BDDAlbum( id,nom,nomFormate,&pochette,annee,&type,&artiste );
+}
+
 AlbumPhys BDDAlbum::RecupAlbumEntite( const int id )
 {
     AlbumPhys albphys;
 
     //On récupère les infos liées à l'album
-    BDDAlbum* alb = BDDAlbum::RecupererAlbum( id );
+    BDDAlbum* alb = BDDAlbum::recupererBDD( id );
     albphys.Album = alb->m_nom;
     albphys.Annee = alb->m_annee;
     albphys.Id_Album = alb->id();
@@ -144,7 +157,7 @@ AlbumPhys BDDAlbum::RecupAlbumEntite( const int id )
     {
         TitresPhys titre;
         QSqlRecord rec = query.record();
-        BDDTitre*  TitreEnCours = BDDTitre::RecupererTitre( rec.value( "Id_Titre" ).toInt() );
+        BDDTitre*  TitreEnCours = BDDTitre::recupererBDD( rec.value( "Id_Titre" ).toInt() );
         BDDArtiste* art = BDDArtiste::recupererBDD(rec.value( "Id_Artiste" ).toInt());
 
         titre.Artiste = art->m_nom;
@@ -176,3 +189,4 @@ bool BDDAlbum::ExisteEnPhys(const int id)
     }
     return false;
 }
+

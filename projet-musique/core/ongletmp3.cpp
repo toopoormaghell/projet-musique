@@ -128,7 +128,7 @@ void OngletMP3::afficheralbumsettitres()
     {
         m_ajoutlignes = 1;
         //Pour chaque album...
-        BDDAlbum* album = BDDAlbum::RecupererAlbum( albums[cpt] );
+        BDDAlbum* album = BDDAlbum::recupererBDD( albums[cpt] );
 
         m_album = album->id();
         if ( album->id() > 0 )
@@ -315,7 +315,7 @@ void OngletMP3::afficherInfosTitre()
 void OngletMP3::Similaires( const int id )
 {
     //On récupère les titres similaires du titre sélectionné
-    BDDTitre* titre = BDDTitre::RecupererTitre( id );
+    BDDTitre* titre = BDDTitre::recupererBDD( id );
     QList<int> Simi = titre->Similaires( id );
     //On affiche chaque titre similaire
     for ( int i = 0; i < Simi.count(); i++ )

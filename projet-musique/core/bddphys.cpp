@@ -87,7 +87,7 @@ BDDPhys::BDDPhys(const int id, QObject* parent):
     {
         QSqlRecord rec = query.record();
 
-        m_album = BDDAlbum::RecupererAlbum(rec.value("Id_Album").toInt());
+        m_album = BDDAlbum::recupererBDD(rec.value("Id_Album").toInt());
         m_support = BDDSupport::RecupererSupport(rec.value("Support").toInt());
         m_ean = rec.value("EAN").toString();
         m_commentaires = rec.value("Commentaire").toString();

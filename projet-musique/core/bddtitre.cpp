@@ -5,26 +5,23 @@
 #include "bddartiste.h"
 #include "bddalbum.h"
 
-BDDTitre::BDDTitre(const QString& nom, QObject* parent):
-    IdOwner(-1, parent)
-  , m_nom(nom)
-  , m_nomFormate(nom)
-  , m_areAlbumAndArtisteSelfCreated(false)
-{
-    EnleverAccents ( m_nom );
-    MajusuculeAChaqueMot ( m_nom );
-    FormaterEntiteBDD( m_nomFormate );
-    recupererId();
-    if (id() == -1)
-        ajouterBDD();
-    else
-        updateBDD();
-}
 
 void BDDTitre::updateBDD()
 {
-    QString queryStr = "UPDATE Titre SET Titre_Formate ='" + m_nomFormate + "', Titre ='" +  m_nom  + "' WHERE Id_Titre = '" + QString::number( id() ) + "'";
-    madatabase.exec( queryStr );
+    if ( id() == -1 )
+    {
+        QString queryStr = "INSERT INTO Titre VALUES (null,'" + m_nom + "','" + m_nomFormate + "')";
+
+        QSqlQuery query =  madatabase.exec( queryStr );
+
+        setId(query.lastInsertId().toInt());
+    }
+    else
+    {
+        QString queryStr = "UPDATE Titre SET Titre_Formate ='" + m_nomFormate + "', Titre ='" +  m_nom  + "' WHERE Id_Titre = '" + QString::number( id() ) + "'";
+        madatabase.exec( queryStr );
+    }
+
 }
 
 void BDDTitre::supprimerenBDD() const
@@ -41,36 +38,61 @@ void BDDTitre::supprimerenBDD() const
     }
 }
 
-BDDTitre* BDDTitre::RecupererTitre( const int id )
+BDDTitre::~BDDTitre()
 {
-    return new BDDTitre( id );
+
 }
 
-void BDDTitre::ajouterBDD()
+BDDTitre*BDDTitre::recupererBDD(const QString& nom)
 {
-    QString queryStr = "INSERT INTO Titre VALUES (null,'" + m_nom + "','" + m_nomFormate + "')";
-
-    QSqlQuery query =  madatabase.exec( queryStr );
-
-    setId(query.lastInsertId().toInt());
+    const int id = TrouverId(nom);
+    return recupererBDD( id );
 }
 
-void BDDTitre::recupererId()
+BDDTitre* BDDTitre::recupererBDD( const int id )
 {
-    QString queryStr = "Select T.Id_Titre As 'Titre' from Titre T, Relations R WHERE T.Titre_Formate='" + m_nomFormate + "' AND T.Id_Titre=R.Id_Titre " ;
+
+    QString queryStr = "SELECT Titre, Titre_Formate, R.Id_Artiste, R.Id_Album FROM Titre T,Relations R WHERE T.Id_Titre='" + QString::number(id) + "' AND R.Id_Titre=T.Id_Titre";
+    QSqlQuery query = madatabase.exec(queryStr);
+
+    QString nom, nomFormate;
+    if (query.first() )
+    {
+        QSqlRecord rec = query.record();
+        nom = rec.value("Titre").toString().replace("$", "'");
+        nomFormate = rec.value("Titre_Formate").toString();
+
+    }
+
+    return new BDDTitre( id, nom, nomFormate );
+}
+
+
+int BDDTitre::recupererId(const QString& nomFormate)
+{
+    QString queryStr = "Select T.Id_Titre As 'Titre' from Titre T, Relations R WHERE T.Titre_Formate='" + nomFormate + "' AND T.Id_Titre=R.Id_Titre " ;
 
     QSqlQuery query = madatabase.exec( queryStr );
-
+    int id = -1;
     if ( query.first() )
     {
         QSqlRecord rec = query.record();
-        setId(rec.value( "Titre" ).toInt());
+        id = (rec.value( "Titre" ).toInt());
 
     }
-    else
-    {
-        setId(-1);
-    }
+
+
+    return id;
+}
+
+
+
+BDDTitre::BDDTitre(const int id, QString& nom, QString& nomFormate, QObject* parent):
+    IdOwner(id, parent)
+  , m_nom(nom)
+  , m_nomFormate(nomFormate)
+{
+
 }
 
 void BDDTitre::mp3physfusion()
@@ -95,26 +117,19 @@ void BDDTitre::mp3physfusion()
     */
 }
 
-BDDTitre::BDDTitre(const int id, QObject* parent):
-    IdOwner(id, parent)
-  , m_nom()
-  , m_nomFormate()
+int BDDTitre::TrouverId(const QString& nom)
 {
-    QString queryStr = "SELECT Titre, Titre_Formate, R.Id_Artiste, R.Id_Album FROM Titre T,Relations R WHERE T.Id_Titre='" + QString::number(id) + "' AND R.Id_Titre=T.Id_Titre";
-    QSqlQuery query = madatabase.exec(queryStr);
-    while (query.next())
-    {
-        QSqlRecord rec = query.record();
-        m_nom = rec.value("Titre").toString().replace("$", "'");
-        m_nomFormate = rec.value("Titre_Formate").toString();
-        m_areAlbumAndArtisteSelfCreated = true;
-    }
+    QString nomFormate = nom;
+    EnleverAccents ( nomFormate );
+    FormaterEntiteBDD( nomFormate );
+
+    return recupererId( nomFormate );
 }
 
 QList<int> BDDTitre::Similaires( const int id )
 {
     QList<int> listeSimilaires;
-    BDDTitre* titre = RecupererTitre( id );
+    BDDTitre* titre = recupererBDD( id );
 
     QString queryStr = "SELECT M.Id_MP3 FROM MP3 M, Relations R WHERE R.Id_Titre =='" + QString::number( id ) + "' AND R.Id_Relation = M.Id_Relation";
     delete titre;

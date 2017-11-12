@@ -88,7 +88,6 @@ void BDDArtiste::updateBDD()
     }
     else
     {
-
         QString queryStri = " UPDATE Artiste SET Artiste ='" + m_nom + "', Artiste_Formate='" + m_nomFormate + "', Id_Pochette='" + QString::number( m_pochette->id() ) + "' WHERE Id_Artiste='" + QString::number( id() ) + "'";
         madatabase.exec( queryStri );
     }

@@ -33,7 +33,7 @@ void DialogChoixAlbumPhys::AfficherAlbums()
     for ( int cpt = 0; cpt < albums.count(); cpt++ )
     {
         //Pour chaque album...
-        BDDAlbum* album = BDDAlbum::RecupererAlbum( albums[cpt] );
+        BDDAlbum* album = BDDAlbum::recupererBDD( albums[cpt] );
 
         QStandardItem* item = new QStandardItem;
         //on affiche la pochette

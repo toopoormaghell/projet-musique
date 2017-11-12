@@ -26,7 +26,7 @@ void DialogChoixTitreFusion::AfficherTitres()
 {
     ui->TitresProposes->clear();
 
-    BDDTitre* titre = BDDTitre::RecupererTitre( m_Ancien );
+    BDDTitre* titre = BDDTitre::recupererBDD( m_Ancien );
     ui->PhrasedeSupport->setText( titre->m_nom );
 
     for (int cpt =0; cpt < m_titres.count(); cpt++ )

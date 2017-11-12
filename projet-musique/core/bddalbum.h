@@ -4,39 +4,42 @@
 #include "util.h"
 #include "idowner.h"
 #include <QObject>
+
 class BDDArtiste;
 class BDDPoch;
 class BDDType;
+
 
 class BDDAlbum : public IdOwner
 {
     Q_OBJECT
 public:
-    explicit BDDAlbum(const QString& album, BDDPoch& pochette, int annee, const BDDType& type, const BDDArtiste& artiste, QObject* parent = 0);
-    virtual ~BDDAlbum();
-
     void updateBDD();
     void supprimerenBDD() const;
-    static BDDAlbum* RecupererAlbum( const int Id );
+
+    virtual ~BDDAlbum();
+    static BDDAlbum* recupererBDD( const int Id );
+    static BDDAlbum* recupererBDD(const QString& album, BDDPoch& pochette, int annee, const BDDType& type, const BDDArtiste& artiste);
+
 
     QString m_nom;
-    BDDPoch* m_pochette;
     QString m_nomFormate;
+    BDDPoch* m_pochette;
     int m_annee;
     BDDType const* m_type;
     BDDArtiste const* m_artiste;
 
     static AlbumPhys RecupAlbumEntite( const int id );
+
     static bool ExisteEnPhys( const int id );
+
+
 private:
-    // Indique que le type et la pochette ont été créés par RecupererAlbum, et doivent donc être détruits explicitement
-    bool m_areTypeAndPochetteSelfCreated;
+    static int recupererId(const QString& nomFormate, const QString& id_Artiste);
+    static int TrouverId(const QString& nom, const int& id_Artiste);
 
-    void ajouterBDD();
-    void recupererId();
+    explicit BDDAlbum(const int id, const QString& nom, const QString &nomFormate, BDDPoch* pochette, int annee, const BDDType* type, const BDDArtiste* artiste, QObject* parent = NULL);
 
-    //Constructeur avec une id
-    explicit BDDAlbum(const int id, QObject* parent = NULL);
 
 };
 

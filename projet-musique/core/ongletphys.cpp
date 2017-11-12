@@ -125,7 +125,7 @@ void OngletPhys::afficherListeAlbum()
     for ( int cpt = 0; cpt < albums.count(); cpt++ )
     {
 
-        BDDAlbum* album = BDDAlbum::RecupererAlbum( albums[cpt] );
+        BDDAlbum* album = BDDAlbum::recupererBDD( albums[cpt] );
 
         if ( album->id() > 0 )
         {
@@ -157,7 +157,7 @@ void OngletPhys::afficherListeSingles()
     for ( int cpt = 0; cpt < singles.count(); cpt++ )
     {
 
-        BDDAlbum* album = BDDAlbum::RecupererAlbum( singles[cpt] );
+        BDDAlbum* album = BDDAlbum::recupererBDD( singles[cpt] );
 
         if ( album->id() > 0 )
         {
@@ -204,7 +204,7 @@ void OngletPhys::afficherListeCompils()
     for ( int cpt = 0; cpt < albums.count(); cpt++ )
     {
 
-        BDDAlbum* album = BDDAlbum::RecupererAlbum( albums[cpt] );
+        BDDAlbum* album = BDDAlbum::recupererBDD( albums[cpt] );
 
         if ( album->id() > 0 )
         {
@@ -255,7 +255,7 @@ void OngletPhys::AfficherInfosAlbum( int Type )
             QScopedPointer<BDDRelation> relation(BDDRelation::RecupererRelation( rec.value( "Id_Relation" ).toInt() ));
             relationCount++;
 
-            BDDTitre* titre = BDDTitre::RecupererTitre( relation->m_titre->id() );
+            BDDTitre* titre = BDDTitre::recupererBDD( relation->m_titre->id() );
             QListWidgetItem* item = new QListWidgetItem;
 
             QString temp;
@@ -480,7 +480,7 @@ void OngletPhys::afficherListeAlbSansMP3()
     for ( int cpt = 0; cpt < albums.count(); cpt++ )
     {
 
-        BDDAlbum* album = BDDAlbum::RecupererAlbum( albums[cpt] );
+        BDDAlbum* album = BDDAlbum::recupererBDD( albums[cpt] );
 
         if ( album->id() > 0 )
         {

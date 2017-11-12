@@ -23,26 +23,26 @@ void BDDGestionPhys::ajouterAlbum(QImage Poch, QString Album, QString Artiste, Q
     BDDPoch* def = BDDPoch::recupererBDD(1);
 
     BDDArtiste* art = BDDArtiste::recupererBDD(Artiste, (Type==2 ?*def : *poch));
-    BDDAlbum alb( Album, *poch, Annee, *BDDType::RecupererType(Type), *art );
+    BDDAlbum* alb= BDDAlbum::recupererBDD( Album, *poch, Annee, *BDDType::RecupererType(Type), *art );
 
     for ( int cpt = 0; cpt < titres.count(); cpt++ )
     {
         TitresPhys temp = titres[cpt];
-        BDDTitre tit( temp.Titre.replace( "'", "$" ) );
+        BDDTitre* tit = BDDTitre::recupererBDD( temp.Titre.replace( "'", "$" ) );
         if ( Type == 2 )
         {
             BDDArtiste* artTitre = BDDArtiste::recupererBDD(temp.Artiste, *def);
-            BDDRelation rel( alb, *artTitre, tit, temp.Num_Piste, temp.Duree, 0,1,0 );
+            BDDRelation rel( *alb, *artTitre, *tit, temp.Num_Piste, temp.Duree, 0,1,0 );
             delete artTitre;
         }
         else
         {
-            BDDRelation rel( alb, *art, tit, temp.Num_Piste, temp.Duree, 0,1,0 );
+            BDDRelation rel( *alb, *art, *tit, temp.Num_Piste, temp.Duree, 0,1,0 );
         }
     }
 
 
-    BDDPhys phys( alb, ean, *BDDSupport::RecupererSupport(Support), Commentaires );
+    BDDPhys phys( *alb, ean, *BDDSupport::RecupererSupport(Support), Commentaires );
 
     delete def;
     delete art;
@@ -59,7 +59,7 @@ void BDDGestionPhys::modifierAlbum( QString Album, QString Artiste, QString ean,
 {
     BDDPoch* poch  = BDDPoch::recupererBDD( Id_Poch );
     BDDArtiste* art = BDDArtiste::recupererBDD(Artiste, *poch);
-    BDDAlbum* alb = BDDAlbum::RecupererAlbum(Id_Album);
+    BDDAlbum* alb = BDDAlbum::recupererBDD(Id_Album);
     alb->m_annee = Annee;
     alb->m_type = BDDType::RecupererType(Type);
     alb->m_pochette = poch;
@@ -75,12 +75,13 @@ void BDDGestionPhys::modifierAlbum( QString Album, QString Artiste, QString ean,
     for ( int i=0;i< albphys.titres.count();i++ )
     {
 
-        BDDTitre tit( albphys.titres[i].Titre.replace( "'", "$" ) );
-        BDDRelation rel (*alb, *art, tit, albphys.titres[i].Num_Piste, albphys.titres[i].Duree,titres[i].MP3 ? 1 : 0,titres[i].Phys ? 1 : 0, 1);
+        BDDTitre* tit= BDDTitre::recupererBDD( albphys.titres[i].Titre.replace( "'", "$" ) );
+
+        BDDRelation rel (*alb, *art, *tit, albphys.titres[i].Num_Piste, albphys.titres[i].Duree,titres[i].MP3 ? 1 : 0,titres[i].Phys ? 1 : 0, 1);
 
 
 
-        tit.supprimerenBDD();
+        tit->supprimerenBDD();
         rel.supprimerenBDDPhys();
     }
 
@@ -88,17 +89,17 @@ void BDDGestionPhys::modifierAlbum( QString Album, QString Artiste, QString ean,
     for ( int cpt = 0; cpt < titres.count(); cpt++ )
     {
         TitresPhys temp = titres[cpt];
-        BDDTitre tit( temp.Titre.replace( "'", "$" ) );
-
+        BDDTitre* tit= BDDTitre::recupererBDD( temp.Titre.replace( "'", "$" ) );
+        tit->updateBDD();
         if ( Type == 2 )
         {
             BDDArtiste* artTitre = BDDArtiste::recupererBDD(temp.Artiste, *poch);
-            BDDRelation rel (*alb, *artTitre, tit, temp.Num_Piste, temp.Duree,temp.MP3 ? 1 : 0,temp.Phys ? 1 : 0,0);
+            BDDRelation rel (*alb, *artTitre, *tit, temp.Num_Piste, temp.Duree,temp.MP3 ? 1 : 0,temp.Phys ? 1 : 0,0);
             delete artTitre;
         }
         else
         {
-            BDDRelation rel (*alb, *art, tit, temp.Num_Piste, temp.Duree,temp.MP3 ? 1 : 0,temp.Phys ? 1 : 0,0);
+            BDDRelation rel (*alb, *art, *tit, temp.Num_Piste, temp.Duree,temp.MP3 ? 1 : 0,temp.Phys ? 1 : 0,0);
 
         }
     }

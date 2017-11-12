@@ -175,10 +175,11 @@ void BDDGestionMp3::actualiserMp3( QString chemin )
 
     BDDArtiste* art = BDDArtiste::recupererBDD(artist.replace("'", "$"), (m_souscat==2 ?*def : *poch));
     art->updateBDD();
-    BDDAlbum alb( album.replace( "'", "$" ),  *poch, date, *BDDType::RecupererType(m_souscat), *art  );
-
-    BDDTitre tit( title.replace( "'", "$" ));
-    BDDRelation rel( alb, *art, tit, track, QString::number( min ) + ":" + QString::number( sec ).rightJustified( 2, '0' ), 1,0,1);
+    BDDAlbum* alb= BDDAlbum::recupererBDD( album.replace( "'", "$" ),  *poch, date, *BDDType::RecupererType(m_souscat), *art  );
+    alb->updateBDD();
+    BDDTitre* tit= BDDTitre::recupererBDD( title.replace( "'", "$" ));
+    tit->updateBDD();
+    BDDRelation rel( *alb, *art, *tit, track, QString::number( min ) + ":" + QString::number( sec ).rightJustified( 2, '0' ), 1,0,1);
     BDDMp3 mp3( chemin.replace( "'", "$" ), rel, *BDDSupport::RecupererSupport(4) );
 
 
@@ -189,7 +190,7 @@ void BDDGestionMp3::actualiserMp3( QString chemin )
     }
     delete def;
     delete art;
-    delete poch;
+    //   delete poch;
 }
 
 void BDDGestionMp3::supprimerAnciensMP3( )
@@ -218,7 +219,7 @@ void BDDGestionMp3::supprstep()
                 SupprimerenBDDMP3( cle );
             }
             m_iteration++;
-        //    m_Chemins.remove( cle );
+            //    m_Chemins.remove( cle );
             m_iterateur++;
         }
         catch ( std::bad_alloc& e )

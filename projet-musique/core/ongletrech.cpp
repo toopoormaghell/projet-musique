@@ -76,7 +76,7 @@ void OngletRech::affichageAlbums()
 
     for ( int i = 0; i < result.count(); i++ )
     {
-        BDDAlbum* alb = BDDAlbum::RecupererAlbum( result[i] );
+        BDDAlbum* alb = BDDAlbum::recupererBDD( result[i] );
         QListWidgetItem* item = new QListWidgetItem;
         item->setText( alb->m_nom );
         item->setData( Qt::UserRole, alb->id() );
@@ -168,7 +168,7 @@ void OngletRech::affichageResultatspourArtiste()
     ui->Artiste_Albums->setText( art->m_nom.toUpper() + "( "+ QString::number(result.count() )+ " albums)" );
     for ( int i = 0; i < result.count(); i++ )
     {
-        BDDAlbum* alb = BDDAlbum::RecupererAlbum( result[i] );
+        BDDAlbum* alb = BDDAlbum::recupererBDD( result[i] );
 
         QListWidgetItem* item = new QListWidgetItem;
         item->setText( alb->m_nom );
@@ -210,7 +210,7 @@ void OngletRech::affichageTitresParArtiste()
                 ui->TitresResultats->addItem( item );
             }
             temp = "";
-            BDDTitre* tit = BDDTitre::RecupererTitre( result[i] );
+            BDDTitre* tit = BDDTitre::recupererBDD( result[i] );
             BDDRelation* rel = BDDRelation::RecupererRelation( result[i+1] );
             temp = tit->m_nom + " ( "+ rel->m_album->m_nom;
 
@@ -238,7 +238,7 @@ void OngletRech::affichageTitresParArtiste()
 void OngletRech::affichageTitresParAlbum()
 {
     //On affiche le nom de l'album
-    BDDAlbum* alb = BDDAlbum::RecupererAlbum(m_album.toInt());
+    BDDAlbum* alb = BDDAlbum::recupererBDD(m_album.toInt());
     ui->Album_Titre->setText( alb->m_nom.toUpper() );
 
 

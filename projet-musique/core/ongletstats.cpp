@@ -167,7 +167,7 @@ void OngletStats::AfficherMP3ArtisteCompilMP3()
     ui->MP3Artiste5->clear();
     for ( int i = 0; i < temp.count(); i++ )
     {
-        BDDTitre* titre = BDDTitre::RecupererTitre( temp[i] );
+        BDDTitre* titre = BDDTitre::recupererBDD( temp[i] );
         QListWidgetItem* item =  new QListWidgetItem;
         item->setText( titre->m_nom );
         item->setData( Qt::UserRole, temp[i] );

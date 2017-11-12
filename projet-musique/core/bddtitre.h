@@ -8,29 +8,25 @@ class BDDTitre : public IdOwner
 {
     Q_OBJECT
 public:
-    explicit BDDTitre(const QString& nom, QObject* parent = 0);
-
     void updateBDD();
     void supprimerenBDD()const;
 
-    static BDDTitre* RecupererTitre( const int id );
-
+    virtual ~BDDTitre();
+    static BDDTitre* recupererBDD( const int id );
+    static BDDTitre* recupererBDD(const QString& nom );
     QString m_nom;
     QString m_nomFormate;
 
     QList<int> Similaires( const int id );
 
-
     void mp3physfusion();
+
 private:
-    void ajouterBDD();
-    //Indique que l'artiste et l'album ont été créés par RécupérerTitre et doivent donc être détruits explicitement
-    bool m_areAlbumAndArtisteSelfCreated;
-    void recupererId();
+    static int recupererId(const QString &nomFormate);
+    static int TrouverId(const QString &nom );
 
-    //Constructeur avec une id
-    explicit BDDTitre(const int id, QObject* parent = NULL);
-
+    explicit BDDTitre(const int id, QString& nom, QString& nomFormate, QObject* parent = NULL);
+    BDDTitre*RecupererTitre(const int id);
 };
 
 #endif // BDDTITRE_H

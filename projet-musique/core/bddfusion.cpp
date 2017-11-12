@@ -25,8 +25,8 @@ void BDDFusion::fusionalbums( QPair<QString,QString> Choix1_Album,  QPair<QImage
     m_Choix1_Titres = Choix1_Titres;
     m_Choix2_Titres = Choix2_Titres;
 
-    BDDAlbum* Alb1 = BDDAlbum::RecupererAlbum( Choix1_Album.second.toInt() );
-    BDDAlbum* Alb2 = BDDAlbum::RecupererAlbum( Choix2_Album.second.toInt() );
+    BDDAlbum* Alb1 = BDDAlbum::recupererBDD( Choix1_Album.second.toInt() );
+    BDDAlbum* Alb2 = BDDAlbum::recupererBDD( Choix2_Album.second.toInt() );
 
     BDDPoch* Poch1 = BDDPoch::recupererBDD( Choix1_Pochette.second.toInt() );
     BDDPoch* Poch2 = BDDPoch::recupererBDD( Choix2_Pochette.second.toInt() );
@@ -70,7 +70,7 @@ void BDDFusion::fusionalbums( QPair<QString,QString> Choix1_Album,  QPair<QImage
     for ( int cpt=0 ; cpt < ChoixFusion_Titres.count() ; cpt++ )
     {
         //On change le numéro de piste
-        BDDTitre * titre = BDDTitre::RecupererTitre( RecupererMP3( ChoixFusion_Titres[cpt] ) );
+        BDDTitre * titre = BDDTitre::recupererBDD( RecupererMP3( ChoixFusion_Titres[cpt] ) );
         BDDRelation* rel = BDDRelation::RecupererRelationParTitre( titre->id() );
         rel->m_num_piste = cpt+1;
         rel->updateBDD(2);
@@ -102,14 +102,14 @@ void BDDFusion::SupprimerTitresEnTrop(  QList<TitresPhys> titresph, QString Albu
         if (! titresph[cpt].Garde)
         {
             BDDRelation* rel = BDDRelation::RecupererRelationParTitre( titresph[cpt].id.toInt() );
-            BDDTitre* tit = BDDTitre::RecupererTitre( rel->m_titre->id() );
+            BDDTitre* tit = BDDTitre::recupererBDD( rel->m_titre->id() );
             tit->mp3physfusion();
 
             if ( rel->m_mp3 )
             {
                 BDDMp3* mp3 = BDDMp3::RecupererMP3ParTitre( tit->id() );
                 int nouveau = RecupererNouveauTitre( tit->id() );
-                BDDTitre* nvtit = BDDTitre::RecupererTitre( nouveau );
+                BDDTitre* nvtit = BDDTitre::recupererBDD( nouveau );
                 mp3->ChangerTag(AlbumChoix,nvtit->m_nom,mp3->m_relation->m_artiste->m_nom,ChoixFusion_Annee,rel->m_num_piste,PochChoix);
 
                 mp3->m_relation = BDDRelation::RecupererRelationParTitre( nvtit->id() );

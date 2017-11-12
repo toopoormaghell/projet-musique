@@ -95,6 +95,7 @@ void FenetrePrincipale::ajouterStatusBar()
     ui->statusBar->addPermanentWidget( stop, 1 );
     ui->statusBar->addPermanentWidget( m_progressbar, 1 );
     ui->statusBar->addPermanentWidget( m_interaction, 1 );
+    ui->statusBar->setMaximumWidth( 1500 );
 
     //Propriétés de la progressBar
     m_progressbar->setTextVisible( true );
@@ -106,9 +107,6 @@ void FenetrePrincipale::ajouterStatusBar()
     //Propriétés du widget d'intéraction
     m_interaction->setText( "Prêt" );
     m_interaction->setMaximumHeight( 20 );
-    //   m_interaction->setMaximumWidth(700);
-
-    //  ui->statusBar->adjustSize();
 
 }
 
