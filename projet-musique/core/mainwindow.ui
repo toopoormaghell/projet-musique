@@ -42,7 +42,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>5</number>
       </property>
       <widget class="OngletMP3" name="MP3">
        <attribute name="title">
@@ -67,6 +67,11 @@
       <widget class="OngletFusion" name="Fusion">
        <attribute name="title">
         <string>Fusion</string>
+       </attribute>
+      </widget>
+      <widget class="OngletArtiste" name="tab_4">
+       <attribute name="title">
+        <string>Artistes</string>
        </attribute>
       </widget>
      </widget>
@@ -312,6 +317,12 @@
    <class>OngletFusion</class>
    <extends>QWidget</extends>
    <header>ongletfusion.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>OngletArtiste</class>
+   <extends>QWidget</extends>
+   <header>ongletartiste.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

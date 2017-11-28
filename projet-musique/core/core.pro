@@ -77,7 +77,9 @@ HEADERS += \
     idowner.h \
     dialogverifications.h \
     meta_titre.h \
-    meta_album.h
+    meta_album.h \
+    ongletartiste.h \
+    bddafficherartiste.h
 
 
 SOURCES += main.cpp \
@@ -119,7 +121,9 @@ SOURCES += main.cpp \
     idowner.cpp \
     dialogverifications.cpp \
     meta_titre.cpp \
-    meta_album.cpp
+    meta_album.cpp \
+    ongletartiste.cpp \
+    bddafficherartiste.cpp
 
 FORMS += \
     ongletmp3.ui \
@@ -137,7 +141,8 @@ FORMS += \
     DialogModifierAlbum.ui \
     DialogVidageBDD.ui \
     DialogAjoutTitre.ui \
-    dialogverifications.ui
+    dialogverifications.ui \
+    ongletartiste.ui
 
 
 OTHER_FILES += \
