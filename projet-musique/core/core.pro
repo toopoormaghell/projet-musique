@@ -75,7 +75,9 @@ HEADERS += \
     DialogAjoutTitre.h \
     bddsupport.h \
     idowner.h \
-    dialogverifications.h
+    dialogverifications.h \
+    meta_titre.h \
+    meta_album.h
 
 
 SOURCES += main.cpp \
@@ -115,7 +117,9 @@ SOURCES += main.cpp \
     DialogAjoutTitre.cpp \
     bddsupport.cpp \
     idowner.cpp \
-    dialogverifications.cpp
+    dialogverifications.cpp \
+    meta_titre.cpp \
+    meta_album.cpp
 
 FORMS += \
     ongletmp3.ui \
