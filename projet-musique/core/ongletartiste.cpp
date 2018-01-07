@@ -34,10 +34,14 @@ void OngletArtiste::ActualiserOnglet()
         BDDArtiste* art = BDDArtiste::recupererBDD( liste[i] );
         listeArt << art->m_nom;
 
+        delete art;
     }
+
     QCompleter* completer = new QCompleter ( listeArt );
     completer->setCaseSensitivity( Qt::CaseInsensitive );
     ui->Artistes->setCompleter( completer );
+
+
 }
 
 void OngletArtiste::on_ChangerNom_clicked()
