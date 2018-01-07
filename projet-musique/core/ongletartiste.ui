@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1022</width>
-    <height>628</height>
+    <height>751</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
-      <widget class="QComboBox" name="ListeArtiste"/>
+      <widget class="QLineEdit" name="Artistes"/>
      </item>
      <item>
       <widget class="QPushButton" name="ChangerNom">
@@ -436,7 +436,7 @@
          </property>
          <property name="maximumSize">
           <size>
-           <width>450</width>
+           <width>16777215</width>
            <height>16777215</height>
           </size>
          </property>

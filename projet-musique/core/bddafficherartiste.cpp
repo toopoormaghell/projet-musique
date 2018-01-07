@@ -72,5 +72,22 @@ QList<int> BddAfficherArtiste::AlbPourTitre(QString rech)
         QSqlRecord rec = query.record();
 
         listeAlbums << rec.value( "Id_Album" ).toInt();
-    } return listeAlbums;
+    }
+    return listeAlbums;
+}
+QList<int> BddAfficherArtiste::TitresPourAlbum( int id )
+{
+    QList<int> liste;
+    QString queryStr = "SELECT DISTINCT Id_Relation FROM Relations WHERE  Id_Album = "+ QString::number( id ) +" ORDER BY Num_Piste ";
+
+    QSqlQuery query = madatabase.exec( queryStr );
+
+    while ( query.next() )
+    {
+        QSqlRecord rec = query.record();
+
+        liste << rec.value( "Id_Relation" ).toInt();
+
+    }
+    return liste;
 }

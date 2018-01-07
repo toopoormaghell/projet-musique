@@ -23,10 +23,18 @@ public:
 private slots:
     void on_ChangerNom_clicked();
 
+    void on_Albums_clicked(const QModelIndex &index);
+
+    void on_Singles_clicked(const QModelIndex &index);
+
+    void on_Compil_clicked(const QModelIndex &index);
+
 private:
     Ui::OngletArtiste *ui;
     BddAfficherArtiste* appelBDD;
-    QString m_artiste;
+    int m_artiste;
+    int m_album;
+    void InfosAlbum();
 };
 
 #endif // ONGLETARTISTE_H

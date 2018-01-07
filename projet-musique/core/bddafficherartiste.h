@@ -11,6 +11,7 @@ public:
     QList<int> TitresPourArt(QString rech);
     QList<int> AlbumsPourArt(QString rech);
     QList<int> AlbPourTitre(QString rech);
+    QList<int> TitresPourAlbum(int id);
 };
 
 #endif // BDDAFFICHERARTISTE_H
