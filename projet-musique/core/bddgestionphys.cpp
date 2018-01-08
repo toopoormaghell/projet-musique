@@ -23,17 +23,21 @@ void BDDGestionPhys::ajouterAlbum(QImage Poch, QString Album, QString Artiste, Q
     BDDPoch* def = BDDPoch::recupererBDD(1);
 
     BDDArtiste* art = BDDArtiste::recupererBDD(Artiste, (Type==2 ?*def : *poch));
+    art->updateBDD();
     BDDAlbum* alb= BDDAlbum::recupererBDD( Album, *poch, Annee, *BDDType::RecupererType(Type), *art );
+    alb->updateBDD();
 
     for ( int cpt = 0; cpt < titres.count(); cpt++ )
     {
         TitresPhys temp = titres[cpt];
         BDDTitre* tit = BDDTitre::recupererBDD( temp.Titre.replace( "'", "$" ) );
+        tit->updateBDD();
         if ( Type == 2 )
         {
             BDDArtiste* artTitre = BDDArtiste::recupererBDD(temp.Artiste, *def);
+            artTitre->updateBDD();
             BDDRelation rel( *alb, *artTitre, *tit, temp.Num_Piste, temp.Duree, 0,1,0 );
-            delete artTitre;
+
         }
         else
         {
@@ -44,9 +48,7 @@ void BDDGestionPhys::ajouterAlbum(QImage Poch, QString Album, QString Artiste, Q
 
     BDDPhys phys( *alb, ean, *BDDSupport::RecupererSupport(Support), Commentaires );
 
-    delete def;
-    delete art;
-    delete poch;
+
 }
 void BDDGestionPhys::SupprimerenBDDPhys( int Id )
 {

@@ -58,7 +58,7 @@ BDDAlbum* BDDAlbum::recupererBDD(const int id)
     QSqlQuery query = madatabase.exec(queryStr);
 
     QString nom, nomFormate;
-    int Annee;
+    int Annee=0;
     BDDPoch* pochette = nullptr;
     BDDArtiste* art = nullptr;
     BDDType* type = nullptr;
