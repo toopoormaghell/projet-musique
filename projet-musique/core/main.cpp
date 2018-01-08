@@ -16,14 +16,19 @@ int main( int argc, char* argv[] )
 
     //Choix des couleurs
     srand(time(NULL));
-    int nombreMystere = (rand() % (4 - 1 + 1)) + 1;
+    int nombreMystere = (rand() % 7 ) + 1;
+
 
     switch ( nombreMystere )
     {
-    case 1: couleurs << "#A8F3FF" << "#1EA7EC" << "#FFFF96" << "#1EA7EC" << "#333399" << "#1EA7EC"; break;
-    case 2: couleurs << "#FF6C6C" << "#790404" << "#FFFF96" << "#EE1F1F" << "#9B9B9B"<< "#FFFF96"; break;
+    case 1 : couleurs << "#A8F3FF" << "#1EA7EC" << "#FFFF96" << "#1EA7EC" << "#333399" << "#1EA7EC"; break;
+    case 2 : couleurs << "#FF6C6C" << "#790404" << "#FFFF96" << "#EE1F1F" << "#9B9B9B"<< "#FFFF96"; break;
     case 3 : couleurs << "#7B7B7B" << "#CCCCCC" << "#FFFF96" << "#454948" << "#9B9B9B"<< "#FFFF96"; break;
     case 4 : couleurs << "#7B7B7B" << "#CCCCCC" << "#CECECE" << "#454948" << "#9B9B9B" << "#CECECE"; break;
+    case 5 : couleurs << "#40A497" << "#01B0F0" << "#EFECCA" << "#1D625E" << "#046380" << "#002F2F"; break;
+    case 6 : couleurs << "#4BB5C1" << "#01B0F0" << "#FFF168" << "#454948" << "#9B9B9B" << "#046380"; break;
+    case 7 : couleurs << "#FC7F3C" << "#4C1B1B" << "#F6E497" << "#A43C00" << "#BD8D46" << "#402A2F"; break;
+
     default :   couleurs << "#A8F3FF" << "#BBFFFF" << "#FFFF96" << "#1EA7EC" << "#339" << "#BBFFFF";
 
     }
