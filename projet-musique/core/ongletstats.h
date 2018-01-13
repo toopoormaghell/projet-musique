@@ -19,6 +19,8 @@ public:
 private slots:
     void on_ArtistesDansCompil_currentRowChanged( int currentRow );
 
+    void on_VoirListeAlbSSMP3_clicked();
+
 private:
     Ui::OngletStats* ui;
     bddstats m_bddInterface;

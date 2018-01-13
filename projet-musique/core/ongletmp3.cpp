@@ -380,7 +380,7 @@ void OngletMP3::afficherListeAnnees()
     BDDPoch* poch = BDDPoch::recupererBDD( 1 );
 
     QStringList ListeAnnees;
-    ListeAnnees << "Avant 1980" << "1980-1989" << "1990-1999" << "2000-2004" << "2005-2009" << "2010-2014" << "2015-2019";
+    ListeAnnees << "Avant 1980" << "1980-1989" << "1990-1999" << "2000-2009" <<  "2010-2014" << "2015-2019";
     for ( int cpt = 0; cpt < ListeAnnees.count(); cpt++ )
     {
         QListWidgetItem* item = new  QListWidgetItem;

@@ -1,5 +1,6 @@
 #include "bddstats.h"
 #include "bddsingleton.h"
+#include "bddstats.h"
 #include <QtSql>
 #include "bddaffichermp3.h"
 
@@ -182,3 +183,4 @@ QList<int> bddstats::ListeMP3Doublons()
     }
     return mp3;
 }
+

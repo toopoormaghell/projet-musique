@@ -79,7 +79,8 @@ HEADERS += \
     meta_titre.h \
     meta_album.h \
     ongletartiste.h \
-    bddafficherartiste.h
+    bddafficherartiste.h \
+    dialogalbumssmp3.h
 
 
 SOURCES += main.cpp \
@@ -123,7 +124,8 @@ SOURCES += main.cpp \
     meta_titre.cpp \
     meta_album.cpp \
     ongletartiste.cpp \
-    bddafficherartiste.cpp
+    bddafficherartiste.cpp \
+    dialogalbumssmp3.cpp
 
 FORMS += \
     ongletmp3.ui \
@@ -142,7 +144,8 @@ FORMS += \
     DialogVidageBDD.ui \
     DialogAjoutTitre.ui \
     dialogverifications.ui \
-    ongletartiste.ui
+    ongletartiste.ui \
+    dialogalbumssmp3.ui
 
 
 OTHER_FILES += \

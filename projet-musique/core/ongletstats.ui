@@ -213,13 +213,6 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="Nb2005">
-          <property name="text">
-           <string>TextLabel</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QLabel" name="Nb2010">
           <property name="text">
            <string>TextLabel</string>
@@ -421,6 +414,33 @@
            <size>
             <width>20</width>
             <height>533</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="NbAlbSSMP3">
+          <property name="text">
+           <string>TextLabel</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="VoirListeAlbSSMP3">
+          <property name="text">
+           <string>Voir Liste</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
            </size>
           </property>
          </spacer>

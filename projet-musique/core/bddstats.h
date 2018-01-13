@@ -22,6 +22,7 @@ public:
 
 
     int NbPhysType(int type);
+
 };
 
 #endif // BDDSTATS_H
