@@ -78,7 +78,20 @@ BDDMp3 *BDDMp3::RecupererMP3ParTitre(const int& id)
 
     return new BDDMp3( id_mp3 );
 }
+BDDMp3 *BDDMp3::RecupererMP3ParRelation(const int& id)
+{
+    QString queryStr = "SELECT Id_Mp3 FROM Mp3 WHERE Id_Relation ='" + QString::number( id ) + "'";
 
+    QSqlQuery query = madatabase.exec( queryStr );
+    int id_mp3 = -1;
+    if ( query.first() )
+    {
+        QSqlRecord rec = query.record();
+        id_mp3 = rec.value("Id_Mp3").toInt();
+    }
+
+    return new BDDMp3( id_mp3 );
+}
 void BDDMp3::ChangerTag(const QString &NouveauAlbum, const QString &NouveauTitre, const QString &NouveauArtiste, const int &NouvelleAnnee, const int &NouvellePiste, const QString &NouvellePoch)
 {
     Tags t ( m_chemin );

@@ -17,7 +17,7 @@ Meta_Titre* Meta_Titre::RecupererBDD(const int id)
     QString queryStr = "SELECT Id_Album, Id_Artiste, Id_Titre , Num_Piste, MP3 , Phys, Duree  FROM Relations WHERE Id_Relation='" + QString::number(id) + "'";
     QSqlQuery query = madatabase.exec(queryStr);
 
-    QString nom_Alb, nom_Art, nom_Tit, duree, type, support_m, support_p, chemin_m ;
+    QString nom_Alb, nom_Art , nom_Tit, duree, type, support_m, support_p, chemin_m ;
     int annee=-1, num_piste=-1 , id_alb=-1, id_art=-1, id_tit=-1, id_type =-1, id_support_m=-1 , id_support_p =-1;
     QImage poch;
 
@@ -50,6 +50,8 @@ Meta_Titre* Meta_Titre::RecupererBDD(const int id)
             BDDSupport* supp = BDDSupport::RecupererSupportAlb( id_alb, "Phys" );
             id_support_p = supp->id();
             support_p = supp->m_support;
+
+       delete supp;
         } else
         {
             id_support_p = -1;
@@ -60,19 +62,25 @@ Meta_Titre* Meta_Titre::RecupererBDD(const int id)
         {
             BDDSupport* supp = BDDSupport::RecupererSupportAlb( id_alb, "MP3" );
             id_support_p = supp->id();
-            support_p = supp->m_support;
+            support_m = supp->m_support;
             BDDMp3* mp3 = BDDMp3::RecupererMP3ParRelation( id );
             chemin_m = mp3->m_chemin;
+
+           delete supp; delete mp3;
 
         } else
         {
             id_support_m = -1;
             support_m = "Aucun";
+            chemin_m = "Aucun";
         }
 
         num_piste = rec.value("Num_Piste").toInt();
         duree =  rec.value("Duree").toString();
+
+     delete alb ; delete art; delete tit;
     }
+
 
     return new Meta_Titre(nom_Alb,nom_Art,nom_Tit,annee,duree,num_piste,poch,type,support_p, support_m , chemin_m, id_alb,id_art,id_tit,id,id_type,id_support_p,id_support_m);
 }
@@ -144,6 +152,20 @@ int Meta_Titre::getid_titre()
 QImage Meta_Titre::getpoch()
 {
     return m_poch;
+}
+
+int Meta_Titre::getid_art()
+{
+    return m_id_artiste;
+}
+int Meta_Titre::getid_alb()
+{
+    return m_id_album;
+}
+
+int Meta_Titre::getid_type()
+{
+    return m_id_type;
 }
 void Meta_Titre::setnom_album( QString nom )
 {

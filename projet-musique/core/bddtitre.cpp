@@ -131,13 +131,13 @@ QList<int> BDDTitre::Similaires( const int id )
     QList<int> listeSimilaires;
     BDDTitre* titre = recupererBDD( id );
 
-    QString queryStr = "SELECT M.Id_MP3 FROM MP3 M, Relations R WHERE R.Id_Titre =='" + QString::number( id ) + "' AND R.Id_Relation = M.Id_Relation";
+    QString queryStr = "SELECT R.Id_Relation FROM MP3 M, Relations R WHERE R.Id_Titre =='" + QString::number( id ) + "' AND R.Id_Relation = M.Id_Relation";
     delete titre;
     QSqlQuery query = madatabase.exec( queryStr );
     while ( query.next() )
     {
         QSqlRecord rec = query.record();
-        listeSimilaires << rec.value( "Id_MP3" ).toInt();
+        listeSimilaires << rec.value( "Id_Relation" ).toInt();
     }
     return listeSimilaires;
 }

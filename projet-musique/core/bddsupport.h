@@ -14,7 +14,7 @@ public:
 
     static QList<int> NbSupport();
 
-   static int RecupererSupportAlb( int Id, QString Categorie);
+   static BDDSupport* RecupererSupportAlb( int Id, QString Categorie);
 private:
     BDDSupport( const int id, QObject* parent = NULL );
 };

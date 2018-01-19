@@ -27,6 +27,9 @@ public:
     int getid_relation();
     int getid_titre();
     QImage getpoch();
+    int getid_art();
+    int getid_alb();
+    int getid_type();
 
     //Changer entités
     void setnom_album(QString nom);
@@ -41,6 +44,7 @@ public:
     void setcheminmp3(QString chemin);
 
    virtual ~Meta_Titre();
+
 private:
     QString m_nom_album;
     QString m_nom_artiste;

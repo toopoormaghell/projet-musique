@@ -17,7 +17,7 @@ public:
     QString m_nom;
     QString m_nomFormate;
 
-    QList<int> Similaires( const int id );
+   static QList<int> Similaires( const int id );
 
     void mp3physfusion();
 

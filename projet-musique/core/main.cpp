@@ -18,8 +18,6 @@ int main( int argc, char* argv[] )
     srand(time(NULL));
     int nombreMystere = (rand() % 10 ) + 1;
 
-    nombreMystere = 10;
-
     switch ( nombreMystere )
     {
     //1ère : fond 1 // 2ème : écriture widget// 3ème : fond 2 // 4ème : surlignage// 5ème : contour // 6ème : écriture hors cadre

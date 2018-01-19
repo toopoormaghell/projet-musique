@@ -6,6 +6,7 @@
 #include <QAbstractButton>
 #include <QTableWidgetItem>
 #include "bddlecteur.h"
+#include "meta_titre.h"
 
 namespace Ui
 {
@@ -25,7 +26,7 @@ public:
     void affichageartistes();
     void afficherListeAnnees();
     void afficheralbumsettitres();
-    void afficherTitresAlbum( QString Album, int Cate, int row );
+    void afficherTitresAlbum(int id_album, int Cate, int row );
     void afficherInfosTitre();
     void Similaires( int id );
     void vider( QString Type );

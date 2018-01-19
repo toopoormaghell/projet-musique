@@ -35,7 +35,7 @@ QList<int> BDDSupport::NbSupport()
     }
     return supp;
 }
-int BDDSupport::RecupererSupportAlb(int Id , QString Categorie)
+BDDSupport* BDDSupport::RecupererSupportAlb(int Id , QString Categorie)
 {
     QString queryStr;
     if ( Categorie == "MP3" )
@@ -50,7 +50,7 @@ int BDDSupport::RecupererSupportAlb(int Id , QString Categorie)
     {
         QSqlRecord rec = query.record();
 
-        return rec.value( "Support" ).toInt();
+        return RecupererSupport( rec.value( "Support" ).toInt() );
     }
-    return -1;
+    return RecupererSupport(-1);
 }

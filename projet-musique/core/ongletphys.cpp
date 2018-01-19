@@ -59,7 +59,6 @@ void OngletPhys::AfficherCategories()
     types << "Tout" << "0";
     types << BDDType::RecupererListeTypes( "Phys" );
 
-
     QImage image( "./Pochettes/def.jpg" );
 
     for ( int cpt = 0; cpt < types.count(); cpt = cpt + 2 )

@@ -48,8 +48,8 @@ void DialogModifierAlbum::AfficherAlbum()
     ui->Type->setCurrentText( BDDType::RecupererType( m_album.Type )->m_type );
 
     //On affiche les supports de l'album
-    int SupportPhys = BDDSupport::RecupererSupportAlb ( m_album.Id_Album, "Phys" );
-    int SupportMp3 = BDDSupport::RecupererSupportAlb ( m_album.Id_Album,"MP3" );
+    int SupportPhys = BDDSupport::RecupererSupportAlb ( m_album.Id_Album, "Phys" )->id();
+    int SupportMp3 = BDDSupport::RecupererSupportAlb ( m_album.Id_Album,"MP3" )->id();
 
     if ( SupportMp3 == -1 )
     {

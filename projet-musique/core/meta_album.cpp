@@ -20,6 +20,7 @@ Meta_Album::Meta_Album(const QString& nom_album, const QString& nom_artiste, int
   , m_id_type ( id_type)
   , m_id_support_p ( id_support_p )
 {
+
     Q_UNUSED ( parent );
 }
 
@@ -128,16 +129,24 @@ Meta_Album* Meta_Album::RecupererBDD(const int id)
 
         Meta_Titre* titre = Meta_Titre::RecupererBDD( rec.value("Id_Relation").toInt());
 
+
         titres << titre;
 
         support_p = titre->getsupportphys();
         id_support_p = titre->getid_support_p();
+
+
+     //   delete titre;
     }
     return new Meta_Album(nom_alb,nom_art,Annee,Poch,type,titres,support_p,id_alb,id_art,id_poch,id_type,id_support_p);
 }
 
 Meta_Album::~Meta_Album()
 {
-  //  delete m_titres;
+    for (int i=0; i < m_titres.count() ; i++)
+    {
+        delete m_titres[i];
+    }
+
 }
 

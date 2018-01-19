@@ -3,7 +3,8 @@
 #include <QtSql>
 #include "bddtype.h"
 #include "bddconfig.h"
-
+#include "bddtitre.h"
+#include "bddartiste.h"
 
 BDDAfficherMp3::BDDAfficherMp3( QObject* parent ) :
     QObject( parent )
@@ -77,7 +78,7 @@ QList<int> BDDAfficherMp3::listeAlbums( QString Id_Artiste, QString Categorie )
     }
     if ( Categorie == "1" )
     {
-         queryStr = queryStr + " AND ( Al.Type='" + Categorie + "'  OR Al.Type='11' )";
+        queryStr = queryStr + " AND ( Al.Type='" + Categorie + "'  OR Al.Type='11' )";
     }
     queryStr = queryStr + " ORDER BY Al.Type, Al.Annee DESC";
 
@@ -146,10 +147,15 @@ QStringList BDDAfficherMp3::RecupererListeTypes( QString Categorie )
         QSqlRecord rec = query.record();
         if ( rec.value( "Type" ).toInt() != 11 )
         {
-        liste << BDDType::RecupererType( rec.value( "Type" ).toInt() )->m_type;
-        liste << rec.value( "Type" ).toString();
+            liste << BDDType::RecupererType( rec.value( "Type" ).toInt() )->m_type;
+            liste << rec.value( "Type" ).toString();
         }
     }
 
     return liste;
 }
+QList<int> BDDAfficherMp3::RecupererSimilaires( const int id )
+{
+    return BDDTitre::Similaires( id );
+}
+

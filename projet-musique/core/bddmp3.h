@@ -27,6 +27,8 @@ public:
 
     static BDDMp3* RecupererMp3ParChemin( const QString& chemin );
     static BDDMp3* RecupererMP3ParTitre ( const int& id );
+    static BDDMp3*RecupererMP3ParRelation(const int& id);
+
     void ChangerTag (const QString& NouveauAlbum, const QString& NouveauTitre, const QString& NouveauArtiste, const int &NouvelleAnnee, const int &NouvellePiste, const QString &NouvellePoch);
 private:
     // Indique que les membres ont été créés par RecupererMp3 et doivent donc être détruits explicitement
