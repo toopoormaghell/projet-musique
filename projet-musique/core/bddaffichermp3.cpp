@@ -130,16 +130,12 @@ QStringList BDDAfficherMp3::MP3Artiste( QString id_artiste )
     }
     return liste;
 }
-QStringList BDDAfficherMp3::RecupererListeTypes( QString Categorie )
+QStringList BDDAfficherMp3::RecupererListeTypes( )
 {
     QStringList liste;
-    QString queryStr;
-    if ( Categorie == "MP3" )
-        queryStr= "SELECT DISTINCT Type FROM Album B,Relations R, MP3 M WHERE R.Id_Album = B.Id_Album AND R.Id_Relation = M.Id_Relation ORDER BY Type";
-    else {
-        queryStr= "SELECT DISTINCT Type FROM Album B,Phys P WHERE P.Id_Album = B.Id_Album  ORDER BY Type";
+    liste << "Tout" << "O";
 
-    }
+    QString  queryStr= "SELECT DISTINCT Type FROM Album B,Relations R, MP3 M WHERE R.Id_Album = B.Id_Album AND R.Id_Relation = M.Id_Relation ORDER BY Type";
 
     QSqlQuery query = madatabase.exec( queryStr );
     while ( query.next() )

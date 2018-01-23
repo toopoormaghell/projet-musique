@@ -23,6 +23,7 @@ public:
     QString getsupportphys();
     QString getsupportmp3();
     int getid_support_p();
+    int getid_support_m();
     QString getcheminmp3();
     int getid_relation();
     int getid_titre();

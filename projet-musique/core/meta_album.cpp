@@ -5,8 +5,9 @@
 #include "bddpoch.h"
 #include <QtSql>
 #include "bddsingleton.h"
+#include "bddphys.h"
 
-Meta_Album::Meta_Album(const QString& nom_album, const QString& nom_artiste, int annee, QImage& Poch, const QString& Type, const QList<Meta_Titre*>& titres, const QString& support_p, int id_album, int id_artiste, int id_poch, int id_type, int id_support_p, QObject* parent ):
+Meta_Album::Meta_Album(const QString& nom_album, const QString& nom_artiste, int annee, QImage& Poch, const QString& Type, const QList<Meta_Titre*>& titres, const QString& support_p, const QString& commentaires, int id_album, int id_artiste, int id_poch, int id_type, int id_support_p, QObject* parent ):
     m_nom_album ( nom_album )
   , m_nom_artiste ( nom_artiste )
   , m_annee ( annee )
@@ -14,6 +15,7 @@ Meta_Album::Meta_Album(const QString& nom_album, const QString& nom_artiste, int
   , m_Type ( Type )
   , m_titres ( titres )
   , m_support_p ( support_p )
+  , m_commentaires ( commentaires )
   , m_id_album ( id_album )
   , m_id_artiste ( id_artiste)
   , m_id_poch ( id_poch)
@@ -48,7 +50,6 @@ QList<Meta_Titre*> Meta_Album::gettitres()
 {
     return m_titres;
 }
-
 QImage Meta_Album::getPoch()
 {
     return m_poch;
@@ -62,6 +63,16 @@ QString Meta_Album::getsupport_p()
 int Meta_Album::getid_alb()
 {
     return m_id_album;
+}
+
+int Meta_Album::getid_support_p()
+{
+    return m_id_support_p;
+}
+
+QString Meta_Album::getcommentaires()
+{
+    return m_commentaires;
 }
 
 void Meta_Album::setnom_album(QString nom)
@@ -100,7 +111,7 @@ void Meta_Album::settitres(QList<Meta_Titre*> titres)
 Meta_Album* Meta_Album::RecupererBDD(const int id)
 {
     int Annee=-1, id_alb=-1, id_art =-1, id_poch=-1, id_type =-1, id_support_p=-1;
-    QString nom_alb, nom_art, type, support_p;
+    QString nom_alb, nom_art, type, support_p, commentaires ;
     QImage Poch;
     QList<Meta_Titre*> titres;
 
@@ -119,6 +130,9 @@ Meta_Album* Meta_Album::RecupererBDD(const int id)
 
     delete alb;
 
+    BDDPhys* phys = BDDPhys::RecupererPhys( id );
+    commentaires = phys->m_commentaires;
+
     //On récupère les titres liés à l'album
     QString queryStr = "SELECT DISTINCT Id_Relation FROM Relations R WHERE Id_Album='" + QString::number( id ) + "' ORDER BY Num_Piste";
     QSqlQuery query = madatabase.exec( queryStr );
@@ -129,24 +143,22 @@ Meta_Album* Meta_Album::RecupererBDD(const int id)
 
         Meta_Titre* titre = Meta_Titre::RecupererBDD( rec.value("Id_Relation").toInt());
 
-
         titres << titre;
 
         support_p = titre->getsupportphys();
         id_support_p = titre->getid_support_p();
 
-
-     //   delete titre;
     }
-    return new Meta_Album(nom_alb,nom_art,Annee,Poch,type,titres,support_p,id_alb,id_art,id_poch,id_type,id_support_p);
+    return new Meta_Album(nom_alb,nom_art,Annee,Poch,type,titres,support_p,commentaires, id_alb,id_art,id_poch,id_type,id_support_p);
 }
 
 Meta_Album::~Meta_Album()
 {
     for (int i=0; i < m_titres.count() ; i++)
     {
-        delete m_titres[i];
-    }
 
+          delete m_titres[i];
+
+    }
 }
 

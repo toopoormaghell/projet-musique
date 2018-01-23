@@ -80,7 +80,8 @@ HEADERS += \
     meta_album.h \
     ongletartiste.h \
     bddafficherartiste.h \
-    dialogalbumssmp3.h
+    dialogalbumssmp3.h \
+    meta_artiste.h
 
 
 SOURCES += main.cpp \
@@ -125,7 +126,8 @@ SOURCES += main.cpp \
     meta_album.cpp \
     ongletartiste.cpp \
     bddafficherartiste.cpp \
-    dialogalbumssmp3.cpp
+    dialogalbumssmp3.cpp \
+    meta_artiste.cpp
 
 FORMS += \
     ongletmp3.ui \

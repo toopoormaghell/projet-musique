@@ -9,11 +9,10 @@
 #include <QDir>
 #include <QInputDialog>
 
-#include "bddpoch.h"
-#include "bddartiste.h"
 #include "bddaffichermp3.h"
 #include "meta_album.h"
 #include "meta_titre.h"
+#include "meta_artiste.h"
 
 #include "DialogModifierArtiste.h"
 #include "DialogAjouterPhys.h"
@@ -88,8 +87,8 @@ void OngletMP3::afficherListeType()
 {
     ui->Categories->clear();
     QStringList types;
-    types << "Tout" << "0";
-    types << m_bddInterface.RecupererListeTypes( "MP3" ) ;
+
+    types << m_bddInterface.RecupererListeTypes() ;
 
     QImage image( "./Pochettes/def.jpg" );
 
@@ -239,7 +238,6 @@ void OngletMP3::afficherAlbumSelectionne()
 
         if ( titre->getsupportmp3() != "Aucun" )
         {
-
             item->setIcon( QIcon( mp3physoui ) );
         }
         else
@@ -249,7 +247,6 @@ void OngletMP3::afficherAlbumSelectionne()
         }
         ui->Titres->addItem( item );
 
-        delete titre;
     }
 
     delete album;
@@ -380,16 +377,16 @@ void OngletMP3::affichageartistes()
         QList<int> artistes = m_bddInterface.ListeArtiste( QString::number( m_categorie ) );
         for ( int cpt = 0; cpt < artistes.count(); cpt++ )
         {
-            BDDArtiste* artiste = BDDArtiste::recupererBDD( artistes[cpt] );
-            if ( artiste->id() > 0 )
+            Meta_Artiste* artiste = Meta_Artiste::RecupererBDD( artistes[cpt] );
+            if ( artiste->get_id_artiste() > 0 )
             {
                 QListWidgetItem* item = new  QListWidgetItem;
-                QPixmap scaled( QPixmap::fromImage( artiste->m_pochette->m_image ) );
+                QPixmap scaled( QPixmap::fromImage( artiste->getPoch() ) );
                 scaled = scaled.scaled( 100, 100 );
                 item->setIcon( QIcon( scaled ) );
                 //On s'occupe du nom de l'artiste
-                item->setData( Qt::UserRole, artistes[cpt] );
-                item->setText( artiste->m_nom );
+                item->setData( Qt::UserRole, artiste->get_id_artiste() );
+                item->setText( artiste->getNom_Artiste() );
                 ui->ArtistesAnnees->addItem( item );
             }
             delete artiste;
@@ -408,14 +405,14 @@ void OngletMP3::affichageartistes()
 }
 void OngletMP3::afficherListeAnnees()
 {
-    BDDPoch* poch = BDDPoch::recupererBDD( 1 );
+    QImage image( "./Pochettes/def.jpg" );
 
     QStringList ListeAnnees;
     ListeAnnees << "Avant 1980" << "1980-1989" << "1990-1999" << "2000-2009" <<  "2010-2014" << "2015-2019";
     for ( int cpt = 0; cpt < ListeAnnees.count(); cpt++ )
     {
         QListWidgetItem* item = new  QListWidgetItem;
-        QPixmap scaled( QPixmap::fromImage( poch->m_image ) );
+        QPixmap scaled( QPixmap::fromImage( image ) );
         scaled = scaled.scaled( 100, 100 );
         item->setIcon( QIcon( scaled ) );
         //On s'occupe d'afficher la liste de l'année en cours
@@ -426,8 +423,6 @@ void OngletMP3::afficherListeAnnees()
     }
     ui->ArtistesAnnees->setCurrentRow( 0 );
     m_artiste = ui->ArtistesAnnees->currentItem()->data( Qt::UserRole ).toInt();
-
-    delete poch;
 
 }
 void OngletMP3::on_AlbumsTitres_doubleClicked( const QModelIndex& index )
@@ -461,7 +456,7 @@ void OngletMP3::on_buttonBox_clicked( QAbstractButton* button )
 void OngletMP3::on_ArtistesAnnees_doubleClicked( const QModelIndex& index )
 {
     m_artiste = index.data( Qt::UserRole ).toInt();
-    BDDArtiste* artiste = BDDArtiste::recupererBDD( m_artiste );
+    Meta_Artiste* artiste = Meta_Artiste::RecupererBDD( m_artiste );
     DialogModifierArtiste temp( artiste, this );
     temp.exec();
     vider( "Artiste" );

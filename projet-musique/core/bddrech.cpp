@@ -82,14 +82,14 @@ QList<int> BDDRech::TitresPourAlb(QString rech)
 QList<int> BDDRech::TitresPourArt(QString rech)
 {
     QList<int> liste;
-    QString queryStr = "SELECT R.Id_Titre, R.Id_Relation FROM Relations R, Titre T WHERE R.Id_Artiste = '" + rech + "' AND T.Id_Titre = R.Id_Titre ORDER BY T.Titre ";
+    QString queryStr = "SELECT R.Id_Relation FROM Relations R, Titre T WHERE R.Id_Artiste = '" + rech + "' AND T.Id_Titre = R.Id_Titre ORDER BY T.Titre ";
 
     QSqlQuery query = madatabase.exec( queryStr );
 
     while ( query.next() )
     {
         QSqlRecord rec = query.record();
-        liste << rec.value( "Id_Titre" ).toInt();
+
         liste << rec.value( "Id_Relation" ).toInt();
 
     }
@@ -124,5 +124,6 @@ QList<int> BDDRech::AlbPourTitre(QString rech)
         QSqlRecord rec = query.record();
 
         listeAlbums << rec.value( "Id_Album" ).toInt();
-    } return listeAlbums;
+    }
+    return listeAlbums;
 }

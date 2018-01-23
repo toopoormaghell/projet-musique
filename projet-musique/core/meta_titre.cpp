@@ -129,9 +129,15 @@ QString Meta_Titre::getsupportmp3()
     return m_Support_m;
 }
 
+
 int Meta_Titre::getid_support_p()
 {
     return m_id_support_p;
+}
+
+int Meta_Titre::getid_support_m()
+{
+    return m_id_support_m;
 }
 
 QString Meta_Titre::getcheminmp3()

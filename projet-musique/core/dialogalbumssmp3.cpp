@@ -1,7 +1,6 @@
 #include "dialogalbumssmp3.h"
 #include "ui_dialogalbumssmp3.h"
-#include "bddalbum.h"
-#include "bddpoch.h"
+#include "meta_album.h"
 
 DialogAlbumSSMP3::DialogAlbumSSMP3(QWidget *parent) :
     QDialog(parent),
@@ -25,24 +24,24 @@ void DialogAlbumSSMP3::AjouterAlbums()
     for ( int cpt = 0; cpt < albums.count(); cpt++ )
     {
 
-        BDDAlbum* album = BDDAlbum::recupererBDD( albums[cpt] );
-
-        if ( album->id() > 0 )
+        if ( albums[cpt] > 0 )
         {
+            Meta_Album* album = Meta_Album::RecupererBDD( albums[cpt] );
             QListWidgetItem* item = new QListWidgetItem;
-            QPixmap scaled( QPixmap::fromImage( album->m_pochette->m_image ) );
+            QPixmap scaled( QPixmap::fromImage( album->getPoch() ) );
 
             item->setIcon( QIcon( scaled ) );
 
 
             //On s'occupe du nom de l'album
-            item->setData( Qt::UserRole, albums[cpt] );
-            item->setText( QString::number( album->m_annee ) + " - " + album->m_nom );
+            item->setData( Qt::UserRole, album->getid_alb() );
+            item->setText( QString::number( album->getannee() ) + " - " + album->getnom_album() );
 
             ui->ListeAlbums->addItem( item );
 
+            delete album;
         }
-        delete album;
+
     }
 
 }
