@@ -24,15 +24,18 @@ public:
     int getid_alb();
     int getid_support_p();
     QString getcommentaires();
+    int getid_type();
+    int getid_support_m();
 
     //Changer entités
     void setnom_album(QString nom);
     void setnom_artiste( QString nom );
     void setannee(int annee);
+    void setPoch(QImage poch);
     void settype(QString type);
     void settitres(QList<Meta_Titre*> titres);
-    void setPoch(QImage poch);
     void setsupport_p(QString support_p);
+    void setcommentaires(QString commentaires);
 
 
 private:
@@ -43,6 +46,7 @@ private:
     QString m_Type;
     QList<Meta_Titre *> m_titres;
     QString m_support_p;
+    QString m_support_m;
     QString m_commentaires;
 
     //Tous les id
@@ -51,8 +55,9 @@ private:
     int m_id_poch;
     int m_id_type;
     int m_id_support_p;
+    int m_id_support_m;
 
-    explicit Meta_Album(const QString& nom_album, const QString& nom_artiste, int annee, QImage& Poch, const QString& Type, const QList<Meta_Titre*>& titres, const QString& support_p, const QString& commentaires, int id_album, int id_artiste, int id_poch, int id_type, int id_support_p, QObject* parent = NULL);
+    explicit Meta_Album(const QString& nom_album, const QString& nom_artiste, int annee, QImage& Poch, const QString& Type, const QList<Meta_Titre*>& titres, const QString& support_p, const QString& support_m, const QString& commentaires, int id_album, int id_artiste, int id_poch, int id_type, int id_support_p, int id_support_m, QObject* parent = NULL);
 };
 
 #endif // META_ALBUM_H

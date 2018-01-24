@@ -13,7 +13,7 @@ public:
     QList<int> RechArt( QString rech );
 
     QList<int> TitresPourAlb (QString rech);
-    QList<int> TitresPourArt (QString rech);
+    QStringList TitresPourArt(QString rech);
     QList<int> AlbumsPourArt (QString rech);
     QList<int> AlbPourTitre(QString rech);
 };

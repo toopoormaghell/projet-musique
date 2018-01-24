@@ -5,15 +5,6 @@
 #include <QDir>
 #include <QFile>
 
-#include "bddrech.h"
-#include "bddtitre.h"
-#include "bddalbum.h"
-#include "bddrelation.h"
-#include "bddartiste.h"
-#include "bddpoch.h"
-#include "bddmp3.h"
-#include "bddtype.h"
-
 #include "meta_album.h"
 #include "meta_artiste.h"
 #include "meta_titre.h"
@@ -195,44 +186,18 @@ void OngletRech::affichageResultatspourArtiste()
 void OngletRech::affichageTitresParArtiste()
 {
 
-    QString temp = "" ;int compteur = 0;
     ui->TitresResultats->clear();
-    QList<int> result = appelBDD->TitresPourArt( m_artiste );
-
-    int titretemp = 0;
+    QStringList result = appelBDD->TitresPourArt( m_artiste );
 
     for ( int i = 0; i < result.count(); i++ )
     {
-        Meta_Titre* rel = Meta_Titre::RecupererBDD( result[i] );
+        QListWidgetItem* item = new QListWidgetItem;
+        item->setText( result[i] );
+        ui->TitresResultats->addItem( item );
 
-        if ( titretemp != rel->getid_titre() )
-        {
-            if (titretemp != 0)
-            {
-                temp = temp + ")";
-                QListWidgetItem* item = new QListWidgetItem;
-                item->setText( temp );
-                ui->TitresResultats->addItem( item );
-            }
-            temp = "";
-            temp = rel->getnom_titre() + " ( "+ rel->getnom_album();
-            compteur ++;
-
-        } else
-        {
-            temp = temp +", "+rel->getnom_album();
-        }
-
-        titretemp = rel->getid_titre();
-        delete rel;
     }
-    //je finis de copier le dernier cas
-    temp = temp + ")";
-    QListWidgetItem* item = new QListWidgetItem;
-    item->setText( temp );
-    ui->TitresResultats->addItem( item );
 
-    ui->Album_Titre->setText("TITRES POUR L'ARTISTE ("+ QString::number( compteur ) +" DISTINCTS )");
+    ui->Album_Titre->setText("TITRES DE L'ARTISTE ("+ QString::number( result.count() ) +" DISTINCTS )");
 }
 
 void OngletRech::affichageTitresParAlbum()
@@ -243,7 +208,7 @@ void OngletRech::affichageTitresParAlbum()
 
     //On s'occupe d'afficher les titres
     ui->TitresResultats->clear();
-    QList<int>  result = appelBDD->TitresPourAlb( m_album );
+    QList<Meta_Titre *>  result = alb->gettitres();
 
     QPixmap mp3( ":/Autres/Mp3" );
     QPixmap phys( ":/Autres/Phys" );
@@ -251,7 +216,7 @@ void OngletRech::affichageTitresParAlbum()
     for ( int i = 0; i < result.count(); i++ )
     {
 
-        Meta_Titre* rel = Meta_Titre::RecupererBDD( result[i] );
+        Meta_Titre* rel =  result[i] ;
         QListWidgetItem* item = new QListWidgetItem;
         item->setData( Qt::UserRole, rel->getid_relation() );
 
@@ -285,7 +250,7 @@ void OngletRech::affichageTitresParAlbum()
             }
         }
 
-        delete rel;
+
 
     }
 

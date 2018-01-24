@@ -26,7 +26,7 @@ public:
     void affichageartistes();
     void afficherListeAnnees();
     void afficheralbumsettitres();
-    void afficherTitresAlbum(int id_album, int Cate, int row );
+    void afficherTitresAlbum(QList<Meta_Titre*> titres, int Cate, int row );
     void afficherInfosTitre();
     void Similaires( int id );
     void vider( QString Type );

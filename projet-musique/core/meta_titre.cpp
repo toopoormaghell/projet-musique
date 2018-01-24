@@ -61,7 +61,7 @@ Meta_Titre* Meta_Titre::RecupererBDD(const int id)
         if ( rec.value("MP3").toInt() == 1 )
         {
             BDDSupport* supp = BDDSupport::RecupererSupportAlb( id_alb, "MP3" );
-            id_support_p = supp->id();
+            id_support_m = supp->id();
             support_m = supp->m_support;
             BDDMp3* mp3 = BDDMp3::RecupererMP3ParRelation( id );
             chemin_m = mp3->m_chemin;

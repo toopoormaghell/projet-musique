@@ -20,6 +20,7 @@ public:
     void AfficherInfosArtiste();
     void AfficherListeTitresDistincts();
     void AfficherAlbums();
+    void CacherRubriques();
 private slots:
     void on_ChangerNom_clicked();
 

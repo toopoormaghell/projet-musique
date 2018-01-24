@@ -1,17 +1,18 @@
 #include "bddafficherartiste.h"
 #include <QtSql>
 #include "bddsingleton.h"
+#include "bddartiste.h"
 
 BddAfficherArtiste::BddAfficherArtiste()
 {
 
 }
 
-QList<int> BddAfficherArtiste::ListeArtiste()
+QStringList BddAfficherArtiste::ListeArtiste()
 {
-    QList<int> liste;
+    QStringList liste;
 
-    QString queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A ORDER By Artiste";
+    QString queryStr = "SELECT DISTINCT Artiste FROM Artiste ORDER By Artiste";
 
     QSqlQuery query = madatabase.exec( queryStr );
 
@@ -19,7 +20,7 @@ QList<int> BddAfficherArtiste::ListeArtiste()
     {
         QSqlRecord rec = query.record();
 
-        liste << rec.value( "Id_Artiste" ).toInt();
+        liste << rec.value( "Artiste").toString();
     }
 
 
@@ -27,18 +28,20 @@ QList<int> BddAfficherArtiste::ListeArtiste()
 
 }
 
-QList<int> BddAfficherArtiste::TitresPourArt(QString rech)
+QStringList BddAfficherArtiste::TitresPourArt(QString rech)
 {
-    QList<int> liste;
-    QString queryStr = "SELECT R.Id_Titre, R.Id_Relation FROM Relations R, Titre T WHERE R.Id_Artiste = '" + rech + "' AND T.Id_Titre = R.Id_Titre ORDER BY T.Titre ";
+    QStringList liste;
+    QString queryStr = "SELECT T.Titre AS 'Titre', group_concat (B.Album) AS concat_titre FROM Relations R, Titre T, Album B WHERE R.Id_Artiste ='"+ rech +"'  AND T.Id_Titre = R.Id_Titre AND R.Id_Album = B.Id_Album GROUP BY T.Id_Titre  ORDER BY T.Titre ";
 
     QSqlQuery query = madatabase.exec( queryStr );
 
     while ( query.next() )
     {
         QSqlRecord rec = query.record();
-        liste << rec.value( "Id_Titre" ).toInt();
-        liste << rec.value( "Id_Relation" ).toInt();
+
+        QString temp = rec.value( "Titre" ).toString().replace("$", "'") + " ( " + rec.value("concat_titre").toString().replace("$", "'") + " )";
+
+        liste << temp;
 
     }
     return liste;
@@ -90,4 +93,8 @@ QList<int> BddAfficherArtiste::TitresPourAlbum( int id )
 
     }
     return liste;
+}
+int BddAfficherArtiste::RecupererIdArtisteNom( QString Nom_Artiste )
+{
+    return BDDArtiste::recupererBDD( Nom_Artiste )->id();
 }

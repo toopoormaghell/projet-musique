@@ -79,10 +79,10 @@ QList<int> BDDRech::TitresPourAlb(QString rech)
     return liste;
 }
 
-QList<int> BDDRech::TitresPourArt(QString rech)
+QStringList BDDRech::TitresPourArt(QString rech)
 {
-    QList<int> liste;
-    QString queryStr = "SELECT R.Id_Relation FROM Relations R, Titre T WHERE R.Id_Artiste = '" + rech + "' AND T.Id_Titre = R.Id_Titre ORDER BY T.Titre ";
+    QStringList liste;
+    QString queryStr = "SELECT T.Titre AS 'Titre', group_concat (B.Album) AS concat_titre FROM Relations R, Titre T, Album B WHERE R.Id_Artiste ='"+ rech +"'  AND T.Id_Titre = R.Id_Titre AND R.Id_Album = B.Id_Album GROUP BY T.Id_Titre  ORDER BY T.Titre ";
 
     QSqlQuery query = madatabase.exec( queryStr );
 
@@ -90,7 +90,9 @@ QList<int> BDDRech::TitresPourArt(QString rech)
     {
         QSqlRecord rec = query.record();
 
-        liste << rec.value( "Id_Relation" ).toInt();
+        QString temp = rec.value( "Titre" ).toString().replace("$", "'") + " ( " + rec.value("concat_titre").toString().replace("$", "'") + " )";
+
+        liste << temp;
 
     }
     return liste;

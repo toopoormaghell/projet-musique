@@ -158,7 +158,7 @@ void OngletMP3::afficheralbumsettitres()
             item->setFlags( Qt::ItemIsEnabled );
             ui->AlbumsTitres->setItem( m_lignestitres + 5, m_colonnetitre, item );
             //On appelle la fonction chargée d'afficher les titres
-            afficherTitresAlbum(  album->getid_alb()  , m_categorie, m_lignestitres );
+            afficherTitresAlbum(  album->gettitres()  , m_categorie, m_lignestitres );
 
             if ( m_categorie == 2 )
             {
@@ -208,7 +208,7 @@ void OngletMP3::afficherAlbumSelectionne()
     scaled = scaled.scaled( 150, 150 );
     ui->Pochette->setPixmap( scaled );
 
-    if ( album->getsupport_p() != "Aucun" )
+    if ( album->getid_support_p() != -1 )
     {
         ui->Mp3Phys->setText( "L'album existe en album physique.");
     } else
@@ -253,60 +253,55 @@ void OngletMP3::afficherAlbumSelectionne()
 
 }
 
-void OngletMP3::afficherTitresAlbum( int id_album, int Cate, int row )
+void OngletMP3::afficherTitresAlbum( QList<Meta_Titre*> titres, int Cate, int row )
 {
-    if (id_album > 0 )
+    int col = 1;
+    int ligne = 0;
+
+    int temp = 0;
+
+    for ( int cpt = 0; cpt < titres.count(); cpt ++ )
     {
-        Meta_Album* album = Meta_Album::RecupererBDD( id_album );
-
-        int col = 1;
-        int ligne = 0;
-
-        int temp = 0;
-
-        for ( int cpt = 0; cpt < album->gettitres().count(); cpt ++ )
+        if ( titres[cpt]->getsupportmp3() != "Aucun" && titres[cpt]->getsupportmp3() != "")
         {
-            if ( album->gettitres()[cpt]->getsupportmp3() != "Aucun" && album->gettitres()[cpt]->getsupportmp3() != "")
-            {
-                temp++;
-            }
+            temp++;
         }
-
-        int maxcol = std::max( 2, ( temp + 6 - 1 ) / 6 );
-
-        int maxlignes = temp / maxcol + ( temp % maxcol == 0 ? 0 : 1 );
-
-        int nbcol = std::max( ui->AlbumsTitres->columnCount() + m_colonnetitre, maxcol + m_colonnetitre + 1 ) ;
-
-
-        ui->AlbumsTitres->setColumnCount( nbcol );
-
-        for ( int cpt = 0; cpt < album->gettitres().count(); cpt ++ )
-        {
-            if ( album->gettitres()[cpt]->getsupportmp3() != "Aucun" )
-            {
-                QTableWidgetItem* item = new QTableWidgetItem;
-                item->setData( Qt::UserRole, album->gettitres()[cpt]->getid_relation() );
-                QString texte =  QString::number( album->gettitres()[cpt]->getnum_piste() ).rightJustified( 2, '0' ) + " - " + album->gettitres()[cpt]->getnom_titre() + "(" + album->gettitres()[cpt]->getduree() + ")";
-                item->setText(  texte );
-                item->setTextAlignment( Qt::AlignLeft | Qt::AlignBottom );
-                ui->AlbumsTitres->setItem( row + ligne, m_colonnetitre + col, item );
-
-                ligne++;
-                if ( ligne == maxlignes && Cate != 2 )
-                {
-                    ligne = 0;
-                    col++;
-                }
-            }
-        }
-        if ( Cate != 2 )
-        {
-            m_lignestitres = std::max( row + 6, row + maxlignes );
-        }
-
-        delete album;
     }
+
+    int maxcol = std::max( 2, ( temp + 6 - 1 ) / 6 );
+
+    int maxlignes = temp / maxcol + ( temp % maxcol == 0 ? 0 : 1 );
+
+    int nbcol = std::max( ui->AlbumsTitres->columnCount() + m_colonnetitre, maxcol + m_colonnetitre + 1 ) ;
+
+
+    ui->AlbumsTitres->setColumnCount( nbcol );
+
+    for ( int cpt = 0; cpt < titres.count(); cpt ++ )
+    {
+        if ( titres[cpt]->getsupportmp3() != "Aucun" )
+        {
+            QTableWidgetItem* item = new QTableWidgetItem;
+            item->setData( Qt::UserRole, titres[cpt]->getid_relation() );
+            QString texte =  QString::number( titres[cpt]->getnum_piste() ).rightJustified( 2, '0' ) + " - " + titres[cpt]->getnom_titre() + "(" + titres[cpt]->getduree() + ")";
+            item->setText(  texte );
+            item->setTextAlignment( Qt::AlignLeft | Qt::AlignBottom );
+            ui->AlbumsTitres->setItem( row + ligne, m_colonnetitre + col, item );
+
+            ligne++;
+            if ( ligne == maxlignes && Cate != 2 )
+            {
+                ligne = 0;
+                col++;
+            }
+        }
+    }
+    if ( Cate != 2 )
+    {
+        m_lignestitres = std::max( row + 6, row + maxlignes );
+    }
+
+
 }
 void OngletMP3::afficherInfosTitre()
 {

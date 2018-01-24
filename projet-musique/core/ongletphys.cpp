@@ -230,11 +230,9 @@ void OngletPhys::AfficherInfosAlbum( int Type )
         QPixmap nonmp3 (":/Autres/Faux");
 
 
-        QList<Meta_Titre*> titres = phys->gettitres();
-
-        for ( int i = 0; i < titres.count(); i++ )
+        for ( int i = 0; i < phys->gettitres().count(); i++ )
         {
-            Meta_Titre* titre = titres[i];
+            Meta_Titre* titre = phys->gettitres()[i];
 
             QListWidgetItem* item = new QListWidgetItem;
 

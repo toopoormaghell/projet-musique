@@ -41,7 +41,7 @@
         </size>
        </property>
        <property name="text">
-        <string>TextLabel</string>
+        <string/>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -49,9 +49,9 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_5">
+      <widget class="QLabel" name="TitresDistinctsLabel">
        <property name="text">
-        <string>LISTE TITRES DISCTINCTS DE L'ARTISTE:</string>
+        <string>TITRES DE L'ARTISTE :</string>
        </property>
       </widget>
      </item>

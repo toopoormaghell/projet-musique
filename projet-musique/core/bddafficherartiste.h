@@ -7,11 +7,12 @@ class BddAfficherArtiste
 {
 public:
     BddAfficherArtiste();
-    QList<int> ListeArtiste();
-    QList<int> TitresPourArt(QString rech);
+    QStringList ListeArtiste();
+    QStringList TitresPourArt(QString rech);
     QList<int> AlbumsPourArt(QString rech);
     QList<int> AlbPourTitre(QString rech);
     QList<int> TitresPourAlbum(int id);
+    int RecupererIdArtisteNom(QString Nom_Artiste);
 };
 
 #endif // BDDAFFICHERARTISTE_H
