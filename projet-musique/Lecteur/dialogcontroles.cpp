@@ -7,8 +7,8 @@
 
 
 DialogControles::DialogControles( QWidget *parent) :
-    QWidget(parent),player (new QMediaPlayer(this)),
-    ui(new Ui::DialogControles),  mp3(  )
+    QWidget(parent),player ( new QMediaPlayer ( this ) ),
+    ui(new Ui::DialogControles),   test ( )
 {
     ui->setupUi(this);
 
@@ -32,25 +32,17 @@ void DialogControles::ArriverFin(QMediaPlayer::MediaStatus status)
     }
 }
 
-void DialogControles::ChangerMP3(QString temp)
+void DialogControles::ChangerMP3(QMediaContent temp)
 {
     player->stop();
 
-    mp3= temp;
+    test = temp;
     ChargerMp3();
-    AfficherInfos();
+
+
 }
 
-void DialogControles::Changer(QString temp)
-{
-    if (mp3 != temp)
-    {
-        mp3 = temp;
-        player->setMedia(QUrl::fromLocalFile(mp3));
-        AfficherInfos();
-        on_Lecture_clicked();
-    }
-}
+
 void DialogControles::AfficherIcones()
 {
     QPixmap icone (":/Icones/play");
@@ -62,14 +54,15 @@ void DialogControles::AfficherIcones()
     ui->Volume->setSliderPosition(100);
 
 }
-void DialogControles::AfficherInfos()
+void DialogControles::AfficherInfos(QString mp3)
 {
-    if (!mp3.isEmpty())
+
+    if ( !test.isNull() )
     {
-        QString temp = mp3.mid(8);
+
 
         // conversion du QString pour le nom du fichier MP3 ainsi que son chemin
-        QByteArray arrFileName = QFile::encodeName( temp );
+        QByteArray arrFileName = QFile::encodeName( mp3 );
         const char* encodedName = arrFileName.constData();
         TagLib::FileRef f( encodedName );
 
@@ -86,7 +79,9 @@ void DialogControles::AfficherInfos()
 
         //On s'occupe de la pochette
         ui->Pochette->setPixmap( ImageAlbum ( f ) );
+
     }
+
 }
 QPixmap DialogControles::ImageAlbum ( const TagLib::FileRef& f )
 {
@@ -126,10 +121,17 @@ void DialogControles::on_Lecture_clicked()
 
 void DialogControles::ChargerMp3()
 {
-    player->setMedia(QUrl::fromLocalFile(mp3));
+    QString mp3 = test.canonicalUrl().toString();
+    mp3 = mp3.remove("file:///");
+
+   AfficherInfos( mp3 );
+
+    player->setMedia( test ) ;
     QPixmap icone( ":/Icones/pause" );
     ui->Lecture->setIcon( QIcon ( icone ) );
     player->play();
+
+
 }
 
 void DialogControles::on_Arret_clicked()

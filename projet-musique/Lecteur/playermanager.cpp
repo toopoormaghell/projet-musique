@@ -6,6 +6,7 @@
 #include <QMediaContent>
 #include <QList>
 #include <QFile>
+
 PlayerManager::PlayerManager(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PlayerManager),player()
@@ -29,35 +30,38 @@ void PlayerManager::setDialogControles(DialogControles* dialogControles)
     m_controles = dialogControles;
     player =  m_controles->player;
 
-    connect (this,SIGNAL(changerMp3(QString)),m_controles,SLOT(ChangerMP3(QString)));
-    connect ( this, SIGNAL(PremierMP3(QString)), m_controles,SLOT(Changer(QString)));
+    connect ( this,SIGNAL ( changerMp3 ( QMediaContent ) ) , m_controles,SLOT ( ChangerMP3 ( QMediaContent ) ) );
+
 }
 
 void PlayerManager::setPlaylist(QStringList temp)
 {
-    m_listechemins = temp;
-    playlist->clear();
-    for (int cpt=0;cpt<temp.count();cpt++)
+    if ( !temp.isEmpty() )
     {
-        QFile fichier(temp[cpt]);
-
-
-        if(fichier.exists() )
-
+        m_listechemins = temp;
+        playlist->clear();
+        for (int cpt=0;cpt<temp.count();cpt++)
         {
-            QMediaContent media(QUrl::fromLocalFile(temp[cpt]));
+            QFile fichier(temp[cpt]);
 
-            playlist->addMedia(media);
 
+            if(fichier.exists() )
+
+            {
+                QMediaContent media ( QUrl::fromLocalFile ( temp[cpt] ) ) ;
+
+                playlist->addMedia ( media ) ;
+
+            }
         }
+        afficherPlaylist();
+        playlist->setCurrentIndex(0);
+
+        emit changerMp3 ( playlist->currentMedia() );
 
 
 
     }
-    playlist->setCurrentIndex(0);
-    emit PremierMP3(playlist->currentMedia().canonicalUrl().toString());
-
-    afficherPlaylist();
 }
 
 void PlayerManager::on_Precedent_clicked()
@@ -65,14 +69,14 @@ void PlayerManager::on_Precedent_clicked()
 
     playlist->previous();
     ui->Nb->setText(QString::number(playlist->currentIndex()+1 ) +"/"+ QString::number( playlist->mediaCount() ) );
-    emit changerMp3(playlist->currentMedia().canonicalUrl().toString());
+    emit changerMp3 ( playlist->currentMedia() );
 }
 
 void PlayerManager::on_Suivant_clicked()
 {
     playlist->next();
     ui->Nb->setText(QString::number(playlist->currentIndex()+1 ) +"/"+ QString::number( playlist->mediaCount() ) );
-    emit changerMp3(playlist->currentMedia().canonicalUrl().toString());
+    emit changerMp3 ( playlist->currentMedia() );
 }
 
 
@@ -178,12 +182,12 @@ void PlayerManager::on_Playlist_clicked(const QModelIndex &index)
 {
     playlist->setCurrentIndex( index.row() );
     ui->Nb->setText(QString::number(playlist->currentIndex()+1 ) +"/"+ QString::number( playlist->mediaCount() ) );
-    emit changerMp3(playlist->currentMedia().canonicalUrl().toString());
+    emit changerMp3( playlist->currentMedia() );
 }
 
 void PlayerManager::FinMP3()
 {
     playlist->next();
     ui->Nb->setText(QString::number(playlist->currentIndex()+1 ) +"/"+ QString::number( playlist->mediaCount() ) );
-    emit changerMp3(playlist->currentMedia().canonicalUrl().toString());
+    emit changerMp3( playlist->currentMedia() );
 }
