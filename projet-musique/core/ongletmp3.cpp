@@ -8,6 +8,7 @@
 #include "util.h"
 #include <QDir>
 #include <QInputDialog>
+#include <QDebug>
 
 #include "bddaffichermp3.h"
 #include "meta_album.h"
@@ -611,6 +612,7 @@ void OngletMP3::on_LireMP3_clicked()
     Meta_Titre* mp3 = Meta_Titre::RecupererBDD( m_mp3 );
     m_PlaylistLecteur.clear();
     m_PlaylistLecteur << mp3->getcheminmp3();
+
     emit modifplaylist(m_PlaylistLecteur);
     m_fichierlu = QString::number( mp3->getnum_piste() ).rightJustified( 2, '0' ) + " - "+ mp3->getnom_titre() + " ajouté au lecteur.";
     EnvoyerTexteAMain();

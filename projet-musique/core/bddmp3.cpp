@@ -123,6 +123,7 @@ BDDMp3::BDDMp3(const int id, QObject* parent):
 
         m_relation = BDDRelation::RecupererRelation(rec.value("Id_Relation" ).toInt());
         m_chemin = rec.value("Chemin").toString().replace("$", "'");
+
         m_support = BDDSupport::RecupererSupport(rec.value("Support").toInt());
         m_membersAreSelfCreated = true;
     }

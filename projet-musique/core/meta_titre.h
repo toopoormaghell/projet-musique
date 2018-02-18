@@ -46,6 +46,7 @@ public:
 
    virtual ~Meta_Titre();
 
+    void ChangerDonnees(const QString& nom_album, const QString& nom_artiste, const QString& nom_titre, int annee, const QString& duree, int num_piste, const QImage& poch, const QString& type, const QString& support_p, const QString& support_m, const QString& chemin_m, int id_alb, int id_art, int id_titre, int id_relation, int id_type, int id_support_p, int id_support_m);
 private:
     QString m_nom_album;
     QString m_nom_artiste;
