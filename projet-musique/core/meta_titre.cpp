@@ -9,7 +9,7 @@
 #include <QtSql>
 #include "bddsingleton.h"
 #include "bddmp3.h"
-
+#include "bddphys.h"
 
 Meta_Titre* Meta_Titre::RecupererBDD(const int id)
 {
@@ -17,8 +17,8 @@ Meta_Titre* Meta_Titre::RecupererBDD(const int id)
     QString queryStr = "SELECT Id_Album, Id_Artiste, Id_Titre , Num_Piste, MP3 , Phys, Duree  FROM Relations WHERE Id_Relation='" + QString::number(id) + "'";
     QSqlQuery query = madatabase.exec(queryStr);
 
-    QString nom_Alb, nom_Art , nom_Tit, duree, type, support_m, support_p, chemin_m ;
-    int annee=-1, num_piste=-1 , id_alb=-1, id_art=-1, id_tit=-1, id_type =-1, id_support_m=-1 , id_support_p =-1;
+    QString nom_Alb, nom_Art , nom_Tit, duree, type, support_m, support_p, chemin_m, commentaires, ean;
+    int annee=-1, num_piste=-1 , id_alb=-1, id_art=-1, id_tit=-1, id_type =-1, id_support_m=-1 , id_support_p =-1, id_mp3 = -1;
     QImage poch;
 
 
@@ -50,8 +50,10 @@ Meta_Titre* Meta_Titre::RecupererBDD(const int id)
             BDDSupport* supp = BDDSupport::RecupererSupportAlb( id_alb, "Phys" );
             id_support_p = supp->id();
             support_p = supp->m_support;
-
-       delete supp;
+            BDDPhys* phys = BDDPhys::RecupererBDD( id_alb );
+            commentaires = phys->m_commentaires;
+            ean = phys->m_ean;
+            delete supp; delete phys;
         } else
         {
             id_support_p = -1;
@@ -63,10 +65,11 @@ Meta_Titre* Meta_Titre::RecupererBDD(const int id)
             BDDSupport* supp = BDDSupport::RecupererSupportAlb( id_alb, "MP3" );
             id_support_m = supp->id();
             support_m = supp->m_support;
-            BDDMp3* mp3 = BDDMp3::RecupererMP3ParRelation( id );
+            BDDMp3* mp3 = BDDMp3::RecupererBDDParRelation( id );
+            id_mp3 = mp3->id();
             chemin_m = mp3->m_chemin;
 
-           delete supp; delete mp3;
+            delete supp; delete mp3;
 
         } else
         {
@@ -78,11 +81,11 @@ Meta_Titre* Meta_Titre::RecupererBDD(const int id)
         num_piste = rec.value("Num_Piste").toInt();
         duree =  rec.value("Duree").toString();
 
-     delete alb ; delete art; delete tit;
+        delete alb ; delete art; delete tit;
     }
 
 
-    return new Meta_Titre(nom_Alb,nom_Art,nom_Tit,annee,duree,num_piste,poch,type,support_p, support_m , chemin_m, id_alb,id_art,id_tit,id,id_type,id_support_p,id_support_m);
+    return new Meta_Titre(nom_Alb,nom_Art,nom_Tit,annee,duree,num_piste,poch,type,support_p, support_m , chemin_m, commentaires, ean, id_alb,id_art,id_tit,id,id_type,id_support_p,id_support_m,id_mp3);
 }
 
 QString Meta_Titre::getnom_album()
@@ -173,6 +176,21 @@ int Meta_Titre::getid_type()
 {
     return m_id_type;
 }
+
+int Meta_Titre::getid_mp3()
+{
+    return m_id_mp3;
+}
+
+QString Meta_Titre::getcommentaires()
+{
+    return m_commentaires;
+}
+
+QString Meta_Titre::getean()
+{
+    return m_ean;
+}
 void Meta_Titre::setnom_album( QString nom )
 {
     m_nom_album = nom;
@@ -221,7 +239,7 @@ void Meta_Titre::setcheminmp3(QString chemin)
     m_chemin_m = chemin;
 }
 
-Meta_Titre::Meta_Titre(const QString& nom_album, const QString& nom_artiste, const QString& nom_titre, int annee, const QString& duree, int num_piste, const QImage& poch, const QString& type, const QString& support_p, const QString& support_m, const QString& chemin_m, int id_alb, int id_art, int id_titre, int id_relation, int id_type, int id_support_p, int id_support_m, QObject* parent):
+Meta_Titre::Meta_Titre(const QString& nom_album, const QString& nom_artiste, const QString& nom_titre, int annee, const QString& duree, int num_piste, const QImage& poch, const QString& type, const QString& support_p, const QString& support_m, const QString& chemin_m, const QString& commentaires, const QString& ean, int id_alb, int id_art, int id_titre, int id_relation, int id_type, int id_support_p, int id_support_m, int id_mp3, QObject* parent):
     m_nom_album ( nom_album )
   , m_nom_artiste ( nom_artiste )
   , m_nom_titre ( nom_titre )
@@ -233,6 +251,8 @@ Meta_Titre::Meta_Titre(const QString& nom_album, const QString& nom_artiste, con
   , m_Support_p ( support_p )
   , m_Support_m ( support_m )
   , m_chemin_m ( chemin_m )
+  , m_commentaires ( commentaires )
+  , m_ean ( ean )
   , m_id_album ( id_alb )
   , m_id_artiste ( id_art )
   , m_id_titre ( id_titre )
@@ -240,15 +260,93 @@ Meta_Titre::Meta_Titre(const QString& nom_album, const QString& nom_artiste, con
   , m_id_type (id_type )
   , m_id_support_p ( id_support_p )
   , m_id_support_m ( id_support_m )
-
+  , m_id_mp3 ( id_mp3 )
 {
-Q_UNUSED ( parent );
+    Q_UNUSED ( parent );
 }
 Meta_Titre::~Meta_Titre()
 {
 
 }
-void Meta_Titre::ChangerDonnees(const QString& nom_album, const QString& nom_artiste, const QString& nom_titre, int annee, const QString& duree, int num_piste, const QImage& poch, const QString& type, const QString& support_p, const QString& support_m, const QString& chemin_m, int id_alb, int id_art, int id_titre, int id_relation, int id_type, int id_support_p, int id_support_m)
+
+Meta_Titre*Meta_Titre::NouveauMeta_Titre(const QString& nom_album, const QString& nom_artiste, const QString& nom_titre, int annee, const QString& duree, int num_piste, const QImage& poch, int type, int support_p, int support_m, const QString& chemin_m, const QString& commentaires, const QString& ean)
 {
+    return new Meta_Titre ( nom_album, nom_artiste, nom_titre,annee,duree,num_piste,poch,"Aucun","Aucun","Aucun",chemin_m,commentaires,ean, -1 , -1 , -1 , -1, type, support_p, support_m, -1);
+
+}
+void Meta_Titre::ChangerDonnees(const QString& nom_album, const QString& nom_artiste, const QString& nom_titre, int annee, const QString& duree, int num_piste, const QImage& poch, const QString& type, const QString& support_p, const QString& support_m, const QString& chemin_m, int  id_alb, int id_art, int id_titre, int id_relation, int id_type, int id_support_p, int id_support_m)
+{
+    Q_UNUSED  ( nom_album );
+    Q_UNUSED  ( nom_artiste );
+    Q_UNUSED  ( nom_titre );
+    Q_UNUSED  ( annee );
+    Q_UNUSED  ( duree );
+    Q_UNUSED  ( num_piste );
+    Q_UNUSED  ( poch );
+    Q_UNUSED  ( type );
+    Q_UNUSED  ( support_p );
+    Q_UNUSED  ( support_m );
+    Q_UNUSED  ( chemin_m );
+    Q_UNUSED  ( id_alb );
+    Q_UNUSED  ( id_art );
+    Q_UNUSED  ( id_titre );
+    Q_UNUSED  ( id_relation );
+    Q_UNUSED  ( id_type );
+    Q_UNUSED  ( id_support_m );
+    Q_UNUSED  ( id_support_p );
+
+}
+void Meta_Titre::UpdateBDD()
+{
+    int id_mp3=0; int id_phys = 0;
+    m_Type = BDDType::RecupererType( m_id_type )->m_type;
+    m_Support_m = BDDSupport::RecupererSupport( m_id_support_m )->m_support;
+
+    BDDPoch* poch = BDDPoch::recupererBDD( m_poch , m_nom_album.replace( "'", "$" ), m_nom_artiste.replace( "'", "$" ));
+    poch->updateBDD();
+
+    BDDPoch* def = BDDPoch::recupererBDD(1);
+
+    BDDArtiste* art = BDDArtiste::recupererBDD(m_nom_artiste .replace("'", "$"), ( m_id_type==2 ?*def : *poch));
+    art->updateBDD();
+    m_id_artiste = art->id();
+
+    BDDAlbum* alb= BDDAlbum::recupererBDD( m_nom_album.replace( "'", "$" ),  *poch, m_annee, *BDDType::RecupererType( m_id_type ), *art  );
+    alb->updateBDD();
+    m_id_album = alb->id();
+
+    BDDTitre* tit= BDDTitre::recupererBDD( m_nom_titre.replace( "'", "$" ));
+    tit->updateBDD();
+    m_id_titre = tit->id();
+
+    BDDPhys* phys = BDDPhys::RecupererBDD( m_id_album );
+
+    if ( phys->id() !=-1 )
+    {
+        id_phys = 1;
+    }
+
+    BDDMp3* mp3 = BDDMp3::RecupererBDDParChemin( m_chemin_m.replace( "'", "$" ) );
+
+    if ( mp3->id() != -1)
+    {
+        id_mp3 = 1;
+    }
+
+    BDDRelation* rel= BDDRelation::recupererBDD( *alb, *art, *tit, m_num_piste, m_duree , ( (id_mp3==0 && m_id_support_m==-1) ? 0:1) , ( (id_phys==0 && m_id_support_p==-1) ? 0:1) );
+    rel->updateBDD();
+    m_id_relation = rel->id();
+
+    if ( m_id_support_m !=-1 )
+    {
+        mp3 = BDDMp3::RecupererBDD( m_chemin_m.replace("'","$") , *rel, *BDDSupport::RecupererSupport( m_id_support_m ) );
+        mp3->updateBDD();
+    }
+
+    if ( m_id_support_p !=-1 )
+    {
+        phys = BDDPhys::RecupererBDD( *alb, m_ean, *BDDSupport::RecupererSupport( m_id_support_p ) , m_commentaires);
+        phys->updateBDD();
+    }
 
 }

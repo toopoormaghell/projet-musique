@@ -71,7 +71,7 @@ void BDDFusion::fusionalbums( QPair<QString,QString> Choix1_Album,  QPair<QImage
     {
         //On change le numéro de piste
         BDDTitre * titre = BDDTitre::recupererBDD( RecupererMP3( ChoixFusion_Titres[cpt] ) );
-        BDDRelation* rel = BDDRelation::RecupererRelationParTitre( titre->id() );
+      /*  BDDRelation* rel = BDDRelation::RecupererRelationParTitre( titre->id() );
         rel->m_num_piste = cpt+1;
         rel->updateBDD(2);
 
@@ -85,6 +85,7 @@ void BDDFusion::fusionalbums( QPair<QString,QString> Choix1_Album,  QPair<QImage
         }
         delete rel;
         delete titre;
+        */
     }
 
     SupprimerTitresEnTrop( m_Choix1_Titres << m_Choix2_Titres, AlbumChoix, ChoixFusion_Annee, PochChoix );
@@ -101,7 +102,7 @@ void BDDFusion::SupprimerTitresEnTrop(  QList<TitresPhys> titresph, QString Albu
     {
         if (! titresph[cpt].Garde)
         {
-            BDDRelation* rel = BDDRelation::RecupererRelationParTitre( titresph[cpt].id.toInt() );
+           /* BDDRelation* rel = BDDRelation::RecupererRelationParTitre( titresph[cpt].id.toInt() );
             BDDTitre* tit = BDDTitre::recupererBDD( rel->m_titre->id() );
             tit->mp3physfusion();
 
@@ -127,6 +128,7 @@ void BDDFusion::SupprimerTitresEnTrop(  QList<TitresPhys> titresph, QString Albu
             tit->supprimerenBDD();
             delete rel;
             delete tit;
+            */
         }
     }
 }

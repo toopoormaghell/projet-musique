@@ -31,6 +31,9 @@ public:
     int getid_art();
     int getid_alb();
     int getid_type();
+    int getid_mp3();
+    QString getcommentaires();
+    QString getean();
 
     //Changer entités
     void setnom_album(QString nom);
@@ -44,9 +47,13 @@ public:
     void setsupportmp3(QString support);
     void setcheminmp3(QString chemin);
 
-   virtual ~Meta_Titre();
+    virtual ~Meta_Titre();
+
+    static Meta_Titre* NouveauMeta_Titre(const QString& nom_album, const QString& nom_artiste, const QString& nom_titre, int annee, const QString& duree, int num_piste, const QImage& poch, int type, int support_p, int support_m, const QString& chemin_m, const QString& commentaires, const QString& ean);
 
     void ChangerDonnees(const QString& nom_album, const QString& nom_artiste, const QString& nom_titre, int annee, const QString& duree, int num_piste, const QImage& poch, const QString& type, const QString& support_p, const QString& support_m, const QString& chemin_m, int id_alb, int id_art, int id_titre, int id_relation, int id_type, int id_support_p, int id_support_m);
+
+    void UpdateBDD();
 private:
     QString m_nom_album;
     QString m_nom_artiste;
@@ -59,6 +66,8 @@ private:
     QString m_Support_p;
     QString m_Support_m;
     QString m_chemin_m;
+    QString m_commentaires;
+    QString m_ean;
 
     //Tous les id
     int m_id_album;
@@ -68,9 +77,9 @@ private:
     int m_id_type;
     int m_id_support_p;
     int m_id_support_m;
+    int m_id_mp3;
 
-
-    explicit  Meta_Titre(const QString& nom_album, const QString& nom_artiste, const QString& nom_titre, int annee, const QString& duree, int num_piste, const QImage& poch, const QString& type, const QString& support_p, const QString& support_m, const QString& chemin_m, int id_alb, int id_art, int id_titre, int id_relation, int id_type, int id_support_p, int id_support_m, QObject* parent = NULL);
+    explicit  Meta_Titre(const QString& nom_album, const QString& nom_artiste, const QString& nom_titre, int annee, const QString& duree, int num_piste, const QImage& poch, const QString& type, const QString& support_p, const QString& support_m, const QString& chemin_m, const QString& commentaires, const QString& ean, int id_alb, int id_art, int id_titre, int id_relation, int id_type, int id_support_p, int id_support_m, int id_mp3, QObject* parent = NULL);
 };
 
 #endif // META_TITRE_H

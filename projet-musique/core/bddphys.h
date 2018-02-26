@@ -10,26 +10,26 @@ class BDDPhys : public IdOwner
 {
     Q_OBJECT
 public:
-    explicit BDDPhys(const BDDAlbum& album, const QString& ean, const BDDSupport& support, const QString& Commentaires, QObject* parent = 0);
+    void updateBDD();
+
     virtual ~BDDPhys();
 
-    void deleteBDD();
-    static BDDPhys* RecupererPhys( const int id );
+    void supprimerBDD();
+
+    static BDDPhys* RecupererBDD( const int id );
+    static BDDPhys* RecupererBDD(const BDDAlbum& album, const QString& ean, const BDDSupport& support, const QString& Commentaires );
 
     BDDAlbum const* m_album;
     BDDSupport const* m_support;
     QString m_ean;
     QString m_commentaires;
 
+
 private:
-    bool m_membersAreSelfCreatad;
-    void ajouterBDD();
-    void recupererId();
-    //Constructeur avec une id
-    explicit BDDPhys(const int id, QObject* parent = NULL);
+    static int recupererId(const int id_alb );
 
+    explicit  BDDPhys(const int id, const BDDAlbum* album, const QString& ean, const BDDSupport*support, const QString& Commentaires, QObject* parent = NULL );
 
-    void updateBDD();
 };
 
 #endif // BDDPHYS_H

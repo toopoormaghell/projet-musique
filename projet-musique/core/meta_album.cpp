@@ -129,51 +129,54 @@ Meta_Album* Meta_Album::RecupererBDD(const int id)
     QImage Poch;
     QList<Meta_Titre*> titres;
 
-    //On récupère les infos liées à l'album
-    BDDAlbum* alb = BDDAlbum::recupererBDD( id );
-
-    nom_alb = alb->m_nom;
-    Annee = alb->m_annee;
-    id_alb = alb->id();
-    Poch = alb->m_pochette->m_image;
-    id_poch = alb->m_pochette->id();
-    id_type = alb->m_type->id();
-    type = alb->m_type->m_type;
-    nom_art = alb->m_artiste->m_nom;
-    id_art = alb->m_artiste->id();
-
-    delete alb;
-
-
-    BDDPhys* phys = BDDPhys::RecupererPhys( id );
-    commentaires = phys->m_commentaires;
-
-
-    //On récupère les titres liés à l'album
-    QString queryStr = "SELECT DISTINCT Id_Relation FROM Relations R WHERE Id_Album='" + QString::number( id ) + "' ORDER BY Num_Piste";
-    QSqlQuery query = madatabase.exec( queryStr );
-
-    while ( query.next() )
+    if (id !=0 )
     {
-        QSqlRecord rec = query.record();
+        //On récupère les infos liées à l'album
+        BDDAlbum* alb = BDDAlbum::recupererBDD( id );
 
-        Meta_Titre* titre = Meta_Titre::RecupererBDD( rec.value("Id_Relation").toInt());
+        nom_alb = alb->m_nom;
+        Annee = alb->m_annee;
+        id_alb = alb->id();
+        Poch = alb->m_pochette->m_image;
+        id_poch = alb->m_pochette->id();
+        id_type = alb->m_type->id();
+        type = alb->m_type->m_type;
+        nom_art = alb->m_artiste->m_nom;
+        id_art = alb->m_artiste->id();
 
-        titres << titre;
+        delete alb;
 
-        if ( titre->getid_support_m() != -1 )
-            id_support_m = 4;
 
-        if ( titre->getid_support_p() != -1 )
-            id_support_p = titre->getid_support_p();
-    }
-    if ( id_support_m == 4)
-    {
-        support_m = "MP3";
-    }
-    if ( id_support_p != -1)
-    {
-        support_p = BDDSupport::RecupererSupport( id_support_p )->m_support;
+        BDDPhys* phys = BDDPhys::RecupererBDD( id );
+        commentaires = phys->m_commentaires;
+
+
+        //On récupère les titres liés à l'album
+        QString queryStr = "SELECT DISTINCT Id_Relation FROM Relations R WHERE Id_Album='" + QString::number( id ) + "' ORDER BY Num_Piste";
+        QSqlQuery query = madatabase.exec( queryStr );
+
+        while ( query.next() )
+        {
+            QSqlRecord rec = query.record();
+
+            Meta_Titre* titre = Meta_Titre::RecupererBDD( rec.value("Id_Relation").toInt());
+
+            titres << titre;
+
+            if ( titre->getid_support_m() != -1 )
+                id_support_m = 4;
+
+            if ( titre->getid_support_p() != -1 )
+                id_support_p = titre->getid_support_p();
+        }
+        if ( id_support_m == 4)
+        {
+            support_m = "MP3";
+        }
+        if ( id_support_p != -1)
+        {
+            support_p = BDDSupport::RecupererSupport( id_support_p )->m_support;
+        }
     }
     return new Meta_Album(nom_alb,nom_art,Annee,Poch,type,titres,support_p,support_m,commentaires, id_alb,id_art,id_poch,id_type,id_support_p,id_support_m);
 }

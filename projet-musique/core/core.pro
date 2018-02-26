@@ -1,4 +1,4 @@
-QT       += core gui sql network multimedia
+QT       += core gui sql network multimedia winextras
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = core

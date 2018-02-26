@@ -8,7 +8,6 @@
 #include "bddtitre.h"
 
 
-
 BDDAlbum::~BDDAlbum()
 {
 
@@ -47,7 +46,7 @@ void BDDAlbum::updateBDD()
     else
     {
         QString queryStr = "UPDATE Album SET Album_Formate ='" + m_nomFormate + "', Id_Pochette='" + QString::number( m_pochette->id() ) + "', Annee= '" + QString::number( m_annee ) + "', Id_Artiste= '" + QString::number( m_artiste->id() ) + "'  WHERE Id_Album = '" + QString::number( id() ) + "'";
-        madatabase.exec( queryStr );
+        QSqlQuery madatabase.exec( queryStr );
     }
 
 }

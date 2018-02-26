@@ -13,6 +13,7 @@
 #include <QDir>
 #include <QTimer>
 #include "tags.h"
+#include "meta_titre.h"
 
 BDDGestionMp3::BDDGestionMp3( QObject* parent ) :
     QObject( parent )
@@ -166,31 +167,17 @@ void BDDGestionMp3::actualiserMp3( QString chemin )
     int sec = dureesec % 60;
     SousCatParChemin( chemin );
 
-
+    QString donnees_p = "";
     //On ajoute en BDD
+    Meta_Titre* test = Meta_Titre::NouveauMeta_Titre( album , artist ,title , date , QString::number( min ) + ":" + QString::number( sec ).rightJustified( 2, '0' ) , track , fich.getPoch(), m_souscat, -1, 4, chemin, donnees_p, donnees_p );
+    test->UpdateBDD();
 
-    BDDPoch* poch = BDDPoch::recupererBDD(fich.getPoch(), album.replace( "'", "$" ), artist.replace( "'", "$" ));
-    poch->updateBDD();
-    BDDPoch* def = BDDPoch::recupererBDD(1);
-
-    BDDArtiste* art = BDDArtiste::recupererBDD(artist.replace("'", "$"), (m_souscat==2 ?*def : *poch));
-    art->updateBDD();
-    BDDAlbum* alb= BDDAlbum::recupererBDD( album.replace( "'", "$" ),  *poch, date, *BDDType::RecupererType(m_souscat), *art  );
-    alb->updateBDD();
-    BDDTitre* tit= BDDTitre::recupererBDD( title.replace( "'", "$" ));
-    tit->updateBDD();
-    BDDRelation rel( *alb, *art, *tit, track, QString::number( min ) + ":" + QString::number( sec ).rightJustified( 2, '0' ), 1,0,1);
-    BDDMp3 mp3( chemin.replace( "'", "$" ), rel, *BDDSupport::RecupererSupport(4) );
-
-
-    if ( m_Chemins.find( mp3.id() ) != m_Chemins.end() )
+    if ( m_Chemins.find( test->getid_mp3() ) != m_Chemins.end() )
     {
-        m_Chemins[mp3.id()][1] = "trouve";
+        m_Chemins[test->getid_mp3()][1] = "trouve";
 
     }
-    delete def;
-    delete art;
-    //   delete poch;
+
 }
 
 void BDDGestionMp3::supprimerAnciensMP3( )
@@ -219,7 +206,7 @@ void BDDGestionMp3::supprstep()
                 SupprimerenBDDMP3( cle );
             }
             m_iteration++;
-            //    m_Chemins.remove( cle );
+
             m_iterateur++;
         }
         catch ( std::bad_alloc& e )
@@ -335,7 +322,7 @@ void BDDGestionMp3::ReconstruireListeCategorie()
 void BDDGestionMp3::SupprimerenBDDMP3( int Id )
 {
 
-    BDDMp3* mp3 = BDDMp3::RecupererMp3( Id );
+    BDDMp3* mp3 = BDDMp3::RecupererBDD( Id );
     m_fichierlu = "Suppression de ..." + mp3->m_chemin;
     mp3->supprimerenBDD();
     delete mp3;

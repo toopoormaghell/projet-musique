@@ -20,6 +20,7 @@ void BDDTitre::updateBDD()
     {
         QString queryStr = "UPDATE Titre SET Titre_Formate ='" + m_nomFormate + "', Titre ='" +  m_nom  + "' WHERE Id_Titre = '" + QString::number( id() ) + "'";
         madatabase.exec( queryStr );
+
     }
 
 }
@@ -45,8 +46,13 @@ BDDTitre::~BDDTitre()
 
 BDDTitre*BDDTitre::recupererBDD(const QString& nom)
 {
-    const int id = TrouverId(nom);
-    return recupererBDD( id );
+    QString nomF ( nom );
+    MajusuculeAChaqueMot ( nomF );
+    const int id = TrouverId( nomF );
+    QString nomFormate ( nomF );
+    FormaterEntiteBDD ( nomFormate );
+    return new BDDTitre ( id, nomF , nomFormate );
+
 }
 
 BDDTitre* BDDTitre::recupererBDD( const int id )

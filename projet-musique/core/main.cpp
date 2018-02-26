@@ -7,6 +7,8 @@
 #include <time.h>
 #include "bddsingleton.h"
 #include <QLibraryInfo>
+
+
 int main( int argc, char* argv[] )
 {
     QApplication a( argc, argv );
@@ -63,6 +65,7 @@ int main( int argc, char* argv[] )
     w.setWindowTitle( "Projet Musique" );
     w.setWindowIcon( QIcon( ":/menuIcones/Musique" ));
     w.show();
+
 
     return a.exec();
 }

@@ -5,21 +5,24 @@
 
 Meta_Artiste* Meta_Artiste::RecupererBDD(const int id)
 {
+
     int id_artiste = -1 , id_poch = -1;
     QString nom_art;
     QImage Poch;
+    if ( id != 0 )
+    {
+        //On récupère les infos liées à l'artiste
+        BDDArtiste* art = BDDArtiste::recupererBDD( id );
 
-    //On récupère les infos liées à l'artiste
-    BDDArtiste* art = BDDArtiste::recupererBDD( id );
+        nom_art = art->m_nom;
+        Poch = art->m_pochette->m_image;
+        id_artiste = art->id();
+        id_poch = art->m_pochette->id();
 
-    nom_art = art->m_nom;
-    Poch = art->m_pochette->m_image;
-    id_artiste = art->id();
-    id_poch = art->m_pochette->id();
-
-    delete art;
-
+        delete art;
+    }
     return new Meta_Artiste( nom_art,Poch,id_artiste,id_poch );
+
 }
 
 Meta_Artiste::~Meta_Artiste()

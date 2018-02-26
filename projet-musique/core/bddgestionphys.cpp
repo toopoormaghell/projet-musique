@@ -36,24 +36,26 @@ void BDDGestionPhys::ajouterAlbum(QImage Poch, QString Album, QString Artiste, Q
         {
             BDDArtiste* artTitre = BDDArtiste::recupererBDD(temp.Artiste, *def);
             artTitre->updateBDD();
-            BDDRelation rel( *alb, *artTitre, *tit, temp.Num_Piste, temp.Duree, 0,1,0 );
+            BDDRelation* rel = BDDRelation::recupererBDD( *alb, *artTitre, *tit, temp.Num_Piste, temp.Duree, 0,1 );
+            rel->updateBDD();
 
         }
         else
         {
-            BDDRelation rel( *alb, *art, *tit, temp.Num_Piste, temp.Duree, 0,1,0 );
+            BDDRelation* rel = BDDRelation::recupererBDD( *alb, *art, *tit, temp.Num_Piste, temp.Duree, 0,1 );
+            rel->updateBDD();
         }
     }
 
-
-    BDDPhys phys( *alb, ean, *BDDSupport::RecupererSupport(Support), Commentaires );
+    BDDPhys* phys = BDDPhys::RecupererBDD( *alb, ean, *BDDSupport::RecupererSupport(Support), Commentaires );
+    phys->updateBDD();
 
 
 }
 void BDDGestionPhys::SupprimerenBDDPhys( int Id )
 {
-    BDDPhys* phys = BDDPhys::RecupererPhys( Id );
-    phys->deleteBDD();
+    BDDPhys* phys = BDDPhys::RecupererBDD( Id );
+    phys->supprimerBDD();
     delete phys;
 }
 
@@ -79,12 +81,10 @@ void BDDGestionPhys::modifierAlbum( QString Album, QString Artiste, QString ean,
 
         BDDTitre* tit= BDDTitre::recupererBDD( albphys.titres[i].Titre.replace( "'", "$" ) );
 
-        BDDRelation rel (*alb, *art, *tit, albphys.titres[i].Num_Piste, albphys.titres[i].Duree,titres[i].MP3 ? 1 : 0,titres[i].Phys ? 1 : 0, 1);
-
-
+        BDDRelation* rel = BDDRelation::recupererBDD(*alb, *art, *tit, albphys.titres[i].Num_Piste, albphys.titres[i].Duree,titres[i].MP3 ? 1 : 0,titres[i].Phys ? 1 : 0 );
 
         tit->supprimerenBDD();
-        rel.supprimerenBDDPhys();
+        rel->supprimerenBDDPhys();
     }
 
     //Et On remet les titres
@@ -96,17 +96,23 @@ void BDDGestionPhys::modifierAlbum( QString Album, QString Artiste, QString ean,
         if ( Type == 2 )
         {
             BDDArtiste* artTitre = BDDArtiste::recupererBDD(temp.Artiste, *poch);
-            BDDRelation rel (*alb, *artTitre, *tit, temp.Num_Piste, temp.Duree,temp.MP3 ? 1 : 0,temp.Phys ? 1 : 0,0);
+            BDDRelation* rel = BDDRelation::recupererBDD (*alb, *artTitre, *tit, temp.Num_Piste, temp.Duree,temp.MP3 ? 1 : 0,temp.Phys ? 1 : 0);
+            rel->updateBDD();
             delete artTitre;
+            delete rel;
         }
         else
         {
-            BDDRelation rel (*alb, *art, *tit, temp.Num_Piste, temp.Duree,temp.MP3 ? 1 : 0,temp.Phys ? 1 : 0,0);
+            BDDRelation* rel = BDDRelation::recupererBDD(*alb, *art, *tit, temp.Num_Piste, temp.Duree,temp.MP3 ? 1 : 0,temp.Phys ? 1 : 0);
+            rel->updateBDD();
+            delete rel;
 
         }
     }
 
-    BDDPhys phys( *alb, ean, *BDDSupport::RecupererSupport(Support), Commentaires );
+    BDDPhys* phys = BDDPhys::RecupererBDD( *alb, ean, *BDDSupport::RecupererSupport(Support), Commentaires );
+    phys->updateBDD();
+
     delete art;
     delete alb;
 }
