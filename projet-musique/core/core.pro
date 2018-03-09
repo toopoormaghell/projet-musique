@@ -55,7 +55,6 @@ HEADERS += \
     ongletfusion.h \
     MyQLabel.h \
     bddfusion.h \
-
     dialogchoixtitrefusion.h \
     DialogChoixAlbumPhys.h \
     DialogModifierArtiste.h \
@@ -84,14 +83,12 @@ SOURCES += main.cpp \
     bddlecteur.cpp \
     ongletfusion.cpp \
     MyQLabel.cpp \
-
     dialogchoixtitrefusion.cpp \
     DialogChoixAlbumPhys.cpp \
     DialogModifierArtiste.cpp \
     DialogModifierAlbum.cpp \
     DialogVidageBDD.cpp \
     DialogAjoutTitre.cpp \
-
     dialogverifications.cpp \
     meta_titre.cpp \
     meta_album.cpp \
