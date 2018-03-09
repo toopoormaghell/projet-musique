@@ -11,7 +11,7 @@
 #include "bddsingleton.h"
 #include <QtSql>
 #include "tags.h"
-#include "dialogchoixtitrefusion.h"
+
 #include "QDebug"
 
 BDDFusion::BDDFusion(QWidget *parent) : QWidget(parent)

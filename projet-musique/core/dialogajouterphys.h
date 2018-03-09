@@ -4,7 +4,7 @@
 
 
 #include <QDialog>
-#include "util.h"
+#include "meta_album.h"
 #include "QAWSWrapper.h"
 class QTableModel;
 class QCompletedLineEditDelegate;
@@ -75,7 +75,7 @@ private:
     void ViderBoiteDialogue();
 
     Ui::DialogAjouterPhys* ui;
-    AlbumPhys m_album;
+    Meta_Album* m_album;
     QAWSWrapper m_research;
     QString m_affichage;
     QString m_EAN;

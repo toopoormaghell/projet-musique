@@ -14,6 +14,7 @@ TEMPLATE = lib
 DEFINES += BDD_LIBRARY
 
 LIBS += -lhelpers
+LIBS += -ltaglib
 
 CONFIG += debug_and_release
 CONFIG(debug,debug|release) {
@@ -33,17 +34,56 @@ CONFIG(debug,debug|release) {
 }
 
 INCLUDEPATH += ../helpers
+INCLUDEPATH += ../taglib
+INCLUDEPATH += ../taglib/toolkit
+INCLUDEPATH += ../taglib/mpeg
+INCLUDEPATH += ../taglib/mpeg/id3v2
 
 SOURCES += bddsingleton.cpp \
     gestionverifications.cpp \
     changementversion.cpp \
-    outilsbdd.cpp
+    outilsbdd.cpp \
+ bddartiste.cpp \
+    bddalbum.cpp \
+    bddrelation.cpp \
+    bddmp3.cpp \
+    bddpoch.cpp \
+    bddphys.cpp \
+    bddtype.cpp \
+    bddtitre.cpp \
+  bddconfig.cpp \
+ bddstats.cpp \
+   bddrech.cpp \
+ bddfusion.cpp \
+    bddsupport.cpp \
+    idowner.cpp \
+ meta_artiste.cpp
+ tags.cpp \
+
 
 HEADERS += bdd_global.h \
     bddsingleton.h \
     gestionverifications.h \
     changementversion.h \
-    outilsbdd.h
+    outilsbdd.h \
+tags.h \
+ bddartiste.h \
+bddalbum.h \
+    bddrelation.h \
+    bddmp3.h \
+    bddpoch.h \
+    bddphys.h \
+    bddtype.h \
+    bddtitre.h \
+  bddconfig.h \
+  bddstats.h \
+ bddrech.h \
+    bddsupport.h \
+    meta_titre.h \
+    meta_album.h \
+idowner.h \
+    meta_artiste.h
+
 
 unix {
     target.path = /usr/lib

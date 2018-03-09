@@ -9,7 +9,7 @@ class BDDConfig : public QObject
 public:
     explicit BDDConfig( QObject* parent = 0 );
 
-    QString recupdossierpardef();
+    static  QString recupdossierpardef();
     void EnregistrerDossierParDef( QString doss );
     bool ActualiserAlbums();
     bool ActualiserCompil();

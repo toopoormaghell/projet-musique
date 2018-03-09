@@ -1,6 +1,7 @@
 #include "QAWSWrapper.h"
 #include "QAWSGlobalInfo.h"
 #include "QAWSWrapperNotifier.h"
+#include "Meta_Titre.h"
 
 #include <QString>
 #include <QUrl>
@@ -35,9 +36,9 @@ namespace
         return isValid;
     }
 
-    AlbumPhys parseXml( const QByteArray& xmlToParse, QStringList& artistsList )
+    Meta_Album parseXml( const QByteArray& xmlToParse, QStringList& artistsList )
     {
-        AlbumPhys albumToFill;
+        Meta_Album albumToFill;
         unsigned int trackNumber = 1;
 
         QXmlStreamReader reader( xmlToParse );
@@ -53,7 +54,7 @@ namespace
                         reader.readNext();
                         if ( reader.tokenType() == QXmlStreamReader::Characters )
                         {
-                            TitresPhys titre;
+                            Meta_Titre titre;
                             titre.Titre = reader.text().toString();
                             titre.Num_Piste = trackNumber;
                             titre.Duree = "0:00";
@@ -156,7 +157,7 @@ QAWSWrapperNotifier& QAWSWrapper::getNotifier()
 
 
 
-AlbumPhys QAWSWrapper::getAlbumFromEAN( const QString& ean )
+Meta_Album QAWSWrapper::getAlbumFromEAN( const QString& ean )
 {
     // Build the list of parameters that the URL must contain
     QUrlQuery listOfParameters;

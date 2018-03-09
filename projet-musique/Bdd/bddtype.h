@@ -14,6 +14,8 @@ public:
 
     static QList<int> NbCategories();
     static QStringList RecupererListeTypes(QString Categorie);
+    static void ReconstruireListeCategorieMP3();
+
 private:
     explicit BDDType(const int id, QObject* parent = NULL);
 

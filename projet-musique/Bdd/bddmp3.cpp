@@ -85,6 +85,35 @@ BDDMp3* BDDMp3::RecupererBDDParChemin(const QString& Chemin)
     return RecupererBDD( id_mp3 );
 }
 
+QMap<int, QStringList> BDDMp3::RecupererMP3s(int Type)
+{
+    QMap<int, QStringList> chemins;
+
+    QString queryStri = "Select Id_MP3, Chemin FROM MP3 M, Relations R, Album B WHERE R.Id_Relation = M.Id_Relation AND R.Id_Album = B.Id_Album AND B.Type='" + QString::number( Type ) + "'";
+
+    if ( Type == 1 )
+    {
+        queryStri = "Select Id_MP3, Chemin FROM MP3 M, Relations R, Album B WHERE R.Id_Relation = M.Id_Relation AND R.Id_Album = B.Id_Album AND B.Type NOT IN(2)";
+    }
+
+    QSqlQuery  query =  madatabase.exec( queryStri );
+
+    while ( query.next() )
+    {
+        QStringList infos;
+        QSqlRecord rec = query.record();
+        const int Mp3 = rec.value( "Id_MP3" ).toInt();
+        const QString Chem = rec.value( "Chemin" ).toString().replace( "$", "'" );
+
+        infos  << Chem << "Pas Trouvé";
+
+        chemins.insert( Mp3, infos );
+
+    }
+
+    return chemins;
+}
+
 int BDDMp3::recupererId(const QString& Chemin)
 {
     int id = -1;

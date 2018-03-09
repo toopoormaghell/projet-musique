@@ -425,7 +425,7 @@ DialogAjouterPhys::DialogAjouterPhys( int id_album, QWidget* parent ) :
     ui->tableView->setItemDelegate( new QCompletedLineEditDelegate );
     AffichageListeArtistes( -2 );
 
-    m_album = BDDAlbum::RecupAlbumEntite( id_album );
+    m_album = Meta_Album::RecupererBDD( id_album );
     AfficherAlbum();
     AjoutConnex();
 }
@@ -490,14 +490,14 @@ void DialogAjouterPhys::on_ChercherEAN_clicked()
 }
 void DialogAjouterPhys::AfficherAlbum()
 {
-    ui->Annee->setText( QString::number( m_album.Annee ) );
-    ui->Nom_Album->setText( m_album.Album );
+    ui->Annee->setText( QString::number( m_album->getannee() ) );
+    ui->Nom_Album->setText( m_album->getnom_album() );
     if ( m_Type ==2 )
     {
         ui->Nom_Artiste->setText("Artistes Divers");
     } else
     {
-        ui->Nom_Artiste->setText( m_album.Artiste );
+        ui->Nom_Artiste->setText( m_album->getnom_artiste() );
     }
     AfficherPoch();
 }
@@ -507,7 +507,7 @@ void DialogAjouterPhys::AfficherAlbum()
 void DialogAjouterPhys::AfficherPoch()
 {
     QPixmap* pixmap = new QPixmap();
-    pixmap->convertFromImage( m_album.Poch );
+    pixmap->convertFromImage( m_album->getPoch() );
 
     QPixmap imageScaled = pixmap->scaled( 150, 150, Qt::IgnoreAspectRatio, Qt::FastTransformation );
     ui->Pochette->setPixmap( imageScaled );
@@ -521,7 +521,8 @@ void DialogAjouterPhys::on_Enregistrer_clicked()
     ui->Interaction->append("Album en cours d'enregistrement.");
     RecupererAlbum();
     BDDGestionPhys m_bddinterface;
-    m_bddinterface.ajouterAlbum( m_album.Poch, m_album.Album, m_album.Artiste, m_EAN, m_album.Annee, m_album.titres, m_Support, ui->Commentaires->text(), m_Type );
+    m_bddinterface.ajouterAlbum( m_album->getPoch(),m_album->getnom_album(),m_album->getnom_artiste(), m_EAN, m_album->getannee(), m_album->gettitres(), m_Support, ui->Commentaires->text(), m_Type );
+
     AfficherInteraction( "Album enregistré." );
     emit ajout();
     ViderBoiteDialogue();
@@ -569,7 +570,7 @@ void DialogAjouterPhys::ViderBoiteDialogue()
     ui->Pochette->clear();
     ui->Annee->clear();
     ui->Commentaires->clear();
-    m_album.titres.clear();
+  //  m_album->titres.clear();
     m_tableModel->clearLines();
 }
 
@@ -585,7 +586,7 @@ void DialogAjouterPhys::on_ViderAlbum_clicked()
 
 void DialogAjouterPhys::RecupererAlbum()
 {
-    m_album.titres.clear();
+ //   m_album.titres.clear();
     m_album.Album = ui->Nom_Album->text().replace( "'", "$" );
     m_album.Artiste = ui->Nom_Artiste->text().replace( "'", "$" );
     m_album.Annee = ui->Annee->text().toInt();

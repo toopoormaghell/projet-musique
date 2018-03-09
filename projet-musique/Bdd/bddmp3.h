@@ -28,6 +28,7 @@ static BDDMp3* RecupererBDDParChemin( const QString& Chemin);
     QString m_chemin;
     BDDSupport const* m_support;
 
+    static QMap < int, QStringList> RecupererMP3s( int Type );
     void ChangerTag (const QString& NouveauAlbum, const QString& NouveauTitre, const QString& NouveauArtiste, const int &NouvelleAnnee, const int &NouvellePiste, const QString &NouvellePoch);
 private:
 

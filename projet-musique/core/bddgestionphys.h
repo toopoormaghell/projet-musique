@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QImage>
 #include "util.h"
+#include "meta_titre.h"
 
 class BDDGestionPhys : public QObject
 {
@@ -11,7 +12,7 @@ class BDDGestionPhys : public QObject
 
 public:
     explicit BDDGestionPhys( QObject* parent = 0 );
-    void ajouterAlbum(QImage Poch, QString Album, QString Artiste, QString ean, int Annee, QList<TitresPhys> titres, int Support, QString Commentaires, int Type );
+    void ajouterAlbum(QImage Poch, QString Album, QString Artiste, QString ean, int Annee, QList<Meta_Titre> titres, int Support, QString Commentaires, int Type );
     void SupprimerenBDDPhys( int Id );
     void modifierAlbum(QString Album, QString Artiste, QString ean, int Annee, QList<TitresPhys> titres, int Type, int Id_Poch, int Id_Album, QString Commentaires, int Support);
 

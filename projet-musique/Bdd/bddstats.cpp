@@ -2,7 +2,7 @@
 #include "bddsingleton.h"
 #include "bddstats.h"
 #include <QtSql>
-#include "bddaffichermp3.h"
+#include "util.h"
 
 bddstats::bddstats( QObject* parent ) : QObject( parent )
 {
@@ -52,10 +52,10 @@ int bddstats::NbMp3Categorie( int type )
 
 int bddstats::NbCompilCategorie( int type )
 {
-    BDDAfficherMp3 * temp= new BDDAfficherMp3;
 
 
-    QString queryStr = "SELECT COUNT(*)AS 'Nb' FROM MP3 M, Album B, Relations R  WHERE M.Id_Relation = R.Id_Relation AND  B.Id_Album = R.Id_Album AND B.Type='2' AND " + temp->AnneesSwitch ( type ) ;
+
+    QString queryStr = "SELECT COUNT(*)AS 'Nb' FROM MP3 M, Album B, Relations R  WHERE M.Id_Relation = R.Id_Relation AND  B.Id_Album = R.Id_Album AND B.Type='2' AND " + AnneesSwitch( type ) ;
     QSqlQuery query = madatabase.exec( queryStr );
 
     if ( query.first() )

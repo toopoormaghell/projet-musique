@@ -9,53 +9,28 @@
 #include "bddtype.h"
 #include "bddphys.h"
 
+#include "meta_album.h"
+#include "meta_titre.h"
 
 BDDGestionPhys::BDDGestionPhys( QObject* parent ) :
     QObject( parent )
 {
 }
 
-void BDDGestionPhys::ajouterAlbum(QImage Poch, QString Album, QString Artiste, QString ean, int Annee, QList<TitresPhys> titres, int Support, QString Commentaires, int Type)
+void BDDGestionPhys::ajouterAlbum(QImage Poch, QString Album, QString Artiste, QString ean, int Annee, QList<Meta_Titre> titres, int Support, QString Commentaires, int Type)
 {
-    BDDPoch* poch = BDDPoch::recupererBDD(Poch, Album, (Support==2 ? "Compil":Artiste));
-    poch->updateBDD();
+/*    Meta_Album* alb = Meta_Album::CreerMeta_Album( Album, Artiste, Annee, Poch,Type,titres,Support,Commentaires);
+    alb->UpdateBDD();
 
-    BDDPoch* def = BDDPoch::recupererBDD(1);
-
-    BDDArtiste* art = BDDArtiste::recupererBDD(Artiste, (Type==2 ?*def : *poch));
-    art->updateBDD();
-    BDDAlbum* alb= BDDAlbum::recupererBDD( Album, *poch, Annee, *BDDType::RecupererType(Type), *art );
-    alb->updateBDD();
-
-    for ( int cpt = 0; cpt < titres.count(); cpt++ )
-    {
-        TitresPhys temp = titres[cpt];
-        BDDTitre* tit = BDDTitre::recupererBDD( temp.Titre.replace( "'", "$" ) );
-        tit->updateBDD();
-        if ( Type == 2 )
-        {
-            BDDArtiste* artTitre = BDDArtiste::recupererBDD(temp.Artiste, *def);
-            artTitre->updateBDD();
-            BDDRelation* rel = BDDRelation::recupererBDD( *alb, *artTitre, *tit, temp.Num_Piste, temp.Duree, 0,1 );
-            rel->updateBDD();
-
-        }
-        else
-        {
-            BDDRelation* rel = BDDRelation::recupererBDD( *alb, *art, *tit, temp.Num_Piste, temp.Duree, 0,1 );
-            rel->updateBDD();
-        }
-    }
-
-    BDDPhys* phys = BDDPhys::RecupererBDD( *alb, ean, *BDDSupport::RecupererSupport(Support), Commentaires );
-    phys->updateBDD();
-
-
+    delete alb;
+    */
 }
+
+
 void BDDGestionPhys::SupprimerenBDDPhys( int Id )
 {
-    BDDPhys* phys = BDDPhys::RecupererBDD( Id );
-    phys->supprimerBDD();
+    Meta_Album* phys = Meta_Album::RecupererBDD( Id );
+    phys->SupprimerBDDPhys();
     delete phys;
 }
 
