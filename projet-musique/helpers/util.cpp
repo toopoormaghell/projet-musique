@@ -103,7 +103,7 @@ void MajusuculeAChaqueMot(QString& Entite)
 
 QString AnneesSwitch( int type )
 {
-    switch ( annee )
+    switch ( type )
     {
     case 0 :
         return "Annee <1980";
