@@ -353,7 +353,7 @@ void OngletFusion::on_buttonBox_accepted()
 
     }
 
-    BDDFusion temp(this);
+    BDDFusion temp;
 
     temp.fusionalbums(Choix1_Album,Choix1_Pochette,  Choix1_Titres , Choix2_Album, Choix2_Pochette,  Choix2_Titres , ChoixFusion_Annee, ChoixFusion_Album, ChoixFusion_Pochette, ChoixFusion_Titres);
 }
