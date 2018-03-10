@@ -54,7 +54,6 @@ HEADERS += \
     bddlecteur.h \
     ongletfusion.h \
     MyQLabel.h \
-    bddfusion.h \
     dialogchoixtitrefusion.h \
     DialogChoixAlbumPhys.h \
     DialogModifierArtiste.h \
@@ -90,8 +89,6 @@ SOURCES += main.cpp \
     DialogVidageBDD.cpp \
     DialogAjoutTitre.cpp \
     dialogverifications.cpp \
-    meta_titre.cpp \
-    meta_album.cpp \
     ongletartiste.cpp \
     bddafficherartiste.cpp \
     dialogalbumssmp3.cpp \
