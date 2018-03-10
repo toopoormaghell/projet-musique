@@ -5,6 +5,7 @@
 #include "bddconfig.h"
 #include "bddtitre.h"
 #include "bddartiste.h"
+#include "util.h"
 
 BDDAfficherMp3::BDDAfficherMp3( QObject* parent ) :
     QObject( parent )
