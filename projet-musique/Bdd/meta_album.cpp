@@ -31,12 +31,12 @@ Meta_Album::Meta_Album(const QString& nom_album, const QString& nom_artiste, int
     Q_UNUSED ( parent );
 }
 
-QString Meta_Album::getnom_album()
+const QString& Meta_Album::getnom_album()
 {
     return m_nom_album;
 }
 
-QString Meta_Album::getnom_artiste()
+const QString& Meta_Album::getnom_artiste()
 {
     return m_nom_artiste;
 }
@@ -46,21 +46,21 @@ int Meta_Album::getannee()
     return m_annee;
 }
 
-QString Meta_Album::gettype()
+const QString& Meta_Album::gettype()
 {
     return m_Type;
 }
 
-QList<Meta_Titre*> Meta_Album::gettitres()
+const QList<Meta_Titre*>& Meta_Album::gettitres()
 {
     return m_titres;
 }
-QImage Meta_Album::getPoch()
+const QImage& Meta_Album::getPoch()
 {
     return m_poch;
 }
 
-QString Meta_Album::getsupport_p()
+const QString& Meta_Album::getsupport_p()
 {
     return m_support_p;
 }
@@ -81,7 +81,7 @@ int Meta_Album::getid_support_m()
 {
     return m_id_support_m;
 }
-QString Meta_Album::getcommentaires()
+const QString& Meta_Album::getcommentaires()
 {
     return m_commentaires;
 }
@@ -118,6 +118,11 @@ void Meta_Album::setsupport_p(QString support_p)
 void Meta_Album::setcommentaires(QString commentaires)
 {
     m_commentaires = commentaires;
+}
+
+void Meta_Album::setid_type(int type)
+{
+    m_id_type = type;
 }
 void Meta_Album::settitres(QList<Meta_Titre*> titres)
 {

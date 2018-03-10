@@ -477,9 +477,9 @@ void DialogAjouterPhys::on_ChercherEAN_clicked()
 
         m_tableModel->clearLines();
         int i = 0;
-        Q_FOREACH( TitresPhys titre, m_album.titres )
+        Q_FOREACH( auto titre, m_album->gettitres() )
         {
-            m_tableModel->appendLine( LineModel( QString::number( titre.Num_Piste ), titre.Titre, titre.Artiste ) );
+            m_tableModel->appendLine( LineModel( QString::number( titre->getnum_piste() ), titre->getnom_titre(), titre->getnom_artiste() ) );
             i++;
         }
         AfficherAlbum();
@@ -587,34 +587,48 @@ void DialogAjouterPhys::on_ViderAlbum_clicked()
 void DialogAjouterPhys::RecupererAlbum()
 {
  //   m_album.titres.clear();
-    m_album.Album = ui->Nom_Album->text().replace( "'", "$" );
-    m_album.Artiste = ui->Nom_Artiste->text().replace( "'", "$" );
-    m_album.Annee = ui->Annee->text().toInt();
-    m_album.Type = m_Type;
-    m_album.Support = m_Support;
+    m_album->setnom_artiste(ui->Nom_Album->text().replace( "'", "$" ));
+    m_album->setnom_album(ui->Nom_Artiste->text().replace( "'", "$" ));
+    m_album->setannee(ui->Annee->text().toInt());
+    m_album->setid_type(m_Type);
+    m_album->setid_type(m_Support);
 
     //On récupère la pochette
     const QPixmap* pixmap = ui->Pochette->pixmap();
     QImage image = pixmap->toImage();
-    m_album.Poch = image;
+    m_album->setPoch(image);
 
     //On récupère les titres
+    struct TitreTemp
+    {
+        QString nomTitre;
+        unsigned int numPiste;
+        QString duree;
+        QString nomArtiste;
+    };
+    QList<TitreTemp> titresTemp;
     for ( int i = 0; i < m_tableModel->rowCount(); i++ )
     {
-        TitresPhys titre;
-        titre.Titre = m_tableModel->data( m_tableModel->index(i, 1 ) ).toString();
+        TitreTemp titre;
+        titre.nomTitre = m_tableModel->data( m_tableModel->index(i, 1 ) ).toString();
 
-        titre.Duree = "0:00";
+        titre.duree = "0:00";
 
-        titre.Num_Piste = m_tableModel->data( m_tableModel->index(i, 0 ) ).toInt();
+        titre.numPiste = m_tableModel->data( m_tableModel->index(i, 0 ) ).toInt();
 
         if ( m_Type == 2 )
         {
-            titre.Artiste = m_tableModel->data( m_tableModel->index(i, 2 ) ).toString();
+            titre.nomArtiste = m_tableModel->data( m_tableModel->index(i, 2 ) ).toString();
         }
-        m_album.titres << titre;
+        titresTemp.append(titre);
     }
-
+    QList<Meta_Titre*> titres;
+    for ( auto it : titresTemp )
+    {
+        Meta_Titre* titre = Meta_Titre::CreerMeta_Titre(m_album->getnom_album(), m_album->getnom_artiste(), it.nomTitre, m_album->getannee(), it.duree, it.numPiste, m_album->getPoch(), m_album->getid_type(), m_album->getid_support_p(), 0, "", "", m_EAN);
+        titres.append(titre);
+    }
+    m_album->settitres(titres);
 }
 
 

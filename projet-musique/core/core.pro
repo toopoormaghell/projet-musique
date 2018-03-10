@@ -54,7 +54,6 @@ HEADERS += \
     bddlecteur.h \
     ongletfusion.h \
     MyQLabel.h \
-    dialogchoixtitrefusion.h \
     DialogChoixAlbumPhys.h \
     DialogModifierArtiste.h \
     DialogModifierAlbum.h \
@@ -63,8 +62,7 @@ HEADERS += \
       dialogverifications.h \
        ongletartiste.h \
     bddafficherartiste.h \
-    dialogalbumssmp3.h \
-    bddfusion.h
+    dialogalbumssmp3.h
 
 
 SOURCES += main.cpp \
@@ -83,7 +81,6 @@ SOURCES += main.cpp \
     bddlecteur.cpp \
     ongletfusion.cpp \
     MyQLabel.cpp \
-    dialogchoixtitrefusion.cpp \
     DialogChoixAlbumPhys.cpp \
     DialogModifierArtiste.cpp \
     DialogModifierAlbum.cpp \
@@ -92,8 +89,7 @@ SOURCES += main.cpp \
     dialogverifications.cpp \
     ongletartiste.cpp \
     bddafficherartiste.cpp \
-    dialogalbumssmp3.cpp \
-    bddfusion.cpp
+    dialogalbumssmp3.cpp
 
 
 FORMS += \
@@ -106,7 +102,6 @@ FORMS += \
     dialogchoixpochette.ui \
     DialogAjouterPhys.ui \
     ongletfusion.ui \
-    dialogchoixtitrefusion.ui \
     DialogChoixAlbumPhys.ui \
     DialogModifierArtiste.ui \
     DialogModifierAlbum.ui \

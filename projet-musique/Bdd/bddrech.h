@@ -3,7 +3,8 @@
 
 #include <QObject>
 #include "bddsingleton.h"
-class BDDRech : public QObject
+#include "bdd_global.h"
+class BDDSHARED_EXPORT BDDRech : public QObject
 {
 public:
     explicit BDDRech( QObject* parent );

@@ -3,6 +3,7 @@
 #include <fileref.h> //pour la classe qui gere le fichier
 #include <tag.h> //pour manipuler les tags
 #include <QString>
+#include "bdd_global.h"
 class ImageFile : public TagLib::File
 {
 public:
@@ -34,7 +35,7 @@ class QImage;
 /// Dependances: La bibliotheque C++ taglib (-ltags) sous GNU/Linux
 ///////////////////////////////////////////////////////////////////////////////////
 
-class Tags
+class BDDSHARED_EXPORT Tags
 {
 public:
     //leve une exception uniquement pour indiquer que le type de fichier ne peut etre traité.

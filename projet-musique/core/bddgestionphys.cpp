@@ -17,7 +17,7 @@ BDDGestionPhys::BDDGestionPhys( QObject* parent ) :
 {
 }
 
-void BDDGestionPhys::ajouterAlbum(QImage Poch, QString Album, QString Artiste, QString ean, int Annee, QList<Meta_Titre> titres, int Support, QString Commentaires, int Type)
+void BDDGestionPhys::ajouterAlbum(const QImage& Poch, const QString& Album, const QString& Artiste, const QString& ean, int Annee, const QList<Meta_Titre*>& titres, int Support, const QString& Commentaires, int Type)
 {
 /*    Meta_Album* alb = Meta_Album::CreerMeta_Album( Album, Artiste, Annee, Poch,Type,titres,Support,Commentaires);
     alb->UpdateBDD();

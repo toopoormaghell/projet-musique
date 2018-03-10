@@ -15,16 +15,16 @@ public:
     virtual ~Meta_Album();
 
     //Donner entités
-    QString getnom_album();
-    QString getnom_artiste();
+    const QString& getnom_album();
+    const QString& getnom_artiste();
     int getannee();
-    QString gettype();
-    QList<Meta_Titre*> gettitres();
-    QImage getPoch();
-    QString getsupport_p();
+    const QString& gettype();
+    const QList<Meta_Titre*>& gettitres();
+    const QImage& getPoch();
+    const QString& getsupport_p();
     int getid_alb();
     int getid_support_p();
-    QString getcommentaires();
+    const QString& getcommentaires();
     int getid_type();
     int getid_support_m();
 
@@ -37,6 +37,8 @@ public:
     void settitres(QList<Meta_Titre*> titres);
     void setsupport_p(QString support_p);
     void setcommentaires(QString commentaires);
+    void setid_type(int type);
+    void setid_support_m(int support_m);
 
     static Meta_Album* CreerMeta_Album(const QString& nom_album, const QString& nom_artiste, int annee, const QImage& Poch, int type, const QList<Meta_Titre*>& titres, int support_p, const QString& commentaires, const QString& ean);
 

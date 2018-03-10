@@ -3,13 +3,14 @@
 
 #include <QObject>
 #include "idowner.h"
+#include "bdd_global.h"
 
 class BDDAlbum;
 class BDDTitre;
 class BDDArtiste;
 
 
-class BDDRelation : public IdOwner
+class BDDSHARED_EXPORT BDDRelation : public IdOwner
 {
     Q_OBJECT
 public:

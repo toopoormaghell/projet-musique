@@ -11,10 +11,11 @@
 #include "bddsingleton.h"
 #include <QtSql>
 #include "tags.h"
+#include "dialogchoixtitrefusion.h"
 
 #include "QDebug"
 
-BDDFusion::BDDFusion(QWidget *parent) : QWidget(parent)
+BDDFusion::BDDFusion()
 {
 
 }
@@ -191,7 +192,7 @@ int BDDFusion::RecupererMP3(QString choix )
 
 int BDDFusion::RecupererNouveauTitre(int Ancien)
 {
-    DialogChoixTitreFusion temp(m_Choix1_Titres << m_Choix2_Titres, Ancien,this);
+    DialogChoixTitreFusion temp(m_Choix1_Titres << m_Choix2_Titres, Ancien,nullptr);
     temp.exec();
 
     return temp.m_selection;

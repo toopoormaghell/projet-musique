@@ -2,8 +2,9 @@
 #define BDDSTATS_H
 
 #include <QObject>
+#include "bdd_global.h"
 
-class bddstats : public QObject
+class BDDSHARED_EXPORT bddstats : public QObject
 {
     Q_OBJECT
 public:
