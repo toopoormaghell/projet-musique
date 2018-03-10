@@ -37,6 +37,7 @@ public:
     void settitres(QList<Meta_Titre*> titres);
     void setsupport_p(QString support_p);
     void setcommentaires(QString commentaires);
+    void setid_type(int type);
 
     static Meta_Album* CreerMeta_Album(const QString& nom_album, const QString& nom_artiste, int annee, const QImage& Poch, int type, const QList<Meta_Titre*>& titres, int support_p, const QString& commentaires, const QString& ean);
 

@@ -119,6 +119,11 @@ void Meta_Album::setcommentaires(QString commentaires)
 {
     m_commentaires = commentaires;
 }
+
+void Meta_Album::setid_type(int type)
+{
+    m_id_type = type;
+}
 void Meta_Album::settitres(QList<Meta_Titre*> titres)
 {
     m_titres = titres;
