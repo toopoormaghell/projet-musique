@@ -29,7 +29,8 @@ CONFIG(debug,debug|release) {
     RCC_DIR += ../../../rcc/release
 }
 
-INCLUDEPATH += ../helpers
+INCLUDEPATH += ../helpers \
+               ../bdd
 
 DEFINES += QAWSWRAPPER_LIBRARY
 
