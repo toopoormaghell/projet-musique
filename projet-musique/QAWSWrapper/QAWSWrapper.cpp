@@ -2,6 +2,7 @@
 #include "QAWSGlobalInfo.h"
 #include "QAWSWrapperNotifier.h"
 #include "Meta_Titre.h"
+#include "meta_album.h"
 
 #include <QString>
 #include <QUrl>

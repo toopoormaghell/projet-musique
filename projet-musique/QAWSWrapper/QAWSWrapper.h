@@ -5,7 +5,8 @@
 
 #include "QAWSWrapper_global.h"
 #include <QScopedPointer>
-#include "Meta_Album.h"
+#include <QStringList>
+class Meta_Album;
 class QAWSWrapperNotifier;
 
 
