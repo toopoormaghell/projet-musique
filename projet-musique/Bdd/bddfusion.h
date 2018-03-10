@@ -1,7 +1,6 @@
 #ifndef BDDFUSION_H
 #define BDDFUSION_H
 
-#include <QObject>
 #include "util.h"
 
 
@@ -10,15 +9,11 @@ class BDDPoch;
 class BDDMp3;
 class BDDFusion
 {
-    Q_OBJECT
 
 public:
-    explicit BDDFusion(QWidget *parent = 0);
+    explicit BDDFusion();
 
     void fusionalbums(QPair<QString, QString> Choix1_Album, QPair<QImage, QString> Choix1_Pochette, QList<TitresPhys> Choix1_Titres, QPair<QString, QString> Choix2_Album, QPair<QImage, QString> Choix2_Pochette, QList<TitresPhys> Choix2_Titres, int ChoixFusion_Annee, int ChoixFusion_Album, int ChoixFusion_Pochette, QStringList ChoixFusion_Titres);
-signals:
-
-public slots:
 
 private:
     void fusionnerAlb(BDDAlbum *Alb, int ChoixFusion_Annee, BDDPoch *Poch);
