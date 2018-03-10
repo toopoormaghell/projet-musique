@@ -56,8 +56,10 @@ SOURCES += bddsingleton.cpp \
    bddrech.cpp \
     bddsupport.cpp \
     idowner.cpp \
- meta_artiste.cpp
- tags.cpp \
+ meta_artiste.cpp \
+    tags.cpp \
+    meta_album.cpp \
+    meta_titre.cpp
 
 
 HEADERS += bdd_global.h \

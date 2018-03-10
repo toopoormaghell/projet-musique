@@ -10,7 +10,7 @@ QString HELPERSSHARED_EXPORT EchangerArtiste( QString Artiste );
 void HELPERSSHARED_EXPORT EnleverAccents( QString& Nom );
 void HELPERSSHARED_EXPORT EnleverPonctuation( QString& Nom );
 void HELPERSSHARED_EXPORT MajusuculeAChaqueMot( QString& Entite );
-QString AnneesSwitch( int type );
+QString HELPERSSHARED_EXPORT AnneesSwitch( int type );
 
 #ifndef PHYS_STRUCT
 #define PHYS_STRUCT
