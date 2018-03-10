@@ -36,6 +36,33 @@ Meta_Titre::Meta_Titre(const QString& nom_album, const QString& nom_artiste, con
 {
     Q_UNUSED ( parent );
 }
+
+Meta_Titre::Meta_Titre():
+    m_nom_album()
+  , m_nom_artiste()
+  , m_nom_titre()
+  , m_annee(0)
+  , m_duree()
+  , m_num_piste(0)
+  , m_poch()
+  , m_Type()
+  , m_Support_p()
+  , m_Support_m()
+  , m_chemin_m()
+  , m_commentaires()
+  , m_ean()
+  , m_id_album(0)
+  , m_id_artiste(0)
+  , m_id_titre(0)
+  , m_id_relation(0)
+  , m_id_type(0)
+  , m_id_support_p(0)
+  , m_id_support_m(0)
+  , m_id_mp3(0)
+{
+
+}
+
 Meta_Titre* Meta_Titre::RecupererBDD(const int id)
 {
 

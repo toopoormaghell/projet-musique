@@ -9,6 +9,8 @@ class Meta_Titre : public QObject
     Q_OBJECT
 
 public:
+    // Constructeur par defaut
+    Meta_Titre();
 
     static Meta_Titre* RecupererBDD(const int id);
     static Meta_Titre* RecupererBDDMP3( const int id);
