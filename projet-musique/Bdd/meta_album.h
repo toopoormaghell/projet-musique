@@ -15,16 +15,16 @@ public:
     virtual ~Meta_Album();
 
     //Donner entités
-    QString getnom_album();
-    QString getnom_artiste();
+    const QString& getnom_album();
+    const QString& getnom_artiste();
     int getannee();
-    QString gettype();
-    QList<Meta_Titre*> gettitres();
-    QImage getPoch();
-    QString getsupport_p();
+    const QString& gettype();
+    const QList<Meta_Titre*>& gettitres();
+    const QImage& getPoch();
+    const QString& getsupport_p();
     int getid_alb();
     int getid_support_p();
-    QString getcommentaires();
+    const QString& getcommentaires();
     int getid_type();
     int getid_support_m();
 

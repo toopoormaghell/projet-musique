@@ -120,17 +120,17 @@ Meta_Titre* Meta_Titre::RecupererBDDMP3(const int id)
     return RecupererBDD( id_rel );
 }
 
-QString Meta_Titre::getnom_album()
+const QString& Meta_Titre::getnom_album()
 {
     return m_nom_album;
 }
 
-QString Meta_Titre::getnom_artiste()
+const QString& Meta_Titre::getnom_artiste()
 {
     return m_nom_artiste;
 }
 
-QString Meta_Titre::getnom_titre()
+const QString& Meta_Titre::getnom_titre()
 {
     return m_nom_titre;
 }
@@ -140,7 +140,7 @@ int Meta_Titre::getannee()
     return m_annee;
 }
 
-QString Meta_Titre::getduree()
+const QString& Meta_Titre::getduree()
 {
     return m_duree;
 }
@@ -150,16 +150,16 @@ int Meta_Titre::getnum_piste()
     return m_num_piste;
 }
 
-QString Meta_Titre::gettype()
+const QString& Meta_Titre::gettype()
 {
     return m_Type;
 }
 
-QString Meta_Titre::getsupportphys()
+const QString& Meta_Titre::getsupportphys()
 {
     return m_Support_p;
 }
-QString Meta_Titre::getsupportmp3()
+const QString& Meta_Titre::getsupportmp3()
 {
     return m_Support_m;
 }
@@ -175,7 +175,7 @@ int Meta_Titre::getid_support_m()
     return m_id_support_m;
 }
 
-QString Meta_Titre::getcheminmp3()
+const QString& Meta_Titre::getcheminmp3()
 {
     return m_chemin_m;
 }
@@ -190,7 +190,7 @@ int Meta_Titre::getid_titre()
     return m_id_titre;
 }
 
-QImage Meta_Titre::getpoch()
+const QImage& Meta_Titre::getpoch()
 {
     return m_poch;
 }
@@ -214,12 +214,12 @@ int Meta_Titre::getid_mp3()
     return m_id_mp3;
 }
 
-QString Meta_Titre::getcommentaires()
+const QString& Meta_Titre::getcommentaires()
 {
     return m_commentaires;
 }
 
-QString Meta_Titre::getean()
+const QString& Meta_Titre::getean()
 {
     return m_ean;
 }

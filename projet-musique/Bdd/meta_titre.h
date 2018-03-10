@@ -15,27 +15,27 @@ public:
     static Meta_Titre* RecupererBDDMP3( const int id);
 
     //Donner entités
-    QString getnom_album();
-    QString getnom_artiste();
-    QString getnom_titre();
+    const QString& getnom_album();
+    const QString& getnom_artiste();
+    const QString& getnom_titre();
     int getannee();
-    QString getduree();
+    const QString& getduree();
     int getnum_piste();
-    QString gettype();
-    QString getsupportphys();
-    QString getsupportmp3();
+    const QString& gettype();
+    const QString& getsupportphys();
+    const QString& getsupportmp3();
     int getid_support_p();
     int getid_support_m();
-    QString getcheminmp3();
+    const QString& getcheminmp3();
     int getid_relation();
     int getid_titre();
-    QImage getpoch();
+    const QImage& getpoch();
     int getid_art();
     int getid_alb();
     int getid_type();
     int getid_mp3();
-    QString getcommentaires();
-    QString getean();
+    const QString& getcommentaires();
+    const QString& getean();
 
     //Changer entités
     void setnom_album(QString nom);
