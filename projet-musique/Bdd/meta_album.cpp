@@ -124,6 +124,27 @@ void Meta_Album::settitres(QList<Meta_Titre*> titres)
     m_titres = titres;
 }
 
+Meta_Album::Meta_Album():
+    m_nom_album()
+  , m_nom_artiste()
+  , m_annee(0)
+  , m_poch()
+  , m_Type()
+  , m_titres()
+  , m_support_p()
+  , m_support_m()
+  , m_commentaires()
+  , m_ean()
+  , m_id_album(0)
+  , m_id_artiste(0)
+  , m_id_poch(0)
+  , m_id_type(0)
+  , m_id_support_p(0)
+  , m_id_support_m(0)
+{
+
+}
+
 Meta_Album* Meta_Album::RecupererBDD(const int id)
 {
     int Annee=-1, id_alb=-1, id_art =-1, id_poch=-1, id_type =-1, id_support_p=-1, id_support_m = -1;

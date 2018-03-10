@@ -9,6 +9,8 @@ class Meta_Album : public QObject
 {
     Q_OBJECT
 public:
+    // Constructeur par defaut
+    Meta_Album();
 
     static Meta_Album* RecupererBDD(const int id);
     virtual ~Meta_Album();
