@@ -54,7 +54,6 @@ SOURCES += bddsingleton.cpp \
   bddconfig.cpp \
  bddstats.cpp \
    bddrech.cpp \
- bddfusion.cpp \
     bddsupport.cpp \
     idowner.cpp \
  meta_artiste.cpp

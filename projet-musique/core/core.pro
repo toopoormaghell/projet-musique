@@ -63,7 +63,8 @@ HEADERS += \
       dialogverifications.h \
        ongletartiste.h \
     bddafficherartiste.h \
-    dialogalbumssmp3.h
+    dialogalbumssmp3.h \
+    bddfusion.h
 
 
 SOURCES += main.cpp \
@@ -92,6 +93,7 @@ SOURCES += main.cpp \
     ongletartiste.cpp \
     bddafficherartiste.cpp \
     dialogalbumssmp3.cpp \
+    bddfusion.cpp
 
 
 FORMS += \
