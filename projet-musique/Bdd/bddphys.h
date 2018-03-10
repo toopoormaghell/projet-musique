@@ -3,10 +3,11 @@
 
 #include <QObject>
 #include "idowner.h"
+#include "bdd_global.h"
 class BDDAlbum;
 class BDDSupport;
 
-class BDDPhys : public IdOwner
+class BDDSHARED_EXPORT BDDPhys : public IdOwner
 {
     Q_OBJECT
 public:

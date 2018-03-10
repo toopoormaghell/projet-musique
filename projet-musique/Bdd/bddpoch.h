@@ -6,8 +6,9 @@
 #include <QImage>
 #include <QList>
 #include "idowner.h"
+#include "bdd_global.h"
 
-class BDDPoch : public IdOwner
+class BDDSHARED_EXPORT BDDPoch : public IdOwner
 {
     Q_OBJECT
 

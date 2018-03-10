@@ -2,8 +2,9 @@
 #define BDDCONFIG_H
 
 #include <QObject>
+#include "bdd_global.h"
 
-class BDDConfig : public QObject
+class BDDSHARED_EXPORT BDDConfig : public QObject
 {
     Q_OBJECT
 public:

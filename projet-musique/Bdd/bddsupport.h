@@ -3,8 +3,9 @@
 
 #include <QObject>
 #include "idowner.h"
+#include "bdd_global.h"
 
-class BDDSupport : public IdOwner
+class BDDSHARED_EXPORT BDDSupport : public IdOwner
 {
     Q_OBJECT
 public:

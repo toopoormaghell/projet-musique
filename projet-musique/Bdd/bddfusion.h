@@ -2,12 +2,13 @@
 #define BDDFUSION_H
 
 #include "util.h"
+#include "bdd_global.h"
 
 
 class BDDAlbum;
 class BDDPoch;
 class BDDMp3;
-class BDDFusion
+class BDDSHARED_EXPORT BDDFusion
 {
 
 public:
