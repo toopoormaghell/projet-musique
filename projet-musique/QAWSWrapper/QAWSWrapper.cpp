@@ -36,10 +36,26 @@ namespace
         return isValid;
     }
 
-    Meta_Album parseXml( const QByteArray& xmlToParse, QStringList& artistsList )
+    Meta_Album* parseXml( const QByteArray& xmlToParse, QStringList& artistsList )
     {
-        Meta_Album albumToFill;
+        QString nomAlbum;
+        QString nomArtiste;
+        int annee = -1;
+        QImage pochette;
+        int type = -1;
+        int supportP = -1;
+        QString commentaires;
+        QString ean;
+        int supportM = -1;
+        QString chemin;
         unsigned int trackNumber = 1;
+        struct TitreTemp
+        {
+            QString nomTitre;
+            unsigned int numPiste;
+            QString duree;
+        };
+        QList<TitreTemp> titresTemp;
 
         QXmlStreamReader reader( xmlToParse );
         while ( !reader.atEnd() )
@@ -54,12 +70,12 @@ namespace
                         reader.readNext();
                         if ( reader.tokenType() == QXmlStreamReader::Characters )
                         {
-                            Meta_Titre titre;
-                            titre.Titre = reader.text().toString();
-                            titre.Num_Piste = trackNumber;
-                            titre.Duree = "0:00";
+                            TitreTemp tmp;
+                            tmp.nomTitre = reader.text().toString();
+                            tmp.numPiste = trackNumber;
+                            tmp.duree = "0:00";
                             trackNumber++;
-                            albumToFill.titres.append( titre );
+                            titresTemp.append(tmp);
                         }
                     }
                     else if ( ( reader.name() == "Creator" ) &&
@@ -74,16 +90,16 @@ namespace
                     {
                         reader.readNext();
                         if ( reader.tokenType() == QXmlStreamReader::Characters )
-                            albumToFill.Album = reader.text().toString();
+                            nomAlbum = reader.text().toString();
                     }
                     else if ( reader.name() == "Artist" )
                     {
                         reader.readNext();
                         if ( reader.tokenType() == QXmlStreamReader::Characters )
                         {
-                            albumToFill.Artiste = reader.text().toString();
+                            nomArtiste = reader.text().toString();
                             if ( reader.text().toString() == "Various Artists" )
-                                albumToFill.Artiste = "Artistes Divers";
+                                nomArtiste = "Artistes Divers";
                             else
                                 artistsList << reader.text().toString();
                         }
@@ -92,7 +108,7 @@ namespace
                     {
                         reader.readNext();
                         if ( reader.tokenType() == QXmlStreamReader::Characters )
-                            albumToFill.Annee = reader.text().toString().left( 4 ).toInt();
+                            annee = reader.text().toString().left( 4 ).toInt();
                     }
                     else if ( ( reader.name() == "ImageSet" ) &&
                               ( reader.attributes().hasAttribute( "Category" ) ) &&
@@ -116,7 +132,7 @@ namespace
                             QEventLoop loop;
                             QObject::connect( coverReply, SIGNAL( finished() ), &loop, SLOT( quit() ) );
                             loop.exec();
-                            albumToFill.Poch = QImage::fromData( coverReply->readAll() );
+                            pochette = QImage::fromData( coverReply->readAll() );
                         }
                     }
                     break;
@@ -130,6 +146,14 @@ namespace
             qDebug() << "error while reading XML:" << reader.error();
         }
 
+        QList<Meta_Titre*> titres;
+        for ( auto it : titresTemp )
+        {
+            Meta_Titre* titre = Meta_Titre::CreerMeta_Titre(nomAlbum, nomArtiste, it.nomTitre, annee, it.duree, it.numPiste, pochette, type, supportP, supportM, chemin, commentaires, ean);
+            titres.append(titre);
+        }
+
+        Meta_Album* albumToFill = Meta_Album::CreerMeta_Album(nomAlbum, nomArtiste, annee, pochette, type, titres, supportP, commentaires, ean);
         return albumToFill;
     }
 }
@@ -157,7 +181,7 @@ QAWSWrapperNotifier& QAWSWrapper::getNotifier()
 
 
 
-Meta_Album QAWSWrapper::getAlbumFromEAN( const QString& ean )
+Meta_Album* QAWSWrapper::getAlbumFromEAN( const QString& ean )
 {
     // Build the list of parameters that the URL must contain
     QUrlQuery listOfParameters;
