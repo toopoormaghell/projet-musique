@@ -7,6 +7,7 @@
 QT       += sql
 
 QT       += gui
+QT       += widgets
 
 TARGET = bdd
 TEMPLATE = lib
@@ -59,7 +60,9 @@ SOURCES += bddsingleton.cpp \
  meta_artiste.cpp \
     tags.cpp \
     meta_album.cpp \
-    meta_titre.cpp
+    meta_titre.cpp \
+    bddfusion.cpp \
+    dialogchoixtitrefusion.cpp
 
 
 HEADERS += bdd_global.h \
@@ -83,10 +86,15 @@ bddalbum.h \
     meta_titre.h \
     meta_album.h \
 idowner.h \
-    meta_artiste.h
+    meta_artiste.h \
+    bddfusion.h \
+    dialogchoixtitrefusion.h
 
 
 unix {
     target.path = /usr/lib
     INSTALLS += target
 }
+
+FORMS += \
+    dialogchoixtitrefusion.ui
