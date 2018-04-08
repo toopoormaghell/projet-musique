@@ -4,8 +4,9 @@
 #include <QObject>
 #include <QImage>
 #include "meta_titre.h"
+#include "bdd_global.h"
 
-class Meta_Album : public QObject
+class BDDSHARED_EXPORT Meta_Album : public QObject
 {
     Q_OBJECT
 public:
