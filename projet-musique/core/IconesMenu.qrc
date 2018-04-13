@@ -13,6 +13,7 @@
         <file alias="Vrai">icones/mp3phys.png</file>
         <file alias="Mp3">icones/mp3.png</file>
         <file alias="Phys">icones/Phys.png</file>
+        <file alias="MP3Phys">icones/mp3phys2.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file alias="default">qss/default.qss</file>

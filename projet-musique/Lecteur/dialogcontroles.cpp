@@ -6,17 +6,17 @@
 #include <QFile>
 
 
-DialogControles::DialogControles( QWidget *parent) :
-    QWidget(parent),player (new QMediaPlayer(this)),
-    ui(new Ui::DialogControles),  mp3(  )
+DialogControles::DialogControles( QWidget *parent ) :
+    QWidget( parent ),player ( new QMediaPlayer ( this ) ),
+    ui( new Ui::DialogControles ),   test ( )
 {
-    ui->setupUi(this);
+    ui->setupUi( this );
 
     AfficherIcones();
 
-    connect( player,SIGNAL( positionChanged(qint64)), this, SLOT(avancerSlider( qint64 )));
-    connect( player,SIGNAL(durationChanged(qint64)),this,SLOT(changerduree(qint64)));
-    connect( player,SIGNAL(mediaStatusChanged(QMediaPlayer::MediaStatus)),this,SLOT(ArriverFin(QMediaPlayer::MediaStatus)) );
+    connect( player,SIGNAL( positionChanged( qint64 ) ), this, SLOT( avancerSlider( qint64 ) ) );
+    connect( player,SIGNAL( durationChanged( qint64) ),this,SLOT( changerduree( qint64 ) ) );
+    connect( player,SIGNAL( mediaStatusChanged( QMediaPlayer::MediaStatus ) ),this,SLOT( ArriverFin( QMediaPlayer::MediaStatus ) ) );
 }
 
 DialogControles::~DialogControles()
@@ -24,7 +24,7 @@ DialogControles::~DialogControles()
     delete ui;
 }
 
-void DialogControles::ArriverFin(QMediaPlayer::MediaStatus status)
+void DialogControles::ArriverFin( QMediaPlayer::MediaStatus status )
 {
     if ( status == QMediaPlayer::EndOfMedia )
     {
@@ -32,44 +32,37 @@ void DialogControles::ArriverFin(QMediaPlayer::MediaStatus status)
     }
 }
 
-void DialogControles::ChangerMP3(QString temp)
+void DialogControles::ChangerMP3( QMediaContent temp )
 {
     player->stop();
 
-    mp3= temp;
+    test = temp;
     ChargerMp3();
-    AfficherInfos();
+
+
 }
 
-void DialogControles::Changer(QString temp)
-{
-    if (mp3 != temp)
-    {
-        mp3 = temp;
-        player->setMedia(QUrl::fromLocalFile(mp3));
-        AfficherInfos();
-        on_Lecture_clicked();
-    }
-}
+
 void DialogControles::AfficherIcones()
 {
-    QPixmap icone (":/Icones/play");
+    QPixmap icone( ":/Icones/play" );
     ui->Lecture->setIcon( QIcon ( icone ) );
 
-    icone.load( ":/Icones/stop");
+    icone.load( ":/Icones/stop" );
     ui->Arret->setIcon( QIcon ( icone ) );
 
-    ui->Volume->setSliderPosition(100);
+    ui->Volume->setSliderPosition( 100 );
 
 }
-void DialogControles::AfficherInfos()
+void DialogControles::AfficherInfos( QString mp3 )
 {
-    if (!mp3.isEmpty())
+
+    if ( !test.isNull() )
     {
-        QString temp = mp3.mid(8);
+
 
         // conversion du QString pour le nom du fichier MP3 ainsi que son chemin
-        QByteArray arrFileName = QFile::encodeName( temp );
+        QByteArray arrFileName = QFile::encodeName( mp3 );
         const char* encodedName = arrFileName.constData();
         TagLib::FileRef f( encodedName );
 
@@ -81,12 +74,14 @@ void DialogControles::AfficherInfos()
         TagLib::uint track = f.tag() -> track();
 
         ui->Album->setText( QString::number( date ) + " - " +TStringToQString( album ) );
-        ui->Titre->setText( QString::number(track).rightJustified(2,'0') + " - " + TStringToQString( title ) );
+        ui->Titre->setText( QString::number( track ).rightJustified( 2,'0' ) + " - " + TStringToQString( title ) );
         ui->Artiste->setText( TStringToQString( artist ) );
 
         //On s'occupe de la pochette
         ui->Pochette->setPixmap( ImageAlbum ( f ) );
+
     }
+
 }
 QPixmap DialogControles::ImageAlbum ( const TagLib::FileRef& f )
 {
@@ -115,10 +110,10 @@ void DialogControles::on_Lecture_clicked()
 {
     QPixmap icone( ":/Icones/pause" );
 
-    switch (player->state())
+    switch ( player->state() )
     {
-    case ( QMediaPlayer::StoppedState ):  ui->Lecture->setIcon( QIcon ( icone ) );  ChargerMp3(); player->play();  break;
-    case ( QMediaPlayer::PlayingState ):   icone.load(":/Icones/play"); ui->Lecture->setIcon( QIcon ( icone ) ); player->pause();break;
+    case ( QMediaPlayer::StoppedState ):  ui->Lecture->setIcon( QIcon ( icone ) ); ChargerMp3(); player->play();  break;
+    case ( QMediaPlayer::PlayingState ):  icone.load(":/Icones/play"); ui->Lecture->setIcon( QIcon ( icone ) ); player->pause();break;
     case ( QMediaPlayer::PausedState ): ui->Lecture->setIcon( QIcon ( icone ) );  player->play();break;
     }
 
@@ -126,10 +121,17 @@ void DialogControles::on_Lecture_clicked()
 
 void DialogControles::ChargerMp3()
 {
-    player->setMedia(QUrl::fromLocalFile(mp3));
+    QString mp3 = test.canonicalUrl().toString();
+    mp3 = mp3.remove("file:///");
+
+   AfficherInfos( mp3 );
+
+    player->setMedia( test ) ;
     QPixmap icone( ":/Icones/pause" );
     ui->Lecture->setIcon( QIcon ( icone ) );
     player->play();
+
+
 }
 
 void DialogControles::on_Arret_clicked()
@@ -139,18 +141,18 @@ void DialogControles::on_Arret_clicked()
     ui->Lecture->setIcon( QIcon ( icone ) );
 }
 
-void DialogControles::on_Volume_sliderMoved(int position)
+void DialogControles::on_Volume_sliderMoved( int position )
 {
-    player->setVolume(position);
+    player->setVolume( position );
 }
 
-void DialogControles::avancerSlider(qint64 pos)
+void DialogControles::avancerSlider( qint64 pos )
 {
-    ui->Position->setValue(pos);
+    ui->Position->setValue( pos );
 
 }
 
-void DialogControles::changerduree(qint64 dur)
+void DialogControles::changerduree( qint64 dur )
 {
     ui->Position->setMaximum( dur );
 }

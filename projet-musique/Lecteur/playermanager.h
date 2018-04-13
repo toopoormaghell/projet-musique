@@ -18,13 +18,12 @@ class PlayerManager : public QWidget
 public:
     explicit PlayerManager(QWidget *parent = 0);
     ~PlayerManager();
-    void setDialogControles( DialogControles* dialogControles);
-    void setPlaylist(QStringList temp);
+    void setDialogControles( DialogControles* dialogControles );
+    void setPlaylist( QStringList temp );
 
 signals:
-    void changerMp3(QString temp);
-    void PremierMP3 ( QString temp);
-    void SupprimerdansPlaylist ( QStringList temp);
+    void changerMp3( QMediaContent temp );
+    void SupprimerdansPlaylist ( QStringList temp );
 
 private slots:
     void on_Precedent_clicked();
@@ -36,7 +35,7 @@ private slots:
 
     void on_Suppression_clicked();
 
-    void on_Playlist_clicked(const QModelIndex &index);
+    void on_Playlist_clicked( const QModelIndex &index );
     void FinMP3();
 
 private:
@@ -46,7 +45,7 @@ private:
     QMediaPlaylist* playlist;
     bool m_aleatoire;
     void afficherPlaylist();
-    QString ExtraireInfosMp3(QString mp3);
+    QString ExtraireInfosMp3( QString mp3 );
     void afficherIcones();
     QStringList m_listechemins;
 };

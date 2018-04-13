@@ -5,7 +5,8 @@
 
 #include "QAWSWrapper_global.h"
 #include <QScopedPointer>
-#include <util.h>
+#include <QStringList>
+class Meta_Album;
 class QAWSWrapperNotifier;
 
 
@@ -31,7 +32,7 @@ public:
     QAWSWrapperNotifier& getNotifier();
 
     // Return the album related to the given EAN
-    AlbumPhys getAlbumFromEAN( const QString& ean );
+    Meta_Album* getAlbumFromEAN( const QString& ean );
 
     // Return the list of possible artists
     const QStringList& getArtistsList() const;

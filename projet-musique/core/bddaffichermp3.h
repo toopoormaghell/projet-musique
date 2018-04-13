@@ -15,10 +15,10 @@ public:
     QStringList listeTitresAlbumMp3(QString Id_Album, QString Categorie );
     QStringList MP3Artiste( QString id_artiste );
     QList<int> listeAlbums( QString Id_Artiste, QString Categorie );
-    QStringList RecupererListeTypes(QString Categorie);
- QString AnneesSwitch( int annee );
+    QStringList RecupererListeTypes();
 
 
+    QList<int> RecupererSimilaires(const int id);
 };
 
 #endif // BDDAFFICHERMP3_H

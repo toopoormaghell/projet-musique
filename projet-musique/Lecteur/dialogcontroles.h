@@ -16,37 +16,36 @@ class DialogControles : public QWidget
     Q_OBJECT
 
 public:
-    explicit DialogControles( QWidget *parent = 0);
+    explicit DialogControles( QWidget *parent = 0 );
     ~DialogControles();
     QMediaPlayer* player;
 signals:
     void FinMP3();
 public slots:
-    void ChangerMP3(QString temp);
-    void Changer(QString temp);
+    void ChangerMP3( QMediaContent temp );
 private slots:
     void on_Lecture_clicked();
 
     void on_Arret_clicked();
 
-    void on_Volume_sliderMoved(int position);
+    void on_Volume_sliderMoved( int position );
 
-    void avancerSlider(qint64 pos);
-    void changerduree(qint64 dur);
+    void avancerSlider( qint64 pos );
+    void changerduree( qint64 dur );
 
 
     void on_Position_sliderReleased();
 
-    void ArriverFin(QMediaPlayer::MediaStatus status);
+    void ArriverFin( QMediaPlayer::MediaStatus status );
 private:
     Ui::DialogControles *ui;
     void AfficherIcones();
 
-    QString mp3;
+    QMediaContent test;
     void ChargerMp3();
 
-    void AfficherInfos();
-    QPixmap ImageAlbum(const TagLib::FileRef &f);
+    void AfficherInfos( QString mp3 );
+    QPixmap ImageAlbum( const TagLib::FileRef &f );
 };
 
 #endif // DIALOGCONTROLES_H

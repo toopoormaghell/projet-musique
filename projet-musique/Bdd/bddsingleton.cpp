@@ -51,17 +51,17 @@ void BDDSingleton::creationBase()
 {
     QStringList tables;
     QSqlQuery query;
-    tables << "CREATE TABLE MP3 ('Id_MP3' INTEGER PRIMARY KEY,'Id_Relation' INTEGER, 'Chemin' VARCHAR(512),'Categorie' VARCHAR(255))";
+    tables << "CREATE TABLE MP3 ('Id_MP3' INTEGER PRIMARY KEY,'Id_Relation' INTEGER, 'Chemin' VARCHAR(512),'Support' VARCHAR(255))";
     tables << "CREATE TABLE Artiste ('Id_Artiste' INTEGER PRIMARY KEY,'Artiste' VARCHAR(255),'Id_Pochette' INTEGER, 'Artiste_Formate' VARCHAR(255))";
     tables << "CREATE TABLE Album ('Id_Album' INTEGER PRIMARY KEY,'Album' VARCHAR(255),'Id_Pochette' INTEGER,'Album_Formate' VARCHAR(255),'Annee' VARCHAR(255), 'Type' VARCHAR(255), 'Id_Artiste' INTEGER)";
     tables << "CREATE TABLE Titre ('Id_Titre' INTEGER PRIMARY KEY,'Titre' VARCHAR(255),'Titre_Formate' VARCHAR(255))";
-    tables << "CREATE TABLE Phys ('Id_Phys' INTEGER PRIMARY KEY,'Id_Album' SMALLINT,'Categorie' VARCHAR(255),'CodeBarres' VARCHAR(255), 'Commentaire' VARCHAR(512))";
+    tables << "CREATE TABLE Phys ('Id_Phys' INTEGER PRIMARY KEY,'Id_Album' SMALLINT,'Support' VARCHAR(255),'CodeBarres' VARCHAR(255), 'Commentaire' VARCHAR(512))";
     tables << "CREATE TABLE Pochette ('Id_Pochette' INTEGER PRIMARY KEY,'Chemin' VARCHAR(512))";
     tables << "CREATE TABLE Type ('Id_Type' INTEGER PRIMARY KEY,'Type' VARCHAR(255))";
     tables << "CREATE TABLE Support ('Id_Support' INTEGER PRIMARY KEY,'Support' VARCHAR(255))";
     tables << "INSERT INTO Pochette VALUES (01,'./pochettes/def.jpg')";
     tables << "INSERT INTO Artiste VALUES (01,'Artistes Divers','01','artistesdivers')";
-    tables << "CREATE TABLE Relations('Id_Relation' INTEGER PRIMARY KEY,'Id_Titre' INTEGER,'Id_Album' INTEGER,'Id_Artiste' INTEGER,'Num_Piste' TINYINT,'Duree' VARCHAR(255))";
+    tables << "CREATE TABLE Relations('Id_Relation' INTEGER PRIMARY KEY,'Id_Titre' INTEGER,'Id_Album' INTEGER,'Id_Artiste' INTEGER,'Num_Piste' TINYINT,'Duree' VARCHAR(255),'MP3' INTEGER,'Phys' INTEGER)";
     tables << "CREATE TABLE Configuration('Intitule' TEXT,'Valeur' TEXT)";
     tables << "INSERT INTO Configuration VALUES ('DossierParDef','F:/Albums')";
     tables << "INSERT INTO Configuration VALUES ('ActualiserAlbums','Oui')";

@@ -1,21 +1,13 @@
 #include "ongletphys.h"
 #include "ui_ongletphys.h"
+
 #include "bddafficherphys.h"
-#include "bddpoch.h"
-#include "bddartiste.h"
-#include "bddalbum.h"
-#include "bddtitre.h"
-#include "bddphys.h"
+#include "meta_album.h"
+#include "meta_titre.h"
+#include "meta_artiste.h"
+
 #include "DialogModifierAlbum.h"
-#include "bddgestionphys.h"
 #include "DialogModifierArtiste.h"
-#include <QSqlQuery>
-#include <QSqlRecord>
-#include "bddsingleton.h"
-#include "bddrelation.h"
-#include "bddtype.h"
-#include <QScopedPointer>
-#include <QDebug>
 
 
 OngletPhys::OngletPhys( QWidget* parent ) :
@@ -52,13 +44,10 @@ void OngletPhys::actualiserOnglet()
 
 void OngletPhys::AfficherCategories()
 {
-
-
     ui->Categories->clear();
     QStringList types;
-    types << "Tout" << "0";
-    types << BDDType::RecupererListeTypes( "Phys" );
 
+    types << m_bddInterface.RecupererListeTypes();
 
     QImage image( "./Pochettes/def.jpg" );
 
@@ -82,7 +71,6 @@ void OngletPhys::AfficherCategories()
 
 void OngletPhys::afficherListeArtiste()
 {
-
     vider("Artiste");
 
     //Affichage des artistes
@@ -91,18 +79,18 @@ void OngletPhys::afficherListeArtiste()
     for ( int cpt = 0; cpt < artistes.count(); cpt++ )
     {
 
-        BDDArtiste* artiste = BDDArtiste::recupererBDD( artistes[cpt] );
+        Meta_Artiste* artiste = Meta_Artiste::RecupererBDD( artistes[cpt] );
 
-        if ( artiste->id() > 0 )
+        if ( artiste->get_id_artiste() > 0 )
         {
             QListWidgetItem* item = new QListWidgetItem;
-            QPixmap scaled( QPixmap::fromImage( artiste->m_pochette->m_image ) );
+            QPixmap scaled( QPixmap::fromImage( artiste->getPoch() ) );
             scaled = scaled.scaled( 150, 150 );
             item->setIcon( QIcon( scaled ) );
 
             //On s'occupe du nom de l'artiste
-            item->setData( Qt::UserRole, artistes[cpt] );
-            item->setText( artiste->m_nom );
+            item->setData( Qt::UserRole, artiste->get_id_artiste() );
+            item->setText( artiste->getNom_Artiste() );
             ui->Artistes->addItem( item );
         }
         delete artiste;
@@ -125,17 +113,17 @@ void OngletPhys::afficherListeAlbum()
     for ( int cpt = 0; cpt < albums.count(); cpt++ )
     {
 
-        BDDAlbum* album = BDDAlbum::RecupererAlbum( albums[cpt] );
+        Meta_Album* album = Meta_Album::RecupererBDD( albums[cpt] );
 
-        if ( album->id() > 0 )
+        if ( album->getid_alb() > 0 )
         {
             QListWidgetItem* item = new QListWidgetItem;
-            QPixmap scaled( QPixmap::fromImage( album->m_pochette->m_image ) );
+            QPixmap scaled( QPixmap::fromImage( album->getPoch() ) );
             item->setIcon( QIcon( scaled ) );
 
             //On s'occupe du nom de l'album
-            item->setData( Qt::UserRole, albums[cpt] );
-            item->setText( QString::number( album->m_annee ) + " - " + album->m_nom );
+            item->setData( Qt::UserRole, album->getid_alb() );
+            item->setText( QString::number( album->getannee() ) + " - " + album->getnom_album() );
 
             ui->Albums->addItem( item );
         }
@@ -157,17 +145,17 @@ void OngletPhys::afficherListeSingles()
     for ( int cpt = 0; cpt < singles.count(); cpt++ )
     {
 
-        BDDAlbum* album = BDDAlbum::RecupererAlbum( singles[cpt] );
+        Meta_Album* album = Meta_Album::RecupererBDD( singles[cpt] );
 
-        if ( album->id() > 0 )
+        if ( album->getid_alb() > 0 )
         {
             QListWidgetItem* item = new QListWidgetItem;
-            QPixmap scaled( QPixmap::fromImage( album->m_pochette->m_image ) );
+            QPixmap scaled( QPixmap::fromImage( album->getPoch() ) );
             item->setIcon( QIcon( scaled ) );
 
             //On s'occupe du nom de l'album
-            item->setData( Qt::UserRole, singles[cpt] );
-            item->setText( QString::number( album->m_annee ) + " - " + album->m_nom );
+            item->setData( Qt::UserRole, album->getid_alb() );
+            item->setText( QString::number( album->getannee() ) + " - " + album->getnom_album() );
 
             ui->Singles->addItem( item );
         }
@@ -187,7 +175,7 @@ void OngletPhys::AfficherArtisteSelectionne()
     case ( 8 ) : ui->Artiste->setText( "Classique" ); break;
     case ( 9 ) : ui->Artiste->setText( "Associatif" ); break;
     case ( 10 ) : ui->Artiste->setText( "Reprises" ); break;
-    default :  BDDArtiste* artiste = BDDArtiste::recupererBDD( m_artiste.toInt() ); ui->Artiste->setText( artiste->m_nom ); delete artiste;
+    default :  Meta_Artiste* artiste = Meta_Artiste::RecupererBDD( m_artiste.toInt() ); ui->Artiste->setText( artiste->getNom_Artiste() ); delete artiste;
     }
 
 }
@@ -203,23 +191,19 @@ void OngletPhys::afficherListeCompils()
 
     for ( int cpt = 0; cpt < albums.count(); cpt++ )
     {
+        Meta_Album* album = Meta_Album::RecupererBDD( albums[cpt] );
 
-        BDDAlbum* album = BDDAlbum::RecupererAlbum( albums[cpt] );
-
-        if ( album->id() > 0 )
+        if ( album->getid_alb() > 0 )
         {
             QListWidgetItem* item = new QListWidgetItem;
-            QPixmap scaled( QPixmap::fromImage( album->m_pochette->m_image ) );
-
+            QPixmap scaled( QPixmap::fromImage( album->getPoch() ) );
             item->setIcon( QIcon( scaled ) );
 
-
             //On s'occupe du nom de l'album
-            item->setData( Qt::UserRole, albums[cpt] );
-            item->setText( QString::number( album->m_annee ) + " - " + album->m_nom );
+            item->setData( Qt::UserRole, album->getid_alb() );
+            item->setText( QString::number( album->getannee() ) + " - " + album->getnom_album() );
 
             ui->Compil->addItem( item );
-
         }
         delete album;
     }
@@ -228,55 +212,48 @@ void OngletPhys::afficherListeCompils()
 void OngletPhys::AfficherInfosAlbum( int Type )
 {
     vider("Infos");
+    Meta_Album* phys = Meta_Album::RecupererBDD( m_selection );
 
-    BDDPhys* phys = BDDPhys::RecupererPhys( m_selection );
     int nbtitresmp3 = 0;
     if ( m_selection != 0  )
     {
         //On affiche l'année et le nom de l'album
-        ui->Annee->setText( QString::number( phys->m_album->m_annee ) );
-        ui->NomAlbum->setText( phys->m_album->m_nom );
+        ui->Annee->setText( QString::number( phys->getannee() ) );
+        ui->NomAlbum->setText( phys->getnom_album() );
 
         //On affiche la pochette
-        QPixmap scaled( QPixmap::fromImage( phys->m_album->m_pochette->m_image ) );
+        QPixmap scaled( QPixmap::fromImage( phys->getPoch() ) );
         scaled = scaled.scaled( 150, 150 );
         ui->Pochette->setPixmap( scaled );
 
-        QPixmap mp3( ":/Autres/Mp3" );
+        QPixmap mp3( ":/Autres/Vrai" );
         QPixmap nonmp3 (":/Autres/Faux");
 
-        //On affiche les titres
-        QString queryStr = "SELECT Id_Relation, Id_Artiste FROM Relations  WHERE Id_Album='" + QString::number( phys->m_album->id() ) + "' ORDER BY Num_Piste";
-        QSqlQuery query = madatabase.exec( queryStr );
-        int relationCount = 0;
-        while ( query.next() )
-        {
-            QSqlRecord rec = query.record();
-            QScopedPointer<BDDRelation> relation(BDDRelation::RecupererRelation( rec.value( "Id_Relation" ).toInt() ));
-            relationCount++;
 
-            BDDTitre* titre = BDDTitre::RecupererTitre( relation->m_titre->id() );
+        for ( int i = 0; i < phys->gettitres().count(); i++ )
+        {
+            Meta_Titre* titre = phys->gettitres()[i];
+
             QListWidgetItem* item = new QListWidgetItem;
 
             QString temp;
-            temp = QString::number( relation->m_num_piste ).rightJustified( 2, '0' ) + " - " + titre->m_nom + "(" + relation->m_duree + ")";
-            //Si c'est une compil, on ajoute les artistes derrière
-            if ( Type == 3 )
+            temp = QString::number( titre->getnum_piste() ).rightJustified( 2, '0' ) + " - " + titre->getnom_titre() + "(" + titre->getduree() + ")";
+
+            //Si c'est une compil, on ajoute le nom de l'artiste
+            if (Type == 3 )
             {
-                BDDArtiste* art = BDDArtiste::recupererBDD( relation->m_artiste->id() );
-                if ( m_artiste.toInt() == art->id() )
+                if ( m_artiste.toInt() == titre->getid_art() )
                 {
                     QFont m_police( "Monotype Corsiva", 11, 75 );
                     item->setTextColor( Qt::blue );
                     item->setFont( m_police );
-
                 }
-                temp = temp + " - " + art->m_nom;
-                delete art;
+
+                temp = temp + " - " + titre->getnom_artiste();
+
             }
             item->setText( temp );
-            //On affiche l'icone si le mp3 existe aussi
-            if ( relation->m_mp3  )
+            if ( titre->getsupportmp3() != "Aucun" )
             {
                 nbtitresmp3++;
                 item->setIcon( QIcon( mp3 ) );
@@ -284,16 +261,17 @@ void OngletPhys::AfficherInfosAlbum( int Type )
             {
                 item->setIcon( QIcon ( nonmp3 ) );
             }
+
             ui->Titres->addItem( item );
             delete titre;
-
         }
-        ui->NbTitresAlb->setText(QString::number( relationCount ) );
+
+        ui->NbTitresAlb->setText(QString::number( phys->gettitres().count() ) );
         ui->NbTitresMP3Alb->setText(QString::number( nbtitresmp3 ));
-        if ( relationCount!=0)
-            ui->PourcentageAlb->setText( QString::number( nbtitresmp3*100/relationCount ) +" %" );
+        if ( phys->gettitres().count() !=0 )
+            ui->PourcentageAlb->setText( QString::number( nbtitresmp3*100/phys->gettitres().count() ) +" %" );
+
     }
-    delete phys;
 }
 
 void OngletPhys::vider( QString type )
@@ -363,7 +341,7 @@ void OngletPhys::on_SupprimerAlbum_clicked()
 void OngletPhys::on_Artistes_doubleClicked( const QModelIndex& index )
 {
     int choix = index.data( Qt::UserRole ).toInt();
-    BDDArtiste* artiste = BDDArtiste::recupererBDD( choix );
+    Meta_Artiste* artiste = Meta_Artiste::RecupererBDD( choix );
     DialogModifierArtiste temp( artiste, this );
     temp.exec();
     delete artiste;
@@ -480,24 +458,24 @@ void OngletPhys::afficherListeAlbSansMP3()
     for ( int cpt = 0; cpt < albums.count(); cpt++ )
     {
 
-        BDDAlbum* album = BDDAlbum::RecupererAlbum( albums[cpt] );
-
-        if ( album->id() > 0 )
+        if ( albums[cpt] > 0 )
         {
+            Meta_Album* album = Meta_Album::RecupererBDD( albums[cpt] );
+
+
             QListWidgetItem* item = new QListWidgetItem;
-            QPixmap scaled( QPixmap::fromImage( album->m_pochette->m_image ) );
-
+            QPixmap scaled( QPixmap::fromImage( album->getPoch() ) );
             item->setIcon( QIcon( scaled ) );
-
 
             //On s'occupe du nom de l'album
             item->setData( Qt::UserRole, albums[cpt] );
-            item->setText( QString::number( album->m_annee ) + " - " + album->m_nom );
+            item->setText( QString::number( album->getannee() ) + " - " + album->getnom_album() );
 
             ui->AlbSansMP3->addItem( item );
 
+            delete album;
         }
-        delete album;
+
     }
 
 }

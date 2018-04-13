@@ -65,7 +65,7 @@ void OngletFusion::AffichageFusions(QString id)
     QList<int> result= appelBDD->AlbumsPourArt( id );
     for ( int i = 0; i < result.count(); i++ )
     {
-        BDDAlbum* alb = BDDAlbum::RecupererAlbum( result[i] );
+        BDDAlbum* alb = BDDAlbum::recupererBDD( result[i] );
 
         QListWidgetItem* item = new QListWidgetItem;
         item->setText( alb->m_nom );
@@ -353,7 +353,7 @@ void OngletFusion::on_buttonBox_accepted()
 
     }
 
-    BDDFusion temp(this);
+    BDDFusion temp;
 
     temp.fusionalbums(Choix1_Album,Choix1_Pochette,  Choix1_Titres , Choix2_Album, Choix2_Pochette,  Choix2_Titres , ChoixFusion_Annee, ChoixFusion_Album, ChoixFusion_Pochette, ChoixFusion_Titres);
 }

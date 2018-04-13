@@ -7,7 +7,8 @@
 #include <QWidget>
 #include <QStatusBar>
 #include <QPushButton>
-
+#include <QWinTaskbarButton>
+#include <QWinTaskbarProgress>
 
 #include "dialogconfigactu.h"
 #include "DialogVidageBDD.h"
@@ -53,6 +54,7 @@ FenetrePrincipale::FenetrePrincipale(const QStringList& couleurs, QWidget* paren
     //Si un titre est supprimé dans la playlist du lecteur
     connect ( m_lecteur,SIGNAL(suppplaylist(QStringList)),m_ongletMP3,SLOT(suppplaylist(QStringList)));
 
+
 }
 void FenetrePrincipale::ajouterToolbar()
 {
@@ -85,8 +87,6 @@ void FenetrePrincipale::ajouterToolbar()
     m_lecteur->setMaximumWidth( 700 );
     ui->toolBar->addWidget( m_lecteur);
 
-
-
 }
 void FenetrePrincipale::ajouterStatusBar()
 {
@@ -95,6 +95,7 @@ void FenetrePrincipale::ajouterStatusBar()
     ui->statusBar->addPermanentWidget( stop, 1 );
     ui->statusBar->addPermanentWidget( m_progressbar, 1 );
     ui->statusBar->addPermanentWidget( m_interaction, 1 );
+    ui->statusBar->setMaximumWidth( 1500 );
 
     //Propriétés de la progressBar
     m_progressbar->setTextVisible( true );
@@ -106,10 +107,15 @@ void FenetrePrincipale::ajouterStatusBar()
     //Propriétés du widget d'intéraction
     m_interaction->setText( "Prêt" );
     m_interaction->setMaximumHeight( 20 );
-    //   m_interaction->setMaximumWidth(700);
 
-    //  ui->statusBar->adjustSize();
+    QWinTaskbarButton *button = new QWinTaskbarButton(this);
+     button->setWindow(windowHandle());
+     button->setOverlayIcon(style()->standardIcon(QStyle::SP_MediaPlay));
 
+     QWinTaskbarProgress *progress = button->progress();
+     progress->setVisible(true);
+     progress->setRange(0, 100);
+     progress->setValue(50);
 }
 
 void FenetrePrincipale::stop_clique()

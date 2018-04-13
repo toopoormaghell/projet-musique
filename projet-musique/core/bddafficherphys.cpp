@@ -8,6 +8,28 @@ BDDAfficherPhys::BDDAfficherPhys( QObject* parent ) :
     QObject( parent )
 {
 }
+
+QStringList BDDAfficherPhys::RecupererListeTypes()
+{
+    QStringList liste;
+    liste << "Tout" << "O";
+
+    QString queryStr = "SELECT DISTINCT Type FROM Album B,Phys P WHERE P.Id_Album = B.Id_Album  ORDER BY Type";
+
+    QSqlQuery query = madatabase.exec( queryStr );
+    while ( query.next() )
+    {
+        QSqlRecord rec = query.record();
+        if ( rec.value( "Type" ).toInt() != 11 )
+        {
+            liste << BDDType::RecupererType( rec.value( "Type" ).toInt() )->m_type;
+            liste << rec.value( "Type" ).toString();
+        }
+    }
+
+    return liste;
+
+}
 QList<int> BDDAfficherPhys::ListeArtiste(int categorie)
 {
     QList<int> liste;
@@ -279,13 +301,19 @@ QList<int> BDDAfficherPhys::TitresParArtistes(QString Id_Artiste)
 QList<int> BDDAfficherPhys::AlbSansMP3( QString Id_Artiste, int Categorie )
 {
     QList<int> albums;
-    albums <<0;
+    albums << 0;
+
 
     QString queryStr = "SELECT R.Id_Album FROM Relations R, Phys P, Album B WHERE R.Id_Album = B.Id_Album AND R.Id_Album = P.Id_Album AND P.Support='1' AND R.Id_Artiste = " + Id_Artiste +" AND B.Type = "+ QString::number(Categorie) +" GROUP BY R.Id_Album HAVING SUM(R.MP3) < 1 ";
     if ( Categorie == 2 )
     {
 
         queryStr = "SELECT  R.Id_Album FROM Relations R, Phys P  WHERE R.Id_Album = P.Id_Album AND P.Support='2' GROUP BY R.Id_Album HAVING SUM(R.MP3) < 1";
+    }
+
+    if ( Id_Artiste == "-1" && Categorie == -1 )
+    {
+        queryStr = "SELECT R.Id_Album FROM Relations R, Phys P, Album B, Artiste A WHERE R.Id_Album = B.Id_Album AND R.Id_Album = P.Id_Album AND R.Id_Artiste = A.Id_Artiste AND P.Support='1' GROUP BY R.Id_Album HAVING SUM(R.MP3) < 1 ORDER BY B.Type, A.Artiste, B.Album";
     }
     QSqlQuery query = madatabase.exec( queryStr );
 

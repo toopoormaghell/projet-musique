@@ -12,6 +12,7 @@ class BDDAfficherPhys : public QObject
 public:
     explicit BDDAfficherPhys( QObject* parent = 0 );
 
+    QStringList RecupererListeTypes();
     QList<int> ListeArtiste(int categorie);
     QList<int> listeAlbums(QString Id_Artiste );
     QList<int> listeCompils(QString Id_Artiste , int Categorie);

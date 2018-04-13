@@ -3,7 +3,9 @@
 #include <QtSql>
 #include "bddtype.h"
 #include "bddconfig.h"
-
+#include "bddtitre.h"
+#include "bddartiste.h"
+#include "util.h"
 
 BDDAfficherMp3::BDDAfficherMp3( QObject* parent ) :
     QObject( parent )
@@ -77,7 +79,7 @@ QList<int> BDDAfficherMp3::listeAlbums( QString Id_Artiste, QString Categorie )
     }
     if ( Categorie == "1" )
     {
-         queryStr = queryStr + " AND ( Al.Type='" + Categorie + "'  OR Al.Type='11' )";
+        queryStr = queryStr + " AND ( Al.Type='" + Categorie + "'  OR Al.Type='11' )";
     }
     queryStr = queryStr + " ORDER BY Al.Type, Al.Annee DESC";
 
@@ -96,28 +98,7 @@ QList<int> BDDAfficherMp3::listeAlbums( QString Id_Artiste, QString Categorie )
     }
     return albums;
 }
-QString BDDAfficherMp3::AnneesSwitch( int annee )
-{
-    switch ( annee )
-    {
-    case 0 :
-        return "Annee <1980";
-    case 1 :
-        return " Annee >=1980 AND Annee <1990";
-    case 2 :
-        return " Annee >=1990 AND Annee<2000";
-    case 3 :
-        return " Annee>=2000 AND Annee<2005";
-    case 4 :
-        return " Annee>=2005 AND Annee<2010";
-    case 5 :
-        return " Annee>=2010 AND Annee<2015";
-    case 6 :
-        return " Annee>=2015";
-    default :
-        return " Annee>=2015";
-    }
-}
+
 
 QStringList BDDAfficherMp3::MP3Artiste( QString id_artiste )
 {
@@ -131,16 +112,12 @@ QStringList BDDAfficherMp3::MP3Artiste( QString id_artiste )
     }
     return liste;
 }
-QStringList BDDAfficherMp3::RecupererListeTypes( QString Categorie )
+QStringList BDDAfficherMp3::RecupererListeTypes( )
 {
     QStringList liste;
-    QString queryStr;
-    if ( Categorie == "MP3" )
-        queryStr= "SELECT DISTINCT Type FROM Album B,Relations R, MP3 M WHERE R.Id_Album = B.Id_Album AND R.Id_Relation = M.Id_Relation ORDER BY Type";
-    else {
-        queryStr= "SELECT DISTINCT Type FROM Album B,Phys P WHERE P.Id_Album = B.Id_Album  ORDER BY Type";
+    liste << "Tout" << "O";
 
-    }
+    QString  queryStr= "SELECT DISTINCT Type FROM Album B,Relations R, MP3 M WHERE R.Id_Album = B.Id_Album AND R.Id_Relation = M.Id_Relation ORDER BY Type";
 
     QSqlQuery query = madatabase.exec( queryStr );
     while ( query.next() )
@@ -148,10 +125,15 @@ QStringList BDDAfficherMp3::RecupererListeTypes( QString Categorie )
         QSqlRecord rec = query.record();
         if ( rec.value( "Type" ).toInt() != 11 )
         {
-        liste << BDDType::RecupererType( rec.value( "Type" ).toInt() )->m_type;
-        liste << rec.value( "Type" ).toString();
+            liste << BDDType::RecupererType( rec.value( "Type" ).toInt() )->m_type;
+            liste << rec.value( "Type" ).toString();
         }
     }
 
     return liste;
 }
+QList<int> BDDAfficherMp3::RecupererSimilaires( const int id )
+{
+    return BDDTitre::Similaires( id );
+}
+

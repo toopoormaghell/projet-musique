@@ -100,3 +100,24 @@ void MajusuculeAChaqueMot(QString& Entite)
     Entite = temp;
 
 }
+
+QString AnneesSwitch( int type )
+{
+    switch ( type )
+    {
+    case 0 :
+        return "Annee <1980";
+    case 1 :
+        return " Annee >=1980 AND Annee <1990";
+    case 2 :
+        return " Annee >=1990 AND Annee<2000";
+    case 3 :
+        return " Annee>=2000 AND Annee<2010";
+    case 4 :
+        return " Annee>=2010 AND Annee<2015";
+    case 5 :
+        return " Annee>=2015";
+    default :
+        return " Annee>=2015";
+    }
+}

@@ -1,9 +1,7 @@
 #include "DialogChoixAlbumPhys.h"
 #include "ui_dialogchoixalbumphys.h"
 #include "bddaffichermp3.h"
-#include "bddalbum.h"
-#include "bddpoch.h"
-#include "bddartiste.h"
+#include "meta_album.h"
 
 DialogChoixAlbumPhys::DialogChoixAlbumPhys( QString artiste, QWidget* parent ) :
     QDialog( parent ),
@@ -26,26 +24,24 @@ void DialogChoixAlbumPhys::AfficherAlbums()
     m_albums.clear();
 
     //Première chose, on récupère l'artiste
-    BDDArtiste* art = BDDArtiste::recupererBDD( m_artiste );
-
-    QList<int> albums = m_bddInterface.listeAlbums( QString::number( art->id() ), "0" );
+    QList<int> albums = m_bddInterface.listeAlbums( m_artiste , "0" );
 
     for ( int cpt = 0; cpt < albums.count(); cpt++ )
     {
         //Pour chaque album...
-        BDDAlbum* album = BDDAlbum::RecupererAlbum( albums[cpt] );
+        Meta_Album* album = Meta_Album::RecupererBDD( albums[cpt] );
 
         QStandardItem* item = new QStandardItem;
         //on affiche la pochette
-        QPixmap scaled( QPixmap::fromImage( album->m_pochette->m_image ) );
+        QPixmap scaled( QPixmap::fromImage( album->getPoch() ) );
         item->setIcon( QIcon( scaled ) );
-        item->setData( album->id(), Qt::UserRole );
-        item->setText( QString::number( album->m_annee ) + " - " + album->m_nom );
+        item->setData( album->getid_alb(), Qt::UserRole );
+        item->setText( QString::number( album->getannee() ) + " - " + album->getnom_album() );
         //On ajoute l'item dans le modèle
         m_albums.setItem( cpt, item );
         delete album;
     }
-    delete art;
+
 }
 void DialogChoixAlbumPhys::on_buttonBox_accepted()
 {

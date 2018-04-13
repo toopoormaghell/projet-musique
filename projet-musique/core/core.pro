@@ -1,4 +1,4 @@
-QT       += core gui sql network multimedia
+QT       += core gui sql network multimedia winextras
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = core
@@ -39,83 +39,58 @@ LIBS += -lbdd
 
 
 HEADERS += \
-    bddartiste.h \
-    ongletmp3.h \
+      ongletmp3.h \
     ongletphys.h \
-    bddalbum.h \
-    bddrelation.h \
-    bddmp3.h \
-    bddpoch.h \
-    bddphys.h \
-    bddaffichermp3.h \
+       bddaffichermp3.h \
     bddafficherphys.h \
     bddgestionmp3.h \
     bddgestionphys.h \
     mainwindow.h \
-    bddtype.h \
-    bddtitre.h \
     dialogconfigactu.h \
-    bddconfig.h \
-    ongletstats.h \
-    bddstats.h \
-    ongletrech.h \
-    bddrech.h \
-    dialogchoixpochette.h \
+      ongletstats.h \
+     ongletrech.h \
+       dialogchoixpochette.h \
     DialogAjouterPhys.h \
     bddlecteur.h \
     ongletfusion.h \
     MyQLabel.h \
-    bddfusion.h \
-    tags.h \
-    dialogchoixtitrefusion.h \
     DialogChoixAlbumPhys.h \
     DialogModifierArtiste.h \
     DialogModifierAlbum.h \
     DialogVidageBDD.h \
     DialogAjoutTitre.h \
-    bddsupport.h \
-    idowner.h \
-    dialogverifications.h
+      dialogverifications.h \
+       ongletartiste.h \
+    bddafficherartiste.h \
+    dialogalbumssmp3.h
 
 
 SOURCES += main.cpp \
-    bddartiste.cpp \
     ongletmp3.cpp \
     ongletphys.cpp \
-    bddalbum.cpp \
-    bddrelation.cpp \
-    bddmp3.cpp \
-    bddpoch.cpp \
-    bddphys.cpp \
     bddaffichermp3.cpp \
     bddafficherphys.cpp \
     bddgestionmp3.cpp \
     bddgestionphys.cpp \
     mainwindow.cpp \
-    bddtype.cpp \
-    bddtitre.cpp \
     dialogconfigactu.cpp \
-    bddconfig.cpp \
     ongletstats.cpp \
-    bddstats.cpp \
     ongletrech.cpp \
-    bddrech.cpp \
     dialogchoixpochette.cpp \
     DialogAjouterPhys.cpp \
     bddlecteur.cpp \
     ongletfusion.cpp \
     MyQLabel.cpp \
-    bddfusion.cpp \
-    tags.cpp \
-    dialogchoixtitrefusion.cpp \
     DialogChoixAlbumPhys.cpp \
     DialogModifierArtiste.cpp \
     DialogModifierAlbum.cpp \
     DialogVidageBDD.cpp \
     DialogAjoutTitre.cpp \
-    bddsupport.cpp \
-    idowner.cpp \
-    dialogverifications.cpp
+    dialogverifications.cpp \
+    ongletartiste.cpp \
+    bddafficherartiste.cpp \
+    dialogalbumssmp3.cpp
+
 
 FORMS += \
     ongletmp3.ui \
@@ -127,13 +102,14 @@ FORMS += \
     dialogchoixpochette.ui \
     DialogAjouterPhys.ui \
     ongletfusion.ui \
-    dialogchoixtitrefusion.ui \
     DialogChoixAlbumPhys.ui \
     DialogModifierArtiste.ui \
     DialogModifierAlbum.ui \
     DialogVidageBDD.ui \
     DialogAjoutTitre.ui \
-    dialogverifications.ui
+    dialogverifications.ui \
+    ongletartiste.ui \
+    dialogalbumssmp3.ui
 
 
 OTHER_FILES += \

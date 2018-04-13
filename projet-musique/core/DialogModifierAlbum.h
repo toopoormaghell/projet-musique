@@ -3,7 +3,8 @@
 
 #include <QDialog>
 #include "bddgestionphys.h"
-#include "util.h"
+
+class Meta_Album;
 
 
 namespace Ui
@@ -36,7 +37,7 @@ private:
     Ui::DialogModifierAlbum* ui;
     BDDGestionPhys* m_bddinterface;
     int m_selection;
-    AlbumPhys m_album;
+    Meta_Album* m_album;
     void RecupererListeType();
 };
 

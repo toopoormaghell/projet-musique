@@ -7,6 +7,8 @@
 #include <time.h>
 #include "bddsingleton.h"
 #include <QLibraryInfo>
+
+
 int main( int argc, char* argv[] )
 {
     QApplication a( argc, argv );
@@ -16,15 +18,22 @@ int main( int argc, char* argv[] )
 
     //Choix des couleurs
     srand(time(NULL));
-    int nombreMystere = (rand() % (4 - 1 + 1)) + 1;
+    int nombreMystere = (rand() % 10 ) + 1;
 
     switch ( nombreMystere )
     {
-    case 1: couleurs << "#A8F3FF" << "#1EA7EC" << "#FFFF96" << "#1EA7EC" << "#333399" << "#1EA7EC"; break;
-    case 2: couleurs << "#FF6C6C" << "#790404" << "#FFFF96" << "#EE1F1F" << "#9B9B9B"<< "#FFFF96"; break;
-    case 3 : couleurs << "#7B7B7B" << "#CCCCCC" << "#FFFF96" << "#454948" << "#9B9B9B"<< "#FFFF96"; break;
-    case 4 : couleurs << "#7B7B7B" << "#CCCCCC" << "#CECECE" << "#454948" << "#9B9B9B" << "#CECECE"; break;
-    default :   couleurs << "#A8F3FF" << "#BBFFFF" << "#FFFF96" << "#1EA7EC" << "#339" << "#BBFFFF";
+    //1ère : fond 1 // 2ème : écriture widget// 3ème : fond 2 // 4ème : surlignage// 5ème : contour // 6ème : écriture hors cadre
+    case 1 : couleurs << "#A8F3FF" << "#1EA7EC" << "#FFFF96" << "#1EA7EC" << "#333399" << "#1EA7EC"; break;
+    case 2 : couleurs << "#FF6C6C" << "#EE1F1F" << "#FFFF96" << "#EE1F1F" << "#9B9B9B" << "#FFFF96"; break;
+    case 3 : couleurs << "#7B7B7B" << "#454948" << "#FFFF96" << "#454948" << "#9B9B9B" << "#FFFF96"; break;
+    case 4 : couleurs << "#7B7B7B" << "#454948" << "#CECECE" << "#454948" << "#9B9B9B" << "#CECECE"; break;
+    case 5 : couleurs << "#40A497" << "#1D625E" << "#EFECCA" << "#1D625E" << "#046380" << "#002F2F"; break;
+    case 6 : couleurs << "#4BB5C1" << "#454948" << "#FFF168" << "#454948" << "#9B9B9B" << "#046380"; break;
+    case 7 : couleurs << "#FC7F3C" << "#A43C00" << "#F6E497" << "#A43C00" << "#BD8D46" << "#402A2F"; break;
+    case 8 : couleurs << "#5FF269" << "#727063" << "#B8F2BC" << "#727063" << "#FEE500" << "#1A7620"; break;
+    case 9 : couleurs << "#EFECCA" << "#EFECCA" << "#40A497" << "#1D625E" << "#046380" << "#002F2F"; break;
+    case 10: couleurs << "#A97BE6" << "#19003B" << "#E4D2FB" << "#4F2586" << "#9E5BF7" << "#19003B"; break;
+    default :  couleurs << "#EFECCA" << "#1D625E" << "#40A497" << "#1D625E" << "#046380" << "#002F2F"; break;
 
     }
 
@@ -56,6 +65,7 @@ int main( int argc, char* argv[] )
     w.setWindowTitle( "Projet Musique" );
     w.setWindowIcon( QIcon( ":/menuIcones/Musique" ));
     w.show();
+
 
     return a.exec();
 }

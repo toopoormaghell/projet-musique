@@ -2,7 +2,7 @@
 #define MODIFICATIONARTISTEDIALOG_H
 
 #include <QDialog>
-#include "bddartiste.h"
+#include "meta_artiste.h"
 
 namespace Ui
 {
@@ -14,7 +14,7 @@ class DialogModifierArtiste : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogModifierArtiste( BDDArtiste* Artiste, QWidget* parent = 0 );
+    explicit DialogModifierArtiste( Meta_Artiste* Artiste, QWidget* parent = 0 );
     ~DialogModifierArtiste();
 
 private slots:
@@ -26,7 +26,7 @@ private slots:
 
 private:
     Ui::DialogModifierArtiste* ui;
-    BDDArtiste* m_artiste;
+    Meta_Artiste* m_artiste;
     void AfficherArtiste();
     void Enregistrer();
 };

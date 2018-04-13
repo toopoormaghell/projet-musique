@@ -11,6 +11,7 @@ TARGET = QAWSWrapper
 TEMPLATE = lib
 
 LIBS += -lhelpers
+LIBS += -lbdd
 
 CONFIG += debug_and_release
 CONFIG(debug,debug|release) {
@@ -29,7 +30,8 @@ CONFIG(debug,debug|release) {
     RCC_DIR += ../../../rcc/release
 }
 
-INCLUDEPATH += ../helpers
+INCLUDEPATH += ../helpers \
+               ../bdd
 
 DEFINES += QAWSWRAPPER_LIBRARY
 
