@@ -16,6 +16,7 @@ BDDGestionMp3::BDDGestionMp3( QObject* parent ) :
   , m_filelist()
   , m_Chemins()
   , m_type( 0 )
+  , m_support( 0 )
   , m_iteration( 0 )
   , m_souscat( 0 )
   , m_Categories()
@@ -78,6 +79,7 @@ void BDDGestionMp3::listeCategoriesActualiser()
     if ( temp.ActualiserAlbums() )
     {
         m_Categories << 1;
+
     }
     if ( temp.ActualiserCompil() )
     {
@@ -93,9 +95,11 @@ QString BDDGestionMp3::dossiercategorie()
     switch ( m_type )
     {
     case ( 1 ):
+        m_support = 1;
         return getdossierpardef();
         break;
     case ( 2 ):
+        m_support = 2;
         return "F:/Compil";
         break;
     case ( 3 ):
@@ -108,6 +112,7 @@ QString BDDGestionMp3::dossiercategorie()
 }
 void BDDGestionMp3::creerfilefichiers()
 {
+
     //Première étape: on met en QMap les chemins des MP3
     //Sous la forme de Id_Mp3 (en clé) et Chemin (en valeurs)
     recupererMp3( m_type );
@@ -153,7 +158,7 @@ void BDDGestionMp3::actualiserMp3( QString chemin )
 
     QString donnees_p = "";
     //On ajoute en BDD
-    Meta_Titre* mp3 = Meta_Titre::CreerMeta_Titre( album , artist ,title , date , QString::number( min ) + ":" + QString::number( sec ).rightJustified( 2, '0' ) , track , fich.getPoch(), m_souscat, -1, 4, chemin, donnees_p, donnees_p );
+    Meta_Titre* mp3 = Meta_Titre::CreerMeta_Titre( album , artist ,title , date , QString::number( min ) + ":" + QString::number( sec ).rightJustified( 2, '0' ) , track , fich.getPoch(), m_souscat, -1, m_support , chemin, donnees_p, donnees_p );
     mp3->UpdateBDD();
 
     if ( m_Chemins.find( mp3->getid_mp3() ) != m_Chemins.end() )
@@ -264,12 +269,14 @@ void BDDGestionMp3::SupprimerenBDDMP3( int Id )
 
 void BDDGestionMp3::ViderBDD()
 {
-    QList<int> tempCat = BDDType::NbCategories();
+    QList<int> tempCat ;
+    tempCat << 1 << 2;
 
-    for ( int i = 0; i<tempCat.count()-1; i++ )
+    for ( int i = 1; i< tempCat.count()-1; i++ )
     {
         recupererMp3( tempCat[i] );
+        if ( ! m_Chemins.isEmpty() )
+            supprimerAnciensMP3();
     }
-    if ( ! m_Chemins.isEmpty() )
-        supprimerAnciensMP3();
+
 }

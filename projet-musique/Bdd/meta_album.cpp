@@ -81,6 +81,11 @@ int Meta_Album::getid_support_m()
 {
     return m_id_support_m;
 }
+
+int Meta_Album::getid_poch()
+{
+    return m_id_poch;
+}
 const QString& Meta_Album::getcommentaires()
 {
     return m_commentaires;
@@ -110,9 +115,9 @@ void Meta_Album::setPoch(QImage poch)
     m_poch = poch;
 }
 
-void Meta_Album::setsupport_p(QString support_p)
+void Meta_Album::setsupport_p(int support_p)
 {
-    m_support_p = support_p;
+    m_id_support_p = support_p;
 }
 
 void Meta_Album::setcommentaires(QString commentaires)
@@ -176,7 +181,7 @@ Meta_Album* Meta_Album::RecupererBDD(const int id)
             if ( titre->getid_support_p() != -1 )
                 id_support_p = titre->getid_support_p();
         }
-        if ( id_support_m == 4)
+        if ( id_support_m == 1 || id_support_m == 2 )
         {
             support_m = "MP3";
         }
@@ -210,38 +215,34 @@ void Meta_Album::SupprimerBDDPhys()
 }
 void Meta_Album::UpdateBDD()
 {
-   /* BDDPoch* poch = BDDPoch::recupererBDD(Poch, Album, (Support==2 ? "Compil":Artiste));
+
+    m_Type = BDDType::RecupererType( m_id_type )->m_type;
+    m_support_p = BDDSupport::RecupererSupport( m_id_support_p )->m_support;
+
+
+    BDDPoch* poch = BDDPoch::recupererBDD( m_poch, m_nom_album.replace( "'", "$" ), (m_support_p==2 ? "Compil":m_nom_artiste.replace( "'", "$" )));
     poch->updateBDD();
 
     BDDPoch* def = BDDPoch::recupererBDD(1);
 
-    BDDArtiste* art = BDDArtiste::recupererBDD(Artiste, (Type==2 ?*def : *poch));
+    BDDArtiste* art = BDDArtiste::recupererBDD(m_nom_artiste .replace("'", "$"), ( m_id_type==2 ?*def : *poch));
     art->updateBDD();
-    BDDAlbum* alb= BDDAlbum::recupererBDD( Album, *poch, Annee, *BDDType::RecupererType(Type), *art );
+    m_id_artiste = art->id();
+
+    BDDAlbum* alb= BDDAlbum::recupererBDD( m_nom_album.replace( "'", "$" ),  *poch, m_annee, *BDDType::RecupererType( m_id_type ), *art  );
     alb->updateBDD();
+    m_id_album = alb->id();
 
-    for ( int cpt = 0; cpt < titres.count(); cpt++ )
+    for ( int cpt = 0; cpt < m_titres.count(); cpt++ )
     {
-        Meta_Titre temp = titres[cpt];
-        BDDTitre* tit = BDDTitre::recupererBDD( temp.Titre.replace( "'", "$" ) );
-        tit->updateBDD();
-        if ( Type == 2 )
-        {
-            BDDArtiste* artTitre = BDDArtiste::recupererBDD(temp.Artiste, *def);
-            artTitre->updateBDD();
-            BDDRelation* rel = BDDRelation::recupererBDD( *alb, *artTitre, *tit, temp.Num_Piste, temp.Duree, 0,1 );
-            rel->updateBDD();
-
-        }
-        else
-        {
-            BDDRelation* rel = BDDRelation::recupererBDD( *alb, *art, *tit, temp.Num_Piste, temp.Duree, 0,1 );
-            rel->updateBDD();
-        }
+        Meta_Titre* temp = m_titres[cpt];
+        temp->setsupportphys( m_support_p );
+        temp->UpdateBDD();
     }
 
-    BDDPhys* phys = BDDPhys::RecupererBDD( *alb, ean, *BDDSupport::RecupererSupport(Support), Commentaires );
+    BDDPhys* phys = BDDPhys::RecupererBDD( *alb, m_ean, *BDDSupport::RecupererSupport( m_id_support_p ) , m_commentaires);
     phys->updateBDD();
 
-    */
+    delete poch; delete def;
+
 }

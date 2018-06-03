@@ -2,7 +2,7 @@
 #include "ui_dialogchoixalbumphys.h"
 #include "bddaffichermp3.h"
 #include "meta_album.h"
-
+#include <QDebug>
 DialogChoixAlbumPhys::DialogChoixAlbumPhys( QString artiste, QWidget* parent ) :
     QDialog( parent ),
     ui( new Ui::ChoixAlbumPhysDialog ),
@@ -35,7 +35,7 @@ void DialogChoixAlbumPhys::AfficherAlbums()
         //on affiche la pochette
         QPixmap scaled( QPixmap::fromImage( album->getPoch() ) );
         item->setIcon( QIcon( scaled ) );
-        item->setData( album->getid_alb(), Qt::UserRole );
+        item->setData( album->getid_poch(), Qt::UserRole );
         item->setText( QString::number( album->getannee() ) + " - " + album->getnom_album() );
         //On ajoute l'item dans le modèle
         m_albums.setItem( cpt, item );

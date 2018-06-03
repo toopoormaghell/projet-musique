@@ -47,6 +47,7 @@ BDDTitre::~BDDTitre()
 BDDTitre*BDDTitre::recupererBDD(const QString& nom)
 {
     QString nomF ( nom );
+    EnleverAccents ( nomF );
     MajusuculeAChaqueMot ( nomF );
     const int id = TrouverId( nomF );
     QString nomFormate ( nomF );

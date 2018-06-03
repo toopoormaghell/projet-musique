@@ -20,6 +20,10 @@ public:
     int get_id_artiste();
     int get_id_poch();
 
+    void setPoch( int id_poch);
+
+    void inversion();
+    void update();
 private:
     QString m_nom_artiste;
     QImage m_poch;

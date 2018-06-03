@@ -306,6 +306,7 @@ void Meta_Titre::ChangerDonnees( const QString& nom_album, const QString& nom_ar
 }
 void Meta_Titre::UpdateBDD()
 {
+
     int id_mp3=0; int id_phys = 0;
     m_Type = BDDType::RecupererType( m_id_type )->m_type;
     m_Support_m = BDDSupport::RecupererSupport( m_id_support_m )->m_support;
@@ -315,7 +316,7 @@ void Meta_Titre::UpdateBDD()
 
     BDDPoch* def = BDDPoch::recupererBDD(1);
 
-    BDDArtiste* art = BDDArtiste::recupererBDD(m_nom_artiste .replace("'", "$"), ( m_id_type==2 ?*def : *poch));
+    BDDArtiste* art = BDDArtiste::recupererBDD (m_nom_artiste .replace("'", "$"), ( m_id_type==2 ?*def : *poch));
     art->updateBDD();
     m_id_artiste = art->id();
 
@@ -335,19 +336,21 @@ void Meta_Titre::UpdateBDD()
         delete physav;
     }
 
-    BDDMp3* mp3av = BDDMp3::RecupererBDDParChemin( m_chemin_m.replace( "'", "$" ) );
-
-    if ( mp3av->id() != -1)
-    {
-        id_mp3 = 1;
-        delete mp3av;
-    }
-
     BDDRelation* rel= BDDRelation::recupererBDD( *alb, *art, *tit, m_num_piste, m_duree , ( (id_mp3==0 && m_id_support_m==-1) ? 0:1) , ( (id_phys==0 && m_id_support_p==-1) ? 0:1) );
+
+     BDDMp3* mp3av = BDDMp3::RecupererBDDParRelation( rel->id() );
+
+     if ( mp3av->id() != -1)
+     {
+         rel->m_mp3=1;
+
+         delete mp3av;
+     }
+
     rel->updateBDD();
     m_id_relation = rel->id();
 
-    if ( m_id_support_m !=-1 )
+    if ( m_id_support_m !=-1 || id_mp3 == 1 )
     {
         BDDMp3*   mp3 = BDDMp3::RecupererBDD( m_chemin_m.replace("'","$") , *rel, *BDDSupport::RecupererSupport( m_id_support_m ) );
         mp3->updateBDD();
