@@ -28,29 +28,26 @@ void DialogModifierArtiste::AfficherArtiste()
 
 void DialogModifierArtiste::on_Inversion_clicked()
 {
-    /*    BDDArtiste::EchangerArtiste( m_artiste->m_nom );
-    FormaterEntiteBDD( m_artiste->m_nomFormate );
+    m_artiste->inversion();
     AfficherArtiste();
-    */
+
 }
 
 void DialogModifierArtiste::on_ChangerPochette_clicked()
 {
-/*    DialogChoixAlbumPhys choixPoch( m_artiste->getNom_Artiste() );
+    DialogChoixAlbumPhys choixPoch( QString::number( m_artiste->get_id_artiste() ) );
     choixPoch.exec();
     if ( choixPoch.m_selection != 0 )
     {
-        Meta_Album* alb = Meta_Album::RecupererBDD( choixPoch.m_selection );
+        m_artiste->setPoch( choixPoch.m_selection );
 
-        m_artiste->m_pochette = BDDPoch::recupererBDD(alb->m_pochette->id());
-        delete alb;
         AfficherArtiste();
     }
-    */
+
 }
 void DialogModifierArtiste::Enregistrer()
 {
-    //m_artiste->updateBDD();
+    m_artiste->update();
 }
 
 void DialogModifierArtiste::on_buttonBox_accepted()

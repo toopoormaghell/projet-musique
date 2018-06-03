@@ -27,6 +27,7 @@ public:
     const QString& getcommentaires();
     int getid_type();
     int getid_support_m();
+    int getid_poch();
 
     //Changer entités
     void setnom_album(QString nom);
@@ -35,7 +36,7 @@ public:
     void setPoch(QImage poch);
     void settype(QString type);
     void settitres(QList<Meta_Titre*> titres);
-    void setsupport_p(QString support_p);
+    void setsupport_p(int support_p);
     void setcommentaires(QString commentaires);
     void setid_type(int type);
 

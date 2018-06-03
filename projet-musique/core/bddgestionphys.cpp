@@ -17,14 +17,6 @@ BDDGestionPhys::BDDGestionPhys( QObject* parent ) :
 {
 }
 
-void BDDGestionPhys::ajouterAlbum(const QImage& Poch, const QString& Album, const QString& Artiste, const QString& ean, int Annee, const QList<Meta_Titre*>& titres, int Support, const QString& Commentaires, int Type)
-{
-/*    Meta_Album* alb = Meta_Album::CreerMeta_Album( Album, Artiste, Annee, Poch,Type,titres,Support,Commentaires);
-    alb->UpdateBDD();
-
-    delete alb;
-    */
-}
 
 
 void BDDGestionPhys::SupprimerenBDDPhys( int Id )

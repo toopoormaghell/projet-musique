@@ -25,6 +25,8 @@ public:
     static BDDMp3* RecupererBDDParRelation( const int id );
 static BDDMp3* RecupererBDDParChemin( const QString& Chemin);
 
+
+
     BDDRelation const* m_relation;
     QString m_chemin;
     BDDSupport const* m_support;

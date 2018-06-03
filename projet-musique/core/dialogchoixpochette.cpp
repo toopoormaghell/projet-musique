@@ -3,6 +3,8 @@
 #include "bddaffichermp3.h"
 #include "bddpoch.h"
 #include "bddartiste.h"
+#include "meta_artiste.h"
+
 DialogChoixPochette::DialogChoixPochette(QString artiste, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogChoixPochette),
@@ -33,11 +35,7 @@ void DialogChoixPochette::AfficherPochettes()
     //Création du modèle pour le QListView
     m_pochettes.clear();
 
-    //On récupère en premier l'id de l'artiste
-    BDDArtiste* art = BDDArtiste::recupererBDD(m_artiste);
-
-
-    QList<int> listepoch = BDDPoch::pochettesparart( QString::number( art->id() ) );
+     QList<int> listepoch = BDDPoch::pochettesparart( m_artiste );
 
     for (int cpt = 0; cpt < listepoch.count(); cpt ++)
     {
@@ -56,7 +54,7 @@ void DialogChoixPochette::AfficherPochettes()
 
         delete poch;
     }
-    delete art;
+
 }
 int DialogChoixPochette::RecupererPochetteSelectionnee()
 {

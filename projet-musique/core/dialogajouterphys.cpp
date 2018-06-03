@@ -520,8 +520,10 @@ void DialogAjouterPhys::on_Enregistrer_clicked()
 {
     ui->Interaction->append("Album en cours d'enregistrement.");
     RecupererAlbum();
-    BDDGestionPhys m_bddinterface;
+ /*   BDDGestionPhys m_bddinterface;
     m_bddinterface.ajouterAlbum( m_album->getPoch(),m_album->getnom_album(),m_album->getnom_artiste(), m_EAN, m_album->getannee(), m_album->gettitres(), m_Support, ui->Commentaires->text(), m_Type );
+*/
+  m_album->UpdateBDD();
 
     AfficherInteraction( "Album enregistré." );
     emit ajout();
@@ -587,11 +589,11 @@ void DialogAjouterPhys::on_ViderAlbum_clicked()
 void DialogAjouterPhys::RecupererAlbum()
 {
  //   m_album.titres.clear();
-    m_album->setnom_artiste(ui->Nom_Album->text().replace( "'", "$" ));
-    m_album->setnom_album(ui->Nom_Artiste->text().replace( "'", "$" ));
+    m_album->setnom_artiste(ui->Nom_Artiste->text().replace( "'", "$" ));
+    m_album->setnom_album(ui->Nom_Album->text().replace( "'", "$" ));
     m_album->setannee(ui->Annee->text().toInt());
     m_album->setid_type(m_Type);
-    m_album->setid_type(m_Support);
+    m_album->setsupport_p(m_Support);
 
     //On récupère la pochette
     const QPixmap* pixmap = ui->Pochette->pixmap();
@@ -625,7 +627,7 @@ void DialogAjouterPhys::RecupererAlbum()
     QList<Meta_Titre*> titres;
     for ( auto it : titresTemp )
     {
-        Meta_Titre* titre = Meta_Titre::CreerMeta_Titre(m_album->getnom_album(), m_album->getnom_artiste(), it.nomTitre, m_album->getannee(), it.duree, it.numPiste, m_album->getPoch(), m_album->getid_type(), m_album->getid_support_p(), 0, "", "", m_EAN);
+        Meta_Titre* titre = Meta_Titre::CreerMeta_Titre(m_album->getnom_album(), m_album->getnom_artiste(), it.nomTitre, m_album->getannee(), it.duree, it.numPiste, m_album->getPoch(), m_album->getid_type(), m_album->getid_support_p(), -1, "Aucun", "Aucun", m_EAN);
         titres.append(titre);
     }
     m_album->settitres(titres);

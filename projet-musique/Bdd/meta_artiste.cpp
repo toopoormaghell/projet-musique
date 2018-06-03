@@ -49,6 +49,19 @@ int Meta_Artiste::get_id_poch()
 {
     return m_id_poch;
 }
+void Meta_Artiste::inversion()
+{
+  BDDArtiste::EchangerArtiste( m_nom_artiste );
+}
+void Meta_Artiste::setPoch(int id_poch)
+{
+    m_id_poch = id_poch;
+
+    BDDPoch* poch = BDDPoch::recupererBDD( id_poch );
+    m_poch = poch->m_image;
+
+
+}
 
 Meta_Artiste::Meta_Artiste(const QString& nom_artiste, QImage& Poch, int id_artiste, int id_poch, QObject* parent):
     m_nom_artiste ( nom_artiste )
@@ -58,4 +71,12 @@ Meta_Artiste::Meta_Artiste(const QString& nom_artiste, QImage& Poch, int id_arti
 {
 
     Q_UNUSED ( parent );
+}
+void Meta_Artiste::update()
+{
+    BDDPoch* poch = BDDPoch::recupererBDD( m_id_poch );
+
+    BDDArtiste* art = BDDArtiste::recupererBDD( m_nom_artiste, *poch );
+    art->updateBDD();
+
 }

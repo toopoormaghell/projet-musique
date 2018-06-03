@@ -10,7 +10,7 @@
 #include <QPushButton>
 #include "ongletmp3.h"
 #include "mainwindowlecteur.h"
-
+#include <QWinTaskbarButton>
 
 namespace Ui
 {
@@ -45,6 +45,7 @@ private slots:
     void ActualiserOngletMP3();
     void ActualiserOngletPhys();
     void stop_clique();
+    void showEvent(QShowEvent *e);
 
 private:
     Ui::MainWindow* ui;
@@ -57,6 +58,7 @@ private:
     DialogVidageBDD m_vidage;
     QPushButton* stop;
     QStringList m_couleurs;
+    QWinTaskbarButton* m_taskbarButton;
 };
 
 #endif // MAINWINDOW_H

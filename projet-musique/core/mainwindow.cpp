@@ -9,6 +9,7 @@
 #include <QPushButton>
 #include <QWinTaskbarButton>
 #include <QWinTaskbarProgress>
+#include <QShowEvent>
 
 #include "dialogconfigactu.h"
 #include "DialogVidageBDD.h"
@@ -30,7 +31,8 @@ FenetrePrincipale::FenetrePrincipale(const QStringList& couleurs, QWidget* paren
     m_dialogajouterphys( NULL ),
     m_vidage( this ),
     stop( new QPushButton( "Stop" ) ),
-    m_couleurs(couleurs)
+    m_couleurs(couleurs),
+    m_taskbarButton ( nullptr )
 {
     ui->setupUi( this );
     m_ongletMP3 = ui->MP3;
@@ -108,14 +110,6 @@ void FenetrePrincipale::ajouterStatusBar()
     m_interaction->setText( "Prêt" );
     m_interaction->setMaximumHeight( 20 );
 
-    QWinTaskbarButton *button = new QWinTaskbarButton(this);
-     button->setWindow(windowHandle());
-     button->setOverlayIcon(style()->standardIcon(QStyle::SP_MediaPlay));
-
-     QWinTaskbarProgress *progress = button->progress();
-     progress->setVisible(true);
-     progress->setRange(0, 100);
-     progress->setValue(50);
 }
 
 void FenetrePrincipale::stop_clique()
@@ -201,6 +195,8 @@ void FenetrePrincipale::changerPourcentage()
 {
     m_progressbar->setValue( m_gestionMP3->m_pourcentage );
     m_progressbar->setFormat( "%p%" );
+    m_taskbarButton->progress()->setValue( m_gestionMP3->m_pourcentage );
+
     m_interaction->clear();
     m_interaction->setText( m_gestionMP3->m_fichierlu );
 }
@@ -213,6 +209,7 @@ void FenetrePrincipale::AfficherTexte()
 void FenetrePrincipale::ActualiserOngletMP3()
 {
     m_progressbar->setValue( 100 );
+    m_taskbarButton->progress()->setValue( 100 );
     m_progressbar->setFormat( "%p%" );
     m_interaction->setText( "Fin de l'actualisation." );
     m_ongletMP3->vider( "Categories" );
@@ -221,4 +218,19 @@ void FenetrePrincipale::ActualiserOngletMP3()
 void FenetrePrincipale::ActualiserOngletStats()
 {
     ui->tab->AfficherInfos();
+}
+
+
+void FenetrePrincipale::showEvent(QShowEvent *e)
+{
+
+    m_taskbarButton = new QWinTaskbarButton(this);
+    QWindow* toto = windowHandle();
+    m_taskbarButton->setWindow(toto);
+
+    m_taskbarButton->progress()->setRange( 0 , 100 );
+    m_taskbarButton->progress()->setValue( 0 );
+    m_taskbarButton->progress()->show();
+
+    e->accept();
 }

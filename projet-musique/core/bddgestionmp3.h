@@ -77,7 +77,7 @@ private:
     QStringList m_filelist;
     QMap < int, QStringList > m_Chemins;
     int m_type;
-
+int m_support;
     int m_iteration;
     int m_souscat;
     QList<int> m_Categories;

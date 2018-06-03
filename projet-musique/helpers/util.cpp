@@ -34,7 +34,6 @@ void EnleverAccents( QString& Nom )
     Nom.replace( "ï", "i" );
     Nom.replace( "œ", "oe" );
 
-
 }
 void EnleverPonctuation( QString& Nom)
 {
@@ -60,7 +59,8 @@ void EnleverPonctuation( QString& Nom)
     Nom.replace(QString("\u2026")," ");
     Nom.replace("n°","numero");
     Nom.replace("N°","numero");
-
+    Nom.replace("+"," ");
+    Nom.replace("-"," ");
     Nom =  Nom.toLower();
 }
 
@@ -120,4 +120,18 @@ QString AnneesSwitch( int type )
     default :
         return " Annee>=2015";
     }
+}
+
+
+QString CreerChemin(QString& alb, QString& art, QString& tit)
+{
+
+    QString artisteFormate( art );
+    QString albumFormate( alb );
+    QString titreFormate ( tit );
+    FormaterEntiteBDD( artisteFormate );
+    FormaterEntiteBDD( albumFormate );
+    FormaterEntiteBDD( titreFormate );
+
+    return "./pochettes/" + artisteFormate + "/" + albumFormate + ".jpg";
 }

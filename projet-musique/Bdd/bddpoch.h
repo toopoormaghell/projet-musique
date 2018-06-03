@@ -22,12 +22,12 @@ public:
     QString m_chemin;
 
     static QList<int> pochettesparart(const QString& artiste);
-
+  static QString creerchemin(const QString& album, const QString& artiste);
 private:
     void sauverImage() const;
-    static QString creerchemin(const QString& album, const QString& artiste);
 
-    explicit BDDPoch(const int id, const QImage& image, const QString& chemin,QObject* parent = NULL);
+explicit BDDPoch(const int id, const QImage& image, const QString& chemin,QObject* parent = NULL);
+
 };
 
 
