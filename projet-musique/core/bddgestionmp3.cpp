@@ -16,9 +16,9 @@ BDDGestionMp3::BDDGestionMp3( QObject* parent ) :
   , m_filelist()
   , m_Chemins()
   , m_type( 0 )
+  , m_support( 0 )
   , m_iteration( 0 )
   , m_souscat( 0 )
-  , m_support( 0 )
   , m_Categories()
   , m_iterateur()
 {
@@ -269,12 +269,14 @@ void BDDGestionMp3::SupprimerenBDDMP3( int Id )
 
 void BDDGestionMp3::ViderBDD()
 {
-    QList<int> tempCat = BDDType::NbCategories();
+    QList<int> tempCat ;
+    tempCat << 1 << 2;
 
-    for ( int i = 0; i<tempCat.count()-1; i++ )
+    for ( int i = 1; i< tempCat.count()-1; i++ )
     {
         recupererMp3( tempCat[i] );
+        if ( ! m_Chemins.isEmpty() )
+            supprimerAnciensMP3();
     }
-    if ( ! m_Chemins.isEmpty() )
-        supprimerAnciensMP3();
+
 }
