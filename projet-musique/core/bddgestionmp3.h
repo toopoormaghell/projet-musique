@@ -61,6 +61,7 @@ private slots:
     void step();
     void stop_clique();
     void supprstep();
+    void SupprimerenBDDMP3( int Id );
 private:
     //Actualiser MP3 + fonctions associées
     void actualiserMp3( QString chemin );
@@ -70,7 +71,6 @@ private:
     //Actualiser MP3 + Supprimer MP3
     void supprimerAnciensMP3();
     void recupererMp3( int Type );
-    void SupprimerenBDDMP3( int Id );
     void listeCategoriesActualiser();
     QString dossiercategorie();
 

@@ -62,7 +62,10 @@ HEADERS += \
       dialogverifications.h \
        ongletartiste.h \
     bddafficherartiste.h \
-    dialogalbumssmp3.h
+    dialogalbumssmp3.h \
+    ongletliste.h \
+    bddafficherliste.h \
+    mp3remover.h
 
 
 SOURCES += main.cpp \
@@ -89,7 +92,10 @@ SOURCES += main.cpp \
     dialogverifications.cpp \
     ongletartiste.cpp \
     bddafficherartiste.cpp \
-    dialogalbumssmp3.cpp
+    dialogalbumssmp3.cpp \
+    ongletliste.cpp \
+    bddafficherliste.cpp \
+    mp3remover.cpp
 
 
 FORMS += \
@@ -109,7 +115,8 @@ FORMS += \
     DialogAjoutTitre.ui \
     dialogverifications.ui \
     ongletartiste.ui \
-    dialogalbumssmp3.ui
+    dialogalbumssmp3.ui \
+    ongletliste.ui
 
 
 OTHER_FILES += \

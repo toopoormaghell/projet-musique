@@ -28,6 +28,7 @@ public:
     int getid_type();
     int getid_support_m();
     int getid_poch();
+    QString getean();
 
     //Changer entités
     void setnom_album(QString nom);
@@ -46,6 +47,9 @@ public:
     void SupprimerBDDPhys();
 
     void UpdateBDD();
+
+    static QList<int> RecupererTitresAlbum(int id);
+    void SupprimerAnciensTitres();
 private:
     QString m_nom_album;
     QString m_nom_artiste;

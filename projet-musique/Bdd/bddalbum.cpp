@@ -188,4 +188,3 @@ bool BDDAlbum::ExisteEnPhys(const int id)
     }
     return false;
 }
-

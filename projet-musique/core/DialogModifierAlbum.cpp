@@ -14,6 +14,7 @@
 #include "bddsupport.h"
 
 #include "meta_album.h"
+#include "meta_titre.h"
 
 DialogModifierAlbum::DialogModifierAlbum( int selection, QWidget* parent ) :
     QDialog( parent ),
@@ -75,9 +76,11 @@ void DialogModifierAlbum::AfficherAlbum()
 
     ui->SupportMP3->setVisible( false );
     ui->LabelSupMp3->setVisible( false );
-    for ( int comp = 0; comp < m_album->gettitres().count(); comp++ )
+
+    QList<Meta_Titre*> titres = m_album->gettitres();
+    for ( int comp = 0; comp < titres.count(); comp++ )
     {
-        Meta_Titre* titre = Meta_Titre::RecupererBDD( m_album->gettitres().count() );
+        Meta_Titre* titre = titres[ comp ] ;
         QListWidgetItem* item = new QListWidgetItem;
         item->setText( titre->getnom_titre() );
         item->setFlags( item->flags() | Qt::ItemIsEditable );
@@ -127,32 +130,22 @@ void DialogModifierAlbum::RecupererListeType()
 void DialogModifierAlbum::EnregistrerAlbum()
 {
 
-    /*m_album.Album = ui->Album->text();
-    m_album.Artiste = ui->Artiste->text();
-    m_album.Annee = ui->Annee->text().toInt();
-    m_album.Type = ui->Type->currentIndex() + 1;
-    m_album.Support = ui->SupportPhys->currentIndex() +1;
+    m_album->setnom_album( ui->Album->text() );
+    m_album->setnom_artiste( ui->Artiste->text() );
+    m_album->setannee( ui->Annee->text().toInt() );
+    m_album->setid_type( ui->Type->currentIndex() + 1 );
+    m_album->setsupport_p( ui->SupportPhys->currentIndex() +1 );
 
-    m_album.titres.clear();
+    QList<Meta_Titre*> titres;
     //On récupère les titres
     for ( int i = 0; i < ui->Titres->count(); i++ )
     {
-        TitresPhys titre;
-        titre.Titre = ui->Titres->item( i )->text();
-        titre.Duree = ui->Duree->item( i )->text();
-        titre.Num_Piste = i + 1;
-        titre.MP3 = ui->Titres->item (i )->data( Qt::UserRole).toBool() ;
+        Meta_Titre* titre = Meta_Titre::CreerMeta_Titre( ui->Album->text() , ui->Artiste->text() , ui->Titres->item(i )->text() , ui->Annee->text().toInt() , ui->Duree->item( i )->text() , i+1 , m_album->getPoch() , ui->Type->currentIndex() + 1 , ui->SupportPhys->currentIndex() +1 , ui->Titres->item (i )->data( Qt::UserRole).toInt() , "", ui->Commentaires->text() ,  m_album->getean() );
 
-
-        if ( m_album.Support == 2 )
-        {
-            //A faire l'edition de compilation
-            //titre.Id_Art =  ui->ArtistesTitres->item( i )->text();
-        }
-
-        m_album.titres << titre;
+        titres << titre;
     }
-*/
+    m_album->settitres( titres );
+    m_album->UpdateBDD();
 }
 void DialogModifierAlbum::Supprimer_Titre()
 {
@@ -176,10 +169,6 @@ void DialogModifierAlbum::Supprimer_Titre()
 void DialogModifierAlbum::on_buttonBox_accepted()
 {
     EnregistrerAlbum();
-    BDDGestionPhys m_bddinterface;
-
-    //  m_bddinterface.modifierAlbum(  m_album.Album, m_album.Artiste, QString::number( m_album.Id_Release ), m_album.Annee, m_album.titres, m_album.Type, m_album.Id_Poch, m_album.Id_Album, ui->Commentaires->text(), m_album.Support );
-
 
     this->close();
 
@@ -187,17 +176,18 @@ void DialogModifierAlbum::on_buttonBox_accepted()
 
 void DialogModifierAlbum::on_Parcourir_clicked()
 {
-    /*  DialogChoixPochette dial( m_album->getnom_artiste() );
+    DialogChoixPochette dial( m_album->getnom_artiste() );
     dial.exec();
     if ( dial.m_selection != -1 )
     {
+
         BDDPoch* pochtemp = BDDPoch::recupererBDD(dial.m_selection);
         m_album->setPoch( pochtemp->m_image );
 
         delete pochtemp;
     }
     AfficherAlbum();
-    */
+
 }
 
 void DialogModifierAlbum::on_Supprimer_clicked()

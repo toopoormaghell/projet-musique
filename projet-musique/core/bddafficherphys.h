@@ -24,6 +24,7 @@ public:
     QList<int> TitresParArtistes( QString Id_Artiste );
 
     QList<int> AlbSansMP3(QString Id_Artiste, int Categorie);
+
 };
 
 #endif // BDDAFFICHERPHYS_H
