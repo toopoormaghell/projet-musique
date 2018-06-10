@@ -36,9 +36,10 @@ QList<int> BDDPoch::pochettesparart(const QString &artiste)
 void BDDPoch::sauverImage() const
 {
     QDir dossier;
-    QDir toCreate(QFileInfo(m_chemin).dir());
-    dossier.mkdir(toCreate.path());
-    m_image.save(m_chemin);
+    QDir toCreate( QFileInfo( m_chemin ).dir() );
+    dossier.mkdir( toCreate.path() );
+    QImage temp = m_image.scaled( 250,250 );
+    temp.save( m_chemin );
 }
 
 void BDDPoch::updateBDD()

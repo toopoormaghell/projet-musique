@@ -81,7 +81,10 @@ int Meta_Album::getid_support_m()
 {
     return m_id_support_m;
 }
-
+QString Meta_Album::getean()
+{
+    return m_ean;
+}
 int Meta_Album::getid_poch()
 {
     return m_id_poch;
@@ -164,14 +167,11 @@ Meta_Album* Meta_Album::RecupererBDD(const int id)
         ean = phys->m_ean;
 
         //On récupère les titres liés à l'album
-        QString queryStr = "SELECT DISTINCT Id_Relation FROM Relations R WHERE Id_Album='" + QString::number( id ) + "' ORDER BY Num_Piste";
-        QSqlQuery query = madatabase.exec( queryStr );
+        QList<int> listetitres = RecupererTitresAlbum( id );
 
-        while ( query.next() )
+        for (int i = 0; i< listetitres.count(); i++ )
         {
-            QSqlRecord rec = query.record();
-
-            Meta_Titre* titre = Meta_Titre::RecupererBDD( rec.value("Id_Relation").toInt());
+            Meta_Titre* titre = Meta_Titre::RecupererBDD( listetitres[i] );
 
             titres << titre;
 
@@ -235,6 +235,7 @@ void Meta_Album::UpdateBDD()
 
     for ( int cpt = 0; cpt < m_titres.count(); cpt++ )
     {
+        SupprimerAnciensTitres();
         Meta_Titre* temp = m_titres[cpt];
         temp->setsupportphys( m_support_p );
         temp->UpdateBDD();
@@ -245,4 +246,43 @@ void Meta_Album::UpdateBDD()
 
     delete poch; delete def;
 
+}
+void Meta_Album::SupprimerAnciensTitres()
+{
+    QList<int> liste = RecupererTitresAlbum( m_id_album );
+
+    for (int i=0 ; i < liste.count(); i++ )
+    {
+        Meta_Titre* titre = Meta_Titre::RecupererBDD( liste[i] );
+        int comp=0;
+        int fini=0;
+        while (  comp< m_titres.count() && fini == 0 )
+        {
+            if ( titre->getnom_titre() == m_titres[ comp ]->getnom_titre() )
+            {
+                titre->SupprimerBDDMP3();
+                fini =1;
+                break;
+            }
+            comp ++;
+        }
+
+    }
+
+
+}
+QList< int> Meta_Album::RecupererTitresAlbum(int id)
+{
+    QList<int> liste;
+
+    QString queryStr = "SELECT DISTINCT Id_Relation FROM Relations R WHERE Id_Album='" + QString::number( id ) + "' ORDER BY Num_Piste";
+    QSqlQuery query = madatabase.exec( queryStr );
+
+    while ( query.next() )
+    {
+        QSqlRecord rec = query.record();
+        liste << rec.value("Id_Relation").toInt();
+    }
+
+    return liste;
 }

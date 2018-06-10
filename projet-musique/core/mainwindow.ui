@@ -42,7 +42,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>6</number>
       </property>
       <widget class="OngletMP3" name="MP3">
        <attribute name="title">
@@ -72,6 +72,11 @@
       <widget class="OngletArtiste" name="tab_4">
        <attribute name="title">
         <string>Artistes</string>
+       </attribute>
+      </widget>
+      <widget class="OngletListe" name="tab_5">
+       <attribute name="title">
+        <string>Liste Boites</string>
        </attribute>
       </widget>
      </widget>
@@ -323,6 +328,12 @@
    <class>OngletArtiste</class>
    <extends>QWidget</extends>
    <header>ongletartiste.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>OngletListe</class>
+   <extends>QWidget</extends>
+   <header location="global">ongletliste.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

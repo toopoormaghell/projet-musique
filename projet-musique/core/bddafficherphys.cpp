@@ -97,20 +97,20 @@ void BDDAfficherPhys::exporterHTML()
     for ( int i = 1; i < 5; i++ )
     {
         QStringList albart = ListeAlbumSauvegarde( i );
-        QString chemin = "F:/Tout.html";
+        QString chemin = "H:/Dropbox/Projet Musique/Tout.html";
         switch ( i )
         {
         case 1 :
-            chemin = "F:/Albums.html";
+            chemin = "H:/Dropbox/Projet Musique/Albums.html";
             break;
         case 2 :
-            chemin = "F:/Compils.html";
+            chemin = "H:/Dropbox/Projet Musique/Compils.html";
             break;
         case 3 :
-            chemin = "F:/Singles.html";
+            chemin = "H:/Dropbox/Projet Musique/Singles.html";
             break;
         case 4 :
-            chemin = "F:/Chansons.html";
+            chemin = "H:/Dropbox/Projet Musique/Chansons.html";
             break;
         }
 
