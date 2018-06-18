@@ -271,6 +271,11 @@ void Meta_Titre::setcheminmp3(QString chemin)
     m_chemin_m = chemin;
 }
 
+void Meta_Titre::setid_support_m(int id)
+{
+    m_id_support_m = id;
+}
+
 
 Meta_Titre::~Meta_Titre()
 {
@@ -350,7 +355,7 @@ void Meta_Titre::UpdateBDD()
     rel->updateBDD();
     m_id_relation = rel->id();
 
-    if ( m_id_support_m !=-1 || id_mp3 == 1 )
+    if ( m_id_support_m != -1 || id_mp3 == 1 )
     {
         BDDMp3*   mp3 = BDDMp3::RecupererBDD( m_chemin_m.replace("'","$") , *rel, *BDDSupport::RecupererSupport( m_id_support_m ) );
         mp3->updateBDD();

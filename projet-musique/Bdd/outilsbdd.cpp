@@ -491,9 +491,9 @@ void OutilsBDD::VerifierArtiste()
     emit EcrireMessage("Vérifie l'intégrité des artistes");
     emit EcrireMessage("----------------");
     //Vide
-    madatabase.exec( "DELETE FROM Artiste WHERE Artiste = ''" );
+    madatabase.exec( "DELETE FROM Artiste WHERE Artiste = '' AND Id_Artiste !='01' " );
     //Non utilisé
-    madatabase.exec( "DELETE FROM Artiste WHERE Id_Artiste NOT IN ( SELECT DISTINCT Id_Artiste FROM Relations ) " );
+    madatabase.exec( "DELETE FROM Artiste WHERE Id_Artiste !='01' AND Id_Artiste NOT IN ( SELECT DISTINCT Id_Artiste FROM Relations ) " );
     //Non valide
     madatabase.exec( "UPDATE Artiste SET Id_Pochette = '1' WHERE Id_Pochette NOT IN ( SELECT DISTINCT Id_Pochette FROM Pochette ) " );
     QString queryStr = "SELECT Artiste, Id_Artiste, Artiste_Formate FROM Artiste";

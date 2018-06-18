@@ -13,7 +13,6 @@
 #include "tags.h"
 #include "dialogchoixtitrefusion.h"
 
-#include "QDebug"
 
 BDDFusion::BDDFusion()
 {

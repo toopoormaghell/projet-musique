@@ -1,6 +1,6 @@
 #include "util.h"
 #include <QStringList>
-#include <QDebug>
+
 
 QString EchangerArtiste( QString Artiste )
 {

@@ -2,7 +2,7 @@
 #include "ui_dialogchoixalbumphys.h"
 #include "bddaffichermp3.h"
 #include "meta_album.h"
-#include <QDebug>
+
 DialogChoixAlbumPhys::DialogChoixAlbumPhys( QString artiste, QWidget* parent ) :
     QDialog( parent ),
     ui( new Ui::ChoixAlbumPhysDialog ),

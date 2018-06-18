@@ -8,7 +8,7 @@
 #include "util.h"
 #include <QDir>
 #include <QInputDialog>
-#include <QDebug>
+
 
 #include "bddaffichermp3.h"
 #include "meta_album.h"

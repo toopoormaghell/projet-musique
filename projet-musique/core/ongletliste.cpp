@@ -3,7 +3,7 @@
 #include "bddalbum.h"
 #include "bddpoch.h"
 #include <QListWidgetItem>
-#include <QDebug>
+
 
 OngletListe::OngletListe(QWidget *parent) :
     QWidget(parent),

@@ -11,7 +11,7 @@
 #include <QLineEdit>
 #include <QStyledItemDelegate>
 #include <QCompleter>
-#include <QDebug>
+
 
 class QTableModel;
 

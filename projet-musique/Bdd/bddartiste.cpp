@@ -95,7 +95,7 @@ void BDDArtiste::updateBDD()
 
 void BDDArtiste::supprimerenBDD() const
 {
-    if ( id() != -1 )
+    if ( id() != -1 && id() != 1 )
     {
         //On vérifie si l'artiste existe ou non dans la table des relations
         QString queryStri =  "Select Id_Relation As 'Relation' from Relations WHERE Id_Artiste='" + QString::number( id() ) + "'" ;

@@ -77,7 +77,7 @@ BDDTitre* BDDTitre::recupererBDD( const int id )
 
 int BDDTitre::recupererId(const QString& nomFormate)
 {
-    QString queryStr = "Select T.Id_Titre As 'Titre' from Titre T, Relations R WHERE T.Titre_Formate='" + nomFormate + "' AND T.Id_Titre=R.Id_Titre " ;
+    QString queryStr = "Select T.Id_Titre As 'Titre' from Titre T, Relations R WHERE T.Titre_Formate='" + nomFormate + "' " ;
 
     QSqlQuery query = madatabase.exec( queryStr );
     int id = -1;
