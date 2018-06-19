@@ -51,7 +51,7 @@ int Meta_Artiste::get_id_poch()
 }
 void Meta_Artiste::inversion()
 {
-  BDDArtiste::EchangerArtiste( m_nom_artiste );
+    BDDArtiste::EchangerArtiste( m_nom_artiste );
 }
 void Meta_Artiste::setPoch(int id_poch)
 {
@@ -78,5 +78,5 @@ void Meta_Artiste::update()
 
     BDDArtiste* art = BDDArtiste::recupererBDD( m_nom_artiste, *poch );
     art->updateBDD();
-
+    art->changerPoch( m_id_poch);
 }

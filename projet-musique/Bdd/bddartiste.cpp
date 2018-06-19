@@ -12,7 +12,7 @@ BDDArtiste::~BDDArtiste()
 
 int BDDArtiste::recupererId(const QString& nomFormate)
 {
-    QString queryStr = "Select Id_Artiste As 'Artiste', Id_Pochette AS 'Poch' from Artiste WHERE Artiste_Formate='" + nomFormate + "'" ;
+    QString queryStr = "Select Id_Artiste As 'Artiste' from Artiste WHERE Artiste_Formate='" + nomFormate + "'" ;
     QSqlQuery query = madatabase.exec( queryStr );
 
     int id = -1;
@@ -40,7 +40,7 @@ BDDArtiste* BDDArtiste::recupererBDD(const int id)
         nomFormate = rec.value("Artiste_Formate").toString();
     }
 
-    return new BDDArtiste(id, nom, nomFormate, pochette);
+    return new BDDArtiste( id, nom, nomFormate, pochette );
 }
 
 BDDArtiste::BDDArtiste(const int id, const QString& nom, const QString& nomFormate, BDDPoch* pochette, QObject* parent):
@@ -66,15 +66,19 @@ BDDArtiste* BDDArtiste::recupererBDD(const QString& artiste, BDDPoch& pochette)
     FormaterEntiteBDD(nomFormate);
 
     const int id = TrouverId(nom);
-
-    return new BDDArtiste(id, nom, nomFormate, &pochette);
+    if ( id == -1 )
+    {
+        return new BDDArtiste( id , nom, nomFormate, &pochette);
+    } else
+    {
+        return recupererBDD( id );
+    }
 }
-
-int BDDArtiste::TrouverId(const QString &nom )
+int BDDArtiste::TrouverId( const QString &nom )
 {
-    QString nomFormate = ChoisirArtisteEchange(nom);
+    QString nomFormate = ChoisirArtisteEchange( nom );
     FormaterEntiteBDD(nomFormate);
-    return recupererId(nomFormate);
+    return recupererId( nomFormate );
 }
 
 void BDDArtiste::updateBDD()
@@ -122,6 +126,12 @@ void BDDArtiste::EchangerArtiste( QString& nom )
         nom = temp[1] + " " + temp[2] + " " + temp[0];
     }
 
+}
+
+void BDDArtiste::changerPoch( int id_nouv_poch )
+{
+    QString queryStri = " UPDATE Artiste SET Artiste ='" + m_nom + "', Artiste_Formate='" + m_nomFormate + "', Id_Pochette='" + QString::number( id_nouv_poch ) + "' WHERE Id_Artiste='" + QString::number( id() ) + "'";
+    madatabase.exec( queryStri );
 }
 QString BDDArtiste::ChoisirArtisteEchange(const QString& nom)
 {

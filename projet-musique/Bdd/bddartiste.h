@@ -24,7 +24,7 @@ public:
     BDDPoch* m_pochette;
 
     static void EchangerArtiste( QString& nom );
-
+    void changerPoch( int id_nouv_poch );
 private:
     static int recupererId(const QString &nomFormate);
     static QString ChoisirArtisteEchange(const QString& nom);
