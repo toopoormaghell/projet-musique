@@ -106,6 +106,7 @@ void OngletMP3::afficherListeType()
     }
     ui->Categories->setCurrentRow( 1 );
     m_categorie = 1;
+
 }
 //Affiche les albums selon l'artiste (ou les années) et la catégorie
 void OngletMP3::afficheralbumsettitres()
@@ -301,7 +302,6 @@ void OngletMP3::afficherTitresAlbum( QList<Meta_Titre*> titres, int Cate, int ro
     {
         m_lignestitres = std::max( row + 6, row + maxlignes );
     }
-
 
 }
 void OngletMP3::afficherInfosTitre()
@@ -617,6 +617,7 @@ void OngletMP3::on_LireMP3_clicked()
     m_fichierlu = QString::number( mp3->getnum_piste() ).rightJustified( 2, '0' ) + " - "+ mp3->getnom_titre() + " ajouté au lecteur.";
     EnvoyerTexteAMain();
 
+    delete mp3;
 }
 
 void OngletMP3::on_CopierMP3_clicked()
@@ -643,6 +644,7 @@ void OngletMP3::copier()
     m_fichierlu = nouvelemplacementchemin + " ajouté au dossier de copie. ";
     EnvoyerTexteAMain();
 
+    delete mp3;
 }
 
 void OngletMP3::on_LireArtiste_clicked()
@@ -653,6 +655,7 @@ void OngletMP3::on_LireArtiste_clicked()
     m_fichierlu = mp3->getnom_artiste() + " ajouté au lecteur.";
     EnvoyerTexteAMain();
 
+    delete mp3;
 }
 
 void OngletMP3::on_LireAlbum_clicked()
@@ -662,6 +665,8 @@ void OngletMP3::on_LireAlbum_clicked()
     emit modifplaylist(m_PlaylistLecteur);
     m_fichierlu = mp3->getnom_album() + " ajouté au lecteur.";
     EnvoyerTexteAMain();
+
+    delete mp3;
 }
 
 void OngletMP3::on_LireAnnee_clicked()
@@ -671,6 +676,8 @@ void OngletMP3::on_LireAnnee_clicked()
     emit modifplaylist(m_PlaylistLecteur);
     m_fichierlu = QString::number(mp3->getannee() ) + " ajouté au lecteur.";
     EnvoyerTexteAMain();
+
+    delete mp3;
 }
 
 void OngletMP3::on_DialogueLecteurAnnee_clicked()

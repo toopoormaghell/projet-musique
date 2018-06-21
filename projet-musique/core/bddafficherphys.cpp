@@ -167,7 +167,7 @@ QStringList BDDAfficherPhys::ListeAlbumSauvegarde( int Cate )
     switch ( Cate )
     {
     case 1 :
-        QueryStr = "SELECT  DISTINCT B.Album, Ar.Artiste FROM Phys P,Album B, Artiste Ar, Relations R WHERE P.Id_Album=R.Id_Album AND R.Id_Album=B.Id_Album AND R.Id_Artiste = Ar.Id_Artiste AND P.Support='1' ORDER BY  Ar.Artiste, B.Album";
+        QueryStr = "SELECT  DISTINCT B.Album, Ar.Artiste FROM Phys P,Album B, Artiste Ar, Relations R WHERE P.Id_Album=R.Id_Album AND R.Id_Album=B.Id_Album AND R.Id_Artiste = Ar.Id_Artiste AND P.Support='1' ORDER BY  B.Type, Ar.Artiste, B.Album";
         break;
     case 2 :
         QueryStr = "SELECT  DISTINCT B.Album, B.Annee FROM Phys P,Album B,Relations R WHERE P.Id_Album=R.Id_Album AND R.Id_Album=B.Id_Album  AND P.Support='2' GROUP BY Album ORDER BY B.Annee DESC, B.Album";

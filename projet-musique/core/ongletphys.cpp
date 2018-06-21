@@ -159,6 +159,7 @@ void OngletPhys::afficherListeSingles()
 
             ui->Singles->addItem( item );
         }
+
         delete album;
     }
 
@@ -205,6 +206,7 @@ void OngletPhys::afficherListeCompils()
 
             ui->Compil->addItem( item );
         }
+
         delete album;
     }
 
@@ -263,7 +265,7 @@ void OngletPhys::AfficherInfosAlbum( int Type )
             }
 
             ui->Titres->addItem( item );
-            delete titre;
+
         }
 
         ui->NbTitresAlb->setText(QString::number( phys->gettitres().count() ) );
@@ -272,6 +274,7 @@ void OngletPhys::AfficherInfosAlbum( int Type )
             ui->PourcentageAlb->setText( QString::number( nbtitresmp3*100/phys->gettitres().count() ) +" %" );
 
     }
+    delete phys;
 }
 
 void OngletPhys::vider( QString type )
@@ -444,7 +447,7 @@ void OngletPhys::remplirStats()
     }
     ui->Pourcentage->setText(QString::number( Pourcentage )+" %");
 
-    afficherListeAlbSansMP3();
+   afficherListeAlbSansMP3();
 
 }
 
@@ -506,4 +509,3 @@ void OngletPhys::on_Categories_clicked(const QModelIndex &index)
     afficherListeArtiste();
 
 }
-

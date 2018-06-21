@@ -113,7 +113,21 @@ void BDDArtiste::supprimerenBDD() const
         m_pochette->supprimerenBDD();
     }
 }
+void BDDArtiste::EchangerBDD( QString art )
+{
+    QString temp = art;
+    FormaterEntiteBDD ( temp );
+    if (id() != -1)
+    {
+        QString queryStri = "UPDATE Artiste SET Artiste ='" + art + "', Artiste_Formate='" + temp + "', Id_Pochette='" + QString::number( m_pochette->id() ) + "' WHERE Id_Artiste='" + QString::number( id() ) + "'";
 
+        madatabase.exec( queryStri );
+
+        m_nom = art;
+        m_nomFormate = temp;
+
+    }
+}
 void BDDArtiste::EchangerArtiste( QString& nom )
 {
     QStringList temp = nom.split( " " );

@@ -1,6 +1,7 @@
 #include "meta_artiste.h"
 #include "bddpoch.h"
 #include "bddartiste.h"
+#include <QDebug>
 
 
 Meta_Artiste* Meta_Artiste::RecupererBDD(const int id)
@@ -77,6 +78,9 @@ void Meta_Artiste::update()
     BDDPoch* poch = BDDPoch::recupererBDD( m_id_poch );
 
     BDDArtiste* art = BDDArtiste::recupererBDD( m_nom_artiste, *poch );
-    art->updateBDD();
+
+
+    art->EchangerBDD( m_nom_artiste );
+
     art->changerPoch( m_id_poch);
 }

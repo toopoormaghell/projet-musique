@@ -201,6 +201,7 @@ Meta_Album::~Meta_Album()
         delete m_titres[i];
 
     }
+
 }
 Meta_Album* Meta_Album::CreerMeta_Album(const QString& nom_album, const QString& nom_artiste, int annee, const QImage& Poch, int type, const QList<Meta_Titre*>& titres, int support_p,  const QString& commentaires, const QString& ean)
 {
