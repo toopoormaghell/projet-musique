@@ -246,6 +246,8 @@ void Meta_Album::UpdateBDD()
 
 
     delete poch; delete def;
+    delete art;
+    delete alb;
 
 }
 void Meta_Album::SupprimerAnciensTitres()

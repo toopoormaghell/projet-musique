@@ -111,6 +111,10 @@ void OngletMP3::afficherListeType()
 //Affiche les albums selon l'artiste (ou les années) et la catégorie
 void OngletMP3::afficheralbumsettitres()
 {
+    Meta_Artiste* artiste = Meta_Artiste::RecupererBDD( m_artiste );
+    ui->Artiste->setText( artiste->getNom_Artiste() );
+    delete artiste;
+
     //Création du modèle pour le QTableView
     m_lignestitres = 0;
     m_colonnetitre = 0;
@@ -489,6 +493,7 @@ void OngletMP3::on_Categories_clicked( const QModelIndex& index )
 void OngletMP3::on_ArtistesAnnees_clicked( const QModelIndex& index )
 {
     m_artiste = index.data( Qt::UserRole ).toInt();
+
     vider( "AlbMP3" );
     afficheralbumsettitres();
 }
@@ -687,4 +692,14 @@ void OngletMP3::on_DialogueLecteurAnnee_clicked()
     emit modifplaylist(m_PlaylistLecteur);
     m_fichierlu =  annee + " ajouté au lecteur.";
     EnvoyerTexteAMain();
+}
+
+void OngletMP3::on_ModifierArtiste_clicked()
+{
+    Meta_Artiste* artiste = Meta_Artiste::RecupererBDD( m_artiste );
+    DialogModifierArtiste temp( artiste, this );
+    temp.exec();
+    vider( "Artiste" );
+    affichageartistes();
+    delete artiste;
 }

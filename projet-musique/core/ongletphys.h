@@ -46,6 +46,8 @@ private slots:
     void on_Categories_clicked(const QModelIndex &index);
 
 
+    void on_ModifArtiste_clicked();
+
 private:
     Ui::OngletPhys* ui;
     BDDAfficherPhys m_bddInterface;

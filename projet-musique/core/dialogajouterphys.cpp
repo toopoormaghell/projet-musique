@@ -572,7 +572,8 @@ void DialogAjouterPhys::ViderBoiteDialogue()
     ui->Pochette->clear();
     ui->Annee->clear();
     ui->Commentaires->clear();
-  //  m_album->titres.clear();
+
+
     m_tableModel->clearLines();
 }
 
@@ -627,7 +628,7 @@ void DialogAjouterPhys::RecupererAlbum()
     QList<Meta_Titre*> titres;
     for ( auto it : titresTemp )
     {
-        Meta_Titre* titre = Meta_Titre::CreerMeta_Titre(m_album->getnom_album(), m_album->getnom_artiste(), it.nomTitre, m_album->getannee(), it.duree, it.numPiste, m_album->getPoch(), m_album->getid_type(), m_album->getid_support_p(), -1, "Aucun", "Aucun", m_EAN);
+        Meta_Titre* titre = Meta_Titre::CreerMeta_Titre( m_album->getnom_album() , it.nomArtiste, it.nomTitre, m_album->getannee(), it.duree, it.numPiste, m_album->getPoch(), m_album->getid_type(), m_album->getid_support_p(), -1, "Aucun", "Aucun", m_EAN);
         titres.append(titre);
     }
     m_album->settitres(titres);

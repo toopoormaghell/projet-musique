@@ -509,3 +509,13 @@ void OngletPhys::on_Categories_clicked(const QModelIndex &index)
     afficherListeArtiste();
 
 }
+
+void OngletPhys::on_ModifArtiste_clicked()
+{
+
+    Meta_Artiste* artiste = Meta_Artiste::RecupererBDD( m_artiste.toInt() );
+    DialogModifierArtiste temp( artiste, this );
+    temp.exec();
+    delete artiste;
+    actualiserOnglet();
+}

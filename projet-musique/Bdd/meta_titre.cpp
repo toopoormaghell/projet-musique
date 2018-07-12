@@ -325,7 +325,10 @@ void Meta_Titre::UpdateBDD()
     art->updateBDD();
     m_id_artiste = art->id();
 
-    BDDAlbum* alb= BDDAlbum::recupererBDD( m_nom_album.replace( "'", "$" ),  *poch, m_annee, *BDDType::RecupererType( m_id_type ), *art  );
+    BDDArtiste* artdef = BDDArtiste::recupererBDD(1);
+
+
+    BDDAlbum* alb= BDDAlbum::recupererBDD( m_nom_album.replace( "'", "$" ),  *poch, m_annee, *BDDType::RecupererType( m_id_type ), m_id_type==2 ?*artdef : *art  );
     alb->updateBDD();
     m_id_album = alb->id();
 
@@ -343,14 +346,14 @@ void Meta_Titre::UpdateBDD()
 
     BDDRelation* rel= BDDRelation::recupererBDD( *alb, *art, *tit, m_num_piste, m_duree , ( (id_mp3==0 && m_id_support_m==-1) ? 0:1) , ( (id_phys==0 && m_id_support_p==-1) ? 0:1) );
 
-     BDDMp3* mp3av = BDDMp3::RecupererBDDParRelation( rel->id() );
+    BDDMp3* mp3av = BDDMp3::RecupererBDDParRelation( rel->id() );
 
-     if ( mp3av->id() != -1)
-     {
-         rel->m_mp3=1;
+    if ( mp3av->id() != -1)
+    {
+        rel->m_mp3=1;
 
-         delete mp3av;
-     }
+        delete mp3av;
+    }
 
     rel->updateBDD();
     m_id_relation = rel->id();
@@ -370,6 +373,11 @@ void Meta_Titre::UpdateBDD()
     }
 
     delete poch; delete def;
+    delete mp3av;
+    delete physav;
+    delete alb;
+    delete art;
+    delete artdef;
 }
 void Meta_Titre::SupprimerBDDMP3()
 {
