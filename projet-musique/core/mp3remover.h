@@ -16,7 +16,7 @@ public:
 signals:
     void finished();
     void askedRemoval(int id);
-    void processedAnotherMP3();
+    void processedAnotherMP3(int currentValue, int totalCount);
 
 public slots:
     void process();

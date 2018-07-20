@@ -269,26 +269,35 @@ void BDDGestionMp3::SupprimerenBDDMP3( int Id )
     delete mp3;
 }
 
+void BDDGestionMp3::removalAdvanceReemiter(int currentCount, int totalCount)
+{
+    m_pourcentage = currentCount * 100 / totalCount;
+    emit pourcentage();
+}
+
 void BDDGestionMp3::ViderBDD()
 {
     QList<int> tempCat ;
     tempCat << 1 << 2;
 
+    QMap<int, QStringList> cumulativePaths;
     for ( int i = 0 ; i < tempCat.count() ; i++ )
     {
         recupererMp3( tempCat[i] );
-        if ( ! m_Chemins.isEmpty() )
-        {
-            QThread* thread = new QThread;
-            MP3Remover* remover = new MP3Remover(m_Chemins);
-            remover->moveToThread(thread);
-            connect(thread, &QThread::started, remover, &MP3Remover::process);
-            connect(remover, &MP3Remover::askedRemoval, this, &BDDGestionMp3::SupprimerenBDDMP3);
-            connect(remover, &MP3Remover::finished, thread, &QThread::quit);
-            connect(remover, &MP3Remover::finished, remover, &MP3Remover::deleteLater);
-            connect(thread, &QThread::finished, thread, &QThread::deleteLater);
-            thread->start();
-        }
+        for (QMap<int, QStringList> ::iterator it = m_Chemins.begin(); it != m_Chemins.end(); ++it)
+            cumulativePaths.insert(it.key(), it.value());
     }
-
+    if ( !cumulativePaths.isEmpty() )
+    {
+        QThread* thread = new QThread;
+        MP3Remover* remover = new MP3Remover(cumulativePaths);
+        remover->moveToThread(thread);
+        connect(thread, &QThread::started, remover, &MP3Remover::process);
+        connect(remover, &MP3Remover::askedRemoval, this, &BDDGestionMp3::SupprimerenBDDMP3);
+        connect(remover, &MP3Remover::processedAnotherMP3, this, &BDDGestionMp3::removalAdvanceReemiter);
+        connect(remover, &MP3Remover::finished, thread, &QThread::quit);
+        connect(remover, &MP3Remover::finished, remover, &MP3Remover::deleteLater);
+        connect(thread, &QThread::finished, thread, &QThread::deleteLater);
+        thread->start();
+    }
 }

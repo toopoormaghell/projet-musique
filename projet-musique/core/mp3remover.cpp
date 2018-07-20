@@ -10,6 +10,7 @@ MP3Remover::MP3Remover(ListOfPathsType const& listOfPaths, QObject *parent) :
 void MP3Remover::process()
 {
     ListOfPathsType::const_iterator item = m_listOfPaths.constBegin();
+    int counter = 0;
     for ( ; item != m_listOfPaths.constEnd(); ++item )
     {
         const int& key = item.key();
@@ -18,7 +19,8 @@ void MP3Remover::process()
         {
             emit askedRemoval(key);
         }
-        emit processedAnotherMP3();
+        ++counter;
+        emit processedAnotherMP3(counter, m_listOfPaths.size());
     }
     emit finished();
 }

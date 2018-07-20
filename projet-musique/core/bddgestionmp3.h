@@ -62,6 +62,7 @@ private slots:
     void stop_clique();
     void supprstep();
     void SupprimerenBDDMP3( int Id );
+    void removalAdvanceReemiter(int currentCount, int totalCount);
 private:
     //Actualiser MP3 + fonctions associées
     void actualiserMp3( QString chemin );
