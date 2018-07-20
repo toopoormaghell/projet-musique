@@ -6,15 +6,16 @@
 
 TEMPLATE = subdirs
 
-SUBDIRS += \
-    taglib \
-    QAWSWrapper \
-    core \
-    Lecteur \
+SUBDIRS = \
     Bdd \
-    helpers
+    core \
+    helpers \
+    Lecteur \
+    QAWSWrapper \
+    taglib
 
-
-
+Bdd.depends = helpers taglib
+core.depends = Bdd helpers Lecteur QAWSWrapper taglib
+QAWSWrapper.depends = Bdd helpers
 
 DISTFILES += style.astylerc
