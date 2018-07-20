@@ -38,6 +38,7 @@ void EnleverAccents( QString& Nom )
 void EnleverPonctuation( QString& Nom)
 {
     Nom.replace( ":", " " );
+    Nom.replace( "*", " " );
     Nom.replace( "\\", " " );
     Nom.replace( "?", " " );
     Nom.replace( "!", " " );

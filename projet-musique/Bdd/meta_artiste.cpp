@@ -1,12 +1,10 @@
 #include "meta_artiste.h"
 #include "bddpoch.h"
 #include "bddartiste.h"
-#include <QDebug>
 
 
 Meta_Artiste* Meta_Artiste::RecupererBDD(const int id)
 {
-
     int id_artiste = -1 , id_poch = -1;
     QString nom_art;
     QImage Poch;
@@ -22,8 +20,7 @@ Meta_Artiste* Meta_Artiste::RecupererBDD(const int id)
 
         delete art;
     }
-    return new Meta_Artiste( nom_art,Poch,id_artiste,id_poch );
-
+    return new Meta_Artiste( nom_art, Poch, id_artiste, id_poch );
 }
 
 Meta_Artiste::~Meta_Artiste()
@@ -61,6 +58,7 @@ void Meta_Artiste::setPoch(int id_poch)
     BDDPoch* poch = BDDPoch::recupererBDD( id_poch );
     m_poch = poch->m_image;
 
+    delete poch;
 
 }
 
@@ -79,8 +77,10 @@ void Meta_Artiste::update()
 
     BDDArtiste* art = BDDArtiste::recupererBDD( m_nom_artiste, *poch );
 
-
     art->EchangerBDD( m_nom_artiste );
 
     art->changerPoch( m_id_poch);
+
+    delete poch;
+    delete art;
 }

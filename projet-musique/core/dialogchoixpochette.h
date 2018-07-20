@@ -3,7 +3,8 @@
 
 #include <QDialog>
 #include "bddaffichermp3.h"
-#include <QStandardItemModel>
+#include <QListWidgetItem>
+
 namespace Ui {
 class DialogChoixPochette;
 }
@@ -20,12 +21,14 @@ private slots:
     void on_buttonBox_accepted();
     void on_buttonBox_rejected();
 
+    void on_ListePoch_itemClicked(QListWidgetItem *item);
+
 private:
     Ui::DialogChoixPochette *ui;
     void AfficherPochettes();
-    QStandardItemModel m_pochettes;
+
     QString m_artiste;
-    int RecupererPochetteSelectionnee();
+
 };
 
 #endif // DIALOGCHOIXPOCHETTE_H

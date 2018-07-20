@@ -36,7 +36,6 @@ OngletPhys::~OngletPhys()
 }
 void OngletPhys::actualiserOnglet()
 {
-
     AfficherCategories();
     afficherListeCds();
     AfficherInfosAlbum( m_categorie );

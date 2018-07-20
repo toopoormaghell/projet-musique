@@ -13,6 +13,7 @@ class BDDSHARED_EXPORT BDDPoch : public IdOwner
     Q_OBJECT
 
 public:
+    virtual ~BDDPoch();
     void updateBDD();
     void supprimerenBDD() const;
     static BDDPoch* recupererBDD(const int id);
@@ -24,7 +25,6 @@ public:
     static QList<int> pochettesparart(const QString& artiste);
     static QString creerchemin(const QString& album, const QString& artiste);
 private:
-
 
     explicit BDDPoch(const int id, const QImage& image, const QString& chemin,QObject* parent = NULL);
 

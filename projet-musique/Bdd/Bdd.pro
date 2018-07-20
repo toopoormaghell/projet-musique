@@ -61,8 +61,7 @@ SOURCES += bddsingleton.cpp \
     tags.cpp \
     meta_album.cpp \
     meta_titre.cpp \
-    bddfusion.cpp \
-    dialogchoixtitrefusion.cpp
+    bdderreurs.cpp
 
 
 HEADERS += bdd_global.h \
@@ -87,8 +86,7 @@ bddalbum.h \
     meta_album.h \
 idowner.h \
     meta_artiste.h \
-    bddfusion.h \
-    dialogchoixtitrefusion.h
+    bdderreurs.h
 
 
 unix {
@@ -96,5 +94,4 @@ unix {
     INSTALLS += target
 }
 
-FORMS += \
-    dialogchoixtitrefusion.ui
+FORMS +=

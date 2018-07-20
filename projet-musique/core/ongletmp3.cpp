@@ -210,6 +210,7 @@ void OngletMP3::afficherAlbumSelectionne()
     ui->NomArtiste->setText( album->getnom_artiste() );
     ui->Annee->setText( QString::number( album->getannee() ) );
 
+
     QPixmap scaled( QPixmap::fromImage( album->getPoch() ) );
     scaled = scaled.scaled( 150, 150 );
     ui->Pochette->setPixmap( scaled );
@@ -253,10 +254,14 @@ void OngletMP3::afficherAlbumSelectionne()
         }
         ui->Titres->addItem( item );
 
+        delete titre;
     }
 
     delete album;
 
+    while(!titres.isEmpty()) {
+        delete (titres.at(0));
+    }
 }
 
 void OngletMP3::afficherTitresAlbum( QList<Meta_Titre*> titres, int Cate, int row )
@@ -337,6 +342,7 @@ void OngletMP3::afficherInfosTitre()
 
         Similaires( mp3->getid_titre() );
     }
+
     delete mp3;
 
 }
@@ -389,17 +395,21 @@ void OngletMP3::affichageartistes()
                 item->setText( artiste->getNom_Artiste() );
                 ui->ArtistesAnnees->addItem( item );
             }
+
             delete artiste;
         }
         srand( time( NULL ) );
         aleatoire = ( rand() % ( artistes.count() - 0 + 1 ) ) + 0;
+        aleatoire = 0;
     }
     else
     {
         afficherListeAnnees();
     }
     ui->ArtistesAnnees->setCurrentRow( aleatoire );
+
     if ( ui->ArtistesAnnees->currentItem() != NULL )
+
         m_artiste = ui->ArtistesAnnees->currentItem()->data( Qt::UserRole ).toInt();
 
 }
@@ -522,8 +532,6 @@ void OngletMP3::on_AlbumsTitres_clicked( const QModelIndex& index )
 void OngletMP3::on_Similaires_clicked(const QModelIndex &index)
 {
     Meta_Titre* mp3 = Meta_Titre::RecupererBDD( index.data( Qt::UserRole ).toInt() );
-
-
     //On selectionne la bonne categorie
     m_categorie = mp3->getid_type();
     for (int i = 0; i<ui->Categories->count(); i++)

@@ -21,7 +21,7 @@ OngletListe::~OngletListe()
 }
 void OngletListe::AfficherAlbums( int id)
 {
-    ui->ListeAlbums->clear();
+   ui->ListeAlbums->clear();
     QList<int> liste;
     if ( id == -1 )
     {
@@ -50,6 +50,8 @@ void OngletListe::AfficherAlbums( int id)
         delete alb;
     }
     ui->Restants->setText( QString::number( liste.count() ) + " Albums Restants. ");
+
+
 }
 
 void OngletListe::on_ListeAlbums_itemSelectionChanged()

@@ -45,10 +45,12 @@ public:
     void setduree(QString duree);
     void setnum_piste(int num);
     void settype(QString type);
-    void setsupportphys(QString support);
+    void setsupportphys(int support);
     void setsupportmp3(QString support);
     void setcheminmp3(QString chemin);
 void setid_support_m ( int id );
+
+
     virtual ~Meta_Titre();
 
     static Meta_Titre* CreerMeta_Titre(const QString& nom_album, const QString& nom_artiste, const QString& nom_titre, int annee, const QString& duree, int num_piste, const QImage& poch, int type, int support_p, int support_m, const QString& chemin_m, const QString& commentaires, const QString& ean);

@@ -1,6 +1,6 @@
 #include "DialogModifierArtiste.h"
 #include "ui_DialogModifierArtiste.h"
-#include "DialogChoixAlbumPhys.h"
+#include "dialogchoixpochette.h"
 
 #include "meta_artiste.h"
 
@@ -35,15 +35,16 @@ void DialogModifierArtiste::on_Inversion_clicked()
 
 void DialogModifierArtiste::on_ChangerPochette_clicked()
 {
-    DialogChoixAlbumPhys choixPoch( QString::number( m_artiste->get_id_artiste() ) );
+
+    DialogChoixPochette choixPoch( QString::number( m_artiste->get_id_artiste() ) );
     choixPoch.exec();
+
     if ( choixPoch.m_selection != 0 )
     {
         m_artiste->setPoch( choixPoch.m_selection );
 
         AfficherArtiste();
     }
-
 }
 void DialogModifierArtiste::Enregistrer()
 {
