@@ -59,13 +59,14 @@ BDDArtiste* BDDArtiste::recupererBDD(const QString& nom)
 
 BDDArtiste* BDDArtiste::recupererBDD(const QString& artiste, BDDPoch& pochette)
 {
-    QString nom(artiste);
-    EnleverAccents(nom);
-    MajusuculeAChaqueMot(nom);
-    QString nomFormate(nom);
-    FormaterEntiteBDD(nomFormate);
+    QString nom( artiste );
+    EnleverAccents (nom );
+    MajusuculeAChaqueMot( nom );
+    qDebug() << nom ;
+    QString nomFormate( nom );
+    FormaterEntiteBDD( nomFormate );
 
-    const int id = TrouverId(nom);
+    const int id = TrouverId( nom );
     if ( id == -1 )
     {
         return new BDDArtiste( id , nom, nomFormate, &pochette);

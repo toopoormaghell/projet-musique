@@ -11,7 +11,7 @@
 #include <QLineEdit>
 #include <QStyledItemDelegate>
 #include <QCompleter>
-
+#include "util.h"
 
 class QTableModel;
 
@@ -186,6 +186,7 @@ public:
                         if (findArtists())
                         {
                             QStringList toto = m_lineList[index.row()].song().split( " - ");
+
                             if ( swapColumns())
                                 valueToReturn = QVariant( toto.first() );
                             else
@@ -479,7 +480,10 @@ void DialogAjouterPhys::on_ChercherEAN_clicked()
         int i = 0;
         Q_FOREACH( auto titre, m_album->gettitres() )
         {
-            m_tableModel->appendLine( LineModel( QString::number( titre->getnum_piste() ), titre->getnom_titre(), titre->getnom_artiste() ) );
+            QString tit = titre->getnom_titre();
+            MajusuculeAChaqueMot ( tit );
+
+            m_tableModel->appendLine( LineModel( QString::number( titre->getnum_piste() ), tit, titre->getnom_artiste() ) );
             i++;
         }
         AfficherAlbum();
@@ -520,10 +524,8 @@ void DialogAjouterPhys::on_Enregistrer_clicked()
 {
     ui->Interaction->append("Album en cours d'enregistrement.");
     RecupererAlbum();
- /*   BDDGestionPhys m_bddinterface;
-    m_bddinterface.ajouterAlbum( m_album->getPoch(),m_album->getnom_album(),m_album->getnom_artiste(), m_EAN, m_album->getannee(), m_album->gettitres(), m_Support, ui->Commentaires->text(), m_Type );
-*/
-  m_album->UpdateBDD();
+
+    m_album->UpdateBDD();
 
     AfficherInteraction( "Album enregistré." );
     emit ajout();
@@ -589,7 +591,7 @@ void DialogAjouterPhys::on_ViderAlbum_clicked()
 
 void DialogAjouterPhys::RecupererAlbum()
 {
- //   m_album.titres.clear();
+    //   m_album.titres.clear();
     m_album->setnom_artiste(ui->Nom_Artiste->text().replace( "'", "$" ));
     m_album->setnom_album(ui->Nom_Album->text().replace( "'", "$" ));
     m_album->setannee(ui->Annee->text().toInt());

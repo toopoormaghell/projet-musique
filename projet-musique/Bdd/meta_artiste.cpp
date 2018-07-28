@@ -1,7 +1,7 @@
 #include "meta_artiste.h"
 #include "bddpoch.h"
 #include "bddartiste.h"
-
+#include "util.h"
 
 Meta_Artiste* Meta_Artiste::RecupererBDD(const int id)
 {

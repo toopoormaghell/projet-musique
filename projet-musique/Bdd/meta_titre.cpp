@@ -285,6 +285,7 @@ Meta_Titre::~Meta_Titre()
 
 Meta_Titre* Meta_Titre::CreerMeta_Titre(const QString& nom_album, const QString& nom_artiste, const QString& nom_titre, int annee, const QString& duree, int num_piste, const QImage& poch, int type, int support_p, int support_m, const QString& chemin_m, const QString& commentaires, const QString& ean)
 {
+
     return new Meta_Titre ( nom_album, nom_artiste, nom_titre,annee,duree,num_piste,poch,"Aucun","Aucun","Aucun",chemin_m,commentaires,ean, -1 , -1 , -1 , -1, type, support_p, support_m, -1);
 
 }

@@ -1,6 +1,6 @@
 #include "util.h"
 #include <QStringList>
-
+#include <QDebug>
 
 QString EchangerArtiste( QString Artiste )
 {
@@ -82,12 +82,12 @@ void FormaterEntiteBDD( QString& Entite )
 
 void MajusuculeAChaqueMot(QString& Entite)
 {
-
     QString temp;
-
+   Entite = Entite.toLower();
     QStringList decoupage = Entite.split(" ");
     for ( int cpt = 0; cpt < decoupage.count(); cpt++ )
     {
+
         QString decoup = decoupage[cpt];
         decoup =decoup.remove(0,1);
         temp += decoupage[cpt][0].toUpper()+ decoup;
