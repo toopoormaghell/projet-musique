@@ -15,16 +15,17 @@ public:
     void supprimerenBDD() const;
 
     virtual ~BDDArtiste();
-    static BDDArtiste* recupererBDD(const int id);
-    static BDDArtiste* recupererBDD(const QString& nom);
-    static BDDArtiste* recupererBDD(const QString& artiste, BDDPoch &pochette);
+    static BDDArtiste* recupererBDD( const int id );
+    static BDDArtiste* recupererBDD( const QString& nom );
+    static BDDArtiste* recupererBDD( const QString& artiste , BDDPoch &pochette );
 
     QString m_nom;
     QString m_nomFormate;
     BDDPoch* m_pochette;
 
     static void EchangerArtiste( QString& nom );
-
+    void changerPoch( int id_nouv_poch );
+    void EchangerBDD( QString art );
 private:
     static int recupererId(const QString &nomFormate);
     static QString ChoisirArtisteEchange(const QString& nom);

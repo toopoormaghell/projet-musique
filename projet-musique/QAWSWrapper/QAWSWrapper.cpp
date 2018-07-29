@@ -37,7 +37,7 @@ namespace
         return isValid;
     }
 
-    Meta_Album* parseXml( const QByteArray& xmlToParse, QStringList& artistsList )
+    Meta_Album* parseXml( const QByteArray& xmlToParse, QStringList& artistsList, const QString& m_ean )
     {
         QString nomAlbum;
         QString nomArtiste;
@@ -46,7 +46,7 @@ namespace
         int type = -1;
         int supportP = -1;
         QString commentaires;
-        QString ean;
+        QString ean = m_ean;
         int supportM = -1;
         QString chemin;
         unsigned int trackNumber = 1;
@@ -225,7 +225,7 @@ Meta_Album* QAWSWrapper::getAlbumFromEAN( const QString& ean )
     getNotifier().emitStepAchieved( message );
 
     m_artistsList.clear();
-    return parseXml( response, m_artistsList );
+    return parseXml( response, m_artistsList, ean );
 }
 
 

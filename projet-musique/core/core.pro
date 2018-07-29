@@ -52,9 +52,6 @@ HEADERS += \
        dialogchoixpochette.h \
     DialogAjouterPhys.h \
     bddlecteur.h \
-    ongletfusion.h \
-    MyQLabel.h \
-    DialogChoixAlbumPhys.h \
     DialogModifierArtiste.h \
     DialogModifierAlbum.h \
     DialogVidageBDD.h \
@@ -65,7 +62,8 @@ HEADERS += \
     dialogalbumssmp3.h \
     ongletliste.h \
     bddafficherliste.h \
-    mp3remover.h
+    mp3remover.h \
+    ongleterreurs.h
 
 
 SOURCES += main.cpp \
@@ -82,9 +80,6 @@ SOURCES += main.cpp \
     dialogchoixpochette.cpp \
     DialogAjouterPhys.cpp \
     bddlecteur.cpp \
-    ongletfusion.cpp \
-    MyQLabel.cpp \
-    DialogChoixAlbumPhys.cpp \
     DialogModifierArtiste.cpp \
     DialogModifierAlbum.cpp \
     DialogVidageBDD.cpp \
@@ -95,7 +90,8 @@ SOURCES += main.cpp \
     dialogalbumssmp3.cpp \
     ongletliste.cpp \
     bddafficherliste.cpp \
-    mp3remover.cpp
+    mp3remover.cpp \
+    ongleterreurs.cpp
 
 
 FORMS += \
@@ -107,7 +103,6 @@ FORMS += \
     ongletrech.ui \
     dialogchoixpochette.ui \
     DialogAjouterPhys.ui \
-    ongletfusion.ui \
     DialogChoixAlbumPhys.ui \
     DialogModifierArtiste.ui \
     DialogModifierAlbum.ui \
@@ -116,7 +111,8 @@ FORMS += \
     dialogverifications.ui \
     ongletartiste.ui \
     dialogalbumssmp3.ui \
-    ongletliste.ui
+    ongletliste.ui \
+    ongleterreurs.ui
 
 
 OTHER_FILES += \

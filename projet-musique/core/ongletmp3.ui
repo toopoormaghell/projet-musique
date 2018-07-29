@@ -123,6 +123,33 @@
     </layout>
    </item>
    <item>
+    <widget class="QLabel" name="Artiste">
+     <property name="font">
+      <font>
+       <pointsize>-1</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size:25px;</string>
+     </property>
+     <property name="text">
+      <string>Artiste</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="ModifierArtiste">
+     <property name="text">
+      <string>Modifier Artiste</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <property name="sizeConstraint">
       <enum>QLayout::SetFixedSize</enum>

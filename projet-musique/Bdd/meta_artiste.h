@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QImage>
-#include "meta_album.h"
 #include "bdd_global.h"
 
 class BDDSHARED_EXPORT Meta_Artiste : public QObject

@@ -57,6 +57,8 @@ private slots:
     void on_LireAnnee_clicked();
     void on_DialogueLecteurAnnee_clicked();
 
+    void on_ModifierArtiste_clicked();
+
 private:
     Ui::OngletMP3* ui;
     BDDAfficherMp3 m_bddInterface; //Permet de récupérer les infos de la BDD

@@ -167,7 +167,7 @@ QStringList BDDAfficherPhys::ListeAlbumSauvegarde( int Cate )
     switch ( Cate )
     {
     case 1 :
-        QueryStr = "SELECT  DISTINCT B.Album, Ar.Artiste FROM Phys P,Album B, Artiste Ar, Relations R WHERE P.Id_Album=R.Id_Album AND R.Id_Album=B.Id_Album AND R.Id_Artiste = Ar.Id_Artiste AND P.Support='1' ORDER BY  Ar.Artiste, B.Album";
+        QueryStr = "SELECT  DISTINCT B.Album, Ar.Artiste FROM Phys P,Album B, Artiste Ar, Relations R WHERE P.Id_Album=R.Id_Album AND R.Id_Album=B.Id_Album AND R.Id_Artiste = Ar.Id_Artiste AND P.Support='1' ORDER BY  B.Type, Ar.Artiste, B.Album";
         break;
     case 2 :
         QueryStr = "SELECT  DISTINCT B.Album, B.Annee FROM Phys P,Album B,Relations R WHERE P.Id_Album=R.Id_Album AND R.Id_Album=B.Id_Album  AND P.Support='2' GROUP BY Album ORDER BY B.Annee DESC, B.Album";
@@ -266,7 +266,7 @@ QList<int> BDDAfficherPhys::TitresParArtistes(QString Id_Artiste)
 
     QString queryStr = "SELECT COUNT (*) AS 'NbTitres' FROM Phys P, Relations R WHERE R.Id_Artiste=" + Id_Artiste + " AND P.Id_Album=R.Id_Album";
 
-    if ( Id_Artiste == "-1" )
+    if ( Id_Artiste == "-1" && Id_Artiste == 1 )
     {
         queryStr = "SELECT COUNT (*) AS 'NbTitres' FROM Phys P, Relations R WHERE P.Id_Album = R.Id_Album AND P.Support='2' ";
     }
@@ -282,7 +282,7 @@ QList<int> BDDAfficherPhys::TitresParArtistes(QString Id_Artiste)
 
     queryStr = "SELECT COUNT (*) AS 'NbTitres' FROM Phys P, Relations R WHERE R.Id_Artiste=" + Id_Artiste + " AND P.Id_Album=R.Id_Album AND R.MP3='1'";
 
-    if ( Id_Artiste == "-1" )
+    if ( Id_Artiste == "-1" && Id_Artiste == 1 )
     {
         queryStr = "SELECT COUNT (*) AS 'NbTitres' FROM Relations Rel2, Titre T2, MP3 M WHERE Rel2.Id_Titre = T2.Id_Titre AND M.Id_Relation = Rel2.Id_Relation   AND T2.Titre_Formate IN (  SELECT T.Titre_Formate  FROM Phys P, Relations R, Titre T  WHERE P.Id_Album = R.Id_Album  AND P.Support ='2' AND T.Id_Titre = R.Id_Titre AND Rel2.Id_Artiste = R.Id_Artiste) ";
     }

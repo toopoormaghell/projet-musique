@@ -42,7 +42,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>0</number>
       </property>
       <widget class="OngletMP3" name="MP3">
        <attribute name="title">
@@ -64,11 +64,6 @@
         <string>Recherche</string>
        </attribute>
       </widget>
-      <widget class="OngletFusion" name="Fusion">
-       <attribute name="title">
-        <string>Fusion</string>
-       </attribute>
-      </widget>
       <widget class="OngletArtiste" name="tab_4">
        <attribute name="title">
         <string>Artistes</string>
@@ -77,6 +72,11 @@
       <widget class="OngletListe" name="tab_5">
        <attribute name="title">
         <string>Liste Boites</string>
+       </attribute>
+      </widget>
+      <widget class="OngletErreurs" name="Erreurs">
+       <attribute name="title">
+        <string>Erreurs</string>
        </attribute>
       </widget>
      </widget>
@@ -319,12 +319,6 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>OngletFusion</class>
-   <extends>QWidget</extends>
-   <header>ongletfusion.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>OngletArtiste</class>
    <extends>QWidget</extends>
    <header>ongletartiste.h</header>
@@ -334,6 +328,12 @@
    <class>OngletListe</class>
    <extends>QWidget</extends>
    <header location="global">ongletliste.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>OngletErreurs</class>
+   <extends>QWidget</extends>
+   <header>ongleterreurs.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -1,6 +1,5 @@
 #include "bddsingleton.h"
 #include <QStringList>
-#include <qdebug.h>
 #include <QtSql>
 #include <QDir>
 #include <QFileInfo>

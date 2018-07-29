@@ -8,7 +8,6 @@
 #include "bddafficherartiste.h"
 
 
-#include <QDebug>
 
 #include "meta_album.h"
 #include "meta_artiste.h"

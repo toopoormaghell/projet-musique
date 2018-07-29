@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Album non trouvé</string>
+   <string>Choix de la nouvelle pochette de l'Artiste</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>

@@ -30,10 +30,7 @@ public:
     BDDType const* m_type;
     BDDArtiste const* m_artiste;
 
-    static AlbumPhys RecupAlbumEntite( const int id );
-
     static bool ExisteEnPhys( const int id );
-
 
 private:
     static int recupererId(const QString& nomFormate, const QString& id_Artiste);

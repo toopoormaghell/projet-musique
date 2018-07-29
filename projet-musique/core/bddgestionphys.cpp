@@ -25,9 +25,11 @@ void BDDGestionPhys::SupprimerenBDDPhys( int Id )
     phys->SupprimerBDDPhys();
     delete phys;
 }
-
+ /*
 void BDDGestionPhys::modifierAlbum( QString Album, QString Artiste, QString ean, int Annee, QList<TitresPhys> titres, int Type, int Id_Poch, int Id_Album, QString Commentaires, int Support)
 {
+
+
     BDDPoch* poch  = BDDPoch::recupererBDD( Id_Poch );
     BDDArtiste* art = BDDArtiste::recupererBDD(Artiste, *poch);
     BDDAlbum* alb = BDDAlbum::recupererBDD(Id_Album);
@@ -82,4 +84,6 @@ void BDDGestionPhys::modifierAlbum( QString Album, QString Artiste, QString ean,
 
     delete art;
     delete alb;
-}
+
+}    */
+

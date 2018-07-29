@@ -45,9 +45,11 @@ public:
     void setduree(QString duree);
     void setnum_piste(int num);
     void settype(QString type);
-    void setsupportphys(QString support);
+    void setsupportphys(int support);
     void setsupportmp3(QString support);
     void setcheminmp3(QString chemin);
+void setid_support_m ( int id );
+
 
     virtual ~Meta_Titre();
 

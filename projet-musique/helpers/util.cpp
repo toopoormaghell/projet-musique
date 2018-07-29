@@ -38,6 +38,7 @@ void EnleverAccents( QString& Nom )
 void EnleverPonctuation( QString& Nom)
 {
     Nom.replace( ":", " " );
+    Nom.replace( "*", " " );
     Nom.replace( "\\", " " );
     Nom.replace( "?", " " );
     Nom.replace( "!", " " );
@@ -81,12 +82,12 @@ void FormaterEntiteBDD( QString& Entite )
 
 void MajusuculeAChaqueMot(QString& Entite)
 {
-
     QString temp;
-
+   Entite = Entite.toLower();
     QStringList decoupage = Entite.split(" ");
     for ( int cpt = 0; cpt < decoupage.count(); cpt++ )
     {
+
         QString decoup = decoupage[cpt];
         decoup =decoup.remove(0,1);
         temp += decoupage[cpt][0].toUpper()+ decoup;

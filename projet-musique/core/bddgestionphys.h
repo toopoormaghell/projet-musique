@@ -13,7 +13,7 @@ class BDDGestionPhys : public QObject
 public:
     explicit BDDGestionPhys( QObject* parent = 0 );
     void SupprimerenBDDPhys( int Id );
-    void modifierAlbum(QString Album, QString Artiste, QString ean, int Annee, QList<TitresPhys> titres, int Type, int Id_Poch, int Id_Album, QString Commentaires, int Support);
+//    void modifierAlbum(QString Album, QString Artiste, QString ean, int Annee, QList<TitresPhys> titres, int Type, int Id_Poch, int Id_Album, QString Commentaires, int Support);
 
 };
 

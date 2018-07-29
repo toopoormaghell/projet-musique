@@ -16,6 +16,7 @@ QString BDDPoch::creerchemin( const QString& album, const QString& artiste )
     return "./pochettes/" + artisteFormate + "/" + albumFormate + ".jpg";
 }
 
+
 QList<int> BDDPoch::pochettesparart(const QString &artiste)
 {
     QList<int> listepoch;
@@ -40,6 +41,11 @@ void BDDPoch::sauverImage() const
     dossier.mkdir( toCreate.path() );
     QImage temp = m_image.scaled( 250,250 );
     temp.save( m_chemin );
+}
+
+BDDPoch::~BDDPoch()
+{
+
 }
 
 void BDDPoch::updateBDD()
