@@ -164,6 +164,8 @@ Meta_Album* Meta_Album::RecupererBDD(const int id)
         BDDPhys* phys = BDDPhys::RecupererBDD( id );
         commentaires = phys->m_commentaires;
         ean = phys->m_ean;
+        delete phys;
+        phys = nullptr;
 
         //On récupère les titres liés à l'album
         QList<int> listetitres = RecupererTitresAlbum( id );
@@ -186,7 +188,9 @@ Meta_Album* Meta_Album::RecupererBDD(const int id)
         }
         if ( id_support_p != -1)
         {
-            support_p = BDDSupport::RecupererSupport( id_support_p )->m_support;
+            BDDSupport* tmp = BDDSupport::RecupererSupport( id_support_p );
+            support_p = tmp->m_support;
+            delete tmp; tmp = nullptr;
 
         }
     }
@@ -214,23 +218,34 @@ void Meta_Album::SupprimerBDDPhys()
 }
 void Meta_Album::UpdateBDD()
 {
+    BDDType* tmp1 = BDDType::RecupererType( m_id_type );
+    m_Type = tmp1->m_type;
+    delete tmp1; tmp1 = nullptr;
+    BDDSupport* tmp2 = BDDSupport::RecupererSupport( m_id_support_p );
+    m_support_p = tmp2->m_support;
+    delete tmp2; tmp2 = nullptr;
 
-    m_Type = BDDType::RecupererType( m_id_type )->m_type;
-    m_support_p = BDDSupport::RecupererSupport( m_id_support_p )->m_support;
 
+    BDDPoch* poch = nullptr;
+    if (m_id_type!=2)
+    {
+        poch = BDDPoch::recupererBDD( m_poch, m_nom_album.replace( "'", "$" ), (m_id_support_p==2 ? "Compil":m_nom_artiste.replace( "'", "$" )));
+        poch->updateBDD();
+    }
+    else
+    {
+        poch = BDDPoch::recupererBDD(1);
+    }
 
-    BDDPoch* poch = BDDPoch::recupererBDD( m_poch, m_nom_album.replace( "'", "$" ), (m_id_support_p==2 ? "Compil":m_nom_artiste.replace( "'", "$" )));
-    poch->updateBDD();
-
-    BDDPoch* def = BDDPoch::recupererBDD(1);
-
-    BDDArtiste* art = BDDArtiste::recupererBDD(m_nom_artiste .replace("'", "$"), ( m_id_type==2 ?*def : *poch));
+    BDDArtiste* art = BDDArtiste::recupererBDD(m_nom_artiste .replace("'", "$"), *poch);
     art->updateBDD();
     m_id_artiste = art->id();
 
     BDDAlbum* alb= BDDAlbum::recupererBDD( m_nom_album.replace( "'", "$" ),  *poch, m_annee, *BDDType::RecupererType( m_id_type ), *art  );
     alb->updateBDD();
     m_id_album = alb->id();
+
+    delete art; art = nullptr;
 
     SupprimerAnciensTitres();
 
@@ -245,11 +260,6 @@ void Meta_Album::UpdateBDD()
         temp->setsupportphys( m_id_support_p );
         temp->UpdateBDD();
     }
-
-
-    delete poch; delete def;
-
-
 }
 void Meta_Album::SupprimerAnciensTitres()
 {
@@ -280,7 +290,7 @@ void Meta_Album::SupprimerAnciensTitres()
             }
             comp ++;
         }
-
+        delete titre;
     }
 
 
