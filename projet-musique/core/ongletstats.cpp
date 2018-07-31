@@ -97,7 +97,6 @@ void OngletStats::AfficherInfosCategoriesPhys()
 {
     ui->NbPhysTotalAlbums->setText( "Supports Albums : " + QString::number( m_bddInterface.NbPhysCategorie( 1 ) ) );
 
-
     //Classique
     int temp = m_bddInterface.NbPhysType( 8 );
 

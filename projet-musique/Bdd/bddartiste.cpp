@@ -62,7 +62,6 @@ BDDArtiste* BDDArtiste::recupererBDD(const QString& artiste, BDDPoch& pochette)
     QString nom( artiste );
     EnleverAccents (nom );
     MajusuculeAChaqueMot( nom );
-    qDebug() << nom ;
     QString nomFormate( nom );
     FormaterEntiteBDD( nomFormate );
 

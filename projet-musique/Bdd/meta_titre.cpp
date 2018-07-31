@@ -322,7 +322,15 @@ void Meta_Titre::UpdateBDD()
     m_Support_m = tmp2->m_support;
     delete tmp2; tmp2 = nullptr;
 
-    BDDPoch* poch = BDDPoch::recupererBDD( m_poch , m_nom_album.replace( "'", "$" ), m_nom_artiste.replace( "'", "$" ));
+    QString tempartpoch ;
+    if ( m_id_support_p == 2 )
+    {
+        tempartpoch = "Artistes Divers";
+    } else {
+        tempartpoch = m_nom_artiste.replace( "'", "$" );
+    }
+
+    BDDPoch* poch = BDDPoch::recupererBDD( m_poch , m_nom_album.replace( "'", "$" ), tempartpoch);
     poch->updateBDD();
 
     BDDPoch* def = BDDPoch::recupererBDD( 1 );

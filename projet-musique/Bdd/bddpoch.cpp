@@ -8,9 +8,14 @@
 QString BDDPoch::creerchemin( const QString& album, const QString& artiste )
 {
 
+
     QString artisteFormate( artiste );
     QString albumFormate( album );
-    FormaterEntiteBDD( artisteFormate );
+      FormaterEntiteBDD( artisteFormate );
+    if ( artisteFormate == "artistesdivers")
+    {
+        artisteFormate = "Compil";
+    }
     FormaterEntiteBDD( albumFormate );
 
     return "./pochettes/" + artisteFormate + "/" + albumFormate + ".jpg";

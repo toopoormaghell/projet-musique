@@ -10,7 +10,7 @@ BddAfficherListe::BddAfficherListe(QObject* parent):
 int BddAfficherListe::EnregistrerBoite(QString nom_boite)
 {
     QString queryStr = " INSERT INTO BoiteInfos VALUES(null, '" + nom_boite + "' ) " ;
-    qDebug() << queryStr;
+
     QSqlQuery query = madatabase.exec( queryStr );
 
     return query.lastInsertId().toInt();
@@ -21,7 +21,7 @@ void BddAfficherListe::EnregistrerSelection( QList<int> liste, int boite )
     for ( int i = 0; i < liste.count() ; i++ )
     {
         QString queryStr = " INSERT INTO BoiteAlb VALUES(" + QString::number( boite )+ ", " + QString::number( liste[i] ) + " ) " ;
-        qDebug() << queryStr;
+
         madatabase.exec( queryStr );
     }
 }
