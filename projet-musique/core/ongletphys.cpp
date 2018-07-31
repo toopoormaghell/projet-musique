@@ -442,7 +442,11 @@ void OngletPhys::remplirStats()
     {
         ui->NbTitres->setText( QString::number( titres[0] ) );
         ui->NbTitresMP3->setText( QString::number( titres[1] ) );
-        Pourcentage = titres[1]*100/titres[0];
+        if ( titres[0] > 0 &&  titres[1] > 0)
+        {
+             Pourcentage = titres[1]*100/titres[0];
+        }
+
     }
     ui->Pourcentage->setText(QString::number( Pourcentage )+" %");
 
