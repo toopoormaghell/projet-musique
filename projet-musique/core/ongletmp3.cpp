@@ -25,8 +25,15 @@ OngletMP3::OngletMP3( QWidget* parent ) :
     m_PlaylistLecteur ( ),
     m_fichierlu ( ),
     ui( new Ui::OngletMP3 ),
+    m_bddInterface(),
     m_lignestitres( 0 ),
-    m_colonnetitre( 0 )
+    m_lecteur(nullptr),
+    m_colonnetitre( 0 ),
+    m_ajoutlignes(0),
+    m_categorie(0),
+    m_mp3(0),
+    m_album(0),
+    m_artiste(0)
 {
     ui->setupUi( this );
 
