@@ -16,7 +16,7 @@
 #include "meta_artiste.h"
 
 #include "DialogModifierArtiste.h"
-#include "DialogAjouterPhys.h"
+#include "dialogajouterphys.h"
 #include "DialogModifierAlbum.h"
 #include "bddlecteur.h"
 
@@ -203,7 +203,7 @@ void OngletMP3::afficheralbumsettitres()
         ui->AlbumsTitres->setRowCount( m_lignestitres );
         ui->AlbumsTitres->setCurrentCell( 0, 1, QItemSelectionModel::Select );
         m_mp3 = 0;
-        if ( ui->AlbumsTitres->currentItem() != NULL )
+        if ( ui->AlbumsTitres->currentItem() != nullptr )
             m_mp3 = ui->AlbumsTitres->currentItem()->data( Qt::UserRole ).toInt();
     }
 }
@@ -407,7 +407,7 @@ void OngletMP3::affichageartistes()
 
             delete artiste;
         }
-        srand( time( NULL ) );
+        srand( static_cast<unsigned int>(time( nullptr )) );
         aleatoire = ( rand() % ( artistes.count() - 0 + 1 ) ) + 0;
         aleatoire = 0;
     }
@@ -417,7 +417,7 @@ void OngletMP3::affichageartistes()
     }
     ui->ArtistesAnnees->setCurrentRow( aleatoire );
 
-    if ( ui->ArtistesAnnees->currentItem() != NULL )
+    if ( ui->ArtistesAnnees->currentItem() != nullptr )
 
         m_artiste = ui->ArtistesAnnees->currentItem()->data( Qt::UserRole ).toInt();
 
@@ -581,7 +581,7 @@ void OngletMP3::on_Similaires_clicked(const QModelIndex &index)
 
             QTableWidgetItem* item = ui->AlbumsTitres->item(row,col);
 
-            if ( item!= NULL)
+            if ( item!= nullptr)
             {
                 if (item->data(Qt::UserRole).toInt() == m_mp3 )
                 {

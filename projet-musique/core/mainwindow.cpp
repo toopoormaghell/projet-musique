@@ -7,7 +7,7 @@
 #include <QWidget>
 #include <QStatusBar>
 #include <QPushButton>
-#if Q_OS_WIN
+#ifdef Q_OS_WIN
 #include <QWinTaskbarButton>
 #include <QWinTaskbarProgress>
 #endif
@@ -34,7 +34,7 @@ FenetrePrincipale::FenetrePrincipale(const QStringList& couleurs, QWidget* paren
     m_vidage( this ),
     stop( new QPushButton( "Stop" ) ),
     m_couleurs(couleurs)
-#if Q_OS_WIN
+#ifdef Q_OS_WIN
   , m_taskbarButton ( nullptr )
 #endif
 {
@@ -199,7 +199,7 @@ void FenetrePrincipale::changerPourcentage()
 {
     m_progressbar->setValue( m_gestionMP3->m_pourcentage );
     m_progressbar->setFormat( "%p%" );
-#if Q_OS_WIN
+#ifdef Q_OS_WIN
     m_taskbarButton->progress()->setValue( m_gestionMP3->m_pourcentage );
 #endif
 
@@ -215,7 +215,7 @@ void FenetrePrincipale::AfficherTexte()
 void FenetrePrincipale::ActualiserOngletMP3()
 {
     m_progressbar->setValue( 100 );
-#if Q_OS_WIN
+#ifdef Q_OS_WIN
     m_taskbarButton->progress()->setValue( 100 );
 #endif
     m_progressbar->setFormat( "%p%" );
@@ -231,7 +231,7 @@ void FenetrePrincipale::ActualiserOngletStats()
 
 void FenetrePrincipale::showEvent(QShowEvent *e)
 {
-#if Q_OS_WIN
+#ifdef Q_OS_WIN
     m_taskbarButton = new QWinTaskbarButton(this);
     QWindow* toto = windowHandle();
     m_taskbarButton->setWindow(toto);
