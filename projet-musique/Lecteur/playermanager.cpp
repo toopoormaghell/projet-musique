@@ -11,7 +11,7 @@ PlayerManager::PlayerManager( QWidget *parent ) :
     QWidget( parent )
   , ui( new Ui::PlayerManager )
   , player()
-  , playlist( new QMediaPlaylist )
+  , playlist( new QMediaPlaylist(this) )
   , m_aleatoire ( false )
 {
     ui->setupUi( this );

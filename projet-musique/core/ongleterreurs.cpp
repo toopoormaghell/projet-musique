@@ -21,6 +21,7 @@ OngletErreurs::OngletErreurs( QWidget *parent ) :
 OngletErreurs::~OngletErreurs()
 {
     delete ui;
+    delete m_bddinterface;
 }
 
 void OngletErreurs::on_ErreursAlbums_clicked()

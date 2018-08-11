@@ -10,6 +10,11 @@ BDDErreurs::BDDErreurs(QObject *parent) : QObject(parent),
 
 }
 
+BDDErreurs::~BBDErreurs()
+{
+    delete m_outils;
+}
+
 QList<int> BDDErreurs::retrouverErreurs(int categorie)
 {
     switch ( categorie )

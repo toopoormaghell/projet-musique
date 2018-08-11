@@ -22,7 +22,9 @@ QStringList BDDAfficherPhys::RecupererListeTypes()
         QSqlRecord rec = query.record();
         if ( rec.value( "Type" ).toInt() != 11 )
         {
-            liste << BDDType::RecupererType( rec.value( "Type" ).toInt() )->m_type;
+            BDDType* tmp = BDDType::RecupererType( rec.value( "Type" ).toInt() );
+            liste << tmp->m_type;
+            delete tmp; tmp = nullptr;
             liste << rec.value( "Type" ).toString();
         }
     }
