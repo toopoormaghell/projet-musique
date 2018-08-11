@@ -10,7 +10,9 @@
 #include <QPushButton>
 #include "ongletmp3.h"
 #include "mainwindowlecteur.h"
+#ifdef Q_OS_WIN
 #include <QWinTaskbarButton>
+#endif
 
 namespace Ui
 {
@@ -58,7 +60,9 @@ private:
     DialogVidageBDD m_vidage;
     QPushButton* stop;
     QStringList m_couleurs;
+#ifdef Q_OS_WIN
     QWinTaskbarButton* m_taskbarButton;
+#endif
 };
 
 #endif // MAINWINDOW_H

@@ -7,8 +7,10 @@
 #include <QWidget>
 #include <QStatusBar>
 #include <QPushButton>
+#if Q_OS_WIN
 #include <QWinTaskbarButton>
 #include <QWinTaskbarProgress>
+#endif
 #include <QShowEvent>
 
 #include "dialogconfigactu.h"
@@ -31,8 +33,10 @@ FenetrePrincipale::FenetrePrincipale(const QStringList& couleurs, QWidget* paren
     m_dialogajouterphys( NULL ),
     m_vidage( this ),
     stop( new QPushButton( "Stop" ) ),
-    m_couleurs(couleurs),
-    m_taskbarButton ( nullptr )
+    m_couleurs(couleurs)
+#if Q_OS_WIN
+  , m_taskbarButton ( nullptr )
+#endif
 {
     ui->setupUi( this );
     m_ongletMP3 = ui->MP3;
@@ -195,7 +199,9 @@ void FenetrePrincipale::changerPourcentage()
 {
     m_progressbar->setValue( m_gestionMP3->m_pourcentage );
     m_progressbar->setFormat( "%p%" );
+#if Q_OS_WIN
     m_taskbarButton->progress()->setValue( m_gestionMP3->m_pourcentage );
+#endif
 
     m_interaction->clear();
     m_interaction->setText( m_gestionMP3->m_fichierlu );
@@ -209,7 +215,9 @@ void FenetrePrincipale::AfficherTexte()
 void FenetrePrincipale::ActualiserOngletMP3()
 {
     m_progressbar->setValue( 100 );
+#if Q_OS_WIN
     m_taskbarButton->progress()->setValue( 100 );
+#endif
     m_progressbar->setFormat( "%p%" );
     m_interaction->setText( "Fin de l'actualisation." );
     m_ongletMP3->vider( "Categories" );
@@ -223,7 +231,7 @@ void FenetrePrincipale::ActualiserOngletStats()
 
 void FenetrePrincipale::showEvent(QShowEvent *e)
 {
-
+#if Q_OS_WIN
     m_taskbarButton = new QWinTaskbarButton(this);
     QWindow* toto = windowHandle();
     m_taskbarButton->setWindow(toto);
@@ -231,6 +239,6 @@ void FenetrePrincipale::showEvent(QShowEvent *e)
     m_taskbarButton->progress()->setRange( 0 , 100 );
     m_taskbarButton->progress()->setValue( 0 );
     m_taskbarButton->progress()->show();
-
+#endif
     e->accept();
 }

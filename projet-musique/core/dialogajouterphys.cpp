@@ -404,7 +404,7 @@ DialogAjouterPhys::DialogAjouterPhys( QWidget* parent ) :
     ui->setupUi( this );
 
     ui->tableView->setModel( m_tableModel );
-    ui->tableView->setItemDelegate( new QCompletedLineEditDelegate );
+    ui->tableView->setItemDelegate( new QCompletedLineEditDelegate(ui->tableView) );
 
     m_Type = 1;
     AffichageListeArtistes( -2 );
@@ -451,6 +451,7 @@ void DialogAjouterPhys::AjoutConnex()
 DialogAjouterPhys::~DialogAjouterPhys()
 {
     delete ui;
+    delete m_tableModel;
 }
 
 

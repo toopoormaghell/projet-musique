@@ -30,7 +30,7 @@ void OngletArtiste::ActualiserOnglet()
 
     QStringList listeArt = appelBDD->ListeArtiste();
 
-    QCompleter* completer = new QCompleter ( listeArt );
+    QCompleter* completer = new QCompleter (listeArt, ui->Artistes);
     completer->setCaseSensitivity( Qt::CaseInsensitive );
     ui->Artistes->setCompleter( completer );
 }
