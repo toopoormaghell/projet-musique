@@ -10,7 +10,7 @@ BDDErreurs::BDDErreurs(QObject *parent) : QObject(parent),
 
 }
 
-BDDErreurs::~BBDErreurs()
+BDDErreurs::~BDDErreurs()
 {
     delete m_outils;
 }

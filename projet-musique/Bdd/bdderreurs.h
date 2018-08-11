@@ -11,7 +11,7 @@ class BDDSHARED_EXPORT BDDErreurs : public QObject
 public:
 
     explicit BDDErreurs(QObject *parent = nullptr);
-    ~BBDErreurs();
+    ~BDDErreurs();
     QList<int> retrouverErreurs( int categorie );
     QStringList lectureErreur(int categorie, int id);
     void supprimer(int categorie, int id);
