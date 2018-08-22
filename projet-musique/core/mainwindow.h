@@ -24,7 +24,7 @@ class FenetrePrincipale : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit FenetrePrincipale(const QStringList &couleurs, QWidget* parent = 0 );
+    explicit FenetrePrincipale(const QStringList &couleurs, QWidget* parent = nullptr );
     ~FenetrePrincipale();
 
     void ajouterToolbar();

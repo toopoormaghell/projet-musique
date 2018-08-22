@@ -36,7 +36,7 @@ private:
     static int recupererId(const QString& nomFormate, const QString& id_Artiste);
     static int TrouverId(const QString& nom, const int& id_Artiste);
 
-    explicit BDDAlbum(const int id, const QString& nom, const QString &nomFormate, BDDPoch* pochette, int annee, const BDDType* type, const BDDArtiste* artiste, QObject* parent = NULL);
+    explicit BDDAlbum(const int id, const QString& nom, const QString &nomFormate, BDDPoch* pochette, int annee, const BDDType* type, const BDDArtiste* artiste, QObject* parent = nullptr);
 
 
 };

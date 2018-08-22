@@ -37,7 +37,7 @@ private:
 
     static int recupererId( const QString& Chemin);
 
-    explicit BDDMp3(const int id, const QString& Chemin, const BDDRelation* relation, const BDDSupport* support, QObject* parent = NULL);
+    explicit BDDMp3(const int id, const QString& Chemin, const BDDRelation* relation, const BDDSupport* support, QObject* parent = nullptr);
 };
 
 #endif // BDDMP3_H

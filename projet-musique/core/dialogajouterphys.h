@@ -27,14 +27,14 @@ public:
      * @brief Default constructor inherited by QWidget way of working
      * @param parent Parent widget of this dialog
      */
-    explicit DialogAjouterPhys( QWidget* parent = 0 );
+    explicit DialogAjouterPhys( QWidget* parent = nullptr );
 
     /**
      * @brief Constructor for this dialog with an album id
      * @param id_album Album id used to initialize the dialog
      * @param parent Parent widget of this dialog
      */
-    explicit DialogAjouterPhys( int id_album, QWidget* parent = 0 );
+    explicit DialogAjouterPhys( int id_album, QWidget* parent = nullptr );
 
     /**
      * @brief Destructor

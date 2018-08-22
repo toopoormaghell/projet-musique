@@ -16,7 +16,7 @@ class DialogControles : public QWidget
     Q_OBJECT
 
 public:
-    explicit DialogControles( QWidget *parent = 0 );
+    explicit DialogControles( QWidget *parent = nullptr );
     ~DialogControles();
     QMediaPlayer* player;
 signals:

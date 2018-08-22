@@ -8,7 +8,7 @@ class BDDSHARED_EXPORT BDDConfig : public QObject
 {
     Q_OBJECT
 public:
-    explicit BDDConfig( QObject* parent = 0 );
+    explicit BDDConfig( QObject* parent = nullptr );
 
     static  QString recupdossierpardef();
     void EnregistrerDossierParDef( QString doss );

@@ -15,7 +15,7 @@ class OngletErreurs : public QWidget
     Q_OBJECT
 
 public:
-    explicit OngletErreurs(QWidget *parent = 0);
+    explicit OngletErreurs(QWidget *parent = nullptr);
     ~OngletErreurs();
 
     QString categorie();

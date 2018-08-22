@@ -17,7 +17,7 @@ class DialogModifierAlbum : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogModifierAlbum( int selection, QWidget* parent = 0 );
+    explicit DialogModifierAlbum( int selection, QWidget* parent = nullptr );
     ~DialogModifierAlbum();
 
 private slots:

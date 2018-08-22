@@ -26,7 +26,7 @@ public:
     static QString creerchemin(const QString& album, const QString& artiste);
 private:
 
-    explicit BDDPoch(const int id, const QImage& image, const QString& chemin,QObject* parent = NULL);
+    explicit BDDPoch(const int id, const QImage& image, const QString& chemin,QObject* parent = nullptr);
 
 };
 

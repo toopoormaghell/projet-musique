@@ -69,7 +69,7 @@ private:
     int m_id_support_p;
     int m_id_support_m;
 
-    explicit Meta_Album(const QString& nom_album, const QString& nom_artiste, int annee, const QImage& Poch, const QString& Type, const QList<Meta_Titre*>& titres, const QString& support_p, const QString& support_m, const QString& commentaires, const QString& ean, int id_album, int id_artiste, int id_poch, int id_type, int id_support_p, int id_support_m, QObject* parent = NULL);
+    explicit Meta_Album(const QString& nom_album, const QString& nom_artiste, int annee, const QImage& Poch, const QString& Type, const QList<Meta_Titre*>& titres, const QString& support_p, const QString& support_m, const QString& commentaires, const QString& ean, int id_album, int id_artiste, int id_poch, int id_type, int id_support_p, int id_support_m, QObject* parent = nullptr);
 };
 
 #endif // META_ALBUM_H

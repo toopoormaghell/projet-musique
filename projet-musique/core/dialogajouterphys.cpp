@@ -18,7 +18,7 @@ class QTableModel;
 class QCompletedLineEditDelegate : public QStyledItemDelegate
 {
 public:
-    QCompletedLineEditDelegate( QObject* parent = 0 ):
+    QCompletedLineEditDelegate( QObject* parent = nullptr ):
         QStyledItemDelegate( parent )
     {
     }
@@ -26,7 +26,7 @@ public:
     QWidget* createEditor( QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index ) const
     {
         Q_UNUSED (option)
-        QLineEdit* editor = NULL;
+        QLineEdit* editor = nullptr;
         if ((index.column() == 1) || (index.column() == 2))
         {
             editor = new QLineEdit( parent );

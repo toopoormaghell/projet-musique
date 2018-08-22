@@ -13,7 +13,7 @@ class DialogVidageBDD : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogVidageBDD( QWidget* parent = 0 );
+    explicit DialogVidageBDD( QWidget* parent = nullptr );
     ~DialogVidageBDD();
 
     bool Mp3;

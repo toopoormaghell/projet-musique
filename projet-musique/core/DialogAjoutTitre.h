@@ -13,7 +13,7 @@ class DialogAjoutTitre : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogAjoutTitre( int Type, int Nb_Piste, QWidget* parent = 0 );
+    explicit DialogAjoutTitre( int Type, int Nb_Piste, QWidget* parent = nullptr );
     ~DialogAjoutTitre();
 
     QString m_Piste;

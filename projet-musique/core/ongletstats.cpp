@@ -197,11 +197,11 @@ void OngletStats::AfficherDoublonsMP3()
 int OngletStats::choixArtiste()
 {
     QListWidgetItem* item = ui->ArtistesDansCompil->currentItem();
-    if ( item == NULL )
+    if ( item == nullptr )
     {
         item = ui->ArtistesDansCompil->item( 0 );
     }
-    if ( item != NULL )
+    if ( item != nullptr )
     {
         return item->data( Qt::UserRole ).toInt();
     }

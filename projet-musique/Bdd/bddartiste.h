@@ -31,7 +31,7 @@ private:
     static QString ChoisirArtisteEchange(const QString& nom);
     static int TrouverId(const QString& nom );
 
-    explicit BDDArtiste(const int id, const QString &nom, const QString &nomFormate, BDDPoch *pochette, QObject* parent = NULL);
+    explicit BDDArtiste(const int id, const QString &nom, const QString &nomFormate, BDDPoch *pochette, QObject* parent = nullptr);
 };
 
 

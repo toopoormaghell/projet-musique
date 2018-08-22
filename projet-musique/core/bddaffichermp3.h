@@ -10,7 +10,7 @@ class BDDAfficherMp3 : public QObject
     Q_OBJECT
 
 public:
-    explicit BDDAfficherMp3( QObject* parent = 0 );
+    explicit BDDAfficherMp3( QObject* parent = nullptr );
     QList<int> ListeArtiste( QString type );
     QStringList listeTitresAlbumMp3(QString Id_Album, QString Categorie );
     QStringList MP3Artiste( QString id_artiste );

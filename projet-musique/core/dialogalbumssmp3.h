@@ -13,7 +13,7 @@ class DialogAlbumSSMP3 : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogAlbumSSMP3(QWidget *parent = 0);
+    explicit DialogAlbumSSMP3(QWidget *parent = nullptr);
     ~DialogAlbumSSMP3();
 
     void AjouterAlbums();

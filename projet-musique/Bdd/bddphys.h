@@ -29,7 +29,7 @@ public:
 private:
     static int recupererId(const int id_alb );
 
-    explicit  BDDPhys(const int id, const BDDAlbum* album, const QString& ean, const BDDSupport*support, const QString& Commentaires, QObject* parent = NULL );
+    explicit  BDDPhys(const int id, const BDDAlbum* album, const QString& ean, const BDDSupport*support, const QString& Commentaires, QObject* parent = nullptr );
 
 };
 

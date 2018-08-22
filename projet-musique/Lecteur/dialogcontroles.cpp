@@ -91,7 +91,7 @@ QPixmap DialogControles::ImageAlbum ( const TagLib::FileRef& f )
     TagLib::ID3v2::FrameList Liste = Tag.frameListMap()["APIC"];
     TagLib::ID3v2::AttachedPictureFrame* Pic = static_cast<TagLib::ID3v2::AttachedPictureFrame*>( Liste.front() );
 
-    if ( ( Pic == NULL ) || Pic->picture().isEmpty() )
+    if ( ( Pic == nullptr ) || Pic->picture().isEmpty() )
     {
         Image.fromData( "./Pochettes/def.jpg" );
 

@@ -15,7 +15,7 @@ class MainWindowLecteur : public QWidget
     Q_OBJECT
 
 public:
-    explicit MainWindowLecteur( const QStringList& couleurs, QWidget *parent = 0 );
+    explicit MainWindowLecteur( const QStringList& couleurs, QWidget *parent = nullptr );
     ~MainWindowLecteur();
     QStringList m_playlist;
 

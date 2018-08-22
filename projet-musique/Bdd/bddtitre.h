@@ -26,7 +26,7 @@ private:
     static int recupererId(const QString &nomFormate);
     static int TrouverId(const QString &nom );
 
-    explicit BDDTitre(const int id, QString& nom, QString& nomFormate, QObject* parent = NULL);
+    explicit BDDTitre(const int id, QString& nom, QString& nomFormate, QObject* parent = nullptr);
     BDDTitre*RecupererTitre(const int id);
 };
 

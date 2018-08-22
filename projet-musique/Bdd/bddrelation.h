@@ -37,7 +37,7 @@ private:
 
     static  int recupererId(const QString& id_album, const QString& id_artiste, const QString& id_titre);
 
-    explicit BDDRelation(const int id, BDDAlbum* album, BDDArtiste* artiste, BDDTitre* titre, const int num_piste, const QString& duree, const int mp3, const int phys,  QObject* parent = NULL);
+    explicit BDDRelation(const int id, BDDAlbum* album, BDDArtiste* artiste, BDDTitre* titre, const int num_piste, const QString& duree, const int mp3, const int phys,  QObject* parent = nullptr);
 };
 
 #endif // BDDRELATION_H

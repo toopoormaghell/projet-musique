@@ -11,7 +11,7 @@ class BDDSHARED_EXPORT GestionVerifications: public QObject
     Q_OBJECT
 
 public:
-   explicit GestionVerifications( QObject* parent = 0);
+   explicit GestionVerifications( QObject* parent = nullptr);
 
     void titresphysetmp3();
     void ReformatageEntites();

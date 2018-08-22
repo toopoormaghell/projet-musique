@@ -14,7 +14,7 @@ class DialogModifierArtiste : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogModifierArtiste( Meta_Artiste* Artiste, QWidget* parent = 0 );
+    explicit DialogModifierArtiste( Meta_Artiste* Artiste, QWidget* parent = nullptr );
     ~DialogModifierArtiste();
 
 private slots:

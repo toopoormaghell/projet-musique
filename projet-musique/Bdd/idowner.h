@@ -8,7 +8,7 @@ class BDDSHARED_EXPORT IdOwner : public QObject
 {
     Q_OBJECT
 public:
-    explicit IdOwner(int id, QObject *parent = 0);
+    explicit IdOwner(int id, QObject *parent = nullptr);
     int id() const;
     void setId(const int id);
 

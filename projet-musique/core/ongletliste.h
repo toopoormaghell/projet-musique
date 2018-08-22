@@ -15,7 +15,7 @@ class OngletListe : public QWidget
     Q_OBJECT
 
 public:
-    explicit OngletListe(QWidget *parent = 0);
+    explicit OngletListe(QWidget *parent = nullptr);
     ~OngletListe();
 
     void AfficherAlbums(int id);

@@ -18,7 +18,7 @@ public:
     static void ReconstruireListeCategorieMP3();
 
 private:
-    explicit BDDType(const int id, QObject* parent = NULL);
+    explicit BDDType(const int id, QObject* parent = nullptr);
 
 };
 

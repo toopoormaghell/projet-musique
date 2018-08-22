@@ -15,7 +15,7 @@ class DialogConfigActu : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogConfigActu( QWidget* parent = 0 );
+    explicit DialogConfigActu( QWidget* parent = nullptr );
     ~DialogConfigActu();
 
 private slots:

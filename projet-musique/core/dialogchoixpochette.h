@@ -14,7 +14,7 @@ class DialogChoixPochette : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogChoixPochette(QString artiste, QWidget *parent = 0);
+    explicit DialogChoixPochette(QString artiste, QWidget *parent = nullptr);
     ~DialogChoixPochette();
     int m_selection;
 private slots:

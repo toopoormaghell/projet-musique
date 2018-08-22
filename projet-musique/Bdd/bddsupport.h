@@ -17,7 +17,7 @@ public:
 
    static BDDSupport* RecupererSupportAlb( int Id, QString Categorie);
 private:
-    BDDSupport( const int id, QObject* parent = NULL );
+    BDDSupport( const int id, QObject* parent = nullptr );
 };
 
 #endif // BDDSUPPORT_H
