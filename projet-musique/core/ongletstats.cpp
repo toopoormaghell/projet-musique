@@ -156,12 +156,11 @@ void OngletStats::AfficherArtistesCompilMP3()
 
     for ( int i = 0; i < temp.count(); i++ )
     {
-        BDDArtiste* art = BDDArtiste::recupererBDD( temp[i] );
+        Handle<BDDArtiste> art = BDDArtiste::recupererBDD( temp[i] );
         QListWidgetItem* item =  new QListWidgetItem;
         item->setText( art->m_nom );
         item->setData( Qt::UserRole, temp[i] );
         ui->ArtistesDansCompil->addItem( item );
-        delete art;
     }
 }
 void OngletStats::AfficherMP3ArtisteCompilMP3()

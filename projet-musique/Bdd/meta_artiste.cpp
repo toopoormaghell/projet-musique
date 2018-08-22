@@ -11,14 +11,12 @@ Meta_Artiste* Meta_Artiste::RecupererBDD(const int id)
     if ( id != 0 )
     {
         //On récupère les infos liées à l'artiste
-        BDDArtiste* art = BDDArtiste::recupererBDD( id );
+        Handle<BDDArtiste> art = BDDArtiste::recupererBDD( id );
 
         nom_art = art->m_nom;
         Poch = art->m_pochette->m_image;
         id_artiste = art->id();
         id_poch = art->m_pochette->id();
-
-        delete art;
     }
     return new Meta_Artiste( nom_art, Poch, id_artiste, id_poch );
 }
@@ -75,12 +73,11 @@ void Meta_Artiste::update()
 {
     BDDPoch* poch = BDDPoch::recupererBDD( m_id_poch );
 
-    BDDArtiste* art = BDDArtiste::recupererBDD( m_nom_artiste, *poch );
+    Handle<BDDArtiste> art = BDDArtiste::recupererBDD( m_nom_artiste, *poch );
 
     art->EchangerBDD( m_nom_artiste );
 
     art->changerPoch( m_id_poch);
 
     delete poch;
-    delete art;
 }

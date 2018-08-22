@@ -235,15 +235,13 @@ void Meta_Album::UpdateBDD()
         poch = BDDPoch::recupererBDD(1);
     }
 
-    BDDArtiste* art = BDDArtiste::recupererBDD(m_nom_artiste .replace("'", "$"), *poch);
+    Handle<BDDArtiste> art = BDDArtiste::recupererBDD(m_nom_artiste .replace("'", "$"), *poch);
     art->updateBDD();
     m_id_artiste = art->id();
 
-    Handle<BDDAlbum> alb= BDDAlbum::recupererBDD( m_nom_album.replace( "'", "$" ),  *poch, m_annee, *BDDType::RecupererType( m_id_type ), *art  );
+    Handle<BDDAlbum> alb= BDDAlbum::recupererBDD( m_nom_album.replace( "'", "$" ),  *poch, m_annee, *BDDType::RecupererType( m_id_type ), art  );
     alb->updateBDD();
     m_id_album = alb->id();
-
-    delete art; art = nullptr;
 
     SupprimerAnciensTitres();
 
