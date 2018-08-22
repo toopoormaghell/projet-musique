@@ -147,7 +147,7 @@ Meta_Album* Meta_Album::RecupererBDD(const int id)
     if (id !=0 )
     {
         //On récupère les infos liées à l'album
-        BDDAlbum* alb = BDDAlbum::recupererBDD( id );
+        Handle<BDDAlbum> alb = BDDAlbum::recupererBDD( id );
 
         nom_alb = alb->m_nom;
         Annee = alb->m_annee;
@@ -158,8 +158,6 @@ Meta_Album* Meta_Album::RecupererBDD(const int id)
         type = alb->m_type->m_type;
         nom_art = alb->m_artiste->m_nom;
         id_art = alb->m_artiste->id();
-
-        delete alb;
 
         BDDPhys* phys = BDDPhys::RecupererBDD( id );
         commentaires = phys->m_commentaires;
@@ -241,7 +239,7 @@ void Meta_Album::UpdateBDD()
     art->updateBDD();
     m_id_artiste = art->id();
 
-    BDDAlbum* alb= BDDAlbum::recupererBDD( m_nom_album.replace( "'", "$" ),  *poch, m_annee, *BDDType::RecupererType( m_id_type ), *art  );
+    Handle<BDDAlbum> alb= BDDAlbum::recupererBDD( m_nom_album.replace( "'", "$" ),  *poch, m_annee, *BDDType::RecupererType( m_id_type ), *art  );
     alb->updateBDD();
     m_id_album = alb->id();
 

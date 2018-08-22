@@ -33,7 +33,7 @@ void OngletListe::AfficherAlbums( int id)
     for (int i = 0; i < liste.count(); i++ )
     {
         //Pour chaque album...
-        BDDAlbum* alb = BDDAlbum::recupererBDD( liste[i] );
+        Handle<BDDAlbum> alb = BDDAlbum::recupererBDD( liste[i] );
 
         QListWidgetItem* item = new QListWidgetItem;
         //on affiche la pochette et le nom de l'album
@@ -47,7 +47,6 @@ void OngletListe::AfficherAlbums( int id)
             item->setFlags( Qt::ItemIsSelectable | Qt::ItemIsUserCheckable );
         }
         ui->ListeAlbums->addItem( item );
-        delete alb;
     }
     ui->Restants->setText( QString::number( liste.count() ) + " Albums Restants. ");
 

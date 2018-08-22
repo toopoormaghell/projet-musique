@@ -51,7 +51,7 @@ void BDDAlbum::updateBDD()
 
 }
 
-BDDAlbum* BDDAlbum::recupererBDD(const int id)
+Handle<BDDAlbum> BDDAlbum::recupererBDD(const int id)
 {
     QString queryStr = "SELECT Album, Album_Formate, Id_Pochette, Annee, Type, Id_Artiste FROM Album WHERE Id_Album='" + QString::number(id) + "'";
     QSqlQuery query = madatabase.exec(queryStr);
@@ -75,7 +75,7 @@ BDDAlbum* BDDAlbum::recupererBDD(const int id)
 
     }
 
-    return new BDDAlbum(id,nom,nomFormate,pochette,Annee,type,art );
+    return Handle<BDDAlbum>(new BDDAlbum(id,nom,nomFormate,pochette,Annee,type,art ));
 }
 BDDAlbum::BDDAlbum(const int id, const QString& nom, const QString& nomFormate, BDDPoch* pochette, int annee, const BDDType* type, const BDDArtiste* artiste, QObject* parent):
     IdOwner( id,parent )
@@ -119,7 +119,7 @@ int BDDAlbum::TrouverId(const QString &nom, const int &id_Artiste)
 }
 
 
-BDDAlbum* BDDAlbum::recupererBDD(const QString& album, BDDPoch &pochette, int annee, const BDDType& type, const BDDArtiste& artiste)
+Handle<BDDAlbum> BDDAlbum::recupererBDD(const QString& album, BDDPoch &pochette, int annee, const BDDType& type, const BDDArtiste& artiste)
 {
     QString nom (album );
     EnleverAccents (nom );
@@ -129,7 +129,7 @@ BDDAlbum* BDDAlbum::recupererBDD(const QString& album, BDDPoch &pochette, int an
 
     const int id = TrouverId(nom, artiste.id() );
 
-    return new BDDAlbum( id,nom,nomFormate,&pochette,annee,&type,&artiste );
+    return Handle<BDDAlbum>(new BDDAlbum( id,nom,nomFormate,&pochette,annee,&type,&artiste));
 }
 
 

@@ -8,7 +8,7 @@
 #include <QtSql>
 
 
-BDDPhys::BDDPhys(const int id, const BDDAlbum* album, const QString& ean, const BDDSupport* support, const QString& Commentaires,  QObject* parent):
+BDDPhys::BDDPhys(const int id, const Handle<BDDAlbum>& album, const QString& ean, const BDDSupport* support, const QString& Commentaires,  QObject* parent):
     IdOwner( id , parent)
   , m_album( album )
   , m_support( support )
@@ -22,7 +22,6 @@ BDDPhys::BDDPhys(const int id, const BDDAlbum* album, const QString& ean, const 
 BDDPhys::~BDDPhys()
 {
     delete m_support;
-    delete m_album;
 }
 
 void BDDPhys::supprimerBDD()
@@ -39,7 +38,7 @@ void BDDPhys::supprimerBDD()
 
 BDDPhys* BDDPhys::RecupererBDD( const int id )
 {
-    BDDAlbum* alb = nullptr;
+    Handle<BDDAlbum> alb(nullptr);
     BDDSupport* supp = nullptr;
     QString ean;
     QString commentaires;
@@ -62,11 +61,11 @@ BDDPhys* BDDPhys::RecupererBDD( const int id )
     return new BDDPhys( id_Phys, alb, ean, supp, commentaires );
 }
 
-BDDPhys*BDDPhys::RecupererBDD(const BDDAlbum& album, const QString& ean, const BDDSupport& support, const QString& Commentaires)
+BDDPhys*BDDPhys::RecupererBDD(const Handle<BDDAlbum>& album, const QString& ean, const BDDSupport& support, const QString& Commentaires)
 {
-    const int id = recupererId( album.id() );
+    const int id = recupererId( album->id() );
 
-    return new BDDPhys( id, &album, ean, &support, Commentaires );
+    return new BDDPhys( id, album, ean, &support, Commentaires );
 }
 
 int BDDPhys::recupererId(const int id_alb )

@@ -5,6 +5,7 @@
 #include "idowner.h"
 #include <QObject>
 #include "bdd_global.h"
+#include "handle.h"
 
 class BDDArtiste;
 class BDDPoch;
@@ -19,8 +20,8 @@ public:
     void supprimerenBDD() const;
 
     virtual ~BDDAlbum();
-    static BDDAlbum* recupererBDD( const int Id );
-    static BDDAlbum* recupererBDD(const QString& album, BDDPoch& pochette, int annee, const BDDType& type, const BDDArtiste& artiste);
+    static Handle<BDDAlbum> recupererBDD( const int Id );
+    static Handle<BDDAlbum> recupererBDD(const QString& album, BDDPoch& pochette, int annee, const BDDType& type, const BDDArtiste& artiste);
 
 
     QString m_nom;

@@ -4,6 +4,7 @@
 #include <QObject>
 #include "idowner.h"
 #include "bdd_global.h"
+#include "handle.h"
 class BDDAlbum;
 class BDDSupport;
 
@@ -18,9 +19,9 @@ public:
     void supprimerBDD();
 
     static BDDPhys* RecupererBDD( const int id );
-    static BDDPhys* RecupererBDD(const BDDAlbum& album, const QString& ean, const BDDSupport& support, const QString& Commentaires );
+    static BDDPhys* RecupererBDD(const Handle<BDDAlbum>& album, const QString& ean, const BDDSupport& support, const QString& Commentaires );
 
-    BDDAlbum const* m_album;
+    Handle<BDDAlbum> m_album;
     BDDSupport const* m_support;
     QString m_ean;
     QString m_commentaires;
@@ -29,7 +30,7 @@ public:
 private:
     static int recupererId(const int id_alb );
 
-    explicit  BDDPhys(const int id, const BDDAlbum* album, const QString& ean, const BDDSupport*support, const QString& Commentaires, QObject* parent = nullptr );
+    explicit  BDDPhys(const int id, const Handle<BDDAlbum>& album, const QString& ean, const BDDSupport*support, const QString& Commentaires, QObject* parent = nullptr );
 
 };
 
