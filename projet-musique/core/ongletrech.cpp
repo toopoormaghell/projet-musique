@@ -333,7 +333,7 @@ void OngletRech::on_Similaires_clicked()
     for ( int i = 0; i < Simi.count(); i++ )
     {
         //On récupère les infos du titre similaire
-        BDDMp3* mp3 = BDDMp3::RecupererMp3( Simi[i] );
+        Handle<BDDMp3> mp3 = BDDMp3::RecupererMp3( Simi[i] );
 
         //On affiche les infos du titre dans un item
         QListWidgetItem* item = new QListWidgetItem;
@@ -346,8 +346,6 @@ void OngletRech::on_Similaires_clicked()
         item->setIcon( QIcon( scaled ) );
 
         ui->ListeSimilaires->addItem( item );
-
-        delete mp3;
     }
     delete titre;
 
@@ -360,7 +358,7 @@ void OngletRech::on_CopierDansDossier_clicked()
     /* Meta_Titre* rel = BDDRelation::RecupererRelationParTitre( m_titre.toInt() );
     if ( rel->m_mp3 )
     {
-        BDDMp3* mp3 = BDDMp3::RecupererMP3ParTitre( m_titre.toInt() );
+        Handle<BDDMp3> mp3 = BDDMp3::RecupererMP3ParTitre( m_titre.toInt() );
 
         QFileInfo fich( mp3->m_chemin );
         QString doss = ("C:/Users/Alex/Desktop/Musique/");
@@ -373,7 +371,6 @@ void OngletRech::on_CopierDansDossier_clicked()
         dir.mkpath(doss);
         QString nouvelemplacementchemin =  doss + "/" + fich.fileName();
         QFile::copy( mp3->m_chemin, nouvelemplacementchemin );
-        delete mp3;
     }
     delete rel;
 

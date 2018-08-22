@@ -90,11 +90,11 @@ Meta_Titre* Meta_Titre::RecupererBDD(const int id)
             BDDSupport* supp = BDDSupport::RecupererSupportAlb( id_alb, "MP3" );
             id_support_m = supp->id();
             support_m = supp->m_support;
-            BDDMp3* mp3 = BDDMp3::RecupererBDDParRelation( id );
+            Handle<BDDMp3> mp3 = BDDMp3::RecupererBDDParRelation( id );
             id_mp3 = mp3->id();
             chemin_m = mp3->m_chemin;
 
-            delete supp; delete mp3;
+            delete supp;
 
         } else
         {
@@ -115,9 +115,8 @@ Meta_Titre* Meta_Titre::RecupererBDD(const int id)
 
 Meta_Titre* Meta_Titre::RecupererBDDMP3(const int id)
 {
-    BDDMp3* mp3 = BDDMp3::RecupererBDD( id );
+    Handle<BDDMp3> mp3 = BDDMp3::RecupererBDD( id );
     int id_rel = mp3->m_relation->id() ;
-    delete mp3;
     return RecupererBDD( id_rel );
 }
 
@@ -363,7 +362,7 @@ void Meta_Titre::UpdateBDD()
     BDDRelation* rel= BDDRelation::recupererBDD( alb, art, *tit, m_num_piste, m_duree , ( (id_mp3==0 && m_id_support_m==-1) ? 0:1) , ( (id_phys==0 && m_id_support_p==-1) ? 0:1) );
     bool isRelUsed = false;
 
-    BDDMp3* mp3av = BDDMp3::RecupererBDDParRelation( rel->id() );
+    Handle<BDDMp3> mp3av = BDDMp3::RecupererBDDParRelation( rel->id() );
 
     if ( mp3av->id() != -1)
     {
@@ -383,23 +382,20 @@ void Meta_Titre::UpdateBDD()
 
     if ( m_id_support_m != -1 || id_mp3 == 1 )
     {
-        BDDMp3*   mp3 = BDDMp3::RecupererBDD( m_chemin_m.replace("'","$") , *rel, *BDDSupport::RecupererSupport( m_id_support_m ) );
+        Handle<BDDMp3> mp3 = BDDMp3::RecupererBDD( m_chemin_m.replace("'","$") , *rel, *BDDSupport::RecupererSupport( m_id_support_m ) );
         isRelUsed = true;
         mp3->updateBDD();
         m_id_mp3 = mp3->id();
-        delete mp3;
     }
 
     // poch, tit =  do not delete them, they are parts of other objects!
     if (!isDefUsed) delete def;
     if (!isRelUsed) delete rel;
-    delete mp3av;
     delete physav;
 }
 void Meta_Titre::SupprimerBDDMP3()
 {
-    BDDMp3* mp3 = BDDMp3::RecupererBDD( m_id_mp3 );
+    Handle<BDDMp3> mp3 = BDDMp3::RecupererBDD( m_id_mp3 );
     mp3->supprimerenBDD();
-    delete mp3;
 
 }

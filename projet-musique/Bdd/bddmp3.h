@@ -4,6 +4,7 @@
 #include <QObject>
 #include "idowner.h"
 #include "bdd_global.h"
+#include "handle.h"
 class BDDArtiste;
 class BDDAlbum;
 class BDDTitre;
@@ -20,10 +21,10 @@ public:
 
     virtual ~BDDMp3();
 
-    static BDDMp3* RecupererBDD( const int id );
-    static BDDMp3* RecupererBDD( const QString& Chemin, const BDDRelation& relation, const BDDSupport& support );
-    static BDDMp3* RecupererBDDParRelation( const int id );
-static BDDMp3* RecupererBDDParChemin( const QString& Chemin);
+    static Handle<BDDMp3> RecupererBDD( const int id );
+    static Handle<BDDMp3> RecupererBDD( const QString& Chemin, const BDDRelation& relation, const BDDSupport& support );
+    static Handle<BDDMp3> RecupererBDDParRelation( const int id );
+static Handle<BDDMp3> RecupererBDDParChemin( const QString& Chemin);
 
 
 
