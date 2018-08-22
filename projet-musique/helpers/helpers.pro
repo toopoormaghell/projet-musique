@@ -28,10 +28,14 @@ CONFIG(debug,debug|release) {
     RCC_DIR += ../../../rcc/release
 }
 
-SOURCES += util.cpp
+SOURCES += util.cpp \
+    handable.cpp
 
 HEADERS += helpers_global.h \
-    util.h
+    util.h \
+    handable.h \
+    handle.h \
+    handle_impl.h
 
 unix {
     target.path = /usr/lib
