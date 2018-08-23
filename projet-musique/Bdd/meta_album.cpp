@@ -221,7 +221,7 @@ void Meta_Album::UpdateBDD()
     delete tmp2; tmp2 = nullptr;
 
 
-    BDDPoch* poch = nullptr;
+    Handle<BDDPoch> poch(nullptr);
     if (m_id_type!=2)
     {
         poch = BDDPoch::recupererBDD( m_poch, m_nom_album.replace( "'", "$" ), (m_id_support_p==2 ? "Compil":m_nom_artiste.replace( "'", "$" )));
@@ -232,11 +232,11 @@ void Meta_Album::UpdateBDD()
         poch = BDDPoch::recupererBDD(1);
     }
 
-    Handle<BDDArtiste> art = BDDArtiste::recupererBDD(m_nom_artiste .replace("'", "$"), *poch);
+    Handle<BDDArtiste> art = BDDArtiste::recupererBDD(m_nom_artiste .replace("'", "$"), poch);
     art->updateBDD();
     m_id_artiste = art->id();
 
-    Handle<BDDAlbum> alb= BDDAlbum::recupererBDD( m_nom_album.replace( "'", "$" ),  *poch, m_annee, *BDDType::RecupererType( m_id_type ), art  );
+    Handle<BDDAlbum> alb= BDDAlbum::recupererBDD( m_nom_album.replace( "'", "$" ),  poch, m_annee, *BDDType::RecupererType( m_id_type ), art  );
     alb->updateBDD();
     m_id_album = alb->id();
 

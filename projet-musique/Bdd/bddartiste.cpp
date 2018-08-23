@@ -7,7 +7,6 @@
 
 BDDArtiste::~BDDArtiste()
 {
-    delete m_pochette;
 }
 
 int BDDArtiste::recupererId(const QString& nomFormate)
@@ -30,7 +29,7 @@ Handle<BDDArtiste> BDDArtiste::recupererBDD(const int id)
     QSqlQuery query = madatabase.exec(queryStr);
 
     QString nom, nomFormate;
-    BDDPoch* pochette = nullptr;
+    Handle<BDDPoch> pochette(nullptr);
     if (query.first())
     {
         QSqlRecord rec = query.record();
@@ -43,7 +42,7 @@ Handle<BDDArtiste> BDDArtiste::recupererBDD(const int id)
     return Handle<BDDArtiste>(new BDDArtiste( id, nom, nomFormate, pochette ));
 }
 
-BDDArtiste::BDDArtiste(const int id, const QString& nom, const QString& nomFormate, BDDPoch* pochette, QObject* parent):
+BDDArtiste::BDDArtiste(const int id, const QString& nom, const QString& nomFormate, const Handle<BDDPoch>& pochette, QObject* parent):
     IdOwner(id, parent)
   , m_nom(nom)
   , m_nomFormate(nomFormate)
@@ -57,7 +56,7 @@ Handle<BDDArtiste> BDDArtiste::recupererBDD(const QString& nom)
     return recupererBDD(id);
 }
 
-Handle<BDDArtiste> BDDArtiste::recupererBDD(const QString& artiste, BDDPoch& pochette)
+Handle<BDDArtiste> BDDArtiste::recupererBDD(const QString& artiste, const Handle<BDDPoch>& pochette)
 {
     QString nom( artiste );
     EnleverAccents (nom );
@@ -68,7 +67,7 @@ Handle<BDDArtiste> BDDArtiste::recupererBDD(const QString& artiste, BDDPoch& poc
     const int id = TrouverId( nom );
     if ( id == -1 )
     {
-        return Handle<BDDArtiste>(new BDDArtiste( id , nom, nomFormate, &pochette));
+        return Handle<BDDArtiste>(new BDDArtiste( id , nom, nomFormate, pochette));
     } else
     {
         return recupererBDD( id );

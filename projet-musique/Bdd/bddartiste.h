@@ -18,11 +18,11 @@ public:
     virtual ~BDDArtiste();
     static Handle<BDDArtiste> recupererBDD( const int id );
     static Handle<BDDArtiste> recupererBDD( const QString& nom );
-    static Handle<BDDArtiste> recupererBDD( const QString& artiste , BDDPoch &pochette );
+    static Handle<BDDArtiste> recupererBDD( const QString& artiste , const Handle<BDDPoch>& pochette );
 
     QString m_nom;
     QString m_nomFormate;
-    BDDPoch* m_pochette;
+    Handle<BDDPoch> m_pochette;
 
     static void EchangerArtiste( QString& nom );
     void changerPoch( int id_nouv_poch );
@@ -32,7 +32,7 @@ private:
     static QString ChoisirArtisteEchange(const QString& nom);
     static int TrouverId(const QString& nom );
 
-    explicit BDDArtiste(const int id, const QString &nom, const QString &nomFormate, BDDPoch *pochette, QObject* parent = nullptr);
+    explicit BDDArtiste(const int id, const QString &nom, const QString &nomFormate, const Handle<BDDPoch>& pochette, QObject* parent = nullptr);
 };
 
 

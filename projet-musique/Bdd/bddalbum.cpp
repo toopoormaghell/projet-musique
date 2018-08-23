@@ -12,8 +12,6 @@ BDDAlbum::~BDDAlbum()
 {
 
     delete m_type;
-    delete m_pochette;
-
 }
 
 int BDDAlbum::recupererId(const QString& nomFormate, const QString& id_Artiste)
@@ -57,7 +55,7 @@ Handle<BDDAlbum> BDDAlbum::recupererBDD(const int id)
 
     QString nom, nomFormate;
     int Annee=0;
-    BDDPoch* pochette = nullptr;
+    Handle<BDDPoch> pochette(nullptr);
     Handle<BDDArtiste> art(nullptr);
     BDDType* type = nullptr;
 
@@ -76,7 +74,7 @@ Handle<BDDAlbum> BDDAlbum::recupererBDD(const int id)
 
     return Handle<BDDAlbum>(new BDDAlbum(id,nom,nomFormate,pochette,Annee,type,art ));
 }
-BDDAlbum::BDDAlbum(const int id, const QString& nom, const QString& nomFormate, BDDPoch* pochette, int annee, const BDDType* type, const Handle<BDDArtiste>& artiste, QObject* parent):
+BDDAlbum::BDDAlbum(const int id, const QString& nom, const QString& nomFormate, const Handle<BDDPoch>& pochette, int annee, const BDDType* type, const Handle<BDDArtiste>& artiste, QObject* parent):
     IdOwner( id,parent )
   , m_nom( nom )
   , m_nomFormate (nomFormate)
@@ -118,7 +116,7 @@ int BDDAlbum::TrouverId(const QString &nom, const int &id_Artiste)
 }
 
 
-Handle<BDDAlbum> BDDAlbum::recupererBDD(const QString& album, BDDPoch &pochette, int annee, const BDDType& type, const Handle<BDDArtiste>& artiste)
+Handle<BDDAlbum> BDDAlbum::recupererBDD(const QString& album, const Handle<BDDPoch>& pochette, int annee, const BDDType& type, const Handle<BDDArtiste>& artiste)
 {
     QString nom (album );
     EnleverAccents (nom );
@@ -128,7 +126,7 @@ Handle<BDDAlbum> BDDAlbum::recupererBDD(const QString& album, BDDPoch &pochette,
 
     const int id = TrouverId(nom, artiste->id() );
 
-    return Handle<BDDAlbum>(new BDDAlbum( id,nom,nomFormate,&pochette,annee,&type,artiste));
+    return Handle<BDDAlbum>(new BDDAlbum( id,nom,nomFormate,pochette,annee,&type,artiste));
 }
 
 

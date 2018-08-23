@@ -181,10 +181,8 @@ void DialogModifierAlbum::on_Parcourir_clicked()
     if ( dial.m_selection != -1 )
     {
 
-        BDDPoch* pochtemp = BDDPoch::recupererBDD(dial.m_selection);
+        Handle<BDDPoch> pochtemp = BDDPoch::recupererBDD(dial.m_selection);
         m_album->setPoch( pochtemp->m_image );
-
-        delete pochtemp;
     }
     AfficherAlbum();
 

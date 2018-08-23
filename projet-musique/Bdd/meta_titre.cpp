@@ -329,21 +329,18 @@ void Meta_Titre::UpdateBDD()
         tempartpoch = m_nom_artiste.replace( "'", "$" );
     }
 
-    BDDPoch* poch = BDDPoch::recupererBDD( m_poch , m_nom_album.replace( "'", "$" ), tempartpoch);
+    Handle<BDDPoch> poch = BDDPoch::recupererBDD( m_poch , m_nom_album.replace( "'", "$" ), tempartpoch);
     poch->updateBDD();
 
-    BDDPoch* def = BDDPoch::recupererBDD( 1 );
-    bool isDefUsed = false;
+    Handle<BDDPoch> def = BDDPoch::recupererBDD( 1 );
 
-    if (m_id_type == 2)
-        isDefUsed = true;
-    Handle<BDDArtiste> art = BDDArtiste::recupererBDD (m_nom_artiste .replace("'", "$"), ( m_id_type==2 ?*def : *poch));
+    Handle<BDDArtiste> art = BDDArtiste::recupererBDD (m_nom_artiste .replace("'", "$"), ( m_id_type==2 ?def : poch));
     art->updateBDD();
     m_id_artiste = art->id();
 
     Handle<BDDArtiste> artdef = BDDArtiste::recupererBDD (1 );
 
-    Handle<BDDAlbum> alb= BDDAlbum::recupererBDD( m_nom_album.replace( "'", "$" ),  *poch, m_annee, *BDDType::RecupererType( m_id_type ), m_id_support_p==2 ?artdef : art  );
+    Handle<BDDAlbum> alb= BDDAlbum::recupererBDD( m_nom_album.replace( "'", "$" ),  poch, m_annee, *BDDType::RecupererType( m_id_type ), m_id_support_p==2 ?artdef : art  );
     alb->updateBDD();
     m_id_album = alb->id();
 
@@ -386,8 +383,7 @@ void Meta_Titre::UpdateBDD()
         m_id_mp3 = mp3->id();
     }
 
-    // poch, tit =  do not delete them, they are parts of other objects!
-    if (!isDefUsed) delete def;
+    // tit =  do not delete them, they are parts of other objects!
     if (!isRelUsed) delete rel;
 }
 void Meta_Titre::SupprimerBDDMP3()

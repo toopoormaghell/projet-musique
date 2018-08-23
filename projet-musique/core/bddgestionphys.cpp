@@ -30,8 +30,8 @@ void BDDGestionPhys::modifierAlbum( QString Album, QString Artiste, QString ean,
 {
 
 
-    BDDPoch* poch  = BDDPoch::recupererBDD( Id_Poch );
-    Handle<BDDArtiste> art = BDDArtiste::recupererBDD(Artiste, *poch);
+    Handle<BDDPoch> poch  = BDDPoch::recupererBDD( Id_Poch );
+    Handle<BDDArtiste> art = BDDArtiste::recupererBDD(Artiste, poch);
     Handle<BDDAlbum> alb = BDDAlbum::recupererBDD(Id_Album);
     alb->m_annee = Annee;
     alb->m_type = BDDType::RecupererType(Type);
