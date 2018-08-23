@@ -74,11 +74,11 @@ Meta_Titre* Meta_Titre::RecupererBDD(const int id)
             BDDSupport* supp = BDDSupport::RecupererSupportAlb( id_alb, "Phys" );
             id_support_p = supp->id();
             support_p = supp->m_support;
-            BDDPhys* phys = BDDPhys::RecupererBDD( id_alb );
+            Handle<BDDPhys> phys = BDDPhys::RecupererBDD( id_alb );
             commentaires = phys->m_commentaires;
             ean = phys->m_ean;
 
-            delete supp; delete phys;
+            delete supp;
         } else
         {
             id_support_p = -1;
@@ -351,7 +351,7 @@ void Meta_Titre::UpdateBDD()
     tit->updateBDD();
     m_id_titre = tit->id();
 
-    BDDPhys* physav = BDDPhys::RecupererBDD( m_id_album );
+    Handle<BDDPhys> physav = BDDPhys::RecupererBDD( m_id_album );
 
     int id_phys = 0;
     if ( physav->id() !=-1 )
@@ -374,10 +374,8 @@ void Meta_Titre::UpdateBDD()
 
     if ( m_id_support_p !=-1 )
     {
-        BDDPhys* phys = BDDPhys::RecupererBDD( alb, m_ean, *BDDSupport::RecupererSupport( m_id_support_p ) , m_commentaires);
+        Handle<BDDPhys> phys = BDDPhys::RecupererBDD( alb, m_ean, *BDDSupport::RecupererSupport( m_id_support_p ) , m_commentaires);
         phys->updateBDD();
-        phys->m_album = nullptr;
-        delete phys;
     }
 
     if ( m_id_support_m != -1 || id_mp3 == 1 )
@@ -391,7 +389,6 @@ void Meta_Titre::UpdateBDD()
     // poch, tit =  do not delete them, they are parts of other objects!
     if (!isDefUsed) delete def;
     if (!isRelUsed) delete rel;
-    delete physav;
 }
 void Meta_Titre::SupprimerBDDMP3()
 {

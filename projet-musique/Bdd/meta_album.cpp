@@ -159,11 +159,9 @@ Meta_Album* Meta_Album::RecupererBDD(const int id)
         nom_art = alb->m_artiste->m_nom;
         id_art = alb->m_artiste->id();
 
-        BDDPhys* phys = BDDPhys::RecupererBDD( id );
+        Handle<BDDPhys> phys = BDDPhys::RecupererBDD( id );
         commentaires = phys->m_commentaires;
         ean = phys->m_ean;
-        delete phys;
-        phys = nullptr;
 
         //On récupère les titres liés à l'album
         QList<int> listetitres = RecupererTitresAlbum( id );
@@ -210,9 +208,8 @@ Meta_Album* Meta_Album::CreerMeta_Album(const QString& nom_album, const QString&
 
 void Meta_Album::SupprimerBDDPhys()
 {
-    BDDPhys* phys = BDDPhys::RecupererBDD( m_id_album );
+    Handle<BDDPhys> phys = BDDPhys::RecupererBDD( m_id_album );
     phys->supprimerBDD();
-    delete phys;
 }
 void Meta_Album::UpdateBDD()
 {

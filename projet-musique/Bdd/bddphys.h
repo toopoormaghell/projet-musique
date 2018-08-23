@@ -18,8 +18,8 @@ public:
 
     void supprimerBDD();
 
-    static BDDPhys* RecupererBDD( const int id );
-    static BDDPhys* RecupererBDD(const Handle<BDDAlbum>& album, const QString& ean, const BDDSupport& support, const QString& Commentaires );
+    static Handle<BDDPhys> RecupererBDD( const int id );
+    static Handle<BDDPhys> RecupererBDD(const Handle<BDDAlbum>& album, const QString& ean, const BDDSupport& support, const QString& Commentaires );
 
     Handle<BDDAlbum> m_album;
     BDDSupport const* m_support;

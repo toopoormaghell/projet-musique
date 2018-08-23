@@ -36,7 +36,7 @@ void BDDPhys::supprimerBDD()
     }
 }
 
-BDDPhys* BDDPhys::RecupererBDD( const int id )
+Handle<BDDPhys> BDDPhys::RecupererBDD( const int id )
 {
     Handle<BDDAlbum> alb(nullptr);
     BDDSupport* supp = nullptr;
@@ -58,14 +58,14 @@ BDDPhys* BDDPhys::RecupererBDD( const int id )
         id_Phys = rec.value("Id_Phys").toInt();
     }
 
-    return new BDDPhys( id_Phys, alb, ean, supp, commentaires );
+    return Handle<BDDPhys>(new BDDPhys( id_Phys, alb, ean, supp, commentaires ));
 }
 
-BDDPhys*BDDPhys::RecupererBDD(const Handle<BDDAlbum>& album, const QString& ean, const BDDSupport& support, const QString& Commentaires)
+Handle<BDDPhys> BDDPhys::RecupererBDD(const Handle<BDDAlbum>& album, const QString& ean, const BDDSupport& support, const QString& Commentaires)
 {
     const int id = recupererId( album->id() );
 
-    return new BDDPhys( id, album, ean, &support, Commentaires );
+    return Handle<BDDPhys>(new BDDPhys( id, album, ean, &support, Commentaires ));
 }
 
 int BDDPhys::recupererId(const int id_alb )
