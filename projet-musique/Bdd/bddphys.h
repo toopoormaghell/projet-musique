@@ -19,10 +19,10 @@ public:
     void supprimerBDD();
 
     static Handle<BDDPhys> RecupererBDD( const int id );
-    static Handle<BDDPhys> RecupererBDD(const Handle<BDDAlbum>& album, const QString& ean, const BDDSupport& support, const QString& Commentaires );
+    static Handle<BDDPhys> RecupererBDD(const Handle<BDDAlbum>& album, const QString& ean, const Handle<BDDSupport>& support, const QString& Commentaires );
 
     Handle<BDDAlbum> m_album;
-    BDDSupport const* m_support;
+    Handle<BDDSupport> m_support;
     QString m_ean;
     QString m_commentaires;
 
@@ -30,7 +30,7 @@ public:
 private:
     static int recupererId(const int id_alb );
 
-    explicit  BDDPhys(const int id, const Handle<BDDAlbum>& album, const QString& ean, const BDDSupport*support, const QString& Commentaires, QObject* parent = nullptr );
+    explicit  BDDPhys(const int id, const Handle<BDDAlbum>& album, const QString& ean, const Handle<BDDSupport> support, const QString& Commentaires, QObject* parent = nullptr );
 
 };
 

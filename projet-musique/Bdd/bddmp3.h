@@ -22,7 +22,7 @@ public:
     virtual ~BDDMp3();
 
     static Handle<BDDMp3> RecupererBDD( const int id );
-    static Handle<BDDMp3> RecupererBDD(const QString& Chemin, const Handle<BDDRelation>& relation, const BDDSupport& support );
+    static Handle<BDDMp3> RecupererBDD(const QString& Chemin, const Handle<BDDRelation>& relation, const Handle<BDDSupport>& support );
     static Handle<BDDMp3> RecupererBDDParRelation( const int id );
 static Handle<BDDMp3> RecupererBDDParChemin( const QString& Chemin);
 
@@ -30,7 +30,7 @@ static Handle<BDDMp3> RecupererBDDParChemin( const QString& Chemin);
 
     Handle<BDDRelation> m_relation;
     QString m_chemin;
-    BDDSupport const* m_support;
+    Handle<BDDSupport> m_support;
 
     static QMap < int, QStringList> RecupererMP3s( int Type );
     void ChangerTag (const QString& NouveauAlbum, const QString& NouveauTitre, const QString& NouveauArtiste, const int &NouvelleAnnee, const int &NouvellePiste, const QString &NouvellePoch);
@@ -38,7 +38,7 @@ private:
 
     static int recupererId( const QString& Chemin);
 
-    explicit BDDMp3(const int id, const QString& Chemin, const Handle<BDDRelation>& relation, const BDDSupport* support, QObject* parent = nullptr);
+    explicit BDDMp3(const int id, const QString& Chemin, const Handle<BDDRelation>& relation, const Handle<BDDSupport>& support, QObject* parent = nullptr);
 };
 
 #endif // BDDMP3_H

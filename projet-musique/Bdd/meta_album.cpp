@@ -184,10 +184,8 @@ Meta_Album* Meta_Album::RecupererBDD(const int id)
         }
         if ( id_support_p != -1)
         {
-            BDDSupport* tmp = BDDSupport::RecupererSupport( id_support_p );
+            Handle<BDDSupport> tmp = BDDSupport::RecupererSupport( id_support_p );
             support_p = tmp->m_support;
-            delete tmp; tmp = nullptr;
-
         }
     }
     return new Meta_Album( nom_alb, nom_art , Annee, Poch, type, titres, support_p, support_m, commentaires, ean, id_alb, id_art, id_poch, id_type, id_support_p, id_support_m);
@@ -216,10 +214,8 @@ void Meta_Album::UpdateBDD()
     BDDType* tmp1 = BDDType::RecupererType( m_id_type );
     m_Type = tmp1->m_type;
     delete tmp1; tmp1 = nullptr;
-    BDDSupport* tmp2 = BDDSupport::RecupererSupport( m_id_support_p );
+    Handle<BDDSupport> tmp2 = BDDSupport::RecupererSupport( m_id_support_p );
     m_support_p = tmp2->m_support;
-    delete tmp2; tmp2 = nullptr;
-
 
     Handle<BDDPoch> poch(nullptr);
     if (m_id_type!=2)

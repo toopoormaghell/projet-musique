@@ -75,7 +75,7 @@ void BDDGestionPhys::modifierAlbum( QString Album, QString Artiste, QString ean,
         }
     }
 
-    Handle<BDDPhys> phys = BDDPhys::RecupererBDD( *alb, ean, *BDDSupport::RecupererSupport(Support), Commentaires );
+    Handle<BDDPhys> phys = BDDPhys::RecupererBDD( alb, ean, BDDSupport::RecupererSupport(Support), Commentaires );
     phys->updateBDD();
 
 }    */

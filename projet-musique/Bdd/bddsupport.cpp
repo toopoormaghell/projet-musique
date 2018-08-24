@@ -3,9 +3,9 @@
 #include "bddsingleton.h"
 
 
-BDDSupport* BDDSupport::RecupererSupport( const int id )
+Handle<BDDSupport> BDDSupport::RecupererSupport( const int id )
 {
-    return new BDDSupport( id );
+    return Handle<BDDSupport>(new BDDSupport( id ));
 }
 
 BDDSupport::BDDSupport( const int id, QObject* parent ):
@@ -35,7 +35,7 @@ QList<int> BDDSupport::NbSupport()
     }
     return supp;
 }
-BDDSupport* BDDSupport::RecupererSupportAlb(int Id , QString Categorie)
+Handle<BDDSupport> BDDSupport::RecupererSupportAlb(int Id , QString Categorie)
 {
     QString queryStr;
     if ( Categorie == "MP3" )

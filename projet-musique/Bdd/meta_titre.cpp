@@ -71,14 +71,12 @@ Meta_Titre* Meta_Titre::RecupererBDD(const int id)
 
         if ( rec.value("Phys").toInt() == 1 )
         {
-            BDDSupport* supp = BDDSupport::RecupererSupportAlb( id_alb, "Phys" );
+            Handle<BDDSupport> supp = BDDSupport::RecupererSupportAlb( id_alb, "Phys" );
             id_support_p = supp->id();
             support_p = supp->m_support;
             Handle<BDDPhys> phys = BDDPhys::RecupererBDD( id_alb );
             commentaires = phys->m_commentaires;
             ean = phys->m_ean;
-
-            delete supp;
         } else
         {
             id_support_p = -1;
@@ -87,15 +85,12 @@ Meta_Titre* Meta_Titre::RecupererBDD(const int id)
 
         if ( rec.value("MP3").toInt() == 1 )
         {
-            BDDSupport* supp = BDDSupport::RecupererSupportAlb( id_alb, "MP3" );
+            Handle<BDDSupport> supp = BDDSupport::RecupererSupportAlb( id_alb, "MP3" );
             id_support_m = supp->id();
             support_m = supp->m_support;
             Handle<BDDMp3> mp3 = BDDMp3::RecupererBDDParRelation( id );
             id_mp3 = mp3->id();
             chemin_m = mp3->m_chemin;
-
-            delete supp;
-
         } else
         {
             id_support_m = -1;
@@ -317,9 +312,8 @@ void Meta_Titre::UpdateBDD()
     BDDType* tmp1 = BDDType::RecupererType( m_id_type );
     m_Type = tmp1->m_type;
     delete tmp1; tmp1 = nullptr;
-    BDDSupport* tmp2 = BDDSupport::RecupererSupport( m_id_support_m );
+    Handle<BDDSupport> tmp2 = BDDSupport::RecupererSupport( m_id_support_m );
     m_Support_m = tmp2->m_support;
-    delete tmp2; tmp2 = nullptr;
 
     QString tempartpoch ;
     if ( m_id_support_p == 2 )
@@ -370,13 +364,13 @@ void Meta_Titre::UpdateBDD()
 
     if ( m_id_support_p !=-1 )
     {
-        Handle<BDDPhys> phys = BDDPhys::RecupererBDD( alb, m_ean, *BDDSupport::RecupererSupport( m_id_support_p ) , m_commentaires);
+        Handle<BDDPhys> phys = BDDPhys::RecupererBDD( alb, m_ean, BDDSupport::RecupererSupport( m_id_support_p ) , m_commentaires);
         phys->updateBDD();
     }
 
     if ( m_id_support_m != -1 || id_mp3 == 1 )
     {
-        Handle<BDDMp3> mp3 = BDDMp3::RecupererBDD( m_chemin_m.replace("'","$") , rel, *BDDSupport::RecupererSupport( m_id_support_m ) );
+        Handle<BDDMp3> mp3 = BDDMp3::RecupererBDD( m_chemin_m.replace("'","$") , rel, BDDSupport::RecupererSupport( m_id_support_m ) );
         mp3->updateBDD();
         m_id_mp3 = mp3->id();
     }
