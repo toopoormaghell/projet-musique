@@ -356,8 +356,7 @@ void Meta_Titre::UpdateBDD()
         id_phys = 1;
     }
 
-    BDDRelation* rel= BDDRelation::recupererBDD( alb, art, *tit, m_num_piste, m_duree , ( (id_mp3==0 && m_id_support_m==-1) ? 0:1) , ( (id_phys==0 && m_id_support_p==-1) ? 0:1) );
-    bool isRelUsed = false;
+    Handle<BDDRelation> rel= BDDRelation::recupererBDD( alb, art, *tit, m_num_piste, m_duree , ( (id_mp3==0 && m_id_support_m==-1) ? 0:1) , ( (id_phys==0 && m_id_support_p==-1) ? 0:1) );
 
     Handle<BDDMp3> mp3av = BDDMp3::RecupererBDDParRelation( rel->id() );
 
@@ -377,14 +376,10 @@ void Meta_Titre::UpdateBDD()
 
     if ( m_id_support_m != -1 || id_mp3 == 1 )
     {
-        Handle<BDDMp3> mp3 = BDDMp3::RecupererBDD( m_chemin_m.replace("'","$") , *rel, *BDDSupport::RecupererSupport( m_id_support_m ) );
-        isRelUsed = true;
+        Handle<BDDMp3> mp3 = BDDMp3::RecupererBDD( m_chemin_m.replace("'","$") , rel, *BDDSupport::RecupererSupport( m_id_support_m ) );
         mp3->updateBDD();
         m_id_mp3 = mp3->id();
     }
-
-    // tit =  do not delete them, they are parts of other objects!
-    if (!isRelUsed) delete rel;
 }
 void Meta_Titre::SupprimerBDDMP3()
 {

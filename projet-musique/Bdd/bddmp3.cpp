@@ -9,7 +9,7 @@
 #include "tags.h"
 #include "bddpoch.h"
 
-BDDMp3::BDDMp3( const int id, const QString& Chemin, const BDDRelation* relation, const BDDSupport* support, QObject* parent ):
+BDDMp3::BDDMp3( const int id, const QString& Chemin, const Handle<BDDRelation>& relation, const BDDSupport* support, QObject* parent ):
     IdOwner( id , parent )
   , m_relation( relation )
   , m_chemin( Chemin )
@@ -21,13 +21,12 @@ BDDMp3::BDDMp3( const int id, const QString& Chemin, const BDDRelation* relation
 BDDMp3::~BDDMp3()
 {
     delete m_support;
-    delete m_relation;
 }
 
 Handle<BDDMp3> BDDMp3::RecupererBDD(const int id)
 {
     QString chemin;
-    BDDRelation* rel = nullptr;
+    Handle<BDDRelation> rel(nullptr);
     BDDSupport* supp = nullptr;
 
     QString queryStr = "SELECT * FROM MP3 WHERE Id_MP3='" + QString::number(id) + "'";
@@ -47,11 +46,11 @@ Handle<BDDMp3> BDDMp3::RecupererBDD(const int id)
     return Handle<BDDMp3>(new BDDMp3 ( id, chemin , rel , supp ));
 }
 
-Handle<BDDMp3> BDDMp3::RecupererBDD( const QString& Chemin, const BDDRelation& relation, const BDDSupport& support )
+Handle<BDDMp3> BDDMp3::RecupererBDD( const QString& Chemin, const Handle<BDDRelation>& relation, const BDDSupport& support )
 {
     const int id = recupererId( Chemin );
 
-    return Handle<BDDMp3>(new BDDMp3( id , Chemin, &relation , &support ));
+    return Handle<BDDMp3>(new BDDMp3( id , Chemin, relation , &support ));
 }
 
 Handle<BDDMp3> BDDMp3::RecupererBDDParRelation(const int id)

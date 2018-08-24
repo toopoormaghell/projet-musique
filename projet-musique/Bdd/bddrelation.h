@@ -23,8 +23,8 @@ public:
 
     virtual ~BDDRelation();
 
-    static BDDRelation* recupererBDD( const int id );
-    static BDDRelation* recupererBDD( const Handle<BDDAlbum>& alb, const Handle<BDDArtiste>& art, BDDTitre& titre, const int num_piste, const QString& duree, const int mp3, const int phys);
+    static Handle<BDDRelation> recupererBDD( const int id );
+    static Handle<BDDRelation> recupererBDD( const Handle<BDDAlbum>& alb, const Handle<BDDArtiste>& art, BDDTitre& titre, const int num_piste, const QString& duree, const int mp3, const int phys);
 
     BDDTitre const* m_titre;
     Handle<BDDAlbum> m_album;
