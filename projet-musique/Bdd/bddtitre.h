@@ -4,6 +4,7 @@
 #include <QObject>
 #include "idowner.h"
 #include "bdd_global.h"
+#include "handle.h"
 
 class BDDSHARED_EXPORT BDDTitre : public IdOwner
 {
@@ -13,8 +14,8 @@ public:
     void supprimerenBDD()const;
 
     virtual ~BDDTitre();
-    static BDDTitre* recupererBDD( const int id );
-    static BDDTitre* recupererBDD(const QString& nom );
+    static Handle<BDDTitre> recupererBDD( const int id );
+    static Handle<BDDTitre> recupererBDD(const QString& nom );
     QString m_nom;
     QString m_nomFormate;
 
@@ -27,7 +28,6 @@ private:
     static int TrouverId(const QString &nom );
 
     explicit BDDTitre(const int id, QString& nom, QString& nomFormate, QObject* parent = nullptr);
-    BDDTitre*RecupererTitre(const int id);
 };
 
 #endif // BDDTITRE_H

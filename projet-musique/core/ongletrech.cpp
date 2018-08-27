@@ -327,7 +327,7 @@ void OngletRech::on_Similaires_clicked()
 {
     /*   ui->ResSimi->setVisible( true );
     ui->ListeSimilaires->clear();
-    BDDTitre* titre = BDDTitre::RecupererTitre( m_titre.toInt() );
+    Handle<BDDTitre> titre = BDDTitre::RecupererTitre( m_titre.toInt() );
     QList<int> Simi = titre->Similaires( m_titre.toInt() );
     //On affiche chaque titre similaire
     for ( int i = 0; i < Simi.count(); i++ )
@@ -347,7 +347,6 @@ void OngletRech::on_Similaires_clicked()
 
         ui->ListeSimilaires->addItem( item );
     }
-    delete titre;
 
     */
 }

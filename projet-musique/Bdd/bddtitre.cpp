@@ -44,7 +44,7 @@ BDDTitre::~BDDTitre()
 
 }
 
-BDDTitre*BDDTitre::recupererBDD(const QString& nom)
+Handle<BDDTitre> BDDTitre::recupererBDD(const QString& nom)
 {
     QString nomF ( nom );
     EnleverAccents ( nomF );
@@ -52,11 +52,11 @@ BDDTitre*BDDTitre::recupererBDD(const QString& nom)
     const int id = TrouverId( nomF );
     QString nomFormate ( nomF );
     FormaterEntiteBDD ( nomFormate );
-    return new BDDTitre ( id, nomF , nomFormate );
+    return Handle<BDDTitre>(new BDDTitre ( id, nomF , nomFormate ));
 
 }
 
-BDDTitre* BDDTitre::recupererBDD( const int id )
+Handle<BDDTitre> BDDTitre::recupererBDD( const int id )
 {
 
     QString queryStr = "SELECT Titre, Titre_Formate, R.Id_Artiste, R.Id_Album FROM Titre T,Relations R WHERE T.Id_Titre='" + QString::number(id) + "' AND R.Id_Titre=T.Id_Titre";
@@ -71,7 +71,7 @@ BDDTitre* BDDTitre::recupererBDD( const int id )
 
     }
 
-    return new BDDTitre( id, nom, nomFormate );
+    return Handle<BDDTitre>(new BDDTitre( id, nom, nomFormate ));
 }
 
 
@@ -136,10 +136,9 @@ int BDDTitre::TrouverId(const QString& nom)
 QList<int> BDDTitre::Similaires( const int id )
 {
     QList<int> listeSimilaires;
-    BDDTitre* titre = recupererBDD( id );
+    Handle<BDDTitre> titre = recupererBDD( id );
 
     QString queryStr = "SELECT R.Id_Relation FROM MP3 M, Relations R WHERE R.Id_Titre =='" + QString::number( id ) + "' AND R.Id_Relation = M.Id_Relation";
-    delete titre;
     QSqlQuery query = madatabase.exec( queryStr );
     while ( query.next() )
     {

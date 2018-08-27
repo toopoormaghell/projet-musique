@@ -65,7 +65,7 @@ Meta_Titre* Meta_Titre::RecupererBDD(const int id)
         id_art = art->id();
 
         //Titre
-        BDDTitre* tit = BDDTitre::recupererBDD(rec.value("Id_Titre").toInt());
+        Handle<BDDTitre> tit = BDDTitre::recupererBDD(rec.value("Id_Titre").toInt());
         id_tit = tit->id();
         nom_Tit = tit->m_nom;
 
@@ -100,8 +100,6 @@ Meta_Titre* Meta_Titre::RecupererBDD(const int id)
 
         num_piste = rec.value("Num_Piste").toInt();
         duree =  rec.value("Duree").toString();
-
-        delete tit;
     }
 
 
@@ -338,7 +336,7 @@ void Meta_Titre::UpdateBDD()
     alb->updateBDD();
     m_id_album = alb->id();
 
-    BDDTitre* tit= BDDTitre::recupererBDD( m_nom_titre.replace( "'", "$" ));
+    Handle<BDDTitre> tit= BDDTitre::recupererBDD( m_nom_titre.replace( "'", "$" ));
     tit->updateBDD();
     m_id_titre = tit->id();
 
@@ -350,7 +348,7 @@ void Meta_Titre::UpdateBDD()
         id_phys = 1;
     }
 
-    Handle<BDDRelation> rel= BDDRelation::recupererBDD( alb, art, *tit, m_num_piste, m_duree , ( (id_mp3==0 && m_id_support_m==-1) ? 0:1) , ( (id_phys==0 && m_id_support_p==-1) ? 0:1) );
+    Handle<BDDRelation> rel= BDDRelation::recupererBDD( alb, art, tit, m_num_piste, m_duree , ( (id_mp3==0 && m_id_support_m==-1) ? 0:1) , ( (id_phys==0 && m_id_support_p==-1) ? 0:1) );
 
     Handle<BDDMp3> mp3av = BDDMp3::RecupererBDDParRelation( rel->id() );
 

@@ -48,7 +48,7 @@ void BDDGestionPhys::modifierAlbum( QString Album, QString Artiste, QString ean,
     for ( int i=0;i< albphys.titres.count();i++ )
     {
 
-        BDDTitre* tit= BDDTitre::recupererBDD( albphys.titres[i].Titre.replace( "'", "$" ) );
+        Handle<BDDTitre> tit= BDDTitre::recupererBDD( albphys.titres[i].Titre.replace( "'", "$" ) );
 
         Handle<BDDRelation> rel = BDDRelation::recupererBDD(alb, art, *tit, albphys.titres[i].Num_Piste, albphys.titres[i].Duree,titres[i].MP3 ? 1 : 0,titres[i].Phys ? 1 : 0 );
 
@@ -60,7 +60,7 @@ void BDDGestionPhys::modifierAlbum( QString Album, QString Artiste, QString ean,
     for ( int cpt = 0; cpt < titres.count(); cpt++ )
     {
         TitresPhys temp = titres[cpt];
-        BDDTitre* tit= BDDTitre::recupererBDD( temp.Titre.replace( "'", "$" ) );
+        Handle<BDDTitre> tit= BDDTitre::recupererBDD( temp.Titre.replace( "'", "$" ) );
         tit->updateBDD();
         if ( Type == 2 )
         {

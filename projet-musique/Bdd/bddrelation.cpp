@@ -6,7 +6,7 @@
 #include "bddalbum.h"
 #include "bddartiste.h"
 
-BDDRelation::BDDRelation(const int id, const Handle<BDDAlbum>& album, const Handle<BDDArtiste>& artiste, BDDTitre* titre, const int num_piste, const QString& duree, const int mp3, const int phys, QObject* parent):
+BDDRelation::BDDRelation(const int id, const Handle<BDDAlbum>& album, const Handle<BDDArtiste>& artiste, const Handle<BDDTitre>& titre, const int num_piste, const QString& duree, const int mp3, const int phys, QObject* parent):
     IdOwner( id , parent)
   , m_titre( titre )
   , m_album( album )
@@ -22,8 +22,6 @@ BDDRelation::BDDRelation(const int id, const Handle<BDDAlbum>& album, const Hand
 
 BDDRelation::~BDDRelation()
 {
-    delete m_titre;
-
 }
 int BDDRelation::recupererId(const QString& id_album, const QString& id_artiste, const QString &id_titre)
 {
@@ -62,7 +60,7 @@ Handle<BDDRelation> BDDRelation::recupererBDD( const int id )
 {
     Handle<BDDArtiste> art(nullptr);
     Handle<BDDAlbum> alb(nullptr);
-    BDDTitre* tit = nullptr;
+    Handle<BDDTitre> tit(nullptr);
     QString duree;
     int Num_Piste = 0; int MP3=0; int Phys = 0;
 
@@ -85,11 +83,11 @@ Handle<BDDRelation> BDDRelation::recupererBDD( const int id )
     return Handle<BDDRelation>(new BDDRelation( id , alb , art , tit , Num_Piste , duree , MP3 , Phys ));
 }
 
-Handle<BDDRelation> BDDRelation::recupererBDD( const Handle<BDDAlbum>& alb, const Handle<BDDArtiste>& art, BDDTitre& titre, const int num_piste, const QString& duree, const int mp3, const int phys)
+Handle<BDDRelation> BDDRelation::recupererBDD( const Handle<BDDAlbum>& alb, const Handle<BDDArtiste>& art, const Handle<BDDTitre>& titre, const int num_piste, const QString& duree, const int mp3, const int phys)
 {
-    const int id = recupererId( QString::number( alb->id() ) , QString::number( art->id() ) , QString::number( titre.id() ) );
+    const int id = recupererId( QString::number( alb->id() ) , QString::number( art->id() ) , QString::number( titre->id() ) );
 
-return Handle<BDDRelation>(new BDDRelation( id, alb, art, &titre, num_piste, duree, mp3, phys ));
+return Handle<BDDRelation>(new BDDRelation( id, alb, art, titre, num_piste, duree, mp3, phys ));
 
 }
 

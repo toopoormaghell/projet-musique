@@ -24,9 +24,9 @@ public:
     virtual ~BDDRelation();
 
     static Handle<BDDRelation> recupererBDD( const int id );
-    static Handle<BDDRelation> recupererBDD( const Handle<BDDAlbum>& alb, const Handle<BDDArtiste>& art, BDDTitre& titre, const int num_piste, const QString& duree, const int mp3, const int phys);
+    static Handle<BDDRelation> recupererBDD( const Handle<BDDAlbum>& alb, const Handle<BDDArtiste>& art, const Handle<BDDTitre>& titre, const int num_piste, const QString& duree, const int mp3, const int phys);
 
-    BDDTitre const* m_titre;
+    Handle<BDDTitre> m_titre;
     Handle<BDDAlbum> m_album;
     Handle<BDDArtiste> m_artiste;
     int m_num_piste;
@@ -38,7 +38,7 @@ private:
 
     static  int recupererId(const QString& id_album, const QString& id_artiste, const QString& id_titre);
 
-    explicit BDDRelation(const int id, const Handle<BDDAlbum>& album, const Handle<BDDArtiste>& artiste, BDDTitre* titre, const int num_piste, const QString& duree, const int mp3, const int phys,  QObject* parent = nullptr);
+    explicit BDDRelation(const int id, const Handle<BDDAlbum>& album, const Handle<BDDArtiste>& artiste, const Handle<BDDTitre>& titre, const int num_piste, const QString& duree, const int mp3, const int phys,  QObject* parent = nullptr);
 };
 
 #endif // BDDRELATION_H
