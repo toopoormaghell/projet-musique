@@ -5,12 +5,8 @@
 #include "idowner.h"
 #include "bdd_global.h"
 #include "handle.h"
-class BDDArtiste;
-class BDDAlbum;
-class BDDTitre;
 class BDDRelation;
 class BDDSupport;
-class BDDPoch;
 class BDDSHARED_EXPORT BDDMp3 : public IdOwner
 {
     Q_OBJECT
