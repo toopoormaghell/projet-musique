@@ -121,7 +121,7 @@ void DialogModifierAlbum::RecupererListeType()
 
     for (int i = 0; i < types.count() ; i++)
     {
-        BDDType* temp = BDDType::RecupererType( types[i] );
+        Handle<BDDType> temp = BDDType::RecupererType( types[i] );
 
         ui->Type->addItem( temp->m_type,QVariant( types[i] ) );
     }

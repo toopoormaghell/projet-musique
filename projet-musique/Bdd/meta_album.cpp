@@ -211,9 +211,8 @@ void Meta_Album::SupprimerBDDPhys()
 }
 void Meta_Album::UpdateBDD()
 {
-    BDDType* tmp1 = BDDType::RecupererType( m_id_type );
+    Handle<BDDType> tmp1 = BDDType::RecupererType( m_id_type );
     m_Type = tmp1->m_type;
-    delete tmp1; tmp1 = nullptr;
     Handle<BDDSupport> tmp2 = BDDSupport::RecupererSupport( m_id_support_p );
     m_support_p = tmp2->m_support;
 
@@ -232,7 +231,7 @@ void Meta_Album::UpdateBDD()
     art->updateBDD();
     m_id_artiste = art->id();
 
-    Handle<BDDAlbum> alb= BDDAlbum::recupererBDD( m_nom_album.replace( "'", "$" ),  poch, m_annee, *BDDType::RecupererType( m_id_type ), art  );
+    Handle<BDDAlbum> alb= BDDAlbum::recupererBDD( m_nom_album.replace( "'", "$" ),  poch, m_annee, BDDType::RecupererType( m_id_type ), art  );
     alb->updateBDD();
     m_id_album = alb->id();
 

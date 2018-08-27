@@ -21,14 +21,14 @@ public:
 
     virtual ~BDDAlbum();
     static Handle<BDDAlbum> recupererBDD( const int Id );
-    static Handle<BDDAlbum> recupererBDD(const QString& album, const Handle<BDDPoch>& pochette, int annee, const BDDType& type, const Handle<BDDArtiste>& artiste);
+    static Handle<BDDAlbum> recupererBDD(const QString& album, const Handle<BDDPoch>& pochette, int annee, const Handle<BDDType>& type, const Handle<BDDArtiste>& artiste);
 
 
     QString m_nom;
     QString m_nomFormate;
     Handle<BDDPoch> m_pochette;
     int m_annee;
-    BDDType const* m_type;
+    Handle<BDDType> m_type;
     Handle<BDDArtiste> m_artiste;
 
     static bool ExisteEnPhys( const int id );
@@ -37,7 +37,7 @@ private:
     static int recupererId(const QString& nomFormate, const QString& id_Artiste);
     static int TrouverId(const QString& nom, const int& id_Artiste);
 
-    explicit BDDAlbum(const int id, const QString& nom, const QString &nomFormate, const Handle<BDDPoch>& pochette, int annee, const BDDType* type, const Handle<BDDArtiste>& artiste, QObject* parent = nullptr);
+    explicit BDDAlbum(const int id, const QString& nom, const QString &nomFormate, const Handle<BDDPoch>& pochette, int annee, const Handle<BDDType>& type, const Handle<BDDArtiste>& artiste, QObject* parent = nullptr);
 
 
 };

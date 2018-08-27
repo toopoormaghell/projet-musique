@@ -4,12 +4,13 @@
 #include <QObject>
 #include "idowner.h"
 #include "bdd_global.h"
+#include "handle.h"
 
 class BDDSHARED_EXPORT BDDType : public IdOwner
 {
     Q_OBJECT
 public:
-    static BDDType* RecupererType( const int id );
+    static Handle<BDDType> RecupererType( const int id );
 
     QString m_type;
 

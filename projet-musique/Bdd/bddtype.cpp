@@ -3,9 +3,9 @@
 #include "bddsingleton.h"
 
 
-BDDType* BDDType::RecupererType( const int id )
+Handle<BDDType> BDDType::RecupererType( const int id )
 {
-    return new BDDType( id );
+    return Handle<BDDType>(new BDDType( id ));
 }
 
 BDDType::BDDType(const int id, QObject* parent):
@@ -49,7 +49,8 @@ QStringList BDDType::RecupererListeTypes( QString Categorie )
     while ( query.next() )
     {
         QSqlRecord rec = query.record();
-        liste << BDDType::RecupererType( rec.value( "Type" ).toInt() )->m_type;
+        Handle<BDDType> tmp = BDDType::RecupererType( rec.value( "Type" ).toInt() );
+        liste << tmp->m_type;
         liste << rec.value( "Type" ).toString();
     }
 

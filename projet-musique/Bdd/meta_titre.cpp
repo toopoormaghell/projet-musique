@@ -307,9 +307,8 @@ void Meta_Titre::UpdateBDD()
 {
 
     int id_mp3=0;
-    BDDType* tmp1 = BDDType::RecupererType( m_id_type );
+    Handle<BDDType> tmp1 = BDDType::RecupererType( m_id_type );
     m_Type = tmp1->m_type;
-    delete tmp1; tmp1 = nullptr;
     Handle<BDDSupport> tmp2 = BDDSupport::RecupererSupport( m_id_support_m );
     m_Support_m = tmp2->m_support;
 
@@ -332,7 +331,7 @@ void Meta_Titre::UpdateBDD()
 
     Handle<BDDArtiste> artdef = BDDArtiste::recupererBDD (1 );
 
-    Handle<BDDAlbum> alb= BDDAlbum::recupererBDD( m_nom_album.replace( "'", "$" ),  poch, m_annee, *BDDType::RecupererType( m_id_type ), m_id_support_p==2 ?artdef : art  );
+    Handle<BDDAlbum> alb= BDDAlbum::recupererBDD( m_nom_album.replace( "'", "$" ),  poch, m_annee, BDDType::RecupererType( m_id_type ), m_id_support_p==2 ?artdef : art  );
     alb->updateBDD();
     m_id_album = alb->id();
 
