@@ -35,7 +35,7 @@ void DialogChoixPochette::AfficherPochettes()
     for (int cpt = 0; cpt < listepoch.count(); cpt ++)
     {
         //Pour chaque pochette...
-        BDDPoch* poch = BDDPoch::recupererBDD( listepoch[cpt] );
+        Handle<BDDPoch> poch = BDDPoch::recupererBDD( listepoch[cpt] );
         QListWidgetItem* item = new QListWidgetItem;
 
         //on affiche la pochette
@@ -47,8 +47,6 @@ void DialogChoixPochette::AfficherPochettes()
         //On ajoute l'item dans le modèle
 
         ui->ListePoch->addItem( item );
-
-        delete poch;
     }
 }
 

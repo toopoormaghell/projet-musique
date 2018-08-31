@@ -8,7 +8,7 @@ class BDDLecteur : public QObject
 {
     Q_OBJECT
 public:
-    explicit BDDLecteur(QObject *parent = 0);
+    explicit BDDLecteur(QObject *parent = nullptr);
     QStringList listeTitresAlbum ( QString Album);
     QStringList listeTitresArtiste (QString Artiste );
     QStringList listeTitresAnnee ( QString Annee);

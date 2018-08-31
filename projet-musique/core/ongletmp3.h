@@ -18,7 +18,7 @@ class OngletMP3 : public QWidget
     Q_OBJECT
 
 public:
-    explicit OngletMP3( QWidget* parent = 0 );
+    explicit OngletMP3( QWidget* parent = nullptr );
     ~OngletMP3();
 
     //Concerne seulement l'affichage

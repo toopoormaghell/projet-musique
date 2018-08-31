@@ -3,12 +3,13 @@
 
 #include <QObject>
 #include "bdd_global.h"
+#include <handable.h>
 
-class BDDSHARED_EXPORT IdOwner : public QObject
+class BDDSHARED_EXPORT IdOwner : public QObject, public Handable
 {
     Q_OBJECT
 public:
-    explicit IdOwner(int id, QObject *parent = 0);
+    explicit IdOwner(int id, QObject *parent = nullptr);
     int id() const;
     void setId(const int id);
 

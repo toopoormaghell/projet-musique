@@ -18,7 +18,7 @@ public:
      * @brief Default constructor for QObject derived class
      * @param parent Parent QObject of this class
      */
-    explicit QAWSWrapperNotifier( QObject* parent = 0 );
+    explicit QAWSWrapperNotifier( QObject* parent = nullptr );
 
 
 

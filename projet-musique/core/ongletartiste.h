@@ -13,7 +13,7 @@ class OngletArtiste : public QWidget
     Q_OBJECT
 
 public:
-    explicit OngletArtiste(QWidget *parent = 0);
+    explicit OngletArtiste(QWidget *parent = nullptr);
     ~OngletArtiste();
 
     void ActualiserOnglet();

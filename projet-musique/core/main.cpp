@@ -17,7 +17,7 @@ int main( int argc, char* argv[] )
     QStringList couleurs;
 
     //Choix des couleurs
-    srand( time( NULL ) );
+    srand( time( nullptr ) );
     int nombreMystere = (rand() % 10 ) + 1;
 
     switch ( nombreMystere )

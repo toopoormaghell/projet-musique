@@ -14,7 +14,7 @@ class OngletRech : public QWidget
     Q_OBJECT
 
 public:
-    explicit OngletRech( QWidget* parent = 0 );
+    explicit OngletRech( QWidget* parent = nullptr );
     ~OngletRech();
 
 private slots:

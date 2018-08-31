@@ -9,7 +9,7 @@
 #include "tags.h"
 #include "bddpoch.h"
 
-BDDMp3::BDDMp3( const int id, const QString& Chemin, const BDDRelation* relation, const BDDSupport* support, QObject* parent ):
+BDDMp3::BDDMp3( const int id, const QString& Chemin, const Handle<BDDRelation>& relation, const Handle<BDDSupport>& support, QObject* parent ):
     IdOwner( id , parent )
   , m_relation( relation )
   , m_chemin( Chemin )
@@ -20,15 +20,13 @@ BDDMp3::BDDMp3( const int id, const QString& Chemin, const BDDRelation* relation
 
 BDDMp3::~BDDMp3()
 {
-    delete m_support;
-    delete m_relation;
 }
 
-BDDMp3*BDDMp3::RecupererBDD(const int id)
+Handle<BDDMp3> BDDMp3::RecupererBDD(const int id)
 {
     QString chemin;
-    BDDRelation* rel = nullptr;
-    BDDSupport* supp = nullptr;
+    Handle<BDDRelation> rel(nullptr);
+    Handle<BDDSupport> supp(nullptr);
 
     QString queryStr = "SELECT * FROM MP3 WHERE Id_MP3='" + QString::number(id) + "'";
 
@@ -44,17 +42,17 @@ BDDMp3*BDDMp3::RecupererBDD(const int id)
 
     }
 
-    return new BDDMp3 ( id, chemin , rel , supp );
+    return Handle<BDDMp3>(new BDDMp3 ( id, chemin , rel , supp ));
 }
 
-BDDMp3* BDDMp3::RecupererBDD( const QString& Chemin, const BDDRelation& relation, const BDDSupport& support )
+Handle<BDDMp3> BDDMp3::RecupererBDD( const QString& Chemin, const Handle<BDDRelation>& relation, const Handle<BDDSupport>& support )
 {
     const int id = recupererId( Chemin );
 
-    return new BDDMp3( id , Chemin, &relation , &support );
+    return Handle<BDDMp3>(new BDDMp3( id , Chemin, relation , support ));
 }
 
-BDDMp3* BDDMp3::RecupererBDDParRelation(const int id)
+Handle<BDDMp3> BDDMp3::RecupererBDDParRelation(const int id)
 {
     QString queryStr = "SELECT Id_Mp3 FROM MP3 WHERE Id_Relation ='" + QString::number( id ) + "'";
 
@@ -70,7 +68,7 @@ BDDMp3* BDDMp3::RecupererBDDParRelation(const int id)
     return RecupererBDD( id_mp3 );
 }
 
-BDDMp3* BDDMp3::RecupererBDDParChemin(const QString& Chemin)
+Handle<BDDMp3> BDDMp3::RecupererBDDParChemin(const QString& Chemin)
 {
     QString queryStr = "SELECT Id_MP3 FROM MP3 WHERE Chemin='" + Chemin + "'";
     QSqlQuery query = madatabase.exec( queryStr );

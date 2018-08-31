@@ -30,7 +30,7 @@ FenetrePrincipale::FenetrePrincipale(const QStringList& couleurs, QWidget* paren
     m_interaction( new QLabel ),
     m_ongletMP3 ( ),
     m_lecteur (  ),
-    m_dialogajouterphys( NULL ),
+    m_dialogajouterphys( nullptr ),
     m_vidage( this ),
     stop( new QPushButton( "Stop" ) ),
     m_couleurs(couleurs)

@@ -96,5 +96,5 @@ QList<int> BddAfficherArtiste::TitresPourAlbum( int id )
 }
 int BddAfficherArtiste::RecupererIdArtisteNom( QString Nom_Artiste )
 {
-    return BDDArtiste::recupererBDD( Nom_Artiste )->id();
+    return Handle<BDDArtiste>(BDDArtiste::recupererBDD( Nom_Artiste ))->id();
 }

@@ -73,7 +73,7 @@ QImage Tags::getPoch() const
     TagLib::ID3v2::FrameList Liste = Tag.frameListMap()["APIC"];
     TagLib::ID3v2::AttachedPictureFrame* Pic = static_cast<TagLib::ID3v2::AttachedPictureFrame*>( Liste.front() );
 
-    if ( ( Pic == NULL ) || Pic->picture().isEmpty() )
+    if ( ( Pic == nullptr ) || Pic->picture().isEmpty() )
     {
         Image.fromData( "./Pochettes/def.jpg" );
 
@@ -112,7 +112,7 @@ void Tags::setTrack(const int track)
 void Tags::fermerTag()
 {
     delete m_file;
-    m_file = NULL;
+    m_file = nullptr;
 }
 
 void Tags::setPoch(const QString& Poch, const QString& Chemin)

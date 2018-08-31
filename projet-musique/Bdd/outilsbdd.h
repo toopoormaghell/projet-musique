@@ -11,7 +11,7 @@ class BDDSHARED_EXPORT OutilsBDD: public QObject
 {
     Q_OBJECT
 public:
-    explicit OutilsBDD(QWidget* parent = 0);
+    explicit OutilsBDD(QWidget* parent = nullptr);
     void VirguleArtistes();
     void titresphysetmp3();
     void SupprimerDoublonsArtiste();

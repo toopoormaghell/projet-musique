@@ -13,7 +13,7 @@ class DialogVerifications : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogVerifications(QWidget *parent = 0);
+    explicit DialogVerifications(QWidget *parent = nullptr);
     ~DialogVerifications();
 
 public slots:

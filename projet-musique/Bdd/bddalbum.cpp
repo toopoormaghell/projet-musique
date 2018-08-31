@@ -10,11 +10,6 @@
 
 BDDAlbum::~BDDAlbum()
 {
-
-    delete m_artiste;
-    delete m_type;
-    delete m_pochette;
-
 }
 
 int BDDAlbum::recupererId(const QString& nomFormate, const QString& id_Artiste)
@@ -51,16 +46,16 @@ void BDDAlbum::updateBDD()
 
 }
 
-BDDAlbum* BDDAlbum::recupererBDD(const int id)
+Handle<BDDAlbum> BDDAlbum::recupererBDD(const int id)
 {
     QString queryStr = "SELECT Album, Album_Formate, Id_Pochette, Annee, Type, Id_Artiste FROM Album WHERE Id_Album='" + QString::number(id) + "'";
     QSqlQuery query = madatabase.exec(queryStr);
 
     QString nom, nomFormate;
     int Annee=0;
-    BDDPoch* pochette = nullptr;
-    BDDArtiste* art = nullptr;
-    BDDType* type = nullptr;
+    Handle<BDDPoch> pochette(nullptr);
+    Handle<BDDArtiste> art(nullptr);
+    Handle<BDDType> type(nullptr);
 
     if ( query.first() )
     {
@@ -75,9 +70,9 @@ BDDAlbum* BDDAlbum::recupererBDD(const int id)
 
     }
 
-    return new BDDAlbum(id,nom,nomFormate,pochette,Annee,type,art );
+    return Handle<BDDAlbum>(new BDDAlbum(id,nom,nomFormate,pochette,Annee,type,art ));
 }
-BDDAlbum::BDDAlbum(const int id, const QString& nom, const QString& nomFormate, BDDPoch* pochette, int annee, const BDDType* type, const BDDArtiste* artiste, QObject* parent):
+BDDAlbum::BDDAlbum(const int id, const QString& nom, const QString& nomFormate, const Handle<BDDPoch>& pochette, int annee, const Handle<BDDType>& type, const Handle<BDDArtiste>& artiste, QObject* parent):
     IdOwner( id,parent )
   , m_nom( nom )
   , m_nomFormate (nomFormate)
@@ -119,7 +114,7 @@ int BDDAlbum::TrouverId(const QString &nom, const int &id_Artiste)
 }
 
 
-BDDAlbum* BDDAlbum::recupererBDD(const QString& album, BDDPoch &pochette, int annee, const BDDType& type, const BDDArtiste& artiste)
+Handle<BDDAlbum> BDDAlbum::recupererBDD(const QString& album, const Handle<BDDPoch>& pochette, int annee, const Handle<BDDType>& type, const Handle<BDDArtiste>& artiste)
 {
     QString nom (album );
     EnleverAccents (nom );
@@ -127,9 +122,9 @@ BDDAlbum* BDDAlbum::recupererBDD(const QString& album, BDDPoch &pochette, int an
     QString nomFormate( nom );
     FormaterEntiteBDD( nomFormate );
 
-    const int id = TrouverId(nom, artiste.id() );
+    const int id = TrouverId(nom, artiste->id() );
 
-    return new BDDAlbum( id,nom,nomFormate,&pochette,annee,&type,&artiste );
+    return Handle<BDDAlbum>(new BDDAlbum( id,nom,nomFormate,pochette,annee,type,artiste));
 }
 
 

@@ -454,8 +454,7 @@ void BDDErreurs::supprimerPhys ( int id )
 }
 QImage BDDErreurs::AfficherImagePoch( int id )
 {
-    BDDPoch* poch = BDDPoch::recupererBDD( id );
+    Handle<BDDPoch> poch = BDDPoch::recupererBDD( id );
     QImage temp = poch->m_image;
-    delete poch;
     return temp;
 }

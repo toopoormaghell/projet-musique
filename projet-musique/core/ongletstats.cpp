@@ -156,12 +156,11 @@ void OngletStats::AfficherArtistesCompilMP3()
 
     for ( int i = 0; i < temp.count(); i++ )
     {
-        BDDArtiste* art = BDDArtiste::recupererBDD( temp[i] );
+        Handle<BDDArtiste> art = BDDArtiste::recupererBDD( temp[i] );
         QListWidgetItem* item =  new QListWidgetItem;
         item->setText( art->m_nom );
         item->setData( Qt::UserRole, temp[i] );
         ui->ArtistesDansCompil->addItem( item );
-        delete art;
     }
 }
 void OngletStats::AfficherMP3ArtisteCompilMP3()
@@ -170,12 +169,11 @@ void OngletStats::AfficherMP3ArtisteCompilMP3()
     ui->MP3Artiste5->clear();
     for ( int i = 0; i < temp.count(); i++ )
     {
-        BDDTitre* titre = BDDTitre::recupererBDD( temp[i] );
+        Handle<BDDTitre> titre = BDDTitre::recupererBDD( temp[i] );
         QListWidgetItem* item =  new QListWidgetItem;
         item->setText( titre->m_nom );
         item->setData( Qt::UserRole, temp[i] );
         ui->MP3Artiste5->addItem( item );
-        delete titre;
     }
 }
 
@@ -185,23 +183,22 @@ void OngletStats::AfficherDoublonsMP3()
     ui->DoublonsMP3->clear();
     for ( int i = 0; i < temp.count(); i++ )
     {
-        BDDMp3* mp3 = BDDMp3::RecupererBDD( temp[i] );
+        Handle<BDDMp3> mp3 = BDDMp3::RecupererBDD( temp[i] );
         QListWidgetItem* item =  new QListWidgetItem;
         item->setText( mp3->m_relation->m_titre->m_nom+" ( "+mp3->m_chemin +" )" );
         item->setData( Qt::UserRole, temp[i] );
         ui->DoublonsMP3->addItem( item );
-        delete mp3;
     }
 
 }
 int OngletStats::choixArtiste()
 {
     QListWidgetItem* item = ui->ArtistesDansCompil->currentItem();
-    if ( item == NULL )
+    if ( item == nullptr )
     {
         item = ui->ArtistesDansCompil->item( 0 );
     }
-    if ( item != NULL )
+    if ( item != nullptr )
     {
         return item->data( Qt::UserRole ).toInt();
     }

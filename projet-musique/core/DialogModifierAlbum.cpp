@@ -121,7 +121,7 @@ void DialogModifierAlbum::RecupererListeType()
 
     for (int i = 0; i < types.count() ; i++)
     {
-        BDDType* temp = BDDType::RecupererType( types[i] );
+        Handle<BDDType> temp = BDDType::RecupererType( types[i] );
 
         ui->Type->addItem( temp->m_type,QVariant( types[i] ) );
     }
@@ -181,10 +181,8 @@ void DialogModifierAlbum::on_Parcourir_clicked()
     if ( dial.m_selection != -1 )
     {
 
-        BDDPoch* pochtemp = BDDPoch::recupererBDD(dial.m_selection);
+        Handle<BDDPoch> pochtemp = BDDPoch::recupererBDD(dial.m_selection);
         m_album->setPoch( pochtemp->m_image );
-
-        delete pochtemp;
     }
     AfficherAlbum();
 

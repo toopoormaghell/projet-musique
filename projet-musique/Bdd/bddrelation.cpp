@@ -6,7 +6,7 @@
 #include "bddalbum.h"
 #include "bddartiste.h"
 
-BDDRelation::BDDRelation(const int id, BDDAlbum* album, BDDArtiste* artiste, BDDTitre* titre, const int num_piste, const QString& duree, const int mp3, const int phys, QObject* parent):
+BDDRelation::BDDRelation(const int id, const Handle<BDDAlbum>& album, const Handle<BDDArtiste>& artiste, const Handle<BDDTitre>& titre, const int num_piste, const QString& duree, const int mp3, const int phys, QObject* parent):
     IdOwner( id , parent)
   , m_titre( titre )
   , m_album( album )
@@ -22,10 +22,6 @@ BDDRelation::BDDRelation(const int id, BDDAlbum* album, BDDArtiste* artiste, BDD
 
 BDDRelation::~BDDRelation()
 {
-    delete m_artiste;
-    delete m_album;
-    delete m_titre;
-
 }
 int BDDRelation::recupererId(const QString& id_album, const QString& id_artiste, const QString &id_titre)
 {
@@ -60,11 +56,11 @@ void BDDRelation::updateBDD()
     }
 }
 
-BDDRelation* BDDRelation::recupererBDD( const int id )
+Handle<BDDRelation> BDDRelation::recupererBDD( const int id )
 {
-    BDDArtiste* art = nullptr;
-    BDDAlbum* alb = nullptr;
-    BDDTitre* tit = nullptr;
+    Handle<BDDArtiste> art(nullptr);
+    Handle<BDDAlbum> alb(nullptr);
+    Handle<BDDTitre> tit(nullptr);
     QString duree;
     int Num_Piste = 0; int MP3=0; int Phys = 0;
 
@@ -84,14 +80,14 @@ BDDRelation* BDDRelation::recupererBDD( const int id )
         Phys = rec.value("Phys").toInt();
 
     }
-    return new BDDRelation( id , alb , art , tit , Num_Piste , duree , MP3 , Phys );
+    return Handle<BDDRelation>(new BDDRelation( id , alb , art , tit , Num_Piste , duree , MP3 , Phys ));
 }
 
-BDDRelation*BDDRelation::recupererBDD( BDDAlbum& alb, BDDArtiste& art, BDDTitre& titre, const int num_piste, const QString& duree, const int mp3, const int phys)
+Handle<BDDRelation> BDDRelation::recupererBDD( const Handle<BDDAlbum>& alb, const Handle<BDDArtiste>& art, const Handle<BDDTitre>& titre, const int num_piste, const QString& duree, const int mp3, const int phys)
 {
-    const int id = recupererId( QString::number( alb.id() ) , QString::number( art.id() ) , QString::number( titre.id() ) );
+    const int id = recupererId( QString::number( alb->id() ) , QString::number( art->id() ) , QString::number( titre->id() ) );
 
-return new BDDRelation( id, &alb, &art, &titre, num_piste, duree, mp3, phys );
+return Handle<BDDRelation>(new BDDRelation( id, alb, art, titre, num_piste, duree, mp3, phys ));
 
 }
 

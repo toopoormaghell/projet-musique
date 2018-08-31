@@ -7,7 +7,7 @@ class BddAfficherListe : public QObject
 {
     Q_OBJECT
 public:
-    explicit BddAfficherListe( QObject* parent = 0  );
+    explicit BddAfficherListe( QObject* parent = nullptr  );
 
     int EnregistrerBoite( QString nom_boite );
     void EnregistrerSelection( QList<int> liste, int boite );

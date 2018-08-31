@@ -16,7 +16,7 @@ class PlayerManager : public QWidget
     Q_OBJECT
 
 public:
-    explicit PlayerManager(QWidget *parent = 0);
+    explicit PlayerManager(QWidget *parent = nullptr);
     ~PlayerManager();
     void setDialogControles( DialogControles* dialogControles );
     void setPlaylist( QStringList temp );

@@ -35,11 +35,9 @@ void ChangementVersion::Version()
     {
         QSqlRecord rec = query.record();
 
-        BDDPoch* poch = BDDPoch::recupererBDD( rec.value( "Id_Pochette" ).toInt() );
+        Handle<BDDPoch> poch = BDDPoch::recupererBDD( rec.value( "Id_Pochette" ).toInt() );
 
         poch->sauverImage();
-
-        delete poch;
 
     }
 }

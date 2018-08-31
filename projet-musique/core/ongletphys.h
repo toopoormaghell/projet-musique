@@ -15,7 +15,7 @@ class OngletPhys : public QWidget
     Q_OBJECT
 
 public:
-    explicit OngletPhys( QWidget* parent = 0 );
+    explicit OngletPhys( QWidget* parent = nullptr );
     ~OngletPhys();
 
     void afficherListeArtiste();

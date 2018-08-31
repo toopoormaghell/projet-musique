@@ -140,16 +140,14 @@ QStringList BDDAfficherMp3::RecupererListeTypes( )
 
             if ( rec.value( "Type" ).toInt() == 2 && rec.value( "Support" ).toInt() == 2 )
             {
-                BDDType* tmp = BDDType::RecupererType( rec.value( "Type" ).toInt() );
+                Handle<BDDType> tmp = BDDType::RecupererType( rec.value( "Type" ).toInt() );
                 liste << tmp->m_type;
-                delete tmp; tmp = nullptr;
                 liste << rec.value( "Type" ).toString();
             }
             if ( rec.value( "Type" ).toInt() != 2 && rec.value( "Support" ).toInt() == 1 )
             {
-                BDDType* tmp = BDDType::RecupererType( rec.value( "Type" ).toInt() );
+                Handle<BDDType> tmp = BDDType::RecupererType( rec.value( "Type" ).toInt() );
                 liste << tmp->m_type;
-                delete tmp;
                 liste << rec.value( "Type" ).toString();
             }
         }

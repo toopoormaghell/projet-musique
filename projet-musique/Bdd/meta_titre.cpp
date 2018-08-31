@@ -51,7 +51,7 @@ Meta_Titre* Meta_Titre::RecupererBDD(const int id)
         QSqlRecord rec = query.record();
 
         //Album
-        BDDAlbum* alb = BDDAlbum::recupererBDD(rec.value("Id_Album").toInt());
+        Handle<BDDAlbum> alb = BDDAlbum::recupererBDD(rec.value("Id_Album").toInt());
         nom_Alb = alb->m_nom;
         id_alb = alb->id();
         poch = alb->m_pochette->m_image;
@@ -60,25 +60,23 @@ Meta_Titre* Meta_Titre::RecupererBDD(const int id)
         id_type = alb->m_type->id();
 
         //Artiste
-        BDDArtiste* art = BDDArtiste::recupererBDD(rec.value("Id_Artiste").toInt());
+        Handle<BDDArtiste> art = BDDArtiste::recupererBDD(rec.value("Id_Artiste").toInt());
         nom_Art = art->m_nom;
         id_art = art->id();
 
         //Titre
-        BDDTitre* tit = BDDTitre::recupererBDD(rec.value("Id_Titre").toInt());
+        Handle<BDDTitre> tit = BDDTitre::recupererBDD(rec.value("Id_Titre").toInt());
         id_tit = tit->id();
         nom_Tit = tit->m_nom;
 
         if ( rec.value("Phys").toInt() == 1 )
         {
-            BDDSupport* supp = BDDSupport::RecupererSupportAlb( id_alb, "Phys" );
+            Handle<BDDSupport> supp = BDDSupport::RecupererSupportAlb( id_alb, "Phys" );
             id_support_p = supp->id();
             support_p = supp->m_support;
-            BDDPhys* phys = BDDPhys::RecupererBDD( id_alb );
+            Handle<BDDPhys> phys = BDDPhys::RecupererBDD( id_alb );
             commentaires = phys->m_commentaires;
             ean = phys->m_ean;
-
-            delete supp; delete phys;
         } else
         {
             id_support_p = -1;
@@ -87,15 +85,12 @@ Meta_Titre* Meta_Titre::RecupererBDD(const int id)
 
         if ( rec.value("MP3").toInt() == 1 )
         {
-            BDDSupport* supp = BDDSupport::RecupererSupportAlb( id_alb, "MP3" );
+            Handle<BDDSupport> supp = BDDSupport::RecupererSupportAlb( id_alb, "MP3" );
             id_support_m = supp->id();
             support_m = supp->m_support;
-            BDDMp3* mp3 = BDDMp3::RecupererBDDParRelation( id );
+            Handle<BDDMp3> mp3 = BDDMp3::RecupererBDDParRelation( id );
             id_mp3 = mp3->id();
             chemin_m = mp3->m_chemin;
-
-            delete supp; delete mp3;
-
         } else
         {
             id_support_m = -1;
@@ -105,8 +100,6 @@ Meta_Titre* Meta_Titre::RecupererBDD(const int id)
 
         num_piste = rec.value("Num_Piste").toInt();
         duree =  rec.value("Duree").toString();
-
-        delete alb ; delete art; delete tit;
     }
 
 
@@ -115,9 +108,8 @@ Meta_Titre* Meta_Titre::RecupererBDD(const int id)
 
 Meta_Titre* Meta_Titre::RecupererBDDMP3(const int id)
 {
-    BDDMp3* mp3 = BDDMp3::RecupererBDD( id );
+    Handle<BDDMp3> mp3 = BDDMp3::RecupererBDD( id );
     int id_rel = mp3->m_relation->id() ;
-    delete mp3;
     return RecupererBDD( id_rel );
 }
 
@@ -315,12 +307,10 @@ void Meta_Titre::UpdateBDD()
 {
 
     int id_mp3=0;
-    BDDType* tmp1 = BDDType::RecupererType( m_id_type );
+    Handle<BDDType> tmp1 = BDDType::RecupererType( m_id_type );
     m_Type = tmp1->m_type;
-    delete tmp1; tmp1 = nullptr;
-    BDDSupport* tmp2 = BDDSupport::RecupererSupport( m_id_support_m );
+    Handle<BDDSupport> tmp2 = BDDSupport::RecupererSupport( m_id_support_m );
     m_Support_m = tmp2->m_support;
-    delete tmp2; tmp2 = nullptr;
 
     QString tempartpoch ;
     if ( m_id_support_p == 2 )
@@ -330,32 +320,26 @@ void Meta_Titre::UpdateBDD()
         tempartpoch = m_nom_artiste.replace( "'", "$" );
     }
 
-    BDDPoch* poch = BDDPoch::recupererBDD( m_poch , m_nom_album.replace( "'", "$" ), tempartpoch);
+    Handle<BDDPoch> poch = BDDPoch::recupererBDD( m_poch , m_nom_album.replace( "'", "$" ), tempartpoch);
     poch->updateBDD();
 
-    BDDPoch* def = BDDPoch::recupererBDD( 1 );
-    bool isDefUsed = false;
+    Handle<BDDPoch> def = BDDPoch::recupererBDD( 1 );
 
-    if (m_id_type == 2)
-        isDefUsed = true;
-    BDDArtiste* art = BDDArtiste::recupererBDD (m_nom_artiste .replace("'", "$"), ( m_id_type==2 ?*def : *poch));
+    Handle<BDDArtiste> art = BDDArtiste::recupererBDD (m_nom_artiste .replace("'", "$"), ( m_id_type==2 ?def : poch));
     art->updateBDD();
     m_id_artiste = art->id();
 
-    BDDArtiste* artdef = BDDArtiste::recupererBDD (1 );
-    bool isArtDefUsed = false;
+    Handle<BDDArtiste> artdef = BDDArtiste::recupererBDD (1 );
 
-    if (m_id_support_p == 2)
-        isArtDefUsed = true;
-    BDDAlbum* alb= BDDAlbum::recupererBDD( m_nom_album.replace( "'", "$" ),  *poch, m_annee, *BDDType::RecupererType( m_id_type ), m_id_support_p==2 ?*artdef : *art  );
+    Handle<BDDAlbum> alb= BDDAlbum::recupererBDD( m_nom_album.replace( "'", "$" ),  poch, m_annee, BDDType::RecupererType( m_id_type ), m_id_support_p==2 ?artdef : art  );
     alb->updateBDD();
     m_id_album = alb->id();
 
-    BDDTitre* tit= BDDTitre::recupererBDD( m_nom_titre.replace( "'", "$" ));
+    Handle<BDDTitre> tit= BDDTitre::recupererBDD( m_nom_titre.replace( "'", "$" ));
     tit->updateBDD();
     m_id_titre = tit->id();
 
-    BDDPhys* physav = BDDPhys::RecupererBDD( m_id_album );
+    Handle<BDDPhys> physav = BDDPhys::RecupererBDD( m_id_album );
 
     int id_phys = 0;
     if ( physav->id() !=-1 )
@@ -363,10 +347,9 @@ void Meta_Titre::UpdateBDD()
         id_phys = 1;
     }
 
-    BDDRelation* rel= BDDRelation::recupererBDD( *alb, *art, *tit, m_num_piste, m_duree , ( (id_mp3==0 && m_id_support_m==-1) ? 0:1) , ( (id_phys==0 && m_id_support_p==-1) ? 0:1) );
-    bool isRelUsed = false;
+    Handle<BDDRelation> rel= BDDRelation::recupererBDD( alb, art, tit, m_num_piste, m_duree , ( (id_mp3==0 && m_id_support_m==-1) ? 0:1) , ( (id_phys==0 && m_id_support_p==-1) ? 0:1) );
 
-    BDDMp3* mp3av = BDDMp3::RecupererBDDParRelation( rel->id() );
+    Handle<BDDMp3> mp3av = BDDMp3::RecupererBDDParRelation( rel->id() );
 
     if ( mp3av->id() != -1)
     {
@@ -378,32 +361,20 @@ void Meta_Titre::UpdateBDD()
 
     if ( m_id_support_p !=-1 )
     {
-        BDDPhys* phys = BDDPhys::RecupererBDD( *alb, m_ean, *BDDSupport::RecupererSupport( m_id_support_p ) , m_commentaires);
+        Handle<BDDPhys> phys = BDDPhys::RecupererBDD( alb, m_ean, BDDSupport::RecupererSupport( m_id_support_p ) , m_commentaires);
         phys->updateBDD();
-        phys->m_album = nullptr;
-        delete phys;
     }
 
     if ( m_id_support_m != -1 || id_mp3 == 1 )
     {
-        BDDMp3*   mp3 = BDDMp3::RecupererBDD( m_chemin_m.replace("'","$") , *rel, *BDDSupport::RecupererSupport( m_id_support_m ) );
-        isRelUsed = true;
+        Handle<BDDMp3> mp3 = BDDMp3::RecupererBDD( m_chemin_m.replace("'","$") , rel, BDDSupport::RecupererSupport( m_id_support_m ) );
         mp3->updateBDD();
         m_id_mp3 = mp3->id();
-        delete mp3;
     }
-
-    // poch, art, tit, alb =  do not delete them, they are parts of other objects!
-    if (!isDefUsed) delete def;
-    if (!isArtDefUsed)  delete artdef;
-    if (!isRelUsed) delete rel;
-    delete mp3av;
-    delete physav;
 }
 void Meta_Titre::SupprimerBDDMP3()
 {
-    BDDMp3* mp3 = BDDMp3::RecupererBDD( m_id_mp3 );
+    Handle<BDDMp3> mp3 = BDDMp3::RecupererBDD( m_id_mp3 );
     mp3->supprimerenBDD();
-    delete mp3;
 
 }

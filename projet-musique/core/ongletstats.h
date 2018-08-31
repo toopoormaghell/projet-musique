@@ -13,7 +13,7 @@ class OngletStats : public QWidget
     Q_OBJECT
 
 public:
-    explicit OngletStats( QWidget* parent = 0 );
+    explicit OngletStats( QWidget* parent = nullptr );
     ~OngletStats();
     void AfficherInfos();
 private slots:
