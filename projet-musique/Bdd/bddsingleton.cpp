@@ -42,10 +42,12 @@ BDDSingleton& BDDSingleton::getInstance()
 {
     return s_singleton;
 }
-QSqlDatabase& BDDSingleton::getDataBase()
+
+QSqlQuery BDDSingleton::exec(const QString& query) const
 {
-    return m_database;
+    return m_database.exec(query);
 }
+
 void BDDSingleton::creationBase()
 {
     QStringList tables;

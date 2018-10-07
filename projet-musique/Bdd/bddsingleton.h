@@ -2,6 +2,7 @@
 #define BDDSINGLETON_H
 
 #include <QtSql/QSqlDatabase>
+#include <QSqlQuery>
 #include "bdd_global.h"
 #include "outilsbdd.h"
 
@@ -12,9 +13,11 @@ public:
     ~BDDSingleton();
     // Retourne une référence sur l'unique objet de ce type
     static BDDSingleton& getInstance();
-    // Retourne une référence sur la base de données SQL
-    QSqlDatabase& getDataBase();
 
+    // Executes a SQL statement on the database and returns a QSqlQuery object.
+    // Use lastError() to retrieve error information. If query is empty, an empty,
+    // invalid query is returned and lastError() is not affected
+    QSqlQuery exec(const QString& query = QString()) const;
 
     void creationBase();
     void viderBDD();
@@ -37,6 +40,6 @@ private:
     OutilsBDD* m_outils;
 };
 
-#define madatabase (BDDSingleton::getInstance().getDataBase())
+#define madatabase BDDSingleton::getInstance()
 
 #endif // BDDSINGLETON_H
