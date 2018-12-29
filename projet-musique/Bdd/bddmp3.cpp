@@ -159,8 +159,8 @@ void BDDMp3::supprimerenBDD() const
     if ( id() != 0 )
     {
         QString queryStr = "DELETE FROM MP3 WHERE Id_MP3='" + QString::number( id() ) + "'";
-
-        m_relation->supprimerenBDDMP3();
+        if (m_relation != nullptr)
+            m_relation->supprimerenBDDMP3();
 
         madatabase.exec( queryStr );
     }
