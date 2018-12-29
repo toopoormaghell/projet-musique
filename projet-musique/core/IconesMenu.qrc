@@ -7,6 +7,7 @@
         <file alias="ajoutphys">icones/ajoutphys.ico</file>
         <file alias="exporter">icones/exporter.png</file>
         <file alias="Musique">icones/musique.ico</file>
+        <file alias="ExportBDD">icones/export.png</file>
     </qresource>
     <qresource prefix="/Autres">
         <file alias="Faux">icones/nonmp3phys.png</file>

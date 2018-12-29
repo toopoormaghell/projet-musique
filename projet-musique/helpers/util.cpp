@@ -111,7 +111,7 @@ QString AnneesSwitch( int type )
     case 1 :
         return " Annee >=1980 AND Annee <1990";
     case 2 :
-        return " Annee >=1990 AND Annee<2000";
+        return " Annee >=1990 AND Annee <2000";
     case 3 :
         return " Annee>=2000 AND Annee<2010";
     case 4 :

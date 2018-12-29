@@ -61,10 +61,10 @@ QList<int> BDDAfficherPhys::ListeArtiste(int categorie)
     }
     return liste;
 }
-QList<int> BDDAfficherPhys::listeAlbums( QString Id_Artiste )
+QList<int> BDDAfficherPhys::listeAlbums( QString Id_Artiste, int Categorie )
 {
     QList<int> albums;
-    QString queryStr = "SELECT DISTINCT B.Id_Album FROM Album B, Phys P,Relations R WHERE R.Id_Artiste=" + Id_Artiste + " AND B.Id_Album = R.Id_Album AND P.Id_Album=R.Id_Album AND P.Support='1'  ORDER BY B.Annee DESC";
+    QString queryStr = "SELECT DISTINCT B.Id_Album FROM Album B, Phys P,Relations R WHERE R.Id_Artiste=" + Id_Artiste + " AND B.Id_Album = R.Id_Album AND P.Id_Album=R.Id_Album AND P.Support='1' AND B.Type = "+ QString::number( Categorie ) +"  ORDER BY B.Annee DESC";
 
 
     QSqlQuery query = madatabase.exec( queryStr );

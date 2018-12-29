@@ -164,4 +164,5 @@ void BDDMp3::supprimerenBDD() const
 
         madatabase.exec( queryStr );
     }
+
 }

@@ -105,7 +105,7 @@ void OngletPhys::afficherListeAlbum()
     ui->Albums->clear();
 
     //Affichage des albums
-    QList<int> albums = m_bddInterface.listeAlbums( m_artiste );
+    QList<int> albums = m_bddInterface.listeAlbums( m_artiste, m_categorie );
     m_Albums = 0;
     m_Albums = albums.count();
 
