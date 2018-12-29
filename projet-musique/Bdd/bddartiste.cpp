@@ -109,7 +109,8 @@ void BDDArtiste::supprimerenBDD() const
         {
             madatabase.exec( "DELETE FROM Artiste WHERE Id_Artiste='" + QString::number( id() ) + "'" );
         }
-        m_pochette->supprimerenBDD();
+        if (m_pochette != nullptr)
+            m_pochette->supprimerenBDD();
     }
 }
 void BDDArtiste::EchangerBDD( QString art )

@@ -100,9 +100,10 @@ void BDDAlbum::supprimerenBDD() const
             madatabase.exec( "DELETE FROM Album WHERE Id_Album='" + QString::number( id() ) + "'" );
 
         }
-
-        m_pochette->supprimerenBDD();
-        m_artiste->supprimerenBDD();
+        if (m_pochette != nullptr)
+            m_pochette->supprimerenBDD();
+        if (m_artiste != nullptr)
+            m_artiste->supprimerenBDD();
     }
 }
 int BDDAlbum::TrouverId(const QString &nom, const int &id_Artiste)
