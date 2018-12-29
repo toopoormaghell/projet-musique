@@ -269,14 +269,10 @@ void BDDGestionMp3::SupprimerenBDDMP3( int Id )
 
 void BDDGestionMp3::ViderBDD()
 {
-    QList<int> tempCat ;
-    tempCat << 1 << 2;
+    recupererMp3( 25 );
 
-    for ( int i = 1; i< tempCat.count()-1; i++ )
-    {
-        recupererMp3( tempCat[i] );
-        if ( ! m_Chemins.isEmpty() )
-            supprimerAnciensMP3();
-    }
+    if ( ! m_Chemins.isEmpty() )
+        supprimerAnciensMP3();
+
 
 }

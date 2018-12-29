@@ -155,11 +155,12 @@ void FenetrePrincipale::ViderBDD()
     {
         if ( m_vidage.Mp3 )
         {
+            m_interaction->setText( "Suppression des MP3 de la BDD..." );
             m_gestionMP3->ViderBDD();
             GestionVerifications* temp = new GestionVerifications;
             temp->VerifierBDD();
 
-
+ m_interaction->setText( "Fini." );
         }
     }
     ActualiserOngletMP3();
