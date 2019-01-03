@@ -21,6 +21,8 @@
 #include "ongletmp3.h"
 #include "dialogverifications.h"
 #include "gestionverifications.h"
+#include "bddsauvegardebdd.h"
+
 
 FenetrePrincipale::FenetrePrincipale(const QStringList& couleurs, QWidget* parent ) :
     QMainWindow( parent ),
@@ -251,5 +253,8 @@ void FenetrePrincipale::actionExporterBDD()
 {
 m_interaction->setText( " Sauvegarde de la BDD sur Dropbox..." );
 
+BDDSauvegardeBDD* temp = new BDDSauvegardeBDD();
+temp->sauvegarde();
 
+m_interaction->setText( " Fin de la sauvegarde." );
 }
