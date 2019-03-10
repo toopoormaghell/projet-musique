@@ -17,5 +17,6 @@ SUBDIRS = \
 Bdd.depends = helpers taglib
 core.depends = Bdd helpers Lecteur QAWSWrapper taglib
 QAWSWrapper.depends = Bdd helpers
+Lecteur.depends = taglib
 
 DISTFILES += style.astylerc
