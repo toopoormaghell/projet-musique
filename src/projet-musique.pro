@@ -7,16 +7,16 @@
 TEMPLATE = subdirs
 
 SUBDIRS = \
-    Bdd \
+    bdd \
     core \
     helpers \
-    Lecteur \
-    QAWSWrapper \
+    lecteur \
+    qawswrapper \
     taglib
 
-Bdd.depends = helpers taglib
-core.depends = Bdd helpers Lecteur QAWSWrapper taglib
-QAWSWrapper.depends = Bdd helpers
-Lecteur.depends = taglib
+bdd.depends = helpers taglib
+core.depends = bdd helpers lecteur qawswrapper taglib
+qawswrapper.depends = bdd helpers
+lecteur.depends = taglib
 
 DISTFILES += style.astylerc

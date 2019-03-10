@@ -7,7 +7,7 @@
 QT       += network
 QT       += gui
 
-TARGET = QAWSWrapper
+TARGET = qawswrapper
 TEMPLATE = lib
 
 LIBS += -lhelpers
@@ -16,16 +16,16 @@ LIBS += -lbdd
 CONFIG += debug_and_release
 CONFIG(debug,debug|release) {
     DESTDIR = ../../../bin/debug
-    OBJECTS_DIR = ../../../obj/QAWSWrapper/debug
-    MOC_DIR = ../../../moc/QAWSWrapper/debug
-    UI_DIR = ../../../ui/QAWSWrapper/debug
+    OBJECTS_DIR = ../../../obj/qawswrapper/debug
+    MOC_DIR = ../../../moc/qawswrapper/debug
+    UI_DIR = ../../../ui/qawswrapper/debug
     LIBS += -L../../../bin/debug
     RCC_DIR += ../../../rcc/debug
 } else {
     DESTDIR = ../../../bin/release
-    OBJECTS_DIR = ../../../obj/QAWSWrapper/release
-    MOC_DIR = ../../../moc/QAWSWrapper/release
-    UI_DIR = ../../../ui/QAWSWrapper/release
+    OBJECTS_DIR = ../../../obj/qawswrapper/release
+    MOC_DIR = ../../../moc/qawswrapper/release
+    UI_DIR = ../../../ui/qawswrapper/release
     LIBS += -L../../../bin/release
     RCC_DIR += ../../../rcc/release
 }
