@@ -9,3 +9,8 @@ project(projet-musique VERSION 0.0.1 LANGUAGES CXX)
 ## EXTERNAL SOURCES
 ##
 add_subdirectory(external)
+
+##
+## INTERNAL SOURCES
+##
+add_subdirectory(src)
