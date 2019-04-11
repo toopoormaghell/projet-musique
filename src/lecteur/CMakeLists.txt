@@ -47,6 +47,6 @@ target_include_directories(lecteur PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 ##
 ## Add necessary dependencies
 ##
-list(APPEND CMAKE_PREFIX_PATH C:/Qt/5.12.1/mingw73_64/lib/cmake)
+list(APPEND CMAKE_PREFIX_PATH ${QT_ROOT_DIRECTORY}/lib/cmake)
 find_package(Qt5 REQUIRED COMPONENTS Core Gui Multimedia Widgets)
 target_link_libraries(lecteur PUBLIC taglib Qt5::Core Qt5::Gui Qt5::Multimedia Qt5::Widgets)
