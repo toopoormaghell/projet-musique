@@ -33,11 +33,11 @@ public:
     void requestFromEan(const std::string& ean);
     void requestFromReleaseId(const std::string& releaseId);
 
-Q_SIGNAL
-    void success(QString reply);
+    Q_SIGNAL void successFromEan(QString reply);
+    Q_SIGNAL void successFromReleaseId(QString reply);
 
-Q_SLOT
-    void slotFinished(QNetworkReply* reply);
+    Q_SLOT void slotFinishedFromEan(QNetworkReply* reply);
+    Q_SLOT void slotFinishedFromReleaseId(QNetworkReply* reply);
 };
 }
 

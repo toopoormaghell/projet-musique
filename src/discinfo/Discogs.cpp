@@ -6,6 +6,9 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QEventLoop>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 
 namespace
 {
@@ -18,7 +21,9 @@ namespace
     }
 }
 
-void discinfo::Discogs::requestFromEan(const std::string& ean)
+namespace discinfo
+{
+void Discogs::requestFromEan(const std::string& ean)
 {
     // Build the URL for the request
     QUrl requestUrl("https://api.discogs.com/database/search");
@@ -32,10 +37,10 @@ void discinfo::Discogs::requestFromEan(const std::string& ean)
     // Initiate the request
     getInstance().get(request);
     // Connect to reply signals to manage any cases
-    connect(&getInstance(), &QNetworkAccessManager::finished, this, &Discogs::slotFinished);
+    connect(&getInstance(), &QNetworkAccessManager::finished, this, &Discogs::slotFinishedFromEan);
 }
 
-void discinfo::Discogs::requestFromReleaseId(const std::string& releaseId)
+void Discogs::requestFromReleaseId(const std::string& releaseId)
 {
     // Build the URL for the request
     QUrl requestUrl("https://api.discogs.com/releases/" + QString::fromStdString(releaseId));
@@ -44,11 +49,56 @@ void discinfo::Discogs::requestFromReleaseId(const std::string& releaseId)
     // Initiate the request
     getInstance().get(request);
     // Connect to reply signals to manage any cases
-    connect(&getInstance(), &QNetworkAccessManager::finished, this, &Discogs::slotFinished);
+    connect(&getInstance(), &QNetworkAccessManager::finished, this, &Discogs::slotFinishedFromReleaseId);
 }
 
-void discinfo::Discogs::slotFinished(QNetworkReply* reply)
+void Discogs::slotFinishedFromEan(QNetworkReply* reply)
 {
-    Q_EMIT(success(reply->readAll()));
+    QByteArray replyBytes(reply->readAll());
+    QJsonDocument document = QJsonDocument::fromJson(replyBytes);
+    QJsonObject object = document.object();
+    if (object.contains("results") && object["results"].isArray())
+    {
+        qDebug() << "youpi1";
+        QJsonArray object2 = object["results"].toArray();
+        if ((object2.size() > 0) && object2[0].isObject())
+        {
+            qDebug() << "youpi2";
+            QJsonObject object3 = object2[0].toObject();
+            if (object3.contains("resource_url") && object3["resource_url"].isString())
+            {
+                QString releaseUrl = object3["resource_url"].toString();
+                qDebug() << releaseUrl;
+            }
+        }
+    }
+
+    Q_EMIT(successFromEan(replyBytes));
     reply->deleteLater();
+}
+
+void Discogs::slotFinishedFromReleaseId(QNetworkReply* reply)
+{
+    QByteArray replyBytes(reply->readAll());
+    QJsonDocument document = QJsonDocument::fromJson(replyBytes);
+    QJsonObject object = document.object();
+    if (object.contains("results") && object["results"].isArray())
+    {
+        qDebug() << "youpi1";
+        QJsonArray object2 = object["results"].toArray();
+        if ((object2.size() > 0) && object2[0].isObject())
+        {
+            qDebug() << "youpi2";
+            QJsonObject object3 = object2[0].toObject();
+            if (object3.contains("resource_url") && object3["resource_url"].isString())
+            {
+                QString releaseUrl = object3["resource_url"].toString();
+                qDebug() << releaseUrl;
+            }
+        }
+    }
+
+    Q_EMIT(successFromReleaseId(replyBytes));
+    reply->deleteLater();
+}
 }

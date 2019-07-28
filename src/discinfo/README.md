@@ -7,3 +7,4 @@ Make sure to install a 1.0 and not 1.1 version.
 Then I copied libeay32.dll, libssl32.dll and ssleay32.dll in the directory where compiled binaries are located.
 It magically worked.
 It needs to be refined to make it smoother for the user (and developer).
+3. From Qt 5.13.0, it seems that Qt supports OpenSSL from higher version. Therefore you can install a newer version of OpenSSL, such as https://slproweb.com/download/Win64OpenSSL-1_1_1c.exe. Then you can copy libcrypto-1_1-x64.dll and libssl-1_1-x64.dll to the directory where compiled binaries are located.
