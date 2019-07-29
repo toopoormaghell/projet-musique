@@ -91,13 +91,20 @@ QMap<int, QStringList> BDDMp3::RecupererMP3s(int Type)
 
     if ( Type == 1 )
     {
+
         queryStri = "Select Id_MP3, Chemin FROM MP3 M, Relations R, Album B WHERE R.Id_Relation = M.Id_Relation AND R.Id_Album = B.Id_Album AND B.Type NOT IN(2)";
+    }
+    if ( Type == 25 )
+    {
+
+        queryStri = "Select Id_MP3, Chemin FROM MP3 M, Relations R, Album B WHERE R.Id_Relation = M.Id_Relation AND R.Id_Album = B.Id_Album";
     }
 
     QSqlQuery  query =  madatabase.exec( queryStri );
 
     while ( query.next() )
     {
+
         QStringList infos;
         QSqlRecord rec = query.record();
         const int Mp3 = rec.value( "Id_MP3" ).toInt();
@@ -159,9 +166,10 @@ void BDDMp3::supprimerenBDD() const
     if ( id() != 0 )
     {
         QString queryStr = "DELETE FROM MP3 WHERE Id_MP3='" + QString::number( id() ) + "'";
-
-        m_relation->supprimerenBDDMP3();
+        if (m_relation != nullptr)
+            m_relation->supprimerenBDDMP3();
 
         madatabase.exec( queryStr );
     }
+
 }

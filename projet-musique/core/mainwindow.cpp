@@ -17,10 +17,12 @@
 #include "DialogVidageBDD.h"
 #include "bddgestionmp3.h"
 #include "bddsingleton.h"
-#include "DialogAjouterPhys.h"
+#include "dialogajouterphys.h"
 #include "ongletmp3.h"
 #include "dialogverifications.h"
 #include "gestionverifications.h"
+#include "bddsauvegardebdd.h"
+
 
 FenetrePrincipale::FenetrePrincipale(const QStringList& couleurs, QWidget* parent ) :
     QMainWindow( parent ),
@@ -81,6 +83,9 @@ void FenetrePrincipale::ajouterToolbar()
 
     essai.load( ":menuIcones/config actu" );
     ui->toolBar->addAction( QIcon( essai ), "Configurer Actualiser MP3", this, SLOT( actionconfigactu() ) );
+
+    essai.load(":menuIcones/ExportBDD" );
+    ui->toolBar->addAction( QIcon( essai ), " Sauvegarder BDD", this, SLOT( actionExporterBDD() ) );
 
     QWidget* empty = new QWidget();
     empty->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
@@ -152,11 +157,12 @@ void FenetrePrincipale::ViderBDD()
     {
         if ( m_vidage.Mp3 )
         {
+            m_interaction->setText( "Suppression des MP3 de la BDD..." );
             m_gestionMP3->ViderBDD();
             GestionVerifications* temp = new GestionVerifications;
             temp->VerifierBDD();
 
-
+ m_interaction->setText( "Fini." );
         }
     }
     ActualiserOngletMP3();
@@ -241,4 +247,14 @@ void FenetrePrincipale::showEvent(QShowEvent *e)
     m_taskbarButton->progress()->show();
 #endif
     e->accept();
+}
+
+void FenetrePrincipale::actionExporterBDD()
+{
+m_interaction->setText( " Sauvegarde de la BDD sur Dropbox..." );
+
+BDDSauvegardeBDD* temp = new BDDSauvegardeBDD();
+temp->sauvegarde();
+
+m_interaction->setText( " Fin de la sauvegarde." );
 }

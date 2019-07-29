@@ -41,7 +41,7 @@ void BDDAlbum::updateBDD()
     else
     {
         QString queryStr = "UPDATE Album SET Album_Formate ='" + m_nomFormate + "', Id_Pochette='" + QString::number( m_pochette->id() ) + "', Annee= '" + QString::number( m_annee ) + "', Id_Artiste= '" + QString::number( m_artiste->id() ) + "'  WHERE Id_Album = '" + QString::number( id() ) + "'";
-        QSqlQuery madatabase.exec( queryStr );
+        madatabase.exec( queryStr );
     }
 
 }
@@ -100,9 +100,10 @@ void BDDAlbum::supprimerenBDD() const
             madatabase.exec( "DELETE FROM Album WHERE Id_Album='" + QString::number( id() ) + "'" );
 
         }
-
-        m_pochette->supprimerenBDD();
-        m_artiste->supprimerenBDD();
+        if (m_pochette != nullptr)
+            m_pochette->supprimerenBDD();
+        if (m_artiste != nullptr)
+            m_artiste->supprimerenBDD();
     }
 }
 int BDDAlbum::TrouverId(const QString &nom, const int &id_Artiste)

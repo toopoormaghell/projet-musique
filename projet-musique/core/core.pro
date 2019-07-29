@@ -63,7 +63,6 @@ HEADERS += \
     dialogalbumssmp3.h \
     ongletliste.h \
     bddafficherliste.h \
-    mp3remover.h \
     ongleterreurs.h
 
 
@@ -91,7 +90,6 @@ SOURCES += main.cpp \
     dialogalbumssmp3.cpp \
     ongletliste.cpp \
     bddafficherliste.cpp \
-    mp3remover.cpp \
     ongleterreurs.cpp
 
 

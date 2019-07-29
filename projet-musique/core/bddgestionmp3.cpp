@@ -8,8 +8,6 @@
 #include <QDirIterator>
 #include <QDir>
 #include <QTimer>
-#include <QThread>
-#include "mp3remover.h"
 
 BDDGestionMp3::BDDGestionMp3( QObject* parent ) :
     QObject( parent )
@@ -271,24 +269,10 @@ void BDDGestionMp3::SupprimerenBDDMP3( int Id )
 
 void BDDGestionMp3::ViderBDD()
 {
-    QList<int> tempCat ;
-    tempCat << 1 << 2;
+    recupererMp3( 25 );
 
-    for ( int i = 0 ; i < tempCat.count() ; i++ )
-    {
-        recupererMp3( tempCat[i] );
-        if ( ! m_Chemins.isEmpty() )
-        {
-            QThread* thread = new QThread;
-            MP3Remover* remover = new MP3Remover(m_Chemins);
-            remover->moveToThread(thread);
-            connect(thread, &QThread::started, remover, &MP3Remover::process);
-            connect(remover, &MP3Remover::askedRemoval, this, &BDDGestionMp3::SupprimerenBDDMP3);
-            connect(remover, &MP3Remover::finished, thread, &QThread::quit);
-            connect(remover, &MP3Remover::finished, remover, &MP3Remover::deleteLater);
-            connect(thread, &QThread::finished, thread, &QThread::deleteLater);
-            thread->start();
-        }
-    }
+    if ( ! m_Chemins.isEmpty() )
+        supprimerAnciensMP3();
+
 
 }

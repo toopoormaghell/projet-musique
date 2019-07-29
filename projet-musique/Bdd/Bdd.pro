@@ -61,7 +61,8 @@ SOURCES += bddsingleton.cpp \
     tags.cpp \
     meta_album.cpp \
     meta_titre.cpp \
-    bdderreurs.cpp
+    bdderreurs.cpp \
+    bddsauvegardebdd.cpp
 
 
 HEADERS += bdd_global.h \
@@ -86,7 +87,8 @@ bddalbum.h \
     meta_album.h \
 idowner.h \
     meta_artiste.h \
-    bdderreurs.h
+    bdderreurs.h \
+    bddsauvegardebdd.h
 
 
 unix {

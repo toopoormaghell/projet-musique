@@ -48,6 +48,7 @@ private slots:
     void ActualiserOngletPhys();
     void stop_clique();
     void showEvent(QShowEvent *e);
+    void actionExporterBDD();
 
 private:
     Ui::MainWindow* ui;

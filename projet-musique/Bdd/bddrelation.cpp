@@ -103,6 +103,10 @@ void BDDRelation::supprimerenBDDMP3() const
         if ( !query.first() )
         {
             madatabase.exec( "DELETE FROM Relations WHERE Id_Relation='" + QString::number( id() ) + "'" );
+            m_album->supprimerenBDD();
+            m_artiste->supprimerenBDD();
+            m_titre->supprimerenBDD();
+
         } else
         {
             madatabase.exec("UPDATE Relations SET MP3 = 0 WHERE Id_Relation='" + QString::number( id() ) + "'" );

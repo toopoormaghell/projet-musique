@@ -30,8 +30,8 @@ void BDDPhys::supprimerBDD()
         QString queryStr = "DELETE FROM Phys WHERE Id_Album='" + QString::number( m_album->id() ) + "'";
 
         madatabase.exec( queryStr );
-
-        m_album->supprimerenBDD();
+        if (m_album != nullptr)
+            m_album->supprimerenBDD();
     }
 }
 
