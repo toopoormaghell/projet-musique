@@ -14,26 +14,22 @@
 #include <QMessageAuthenticationCode>
 #include <QXmlStreamReader>
 #include <QDebug>
-
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 
 
 namespace
 {
+    QString getToken()
+    {
+        return QString("dgoRcajfWFCHGnSpejifplnfndKJCQoZTLECVrPP");
+    }
+
     bool isReponseValid( const QByteArray& xmlToParse )
     {
-        bool isValid = false;
-        QXmlStreamReader reader( xmlToParse );
-        while ( !reader.atEnd() )
-        {
-            reader.readNext();
-            if ( ( reader.tokenType() == QXmlStreamReader::StartElement ) &&
-                 ( reader.name() == "IsValid" ) )
-            {
-                reader.readNext();
-                if ( reader.tokenType() == QXmlStreamReader::Characters )
-                    isValid = ( reader.text() == "True" );
-            }
-        }
+        Q_UNUSED(xmlToParse)
+        bool isValid = true;
         return isValid;
     }
 
@@ -58,93 +54,82 @@ namespace
         };
         QList<TitreTemp> titresTemp;
 
-        QXmlStreamReader reader( xmlToParse );
-        while ( !reader.atEnd() )
+        QJsonDocument document = QJsonDocument::fromJson(xmlToParse);
+        QJsonObject object1 = document.object();
+        // Get the artist name
+        if (object1.contains("artists") && object1["artists"].isArray())
         {
-            reader.readNext();
-            switch ( reader.tokenType() )
+            QJsonArray array1 = object1["artists"].toArray();
+            if (array1[0].isObject())
             {
-                case QXmlStreamReader::StartElement:
+                QJsonObject object2 = array1[0].toObject();
+                if (object2.contains("name") && object2["name"].isString())
                 {
-                    if ( reader.name() == "Track" )
-                    {
-                        reader.readNext();
-                        if ( reader.tokenType() == QXmlStreamReader::Characters )
-                        {
-                            TitreTemp tmp;
-                            tmp.nomTitre = reader.text().toString();
-                            tmp.numPiste = trackNumber;
-                            tmp.duree = "0:00";
-                            trackNumber++;
-                            titresTemp.append(tmp);
-                        }
-                    }
-                    else if ( ( reader.name() == "Creator" ) &&
-                              ( reader.attributes().hasAttribute( "Role" ) ) &&
-                              ( reader.attributes().value( "Role" ) == "Performer" ) )
-                    {
-                        reader.readNext();
-                        if ( reader.tokenType() == QXmlStreamReader::Characters )
-                            artistsList << reader.text().toString();
-                    }
-                    else if ( reader.name() == "Title" )
-                    {
-                        reader.readNext();
-                        if ( reader.tokenType() == QXmlStreamReader::Characters )
-                            nomAlbum = reader.text().toString();
-                    }
-                    else if ( reader.name() == "Artist" )
-                    {
-                        reader.readNext();
-                        if ( reader.tokenType() == QXmlStreamReader::Characters )
-                        {
-                            nomArtiste = reader.text().toString();
-                            if ( reader.text().toString() == "Various Artists" )
-                                nomArtiste = "Artistes Divers";
-                            else
-                                artistsList << reader.text().toString();
-                        }
-                    }
-                    else if ( reader.name() == "ReleaseDate" )
-                    {
-                        reader.readNext();
-                        if ( reader.tokenType() == QXmlStreamReader::Characters )
-                            annee = reader.text().toString().left( 4 ).toInt();
-                    }
-                    else if ( ( reader.name() == "ImageSet" ) &&
-                              ( reader.attributes().hasAttribute( "Category" ) ) &&
-                              ( reader.attributes().value( "Category" ) == "primary" ) )
-                    {
-                        reader.readNext();
-                        while ( !reader.atEnd() && ( reader.name() != "LargeImage" ) )
-                            reader.readNext();
-                        reader.readNext();
-                        while ( !reader.atEnd() && ( reader.name() != "URL" ) )
-                            reader.readNext();
-                        reader.readNext();
-                        if ( reader.tokenType() == QXmlStreamReader::Characters )
-                        {
-                            QUrl urlCover( reader.text().toString() );
-                            qDebug() << reader.text().toString();
-                            QNetworkRequest coverRequest( urlCover );
-                            QNetworkAccessManager* accessCover = new QNetworkAccessManager;
-                            QNetworkReply* coverReply = accessCover->get( coverRequest );
-
-                            QEventLoop loop;
-                            QObject::connect( coverReply, SIGNAL( finished() ), &loop, SLOT( quit() ) );
-                            loop.exec();
-                            pochette = QImage::fromData( coverReply->readAll() );
-                        }
-                    }
-                    break;
+                    nomArtiste = object2["name"].toString();
                 }
-                default:
-                    break;
+                // Multiple artists case
+                if (nomArtiste == "Various")
+                {
+                    nomArtiste = "Artistes Divers";
+                }
             }
         }
-        if ( reader.hasError() )
+
+        // Get the album name
+        if (object1.contains("title") && object1["title"].isString())
         {
-            qDebug() << "error while reading XML:" << reader.error();
+            nomAlbum = object1["title"].toString();
+        }
+
+        // Get the release date
+        if (object1.contains("year") && object1["year"].isDouble())
+        {
+            annee = object1["year"].toInt();
+        }
+
+        // Get track list
+        if (object1.contains("tracklist") && object1["tracklist"].isArray())
+        {
+            QJsonArray array1 = object1["tracklist"].toArray();
+            for (int i = 0; i < array1.size(); ++i)
+            {
+                TitreTemp tmp;
+                if (array1[i].isObject())
+                {
+                    tmp.numPiste = static_cast<unsigned int>(i);
+                    QJsonObject object2 = array1[i].toObject();
+                    if (object2.contains("title") && object2["title"].isString())
+                    {
+                        tmp.nomTitre = object2["title"].toString();
+                    }
+                    if (object2.contains("duration") && object2["duration"].isString())
+                    {
+                        tmp.duree = object2["duration"].toString();
+                    }
+                }
+                titresTemp.append(tmp);
+            }
+        }
+
+        // Get picture
+        if (object1.contains("images") && object1["images"].isArray())
+        {
+            QJsonArray array1 = object1["images"].toArray();
+            if (array1[0].isObject())
+            {
+                QJsonObject object2 = array1[0].toObject();
+                if (object2.contains("uri") && object2["uri"].isString())
+                {
+                    QUrl urlCover(object2["uri"].toString());
+                    QNetworkRequest coverRequest(urlCover);
+                    QNetworkAccessManager* accessCover = new QNetworkAccessManager;
+                    QNetworkReply* coverReply = accessCover->get(coverRequest);
+                    QEventLoop loop;
+                    QObject::connect(coverReply, SIGNAL(finished()), &loop, SLOT(quit()));
+                    loop.exec();
+                    pochette = QImage::fromData(coverReply->readAll());
+                }
+            }
         }
 
         QList<Meta_Titre*> titres;
@@ -184,40 +169,52 @@ QAWSWrapperNotifier& QAWSWrapper::getNotifier()
 
 Meta_Album* QAWSWrapper::getAlbumFromEAN( const QString& ean )
 {
-    // Build the list of parameters that the URL must contain
-    QUrlQuery listOfParameters;
-    listOfParameters.addQueryItem( "AWSAccessKeyId", QAWSGlobalInfo::getAccessKeyID() );
-    listOfParameters.addQueryItem( "AssociateTag", QAWSGlobalInfo::getAssociateTag() );
-    listOfParameters.addQueryItem( "IdType", "EAN" );
-    listOfParameters.addQueryItem( "ItemId", ean );
-    listOfParameters.addQueryItem( "Operation", "ItemLookup" );
-    listOfParameters.addQueryItem( "ResponseGroup", QString( "Tracks,Small,Images,ItemAttributes" ).toUtf8().toPercentEncoding() );
-    listOfParameters.addQueryItem( "SearchIndex", "Music" );
-    listOfParameters.addQueryItem( "Service", "AWSECommerceService" );
-    listOfParameters.addQueryItem( "Timestamp", QDateTime::currentDateTimeUtc().toString( Qt::ISODate ).toUtf8().toPercentEncoding() );
+    // Build the URL for the request
+    QUrl requestUrl("https://api.discogs.com/database/search");
+    QUrlQuery requestParameters;
+    requestParameters.addQueryItem("barcode", ean);
+    requestParameters.addQueryItem("token", getToken());
+    requestUrl.setQuery(requestParameters);
 
-    // Prepare the string that will be used to compute the signature
-    QString stringToSign( QString( "GET\n%1\n%2\n" ).arg( QAWSGlobalInfo::getMarketPlaceURL() ).arg( QAWSGlobalInfo::getMarketPlaceURI() ) );
-    stringToSign += listOfParameters.query();
-
-    // Compute the signature of the string
-    QString signature = QMessageAuthenticationCode::hash( stringToSign.toLatin1(), QAWSGlobalInfo::getSecretAccessKey(), QCryptographicHash::Sha256 ).toBase64();
-
-    // Build the signed URL
-    listOfParameters.addQueryItem( "Signature", signature.toUtf8().toPercentEncoding() );
-    QUrl signedUrl( QString( "http://%1%2" ).arg( QAWSGlobalInfo::getMarketPlaceURL() ).arg( QAWSGlobalInfo::getMarketPlaceURI() ) );
-    signedUrl.setQuery( listOfParameters );
-
-    QNetworkRequest networkRequestApi( signedUrl );
+    QNetworkRequest networkRequestApi(requestUrl);
     QNetworkAccessManager* networkAccessManagerApi = new QNetworkAccessManager;
-    QNetworkReply* networkReplyApi = networkAccessManagerApi->get( networkRequestApi );
+    QNetworkReply* networkReplyApi = networkAccessManagerApi->get(networkRequestApi);
 
     QEventLoop loop;
     QObject::connect( networkReplyApi, SIGNAL( finished() ), &loop, SLOT( quit() ) );
     loop.exec();
 
     QByteArray response( networkReplyApi->readAll() );
+    networkReplyApi->deleteLater();
 
+    // Extract the URL to the release from the response
+    QJsonDocument document = QJsonDocument::fromJson(response);
+    QJsonObject object1 = document.object();
+    QString releaseUrl;
+    if (object1.contains("results") && object1["results"].isArray())
+    {
+        QJsonArray object2 = object1["results"].toArray();
+        if ((object2.size() > 0) && object2[0].isObject())
+        {
+            QJsonObject object3 = object2[0].toObject();
+            if (object3.contains("resource_url") && object3["resource_url"].isString())
+            {
+                releaseUrl = object3["resource_url"].toString();
+            }
+        }
+    }
+    // Add the token to this URL
+    requestParameters.clear();
+    requestParameters.addQueryItem("token", getToken());
+    requestUrl = releaseUrl;
+    requestUrl.setQuery(requestParameters);
+    // Initiate the request
+    networkRequestApi.setUrl(requestUrl);
+    networkReplyApi = networkAccessManagerApi->get(networkRequestApi);
+    QObject::connect( networkReplyApi, SIGNAL( finished() ), &loop, SLOT( quit() ) );
+    loop.exec();
+
+    response = networkReplyApi->readAll();
     QString message;
     message += "Amazon Web Services response is ";
     message += isReponseValid( response ) ? "" : "not ";
