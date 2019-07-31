@@ -97,7 +97,7 @@ namespace
                 TitreTemp tmp;
                 if (array1[i].isObject())
                 {
-                    tmp.numPiste = static_cast<unsigned int>(i);
+                    tmp.numPiste = i + 1;
                     QJsonObject object2 = array1[i].toObject();
                     if (object2.contains("title") && object2["title"].isString())
                     {
