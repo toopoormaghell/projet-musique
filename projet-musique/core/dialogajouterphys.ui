@@ -356,20 +356,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="findArtists">
-       <property name="text">
-        <string>Séparer Artistes</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="swapColumns">
-       <property name="text">
-        <string>Echanger Colonnes</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <spacer name="verticalSpacer_5">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
@@ -473,7 +459,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroup"/>
   <buttongroup name="buttonGroup_2"/>
+  <buttongroup name="buttonGroup"/>
  </buttongroups>
 </ui>
