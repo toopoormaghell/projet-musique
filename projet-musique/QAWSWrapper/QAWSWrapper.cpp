@@ -33,7 +33,7 @@ namespace
         return isValid;
     }
 
-    Meta_Album* parseXml( const QByteArray& xmlToParse, QStringList& artistsList, const QString& m_ean )
+    Meta_Album* parseXml( const QByteArray& xmlToParse, const QString& m_ean )
     {
         QString nomAlbum;
         QString nomArtiste;
@@ -161,7 +161,6 @@ namespace
 
 QAWSWrapper::QAWSWrapper():
     m_notifier( new QAWSWrapperNotifier )
-  , m_artistsList()
 {
 }
 
@@ -234,13 +233,6 @@ Meta_Album* QAWSWrapper::getAlbumFromEAN( const QString& ean )
     message += "valid.";
     getNotifier().emitStepAchieved( message );
 
-    m_artistsList.clear();
-    return parseXml( response, m_artistsList, ean );
-}
 
-
-
-const QStringList& QAWSWrapper::getArtistsList() const
-{
-    return m_artistsList;
+    return parseXml( response, ean );
 }

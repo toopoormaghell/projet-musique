@@ -34,16 +34,11 @@ public:
     // Return the album related to the given EAN
     Meta_Album* getAlbumFromEAN( const QString& ean );
 
-    // Return the list of possible artists
-    const QStringList& getArtistsList() const;
-
 
 
 private:
     // Notifier to emit signals
     QScopedPointer<QAWSWrapperNotifier> m_notifier;
-    // List of the artists received from the AWS
-    QStringList m_artistsList;
 
     // Default copy constructor, not implemented on purpose
     QAWSWrapper( const QAWSWrapper& other );
