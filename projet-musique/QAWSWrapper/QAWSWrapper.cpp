@@ -45,7 +45,6 @@ namespace
         QString ean = m_ean;
         int supportM = -1;
         QString chemin;
-        unsigned int trackNumber = 1;
         struct TitreTemp
         {
             QString nomTitre;
