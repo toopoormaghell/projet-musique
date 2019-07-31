@@ -51,6 +51,7 @@ namespace
             QString nomTitre;
             unsigned int numPiste;
             QString duree;
+            QString artiste;
         };
         QList<TitreTemp> titresTemp;
 
@@ -106,6 +107,18 @@ namespace
                     {
                         tmp.duree = object2["duration"].toString();
                     }
+                    if (object2.contains("artists") && object2["artists"].isArray())
+                    {
+                        QJsonArray array2 = object2["artists"].toArray();
+                        if ((array2.size() > 0 ) && array2[0].isObject())
+                        {
+                            QJsonObject object3 = array2[0].toObject();
+                            if (object3.contains("name") && object3["name"].isString())
+                            {
+                                tmp.artiste = object3["name"].toString();
+                            }
+                        }
+                    }
                 }
                 titresTemp.append(tmp);
             }
@@ -135,7 +148,7 @@ namespace
         QList<Meta_Titre*> titres;
         for ( auto it : titresTemp )
         {
-            Meta_Titre* titre = Meta_Titre::CreerMeta_Titre(nomAlbum, nomArtiste, it.nomTitre, annee, it.duree, it.numPiste, pochette, type, supportP, supportM, chemin, commentaires, ean);
+            Meta_Titre* titre = Meta_Titre::CreerMeta_Titre(nomAlbum, it.artiste, it.nomTitre, annee, it.duree, it.numPiste, pochette, type, supportP, supportM, chemin, commentaires, ean);
             titres.append(titre);
         }
 
