@@ -1,12 +1,12 @@
-#include "DialogAjouterPhys.h"
-#include "ui_dialogajouterphys.h"
+#include "dialogajouterphys.h"
+#include "ui_DialogAjouterPhys.h"
 #include "bddgestionphys.h"
 #include "util.h"
 #include <QFileDialog>
 #include "DialogAjoutTitre.h"
 #include "bddalbum.h"
 #include "QAWSWrapperNotifier.h"
-#include "BDDAfficherPhys.h"
+#include "bddafficherphys.h"
 #include <QAbstractTableModel>
 #include <QLineEdit>
 #include <QStyledItemDelegate>
@@ -142,7 +142,7 @@ public:
         MULTI_ARTISTS
     };
 
-    explicit QTableModel( QObject* parent = 0 ):
+    explicit QTableModel( QObject* parent = nullptr ):
         QAbstractTableModel( parent )
       , m_lineList()
       , m_modelType( MONO_ARTIST )
@@ -527,7 +527,7 @@ void DialogAjouterPhys::RecupererAlbum()
     struct TitreTemp
     {
         QString nomTitre;
-        unsigned int numPiste;
+        int numPiste;
         QString duree;
         QString nomArtiste;
     };
