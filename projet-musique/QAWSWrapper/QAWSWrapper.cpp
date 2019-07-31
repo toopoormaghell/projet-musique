@@ -33,7 +33,7 @@ namespace
         return isValid;
     }
 
-    Meta_Album* parseXml( const QByteArray& xmlToParse, QStringList& artistsList, const QString& m_ean )
+    Meta_Album* parseXml( const QByteArray& xmlToParse, const QString& m_ean )
     {
         QString nomAlbum;
         QString nomArtiste;
@@ -45,12 +45,12 @@ namespace
         QString ean = m_ean;
         int supportM = -1;
         QString chemin;
-        unsigned int trackNumber = 1;
         struct TitreTemp
         {
             QString nomTitre;
-            unsigned int numPiste;
             QString duree;
+            QString artiste;
+            int numPiste;
         };
         QList<TitreTemp> titresTemp;
 
@@ -96,7 +96,7 @@ namespace
                 TitreTemp tmp;
                 if (array1[i].isObject())
                 {
-                    tmp.numPiste = static_cast<unsigned int>(i);
+                    tmp.numPiste = i + 1;
                     QJsonObject object2 = array1[i].toObject();
                     if (object2.contains("title") && object2["title"].isString())
                     {
@@ -105,6 +105,18 @@ namespace
                     if (object2.contains("duration") && object2["duration"].isString())
                     {
                         tmp.duree = object2["duration"].toString();
+                    }
+                    if (object2.contains("artists") && object2["artists"].isArray())
+                    {
+                        QJsonArray array2 = object2["artists"].toArray();
+                        if ((array2.size() > 0 ) && array2[0].isObject())
+                        {
+                            QJsonObject object3 = array2[0].toObject();
+                            if (object3.contains("name") && object3["name"].isString())
+                            {
+                                tmp.artiste = object3["name"].toString();
+                            }
+                        }
                     }
                 }
                 titresTemp.append(tmp);
@@ -135,7 +147,7 @@ namespace
         QList<Meta_Titre*> titres;
         for ( auto it : titresTemp )
         {
-            Meta_Titre* titre = Meta_Titre::CreerMeta_Titre(nomAlbum, nomArtiste, it.nomTitre, annee, it.duree, it.numPiste, pochette, type, supportP, supportM, chemin, commentaires, ean);
+            Meta_Titre* titre = Meta_Titre::CreerMeta_Titre(nomAlbum, it.artiste, it.nomTitre, annee, it.duree, it.numPiste, pochette, type, supportP, supportM, chemin, commentaires, ean);
             titres.append(titre);
         }
 
@@ -148,7 +160,6 @@ namespace
 
 QAWSWrapper::QAWSWrapper():
     m_notifier( new QAWSWrapperNotifier )
-  , m_artistsList()
 {
 }
 
@@ -221,13 +232,6 @@ Meta_Album* QAWSWrapper::getAlbumFromEAN( const QString& ean )
     message += "valid.";
     getNotifier().emitStepAchieved( message );
 
-    m_artistsList.clear();
-    return parseXml( response, m_artistsList, ean );
-}
 
-
-
-const QStringList& QAWSWrapper::getArtistsList() const
-{
-    return m_artistsList;
+    return parseXml( response, ean );
 }

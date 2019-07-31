@@ -1,12 +1,12 @@
-#include "DialogAjouterPhys.h"
-#include "ui_dialogajouterphys.h"
+#include "dialogajouterphys.h"
+#include "ui_DialogAjouterPhys.h"
 #include "bddgestionphys.h"
 #include "util.h"
 #include <QFileDialog>
 #include "DialogAjoutTitre.h"
 #include "bddalbum.h"
 #include "QAWSWrapperNotifier.h"
-#include "BDDAfficherPhys.h"
+#include "bddafficherphys.h"
 #include <QAbstractTableModel>
 #include <QLineEdit>
 #include <QStyledItemDelegate>
@@ -142,10 +142,8 @@ public:
         MULTI_ARTISTS
     };
 
-    explicit QTableModel( QObject* parent = 0 ):
+    explicit QTableModel( QObject* parent = nullptr ):
         QAbstractTableModel( parent )
-      , m_findArtists(false)
-      , m_swapColumns(false)
       , m_lineList()
       , m_modelType( MONO_ARTIST )
     {
@@ -167,35 +165,12 @@ public:
             else
                 if ( ( index.column() == 1 ) && ( index.row() < m_lineList.size() ) )
                 {
-                    if (findArtists())
-                    {
-                        QStringList toto = m_lineList[index.row()].song().split( " - ");
-                        if ( swapColumns())
-                            valueToReturn = QVariant( toto.last() );
-                        else
-                            valueToReturn = QVariant( toto.first() );
-                    }
-                    else
-                    {
-                        valueToReturn = QVariant( m_lineList[index.row()].song() );
-                    }
+                    valueToReturn = QVariant( m_lineList[index.row()].song() );
                 }
                 else
                     if ( ( index.column() == 2 ) && ( index.row() < m_lineList.size() ) )
                     {
-                        if (findArtists())
-                        {
-                            QStringList toto = m_lineList[index.row()].song().split( " - ");
-
-                            if ( swapColumns())
-                                valueToReturn = QVariant( toto.first() );
-                            else
-                                valueToReturn = QVariant( toto.last() );
-                        }
-                        else
-                        {
-                            valueToReturn = QVariant( m_lineList[index.row()].artist() );
-                        }
+                        valueToReturn = QVariant( m_lineList[index.row()].artist() );
                     }
         }
         return valueToReturn;
@@ -240,34 +215,12 @@ public:
             else
                 if ( ( index.column() == 1 ) && ( index.row() < m_lineList.size() ) )
                 {
-                    if (findArtists())
-                    {
-                        QStringList toto = m_lineList[index.row()].song().split( " - ");
-                        if ( swapColumns())
-                            m_lineList[index.row()].setSong( toto.last() + " - " + value.toString() );
-                        else
-                            m_lineList[index.row()].setSong( value.toString() + " - " + toto.last() );
-                    }
-                    else
-                    {
-                        m_lineList[index.row()].setSong( value.toString() );
-                    }
+                    m_lineList[index.row()].setSong( value.toString() );
                 }
                 else
                     if ( ( index.column() == 2 ) && ( index.row() < m_lineList.size() ) )
                     {
-                        if (findArtists())
-                        {
-                            QStringList toto = m_lineList[index.row()].song().split( " - ");
-                            if ( swapColumns())
-                                m_lineList[index.row()].setSong( value.toString() + " - " + toto.first() );
-                            else
-                                m_lineList[index.row()].setSong( toto.first() + " - " + value.toString() );
-                        }
-                        else
-                        {
-                            m_lineList[index.row()].setArtist( value.toString() );
-                        }
+                        m_lineList[index.row()].setArtist( value.toString() );
                     }
                     else
                         hasDataChanged = false;
@@ -320,34 +273,6 @@ public:
         setData( index( rowCount() - 1, 2 ), line.artist() );
     }
 
-    void setFindArtists( const bool findArtist)
-    {
-        if ( m_findArtists != findArtist )
-        {
-            m_findArtists = findArtist;
-            Q_EMIT dataChanged( index(0,1), index(rowCount()-1, columnCount()-1) );
-        }
-    }
-
-    bool findArtists() const
-    {
-        return m_findArtists;
-    }
-
-    void setSwapColumns( const bool swapColumns)
-    {
-        if ( m_swapColumns != swapColumns)
-        {
-            m_swapColumns = swapColumns;
-            Q_EMIT dataChanged( index(0,1), index(rowCount()-1, columnCount()-1) );
-        }
-    }
-
-    bool swapColumns() const
-    {
-        return m_swapColumns;
-    }
-
     ModelType modelType() const
     {
         return m_modelType;
@@ -360,8 +285,6 @@ public:
     }
 
 private:
-    bool m_findArtists;
-    bool m_swapColumns;
     QList<LineModel> m_lineList;
 
     ModelType m_modelType;
@@ -438,8 +361,6 @@ void DialogAjouterPhys::AjoutConnex()
     QObject::connect( ui->buttonGroup, SIGNAL( buttonClicked( int ) ), this, SLOT( AffichageListeArtistes( int ) ) ) ;
     QObject::connect( ui->buttonGroup_2, SIGNAL( buttonClicked( int ) ), this, SLOT ( RecupererType ( int ) ) );
     QObject::connect( &m_research.getNotifier(), SIGNAL( stepAchieved( QString ) ), this, SLOT( AfficherInteraction( QString ) ) );
-    QObject::connect( ui->findArtists, SIGNAL( stateChanged(int) ), this, SLOT( on_findArtists_stateChanged(int) ) );
-    QObject::connect( ui->swapColumns, SIGNAL( stateChanged(int) ), this, SLOT( on_swapColumns_stateChanged(int) ) );
     QObject::connect( ui->buttonUp, SIGNAL(clicked(bool)), this, SLOT(moveUp_clicked()));
     QObject::connect( ui->buttonDown, SIGNAL(clicked(bool)), this, SLOT(moveDown_clicked()));
 
@@ -474,8 +395,6 @@ void DialogAjouterPhys::on_ChercherEAN_clicked()
             m_EAN = "0" + m_EAN;
         }
         m_album = m_research.getAlbumFromEAN( m_EAN );
-
-        ui->findArtists->setChecked(false);
 
         m_tableModel->clearLines();
         int i = 0;
@@ -608,7 +527,7 @@ void DialogAjouterPhys::RecupererAlbum()
     struct TitreTemp
     {
         QString nomTitre;
-        unsigned int numPiste;
+        int numPiste;
         QString duree;
         QString nomArtiste;
     };
@@ -704,19 +623,6 @@ void DialogAjouterPhys::AfficherInteraction(QString message)
 }
 
 
-
-void DialogAjouterPhys::on_findArtists_stateChanged(int newValue)
-{
-    m_tableModel->setFindArtists(newValue==Qt::Checked);
-    ui->swapColumns->setEnabled(newValue==Qt::Checked );
-}
-
-
-
-void DialogAjouterPhys::on_swapColumns_stateChanged(int newValue)
-{
-    m_tableModel->setSwapColumns(newValue == Qt::Checked);
-}
 
 void DialogAjouterPhys::moveUp_clicked()
 {
