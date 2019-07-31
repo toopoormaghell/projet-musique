@@ -48,9 +48,9 @@ namespace
         struct TitreTemp
         {
             QString nomTitre;
-            unsigned int numPiste;
             QString duree;
             QString artiste;
+            int numPiste;
         };
         QList<TitreTemp> titresTemp;
 
