@@ -26,13 +26,6 @@ namespace
         return QString("dgoRcajfWFCHGnSpejifplnfndKJCQoZTLECVrPP");
     }
 
-    bool isReponseValid( const QByteArray& xmlToParse )
-    {
-        Q_UNUSED(xmlToParse)
-        bool isValid = true;
-        return isValid;
-    }
-
     Meta_Album* parseXml( const QByteArray& xmlToParse, const QString& m_ean )
     {
         QString nomAlbum;
@@ -180,12 +173,16 @@ QAWSWrapperNotifier& QAWSWrapper::getNotifier()
 
 Meta_Album* QAWSWrapper::getAlbumFromEAN( const QString& ean )
 {
+    getNotifier().emitStepAchieved("DEBUT de recuperation de l'album a partir de son EAN.");
+
     // Build the URL for the request
     QUrl requestUrl("https://api.discogs.com/database/search");
     QUrlQuery requestParameters;
     requestParameters.addQueryItem("barcode", ean);
     requestParameters.addQueryItem("token", getToken());
     requestUrl.setQuery(requestParameters);
+
+    getNotifier().emitStepAchieved("--- PREMIERE requete : " + requestUrl.toString());
 
     QNetworkRequest networkRequestApi(requestUrl);
     QNetworkAccessManager* networkAccessManagerApi = new QNetworkAccessManager;
@@ -219,6 +216,9 @@ Meta_Album* QAWSWrapper::getAlbumFromEAN( const QString& ean )
     requestParameters.addQueryItem("token", getToken());
     requestUrl = releaseUrl;
     requestUrl.setQuery(requestParameters);
+
+    getNotifier().emitStepAchieved("--- DEUXIEME requete : " + requestUrl.toString());
+
     // Initiate the request
     networkRequestApi.setUrl(requestUrl);
     networkReplyApi = networkAccessManagerApi->get(networkRequestApi);
@@ -226,12 +226,16 @@ Meta_Album* QAWSWrapper::getAlbumFromEAN( const QString& ean )
     loop.exec();
 
     response = networkReplyApi->readAll();
-    QString message;
-    message += "Amazon Web Services response is ";
-    message += isReponseValid( response ) ? "" : "not ";
-    message += "valid.";
-    getNotifier().emitStepAchieved( message );
+    document = QJsonDocument::fromJson(response);
+    object1 = document.object();
+    QString uri;
+    if (object1.contains("uri") && object1["uri"].isString())
+    {
+        uri = object1["uri"].toString();
+    }
+    getNotifier().emitStepAchieved("--- REQUETE SUPPLEMENTAIRE : " + uri);
 
+    getNotifier().emitStepAchieved("FIN de recuperation de l'album a partir de son EAN.");
 
     return parseXml( response, ean );
 }
