@@ -389,11 +389,6 @@ void DialogAjouterPhys::on_ChercherEAN_clicked()
     recupererEAN();
     if ( m_EAN.count() < 14 )
     {
-        //On vérifie qu'il y a bien 13 caractères
-        while ( m_EAN.count() != 13 )
-        {
-            m_EAN = "0" + m_EAN;
-        }
         m_album = m_research.getAlbumFromEAN( m_EAN );
 
         m_tableModel->clearLines();
