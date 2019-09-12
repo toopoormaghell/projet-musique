@@ -60,6 +60,7 @@ void setid_support_m ( int id );
     void UpdateBDD();
 
     void SupprimerBDDMP3();
+    void SupprimerBDDPhys();
 private:
     QString m_nom_album;
     QString m_nom_artiste;

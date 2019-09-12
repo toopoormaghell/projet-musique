@@ -34,7 +34,7 @@ Meta_Titre::Meta_Titre(const QString& nom_album, const QString& nom_artiste, con
   , m_id_support_m ( id_support_m )
   , m_id_mp3 ( id_mp3 )
 {
-    Q_UNUSED ( parent );
+    Q_UNUSED ( parent )
 }
 Meta_Titre* Meta_Titre::RecupererBDD(const int id)
 {
@@ -69,6 +69,7 @@ Meta_Titre* Meta_Titre::RecupererBDD(const int id)
         id_tit = tit->id();
         nom_Tit = tit->m_nom;
 
+        //Phys
         if ( rec.value("Phys").toInt() == 1 )
         {
             Handle<BDDSupport> supp = BDDSupport::RecupererSupportAlb( id_alb, "Phys" );
@@ -79,10 +80,22 @@ Meta_Titre* Meta_Titre::RecupererBDD(const int id)
             ean = phys->m_ean;
         } else
         {
-            id_support_p = -1;
-            support_p = "Aucun";
+            int phystemp = BDDRelation::supportPhys( id_tit, id_art );
+            if ( phystemp != 0 )
+            {
+                Handle<BDDSupport> supp = BDDSupport::RecupererSupportAlb( phystemp, "Phys" );
+                id_support_p = supp->id();
+                support_p = supp->m_support;
+                Handle<BDDPhys> phys = BDDPhys::RecupererBDD( phystemp );
+                commentaires = phys->m_commentaires;
+                ean = phys->m_ean;
+            } else {
+                id_support_p = -1;
+                support_p = "Aucun";
+            }
         }
 
+        //MP3
         if ( rec.value("MP3").toInt() == 1 )
         {
             Handle<BDDSupport> supp = BDDSupport::RecupererSupportAlb( id_alb, "MP3" );
@@ -93,9 +106,21 @@ Meta_Titre* Meta_Titre::RecupererBDD(const int id)
             chemin_m = mp3->m_chemin;
         } else
         {
+            int mp3temp = BDDRelation::supportMp3( id_tit, id_art);
+            if ( mp3temp != 0 )
+            {
+                Handle<BDDMp3> mp3 = BDDMp3::RecupererBDDParRelation( mp3temp );
+                id_mp3 = mp3->id();
+                chemin_m = mp3->m_chemin;
+                Handle<BDDSupport> supp = BDDSupport::RecupererSupportAlb( mp3->m_relation->m_album->id() , "MP3" );
+                id_support_m = supp->id();
+                support_m = supp->m_support;
+            } else
+            {
             id_support_m = -1;
             support_m = "Aucun";
             chemin_m = "Aucun";
+            }
         }
 
         num_piste = rec.value("Num_Piste").toInt();
@@ -283,24 +308,24 @@ Meta_Titre* Meta_Titre::CreerMeta_Titre(const QString& nom_album, const QString&
 }
 void Meta_Titre::ChangerDonnees( const QString& nom_album, const QString& nom_artiste, const QString& nom_titre, int annee, const QString& duree, int num_piste, const QImage& poch, const QString& type, const QString& support_p, const QString& support_m, const QString& chemin_m, int  id_alb, int id_art, int id_titre, int id_relation, int id_type, int id_support_p, int id_support_m )
 {
-    Q_UNUSED  ( nom_album );
-    Q_UNUSED  ( nom_artiste );
-    Q_UNUSED  ( nom_titre );
-    Q_UNUSED  ( annee );
-    Q_UNUSED  ( duree );
-    Q_UNUSED  ( num_piste );
-    Q_UNUSED  ( poch );
-    Q_UNUSED  ( type );
-    Q_UNUSED  ( support_p );
-    Q_UNUSED  ( support_m );
-    Q_UNUSED  ( chemin_m );
-    Q_UNUSED  ( id_alb );
-    Q_UNUSED  ( id_art );
-    Q_UNUSED  ( id_titre );
-    Q_UNUSED  ( id_relation );
-    Q_UNUSED  ( id_type );
-    Q_UNUSED  ( id_support_m );
-    Q_UNUSED  ( id_support_p );
+    Q_UNUSED  ( nom_album )
+    Q_UNUSED  ( nom_artiste )
+    Q_UNUSED  ( nom_titre )
+    Q_UNUSED  ( annee )
+    Q_UNUSED  ( duree )
+    Q_UNUSED  ( num_piste )
+    Q_UNUSED  ( poch )
+    Q_UNUSED  ( type )
+    Q_UNUSED  ( support_p )
+    Q_UNUSED  ( support_m )
+    Q_UNUSED  ( chemin_m )
+    Q_UNUSED  ( id_alb )
+    Q_UNUSED  ( id_art )
+    Q_UNUSED  ( id_titre )
+    Q_UNUSED  ( id_relation )
+    Q_UNUSED  ( id_type )
+    Q_UNUSED  ( id_support_m )
+    Q_UNUSED  ( id_support_p )
 
 }
 void Meta_Titre::UpdateBDD()
@@ -357,6 +382,7 @@ void Meta_Titre::UpdateBDD()
     }
 
     rel->updateBDD();
+
     m_id_relation = rel->id();
 
     if ( m_id_support_p !=-1 )
@@ -376,5 +402,9 @@ void Meta_Titre::SupprimerBDDMP3()
 {
     Handle<BDDMp3> mp3 = BDDMp3::RecupererBDD( m_id_mp3 );
     mp3->supprimerenBDD();
+
+}
+void Meta_Titre::SupprimerBDDPhys()
+{
 
 }

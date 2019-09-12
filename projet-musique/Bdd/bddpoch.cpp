@@ -98,6 +98,7 @@ Handle<BDDPoch> BDDPoch::recupererBDD(const QImage &image, const QString &album,
     QSqlQuery query = madatabase.exec( queryStr );
 
     int id = -1;
+
     if (query.first())
     {
         QSqlRecord rec = query.record();

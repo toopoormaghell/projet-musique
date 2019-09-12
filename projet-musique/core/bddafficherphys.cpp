@@ -27,6 +27,7 @@ QStringList BDDAfficherPhys::RecupererListeTypes()
             liste << rec.value( "Type" ).toString();
         }
     }
+    liste << "Singles" << "12";
 
     return liste;
 
@@ -49,6 +50,7 @@ QList<int> BDDAfficherPhys::ListeArtiste(int categorie)
     case ( 9 ) : queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, Album B, Phys P,Relations R WHERE  R.Id_Album=P.Id_Album AND R.Id_Artiste=A.Id_Artiste AND P.Support!='2' AND B.Id_Album = R.Id_Album AND B.Type =9 ORDER BY Artiste";break;
     case ( 10 ) : queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, Album B, Phys P,Relations R WHERE  R.Id_Album=P.Id_Album AND R.Id_Artiste=A.Id_Artiste AND P.Support!='2' AND B.Id_Album = R.Id_Album AND B.Type =10 ORDER BY Artiste";break;
     case ( 11 ) : queryStr = "SELECT DISTINCT A.Id_Artiste , A.Artiste FROM Artiste A, Album B, Phys P,Relations R WHERE  R.Id_Album=P.Id_Album AND R.Id_Artiste=A.Id_Artiste AND P.Support!='2' AND B.Id_Album = R.Id_Album AND B.Type =11 AND A. Id_Artiste NOT IN ( SELECT DISTINCT A1.Id_Artiste FROM Artiste A1, Album B1, Phys P1,Relations R1 WHERE  R1.Id_Album=P1.Id_Album AND R1.Id_Artiste=A1.Id_Artiste AND P1.Support!='2' AND B1.Id_Album = R1.Id_Album AND B1.Type =1 ORDER BY Artiste) ORDER BY Artiste";break;
+    case ( 12 ) : queryStr = "select distinct r.id_artiste FROM PHYS p, relations r, artiste a where p.support ='3' and r.id_album = p.id_album and a.id_artiste = r.id_artiste order by a.artiste";break;
     default: queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, Album B, Phys P,Relations R WHERE  R.Id_Album=P.Id_Album AND R.Id_Artiste=A.Id_Artiste AND P.Support!='2' AND B.Id_Album = R.Id_Album  ORDER BY Artiste";
     }
     QSqlQuery query = madatabase.exec( queryStr );
@@ -64,6 +66,10 @@ QList<int> BDDAfficherPhys::ListeArtiste(int categorie)
 QList<int> BDDAfficherPhys::listeAlbums( QString Id_Artiste, int Categorie )
 {
     QList<int> albums;
+    if ( Categorie == 12 )
+    {
+        Categorie = 1;
+    }
     QString queryStr = "SELECT DISTINCT B.Id_Album FROM Album B, Phys P,Relations R WHERE R.Id_Artiste=" + Id_Artiste + " AND B.Id_Album = R.Id_Album AND P.Id_Album=R.Id_Album AND P.Support='1' AND B.Type = "+ QString::number( Categorie ) +"  ORDER BY B.Annee DESC";
 
 
@@ -80,7 +86,7 @@ QList<int> BDDAfficherPhys::listeAlbums( QString Id_Artiste, int Categorie )
 QList<int> BDDAfficherPhys::listeSingles( QString Id_Artiste )
 {
     QList<int> albums;
-    QString queryStr = "SELECT DISTINCT B.Id_Album FROM Album B, Phys P,Relations R WHERE R.Id_Artiste=" + Id_Artiste + " AND B.Id_Album = R.Id_Album AND P.Id_Album=R.Id_Album AND P.Support='3' AND B.Type = '11'  ORDER BY B.Annee DESC";
+    QString queryStr = "SELECT DISTINCT B.Id_Album FROM Album B, Phys P,Relations R WHERE R.Id_Artiste=" + Id_Artiste + " AND B.Id_Album = R.Id_Album AND P.Id_Album=R.Id_Album AND P.Support='3'   ORDER BY B.Annee DESC";
 
     QSqlQuery query = madatabase.exec( queryStr );
 
@@ -93,122 +99,6 @@ QList<int> BDDAfficherPhys::listeSingles( QString Id_Artiste )
     return albums;
 }
 
-void BDDAfficherPhys::exporterHTML()
-{
-    for ( int i = 1; i < 5; i++ )
-    {
-        QStringList albart = ListeAlbumSauvegarde( i );
-        QString chemin = "H:/Dropbox/Projet Musique/Tout.html";
-        switch ( i )
-        {
-        case 1 :
-            chemin = "H:/Dropbox/Projet Musique/Albums.html";
-            break;
-        case 2 :
-            chemin = "H:/Dropbox/Projet Musique/Compils.html";
-            break;
-        case 3 :
-            chemin = "H:/Dropbox/Projet Musique/Singles.html";
-            break;
-        case 4 :
-            chemin = "H:/Dropbox/Projet Musique/Chansons.html";
-            break;
-        }
-
-        //Récupère le fichier et l'ouvre avec lecture lignes par lignes
-        QString fileName = chemin;
-        QFile fichier( fileName );
-        fichier.open( QIODevice::WriteOnly | QIODevice::Text );
-        // Création d'un objet QTextStream à partir de notre objet QFile
-        QTextStream flux( &fichier );
-        // On choisit le codec correspondant au jeu de caractère que l'on souhaite ; ici, UTF-8
-        flux << "<Table>";
-        int compcouleur = 0;
-        if ( i != 4  )
-        {
-            for ( int cpt = 0; cpt < albart.count(); cpt = cpt + 2 )
-            {
-                if ( compcouleur % 2 == 0 )
-                {
-                    flux << "<tr bgcolor='beige'><td>" << QString::number( ( cpt / 2 ) + 1 ).rightJustified( 3, '0' ) << "</td><td>" << albart[cpt + 1] << "</td><td>"  << albart[cpt] << "</td></tr>" << endl;
-                }
-                else
-                {
-                    flux << "<tr bgcolor='coral'><td>" << QString::number( cpt / 2 + 1 ).rightJustified( 3, '0' ) << "</td><td>" << albart[cpt + 1] << "</td><td>"  << albart[cpt] << "</td></tr>" << endl;
-                }
-                compcouleur++;
-            }
-        }
-        else
-        {
-            for ( int cpt = 0; cpt < albart.count(); cpt = cpt + 3 )
-            {
-                if ( compcouleur % 2 == 0 )
-                {
-                    flux << "<tr bgcolor='beige'><td>" << QString::number( ( cpt / 2 ) + 1 ).rightJustified( 3, '0' ) << "</td><td>" << albart[cpt] << "</td><td>"  << albart[cpt + 2] << "</td><td>" << albart[cpt + 1] << "</td></tr>" << endl;
-                }
-                else
-                {
-                    flux << "<tr bgcolor='coral'><td>" << QString::number( ( cpt / 2 ) + 1 ).rightJustified( 3, '0' ) << "</td><td>" << albart[cpt] << "</td><td>"  << albart[cpt + 2] << "</td><td>" << albart[cpt + 1] << "</td></tr>" << endl;
-                }
-                compcouleur++;
-            }
-        }
-
-
-        flux << "</Table>";
-    }
-}
-
-QStringList BDDAfficherPhys::ListeAlbumSauvegarde( int Cate )
-{
-    QStringList albart;
-    QString QueryStr;
-
-    switch ( Cate )
-    {
-    case 1 :
-        QueryStr = "SELECT  DISTINCT B.Album, Ar.Artiste FROM Phys P,Album B, Artiste Ar, Relations R WHERE P.Id_Album=R.Id_Album AND R.Id_Album=B.Id_Album AND R.Id_Artiste = Ar.Id_Artiste AND P.Support='1' ORDER BY  B.Type, Ar.Artiste, B.Album";
-        break;
-    case 2 :
-        QueryStr = "SELECT  DISTINCT B.Album, B.Annee FROM Phys P,Album B,Relations R WHERE P.Id_Album=R.Id_Album AND R.Id_Album=B.Id_Album  AND P.Support='2' GROUP BY Album ORDER BY B.Annee DESC, B.Album";
-        break;
-    case 3 :
-        QueryStr = "SELECT DISTINCT B.Album, Ar.Artiste FROM Phys P,Album B, Artiste Ar, Relations R WHERE P.Id_Album=R.Id_Album AND R.Id_Album=B.Id_Album AND R.Id_Artiste = Ar.Id_Artiste AND P.Support='3' ORDER BY Ar.Artiste, B.Album";
-        break;
-    case 4 :
-        QueryStr = "SELECT DISTINCT Album, Titre, Artiste FROM Phys P,Album B,Relations R, Titre T, Artiste Ar WHERE P.Id_Album=R.Id_Album AND R.Id_Album=B.Id_Album  AND P.Support='2' AND T.Id_Titre=R.Id_Titre AND Ar.Id_Artiste=R.Id_Artiste GROUP BY Titre ORDER BY Artiste, Titre";
-        break;
-    }
-
-    QSqlQuery query = madatabase.exec( QueryStr );
-
-    while ( query.next() )
-    {
-        QSqlRecord rec = query.record();
-        switch ( Cate )
-        {
-        case 1:
-            albart <<  rec.value( "Album" ).toString().replace( "$", "'" ) << rec.value( "Artiste" ).toString().replace( "$", "'" );
-            break;
-        case 2 :
-            albart << rec.value( "Album" ).toString().replace( "$", "'" ) << rec.value( "Annee" ).toString() ;
-            break;
-        case 3:
-            albart << rec.value( "Album" ).toString().replace( "$", "'" ) << rec.value( "Artiste" ).toString().replace( "$", "'" );
-            break;
-        case 4:
-            albart << rec.value( "Artiste" ).toString().replace( "$", "'" ) << rec.value( "Album" ).toString().replace( "$", "'" ) << rec.value( "Titre" ).toString().replace( "$", "'" );
-            break;
-        default:
-            albart << rec.value( "Album" ).toString().replace( "$", "'" ) << rec.value( "Artiste" ).toString().replace( "$", "'" );
-
-        }
-
-    }
-    return albart;
-
-}
 
 QList<int> BDDAfficherPhys::listeCompils( QString Id_Artiste, int Categorie )
 {

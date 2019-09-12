@@ -52,7 +52,7 @@ void BDDRelation::updateBDD()
     {
         QString   queryStr = "UPDATE Relations SET Id_Titre ='" + QString::number( m_titre->id() ) + "', Id_Artiste='" + QString::number( m_artiste->id() ) + "', Id_Album= '" + QString::number( m_album->id() ) + "', Duree = '" +  m_duree + "', Num_Piste='" + QString::number( m_num_piste ) + "', MP3='" + QString::number( m_mp3 ) + "', Phys='" + QString::number( m_phys ) + "' WHERE Id_Relation = '" + QString::number( id() ) + "'";
 
-         madatabase.exec( queryStr );
+        madatabase.exec( queryStr );
     }
 }
 
@@ -79,7 +79,15 @@ Handle<BDDRelation> BDDRelation::recupererBDD( const int id )
         MP3 = rec.value("MP3").toInt();
         Phys = rec.value("Phys").toInt();
 
+       if ( Phys == 0 )
+       { Phys = supportPhys( rec.value("Id_Titre").toInt() , rec.value("Id_Artiste").toInt() );
+       }
+       if ( MP3 == 0 )
+       {
+           MP3 = supportMp3( rec.value("Id_Titre").toInt() , rec.value("Id_Artiste").toInt() );
+       }
     }
+
     return Handle<BDDRelation>(new BDDRelation( id , alb , art , tit , Num_Piste , duree , MP3 , Phys ));
 }
 
@@ -87,8 +95,43 @@ Handle<BDDRelation> BDDRelation::recupererBDD( const Handle<BDDAlbum>& alb, cons
 {
     const int id = recupererId( QString::number( alb->id() ) , QString::number( art->id() ) , QString::number( titre->id() ) );
 
-return Handle<BDDRelation>(new BDDRelation( id, alb, art, titre, num_piste, duree, mp3, phys ));
 
+    return Handle<BDDRelation>(new BDDRelation( id, alb, art, titre, num_piste, duree, mp3, phys ));
+
+}
+
+int BDDRelation::supportMp3( int Tit, int Art)
+{
+    QString queryStr = "SELECT Id_Relation FROM Relations WHERE Id_Titre = '" + QString::number(Tit) + "' AND Id_Artiste = '" + QString::number(Art) + "' AND MP3 =1 ";
+
+    QSqlQuery query = madatabase.exec( queryStr );
+
+    if ( query.first() )
+    {
+        QSqlRecord rec = query.record();
+
+        return rec.value("Id_Relation").toInt();
+    } else
+    {
+        return 0;
+    }
+}
+
+int BDDRelation::supportPhys( int Tit, int Art)
+{
+    QString queryStr = "SELECT Id_Album FROM Relations WHERE Id_Titre = '" + QString::number(Tit) + "' AND Id_Artiste = '" + QString::number(Art) + "' AND Phys = 1";
+
+    QSqlQuery query = madatabase.exec( queryStr );
+
+    if ( query.first() )
+    {
+        QSqlRecord rec = query.record();
+
+        return rec.value("Id_Album").toInt();
+    } else
+    {
+        return 0;
+    }
 }
 
 void BDDRelation::supprimerenBDDMP3() const

@@ -17,14 +17,12 @@ public:
     QList<int> listeAlbums(QString Id_Artiste , int Categorie);
     QList<int> listeCompils(QString Id_Artiste , int Categorie);
     QList<int> listeSingles(QString Id_Artiste );
-    static void exporterHTML();
-    static QStringList ListeAlbumSauvegarde( int Cate );
     QStringList ListeTitresPossibles();
     QStringList ListeArtistesPossibles();
     QList<int> TitresParArtistes( QString Id_Artiste );
 
     QList<int> AlbSansMP3(QString Id_Artiste, int Categorie);
 
-};
+ };
 
 #endif // BDDAFFICHERPHYS_H

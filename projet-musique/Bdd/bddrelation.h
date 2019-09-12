@@ -34,6 +34,8 @@ public:
     int m_mp3;
     int m_phys;
 
+    static int supportMp3( int Tit , int Art );
+    static int supportPhys( int Tit , int Art );
 private:
 
     static  int recupererId(const QString& id_album, const QString& id_artiste, const QString& id_titre);

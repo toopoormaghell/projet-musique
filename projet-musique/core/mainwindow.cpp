@@ -22,7 +22,7 @@
 #include "dialogverifications.h"
 #include "gestionverifications.h"
 #include "bddsauvegardebdd.h"
-
+#include "bddexporterhtml.h"
 
 FenetrePrincipale::FenetrePrincipale(const QStringList& couleurs, QWidget* parent ) :
     QMainWindow( parent ),
@@ -182,7 +182,8 @@ void FenetrePrincipale::on_actionAjouter_Album_triggered()
 void FenetrePrincipale::actionExporter()
 {
     m_interaction->setText( "Exportation en cours..." );
-    BDDAfficherPhys::exporterHTML();
+    BDDExporterHTML* temp = new BDDExporterHTML();
+    temp->exporterHTML();
     m_interaction->setText( "Exportation terminée." );
 }
 

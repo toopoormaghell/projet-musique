@@ -41,6 +41,7 @@ INCLUDEPATH += ../taglib/mpeg
 INCLUDEPATH += ../taglib/mpeg/id3v2
 
 SOURCES += bddsingleton.cpp \
+    bddexporterhtml.cpp \
     gestionverifications.cpp \
     changementversion.cpp \
     outilsbdd.cpp \
@@ -66,6 +67,7 @@ SOURCES += bddsingleton.cpp \
 
 
 HEADERS += bdd_global.h \
+    bddexporterhtml.h \
     bddsingleton.h \
     gestionverifications.h \
     changementversion.h \

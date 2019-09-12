@@ -4,6 +4,8 @@
 #include <QDir>
 #include <QFile>
 #include <QDebug>
+#include <QImage>
+#include <QtSql>
 
 BDDSauvegardeBDD::BDDSauvegardeBDD( QObject* parent ):
     QObject( parent ),
@@ -28,42 +30,37 @@ void BDDSauvegardeBDD::sauvegarde()
 
 
     //Troisième étape : on copie le dossier Pochettes
-    copyDirectoryFiles("C:\\Projet Musique\\Pochettes","H:\\Dropbox\\Projet Musique\\Pochettes",false);
+    //  copyDirectoryFiles("C:\\Projet Musique\\Pochettes","H:\\Dropbox\\Projet Musique\\Pochettes",false);
+    listePoch();
 
 }
-bool BDDSauvegardeBDD::copyDirectoryFiles(const QString &fromDir, const QString &toDir, bool coverFileIfExist)
+
+void BDDSauvegardeBDD::listePoch()
 {
-    QDir sourceDir(fromDir);
-    QDir targetDir(toDir);
-    if(!targetDir.exists()){    /* if directory don't exists, build it */
-        if(!targetDir.mkdir(targetDir.absolutePath()))
-            return false;
+    QString QueryStr = "SELECT DISTINCT Chemin FROM Pochette";
+    QSqlQuery query = madatabase.exec( QueryStr );
+
+    while ( query.next() )
+    {
+        QSqlRecord rec = query.record();
+        exporterImage( rec.value("Chemin").toString() );
     }
 
-    QFileInfoList fileInfoList = sourceDir.entryInfoList();
+}
+void BDDSauvegardeBDD::exporterImage(QString chemin)
+{
+    QImage image;
+    image.load( chemin);
+    image.scaled( 100,100 );
 
-    foreach(QFileInfo fileInfo, fileInfoList){
+    chemin.remove(0, 1);
 
-        if(fileInfo.fileName() == "." || fileInfo.fileName() == "..")
-            continue;
+    chemin.prepend("H:/Dropbox/Projet Musique");
 
-        if(fileInfo.isDir()){    /* if it is directory, copy recursively */
-            if(!copyDirectoryFiles(fileInfo.filePath(),
-                                   targetDir.filePath(fileInfo.fileName()),
-                                   coverFileIfExist))
-                return false;
-        }
-        else{            /* if coverFileIfExist == true, remove old file first */
-            if(coverFileIfExist && targetDir.exists(fileInfo.fileName())){
-                targetDir.remove(fileInfo.fileName());
-            }
+    QDir dossier;
+    QDir toCreate( QFileInfo( chemin ).dir() );
+    dossier.mkpath( toCreate.path() );
 
-            // files copy
-            if(!QFile::copy(fileInfo.filePath(),
-                            targetDir.filePath(fileInfo.fileName()))){
-                return false;
-            }
-        }
-    }
-    return true;
+    image.save( chemin );
+
 }

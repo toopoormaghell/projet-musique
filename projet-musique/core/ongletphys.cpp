@@ -246,7 +246,7 @@ void OngletPhys::AfficherInfosAlbum( int Type )
                 if ( m_artiste.toInt() == titre->getid_art() )
                 {
                     QFont m_police( "Monotype Corsiva", 11, 75 );
-                    item->setTextColor( Qt::blue );
+                    item->setForeground( Qt::blue);
                     item->setFont( m_police );
                 }
 
