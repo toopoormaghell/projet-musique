@@ -52,7 +52,7 @@ public:
     QString m_fichierlu;
     int m_pourcentage;
     void ViderBDD();
-    void ReconstruireListeCategorie();
+
 signals:
     void pourcentage();
     void fin();

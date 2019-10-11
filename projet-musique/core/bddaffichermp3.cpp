@@ -25,7 +25,7 @@ QList<int> BDDAfficherMp3::ListeArtiste( QString type )
         }
         if ( type == "1" )
         {
-            queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, Album B, Relations R, MP3 M WHERE A.Id_Artiste!='01' AND R.Id_Album=B.Id_Album AND R.Id_Artiste=A.Id_Artiste AND M.Id_Relation = R.Id_Relation AND M.Support = '1'";
+            queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, Album B, Relations R, MP3 M WHERE A.Id_Artiste!='01' AND R.Id_Album=B.Id_Album AND R.Id_Artiste=A.Id_Artiste AND M.Id_Relation = R.Id_Relation AND M.Support = '1' AND B.Type='1'";
         }
         if ( type == "2" )
         {

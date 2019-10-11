@@ -11,10 +11,10 @@ QString BDDPoch::creerchemin( const QString& album, const QString& artiste )
 
     QString artisteFormate( artiste );
     QString albumFormate( album );
-      FormaterEntiteBDD( artisteFormate );
+    FormaterEntiteBDD( artisteFormate );
     if ( artisteFormate == "artistesdivers")
     {
-        artisteFormate = "Compil";
+        artisteFormate = "compil";
     }
     FormaterEntiteBDD( albumFormate );
 
@@ -26,7 +26,7 @@ QList<int> BDDPoch::pochettesparart(const QString &artiste)
 {
     QList<int> listepoch;
 
-    QString queryStr = " Select DISTINCT A.Id_Pochette As 'Poch' from Relations R, Album A WHERE R.Id_Artiste='" + artiste + "' AND A.Id_Album = R.Id_Album ";
+    QString queryStr = " Select DISTINCT A.Id_Pochette As 'Poch' from Relations R, Album A WHERE R.Id_Artiste='" + artiste + "' AND A.Id_Album = R.Id_Album ORDER BY A.Type";
     QSqlQuery query = madatabase.exec( queryStr );
 
     while ( query.next() )

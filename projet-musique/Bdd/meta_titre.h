@@ -48,8 +48,8 @@ public:
     void setsupportphys(int support);
     void setsupportmp3(QString support);
     void setcheminmp3(QString chemin);
-void setid_support_m ( int id );
-
+    void setid_support_m ( int id );
+    void setPoch(QImage poch);
 
     virtual ~Meta_Titre();
 
@@ -61,6 +61,9 @@ void setid_support_m ( int id );
 
     void SupprimerBDDMP3();
     void SupprimerBDDPhys();
+
+    void majTitre();
+
 private:
     QString m_nom_album;
     QString m_nom_artiste;

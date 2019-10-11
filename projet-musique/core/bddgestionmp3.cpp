@@ -8,6 +8,7 @@
 #include <QDirIterator>
 #include <QDir>
 #include <QTimer>
+#include "outilsbdd.h"
 
 BDDGestionMp3::BDDGestionMp3( QObject* parent ) :
     QObject( parent )
@@ -79,7 +80,6 @@ void BDDGestionMp3::listeCategoriesActualiser()
     if ( temp.ActualiserAlbums() )
     {
         m_Categories << 1;
-
     }
     if ( temp.ActualiserCompil() )
     {
@@ -97,17 +97,17 @@ QString BDDGestionMp3::dossiercategorie()
     case ( 1 ):
         m_support = 1;
         return getdossierpardef();
-        break;
+
     case ( 2 ):
         m_support = 2;
         return "F:/Compil";
-        break;
+
     case ( 3 ):
         return "F:/Live";
-        break;
+
     default:
         return "";
-        break;
+
     }
 }
 void BDDGestionMp3::creerfilefichiers()
@@ -210,7 +210,8 @@ void BDDGestionMp3::supprstep()
             QTimer::singleShot( 0, this, SLOT( init() ) );
         else
         {
-            ReconstruireListeCategorie();
+OutilsBDD* temp = new OutilsBDD;
+        temp->SuppressionPochettes();
             emit fin();
         }
     }
@@ -245,19 +246,12 @@ void BDDGestionMp3::SousCatParChemin( QString chemin )
     {
         m_souscat = 8;
     }
-    if ( chemin.contains( "Generiques" ) )
-    {
-        m_souscat = 9;
-    }
     if ( chemin.contains( "Reprises" ) )
     {
         m_souscat = 10;
     }
 }
-void BDDGestionMp3::ReconstruireListeCategorie()
-{
-    BDDType::ReconstruireListeCategorieMP3();
-}
+
 
 void BDDGestionMp3::SupprimerenBDDMP3( int Id )
 {

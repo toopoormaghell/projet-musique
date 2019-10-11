@@ -272,6 +272,13 @@
          </property>
         </spacer>
        </item>
+       <item>
+        <widget class="QPushButton" name="AjouterTitre">
+         <property name="text">
+          <string>Ajouter Titre</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
     </layout>

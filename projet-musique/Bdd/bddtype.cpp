@@ -56,22 +56,4 @@ QStringList BDDType::RecupererListeTypes( QString Categorie )
 
     return liste;
 }
-void BDDType::ReconstruireListeCategorieMP3()
-{
-    //On met dans une autre catégorie les artistes qui ont moins de 10 Mp3 à leur actif
-    QString queryStr = "UPDATE Album SET Type = '3' WHERE Id_Album IN ( SELECT Id_Album FROM Relations WHERE  Id_Artiste IN ( SELECT Id_Artiste FROM Relations R, MP3 M, Album B  WHERE M.Id_Relation = R.Id_Relation AND R.Id_Album = B.Id_Album AND B.Type = 1 GROUP BY R.Id_Artiste HAVING COUNT(M.Id_Relation)<10 ) ) " ;
-    madatabase.exec( queryStr );
 
-    //Les albums de ces mp3 changent aussi de categories
-    queryStr = "UPDATE Album SET Type = '3' WHERE Id_Album IN ( SELECT Id_Album FROM Relations WHERE Id_Artiste IN ( SELECT Id_Artiste FROM Relations R, MP3 M, Album B            WHERE M.Id_Relation = R.Id_Relation AND R.Id_Album = B.Id_Album AND B.Type = 1 GROUP BY R.Id_Artiste HAVING COUNT(M.Id_Relation)<10 ) ) " ;
-    madatabase.exec( queryStr );
-
-
-    //On ajoute dans cette même catégorie les artistes qui ont qu'un seul album à leur actif
-    queryStr = " UPDATE Album SET Type = '3' WHERE Id_Album IN ( SELECT Id_Album FROM Relations WHERE Id_Album IN ( SELECT R.Id_Album FROM Relations R, MP3 M, Album B  WHERE  R.Id_Album = B.Id_Album AND B.Type = 1 AND M.Id_Relation = R.Id_Relation GROUP BY R.Id_Artiste HAVING COUNT ( DISTINCT R.Id_Album) < 2 ))" ;
-    madatabase.exec( queryStr );
-
-    //Les albums de ces mp3 changent aussi de categories
-    queryStr = " UPDATE Album SET Type = '3' WHERE Id_Album IN ( SELECT Id_Album FROM Relations WHERE Id_Album IN ( SELECT R.Id_Album FROM Relations R, MP3 M  WHERE  , Album B  WHERE  R.Id_Album = B.Id_Album AND B.Type = 1 AND M.Id_Relation = R.Id_Relation GROUP BY R.Id_Artiste HAVING COUNT ( DISTINCT R.Id_Album) < 2 ))" ;
-    madatabase.exec( queryStr );
-}

@@ -117,9 +117,9 @@ Meta_Titre* Meta_Titre::RecupererBDD(const int id)
                 support_m = supp->m_support;
             } else
             {
-            id_support_m = -1;
-            support_m = "Aucun";
-            chemin_m = "Aucun";
+                id_support_m = -1;
+                support_m = "Aucun";
+                chemin_m = "Aucun";
             }
         }
 
@@ -130,7 +130,10 @@ Meta_Titre* Meta_Titre::RecupererBDD(const int id)
 
     return new Meta_Titre( nom_Alb,nom_Art,nom_Tit,annee,duree,num_piste,poch,type,support_p, support_m , chemin_m, commentaires, ean, id_alb,id_art,id_tit,id,id_type,id_support_p,id_support_m,id_mp3 );
 }
-
+void Meta_Titre::setPoch(QImage poch )
+{
+    m_poch = poch;
+}
 Meta_Titre* Meta_Titre::RecupererBDDMP3(const int id)
 {
     Handle<BDDMp3> mp3 = BDDMp3::RecupererBDD( id );
@@ -331,7 +334,7 @@ void Meta_Titre::ChangerDonnees( const QString& nom_album, const QString& nom_ar
 void Meta_Titre::UpdateBDD()
 {
 
-    int id_mp3=0;
+    int id_mp3 = 0;
     Handle<BDDType> tmp1 = BDDType::RecupererType( m_id_type );
     m_Type = tmp1->m_type;
     Handle<BDDSupport> tmp2 = BDDSupport::RecupererSupport( m_id_support_m );
@@ -350,7 +353,7 @@ void Meta_Titre::UpdateBDD()
 
     Handle<BDDPoch> def = BDDPoch::recupererBDD( 1 );
 
-    Handle<BDDArtiste> art = BDDArtiste::recupererBDD (m_nom_artiste .replace("'", "$"), ( m_id_type==2 ?def : poch));
+    Handle<BDDArtiste> art = BDDArtiste::recupererBDD (m_nom_artiste.replace("'", "$"), ( m_id_type==2 ?def : poch));
     art->updateBDD();
     m_id_artiste = art->id();
 
@@ -378,7 +381,7 @@ void Meta_Titre::UpdateBDD()
 
     if ( mp3av->id() != -1)
     {
-        rel->m_mp3=1;
+        rel->m_mp3 = 1;
     }
 
     rel->updateBDD();
@@ -398,6 +401,8 @@ void Meta_Titre::UpdateBDD()
         m_id_mp3 = mp3->id();
     }
 }
+
+
 void Meta_Titre::SupprimerBDDMP3()
 {
     Handle<BDDMp3> mp3 = BDDMp3::RecupererBDD( m_id_mp3 );
@@ -405,6 +410,15 @@ void Meta_Titre::SupprimerBDDMP3()
 
 }
 void Meta_Titre::SupprimerBDDPhys()
+{
+    Handle<BDDRelation> rel = BDDRelation::recupererBDD( m_id_relation );
+    rel->supprimerenBDDPhys();
+    Handle<BDDTitre> tit = BDDTitre::recupererBDD( m_id_titre );
+    tit->supprimerenBDD();
+
+}
+
+void Meta_Titre::majTitre()
 {
 
 }

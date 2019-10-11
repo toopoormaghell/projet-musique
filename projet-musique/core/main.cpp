@@ -1,4 +1,4 @@
-#include "MainWindow.h"
+#include "mainwindow.h"
 #include <QApplication>
 #include <QFile>
 #include <QTranslator>
@@ -17,9 +17,8 @@ int main( int argc, char* argv[] )
     QStringList couleurs;
 
     //Choix des couleurs
-    srand( time( nullptr ) );
+    srand((int)time(nullptr));
     int nombreMystere = (rand() % 10 ) + 1;
-
     switch ( nombreMystere )
     {
     //1ère : fond 1 // 2ème : écriture widget// 3ème : fond 2 // 4ème : surlignage// 5ème : contour // 6ème : écriture hors cadre

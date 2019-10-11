@@ -7,9 +7,9 @@ GestionVerifications::GestionVerifications(QObject* parent ) :
     QObject( parent ),
     m_outils ( new OutilsBDD )
 {
-    Q_UNUSED ( parent);
+    Q_UNUSED ( parent)
 
-connect ( m_outils,SIGNAL(EcrireMessage(QString)),this,SLOT(EcrireTexte(QString)));
+    connect ( m_outils,SIGNAL(EcrireMessage(QString)),this,SLOT(EcrireTexte(QString)));
 
 }
 void GestionVerifications::ChangerArtisteDansCompilAlbum()
@@ -30,8 +30,7 @@ void GestionVerifications::SupprimerDoublonsAlbum()
 }
 void GestionVerifications::SupprimerDoublonsTitre()
 {
-
-     m_outils->SupprimerDoublonsTitre();
+    m_outils->SupprimerDoublonsTitre();
 }
 
 void GestionVerifications::VerifierIntegrite()

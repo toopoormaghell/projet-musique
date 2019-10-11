@@ -4,15 +4,14 @@
 #include <QListWidgetItem>
 #include "bddgestionphys.h"
 #include "bddafficherphys.h"
-#include "bddalbum.h"
-#include "bddtype.h"
-#include "dialogchoixpochette.h"
-#include "bddpoch.h"
-#include <QAbstractButton>
-#include "bddphys.h"
-#include "bddtype.h"
-#include "bddsupport.h"
 
+#include "DialogAjoutTitre.h"
+#include "dialogchoixpochette.h"
+
+#include <QAbstractButton>
+#include "bddsupport.h"
+#include "bddtype.h"
+#include "bddpoch.h"
 #include "meta_album.h"
 #include "meta_titre.h"
 
@@ -103,6 +102,7 @@ void DialogModifierAlbum::AfficherAlbum()
         }
     }
     ListeNumeros();
+
     //On va chercher les commentaires sur l'album physique
     ui->Commentaires->setText( m_album->getcommentaires() );
 
@@ -135,6 +135,7 @@ void DialogModifierAlbum::EnregistrerAlbum()
     m_album->setannee( ui->Annee->text().toInt() );
     m_album->setid_type( ui->Type->currentIndex() + 1 );
     m_album->setsupport_p( ui->SupportPhys->currentIndex() +1 );
+    m_album->setcommentaires( ui->Commentaires->text() );
 
     QList<Meta_Titre*> titres;
     //On récupère les titres
@@ -145,7 +146,8 @@ void DialogModifierAlbum::EnregistrerAlbum()
         titres << titre;
     }
     m_album->settitres( titres );
-    m_album->UpdateBDD();
+
+    m_album->majAlbum();
 }
 void DialogModifierAlbum::Supprimer_Titre()
 {
@@ -176,11 +178,10 @@ void DialogModifierAlbum::on_buttonBox_accepted()
 
 void DialogModifierAlbum::on_Parcourir_clicked()
 {
-    DialogChoixPochette dial( m_album->getnom_artiste() );
+    DialogChoixPochette dial( QString::number( m_album->getid_art() ) );
     dial.exec();
     if ( dial.m_selection != -1 )
     {
-
         Handle<BDDPoch> pochtemp = BDDPoch::recupererBDD(dial.m_selection);
         m_album->setPoch( pochtemp->m_image );
     }
@@ -191,4 +192,33 @@ void DialogModifierAlbum::on_Parcourir_clicked()
 void DialogModifierAlbum::on_Supprimer_clicked()
 {
     Supprimer_Titre();
+}
+
+void DialogModifierAlbum::on_AjouterTitre_clicked()
+{
+    DialogAjoutTitre toto( ui->Type->currentIndex() + 1  , ui->Titres->count(), this );
+
+    connect( &toto, SIGNAL( enregistr( QString, QString, QString ) ), this, SLOT( AjouterTitreManuel( QString, QString, QString ) ) );
+
+    toto.exec();
+}
+void DialogModifierAlbum::AjouterTitreManuel( QString Num_Piste, QString Titre, QString Artiste)
+{
+    QListWidgetItem* item = new QListWidgetItem;
+    item->setText( Titre );
+    item->setFlags( item->flags() | Qt::ItemIsEditable );
+    item->setData( Qt::UserRole, -1  );
+    ui->Titres->addItem( item );
+    ui->Duree->addItem( "0:00" );
+
+    if ( (ui->Type->currentIndex() + 1) == 2 )
+    {
+        QListWidgetItem* art = new QListWidgetItem;
+        art->setText( Artiste );
+        art->setFlags( item->flags() | Qt::ItemIsEditable );
+
+        ui->ArtistesTitres->addItem( art );
+    }
+
+     ui->Num_Pistes->addItem( new QListWidgetItem(  Num_Piste  + " - " ) );
 }

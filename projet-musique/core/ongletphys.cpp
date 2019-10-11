@@ -245,8 +245,8 @@ void OngletPhys::AfficherInfosAlbum( int Type )
             {
                 if ( m_artiste.toInt() == titre->getid_art() )
                 {
-                    QFont m_police( "Monotype Corsiva", 11, 75 );
-                    item->setForeground( Qt::blue);
+                    QFont m_police( "Arial", 11, 75 );
+                    item->setForeground( Qt::red);
                     item->setFont( m_police );
                 }
 
@@ -424,7 +424,7 @@ void OngletPhys::afficherListeCds()
 
 void OngletPhys::on_Artistes_clicked( const QModelIndex& index )
 {
-    Q_UNUSED ( index );
+    Q_UNUSED ( index )
     m_artiste = ui->Artistes->currentIndex().data( Qt::UserRole ).toString();
     afficherListeCds();
 }

@@ -19,13 +19,13 @@ QList<int> BDDErreurs::retrouverErreurs(int categorie)
 {
     switch ( categorie )
     {
-    case 1 : return retrouvererreursRelations(); break;
-    case 2 : return retrouvererreursAlbums(); break;
-    case 3 : return retrouvererreursArtistes(); break;
-    case 4 : return retrouvererreursTitres(); break;
-    case 5 : return retrouvererreursPoch();break;
-    case 6 : return retrouvererreursPhys();break;
-    case 7 : return retrouvererreursMP3();break;
+    case 1 : return retrouvererreursRelations();
+    case 2 : return retrouvererreursAlbums();
+    case 3 : return retrouvererreursArtistes();
+    case 4 : return retrouvererreursTitres();
+    case 5 : return retrouvererreursPoch();
+    case 6 : return retrouvererreursPhys();
+    case 7 : return retrouvererreursMP3();
     default: return retrouvererreursRelations();
     }
 }
@@ -141,7 +141,7 @@ QList<int> BDDErreurs::retrouvererreursArtistes()
 {
     QList<int> liste;
 
-    QString queryStr = "SELECT DISTINCT Id_Artiste FROM Artiste WHERE Id_Pochette = 0 OR Artiste_Formate = '' UNION SELECT DISTINCT Id_Artiste FROM Artiste WHERE Id_Artiste !='01' AND Id_Artiste NOT IN ( SELECT DISTINCT Id_Artiste FROM Relations ) ";
+    QString queryStr = "SELECT DISTINCT Id_Artiste FROM Artiste WHERE Id_Pochette = 0 OR Artiste_Formate = '' UNION SELECT DISTINCT Id_Artiste FROM Artiste WHERE Id_Artiste !='01' AND Id_Artiste !='02' AND Id_Artiste !='03' AND Id_Artiste !='04' AN DId_Artiste !='05' AND Id_Artiste !='06' AND Id_Artiste !='07' AND Id_Artiste !='08' AND Id_Artiste NOT IN ( SELECT DISTINCT Id_Artiste FROM Relations ) ";
     QSqlQuery query = madatabase.exec( queryStr );
 
     while ( query.next() )
@@ -158,13 +158,13 @@ QStringList BDDErreurs::lectureErreur( int categorie, int id )
 {
     switch ( categorie )
     {
-    case 1 : return lectureErreurRelation( id ); break;
-    case 2 : return lectureErreurAlbum( id ); break;
-    case 3 : return lectureErreurArtiste( id ); break;
-    case 4 : return lectureErreurTitre( id ); break;
-    case 5 : return lectureErreurPochette( id );break;
-    case 6 : return lectureErreurPhys( id );break;
-    case 7 : return lectureErreurMP3( id );break;
+    case 1 : return lectureErreurRelation( id );
+    case 2 : return lectureErreurAlbum( id );
+    case 3 : return lectureErreurArtiste( id );
+    case 4 : return lectureErreurTitre( id );
+    case 5 : return lectureErreurPochette( id );
+    case 6 : return lectureErreurPhys( id );
+    case 7 : return lectureErreurMP3( id );
     default: return lectureErreurRelation( id );
     }
 }

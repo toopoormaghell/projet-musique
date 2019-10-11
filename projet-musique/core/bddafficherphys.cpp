@@ -40,7 +40,7 @@ QList<int> BDDAfficherPhys::ListeArtiste(int categorie)
     switch ( categorie )
     {
     case ( 1 ) : queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, Album B, Phys P,Relations R WHERE  R.Id_Album=P.Id_Album AND R.Id_Artiste=A.Id_Artiste AND P.Support!='2' AND B.Id_Album = R.Id_Album AND B.Type =1 ORDER BY Artiste"; break;
-    case ( 2 ) : queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A WHERE A.Id_Artiste=='01'";break;
+    case ( 2 ) : queryStr = "SELECT DISTINCT (B.Id_Artiste) FROM  Album B, Phys P WHERE P.Support='2' AND B.Id_Album = P.Id_Album AND B.Type ='2' ORDER BY B.Id_Artiste";break;
     case ( 3 ) : queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, Album B, Phys P,Relations R WHERE  R.Id_Album=P.Id_Album AND R.Id_Artiste=A.Id_Artiste AND P.Support!='2' AND B.Id_Album = R.Id_Album AND B.Type =3 ORDER BY Artiste";break;
     case ( 4 ) : queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, Album B, Phys P,Relations R WHERE  R.Id_Album=P.Id_Album AND R.Id_Artiste=A.Id_Artiste AND P.Support!='2' AND B.Id_Album = R.Id_Album AND B.Type =4 ORDER BY Artiste";break;
     case ( 5 ) : queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, Album B, Phys P,Relations R WHERE  R.Id_Album=P.Id_Album AND R.Id_Artiste=A.Id_Artiste AND P.Support!='2' AND B.Id_Album = R.Id_Album AND B.Type =5 ORDER BY Artiste";break;
@@ -107,8 +107,7 @@ QList<int> BDDAfficherPhys::listeCompils( QString Id_Artiste, int Categorie )
     QString queryStr = "SELECT DISTINCT B.Id_Album FROM Album B, Phys P,Relations R WHERE R.Id_Artiste=" + Id_Artiste + " AND B.Id_Album = R.Id_Album AND P.Id_Album=R.Id_Album AND P.Support='2' ORDER BY B.Annee DESC";
     if ( Categorie == 2 )
     {
-
-        queryStr = "SELECT DISTINCT B.Id_Album FROM Album B, Phys P, Relations R WHERE B.Id_Album = R.Id_Album AND P.Id_Album = R.Id_Album AND P.Support='2' ORDER By B.Annee DESC";
+        queryStr = "SELECT DISTINCT B.Id_Album FROM Album B, Phys P, Relations R WHERE B.Id_Album = R.Id_Album AND P.Id_Album = R.Id_Album AND P.Support='2' AND B.Id_Artiste='" + Id_Artiste + "' ORDER By B.Annee DESC";
     }
     QSqlQuery query = madatabase.exec( queryStr );
 
@@ -203,8 +202,7 @@ QList<int> BDDAfficherPhys::AlbSansMP3( QString Id_Artiste, int Categorie )
     QString queryStr = "SELECT R.Id_Album FROM Relations R, Phys P, Album B WHERE R.Id_Album = B.Id_Album AND R.Id_Album = P.Id_Album AND P.Support='1' AND R.Id_Artiste = " + Id_Artiste +" AND B.Type = "+ QString::number(Categorie) +" GROUP BY R.Id_Album HAVING SUM(R.MP3) < 1 ";
     if ( Categorie == 2 )
     {
-
-        queryStr = "SELECT  R.Id_Album FROM Relations R, Phys P  WHERE R.Id_Album = P.Id_Album AND P.Support='2' GROUP BY R.Id_Album HAVING SUM(R.MP3) < 1";
+        queryStr = "SELECT  R.Id_Album FROM Relations R, Phys P, Album B  WHERE R.Id_Album = P.Id_Album AND P.Support='2' AND B.Id_Artiste=" + Id_Artiste +" AND B.Id_Album = P.Id_Album GROUP BY R.Id_Album HAVING SUM(R.MP3) < 1";
     }
 
     if ( Id_Artiste == "-1" && Categorie == -1 )

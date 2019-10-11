@@ -10,7 +10,7 @@
 
 OutilsBDD::OutilsBDD(QWidget* parent)
 {
-    Q_UNUSED ( parent);
+    Q_UNUSED ( parent)
 }
 void OutilsBDD::VirguleArtistes()
 {
@@ -341,7 +341,6 @@ void OutilsBDD::SuppressionPochettes()
     while (query.next() ) {
         QSqlRecord rec=query.record();
         Chemins << rec.value ( "Chemin" ) .toString().replace("$","'");
-
     }
 
     QStringList filelist = creerfilepochettes();
@@ -352,17 +351,19 @@ void OutilsBDD::SuppressionPochettes()
         int position = filelist.indexOf ( Chemins[cpt] ) ;
         if( position != -1)
         {
+
             filelist.removeAt(position);
+        } else
+        {
+            qDebug() << "pas trouvé :" << Chemins[cpt];
         }
     }
 
     for ( int cpt =0; cpt < filelist.count(); cpt ++ )
     {
         QFile::remove ( filelist[cpt] ) ;
-
     }
     SupprimerDossiersVides();
-
 }
 /*******************************************************
  *Permet de supprimer les fichiers des pochettes

@@ -153,7 +153,8 @@ void OngletArtiste::InfosAlbum()
             if ( m_artiste == rel->getid_art() )
             {
                 QFont m_police( "Monotype Corsiva", 11, 75 );
-                item->setTextColor( Qt::blue );
+                item->setForeground( Qt::red);
+
                 item->setFont( m_police );
             }
 

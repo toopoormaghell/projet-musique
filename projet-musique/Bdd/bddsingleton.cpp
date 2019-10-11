@@ -104,13 +104,10 @@ void BDDSingleton::viderBDD()
 
     //Vidage sur le DD du dossier Pochettes
     QString chemin = ".\\Pochettes";
-   m_outils->removeDir( chemin, false );
+    m_outils->removeDir( chemin, false );
 
     creationBase();
-
-
 }
-
 
 void BDDSingleton::changementversion()
 {
@@ -121,12 +118,14 @@ void BDDSingleton::changementversion()
     query.next();
     version = query.record().value("Valeur").toInt();
     query.finish();
-
-    if ( version != 2 )
+    ChangementVersion* temp = new ChangementVersion;
+    switch ( version )
     {
-        ChangementVersion* temp = new ChangementVersion;
-        temp->Version();
+    case 1:  temp->Version();break;
+    case 2:  temp->Version3();break;
+    default:break;
     }
+
 }
 
 

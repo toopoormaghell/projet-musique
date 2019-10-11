@@ -23,6 +23,7 @@ public:
     const QImage& getPoch();
     const QString& getsupport_p();
     int getid_alb();
+    int getid_art();
     int getid_support_p();
     const QString& getcommentaires();
     int getid_type();
@@ -48,8 +49,9 @@ public:
     void UpdateBDD();
 
     static QList<int> RecupererTitresAlbum(int id);
-    void SupprimerAnciensTitres();
+    void SupprimerAnciensTitres(bool Update);
 
+    void majAlbum();
 private:
     QString m_nom_album;
     QString m_nom_artiste;

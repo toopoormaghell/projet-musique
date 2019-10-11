@@ -27,8 +27,7 @@ Meta_Album::Meta_Album(const QString& nom_album, const QString& nom_artiste, int
   , m_id_support_m ( id_support_m )
 
 {
-
-    Q_UNUSED ( parent );
+    Q_UNUSED ( parent )
 }
 
 const QString& Meta_Album::getnom_album()
@@ -68,6 +67,11 @@ const QString& Meta_Album::getsupport_p()
 int Meta_Album::getid_alb()
 {
     return m_id_album;
+}
+
+int Meta_Album::getid_art()
+{
+    return m_id_artiste;
 }
 int Meta_Album::getid_type()
 {
@@ -211,15 +215,18 @@ void Meta_Album::SupprimerBDDPhys()
 }
 void Meta_Album::UpdateBDD()
 {
+    //Update Type
     Handle<BDDType> tmp1 = BDDType::RecupererType( m_id_type );
     m_Type = tmp1->m_type;
+    //Update Support
     Handle<BDDSupport> tmp2 = BDDSupport::RecupererSupport( m_id_support_p );
     m_support_p = tmp2->m_support;
 
+    //Update Pochette
     Handle<BDDPoch> poch(nullptr);
     if (m_id_type!=2)
     {
-        poch = BDDPoch::recupererBDD( m_poch, m_nom_album.replace( "'", "$" ), (m_id_support_p==2 ? "Compil":m_nom_artiste.replace( "'", "$" )));
+        poch = BDDPoch::recupererBDD( m_poch, m_nom_album.replace( "'", "$" ), (m_id_support_p==2 ? "compil":m_nom_artiste.replace( "'", "$" )));
         poch->updateBDD();
     }
     else
@@ -227,19 +234,21 @@ void Meta_Album::UpdateBDD()
         poch = BDDPoch::recupererBDD(1);
     }
 
+    //Update Artiste
     Handle<BDDArtiste> art = BDDArtiste::recupererBDD(m_nom_artiste .replace("'", "$"), poch);
     art->updateBDD();
     m_id_artiste = art->id();
 
+    //Update Album
     Handle<BDDAlbum> alb= BDDAlbum::recupererBDD( m_nom_album.replace( "'", "$" ),  poch, m_annee, BDDType::RecupererType( m_id_type ), art  );
     alb->updateBDD();
     m_id_album = alb->id();
 
-    SupprimerAnciensTitres();
-
+    //On supprime les anciens Titres
+    SupprimerAnciensTitres( true );
+    //Update Titres
     for ( int cpt = 0; cpt < m_titres.count(); cpt++ )
     {
-
         Meta_Titre* temp = m_titres[cpt];
         if ( m_id_support_p != 2 )
         {
@@ -249,7 +258,64 @@ void Meta_Album::UpdateBDD()
         temp->UpdateBDD();
     }
 }
-void Meta_Album::SupprimerAnciensTitres()
+void Meta_Album::majAlbum()
+{
+    //L'album existe déjà en BDD, il est modifié par l'utilisateur
+
+    //MAJ Album : Nom, Type, Annee , Pochette
+    Handle<BDDAlbum> alb = BDDAlbum::recupererBDD( m_id_album );
+    alb->m_nom = getnom_album();
+    //Type
+    Handle<BDDType> tmp1 = BDDType::RecupererType( m_id_type );
+    alb->m_type =  tmp1;
+    //Annee
+    alb->m_annee = getannee();
+    //Poch
+    Handle<BDDPoch> poch = BDDPoch::recupererBDD( m_poch, getnom_album(), getnom_artiste() );
+    poch->updateBDD();
+    alb->m_pochette = poch;
+    //On met à jour l'album
+    alb->updateBDD();
+
+    //MAJ Phys : Support P, Commentaires, EAN
+    Handle<BDDPhys> phys = BDDPhys::RecupererBDD( m_id_album );
+    phys->m_ean = getean();
+    phys->m_commentaires = getcommentaires();
+
+    //Update Support
+    Handle<BDDSupport> tmp2 = BDDSupport::RecupererSupport( m_id_support_p );
+    phys->m_support = tmp2;
+
+    //On met à jour Phys
+    phys->updateBDD();
+
+    //MAJ Artiste: Nom
+    Handle<BDDArtiste> art = BDDArtiste::recupererBDD( m_id_artiste );
+    art->m_nom = getnom_artiste();
+    art->updateBDD();
+
+    //On supprime les anciens Titres
+    SupprimerAnciensTitres( false);
+
+      //MAJ Titres
+    for ( int cpt = 0; cpt < m_titres.count(); cpt++ )
+    {
+        Meta_Titre* temp = m_titres[cpt];
+        temp->settype( m_Type );
+        temp->setnom_album( m_nom_album );
+        temp->setannee( m_annee );
+        temp->setPoch( m_poch );
+
+        if ( m_id_support_p != 2 )
+        {
+            temp->setnom_artiste( m_nom_artiste );
+        }
+        temp->setsupportphys( m_id_support_p );
+        temp->UpdateBDD();
+    }
+
+}
+void Meta_Album::SupprimerAnciensTitres(bool Update)
 {
     QList<int> liste = RecupererTitresAlbum( m_id_album );
 
@@ -258,7 +324,7 @@ void Meta_Album::SupprimerAnciensTitres()
         Meta_Titre* titre = Meta_Titre::RecupererBDD( liste[i] );
         int comp=0;
         int fini=0;
-        while (  comp< m_titres.count() && fini == 0 )
+        while (  comp < m_titres.count() && fini == 0 )
         {
             QString temp = titre->getnom_titre();
             FormaterEntiteBDD( temp );
@@ -267,21 +333,36 @@ void Meta_Album::SupprimerAnciensTitres()
             FormaterEntiteBDD(temp2);
             if ( temp ==  temp2  )
             {
-
                 m_titres[ comp ]->setid_support_m( titre->getid_support_m() );
                 m_titres[ comp ]->setcheminmp3( titre->getcheminmp3() );
                 m_titres[ comp ]->setduree( titre->getduree() );
 
-                titre->SupprimerBDDMP3();
+                if ( Update )
+                {
+                    titre->SupprimerBDDMP3();
+                } else
+                {
+                    titre->SupprimerBDDPhys();
+                }
+
                 fini = 1;
                 break;
             }
+
             comp ++;
+        }
+        if ( fini == 0)
+        {
+            if ( Update )
+            {
+                titre->SupprimerBDDMP3();
+            } else
+            {
+                titre->SupprimerBDDPhys();
+            }
         }
         delete titre;
     }
-
-
 }
 QList< int> Meta_Album::RecupererTitresAlbum(int id)
 {

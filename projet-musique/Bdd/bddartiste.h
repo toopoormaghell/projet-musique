@@ -27,6 +27,7 @@ public:
     static void EchangerArtiste( QString& nom );
     void changerPoch( int id_nouv_poch );
     void EchangerBDD( QString art );
+
 private:
     static int recupererId(const QString &nomFormate);
     static QString ChoisirArtisteEchange(const QString& nom);

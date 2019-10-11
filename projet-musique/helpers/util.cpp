@@ -15,7 +15,7 @@ QString EchangerArtiste( QString Artiste )
 }
 void EnleverAccents( QString& Nom )
 {
-    Nom.toUtf8();
+    Nom = Nom.toUtf8();
     Nom.replace( "è", "e" );
     Nom.replace( "é", "e" );
     Nom.replace( "à", "a" );
@@ -28,6 +28,7 @@ void EnleverAccents( QString& Nom )
     Nom.replace( "À", "a" );
     Nom.replace( "î" ,"i" );
     Nom.replace( "+", " " );
+    Nom.replace( "Ç", "c" );
     Nom.replace( "ç", "c" );
     Nom.replace( "É", "e" );
     Nom.replace( "Ê", "e" );
