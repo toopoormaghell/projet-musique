@@ -107,7 +107,7 @@ Meta_Titre* Meta_Titre::RecupererBDD(const int id)
         } else
         {
             int mp3temp = BDDRelation::supportMp3( id_tit, id_art);
-            if ( mp3temp != 0 )
+            if ( mp3temp > 0 )
             {
                 Handle<BDDMp3> mp3 = BDDMp3::RecupererBDDParRelation( mp3temp );
                 id_mp3 = mp3->id();

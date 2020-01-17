@@ -20,6 +20,7 @@ public:
 
     QString categorie();
 
+    void appliquerstyle(QString stylecoul);
 private slots:
 
     void on_ErreursAlbums_clicked();

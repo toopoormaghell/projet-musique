@@ -44,6 +44,7 @@ namespace
             QString duree;
             QString artiste;
             int numPiste;
+            char _padding[4];
         };
         QList<TitreTemp> titresTemp;
 
@@ -138,7 +139,7 @@ namespace
         }
 
         QList<Meta_Titre*> titres;
-        for ( auto it : titresTemp )
+        for (const TitreTemp& it : titresTemp)
         {
             Meta_Titre* titre = Meta_Titre::CreerMeta_Titre(nomAlbum, it.artiste, it.nomTitre, annee, it.duree, it.numPiste, pochette, type, supportP, supportM, chemin, commentaires, ean);
             titres.append(titre);

@@ -19,6 +19,9 @@ public:
     ~MainWindowLecteur();
     QStringList m_playlist;
 
+    void appliquerStyle();
+    void setCouleur(const QStringList& couleur);
+    void ActualiserStyle();
 public slots:
     void modifplaylist( QStringList list );
     void SupprimerdansPlaylist( QStringList temp );

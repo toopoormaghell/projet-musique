@@ -123,6 +123,8 @@ void BDDSingleton::changementversion()
     {
     case 1:  temp->Version();break;
     case 2:  temp->Version3();break;
+    case 3 : temp->Version4();break;
+    case 4 : temp->Version5();break;
     default:break;
     }
 

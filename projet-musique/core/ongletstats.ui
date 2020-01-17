@@ -117,6 +117,13 @@
          </widget>
         </item>
         <item>
+         <widget class="QLabel" name="NbMp3Lives">
+          <property name="text">
+           <string>TextLabel</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QLabel" name="NbMp3NA">
           <property name="maximumSize">
            <size>

@@ -32,6 +32,7 @@ void AfficherCategories();
 
     void remplirStats();
 
+    void appliquerstyle(QString stylecoul);
 private slots:
     void on_Modifier_clicked();
     void on_SupprimerAlbum_clicked();

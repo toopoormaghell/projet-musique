@@ -178,7 +178,7 @@ void DialogModifierAlbum::on_buttonBox_accepted()
 
 void DialogModifierAlbum::on_Parcourir_clicked()
 {
-    DialogChoixPochette dial( QString::number( m_album->getid_art() ) );
+    DialogChoixPochette dial( QString::number( m_album->getid_art() ), this );
     dial.exec();
     if ( dial.m_selection != -1 )
     {

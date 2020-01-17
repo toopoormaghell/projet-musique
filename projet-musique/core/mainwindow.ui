@@ -26,7 +26,14 @@
    <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QPushButton" name="ChangerBouton">
+      <property name="text">
+       <string>Changer Couleurs</string>
+      </property>
+     </widget>
+    </item>
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="sizePolicy">
@@ -46,7 +53,7 @@
       </property>
       <widget class="OngletMP3" name="MP3">
        <attribute name="title">
-        <string>Mp3</string>
+        <string>MP3</string>
        </attribute>
       </widget>
       <widget class="OngletPhys" name="tab_2">
@@ -67,6 +74,11 @@
       <widget class="OngletArtiste" name="tab_4">
        <attribute name="title">
         <string>Artistes</string>
+       </attribute>
+      </widget>
+      <widget class="OngletPlaylist" name="tab_6">
+       <attribute name="title">
+        <string>Playlists</string>
        </attribute>
       </widget>
       <widget class="OngletListe" name="tab_5">
@@ -334,6 +346,12 @@
    <class>OngletErreurs</class>
    <extends>QWidget</extends>
    <header>ongleterreurs.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>OngletPlaylist</class>
+   <extends>QWidget</extends>
+   <header>ongletplaylist.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

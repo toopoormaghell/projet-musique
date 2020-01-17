@@ -199,7 +199,7 @@ Meta_Album::~Meta_Album()
 {
     for (int i=0; i < m_titres.count() ; i++)
     {
-        delete m_titres[i];
+   //     delete m_titres[i];
     }
 
 }

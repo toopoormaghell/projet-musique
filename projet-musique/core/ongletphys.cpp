@@ -40,7 +40,14 @@ void OngletPhys::actualiserOnglet()
     afficherListeCds();
     AfficherInfosAlbum( m_categorie );
 }
+void OngletPhys::appliquerstyle(QString stylecoul )
+{
+    setStyleSheet( stylecoul );
+    update();
 
+    ui->widget->setStyleSheet( stylecoul );
+    ui->widget->update();
+}
 void OngletPhys::AfficherCategories()
 {
     ui->Categories->clear();

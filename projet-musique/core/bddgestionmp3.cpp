@@ -103,7 +103,8 @@ QString BDDGestionMp3::dossiercategorie()
         return "F:/Compil";
 
     case ( 3 ):
-        return "F:/Live";
+        m_support = 3;
+        return "F:/Albums Live";
 
     default:
         return "";
@@ -249,6 +250,10 @@ void BDDGestionMp3::SousCatParChemin( QString chemin )
     if ( chemin.contains( "Reprises" ) )
     {
         m_souscat = 10;
+    }
+    if ( chemin.contains( "F:/Albums Live" ) )
+    {
+        m_souscat = 12;
     }
 }
 

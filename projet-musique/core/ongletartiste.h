@@ -21,6 +21,7 @@ public:
     void AfficherListeTitresDistincts();
     void AfficherAlbums();
     void CacherRubriques();
+    void appliquerstyle(QString stylecoul);
 private slots:
     void on_ChangerNom_clicked();
 

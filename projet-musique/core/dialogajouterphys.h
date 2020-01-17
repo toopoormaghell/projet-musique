@@ -41,7 +41,7 @@ public:
      */
     virtual ~DialogAjouterPhys();
 
-
+void appliquerstyle( QString stylecoul );
 
 private Q_SLOTS:
     /**

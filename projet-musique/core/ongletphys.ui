@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1123</width>
-    <height>894</height>
+    <height>902</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,13 +23,13 @@
       <widget class="QListWidget" name="Categories">
        <property name="minimumSize">
         <size>
-         <width>250</width>
+         <width>210</width>
          <height>150</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>250</width>
+         <width>210</width>
          <height>150</height>
         </size>
        </property>
@@ -104,49 +104,53 @@
     </layout>
    </item>
    <item>
-    <widget class="QLabel" name="Artiste">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>35</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>35</height>
-      </size>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>-1</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">font-size:25px;</string>
-     </property>
-     <property name="lineWidth">
-      <number>2</number>
-     </property>
-     <property name="text">
-      <string>Label</string>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::PlainText</enum>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QPushButton" name="ModifArtiste">
-     <property name="text">
-      <string>Modifier Artiste</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_16">
+     <item>
+      <widget class="QPushButton" name="ModifArtiste">
+       <property name="text">
+        <string>Modifier Artiste</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="Artiste">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>35</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>35</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>-1</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font-size:25px;</string>
+       </property>
+       <property name="lineWidth">
+        <number>2</number>
+       </property>
+       <property name="text">
+        <string>Label</string>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::PlainText</enum>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">

@@ -16,6 +16,7 @@ public:
     explicit OngletStats( QWidget* parent = nullptr );
     ~OngletStats();
     void AfficherInfos();
+    void appliquerstyle(QString stylecoul);
 private slots:
     void on_ArtistesDansCompil_currentRowChanged( int currentRow );
 

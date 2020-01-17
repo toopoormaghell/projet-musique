@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>900</width>
-    <height>900</height>
+    <height>931</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -123,31 +123,35 @@
     </layout>
    </item>
    <item>
-    <widget class="QLabel" name="Artiste">
-     <property name="font">
-      <font>
-       <pointsize>-1</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">font-size:25px;</string>
-     </property>
-     <property name="text">
-      <string>Artiste</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QPushButton" name="ModifierArtiste">
-     <property name="text">
-      <string>Modifier Artiste</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_7">
+     <item>
+      <widget class="QPushButton" name="ModifierArtiste">
+       <property name="text">
+        <string>Modifier Artiste</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="Artiste">
+       <property name="font">
+        <font>
+         <pointsize>-1</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font-size:25px;</string>
+       </property>
+       <property name="text">
+        <string>Artiste</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -158,7 +162,7 @@
       <widget class="QTableWidget" name="AlbumsTitres">
        <property name="maximumSize">
         <size>
-         <width>16777215</width>
+         <width>1677</width>
          <height>16777215</height>
         </size>
        </property>
@@ -175,7 +179,7 @@
         <set>QAbstractItemView::NoEditTriggers</set>
        </property>
        <property name="selectionMode">
-        <enum>QAbstractItemView::SingleSelection</enum>
+        <enum>QAbstractItemView::MultiSelection</enum>
        </property>
        <property name="iconSize">
         <size>
@@ -198,11 +202,11 @@
        <attribute name="horizontalHeaderCascadingSectionResizes">
         <bool>false</bool>
        </attribute>
-       <attribute name="horizontalHeaderDefaultSectionSize">
-        <number>200</number>
-       </attribute>
        <attribute name="horizontalHeaderMinimumSectionSize">
         <number>100</number>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>200</number>
        </attribute>
        <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
         <bool>false</bool>
@@ -216,16 +220,32 @@
        <attribute name="verticalHeaderCascadingSectionResizes">
         <bool>false</bool>
        </attribute>
+       <attribute name="verticalHeaderMinimumSectionSize">
+        <number>23</number>
+       </attribute>
        <attribute name="verticalHeaderDefaultSectionSize">
         <number>30</number>
        </attribute>
        <attribute name="verticalHeaderHighlightSections">
         <bool>true</bool>
        </attribute>
-       <attribute name="verticalHeaderMinimumSectionSize">
-        <number>23</number>
-       </attribute>
       </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>70</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
      </item>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -646,26 +666,6 @@
                </property>
               </widget>
              </item>
-             <item>
-              <widget class="QPushButton" name="Playlist">
-               <property name="toolTip">
-                <string>Ajouter Playlist</string>
-               </property>
-               <property name="accessibleName">
-                <string>raccourcis</string>
-               </property>
-               <property name="styleSheet">
-                <string notr="true"/>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="icon">
-                <iconset resource="IconesMenu.qrc">
-                 <normaloff>:/MP3/playlist</normaloff>:/MP3/playlist</iconset>
-               </property>
-              </widget>
-             </item>
             </layout>
            </item>
           </layout>
@@ -723,7 +723,7 @@
             <property name="maximumSize">
              <size>
               <width>500</width>
-              <height>16777215</height>
+              <height>200</height>
              </size>
             </property>
             <property name="editTriggers">
@@ -747,6 +747,20 @@
             </property>
             <property name="centerButtons">
              <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="AjouterAlbumPlaylist">
+            <property name="text">
+             <string>Ajouter Playlist</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="AjoutListePlaylist">
+            <property name="text">
+             <string>Ajouter Playlist</string>
             </property>
            </widget>
           </item>
@@ -798,13 +812,13 @@
             <property name="minimumSize">
              <size>
               <width>500</width>
-              <height>0</height>
+              <height>125</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
               <width>500</width>
-              <height>175</height>
+              <height>125</height>
              </size>
             </property>
             <property name="iconSize">
@@ -896,9 +910,18 @@
             </property>
             <property name="iconSize">
              <size>
-              <width>100</width>
-              <height>100</height>
+              <width>30</width>
+              <height>30</height>
              </size>
+            </property>
+            <property name="gridSize">
+             <size>
+              <width>50</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="viewMode">
+             <enum>QListView::IconMode</enum>
             </property>
            </widget>
           </item>

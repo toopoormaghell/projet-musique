@@ -23,7 +23,7 @@ public:
     QImage m_image;
     QString m_chemin;
 
-    static QList<int> pochettesparart(const QString& artiste);
+    static QList<int> pochettesparart(const QString& artiste, const QString id_art);
     static QString creerchemin(const QString& album, const QString& artiste);
 private:
 

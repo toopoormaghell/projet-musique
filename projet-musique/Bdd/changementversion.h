@@ -9,6 +9,8 @@ public:
     void Version();
 
     void Version3();
+    void Version4();
+    void Version5();
 };
 
 #endif // CHANGEMENTVERSION_H

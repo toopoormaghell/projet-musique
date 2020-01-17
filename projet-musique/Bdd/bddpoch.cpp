@@ -22,11 +22,12 @@ QString BDDPoch::creerchemin( const QString& album, const QString& artiste )
 }
 
 
-QList<int> BDDPoch::pochettesparart(const QString &artiste)
+QList<int> BDDPoch::pochettesparart(const QString &artiste, const QString id_art)
 {
+
     QList<int> listepoch;
 
-    QString queryStr = " Select DISTINCT A.Id_Pochette As 'Poch' from Relations R, Album A WHERE R.Id_Artiste='" + artiste + "' AND A.Id_Album = R.Id_Album ORDER BY A.Type";
+    QString queryStr = " Select DISTINCT A.Id_Pochette As 'Poch' from Relations R, Album A WHERE R.Id_Artiste='" + id_art + "' AND A.Id_Album = R.Id_Album  UNION Select DISTINCT Id_Pochette As 'Poch' from Pochette WHERE Chemin LIKE '%" + artiste + "%'";
     QSqlQuery query = madatabase.exec( queryStr );
 
     while ( query.next() )

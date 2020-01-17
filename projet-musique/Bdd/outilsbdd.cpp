@@ -37,22 +37,22 @@ void OutilsBDD::titresphysetmp3()
     emit EcrireMessage( "Titres Phys Mp3" );
     emit EcrireMessage("----------------");
     //On prend tous les MP3, on vérifie que toutes les relations avec le même titre et le même artiste soient notés MP3
-    QString queryStr = "SELECT Id_Titre, Id_Artiste FROM Relations R, MP3 M WHERE M.Id_Relation = R.Id_Relation";
+    QString queryStr = "SELECT Id_Titre, Id_Artiste, Id_Album FROM Relations R, MP3 M WHERE M.Id_Relation = R.Id_Relation";
     QSqlQuery query = madatabase.exec(queryStr);
     while (query.next() ) {
         QSqlRecord rec=query.record();
 
-        madatabase.exec("UPDATE Relations SET MP3 = 1 WHERE Id_Titre ='"+rec.value("Id_Titre").toString()+"' AND Id_Artiste = '"+rec.value( "Id_Artiste" ).toString() +"' " );
+        madatabase.exec("UPDATE Relations SET MP3 = 1 WHERE Id_Titre ='"+rec.value("Id_Titre").toString()+"' AND Id_Album ='"+rec.value("Id_Album").toString()+"' AND Id_Artiste = '"+rec.value( "Id_Artiste" ).toString() +"' " );
 
     }
 
     //On prend tous les Phys, on vérifie que toutes les relations avec le même titre et le même artiste soient notés Phys
-    queryStr = "SELECT Id_Titre, Id_Artiste FROM Relations R, Phys P WHERE P.Id_Album = R.Id_Album";
+    queryStr = "SELECT Id_Titre, Id_Artiste, P.Id_Album FROM Relations R, Phys P WHERE P.Id_Album = R.Id_Album";
     query = madatabase.exec(queryStr);
     while (query.next() ) {
         QSqlRecord rec=query.record();
 
-        madatabase.exec("UPDATE Relations SET Phys = 1 WHERE Id_Titre ='"+rec.value("Id_Titre").toString()+"' AND Id_Artiste = '"+rec.value( "Id_Artiste" ).toString() +"' " );
+        madatabase.exec("UPDATE Relations SET Phys = 1 WHERE Id_Titre ='"+rec.value("Id_Titre").toString()+"' AND Id_Artiste = '"+rec.value( "Id_Artiste" ).toString() +"' AND Id_Album ='"+rec.value("Id_Album").toString()+"' " );
 
     }
 
@@ -297,10 +297,10 @@ void OutilsBDD::ChangerArtisteDansCompilAlbum()
 {
     qDebug() << "ChangerArtisteDansCompilAlbum";
     //Première chose: on marque bien les albums physiques en compil
-    madatabase.exec("UPDATE Album SET Type = 2 WHERE Id_Album IN ( SELECT Id_Album FROM Phys WHERE Categorie = 2 ) ");
+ //   madatabase.exec("UPDATE Album SET Type = 2 WHERE Id_Album IN ( SELECT Id_Album FROM Phys WHERE Categorie = 2 ) ");
 
     //Deuxième partie: On change les artistes des albums marqués compil
-    madatabase.exec("UPDATE Album SET Id_Artiste= 1 WHERE Type = 2");
+ //   madatabase.exec("UPDATE Album SET Id_Artiste= 1 WHERE Type = 2");
 
 }
 void OutilsBDD::MajusculesCompletEntites()

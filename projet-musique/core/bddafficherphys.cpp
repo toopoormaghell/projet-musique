@@ -14,20 +14,18 @@ QStringList BDDAfficherPhys::RecupererListeTypes()
     QStringList liste;
     liste << "Tout" << "O";
 
-    QString queryStr = "SELECT DISTINCT Type FROM Album B,Phys P WHERE P.Id_Album = B.Id_Album  ORDER BY Type";
+    QString queryStr = "SELECT DISTINCT B.Type AS 'Type' FROM Album B,Phys P, Type T WHERE P.Id_Album = B.Id_Album AND T.Id_Type = B.Type ORDER BY T.Id_Type";
 
     QSqlQuery query = madatabase.exec( queryStr );
     while ( query.next() )
     {
         QSqlRecord rec = query.record();
-        if ( rec.value( "Type" ).toInt() != 11 )
-        {
-            Handle<BDDType> tmp = BDDType::RecupererType( rec.value( "Type" ).toInt() );
-            liste << tmp->m_type;
-            liste << rec.value( "Type" ).toString();
-        }
+
+        Handle<BDDType> tmp = BDDType::RecupererType( rec.value( "Type" ).toInt() );
+        liste << tmp->m_type;
+        liste << rec.value( "Type" ).toString();
+
     }
-    liste << "Singles" << "12";
 
     return liste;
 
@@ -70,7 +68,16 @@ QList<int> BDDAfficherPhys::listeAlbums( QString Id_Artiste, int Categorie )
     {
         Categorie = 1;
     }
-    QString queryStr = "SELECT DISTINCT B.Id_Album FROM Album B, Phys P,Relations R WHERE R.Id_Artiste=" + Id_Artiste + " AND B.Id_Album = R.Id_Album AND P.Id_Album=R.Id_Album AND P.Support='1' AND B.Type = "+ QString::number( Categorie ) +"  ORDER BY B.Annee DESC";
+
+      QString queryStr = "SELECT DISTINCT B.Id_Album FROM Album B, Phys P,Relations R WHERE R.Id_Artiste=" + Id_Artiste + " AND B.Id_Album = R.Id_Album AND P.Id_Album=R.Id_Album AND P.Support='1'  ";
+   if ( Categorie == 1 )
+   {
+queryStr += " AND ( B.Type = '1' OR B.Type = '12') ";
+   } else
+   {
+       queryStr += " AND B.Type = "+ QString::number( Categorie ) +" ";
+   }
+ queryStr += " ORDER BY B.Annee DESC";
 
 
     QSqlQuery query = madatabase.exec( queryStr );

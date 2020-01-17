@@ -10,13 +10,8 @@ MainWindowLecteur::MainWindowLecteur( const QStringList& couleurs , QWidget *par
     m_controles()
 {
     ui->setupUi( this );
-    QFile file( ":/qss/style" );
-    QString styleSheet="";
-    if ( file.open ( QFile::ReadOnly ) )
-    {
-        styleSheet = QLatin1String( file.readAll() ) ;
-    }
-    ui->centralwidget->setStyleSheet( styleSheet.arg(  m_couleurs[0] , m_couleurs[1] , m_couleurs[2] , m_couleurs[3] , m_couleurs[4] ) );
+
+    ActualiserStyle();
     m_controles = ui->widget;
     ui->widget_2->setDialogControles( m_controles );
     ui->widget_2->setPlaylist( m_playlist );
@@ -29,7 +24,38 @@ MainWindowLecteur::~MainWindowLecteur()
 {
     delete ui;
 }
+void MainWindowLecteur::setCouleur( const QStringList& couleur )
+{
+    m_couleurs = couleur;
+}
+void MainWindowLecteur::ActualiserStyle()
+{
+    QFile file( ":/qss/style" );
+    QString styleSheet="";
+    if ( file.open ( QFile::ReadOnly ) )
+    {
+        styleSheet = QLatin1String( file.readAll() ) ;
+    }
+    ui->centralwidget->setStyleSheet( styleSheet.arg(  m_couleurs[0] , m_couleurs[1] , m_couleurs[2] , m_couleurs[3] , m_couleurs[4] ) );
 
+
+}
+void MainWindowLecteur::appliquerStyle(  )
+{
+    QFile file( ":/qss/style" );
+    QString styleSheet="";
+    if ( file.open ( QFile::ReadOnly ) )
+    {
+        styleSheet = QLatin1String( file.readAll() ) ;
+    }
+    ui->centralwidget->setStyleSheet( styleSheet.arg(  m_couleurs[0] , m_couleurs[1] , m_couleurs[2] , m_couleurs[3] , m_couleurs[4] ) );
+    ui->centralwidget->update();
+
+    ui->widget->appliquerStyle( styleSheet.arg(  m_couleurs[0] , m_couleurs[1] , m_couleurs[2] , m_couleurs[3] , m_couleurs[4] ) );
+
+    ui->widget_2->setStyleSheet( styleSheet.arg(  m_couleurs[0] , m_couleurs[1] , m_couleurs[2] , m_couleurs[3] , m_couleurs[4] ) );
+    ui->widget_2->update();
+}
 void MainWindowLecteur::modifplaylist( QStringList list )
 {
 

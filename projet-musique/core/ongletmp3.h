@@ -10,7 +10,7 @@
 
 namespace Ui
 {
-class OngletMP3;
+    class OngletMP3;
 }
 
 class OngletMP3 : public QWidget
@@ -36,6 +36,11 @@ public:
     QStringList m_PlaylistLecteur;
     QString m_fichierlu;
 
+    void AfficherPlaylist(int id);
+
+    void setCouleur(const QString& couleur);
+    void appliquerstyle(QString stylecoul);
+    void afficherListeMp3();
 public slots:
     void suppplaylist(QStringList temp);
 signals:
@@ -59,6 +64,14 @@ private slots:
 
     void on_ModifierArtiste_clicked();
 
+    void on_Bouton_Playlist_clicked();
+
+    void on_AjouterAlbumPlaylist_clicked();
+
+
+
+    void on_AjoutListePlaylist_clicked();
+
 private:
     Ui::OngletMP3* ui;
     BDDAfficherMp3 m_bddInterface; //Permet de récupérer les infos de la BDD
@@ -73,7 +86,8 @@ private:
     int m_mp3;
     int m_album;
     int m_artiste;
-
+    QString m_couleur;
+    QList<int> m_listemp3;
 
     void EnvoyerTexteAMain();
     void afficherMP3ouAlbum( const QString& MouA );

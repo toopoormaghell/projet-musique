@@ -32,6 +32,17 @@ void OngletStats::AfficherInfos()
     AfficherDoublonsMP3();
 
 }
+void OngletStats::appliquerstyle( QString stylecoul )
+{
+    setStyleSheet( stylecoul );
+    update();
+
+    ui->Mp3->setStyleSheet( stylecoul );
+    ui->Mp3->update();
+
+    ui->Phys->setStyleSheet( stylecoul );
+    ui->Phys->update();
+}
 void OngletStats::AfficherInfosCategoriesMP3()
 {
     int nb = 0;
@@ -65,9 +76,13 @@ void OngletStats::AfficherInfosCategoriesMP3()
     ui->NbMp3Gene->setText( "<dd>Inécoutés: " + QString::number( temp ) );
     //Reprises
     temp = m_bddInterface.NbMp3Categorie( 10 );
-
     nb = temp + nb;
     ui->NbMp3Reprises->setText( "<dd><dd>Reprises: " + QString::number( temp ) );
+    //lives
+    temp = m_bddInterface.NbMp3Categorie( 11 );
+    nb = temp + nb;
+    ui->NbMp3Lives->setText( "<dd><dd>Lives: " + QString::number( temp ) );
+
     //Albums
     temp = m_bddInterface.NbMp3Categorie( 1 );
 
@@ -188,7 +203,7 @@ void OngletStats::AfficherDoublonsMP3()
         item->setText( mp3->m_relation->m_titre->m_nom+" ( "+mp3->m_chemin +" )" );
         item->setData( Qt::UserRole, temp[i] );
         ui->DoublonsMP3->addItem( item );
-    }
+  }
 
 }
 int OngletStats::choixArtiste()

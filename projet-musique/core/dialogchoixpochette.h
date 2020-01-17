@@ -6,7 +6,7 @@
 #include <QListWidgetItem>
 
 namespace Ui {
-class DialogChoixPochette;
+    class DialogChoixPochette;
 }
 
 class DialogChoixPochette : public QDialog
@@ -23,12 +23,13 @@ private slots:
 
     void on_ListePoch_itemClicked(QListWidgetItem *item);
 
+    void on_NewPoch_clicked();
+    void RelancePochettes();
 private:
     Ui::DialogChoixPochette *ui;
     void AfficherPochettes();
-
     QString m_artiste;
-
+    QString m_nom_artiste;
 };
 
 #endif // DIALOGCHOIXPOCHETTE_H

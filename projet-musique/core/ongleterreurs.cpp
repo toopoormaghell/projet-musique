@@ -13,7 +13,7 @@ OngletErreurs::OngletErreurs( QWidget *parent ) :
     m_erreurlue ( 0 )
 
 {
-    Q_UNUSED ( parent);
+    Q_UNUSED ( parent)
 
     ui->setupUi(this);
 }
@@ -23,7 +23,11 @@ OngletErreurs::~OngletErreurs()
     delete ui;
     delete m_bddinterface;
 }
-
+void OngletErreurs::appliquerstyle( QString stylecoul )
+{
+    setStyleSheet( stylecoul );
+    update();
+}
 void OngletErreurs::on_ErreursAlbums_clicked()
 {
     m_categorie = 2 ;
@@ -123,13 +127,13 @@ QString OngletErreurs::categorie()
 {
     switch ( m_categorie )
     {
-    case 1 : return "Relation ";break;
-    case 2 : return "Album ";break;
-    case 3 : return "Artiste "; break;
-    case 4 : return "Titre "; break;
-    case 5 : return "Poch ";break;
-    case 6 : return "Phys ";break;
-    case 7 : return "MP3 ";break;
+    case 1 : return "Relation ";
+    case 2 : return "Album ";
+    case 3 : return "Artiste ";
+    case 4 : return "Titre ";
+    case 5 : return "Poch ";
+    case 6 : return "Phys ";
+    case 7 : return "MP3 ";
     default : return "Relation";
     }
 }

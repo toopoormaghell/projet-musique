@@ -41,6 +41,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QPushButton" name="NewPoch">
+     <property name="text">
+      <string>Nouvelle Pochette...</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>

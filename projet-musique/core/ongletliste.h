@@ -22,6 +22,7 @@ public:
     void ViderSelection();
     void ActualiserOnglet();
     void AfficherBoites();
+    void appliquerstyle(QString stylecoul);
 private slots:
     void on_ListeAlbums_itemSelectionChanged();
 

@@ -31,6 +31,29 @@ OngletRech::~OngletRech()
     delete ui;
 }
 
+void OngletRech::appliquerstyle( QString stylecoul )
+{
+    setStyleSheet( stylecoul );
+    update();
+
+    ui->ResGroup->setStyleSheet( stylecoul );
+    ui->ResGroup->update();
+
+    ui->ResTitre->setStyleSheet( stylecoul );
+    ui->ResTitre->update();
+
+    ui->ResArt->setStyleSheet( stylecoul );
+    ui->ResArt->update();
+
+    ui->ResAlb->setStyleSheet( stylecoul );
+    ui->ResAlb->update();
+
+    ui->ResSimi->setStyleSheet( stylecoul );
+    ui->ResSimi->update();
+
+    ui->RechGroup->setStyleSheet( stylecoul );
+    ui->RechGroup->update();
+}
 void OngletRech::on_pushButton_clicked()
 {
     m_rech = ui->Rech->text();

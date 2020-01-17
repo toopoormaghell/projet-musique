@@ -17,6 +17,7 @@ public:
     explicit OngletRech( QWidget* parent = nullptr );
     ~OngletRech();
 
+    void appliquerstyle(QString stylecoul);
 private slots:
     void on_pushButton_clicked();
     void on_TitResult_clicked( const QModelIndex& index );

@@ -80,3 +80,18 @@ void ChangementVersion::Version3()
         id_art++;
     }
 }
+void ChangementVersion::Version4()
+{
+    QString   queryStr = " UPDATE Configuration SET 'Valeur' = 4 WHERE Intitule ='Version' ";
+    madatabase.exec( queryStr );
+    queryStr = "CREATE TABLE ListePlaylist ( 'Id_ListePlaylist' INTEGER PRIMARY KEY, 'Nom_ListePlaylist' VARCHAR(255) )";
+    madatabase.exec( queryStr );
+
+    queryStr = "CREATE TABLE RelPlaylist ( 'Id_Rel_Playlist' INTEGER PRIMARY KEY, 'Id_ListePlaylist' INTEGER, 'Id_Relation' INTEGER)";
+    madatabase.exec( queryStr );
+}
+void ChangementVersion::Version5()
+{
+   QString   queryStr = "INSERT INTO Type VALUES(12,'Live')";
+   madatabase.exec( queryStr );
+}

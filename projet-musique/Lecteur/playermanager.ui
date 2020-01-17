@@ -25,6 +25,12 @@
      <height>40</height>
     </rect>
    </property>
+   <property name="maximumSize">
+    <size>
+     <width>40</width>
+     <height>40</height>
+    </size>
+   </property>
    <property name="text">
     <string/>
    </property>
@@ -47,6 +53,12 @@
      <width>40</width>
      <height>40</height>
     </rect>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>40</width>
+     <height>40</height>
+    </size>
    </property>
    <property name="text">
     <string/>
@@ -72,6 +84,12 @@
      <height>40</height>
     </rect>
    </property>
+   <property name="maximumSize">
+    <size>
+     <width>40</width>
+     <height>40</height>
+    </size>
+   </property>
    <property name="text">
     <string/>
    </property>
@@ -95,6 +113,12 @@
      <width>40</width>
      <height>40</height>
     </rect>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>40</width>
+     <height>40</height>
+    </size>
    </property>
    <property name="text">
     <string/>

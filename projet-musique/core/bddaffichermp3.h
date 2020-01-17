@@ -19,6 +19,7 @@ public:
 
 
     QList<int> RecupererSimilaires(const int id);
+    QStringList RecupererPlaylist(const int id);
 };
 
 #endif // BDDAFFICHERMP3_H

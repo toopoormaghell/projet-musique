@@ -19,6 +19,11 @@ OngletListe::~OngletListe()
 {
     delete ui;
 }
+void OngletListe::appliquerstyle( QString stylecoul )
+{
+    setStyleSheet( stylecoul );
+    update();
+}
 void OngletListe::AfficherAlbums( int id)
 {
    ui->ListeAlbums->clear();

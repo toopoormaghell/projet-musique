@@ -16,7 +16,7 @@
 
 namespace Ui
 {
-class MainWindow;
+    class MainWindow;
 }
 
 class FenetrePrincipale : public QMainWindow
@@ -24,11 +24,16 @@ class FenetrePrincipale : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit FenetrePrincipale(const QStringList &couleurs, QWidget* parent = nullptr );
+    explicit FenetrePrincipale( QWidget* parent = nullptr );
     ~FenetrePrincipale();
 
     void ajouterToolbar();
     void ajouterStatusBar();
+
+    QStringList choixCouleurs();
+    QStringList m_couleurs;
+    void ActualiserFenetre();
+
 
 signals:
     void stopper();
@@ -50,6 +55,8 @@ private slots:
     void showEvent(QShowEvent *e);
     void actionExporterBDD();
 
+    void on_ChangerBouton_clicked();
+
 private:
     Ui::MainWindow* ui;
     QProgressBar* m_progressbar;
@@ -60,7 +67,7 @@ private:
     DialogAjouterPhys* m_dialogajouterphys;
     DialogVidageBDD m_vidage;
     QPushButton* stop;
-    QStringList m_couleurs;
+
 #ifdef Q_OS_WIN
     QWinTaskbarButton* m_taskbarButton;
 #endif

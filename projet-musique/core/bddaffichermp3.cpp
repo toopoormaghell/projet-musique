@@ -99,6 +99,10 @@ QList<int> BDDAfficherMp3::listeAlbums( QString Id_Artiste, QString Categorie )
     {
         queryStr = "SELECT DISTINCT Al.Id_Album FROM Album Al, MP3 M, Relations R WHERE Al.Id_Album = R.Id_Album AND M.Support = 2 AND R.Id_Relation = M.Id_Relation AND " + AnneesSwitch( Id_Artiste.toInt() ) + " ORDER BY Al.Annee, Al.Album";
     }
+    if ( Categorie == "12" )
+    {
+        queryStr = "SELECT DISTINCT Al.Id_Album FROM Album Al, Relations R, MP3 M WHERE R.Id_Artiste=" + Id_Artiste + " AND Al.Id_Album = R.Id_Album AND M.Id_Relation = R.Id_Relation AND M.Support=3 AND Al.Type='" + Categorie + "' ORDER BY Al.Type, Al.Annee DESC";
+    }
 
     QSqlQuery query = madatabase.exec( queryStr );
 
@@ -158,4 +162,22 @@ QList<int> BDDAfficherMp3::RecupererSimilaires( const int id )
 {
     return BDDTitre::Similaires( id );
 }
+QStringList BDDAfficherMp3::RecupererPlaylist( const int id )
+{
+    QStringList liste;
+    QString queryStr = " SELECT L.Nom_ListePlaylist FROM RelPlaylist R, ListePlaylist L WHERE R.Id_Relation = '" + QString::number( id) + "' AND L.Id_ListePlaylist = R.Id_ListePlaylist ";
 
+
+    QSqlQuery query = madatabase.exec( queryStr );
+
+    while ( query.next() )
+    {
+        QSqlRecord rec = query.record();
+
+        liste << rec.value( "Nom_ListePlaylist").toString();
+
+    }
+
+    return liste;
+
+}

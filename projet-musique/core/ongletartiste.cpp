@@ -25,6 +25,11 @@ OngletArtiste::~OngletArtiste()
 {
     delete ui;
 }
+void OngletArtiste::appliquerstyle( QString stylecoul )
+{
+    setStyleSheet( stylecoul );
+    update();
+}
 void OngletArtiste::ActualiserOnglet()
 {
 

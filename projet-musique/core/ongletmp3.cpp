@@ -8,7 +8,8 @@
 #include "util.h"
 #include <QDir>
 #include <QInputDialog>
-
+#include <QDebug>
+#include <QWidget>
 
 #include "bddaffichermp3.h"
 #include "meta_album.h"
@@ -19,8 +20,11 @@
 #include "dialogajouterphys.h"
 #include "DialogModifierAlbum.h"
 #include "bddlecteur.h"
+#include "dialogajoutenplaylist.h"
 
-OngletMP3::OngletMP3( QWidget* parent ) :
+
+
+OngletMP3::OngletMP3(QWidget* parent ) :
     QWidget( parent ),
     m_PlaylistLecteur ( ),
     m_fichierlu ( ),
@@ -33,16 +37,29 @@ OngletMP3::OngletMP3( QWidget* parent ) :
     m_categorie(0),
     m_mp3(0),
     m_album(0),
-    m_artiste(0)
+    m_artiste(0),
+    m_couleur(),
+    m_listemp3()
 {
-    ui->setupUi( this );
-
-    ActualiserOnglet();
+   ui->setupUi( this );
 
 }
 OngletMP3::~OngletMP3()
 {
     delete ui;
+}
+void OngletMP3::appliquerstyle( QString stylecoul )
+{
+    setStyleSheet( stylecoul );
+    update();
+
+    ui->Simi->setStyleSheet( stylecoul );
+    ui->Simi->update();
+
+    ui->Play->setStyleSheet( stylecoul );
+    ui->Play->update();
+
+
 }
 void OngletMP3::ActualiserOnglet()
 {
@@ -52,6 +69,8 @@ void OngletMP3::ActualiserOnglet()
     afficherMP3ouAlbum( "MP3" );
     afficherInfosTitre();
     ui->buttonBox->addButton( "Modifier", QDialogButtonBox::ActionRole );
+
+
 
     connect(ui->ArtistesAnnees,SIGNAL(activated(QModelIndex)),this,SLOT(on_ArtistesAnnees_clicked(QModelIndex)));
     connect(ui->Categories,SIGNAL(activated(QModelIndex)),this,SLOT(on_Categories_clicked(QModelIndex)));
@@ -118,7 +137,7 @@ void OngletMP3::afficherListeType()
 //Affiche les albums selon l'artiste (ou les années) et la catégorie
 void OngletMP3::afficheralbumsettitres()
 {
-    if ( m_artiste > 0 )
+    if ( m_artiste > 0 || m_categorie ==2 )
     {
         Meta_Artiste* artiste = Meta_Artiste::RecupererBDD( m_artiste );
         ui->Artiste->setText( artiste->getNom_Artiste() );
@@ -132,7 +151,7 @@ void OngletMP3::afficheralbumsettitres()
         QList<int> albums = m_bddInterface.listeAlbums( QString::number( m_artiste ), QString::number( m_categorie ) );
         ui->AlbumsTitres->setRowCount( albums.count() * 8 );
         ui->AlbumsTitres->setColumnCount( ( albums.count() == 0 ) ? 1 : ( ( albums.count() == 1 ) ? 3 : 4 ) );
-
+        ui->AlbumsTitres->setColumnCount( 6 );
         for ( int cpt = 0; cpt < albums.count(); cpt++ )
         {
             m_ajoutlignes = 1;
@@ -141,6 +160,7 @@ void OngletMP3::afficheralbumsettitres()
 
             m_album = album->getid_alb();
 
+
             if ( album->getid_alb() > 0 )
             {
                 if ( ( m_categorie != 2 && cpt > 0 ) || ( m_categorie == 2 && cpt % 2 == 0  && cpt > 0 ) )
@@ -148,9 +168,9 @@ void OngletMP3::afficheralbumsettitres()
 
                     // Ajout d'une ligne de séparation
                     QTableWidgetItem* item = new  QTableWidgetItem;
-                    item->setBackground( Qt::black );
+                    item->setBackground(QColor(m_couleur));
                     ui->AlbumsTitres->setItem( m_lignestitres, 0, item );
-                    ui->AlbumsTitres->setSpan( m_lignestitres, m_colonnetitre, 1, 6 );
+                    ui->AlbumsTitres->setSpan( m_lignestitres, m_colonnetitre, 1, ui->AlbumsTitres->columnCount() );
                     ui->AlbumsTitres->setRowHeight( m_lignestitres, 1 );
                     m_lignestitres++;
 
@@ -268,9 +288,6 @@ void OngletMP3::afficherAlbumSelectionne()
 
     delete album;
 
-    while(!titres.isEmpty()) {
-        delete (titres.at(0));
-    }
 }
 
 void OngletMP3::afficherTitresAlbum( QList<Meta_Titre*> titres, int Cate, int row )
@@ -350,14 +367,52 @@ void OngletMP3::afficherInfosTitre()
         ui->Pochette->setPixmap( scaled );
 
         Similaires( mp3->getid_titre() );
+        AfficherPlaylist( mp3->getid_relation() );
     }
 
     delete mp3;
 
 }
+void OngletMP3::afficherListeMp3()
+{
+    ui->Titres->clear();
+    ui->AjouterAlbumPlaylist->setVisible( false );
+    ui->AjoutListePlaylist->setVisible( true );
+
+    QPixmap mp3physoui( ":/Autres/Vrai" );
+    QPixmap mp3physnon( ":/Autres/Faux" );
+
+
+    for (int i =0; i< m_listemp3.count(); i ++ )
+    {
+        Meta_Titre* titre = Meta_Titre::RecupererBDD( m_listemp3[i] );
+
+        QListWidgetItem* item = new QListWidgetItem;
+
+        QString temp;
+        temp = QString::number( titre->getnum_piste() ).rightJustified( 2, '0' ) + " - " + titre->getnom_titre() + "(" + titre->getduree() + ")";
+        item->setText( temp );
+        //On affiche l'icone si le mp3 existe aussi
+
+        if ( titre->getsupportmp3() != "Aucun" )
+        {
+            item->setIcon( QIcon( mp3physoui ) );
+        }
+        else
+        {
+            item->setIcon( QIcon( mp3physnon ) );
+            item->setFlags( Qt::ItemIsSelectable | Qt::ItemIsUserCheckable );
+        }
+        ui->Titres->addItem( item );
+
+        delete titre;
+    }
+}
 void OngletMP3::Similaires( const int id )
 {
     QList<int> Simi = m_bddInterface.RecupererSimilaires( id );
+
+    Meta_Titre* mp3ensimi = Meta_Titre::RecupererBDD( m_mp3 );
 
     //On affiche chaque titre similaire
     for ( int i = 0; i < Simi.count(); i++ )
@@ -365,21 +420,24 @@ void OngletMP3::Similaires( const int id )
         //On récupère les infos du titre similaire
         Meta_Titre* mp3 = Meta_Titre::RecupererBDD( Simi[i]);
 
-        //On affiche les infos du titre dans un item
-        QListWidgetItem* item = new QListWidgetItem;
-        item->setData( Qt::UserRole, mp3->getid_relation() );
-        item->setText( QString::number( mp3->getannee() ) + " - " + mp3->getnom_titre() );
-        item->setToolTip( mp3->getnom_titre() );
-        item->setFlags( Qt::ItemIsEnabled );
-        //On s'occupe de sa pochette
-        QPixmap scaled( QPixmap::fromImage( mp3->getpoch() ) );
-        item->setIcon( QIcon( scaled ) );
+        if ( mp3ensimi->getid_relation() != mp3->getid_relation() )
+        {
+            //On affiche les infos du titre dans un item
+            QListWidgetItem* item = new QListWidgetItem;
+            item->setData( Qt::UserRole, mp3->getid_relation() );
+            item->setText( QString::number( mp3->getannee() ) + " - " + mp3->getnom_titre() );
+            item->setToolTip( mp3->getnom_titre() );
+            item->setFlags( Qt::ItemIsEnabled );
+            //On s'occupe de sa pochette
+            QPixmap scaled( QPixmap::fromImage( mp3->getpoch() ) );
+            item->setIcon( QIcon( scaled ) );
 
-        ui->Similaires->addItem( item );
+            ui->Similaires->addItem( item );
 
+        }
         delete mp3;
     }
-
+    delete mp3ensimi;
 
 }
 void OngletMP3::affichageartistes()
@@ -441,6 +499,7 @@ void OngletMP3::afficherListeAnnees()
         ui->ArtistesAnnees->addItem( item );
     }
     ui->ArtistesAnnees->setCurrentRow( 0 );
+
     m_artiste = ui->ArtistesAnnees->currentItem()->data( Qt::UserRole ).toInt();
 
 }
@@ -492,6 +551,8 @@ void OngletMP3::afficherMP3ouAlbum( const QString& MouA )
         ui->Simi->setVisible( false );
         ui->TitresAlb->setVisible( true );
         ui->Piste->setText( " " );
+        ui->AjouterAlbumPlaylist->setVisible( true );
+        ui->AjoutListePlaylist->setVisible( false );
     }
     else
     {
@@ -519,24 +580,44 @@ void OngletMP3::on_ArtistesAnnees_clicked( const QModelIndex& index )
 
 void OngletMP3::on_AlbumsTitres_clicked( const QModelIndex& index )
 {
-    if ( index.column() != 0 )
+    m_listemp3.clear();
+
+    if ( index.column() == 0 )
     {
         if ( !index.data(Qt::UserRole).isNull() )
         {
-            vider( "Titres" );
-            m_mp3 = index.data( Qt::UserRole ).toInt();
-            afficherMP3ouAlbum( "MP3" );
-            afficherInfosTitre();
+            m_album = index.data( Qt::UserRole ).toInt();
+            afficherMP3ouAlbum( "Album" );
+            afficherAlbumSelectionne();
         }
     }
-    else
+    else {
+        QModelIndexList modelIndList =ui->AlbumsTitres->selectionModel()->selectedIndexes();
 
-    {
-        m_album = index.data( Qt::UserRole ).toInt();
-        afficherMP3ouAlbum( "Album" );
-        afficherAlbumSelectionne();
+        //regarde si la selection est multiple ou non
+        if ( modelIndList.count() > 1 )
+        {
+            for (int i = 0; i< modelIndList.count();i++ )
+            {
+                //  modelIndList.at(i).data().toString();
+                m_listemp3 <<  modelIndList.at(i).data( Qt::UserRole).toInt();
+            }
+            afficherMP3ouAlbum( "Album" );
+            afficherListeMp3();
+        } else
+        {
+            if ( modelIndList.count() == 1 )
+            {
+                if ( !index.data(Qt::UserRole).isNull() )
+                {
+                    vider( "Titres" );
+                    m_mp3 = modelIndList.at(0).data( Qt::UserRole).toInt();
+                    afficherMP3ouAlbum( "MP3" );
+                    afficherInfosTitre();
+                }
+            }
+        }
     }
-
 }
 void OngletMP3::on_Similaires_clicked(const QModelIndex &index)
 {
@@ -719,4 +800,51 @@ void OngletMP3::on_ModifierArtiste_clicked()
     vider( "Artiste" );
     affichageartistes();
     delete artiste;
+}
+
+void OngletMP3::on_Bouton_Playlist_clicked()
+{
+    Meta_Titre* mp3 = Meta_Titre::RecupererBDD( m_mp3 );
+    DialogAjoutEnPlaylist* temp = new DialogAjoutEnPlaylist( mp3->getnom_titre() , mp3->getid_relation() , "MP3", this);
+    temp->exec();
+
+
+}
+void OngletMP3::AfficherPlaylist( int id )
+{
+    ui->Playlists->clear();
+
+    QStringList liste;
+
+    liste = m_bddInterface.RecupererPlaylist( id );
+
+    QImage image( "./Pochettes/def.jpg" );
+
+    for ( int cpt = 0; cpt < liste.count(); cpt++ )
+    {
+        QPixmap scaled( QPixmap::fromImage( image ) );
+        scaled = scaled.scaled( 150, 150 );
+        QListWidgetItem* item = new QListWidgetItem;
+        item->setIcon( QIcon( scaled ) );
+        item->setText( liste[cpt] );
+
+        ui->Playlists->addItem( item );
+    }
+}
+
+void OngletMP3::setCouleur(const QString& couleur)
+{
+    m_couleur = couleur;
+}
+
+void OngletMP3::on_AjouterAlbumPlaylist_clicked()
+{
+    DialogAjoutEnPlaylist* temp = new DialogAjoutEnPlaylist( ui->Titre->text() , m_album , "Album", this);
+    temp->exec();
+}
+
+void OngletMP3::on_AjoutListePlaylist_clicked()
+{
+    DialogAjoutEnPlaylist* temp = new DialogAjoutEnPlaylist( m_listemp3 );
+    temp->exec();
 }

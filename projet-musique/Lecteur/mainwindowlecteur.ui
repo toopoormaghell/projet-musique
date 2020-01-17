@@ -41,9 +41,9 @@
    <widget class="PlayerManager" name="widget_2" native="true">
     <property name="geometry">
      <rect>
-      <x>450</x>
+      <x>480</x>
       <y>10</y>
-      <width>221</width>
+      <width>201</width>
       <height>261</height>
      </rect>
     </property>

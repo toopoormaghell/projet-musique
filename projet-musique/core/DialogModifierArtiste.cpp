@@ -36,7 +36,7 @@ void DialogModifierArtiste::on_Inversion_clicked()
 void DialogModifierArtiste::on_ChangerPochette_clicked()
 {
 
-    DialogChoixPochette choixPoch( QString::number( m_artiste->get_id_artiste() ) );
+    DialogChoixPochette choixPoch( QString::number( m_artiste->get_id_artiste() ), this );
     choixPoch.exec();
 
     if ( choixPoch.m_selection != 0 )

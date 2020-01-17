@@ -60,17 +60,25 @@ QTableWidget::item:selected{
 color:  %3;
 background:%4;
 }
+
+QTableWidgetItem#Separation{
+background:%5;
+}
+
 QProgressBar {
 border: 2px solid %5;
 border-radius: 5px;
+margin: 0.5px;
+background: %1;
 }
 QProgressBar::chunk {
-background-color: %4;
+background-color: %2;
 width: 20px;
+margin: 0.5px;
 }
 QScrollBar:horizontal {
 border: 2px solid %5;
-background: %4;
+background: %1;
 height: 15px;
 margin: 0px 20px 0 20px;
 }
@@ -80,7 +88,7 @@ min-width: 20px;
 }
 QScrollBar::add-line:horizontal {
 border: 2px solid %5;
-background: ;
+background: %1;
 width: 20px;
 subcontrol-position: right;
 subcontrol-origin: margin;
@@ -88,22 +96,23 @@ subcontrol-origin: margin;
 QScrollBar:left-arrow:horizontal, QScrollBar::right-arrow:horizontal {
 border: 2px solid %5;
 width: 3px;
+background: %2;
 height: 3px;
 background: white;
 }
 QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
-background: none;
+background: %1;
 }
 QScrollBar::sub-line:horizontal {
 border: 2px solid %5;
-background: %4;
+background: %1;
 width: 20px;
 subcontrol-position: left;
 subcontrol-origin: margin;
 }
 QScrollBar:vertical {
 border: 2px solid %5;
-background: %4;
+background: %1;
 width: 15px;
 margin: 22px 0 22px 0;
 }
@@ -113,7 +122,7 @@ min-height: 20px;
 }
 QScrollBar::add-line:vertical {
 border: 2px solid %5;
-background: %4;
+background: %1;
 height: 20px;
 subcontrol-position: bottom;
 subcontrol-origin: margin;
@@ -121,20 +130,21 @@ subcontrol-origin: margin;
 
 QScrollBar::sub-line:vertical {
 border: 2px solid %5;
-background: %4;
+background: %1;
 height: 20px;
 subcontrol-position: top;
 subcontrol-origin: margin;
 }
 QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
 border: 2px solid %5;
+background: %1;
 width: 3px;
 height: 3px;
 background: white;
 }
 
 QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
-background: none;
+background: %1;
 }
 QComboBox {
 border: 1px solid %5;

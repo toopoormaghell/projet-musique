@@ -23,7 +23,17 @@ DialogControles::~DialogControles()
 {
     delete ui;
 }
+void DialogControles::appliquerStyle( QString stylecoul )
+{
+    setStyleSheet( stylecoul );
+    update();
 
+    ui->Volume->setStyleSheet( stylecoul );
+    ui->Volume->update();
+
+    ui->Position->setStyleSheet( stylecoul );
+    ui->Position->update();
+}
 void DialogControles::ArriverFin( QMediaPlayer::MediaStatus status )
 {
     if ( status == QMediaPlayer::EndOfMedia )

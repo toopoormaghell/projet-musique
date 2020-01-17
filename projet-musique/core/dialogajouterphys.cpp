@@ -266,7 +266,7 @@ public:
 
     void appendLine( const LineModel& line )
     {
-        insertRows( rowCount() + 1, 1 );
+        insertRows( rowCount(), 1 );
 
         setData( index( rowCount() - 1, 0 ), line.track() );
         setData( index( rowCount() - 1, 1 ), line.song() );
@@ -355,7 +355,13 @@ DialogAjouterPhys::DialogAjouterPhys( int id_album, QWidget* parent ) :
 }
 
 
+void DialogAjouterPhys::appliquerstyle( QString stylecoul )
+{
 
+    setStyleSheet( stylecoul );
+    update();
+
+}
 void DialogAjouterPhys::AjoutConnex()
 {
     QObject::connect( ui->buttonGroup, SIGNAL( buttonClicked( int ) ), this, SLOT( AffichageListeArtistes( int ) ) ) ;

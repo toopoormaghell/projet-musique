@@ -40,6 +40,10 @@ LIBS += -lbdd
 
 
 HEADERS += \
+    bddlisteplaylist.h \
+    bddrel_playlist.h \
+    dialogajoutenplaylist.h \
+    dialogajoutpoch.h \
       ongletmp3.h \
     ongletphys.h \
        bddaffichermp3.h \
@@ -48,6 +52,7 @@ HEADERS += \
     bddgestionphys.h \
     mainwindow.h \
     dialogconfigactu.h \
+    ongletplaylist.h \
       ongletstats.h \
      ongletrech.h \
        dialogchoixpochette.h \
@@ -67,6 +72,10 @@ HEADERS += \
 
 
 SOURCES += main.cpp \
+    bddlisteplaylist.cpp \
+    bddrel_playlist.cpp \
+    dialogajoutenplaylist.cpp \
+    dialogajoutpoch.cpp \
     ongletmp3.cpp \
     ongletphys.cpp \
     bddaffichermp3.cpp \
@@ -75,6 +84,7 @@ SOURCES += main.cpp \
     bddgestionphys.cpp \
     mainwindow.cpp \
     dialogconfigactu.cpp \
+    ongletplaylist.cpp \
     ongletstats.cpp \
     ongletrech.cpp \
     dialogchoixpochette.cpp \
@@ -94,10 +104,13 @@ SOURCES += main.cpp \
 
 
 FORMS += \
+    dialogajoutenplaylist.ui \
+    dialogajoutpoch.ui \
     ongletmp3.ui \
     ongletphys.ui \
     mainwindow.ui \
     dialogconfigactu.ui \
+    ongletplaylist.ui \
     ongletstats.ui \
     ongletrech.ui \
     dialogchoixpochette.ui \

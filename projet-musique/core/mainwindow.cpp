@@ -7,6 +7,7 @@
 #include <QWidget>
 #include <QStatusBar>
 #include <QPushButton>
+#include <QRadioButton>
 #ifdef Q_OS_WIN
 #include <QWinTaskbarButton>
 #include <QWinTaskbarProgress>
@@ -24,24 +25,31 @@
 #include "bddsauvegardebdd.h"
 #include "bddexporterhtml.h"
 
-FenetrePrincipale::FenetrePrincipale(const QStringList& couleurs, QWidget* parent ) :
+FenetrePrincipale::FenetrePrincipale( QWidget* parent ) :
     QMainWindow( parent ),
+    m_couleurs(),
     ui( new Ui::MainWindow ),
     m_progressbar( new QProgressBar ),
     m_gestionMP3( new BDDGestionMp3 ),
     m_interaction( new QLabel ),
-    m_ongletMP3 ( ),
+    m_ongletMP3 (  ),
     m_lecteur (  ),
     m_dialogajouterphys( nullptr ),
     m_vidage( this ),
-    stop( new QPushButton( "Stop" ) ),
-    m_couleurs(couleurs)
-#ifdef Q_OS_WIN
+    stop( new QPushButton( "Stop" ) )
+
+  #ifdef Q_OS_WIN
   , m_taskbarButton ( nullptr )
-#endif
+  #endif
 {
+
     ui->setupUi( this );
+}
+void FenetrePrincipale::ActualiserFenetre()
+{
     m_ongletMP3 = ui->MP3;
+    m_ongletMP3->setCouleur( m_couleurs[0] ) ;
+    m_ongletMP3->ActualiserOnglet();
     m_dialogajouterphys = new DialogAjouterPhys( this );
     ajouterToolbar();
     ajouterStatusBar();
@@ -64,8 +72,10 @@ FenetrePrincipale::FenetrePrincipale(const QStringList& couleurs, QWidget* paren
 
 
 }
+
 void FenetrePrincipale::ajouterToolbar()
 {
+    ui->toolBar->clear();
     QPixmap essai( ":/menuIcones/actump3" );
     ui->toolBar->addAction( QIcon( essai ), "Actualiser Mp3", this, SLOT( on_actionActualiser_Mp3_triggered() ) );
 
@@ -92,15 +102,18 @@ void FenetrePrincipale::ajouterToolbar()
 
     ui->toolBar->addWidget( empty);
     m_lecteur = new MainWindowLecteur(m_couleurs, this);
-    m_lecteur->setMinimumHeight(85);
-    m_lecteur->setMaximumHeight( 85 );
+    m_lecteur->setMinimumHeight(100);
+    m_lecteur->setMaximumHeight( 100 );
     m_lecteur->setMinimumWidth( 700 );
     m_lecteur->setMaximumWidth( 700 );
     ui->toolBar->addWidget( m_lecteur);
 
+
 }
 void FenetrePrincipale::ajouterStatusBar()
 {
+
+
     //Propriétés de la statusbar
     ui->statusBar->setContentsMargins( 0, 0, 0, 0 );
     ui->statusBar->addPermanentWidget( stop, 1 );
@@ -162,7 +175,7 @@ void FenetrePrincipale::ViderBDD()
             GestionVerifications* temp = new GestionVerifications;
             temp->VerifierBDD();
 
- m_interaction->setText( "Fini." );
+            m_interaction->setText( "Fini." );
         }
     }
     ActualiserOngletMP3();
@@ -252,10 +265,91 @@ void FenetrePrincipale::showEvent(QShowEvent *e)
 
 void FenetrePrincipale::actionExporterBDD()
 {
-m_interaction->setText( " Sauvegarde de la BDD sur Dropbox..." );
+    m_interaction->setText( " Sauvegarde de la BDD sur Dropbox..." );
 
-BDDSauvegardeBDD* temp = new BDDSauvegardeBDD();
-temp->sauvegarde();
+    BDDSauvegardeBDD* temp = new BDDSauvegardeBDD();
+    temp->sauvegarde();
 
-m_interaction->setText( " Fin de la sauvegarde." );
+    m_interaction->setText( " Fin de la sauvegarde." );
+}
+
+QStringList FenetrePrincipale::choixCouleurs()
+{
+    m_couleurs.clear();
+    //Choix des couleurs
+    srand(static_cast< unsigned int> (time(nullptr) ) );
+    int nombreMystere = (rand() % 11 ) + 1;
+
+    switch ( nombreMystere )
+    {
+    //1ère : fond 1 // 2ème : écriture widget// 3ème : fond 2 // 4ème : surlignage// 5ème : contour // 6ème : écriture hors cadre
+    case 1 : m_couleurs << "#A8F3FF" << "#1EA7EC" << "#FFFF96" << "#1EA7EC" << "#333399" << "#1EA7EC"; break;
+    case 2 : m_couleurs << "#FF6C6C" << "#EE1F1F" << "#FFFF96" << "#EE1F1F" << "#9B9B9B" << "#FFFF96"; break;
+    case 3 : m_couleurs << "#7B7B7B" << "#454948" << "#FFFF96" << "#454948" << "#9B9B9B" << "#FFFF96"; break;
+    case 4 : m_couleurs << "#7B7B7B" << "#454948" << "#CECECE" << "#454948" << "#9B9B9B" << "#CECECE"; break;
+    case 5 : m_couleurs << "#40A497" << "#40A497" << "#EFECCA" << "#1D625E" << "#046380" << "#002F2F"; break;
+    case 6 : m_couleurs << "#4BB5C1" << "#454948" << "#FFF168" << "#454948" << "#9B9B9B" << "#046380"; break;
+    case 7 : m_couleurs << "#FC7F3C" << "#A43C00" << "#F6E497" << "#A43C00" << "#BD8D46" << "#402A2F"; break;
+    case 8 : m_couleurs << "#5FF269" << "#727063" << "#B8F2BC" << "#727063" << "#FEE500" << "#1A7620"; break;
+    case 9 : m_couleurs << "#EFECCA" << "#EFECCA" << "#40A497" << "#1D625E" << "#046380" << "#002F2F"; break;
+    case 10: m_couleurs << "#A97BE6" << "#19003B" << "#E4D2FB" << "#4F2586" << "#9E5BF7" << "#19003B"; break;
+    case 11: m_couleurs << "#cccccc" << "#bbbbbb" << "#FFFFFF" << "#000000" << "#bbbbbb" << "#000000"; break;
+    default : m_couleurs << "#EFECCA" << "#EFECCA" << "#40A497" << "#1D625E" << "#046380" << "#002F2F"; break;
+
+    }
+
+    return m_couleurs;
+}
+
+
+
+void FenetrePrincipale::on_ChangerBouton_clicked()
+{
+    choixCouleurs();
+    //Ajout du style pour la fenêtre
+    QFile file( ":/qss/default" );
+    QString styleSheet="";
+
+    if ( file.open( QFile::ReadOnly ) )
+    {
+        styleSheet =  QLatin1String( file.readAll() );
+
+    } else
+    {
+        qDebug() <<"test";
+    }
+
+
+    QString stylesheetcoul = styleSheet.arg ( m_couleurs[0],m_couleurs[1],m_couleurs[2],m_couleurs[3], m_couleurs[4],m_couleurs[5] );
+
+    setStyleSheet( stylesheetcoul );
+    update();
+
+
+    m_ongletMP3->appliquerstyle( stylesheetcoul );
+    m_ongletMP3->setCouleur( m_couleurs[0] ) ;
+    m_ongletMP3->ActualiserOnglet();
+    ui->tab_2->appliquerstyle( stylesheetcoul );
+    ui->tab->appliquerstyle( stylesheetcoul );
+    ui->tab_3->appliquerstyle( stylesheetcoul );
+    ui->tab_4->appliquerstyle( stylesheetcoul );
+    ui->tab_5->appliquerstyle(stylesheetcoul );
+    ui->tab_6->appliquerstyle( stylesheetcoul );
+    ui->Erreurs->appliquerstyle( stylesheetcoul );
+
+    ui->toolBar->setStyleSheet( stylesheetcoul );
+    ui->toolBar->update();
+
+    ui->statusBar->setStyleSheet( stylesheetcoul );
+    ui->statusBar->update();
+    ui->centralWidget->setStyleSheet( stylesheetcoul );
+    ui->centralWidget->update();
+
+    ui->tabWidget->setStyleSheet( stylesheetcoul );
+    ui->tabWidget->update();
+
+    m_lecteur->setCouleur( m_couleurs );
+    m_lecteur->appliquerStyle();
+
+    m_dialogajouterphys->appliquerstyle( stylesheetcoul );
 }

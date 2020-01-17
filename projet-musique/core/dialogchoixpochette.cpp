@@ -4,13 +4,20 @@
 #include "bddpoch.h"
 #include <QListWidgetItem>
 #include <QDebug>
+#include "dialogajoutpoch.h"
+#include "bddartiste.h"
+
 
 DialogChoixPochette::DialogChoixPochette( QString artiste, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogChoixPochette),
-    m_artiste ( artiste )
+    m_artiste ( artiste ),
+    m_nom_artiste( )
 {
     ui->setupUi(this);
+    Handle<BDDArtiste> art = BDDArtiste::recupererBDD( m_artiste.toInt() );
+    m_nom_artiste = art->m_nom;
+    delete art;
     AfficherPochettes();
 }
 
@@ -29,8 +36,9 @@ void DialogChoixPochette::on_buttonBox_rejected()
 }
 void DialogChoixPochette::AfficherPochettes()
 {
+    ui->ListePoch->clear();
 
-    QList<int> listepoch = BDDPoch::pochettesparart( m_artiste );
+    QList<int> listepoch = BDDPoch::pochettesparart( m_nom_artiste, m_artiste );
 
     for (int cpt = 0; cpt < listepoch.count(); cpt ++)
     {
@@ -53,4 +61,18 @@ void DialogChoixPochette::AfficherPochettes()
 void DialogChoixPochette::on_ListePoch_itemClicked(QListWidgetItem *item)
 {
     m_selection = item->data( Qt::UserRole).toInt();
+}
+
+void DialogChoixPochette::on_NewPoch_clicked()
+{
+    DialogAjoutPoch temp (  m_nom_artiste , this );
+
+    connect( &temp,SIGNAL(fini()), this, SLOT(RelancePochettes() ) );
+
+    temp.exec();
+}
+
+void DialogChoixPochette::RelancePochettes()
+{
+    AfficherPochettes();
 }

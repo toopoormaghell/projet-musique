@@ -19,6 +19,7 @@ public:
     explicit DialogControles( QWidget *parent = nullptr );
     ~DialogControles();
     QMediaPlayer* player;
+    void appliquerStyle(QString stylecoul);
 signals:
     void FinMP3();
 public slots:
