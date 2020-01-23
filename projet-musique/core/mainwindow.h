@@ -35,6 +35,7 @@ public:
     void ActualiserFenetre();
 
 
+
 signals:
     void stopper();
 
@@ -54,8 +55,7 @@ private slots:
     void stop_clique();
     void showEvent(QShowEvent *e);
     void actionExporterBDD();
-
-    void on_ChangerBouton_clicked();
+  void changercouleur();
 
 private:
     Ui::MainWindow* ui;

@@ -9,6 +9,7 @@
 #include "DialogModifierAlbum.h"
 #include "DialogModifierArtiste.h"
 
+#include <QDebug>
 
 OngletPhys::OngletPhys( QWidget* parent ) :
     QWidget( parent ),
@@ -113,6 +114,42 @@ void OngletPhys::afficherListeAlbum()
 
     //Affichage des albums
     QList<int> albums = m_bddInterface.listeAlbums( m_artiste, m_categorie );
+
+    m_Albums = 0;
+    m_Albums = albums.count();
+
+    for ( int cpt = 0; cpt < albums.count(); cpt++ )
+    {
+
+        Meta_Album* album = Meta_Album::RecupererBDD( albums[cpt] );
+
+
+        if ( album->getid_alb() > 0 )
+        {
+
+            QListWidgetItem* item = new QListWidgetItem;
+            QPixmap scaled( QPixmap::fromImage( album->getPoch() ) );
+            scaled = scaled.scaled( 150, 150 );
+            item->setIcon( QIcon( scaled ) );
+
+            //On s'occupe du nom de l'album
+            item->setData( Qt::UserRole, album->getid_alb() );
+            item->setText( album->getnom_album() + " - " + QString::number( album->getannee() )  );
+item->setToolTip( QString::number( album->getannee() ) + " - " + album->getnom_album() );
+            ui->Albums->addItem( item );
+        }
+        delete album;
+    }
+    ui->Albums->setCurrentRow( 0, QItemSelectionModel::Select );
+    m_selection = ui->Albums->currentIndex().data( Qt::UserRole ).toInt();
+
+}
+void OngletPhys::afficherListeLive()
+{
+    ui->Lives->clear();
+
+    //Affichage des albums
+    QList<int> albums = m_bddInterface.listeAlbums( m_artiste, 12 );
     m_Albums = 0;
     m_Albums = albums.count();
 
@@ -124,19 +161,22 @@ void OngletPhys::afficherListeAlbum()
         if ( album->getid_alb() > 0 )
         {
             QListWidgetItem* item = new QListWidgetItem;
-            QPixmap scaled( QPixmap::fromImage( album->getPoch() ) );
+            QImage temp = album->getPoch();
+            temp.scaled(150,150);
+            QPixmap scaled( QPixmap::fromImage( temp ) );
+
             item->setIcon( QIcon( scaled ) );
 
             //On s'occupe du nom de l'album
             item->setData( Qt::UserRole, album->getid_alb() );
-            item->setText( QString::number( album->getannee() ) + " - " + album->getnom_album() );
+            item->setText( album->getnom_album() + " - " + QString::number( album->getannee() )  );
+item->setToolTip( QString::number( album->getannee() ) + " - " + album->getnom_album() );
 
-            ui->Albums->addItem( item );
+            ui->Lives->addItem( item );
         }
         delete album;
     }
-    ui->Albums->setCurrentRow( 0, QItemSelectionModel::Select );
-    m_selection = ui->Albums->currentIndex().data( Qt::UserRole ).toInt();
+
 
 }
 void OngletPhys::afficherListeSingles()
@@ -157,12 +197,13 @@ void OngletPhys::afficherListeSingles()
         {
             QListWidgetItem* item = new QListWidgetItem;
             QPixmap scaled( QPixmap::fromImage( album->getPoch() ) );
+            scaled = scaled.scaled( 90, 90 );
             item->setIcon( QIcon( scaled ) );
 
             //On s'occupe du nom de l'album
             item->setData( Qt::UserRole, album->getid_alb() );
-            item->setText( QString::number( album->getannee() ) + " - " + album->getnom_album() );
-
+            item->setText( album->getnom_album() + " - " + QString::number( album->getannee() )  );
+item->setToolTip( QString::number( album->getannee() ) + " - " + album->getnom_album() );
             ui->Singles->addItem( item );
         }
 
@@ -204,12 +245,13 @@ void OngletPhys::afficherListeCompils()
         {
             QListWidgetItem* item = new QListWidgetItem;
             QPixmap scaled( QPixmap::fromImage( album->getPoch() ) );
+            scaled = scaled.scaled( 100, 100 );
             item->setIcon( QIcon( scaled ) );
 
             //On s'occupe du nom de l'album
             item->setData( Qt::UserRole, album->getid_alb() );
-            item->setText( QString::number( album->getannee() ) + " - " + album->getnom_album() );
-
+            item->setText( album->getnom_album() + " - " + QString::number( album->getannee() )  );
+item->setToolTip( QString::number( album->getannee() ) + " - " + album->getnom_album() );
             ui->Compil->addItem( item );
         }
 
@@ -217,6 +259,7 @@ void OngletPhys::afficherListeCompils()
     }
 
 }
+
 void OngletPhys::AfficherInfosAlbum( int Type )
 {
     vider("Infos");
@@ -364,6 +407,7 @@ void OngletPhys::afficherListeCds()
     afficherListeSingles();
     AfficherArtisteSelectionne();
     afficherListeCompils();
+    afficherListeLive();
     remplirStats();
 
     //Si on est sur le type Compil
@@ -373,60 +417,10 @@ void OngletPhys::afficherListeCds()
         ui->label_2->setHidden( true );
         ui->Albums->setHidden( true );
         ui->label->setHidden( true );
-        ui->Compil->setFixedHeight( 450);
-        ui->label_3->setFixedHeight( 450);
 
 
     }
-    //Sinon, on vérifie le nombre d'albums pour en afficher le plus possible
-    else
-    {
 
-        ui->Singles->setHidden( false );
-        ui->label_2->setHidden( false );
-        ui->Albums->setHidden( false );
-        ui->label->setHidden( false );
-        ui->Compil->setHidden( false );
-        ui->label_3->setHidden( false );
-        ui->Compil->setFixedHeight( 150 );
-        ui->label_3->setFixedHeight( 150 );
-        ui->Albums->setFixedHeight( 150 );
-        ui->label->setFixedHeight( 150 );
-
-
-
-        if ( ( m_Singles == 0 || m_Compils == 0 ) && m_Albums > 12 )
-
-        {
-            int RubriquesCachees = 0;
-
-            if ( m_Singles == 0 )
-            {
-                ui->Singles->setHidden( true );
-                ui->label_2->setHidden( true );
-                RubriquesCachees ++;
-            }
-            else
-            {
-                ui->label_2->setHidden( false );
-                ui->Singles->setHidden( false );
-            }
-
-            if ( m_Compils == 0 )
-            {
-                ui->Compil->setHidden( true );
-                ui->label_3->setHidden( true );
-                RubriquesCachees ++;
-            }
-            else
-            {
-                ui->label_3->setHidden( false );
-                ui->Compil->setHidden( false );
-            }
-            ui->Albums->setFixedHeight( 150 * ( RubriquesCachees + 1 ) );
-            ui->label->setFixedHeight( 150 * ( RubriquesCachees + 1 ) );
-        }
-    }
 }
 
 void OngletPhys::on_Artistes_clicked( const QModelIndex& index )
@@ -477,12 +471,15 @@ void OngletPhys::afficherListeAlbSansMP3()
 
 
             QListWidgetItem* item = new QListWidgetItem;
-            QPixmap scaled( QPixmap::fromImage( album->getPoch() ) );
+            QImage temp = album->getPoch().scaled(50,50);
+
+            QPixmap scaled( QPixmap::fromImage( temp ) );
+
             item->setIcon( QIcon( scaled ) );
 
             //On s'occupe du nom de l'album
             item->setData( Qt::UserRole, albums[cpt] );
-            item->setText( QString::number( album->getannee() ) + " - " + album->getnom_album() );
+            item->setToolTip( QString::number( album->getannee() ) + " - " + album->getnom_album() );
 
             ui->AlbSansMP3->addItem( item );
 
@@ -528,4 +525,14 @@ void OngletPhys::on_ModifArtiste_clicked()
     temp.exec();
     delete artiste;
     actualiserOnglet();
+}
+
+void OngletPhys::on_Lives_itemPressed(QListWidgetItem *item)
+{
+    m_selection = item->data( Qt::UserRole ).toInt();
+    ui->Albums->clearSelection();
+    ui->Compil->clearSelection();
+    vider( "Infos" );
+    AfficherInfosAlbum( 1 );
+    AfficherArtisteSelectionne();
 }

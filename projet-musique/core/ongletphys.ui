@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1123</width>
-    <height>902</height>
+    <width>1137</width>
+    <height>908</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,7 +16,7 @@
   <property name="styleSheet">
    <string notr="true"/>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_4">
+  <layout class="QVBoxLayout" name="verticalLayout_9">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_15">
      <item>
@@ -117,13 +117,13 @@
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>35</height>
+         <height>20</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>35</height>
+         <height>20</height>
         </size>
        </property>
        <property name="font">
@@ -153,21 +153,12 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_4">
+    <layout class="QHBoxLayout" name="horizontalLayout_21">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
+      <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
-        <layout class="QFormLayout" name="formLayout">
-         <property name="horizontalSpacing">
-          <number>0</number>
-         </property>
-         <property name="verticalSpacing">
-          <number>10</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-         <item row="1" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_17">
+         <item>
           <widget class="QLabel" name="label">
            <property name="minimumSize">
             <size>
@@ -178,7 +169,7 @@
            <property name="maximumSize">
             <size>
              <width>10</width>
-             <height>16777215</height>
+             <height>100</height>
             </size>
            </property>
            <property name="accessibleName">
@@ -194,7 +185,7 @@
             <enum>QFrame::NoFrame</enum>
            </property>
            <property name="text">
-            <string>A&lt;br&gt;L&lt;br&gt;B&lt;br&gt;U&lt;br&gt;M&lt;br&gt;S</string>
+            <string>A&lt;br&gt;L&lt;br&gt;B&lt;br&gt;U&lt;br&gt;M</string>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -204,18 +195,18 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="1">
+         <item>
           <widget class="QListWidget" name="Albums">
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>150</height>
+             <height>130</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>150</height>
+             <height>130</height>
             </size>
            </property>
            <property name="font">
@@ -235,8 +226,8 @@
            </property>
            <property name="iconSize">
             <size>
-             <width>100</width>
-             <height>100</height>
+             <width>95</width>
+             <height>95</height>
             </size>
            </property>
            <property name="horizontalScrollMode">
@@ -253,8 +244,8 @@
            </property>
            <property name="gridSize">
             <size>
-             <width>110</width>
-             <height>142</height>
+             <width>100</width>
+             <height>120</height>
             </size>
            </property>
            <property name="viewMode">
@@ -264,14 +255,18 @@
             <bool>true</bool>
            </property>
            <property name="batchSize">
-            <number>142</number>
+            <number>100</number>
            </property>
            <property name="wordWrap">
             <bool>true</bool>
            </property>
           </widget>
          </item>
-         <item row="2" column="0">
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_18">
+         <item>
           <widget class="QLabel" name="label_2">
            <property name="minimumSize">
             <size>
@@ -282,7 +277,7 @@
            <property name="maximumSize">
             <size>
              <width>10</width>
-             <height>16777215</height>
+             <height>100</height>
             </size>
            </property>
            <property name="accessibleName">
@@ -292,25 +287,25 @@
             <string notr="true"/>
            </property>
            <property name="text">
-            <string>S&lt;br&gt;I&lt;br&gt;N&lt;br&gt;G&lt;br&gt;L&lt;br&gt;E&lt;br&gt;S</string>
+            <string>S&lt;br&gt;I&lt;br&gt;N&lt;br&gt;G&lt;br&gt;L&lt;br&gt;E</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
            </property>
           </widget>
          </item>
-         <item row="2" column="1">
+         <item>
           <widget class="QListWidget" name="Singles">
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>150</height>
+             <height>130</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>150</height>
+             <height>130</height>
             </size>
            </property>
            <property name="font">
@@ -324,8 +319,8 @@
            </property>
            <property name="iconSize">
             <size>
-             <width>100</width>
-             <height>100</height>
+             <width>95</width>
+             <height>95</height>
             </size>
            </property>
            <property name="movement">
@@ -342,8 +337,8 @@
            </property>
            <property name="gridSize">
             <size>
-             <width>110</width>
-             <height>142</height>
+             <width>100</width>
+             <height>120</height>
             </size>
            </property>
            <property name="viewMode">
@@ -353,14 +348,18 @@
             <bool>true</bool>
            </property>
            <property name="batchSize">
-            <number>142</number>
+            <number>100</number>
            </property>
            <property name="wordWrap">
             <bool>true</bool>
            </property>
           </widget>
          </item>
-         <item row="3" column="0">
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_19">
+         <item>
           <widget class="QLabel" name="label_3">
            <property name="minimumSize">
             <size>
@@ -371,7 +370,7 @@
            <property name="maximumSize">
             <size>
              <width>10</width>
-             <height>16777215</height>
+             <height>100</height>
             </size>
            </property>
            <property name="accessibleName">
@@ -381,25 +380,25 @@
             <string notr="true"/>
            </property>
            <property name="text">
-            <string>C&lt;br&gt;O&lt;br&gt;M&lt;br&gt;P&lt;br&gt;I&lt;br&gt;L&lt;br&gt;S</string>
+            <string>C&lt;br&gt;O&lt;br&gt;M&lt;br&gt;P&lt;br&gt;I&lt;br&gt;L</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
            </property>
           </widget>
          </item>
-         <item row="3" column="1">
+         <item>
           <widget class="QListWidget" name="Compil">
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>150</height>
+             <height>130</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>150</height>
+             <height>130</height>
             </size>
            </property>
            <property name="font">
@@ -413,8 +412,8 @@
            </property>
            <property name="iconSize">
             <size>
-             <width>100</width>
-             <height>100</height>
+             <width>95</width>
+             <height>95</height>
             </size>
            </property>
            <property name="movement">
@@ -428,8 +427,8 @@
            </property>
            <property name="gridSize">
             <size>
-             <width>110</width>
-             <height>142</height>
+             <width>100</width>
+             <height>120</height>
             </size>
            </property>
            <property name="viewMode">
@@ -439,15 +438,19 @@
             <bool>true</bool>
            </property>
            <property name="batchSize">
-            <number>142</number>
+            <number>100</number>
            </property>
            <property name="wordWrap">
             <bool>true</bool>
            </property>
           </widget>
          </item>
-         <item row="5" column="0">
-          <widget class="QLabel" name="label_4">
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_20">
+         <item>
+          <widget class="QLabel" name="label_17">
            <property name="minimumSize">
             <size>
              <width>10</width>
@@ -457,285 +460,403 @@
            <property name="maximumSize">
             <size>
              <width>10</width>
-             <height>16777215</height>
+             <height>100</height>
             </size>
            </property>
-           <property name="accessibleName">
-            <string>TitreWidget</string>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
            <property name="text">
-            <string>S&lt;br&gt;T&lt;br&gt;A&lt;br&gt;T&lt;br&gt;S</string>
+            <string>L&lt;br&gt;I&lt;br&gt;V&lt;br&gt;E</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
            </property>
           </widget>
          </item>
-         <item row="5" column="1">
-          <widget class="QWidget" name="widget" native="true">
+         <item>
+          <widget class="QListWidget" name="Lives">
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>150</height>
+             <height>130</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>150</height>
+             <height>130</height>
             </size>
            </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_14">
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAsNeeded</enum>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>95</width>
+             <height>95</height>
+            </size>
+           </property>
+           <property name="movement">
+            <enum>QListView::Free</enum>
+           </property>
+           <property name="flow">
+            <enum>QListView::LeftToRight</enum>
+           </property>
+           <property name="resizeMode">
+            <enum>QListView::Adjust</enum>
+           </property>
+           <property name="gridSize">
+            <size>
+             <width>100</width>
+             <height>120</height>
+            </size>
+           </property>
+           <property name="viewMode">
+            <enum>QListView::IconMode</enum>
+           </property>
+           <property name="uniformItemSizes">
+            <bool>true</bool>
+           </property>
+           <property name="batchSize">
+            <number>100</number>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QWidget" name="widget" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>85</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>90</height>
+          </size>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_14">
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="minimumSize">
+             <size>
+              <width>10</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>10</width>
+              <height>60</height>
+             </size>
+            </property>
+            <property name="accessibleName">
+             <string>TitreWidget</string>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>S&lt;br&gt;T&lt;br&gt;A&lt;br&gt;T&lt;br&gt;S</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_6">
             <item>
-             <layout class="QVBoxLayout" name="verticalLayout_6">
+             <layout class="QHBoxLayout" name="horizontalLayout">
               <item>
-               <layout class="QHBoxLayout" name="horizontalLayout">
-                <item>
-                 <widget class="QLabel" name="label_5">
-                  <property name="text">
-                   <string>Nombre de CDs :</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="NbCD">
-                  <property name="text">
-                   <string>0</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_5">
-                <item>
-                 <widget class="QLabel" name="label_6">
-                  <property name="text">
-                   <string>- Albums :</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="NbAlb">
-                  <property name="text">
-                   <string>0</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_6">
-                <item>
-                 <widget class="QLabel" name="label_7">
-                  <property name="text">
-                   <string>- Singles :</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="NbSingle">
-                  <property name="text">
-                   <string>0</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_7">
-                <item>
-                 <widget class="QLabel" name="label_8">
-                  <property name="text">
-                   <string>- Compils :</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="NbCompil">
-                  <property name="text">
-                   <string>0</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_8">
-                <item>
-                 <widget class="QLabel" name="label_10">
-                  <property name="text">
-                   <string>Nombre de titres :</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="NbTitres">
-                  <property name="text">
-                   <string>0</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_11">
-                <item>
-                 <widget class="QLabel" name="label_12">
-                  <property name="text">
-                   <string>Nombre de titres existants en MP3:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="NbTitresMP3">
-                  <property name="text">
-                   <string>0</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_10">
-                <item>
-                 <widget class="QLabel" name="label_9">
-                  <property name="text">
-                   <string>Pourcentage de titres existants en MP3 :</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="Pourcentage">
-                  <property name="text">
-                   <string>0 %</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_5">
-              <item>
-               <widget class="QLabel" name="label_11">
-                <property name="text">
-                 <string>Liste d'Albums sans MP3 :</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QListWidget" name="AlbSansMP3">
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>110</height>
-                 </size>
-                </property>
+               <widget class="QLabel" name="label_5">
                 <property name="maximumSize">
                  <size>
-                  <width>600</width>
-                  <height>110</height>
+                  <width>16777215</width>
+                  <height>15</height>
                  </size>
                 </property>
-                <property name="iconSize">
-                 <size>
-                  <width>90</width>
-                  <height>90</height>
-                 </size>
-                </property>
-                <property name="resizeMode">
-                 <enum>QListView::Adjust</enum>
-                </property>
-                <property name="gridSize">
-                 <size>
-                  <width>90</width>
-                  <height>90</height>
-                 </size>
-                </property>
-                <property name="viewMode">
-                 <enum>QListView::IconMode</enum>
-                </property>
-                <property name="uniformItemSizes">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_7">
-              <item>
-               <widget class="QLabel" name="label_13">
                 <property name="text">
-                 <string>ALBUM SELECTIONNE:</string>
+                 <string>Nombre de CDs :</string>
                 </property>
                </widget>
               </item>
               <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_12">
-                <item>
-                 <widget class="QLabel" name="label_14">
-                  <property name="text">
-                   <string>Nombre de titres :</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="NbTitresAlb">
-                  <property name="text">
-                   <string>0</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_9">
-                <item>
-                 <widget class="QLabel" name="label_15">
-                  <property name="text">
-                   <string>Nombre de titres existants en MP3:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="NbTitresMP3Alb">
-                  <property name="text">
-                   <string>0</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_13">
-                <item>
-                 <widget class="QLabel" name="label_16">
-                  <property name="text">
-                   <string>Pourcentage de titres existants en MP3 :</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="PourcentageAlb">
-                  <property name="text">
-                   <string>0 %</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
+               <widget class="QLabel" name="NbCD">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>15</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
               </item>
              </layout>
             </item>
            </layout>
-          </widget>
-         </item>
-        </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_8">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_4"/>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_22">
+              <item>
+               <widget class="QLabel" name="label_19">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>15</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>- Albums :</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="NbAlb">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>15</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_23">
+              <item>
+               <widget class="QLabel" name="label_20">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>15</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>- Singles :</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="NbSingle">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>15</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_24">
+              <item>
+               <widget class="QLabel" name="label_21">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>15</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>- Compils :</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="NbCompil">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>15</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_11">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>15</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Liste d'Albums sans MP3</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QListWidget" name="AlbSansMP3">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>55</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>600</width>
+              <height>65</height>
+             </size>
+            </property>
+            <property name="verticalScrollBarPolicy">
+             <enum>Qt::ScrollBarAsNeeded</enum>
+            </property>
+            <property name="horizontalScrollBarPolicy">
+             <enum>Qt::ScrollBarAlwaysOff</enum>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>50</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="resizeMode">
+             <enum>QListView::Adjust</enum>
+            </property>
+            <property name="gridSize">
+             <size>
+              <width>55</width>
+              <height>55</height>
+             </size>
+            </property>
+            <property name="viewMode">
+             <enum>QListView::IconMode</enum>
+            </property>
+            <property name="uniformItemSizes">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_8">
+              <item>
+               <widget class="QLabel" name="label_10">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>15</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Nombre de titres :</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="NbTitres">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>15</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_11">
+              <item>
+               <widget class="QLabel" name="label_12">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>15</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Nombre de titres existants en MP3:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="NbTitresMP3">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>15</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_10">
+              <item>
+               <widget class="QLabel" name="label_9">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>15</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Pourcentage de titres existants en MP3 :</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="Pourcentage">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>15</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>0 %</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
        </item>
       </layout>
      </item>
@@ -886,6 +1007,74 @@
             <string>Supprimer Album</string>
            </property>
           </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_7">
+         <item>
+          <widget class="QLabel" name="label_13">
+           <property name="text">
+            <string>ALBUM SELECTIONNE:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_12">
+           <item>
+            <widget class="QLabel" name="label_14">
+             <property name="text">
+              <string>Nombre de titres :</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="NbTitresAlb">
+             <property name="text">
+              <string>0</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_9">
+           <item>
+            <widget class="QLabel" name="label_15">
+             <property name="text">
+              <string>Nombre de titres existants en MP3:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="NbTitresMP3Alb">
+             <property name="text">
+              <string>0</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_13">
+           <item>
+            <widget class="QLabel" name="label_16">
+             <property name="text">
+              <string>Pourcentage de titres existants en MP3 :</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="PourcentageAlb">
+             <property name="text">
+              <string>0 %</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </item>

@@ -33,6 +33,7 @@ void AfficherCategories();
     void remplirStats();
 
     void appliquerstyle(QString stylecoul);
+    void afficherListeLive();
 private slots:
     void on_Modifier_clicked();
     void on_SupprimerAlbum_clicked();
@@ -48,6 +49,8 @@ private slots:
 
 
     void on_ModifArtiste_clicked();
+
+    void on_Lives_itemPressed(QListWidgetItem *item);
 
 private:
     Ui::OngletPhys* ui;

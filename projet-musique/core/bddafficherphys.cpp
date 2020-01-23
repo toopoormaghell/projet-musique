@@ -19,6 +19,7 @@ QStringList BDDAfficherPhys::RecupererListeTypes()
     QSqlQuery query = madatabase.exec( queryStr );
     while ( query.next() )
     {
+
         QSqlRecord rec = query.record();
 
         Handle<BDDType> tmp = BDDType::RecupererType( rec.value( "Type" ).toInt() );
@@ -47,8 +48,7 @@ QList<int> BDDAfficherPhys::ListeArtiste(int categorie)
     case ( 8 ) : queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, Album B, Phys P,Relations R WHERE  R.Id_Album=P.Id_Album AND R.Id_Artiste=A.Id_Artiste AND P.Support!='2' AND B.Id_Album = R.Id_Album AND B.Type =8 ORDER BY Artiste";break;
     case ( 9 ) : queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, Album B, Phys P,Relations R WHERE  R.Id_Album=P.Id_Album AND R.Id_Artiste=A.Id_Artiste AND P.Support!='2' AND B.Id_Album = R.Id_Album AND B.Type =9 ORDER BY Artiste";break;
     case ( 10 ) : queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, Album B, Phys P,Relations R WHERE  R.Id_Album=P.Id_Album AND R.Id_Artiste=A.Id_Artiste AND P.Support!='2' AND B.Id_Album = R.Id_Album AND B.Type =10 ORDER BY Artiste";break;
-    case ( 11 ) : queryStr = "SELECT DISTINCT A.Id_Artiste , A.Artiste FROM Artiste A, Album B, Phys P,Relations R WHERE  R.Id_Album=P.Id_Album AND R.Id_Artiste=A.Id_Artiste AND P.Support!='2' AND B.Id_Album = R.Id_Album AND B.Type =11 AND A. Id_Artiste NOT IN ( SELECT DISTINCT A1.Id_Artiste FROM Artiste A1, Album B1, Phys P1,Relations R1 WHERE  R1.Id_Album=P1.Id_Album AND R1.Id_Artiste=A1.Id_Artiste AND P1.Support!='2' AND B1.Id_Album = R1.Id_Album AND B1.Type =1 ORDER BY Artiste) ORDER BY Artiste";break;
-    case ( 12 ) : queryStr = "select distinct r.id_artiste FROM PHYS p, relations r, artiste a where p.support ='3' and r.id_album = p.id_album and a.id_artiste = r.id_artiste order by a.artiste";break;
+    case ( 12 ) : queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, Album B, Phys P,Relations R WHERE  R.Id_Album=P.Id_Album AND R.Id_Artiste=A.Id_Artiste AND P.Support!='2' AND B.Id_Album = R.Id_Album AND B.Type =12 ORDER BY Artiste";break;
     default: queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, Album B, Phys P,Relations R WHERE  R.Id_Album=P.Id_Album AND R.Id_Artiste=A.Id_Artiste AND P.Support!='2' AND B.Id_Album = R.Id_Album  ORDER BY Artiste";
     }
     QSqlQuery query = madatabase.exec( queryStr );
@@ -64,21 +64,9 @@ QList<int> BDDAfficherPhys::ListeArtiste(int categorie)
 QList<int> BDDAfficherPhys::listeAlbums( QString Id_Artiste, int Categorie )
 {
     QList<int> albums;
-    if ( Categorie == 12 )
-    {
-        Categorie = 1;
-    }
 
-      QString queryStr = "SELECT DISTINCT B.Id_Album FROM Album B, Phys P,Relations R WHERE R.Id_Artiste=" + Id_Artiste + " AND B.Id_Album = R.Id_Album AND P.Id_Album=R.Id_Album AND P.Support='1'  ";
-   if ( Categorie == 1 )
-   {
-queryStr += " AND ( B.Type = '1' OR B.Type = '12') ";
-   } else
-   {
-       queryStr += " AND B.Type = "+ QString::number( Categorie ) +" ";
-   }
- queryStr += " ORDER BY B.Annee DESC";
 
+      QString queryStr = "SELECT DISTINCT B.Id_Album FROM Album B, Phys P,Relations R WHERE R.Id_Artiste=" + Id_Artiste + " AND B.Id_Album = R.Id_Album AND P.Id_Album=R.Id_Album AND P.Support='1' AND B.Type = "+ QString::number( Categorie ) +" ORDER BY B.Annee DESC";
 
     QSqlQuery query = madatabase.exec( queryStr );
 
@@ -93,7 +81,7 @@ queryStr += " AND ( B.Type = '1' OR B.Type = '12') ";
 QList<int> BDDAfficherPhys::listeSingles( QString Id_Artiste )
 {
     QList<int> albums;
-    QString queryStr = "SELECT DISTINCT B.Id_Album FROM Album B, Phys P,Relations R WHERE R.Id_Artiste=" + Id_Artiste + " AND B.Id_Album = R.Id_Album AND P.Id_Album=R.Id_Album AND P.Support='3'   ORDER BY B.Annee DESC";
+    QString queryStr = "SELECT DISTINCT B.Id_Album FROM Album B, Phys P,Relations R WHERE R.Id_Artiste=" + Id_Artiste + " AND B.Id_Album = R.Id_Album AND P.Id_Album=R.Id_Album AND P.Support='3'  ORDER BY B.Annee DESC";
 
     QSqlQuery query = madatabase.exec( queryStr );
 

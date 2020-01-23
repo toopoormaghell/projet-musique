@@ -97,13 +97,16 @@ void FenetrePrincipale::ajouterToolbar()
     essai.load(":menuIcones/ExportBDD" );
     ui->toolBar->addAction( QIcon( essai ), " Sauvegarder BDD", this, SLOT( actionExporterBDD() ) );
 
+    essai.load(":menuIcones/ExportBDD" );
+    ui->toolBar->addAction( QIcon( essai ), " Changer Couleur", this, SLOT( changercouleur() ) );
+
     QWidget* empty = new QWidget();
     empty->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
 
     ui->toolBar->addWidget( empty);
     m_lecteur = new MainWindowLecteur(m_couleurs, this);
-    m_lecteur->setMinimumHeight(100);
-    m_lecteur->setMaximumHeight( 100 );
+    m_lecteur->setMinimumHeight(80);
+    m_lecteur->setMaximumHeight( 80 );
     m_lecteur->setMinimumWidth( 700 );
     m_lecteur->setMaximumWidth( 700 );
     ui->toolBar->addWidget( m_lecteur);
@@ -130,7 +133,7 @@ void FenetrePrincipale::ajouterStatusBar()
 
     //Propriétés du widget d'intéraction
     m_interaction->setText( "Prêt" );
-    m_interaction->setMaximumHeight( 20 );
+    m_interaction->setMaximumHeight( 50 );
 
 }
 
@@ -303,7 +306,7 @@ QStringList FenetrePrincipale::choixCouleurs()
 
 
 
-void FenetrePrincipale::on_ChangerBouton_clicked()
+void FenetrePrincipale::changercouleur()
 {
     choixCouleurs();
     //Ajout du style pour la fenêtre
