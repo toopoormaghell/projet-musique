@@ -8,6 +8,7 @@
         <file alias="exporter">icones/exporter.png</file>
         <file alias="Musique">icones/musique.ico</file>
         <file alias="ExportBDD">icones/export.png</file>
+        <file alias="ChangCoul">icones/changcoul.png</file>
     </qresource>
     <qresource prefix="/Autres">
         <file alias="Faux">icones/nonmp3phys.png</file>

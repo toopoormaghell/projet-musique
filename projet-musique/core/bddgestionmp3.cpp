@@ -87,7 +87,7 @@ void BDDGestionMp3::listeCategoriesActualiser()
     }
     if ( temp.ActualiserLives() )
     {
-        m_Categories << 3;
+        m_Categories << 4;
     }
 }
 QString BDDGestionMp3::dossiercategorie()
@@ -102,8 +102,8 @@ QString BDDGestionMp3::dossiercategorie()
         m_support = 2;
         return "F:/Compil";
 
-    case ( 3 ):
-        m_support = 3;
+    case ( 4 ):
+        m_support = 4;
         return "F:/Albums Live";
 
     default:

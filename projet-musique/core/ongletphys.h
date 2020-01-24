@@ -27,7 +27,7 @@ public:
 
     void AfficherArtisteSelectionne();
     void afficherListeSingles();
-void AfficherCategories();
+    void AfficherCategories();
     void actualiserOnglet();
 
     void remplirStats();
@@ -59,6 +59,7 @@ private:
     int m_Albums;
     int m_Compils;
     int m_Singles;
+    int m_Lives;
     int m_selection;
     int m_categorie;
     void afficherListeCds();

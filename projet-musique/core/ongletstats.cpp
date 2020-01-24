@@ -141,11 +141,11 @@ void OngletStats::AfficherInfosCategoriesPhys()
     ui->NbPhysReprises->setText( "<dd><dd><dd>Reprises: " + QString::number( temp ) );
     //Albums normaux
     temp = m_bddInterface.NbPhysType( 1 );
-
     ui->NbPhysAlbums->setText( "<dd><dd><dd>Albums: " + QString::number( temp ) );
 
     ui->NbPhysCompil->setText( "Supports Singles : " + QString::number( m_bddInterface.NbPhysCategorie( 3 ) ) );
     ui->NbPhysSingle->setText( "Supports Compils : " + QString::number( m_bddInterface.NbPhysCategorie( 2 ) ) );
+    ui->NbPhysLive->setText( "Supports Lives: " + QString::number( m_bddInterface.NbPhysCategorie( 4 ) ) );
     ui->Nb_Chansons->setText( "Nombre de chansons : " + QString::number( m_bddInterface.NbChansonsPhys() ) );
 
     int AlbSSMP3 =  m_bddInterface.NbPhysTotal() - m_bddInterface.NbTotalAlbumMP3Phys();
@@ -225,7 +225,7 @@ int OngletStats::choixArtiste()
 
 void OngletStats::on_ArtistesDansCompil_currentRowChanged( int currentRow )
 {
-    Q_UNUSED( currentRow );
+    Q_UNUSED( currentRow )
     AfficherMP3ArtisteCompilMP3();
 }
 

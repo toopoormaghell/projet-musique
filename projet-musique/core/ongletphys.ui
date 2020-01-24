@@ -133,6 +133,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="accessibleName">
+        <string/>
+       </property>
        <property name="styleSheet">
         <string notr="true">font-size:25px;</string>
        </property>
@@ -169,7 +172,7 @@
            <property name="maximumSize">
             <size>
              <width>10</width>
-             <height>100</height>
+             <height>130</height>
             </size>
            </property>
            <property name="accessibleName">
@@ -277,7 +280,7 @@
            <property name="maximumSize">
             <size>
              <width>10</width>
-             <height>100</height>
+             <height>130</height>
             </size>
            </property>
            <property name="accessibleName">
@@ -370,7 +373,7 @@
            <property name="maximumSize">
             <size>
              <width>10</width>
-             <height>100</height>
+             <height>130</height>
             </size>
            </property>
            <property name="accessibleName">
@@ -460,8 +463,11 @@
            <property name="maximumSize">
             <size>
              <width>10</width>
-             <height>100</height>
+             <height>130</height>
             </size>
+           </property>
+           <property name="accessibleName">
+            <string>TitreWidget</string>
            </property>
            <property name="text">
             <string>L&lt;br&gt;I&lt;br&gt;V&lt;br&gt;E</string>
@@ -536,16 +542,28 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>85</height>
+           <height>100</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>16777215</width>
-           <height>90</height>
+           <height>100</height>
           </size>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_14">
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
           <item>
            <widget class="QLabel" name="label_4">
             <property name="minimumSize">
@@ -557,7 +575,7 @@
             <property name="maximumSize">
              <size>
               <width>10</width>
-              <height>60</height>
+              <height>130</height>
              </size>
             </property>
             <property name="accessibleName">
@@ -570,7 +588,7 @@
              <string>S&lt;br&gt;T&lt;br&gt;A&lt;br&gt;T&lt;br&gt;S</string>
             </property>
             <property name="alignment">
-             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -582,8 +600,8 @@
                <widget class="QLabel" name="label_5">
                 <property name="maximumSize">
                  <size>
-                  <width>16777215</width>
-                  <height>15</height>
+                  <width>130</width>
+                  <height>18</height>
                  </size>
                 </property>
                 <property name="text">
@@ -595,12 +613,18 @@
                <widget class="QLabel" name="NbCD">
                 <property name="maximumSize">
                  <size>
-                  <width>16777215</width>
-                  <height>15</height>
+                  <width>75</width>
+                  <height>18</height>
                  </size>
+                </property>
+                <property name="accessibleName">
+                 <string>TitreWidget</string>
                 </property>
                 <property name="text">
                  <string>0</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
                 </property>
                </widget>
               </item>
@@ -611,16 +635,13 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_8">
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_4"/>
-            </item>
-            <item>
              <layout class="QHBoxLayout" name="horizontalLayout_22">
               <item>
                <widget class="QLabel" name="label_19">
                 <property name="maximumSize">
                  <size>
-                  <width>16777215</width>
-                  <height>15</height>
+                  <width>100</width>
+                  <height>18</height>
                  </size>
                 </property>
                 <property name="text">
@@ -632,12 +653,18 @@
                <widget class="QLabel" name="NbAlb">
                 <property name="maximumSize">
                  <size>
-                  <width>16777215</width>
-                  <height>15</height>
+                  <width>50</width>
+                  <height>18</height>
                  </size>
+                </property>
+                <property name="accessibleName">
+                 <string/>
                 </property>
                 <property name="text">
                  <string>0</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                 </property>
                </widget>
               </item>
@@ -649,8 +676,8 @@
                <widget class="QLabel" name="label_20">
                 <property name="maximumSize">
                  <size>
-                  <width>16777215</width>
-                  <height>15</height>
+                  <width>100</width>
+                  <height>18</height>
                  </size>
                 </property>
                 <property name="text">
@@ -662,8 +689,8 @@
                <widget class="QLabel" name="NbSingle">
                 <property name="maximumSize">
                  <size>
-                  <width>16777215</width>
-                  <height>15</height>
+                  <width>50</width>
+                  <height>18</height>
                  </size>
                 </property>
                 <property name="text">
@@ -679,8 +706,8 @@
                <widget class="QLabel" name="label_21">
                 <property name="maximumSize">
                  <size>
-                  <width>16777215</width>
-                  <height>15</height>
+                  <width>100</width>
+                  <height>18</height>
                  </size>
                 </property>
                 <property name="text">
@@ -692,8 +719,38 @@
                <widget class="QLabel" name="NbCompil">
                 <property name="maximumSize">
                  <size>
-                  <width>16777215</width>
-                  <height>15</height>
+                  <width>50</width>
+                  <height>18</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_4">
+              <item>
+               <widget class="QLabel" name="label_7">
+                <property name="maximumSize">
+                 <size>
+                  <width>100</width>
+                  <height>18</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>- Lives :</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="NbLive">
+                <property name="maximumSize">
+                 <size>
+                  <width>50</width>
+                  <height>18</height>
                  </size>
                 </property>
                 <property name="text">
@@ -706,60 +763,70 @@
            </layout>
           </item>
           <item>
-           <widget class="QLabel" name="label_11">
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>15</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Liste d'Albums sans MP3</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QListWidget" name="AlbSansMP3">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>55</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>600</width>
-              <height>65</height>
-             </size>
-            </property>
-            <property name="verticalScrollBarPolicy">
-             <enum>Qt::ScrollBarAsNeeded</enum>
-            </property>
-            <property name="horizontalScrollBarPolicy">
-             <enum>Qt::ScrollBarAlwaysOff</enum>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>50</width>
-              <height>50</height>
-             </size>
-            </property>
-            <property name="resizeMode">
-             <enum>QListView::Adjust</enum>
-            </property>
-            <property name="gridSize">
-             <size>
-              <width>55</width>
-              <height>55</height>
-             </size>
-            </property>
-            <property name="viewMode">
-             <enum>QListView::IconMode</enum>
-            </property>
-            <property name="uniformItemSizes">
-             <bool>true</bool>
-            </property>
-           </widget>
+           <layout class="QVBoxLayout" name="verticalLayout_5">
+            <item>
+             <widget class="QLabel" name="label_11">
+              <property name="maximumSize">
+               <size>
+                <width>600</width>
+                <height>18</height>
+               </size>
+              </property>
+              <property name="accessibleName">
+               <string>TitreWidget</string>
+              </property>
+              <property name="text">
+               <string>Liste d'Albums sans MP3</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QListWidget" name="AlbSansMP3">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>65</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>600</width>
+                <height>65</height>
+               </size>
+              </property>
+              <property name="verticalScrollBarPolicy">
+               <enum>Qt::ScrollBarAsNeeded</enum>
+              </property>
+              <property name="horizontalScrollBarPolicy">
+               <enum>Qt::ScrollBarAlwaysOff</enum>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>50</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="resizeMode">
+               <enum>QListView::Adjust</enum>
+              </property>
+              <property name="gridSize">
+               <size>
+                <width>55</width>
+                <height>55</height>
+               </size>
+              </property>
+              <property name="viewMode">
+               <enum>QListView::IconMode</enum>
+              </property>
+              <property name="uniformItemSizes">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -769,8 +836,8 @@
                <widget class="QLabel" name="label_10">
                 <property name="maximumSize">
                  <size>
-                  <width>16777215</width>
-                  <height>15</height>
+                  <width>300</width>
+                  <height>18</height>
                  </size>
                 </property>
                 <property name="text">
@@ -783,11 +850,17 @@
                 <property name="maximumSize">
                  <size>
                   <width>16777215</width>
-                  <height>15</height>
+                  <height>18</height>
                  </size>
+                </property>
+                <property name="accessibleName">
+                 <string/>
                 </property>
                 <property name="text">
                  <string>0</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
                 </property>
                </widget>
               </item>
@@ -799,8 +872,8 @@
                <widget class="QLabel" name="label_12">
                 <property name="maximumSize">
                  <size>
-                  <width>16777215</width>
-                  <height>15</height>
+                  <width>300</width>
+                  <height>18</height>
                  </size>
                 </property>
                 <property name="text">
@@ -813,11 +886,17 @@
                 <property name="maximumSize">
                  <size>
                   <width>16777215</width>
-                  <height>15</height>
+                  <height>18</height>
                  </size>
+                </property>
+                <property name="accessibleName">
+                 <string/>
                 </property>
                 <property name="text">
                  <string>0</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
                 </property>
                </widget>
               </item>
@@ -829,8 +908,8 @@
                <widget class="QLabel" name="label_9">
                 <property name="maximumSize">
                  <size>
-                  <width>16777215</width>
-                  <height>15</height>
+                  <width>300</width>
+                  <height>18</height>
                  </size>
                 </property>
                 <property name="text">
@@ -843,11 +922,17 @@
                 <property name="maximumSize">
                  <size>
                   <width>16777215</width>
-                  <height>15</height>
+                  <height>18</height>
                  </size>
+                </property>
+                <property name="accessibleName">
+                 <string>TitreWidget</string>
                 </property>
                 <property name="text">
                  <string>0 %</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
                 </property>
                </widget>
               </item>
@@ -907,6 +992,9 @@
                <width>300</width>
                <height>16777215</height>
               </size>
+             </property>
+             <property name="accessibleName">
+              <string>TitreWidget</string>
              </property>
              <property name="text">
               <string/>
@@ -1014,6 +1102,9 @@
         <layout class="QVBoxLayout" name="verticalLayout_7">
          <item>
           <widget class="QLabel" name="label_13">
+           <property name="accessibleName">
+            <string>TitreWidget</string>
+           </property>
            <property name="text">
             <string>ALBUM SELECTIONNE:</string>
            </property>
@@ -1069,8 +1160,14 @@
            </item>
            <item>
             <widget class="QLabel" name="PourcentageAlb">
+             <property name="accessibleName">
+              <string>TitreWidget</string>
+             </property>
              <property name="text">
               <string>0 %</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
              </property>
             </widget>
            </item>

@@ -23,6 +23,7 @@ public:
 
     QList<int> AlbSansMP3(QString Id_Artiste, int Categorie);
 
- };
+    QList<int> listeLives(QString Id_Artiste);
+};
 
 #endif // BDDAFFICHERPHYS_H

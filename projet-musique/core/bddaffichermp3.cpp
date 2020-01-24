@@ -101,7 +101,7 @@ QList<int> BDDAfficherMp3::listeAlbums( QString Id_Artiste, QString Categorie )
     }
     if ( Categorie == "12" )
     {
-        queryStr = "SELECT DISTINCT Al.Id_Album FROM Album Al, Relations R, MP3 M WHERE R.Id_Artiste=" + Id_Artiste + " AND Al.Id_Album = R.Id_Album AND M.Id_Relation = R.Id_Relation AND M.Support=3 AND Al.Type='" + Categorie + "' ORDER BY Al.Type, Al.Annee DESC";
+        queryStr = "SELECT DISTINCT Al.Id_Album FROM Album Al, Relations R, MP3 M WHERE R.Id_Artiste=" + Id_Artiste + " AND Al.Id_Album = R.Id_Album AND M.Id_Relation = R.Id_Relation AND M.Support=4 AND Al.Type='" + Categorie + "' ORDER BY Al.Type, Al.Annee DESC";
     }
 
     QSqlQuery query = madatabase.exec( queryStr );

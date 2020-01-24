@@ -104,7 +104,6 @@ void OngletPhys::afficherListeArtiste()
     }
 
     ui->Artistes->setCurrentRow( 0 );
-
     m_artiste = ui->Artistes->currentIndex().data( Qt::UserRole ).toString();
 
 }
@@ -123,7 +122,6 @@ void OngletPhys::afficherListeAlbum()
 
         Meta_Album* album = Meta_Album::RecupererBDD( albums[cpt] );
 
-
         if ( album->getid_alb() > 0 )
         {
 
@@ -135,7 +133,7 @@ void OngletPhys::afficherListeAlbum()
             //On s'occupe du nom de l'album
             item->setData( Qt::UserRole, album->getid_alb() );
             item->setText( album->getnom_album() + " - " + QString::number( album->getannee() )  );
-item->setToolTip( QString::number( album->getannee() ) + " - " + album->getnom_album() );
+            item->setToolTip( QString::number( album->getannee() ) + " - " + album->getnom_album() );
             ui->Albums->addItem( item );
         }
         delete album;
@@ -149,9 +147,9 @@ void OngletPhys::afficherListeLive()
     ui->Lives->clear();
 
     //Affichage des albums
-    QList<int> albums = m_bddInterface.listeAlbums( m_artiste, 12 );
-    m_Albums = 0;
-    m_Albums = albums.count();
+    QList<int> albums = m_bddInterface.listeLives( m_artiste );
+    m_Lives = 0;
+    m_Lives = albums.count();
 
     for ( int cpt = 0; cpt < albums.count(); cpt++ )
     {
@@ -170,7 +168,7 @@ void OngletPhys::afficherListeLive()
             //On s'occupe du nom de l'album
             item->setData( Qt::UserRole, album->getid_alb() );
             item->setText( album->getnom_album() + " - " + QString::number( album->getannee() )  );
-item->setToolTip( QString::number( album->getannee() ) + " - " + album->getnom_album() );
+            item->setToolTip( QString::number( album->getannee() ) + " - " + album->getnom_album() );
 
             ui->Lives->addItem( item );
         }
@@ -203,7 +201,7 @@ void OngletPhys::afficherListeSingles()
             //On s'occupe du nom de l'album
             item->setData( Qt::UserRole, album->getid_alb() );
             item->setText( album->getnom_album() + " - " + QString::number( album->getannee() )  );
-item->setToolTip( QString::number( album->getannee() ) + " - " + album->getnom_album() );
+            item->setToolTip( QString::number( album->getannee() ) + " - " + album->getnom_album() );
             ui->Singles->addItem( item );
         }
 
@@ -223,7 +221,7 @@ void OngletPhys::AfficherArtisteSelectionne()
     case ( 8 ) : ui->Artiste->setText( "Classique" ); break;
     case ( 9 ) : ui->Artiste->setText( "Associatif" ); break;
     case ( 10 ) : ui->Artiste->setText( "Reprises" ); break;
-    default :  Meta_Artiste* artiste = Meta_Artiste::RecupererBDD( m_artiste.toInt() ); ui->Artiste->setText( artiste->getNom_Artiste() ); delete artiste;
+    default :  Meta_Artiste* artiste = Meta_Artiste::RecupererBDD( m_artiste.toInt() );  ui->Artiste->setText( artiste->getNom_Artiste().toUpper() ); delete artiste;
     }
 
 }
@@ -251,7 +249,7 @@ void OngletPhys::afficherListeCompils()
             //On s'occupe du nom de l'album
             item->setData( Qt::UserRole, album->getid_alb() );
             item->setText( album->getnom_album() + " - " + QString::number( album->getannee() )  );
-item->setToolTip( QString::number( album->getannee() ) + " - " + album->getnom_album() );
+            item->setToolTip( QString::number( album->getannee() ) + " - " + album->getnom_album() );
             ui->Compil->addItem( item );
         }
 
@@ -405,10 +403,11 @@ void OngletPhys::afficherListeCds()
 
     afficherListeAlbum();
     afficherListeSingles();
-    AfficherArtisteSelectionne();
     afficherListeCompils();
     afficherListeLive();
     remplirStats();
+
+    AfficherArtisteSelectionne();
 
     //Si on est sur le type Compil
     if ( m_categorie == 2 )
@@ -435,7 +434,8 @@ void OngletPhys::remplirStats()
     ui->NbAlb->setText( QString::number( m_Albums ) );
     ui->NbCompil->setText( QString::number( m_Compils ) );
     ui->NbSingle->setText( QString::number( m_Singles ) );
-    ui->NbCD->setText( QString::number( m_Albums + m_Compils + m_Singles ));
+    ui->NbLive->setText( QString::number( m_Lives ) );
+    ui->NbCD->setText( QString::number( m_Albums + m_Compils + m_Singles + m_Lives ));
 
     QList <int> titres = m_bddInterface.TitresParArtistes( m_artiste );
     int Pourcentage = 0;
@@ -445,13 +445,13 @@ void OngletPhys::remplirStats()
         ui->NbTitresMP3->setText( QString::number( titres[1] ) );
         if ( titres[0] > 0 &&  titres[1] > 0)
         {
-             Pourcentage = titres[1]*100/titres[0];
+            Pourcentage = titres[1]*100/titres[0];
         }
 
     }
     ui->Pourcentage->setText(QString::number( Pourcentage )+" %");
 
-   afficherListeAlbSansMP3();
+    afficherListeAlbSansMP3();
 
 }
 

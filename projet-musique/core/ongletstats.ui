@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1073</width>
-    <height>708</height>
+    <height>730</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -46,8 +46,14 @@
             <height>16777215</height>
            </size>
           </property>
+          <property name="accessibleName">
+           <string>TitreWidget</string>
+          </property>
           <property name="text">
            <string>TextLabel</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -250,12 +256,18 @@
          <widget class="QLabel" name="Art">
           <property name="maximumSize">
            <size>
-            <width>500</width>
+            <width>16777215</width>
             <height>16777215</height>
            </size>
           </property>
+          <property name="accessibleName">
+           <string>TitreWidget</string>
+          </property>
           <property name="text">
-           <string>Artistes dont le nombre de MP3 dans Compils dépassent 10 :</string>
+           <string>Artistes dont le nombre de MP3 dans Compils dépassent 10</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -263,7 +275,7 @@
          <widget class="QListWidget" name="ArtistesDansCompil">
           <property name="maximumSize">
            <size>
-            <width>500</width>
+            <width>900</width>
             <height>400</height>
            </size>
           </property>
@@ -271,8 +283,14 @@
         </item>
         <item>
          <widget class="QLabel" name="Mp3Art10">
+          <property name="accessibleName">
+           <string>TitreWidget</string>
+          </property>
           <property name="text">
-           <string>MP3 de l'artiste concerné dans Compil :</string>
+           <string>MP3 de l'artiste concerné dans Compil</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -280,7 +298,7 @@
          <widget class="QListWidget" name="MP3Artiste5">
           <property name="maximumSize">
            <size>
-            <width>500</width>
+            <width>900</width>
             <height>400</height>
            </size>
           </property>
@@ -288,8 +306,14 @@
         </item>
         <item>
          <widget class="QLabel" name="DoublonsMP3_2">
+          <property name="accessibleName">
+           <string>TitreWidget</string>
+          </property>
           <property name="text">
-           <string>MP3 en Double:</string>
+           <string>MP3 en Double</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -297,7 +321,7 @@
          <widget class="QListWidget" name="DoublonsMP3">
           <property name="maximumSize">
            <size>
-            <width>500</width>
+            <width>900</width>
             <height>400</height>
            </size>
           </property>
@@ -305,8 +329,14 @@
         </item>
         <item>
          <widget class="QLabel" name="PourcentMP3Phys">
+          <property name="accessibleName">
+           <string>TitreWidget</string>
+          </property>
           <property name="text">
            <string>TextLabel</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -330,8 +360,14 @@
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <widget class="QLabel" name="NbPhysTotal">
+          <property name="accessibleName">
+           <string>TitreWidget</string>
+          </property>
           <property name="text">
            <string>TextLabel</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -413,6 +449,13 @@
          </widget>
         </item>
         <item>
+         <widget class="QLabel" name="NbPhysLive">
+          <property name="text">
+           <string>NbPhysLives</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <spacer name="verticalSpacer_3">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -427,8 +470,14 @@
         </item>
         <item>
          <widget class="QLabel" name="NbAlbSSMP3">
+          <property name="accessibleName">
+           <string>TitreWidget</string>
+          </property>
           <property name="text">
            <string>TextLabel</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -468,8 +517,14 @@
         </item>
         <item>
          <widget class="QLabel" name="PourcentPhysMP3">
+          <property name="accessibleName">
+           <string>TitreWidget</string>
+          </property>
           <property name="text">
            <string>TextLabel</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>

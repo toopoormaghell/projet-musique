@@ -97,7 +97,7 @@ void FenetrePrincipale::ajouterToolbar()
     essai.load(":menuIcones/ExportBDD" );
     ui->toolBar->addAction( QIcon( essai ), " Sauvegarder BDD", this, SLOT( actionExporterBDD() ) );
 
-    essai.load(":menuIcones/ExportBDD" );
+    essai.load(":menuIcones/ChangCoul" );
     ui->toolBar->addAction( QIcon( essai ), " Changer Couleur", this, SLOT( changercouleur() ) );
 
     QWidget* empty = new QWidget();

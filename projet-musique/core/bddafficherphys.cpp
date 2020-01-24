@@ -48,7 +48,7 @@ QList<int> BDDAfficherPhys::ListeArtiste(int categorie)
     case ( 8 ) : queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, Album B, Phys P,Relations R WHERE  R.Id_Album=P.Id_Album AND R.Id_Artiste=A.Id_Artiste AND P.Support!='2' AND B.Id_Album = R.Id_Album AND B.Type =8 ORDER BY Artiste";break;
     case ( 9 ) : queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, Album B, Phys P,Relations R WHERE  R.Id_Album=P.Id_Album AND R.Id_Artiste=A.Id_Artiste AND P.Support!='2' AND B.Id_Album = R.Id_Album AND B.Type =9 ORDER BY Artiste";break;
     case ( 10 ) : queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, Album B, Phys P,Relations R WHERE  R.Id_Album=P.Id_Album AND R.Id_Artiste=A.Id_Artiste AND P.Support!='2' AND B.Id_Album = R.Id_Album AND B.Type =10 ORDER BY Artiste";break;
-    case ( 12 ) : queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, Album B, Phys P,Relations R WHERE  R.Id_Album=P.Id_Album AND R.Id_Artiste=A.Id_Artiste AND P.Support!='2' AND B.Id_Album = R.Id_Album AND B.Type =12 ORDER BY Artiste";break;
+    case ( 12 ) : queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, Album B, Phys P,Relations R WHERE  R.Id_Album=P.Id_Album AND R.Id_Artiste=A.Id_Artiste AND P.Support=='4' AND B.Id_Album = R.Id_Album AND B.Type =12 ORDER BY Artiste";break;
     default: queryStr = "SELECT DISTINCT A.Id_Artiste FROM Artiste A, Album B, Phys P,Relations R WHERE  R.Id_Album=P.Id_Album AND R.Id_Artiste=A.Id_Artiste AND P.Support!='2' AND B.Id_Album = R.Id_Album  ORDER BY Artiste";
     }
     QSqlQuery query = madatabase.exec( queryStr );
@@ -67,6 +67,23 @@ QList<int> BDDAfficherPhys::listeAlbums( QString Id_Artiste, int Categorie )
 
 
       QString queryStr = "SELECT DISTINCT B.Id_Album FROM Album B, Phys P,Relations R WHERE R.Id_Artiste=" + Id_Artiste + " AND B.Id_Album = R.Id_Album AND P.Id_Album=R.Id_Album AND P.Support='1' AND B.Type = "+ QString::number( Categorie ) +" ORDER BY B.Annee DESC";
+
+    QSqlQuery query = madatabase.exec( queryStr );
+
+    while ( query.next() )
+    {
+        QSqlRecord rec = query.record();
+
+        albums << rec.value( "Id_Album" ).toInt();
+    }
+    return albums;
+}
+QList<int> BDDAfficherPhys::listeLives( QString Id_Artiste )
+{
+    QList<int> albums;
+
+
+      QString queryStr = "SELECT DISTINCT B.Id_Album FROM Album B, Phys P,Relations R WHERE R.Id_Artiste=" + Id_Artiste + " AND B.Id_Album = R.Id_Album AND P.Id_Album=R.Id_Album AND P.Support='4' ORDER BY B.Annee DESC";
 
     QSqlQuery query = madatabase.exec( queryStr );
 
