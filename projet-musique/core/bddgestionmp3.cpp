@@ -253,7 +253,7 @@ void BDDGestionMp3::SousCatParChemin( QString chemin )
     }
     if ( chemin.contains( "F:/Albums Live" ) )
     {
-        m_souscat = 12;
+        m_souscat = 11;
     }
 }
 

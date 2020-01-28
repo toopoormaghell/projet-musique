@@ -12,33 +12,37 @@ ChangementVersion::ChangementVersion()
 
 void ChangementVersion::Version()
 {
-
-    QString queryStr = "CREATE TABLE BoiteInfos ('Id_Boite' INTEGER PRIMARY KEY, 'Nom_Boite' VARCHAR(255) )";
-
+    //On change le support 4 ( Single ) en support Live
+    QString queryStr = "UPDATE Support SET Support ='Live' WHERE Id_Support =4 ";
     madatabase.exec( queryStr );
 
-    queryStr = "CREATE TABLE BoiteAlb ( 'Id_Boite' INTEGER, 'Id_Album' INTEGER)";
+    //On change le type 3 pour Single
+    queryStr = " UPDATE Type SET Type ='Single' WHERE Id_Type =3 ";
     madatabase.exec( queryStr );
 
-    queryStr = " UPDATE Configuration SET 'Valeur' = 2 WHERE Intitule ='Version' ";
-
+    //On change le type 11 pour Live
+    queryStr = " UPDATE Type SET Type ='Live' WHERE Id_Type =11 ";
     madatabase.exec( queryStr );
 
+    //On change le type 5 pour Musicale
+    queryStr = " UPDATE Type SET Type ='Musicale' WHERE Id_Type =5 ";
+    madatabase.exec( queryStr );
 
-    //On en profite pour scaler toutes les images
-    queryStr = "Select DISTINCT Id_Pochette FROM Pochette";
+    //On change le type 11 pour le 3 pour les singles dans les albums
+    queryStr = " UPDATE Album SET Type =3 WHERE Type =11 ";
+    madatabase.exec( queryStr );
 
-    QSqlQuery query = madatabase.exec( queryStr );
+    //On change le type 12 pour le 11 pour les lives dans les albums
+    queryStr = " UPDATE Album SET Type =11 WHERE Type =12  ";
+    madatabase.exec( queryStr );
 
-    while ( query.next() )
-    {
-        QSqlRecord rec = query.record();
+    //On change le support en 4 ( phys) pour les lives dans les albums
+    queryStr = " UPDATE Phys SET Support =4 WHERE Id_Album IN ( SELECT Id_Album FROM Album WHERE Type=11) ";
+    madatabase.exec( queryStr );
 
-        Handle<BDDPoch> poch = BDDPoch::recupererBDD( rec.value( "Id_Pochette" ).toInt() );
-
-        poch->sauverImage();
-
-    }
+    //On change la version de la BDD
+    queryStr = " UPDATE Configuration SET 'Valeur' =1  WHERE Intitule ='Version' ";
+    madatabase.exec( queryStr );
 }
 
 
@@ -92,6 +96,6 @@ void ChangementVersion::Version4()
 }
 void ChangementVersion::Version5()
 {
-   QString   queryStr = "INSERT INTO Type VALUES(12,'Live')";
-   madatabase.exec( queryStr );
+    QString   queryStr = "INSERT INTO Type VALUES(12,'Live')";
+    madatabase.exec( queryStr );
 }

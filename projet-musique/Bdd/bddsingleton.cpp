@@ -71,18 +71,19 @@ void BDDSingleton::creationBase()
     tables << "INSERT INTO Configuration VALUES ('Version', '3')";
     tables << "INSERT INTO Type VALUES(01,'Album')";
     tables << "INSERT INTO Type VALUES(02,'Compil')";
-    tables << "INSERT INTO Type VALUES(03,'Inécouté')";
+    tables << "INSERT INTO Type VALUES(03,'Single')";
     tables << "INSERT INTO Type VALUES(04,'BOF')";
-    tables << "INSERT INTO Type VALUES(05,'Spectacle musical')";
+    tables << "INSERT INTO Type VALUES(05,'Musicale')";
     tables << "INSERT INTO Type VALUES(06,'Télé Réalité')";
     tables << "INSERT INTO Type VALUES(07,'New Age')";
     tables << "INSERT INTO Type VALUES(08,'Classique')";
     tables << "INSERT INTO Type VALUES(09,'Associatif')";
     tables << "INSERT INTO Type VALUES(10,'Reprise')";
+    tables << "INSERT INTO Type VALUES(11,'Live')";
     tables << "INSERT INTO Support VALUES(01,'Album')";
     tables << "INSERT INTO Support VALUES(02,'Compil')";
     tables << "INSERT INTO Support VALUES(03,'Single')";
-    tables << "INSERT INTO Support VALUES(04,'MP3')";
+    tables << "INSERT INTO Support VALUES(04,'Live')";
 
     for ( int i = 0; i < tables.size(); i++ )
     {
@@ -121,10 +122,8 @@ void BDDSingleton::changementversion()
     ChangementVersion* temp = new ChangementVersion;
     switch ( version )
     {
-    case 1:  temp->Version();break;
+    case 4:  temp->Version();break;
     case 2:  temp->Version3();break;
-    case 3 : temp->Version4();break;
-    case 4 : temp->Version5();break;
     default:break;
     }
 

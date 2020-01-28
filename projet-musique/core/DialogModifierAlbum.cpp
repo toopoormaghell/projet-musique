@@ -22,6 +22,8 @@ DialogModifierAlbum::DialogModifierAlbum( int selection, QWidget* parent ) :
 {
     ui->setupUi( this );
     RecupererListeType();
+    RecupererListeSupport();
+
     //On récupère l'album à afficher
     m_album = Meta_Album::RecupererBDD( selection );
     AfficherAlbum();
@@ -73,8 +75,7 @@ void DialogModifierAlbum::AfficherAlbum()
     ui->Duree->clear();
     ui->ArtistesTitres->clear();
 
-    ui->SupportMP3->setVisible( false );
-    ui->LabelSupMp3->setVisible( false );
+
 
     QList<Meta_Titre*> titres = m_album->gettitres();
     for ( int comp = 0; comp < titres.count(); comp++ )
@@ -87,10 +88,6 @@ void DialogModifierAlbum::AfficherAlbum()
         ui->Titres->addItem( item );
         ui->Duree->addItem( titre->getduree() );
 
-        if ( titre->getid_support_m() != -1 )
-        {
-            ui->SupportMP3->addItem( titre->getsupportmp3() );
-        }
 
         if ( SupportPhys == 2 )
         {
@@ -119,14 +116,25 @@ void DialogModifierAlbum::RecupererListeType()
 {
     QList<int> types = BDDType::NbCategories();
 
-    for (int i = 0; i < types.count() ; i++)
+    for (int i = 0; i < types.count() ; i++ )
     {
         Handle<BDDType> temp = BDDType::RecupererType( types[i] );
 
         ui->Type->addItem( temp->m_type,QVariant( types[i] ) );
     }
 }
+void DialogModifierAlbum::RecupererListeSupport()
+{
+    QList<int> supp = BDDSupport::NbSupport();
 
+    for (int i = 0; i < supp.count() ; i++)
+    {
+        Handle<BDDSupport> temp = BDDSupport::RecupererSupport( supp[i] );
+
+        ui->SupportPhys->addItem( temp->m_support , QVariant( supp[i] ));
+
+    }
+}
 void DialogModifierAlbum::EnregistrerAlbum()
 {
 

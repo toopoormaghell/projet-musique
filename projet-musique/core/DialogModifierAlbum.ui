@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Modifier l'album</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_6">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
@@ -68,13 +68,25 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
-        <widget class="QLineEdit" name="Album"/>
+        <widget class="QLineEdit" name="Album">
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="Artiste"/>
+        <widget class="QLineEdit" name="Artiste">
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="Annee"/>
+        <widget class="QLineEdit" name="Annee">
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
@@ -96,70 +108,82 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <widget class="QLabel" name="LabelSupPhys">
-           <property name="text">
-            <string>Support  Phys:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="LabelSupMp3">
-           <property name="text">
-            <string>Support MP3:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_2">
-           <property name="text">
-            <string>Type :</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <item>
-          <widget class="QComboBox" name="SupportPhys">
-           <property name="maxCount">
-            <number>10</number>
-           </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_5">
            <item>
-            <property name="text">
-             <string>Album</string>
-            </property>
+            <widget class="QLabel" name="LabelSupPhys">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="accessibleName">
+              <string>TitreWidget</string>
+             </property>
+             <property name="text">
+              <string>Support  Phys</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
            </item>
            <item>
-            <property name="text">
-             <string>Compil</string>
-            </property>
+            <widget class="QComboBox" name="SupportPhys">
+             <property name="maxCount">
+              <number>10</number>
+             </property>
+            </widget>
            </item>
-           <item>
-            <property name="text">
-             <string>Single</string>
-            </property>
-           </item>
-          </widget>
+          </layout>
          </item>
          <item>
-          <widget class="QComboBox" name="SupportMP3">
-           <property name="maxCount">
-            <number>10</number>
-           </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_6">
            <item>
-            <property name="text">
-             <string>MP3</string>
-            </property>
+            <widget class="QLabel" name="label_2">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="accessibleName">
+              <string>TitreWidget</string>
+             </property>
+             <property name="accessibleDescription">
+              <string/>
+             </property>
+             <property name="text">
+              <string>Type </string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
            </item>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="Type">
-           <property name="maxCount">
-            <number>10</number>
-           </property>
-          </widget>
+           <item>
+            <widget class="QComboBox" name="Type">
+             <property name="maxVisibleItems">
+              <number>11</number>
+             </property>
+             <property name="maxCount">
+              <number>11</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </item>
@@ -255,7 +279,7 @@
        <item>
         <widget class="QPushButton" name="Supprimer">
          <property name="text">
-          <string>Supprimer Titres Sélectionnés</string>
+          <string>Supp. Titres</string>
          </property>
         </widget>
        </item>

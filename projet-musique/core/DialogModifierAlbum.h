@@ -20,7 +20,6 @@ public:
     explicit DialogModifierAlbum( int selection, QWidget* parent = nullptr );
     ~DialogModifierAlbum();
 
-
 public slots:
      void AjouterTitreManuel(QString Num_Piste, QString Titre, QString Artiste);
 private slots:
@@ -28,9 +27,6 @@ private slots:
     void on_buttonBox_accepted();
     void on_Parcourir_clicked();
     void on_Supprimer_clicked();
-
-
-
     void on_AjouterTitre_clicked();
 
 private:
@@ -46,6 +42,7 @@ private:
     int m_selection;
     Meta_Album* m_album;
     void RecupererListeType();
+    void RecupererListeSupport();
 };
 
 #endif // MODIFIERALBUMDIALOG_H

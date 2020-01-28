@@ -105,8 +105,8 @@ void FenetrePrincipale::ajouterToolbar()
 
     ui->toolBar->addWidget( empty);
     m_lecteur = new MainWindowLecteur(m_couleurs, this);
-    m_lecteur->setMinimumHeight(80);
-    m_lecteur->setMaximumHeight( 80 );
+    m_lecteur->setMinimumHeight( 90 );
+    m_lecteur->setMaximumHeight( 90 );
     m_lecteur->setMinimumWidth( 700 );
     m_lecteur->setMaximumWidth( 700 );
     ui->toolBar->addWidget( m_lecteur);
