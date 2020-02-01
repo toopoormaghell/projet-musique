@@ -462,15 +462,76 @@ void DialogAjouterPhys::AffichageListeArtistes( int id )
     case ( 1 ):
 
         ui->tableView->setColumnHidden( 2, true );
+
+        ui->T_Album->setEnabled( true );
+        ui->T_Compil->setEnabled( false );
+        ui->T_Single->setEnabled( false );
+        ui->T_Live->setEnabled( false );
+        ui->T_BOF->setEnabled( true );
+        ui->T_TeleReal->setEnabled( true );
+        ui->T_Class->setEnabled( true );
+        ui->T_Musicale->setEnabled( true );
+        ui->T_NewAge->setEnabled( true );
+        ui->T_Asso->setEnabled( true );
+        ui->T_Reprise->setEnabled( true );
+
+        ui->T_Album->setChecked( true );
+
         break;
     case ( 2 ):
 
         ui->tableView->setColumnHidden( 2, false );
 
+        ui->T_Album->setEnabled( false );
+        ui->T_Compil->setEnabled( true );
+        ui->T_Single->setEnabled( false );
+        ui->T_Live->setEnabled( false );
+        ui->T_TeleReal->setEnabled( false );
+        ui->T_Class->setEnabled( false );
+        ui->T_BOF->setEnabled( false );
+        ui->T_Musicale->setEnabled( false );
+        ui->T_NewAge->setEnabled( false );
+        ui->T_Asso->setEnabled( false );
+        ui->T_Reprise->setEnabled( false );
+
+        ui->T_Compil->setChecked( true );
         break;
     case ( 3 ):
 
         ui->tableView->setColumnHidden( 2, true );
+
+        ui->T_Album->setEnabled( false );
+        ui->T_Compil->setEnabled( false );
+        ui->T_Single->setEnabled( true );
+        ui->T_Live->setEnabled( false );
+        ui->T_Class->setEnabled( false );
+        ui->T_BOF->setEnabled( false );
+        ui->T_Musicale->setEnabled( false );
+        ui->T_NewAge->setEnabled( false );
+        ui->T_Asso->setEnabled( false );
+        ui->T_TeleReal->setEnabled( false );
+        ui->T_Reprise->setEnabled( false );
+
+        ui->T_Single->setChecked( true );
+
+        break;
+    case ( 4 ):
+
+        ui->tableView->setColumnHidden( 2, true );
+
+        ui->T_Album->setEnabled( false );
+        ui->T_Compil->setEnabled( false );
+        ui->T_Single->setEnabled( false );
+        ui->T_Live->setEnabled( true );
+        ui->T_Class->setEnabled( false );
+        ui->T_BOF->setEnabled( false );
+        ui->T_Musicale->setEnabled( false );
+        ui->T_NewAge->setEnabled( false );
+        ui->T_Asso->setEnabled( false );
+        ui->T_TeleReal->setEnabled( false );
+        ui->T_Reprise->setEnabled( false );
+
+        ui->T_Live->setChecked( true );
 
         break;
     }
