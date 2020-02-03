@@ -40,10 +40,12 @@ LIBS += -lbdd
 
 
 HEADERS += \
+    bddgestionmodifnomartiste.h \
     bddlisteplaylist.h \
     bddrel_playlist.h \
     dialogajoutenplaylist.h \
     dialogajoutpoch.h \
+    dialogmodifnomsartistes.h \
       ongletmp3.h \
     ongletphys.h \
        bddaffichermp3.h \
@@ -72,10 +74,12 @@ HEADERS += \
 
 
 SOURCES += main.cpp \
+    bddgestionmodifnomartiste.cpp \
     bddlisteplaylist.cpp \
     bddrel_playlist.cpp \
     dialogajoutenplaylist.cpp \
     dialogajoutpoch.cpp \
+    dialogmodifnomsartistes.cpp \
     ongletmp3.cpp \
     ongletphys.cpp \
     bddaffichermp3.cpp \
@@ -106,6 +110,7 @@ SOURCES += main.cpp \
 FORMS += \
     dialogajoutenplaylist.ui \
     dialogajoutpoch.ui \
+    dialogmodifnomsartistes.ui \
     ongletmp3.ui \
     ongletphys.ui \
     mainwindow.ui \

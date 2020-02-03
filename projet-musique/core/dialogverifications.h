@@ -55,6 +55,8 @@ private slots:
 
     void on_integritetitres_clicked();
 
+    void on_pushButton_clicked();
+
 private:
     Ui::DialogVerifications *ui;
     GestionVerifications* m_gestion;

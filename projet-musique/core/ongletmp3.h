@@ -61,16 +61,11 @@ private slots:
     void on_LireAlbum_clicked();
     void on_LireAnnee_clicked();
     void on_DialogueLecteurAnnee_clicked();
-
     void on_ModifierArtiste_clicked();
-
     void on_Bouton_Playlist_clicked();
-
     void on_AjouterAlbumPlaylist_clicked();
-
-
-
     void on_AjoutListePlaylist_clicked();
+    void on_Mode_Playlist_clicked(bool checked);
 
 private:
     Ui::OngletMP3* ui;

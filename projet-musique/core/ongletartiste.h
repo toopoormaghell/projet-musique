@@ -31,6 +31,8 @@ private slots:
 
     void on_Compil_clicked(const QModelIndex &index);
 
+
+
 private:
     Ui::OngletArtiste *ui;
     BddAfficherArtiste* appelBDD;

@@ -41,7 +41,7 @@ OngletMP3::OngletMP3(QWidget* parent ) :
     m_couleur(),
     m_listemp3()
 {
-   ui->setupUi( this );
+    ui->setupUi( this );
 
 }
 OngletMP3::~OngletMP3()
@@ -69,13 +69,11 @@ void OngletMP3::ActualiserOnglet()
     afficherMP3ouAlbum( "MP3" );
     afficherInfosTitre();
     ui->buttonBox->addButton( "Modifier", QDialogButtonBox::ActionRole );
-
-
-
     connect(ui->ArtistesAnnees,SIGNAL(activated(QModelIndex)),this,SLOT(on_ArtistesAnnees_clicked(QModelIndex)));
     connect(ui->Categories,SIGNAL(activated(QModelIndex)),this,SLOT(on_Categories_clicked(QModelIndex)));
     connect(ui->AlbumsTitres,SIGNAL(activated(QModelIndex)),this,SLOT(on_AlbumsTitres_clicked(QModelIndex)));
 
+on_Mode_Playlist_clicked( false );
 }
 
 void OngletMP3::suppplaylist(QStringList temp)
@@ -847,4 +845,20 @@ void OngletMP3::on_AjoutListePlaylist_clicked()
 {
     DialogAjoutEnPlaylist* temp = new DialogAjoutEnPlaylist( m_listemp3 );
     temp->exec();
+}
+
+
+
+void OngletMP3::on_Mode_Playlist_clicked(bool checked)
+{
+    if ( checked )
+    {
+        ui->AlbumsTitres->setSelectionMode(QAbstractItemView::MultiSelection );
+
+
+    } else
+    {
+        ui->AlbumsTitres->setSelectionMode(QAbstractItemView::SingleSelection );
+
+    }
 }

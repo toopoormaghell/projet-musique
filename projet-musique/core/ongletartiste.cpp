@@ -6,7 +6,7 @@
 #include <QPainter>
 
 #include "bddafficherartiste.h"
-
+#include "dialogmodifnomsartistes.h"
 
 
 #include "meta_album.h"

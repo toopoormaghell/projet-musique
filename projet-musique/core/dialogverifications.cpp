@@ -2,6 +2,7 @@
 #include "ui_dialogverifications.h"
 #include "gestionverifications.h"
 #include <QObject>
+#include "dialogmodifnomsartistes.h"
 
 DialogVerifications::DialogVerifications(QWidget *parent) :
     QDialog(parent),
@@ -125,4 +126,10 @@ void DialogVerifications::on_integriteartistes_clicked()
 void DialogVerifications::on_integritetitres_clicked()
 {
     m_gestion->VerifierTitre();
+}
+
+void DialogVerifications::on_pushButton_clicked()
+{
+    DialogModifNomsArtistes* temp= new DialogModifNomsArtistes( this );
+    temp->exec();
 }

@@ -64,7 +64,7 @@ Meta_Artiste::Meta_Artiste(const QString& nom_artiste, QImage& Poch, int id_arti
   , m_id_poch ( id_poch )
 {
 
-    Q_UNUSED ( parent );
+    Q_UNUSED ( parent )
 }
 void Meta_Artiste::update()
 {
