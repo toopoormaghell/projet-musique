@@ -229,23 +229,23 @@ void BDDGestionMp3::SousCatParChemin( QString chemin )
 {
     if ( chemin.contains( "BOF" ) )
     {
-        m_souscat = 4;
+        m_souscat = 5;
     }
     if ( chemin.contains( "Comedies Musicales" ) )
     {
-        m_souscat = 5;
+        m_souscat = 6;
     }
     if ( chemin.contains( "Télé Réalités" ) )
     {
-        m_souscat = 6;
+        m_souscat = 7;
     }
     if ( chemin.contains( "New Age" ) )
     {
-        m_souscat = 7;
+        m_souscat = 8;
     }
     if ( chemin.contains( "Classique" ) )
     {
-        m_souscat = 8;
+        m_souscat = 9;
     }
     if ( chemin.contains( "Reprises" ) )
     {
@@ -253,7 +253,7 @@ void BDDGestionMp3::SousCatParChemin( QString chemin )
     }
     if ( chemin.contains( "F:/Albums Live" ) )
     {
-        m_souscat = 11;
+        m_souscat = 4;
     }
 }
 

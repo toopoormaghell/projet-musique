@@ -45,6 +45,76 @@ void ChangementVersion::Version()
     madatabase.exec( queryStr );
 }
 
+void ChangementVersion::Version2()
+{
+    //On change le type 11
+    QString  queryStr = " UPDATE Album SET Type =12 WHERE Type =11 ";
+    madatabase.exec( queryStr );
+
+
+    //On change le type 10
+    queryStr = " UPDATE Album SET Type =11 WHERE Type =10 ";
+    madatabase.exec( queryStr );
+
+    queryStr = " UPDATE Type SET Type='Reprise' WHERE Id_Type =11 ";
+    madatabase.exec( queryStr );
+
+    //On change le type 09
+    queryStr = " UPDATE Album SET Type =10 WHERE Type =09 ";
+    madatabase.exec( queryStr );
+
+    queryStr = " UPDATE Type SET Type='Associatif' WHERE Id_Type =10 ";
+    madatabase.exec( queryStr );
+
+    //On change le type 08
+    queryStr = " UPDATE Album SET Type =09 WHERE Type =08 ";
+    madatabase.exec( queryStr );
+
+    queryStr = " UPDATE Type SET Type='Classique' WHERE Id_Type =09 ";
+    madatabase.exec( queryStr );
+    //On change le type 07
+    queryStr = " UPDATE Album SET Type =08 WHERE Type =07 ";
+    madatabase.exec( queryStr );
+
+    queryStr = " UPDATE Type SET Type='New Age' WHERE Id_Type =08 ";
+    madatabase.exec( queryStr );
+
+    //On change le type 06
+    queryStr = " UPDATE Album SET Type =07 WHERE Type =06 ";
+    madatabase.exec( queryStr );
+
+    queryStr = " UPDATE Type SET Type='Télé Réalité' WHERE Id_Type =07 ";
+    madatabase.exec( queryStr );
+
+    //On change le type 05
+    queryStr = " UPDATE Album SET Type =06 WHERE Type =05 ";
+    madatabase.exec( queryStr );
+
+    queryStr = " UPDATE Type SET Type='Musicale' WHERE Id_Type =06 ";
+    madatabase.exec( queryStr );
+
+    //On change le type 04
+    queryStr = " UPDATE Album SET Type =05 WHERE Type =04 ";
+    madatabase.exec( queryStr );
+
+    queryStr = " UPDATE Type SET Type='BOF' WHERE Id_Type =05 ";
+    madatabase.exec( queryStr );
+
+    //On change le type 12
+    queryStr = " UPDATE Album SET Type =04 WHERE Type =12 ";
+    madatabase.exec( queryStr );
+
+    queryStr = " UPDATE Type SET Type='Live' WHERE Id_Type =04 ";
+    madatabase.exec( queryStr );
+
+   //on supprime le type 12
+    queryStr = " DELETE FROM Type  WHERE Id_Type =12 ";
+    madatabase.exec( queryStr );
+
+   queryStr = " UPDATE Configuration SET 'Valeur' = 3 WHERE Intitule ='Version' ";
+    madatabase.exec( queryStr );
+}
+
 
 void ChangementVersion::Version3()
 {
@@ -83,19 +153,4 @@ void ChangementVersion::Version3()
 
         id_art++;
     }
-}
-void ChangementVersion::Version4()
-{
-    QString   queryStr = " UPDATE Configuration SET 'Valeur' = 4 WHERE Intitule ='Version' ";
-    madatabase.exec( queryStr );
-    queryStr = "CREATE TABLE ListePlaylist ( 'Id_ListePlaylist' INTEGER PRIMARY KEY, 'Nom_ListePlaylist' VARCHAR(255) )";
-    madatabase.exec( queryStr );
-
-    queryStr = "CREATE TABLE RelPlaylist ( 'Id_Rel_Playlist' INTEGER PRIMARY KEY, 'Id_ListePlaylist' INTEGER, 'Id_Relation' INTEGER)";
-    madatabase.exec( queryStr );
-}
-void ChangementVersion::Version5()
-{
-    QString   queryStr = "INSERT INTO Type VALUES(12,'Live')";
-    madatabase.exec( queryStr );
 }

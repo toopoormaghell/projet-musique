@@ -253,6 +253,10 @@ void Meta_Album::UpdateBDD()
         if ( m_id_support_p != 2 )
         {
             temp->setnom_artiste( m_nom_artiste );
+
+        } else
+        {
+            temp->setnom_artiste_compilphys( m_nom_artiste );
         }
         temp->setsupportphys( m_id_support_p );
         temp->UpdateBDD();

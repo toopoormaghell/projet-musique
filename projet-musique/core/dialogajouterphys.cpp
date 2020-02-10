@@ -417,13 +417,13 @@ void DialogAjouterPhys::AfficherAlbum()
 {
     ui->Annee->setText( QString::number( m_album->getannee() ) );
     ui->Nom_Album->setText( m_album->getnom_album() );
-    if ( m_Type ==2 )
+    switch ( m_Type )
     {
-        ui->Nom_Artiste->setText("Artistes Divers");
-    } else
-    {
-        ui->Nom_Artiste->setText( m_album->getnom_artiste() );
+    case 4 : ui->Nom_Artiste->setText("BOF"); break;
+    default:  ui->Nom_Artiste->setText( m_album->getnom_artiste() );
     }
+
+
     AfficherPoch();
 }
 
@@ -465,6 +465,8 @@ void DialogAjouterPhys::AffichageListeArtistes( int id )
 
         ui->T_Album->setEnabled( true );
         ui->T_Compil->setEnabled( false );
+        ui->Nom_Artiste_Compil->setVisible( false );
+        ui->Nom_Artiste->setVisible( true );
         ui->T_Single->setEnabled( false );
         ui->T_Live->setEnabled( false );
         ui->T_BOF->setEnabled( true );
@@ -476,6 +478,7 @@ void DialogAjouterPhys::AffichageListeArtistes( int id )
         ui->T_Reprise->setEnabled( true );
 
         ui->T_Album->setChecked( true );
+        m_Type= 1;
 
         break;
     case ( 2 ):
@@ -484,6 +487,8 @@ void DialogAjouterPhys::AffichageListeArtistes( int id )
 
         ui->T_Album->setEnabled( false );
         ui->T_Compil->setEnabled( true );
+        ui->Nom_Artiste_Compil->setVisible( true );
+        ui->Nom_Artiste->setVisible( false );
         ui->T_Single->setEnabled( false );
         ui->T_Live->setEnabled( false );
         ui->T_TeleReal->setEnabled( false );
@@ -495,11 +500,13 @@ void DialogAjouterPhys::AffichageListeArtistes( int id )
         ui->T_Reprise->setEnabled( false );
 
         ui->T_Compil->setChecked( true );
+        m_Type = 2;
         break;
     case ( 3 ):
 
         ui->tableView->setColumnHidden( 2, true );
-
+        ui->Nom_Artiste_Compil->setVisible( false );
+        ui->Nom_Artiste->setVisible( true );
         ui->T_Album->setEnabled( false );
         ui->T_Compil->setEnabled( false );
         ui->T_Single->setEnabled( true );
@@ -513,12 +520,13 @@ void DialogAjouterPhys::AffichageListeArtistes( int id )
         ui->T_Reprise->setEnabled( false );
 
         ui->T_Single->setChecked( true );
-
+        m_Type = 3;
         break;
     case ( 4 ):
 
         ui->tableView->setColumnHidden( 2, true );
-
+        ui->Nom_Artiste_Compil->setVisible( false );
+        ui->Nom_Artiste->setVisible( true );
         ui->T_Album->setEnabled( false );
         ui->T_Compil->setEnabled( false );
         ui->T_Single->setEnabled( false );
@@ -532,7 +540,7 @@ void DialogAjouterPhys::AffichageListeArtistes( int id )
         ui->T_Reprise->setEnabled( false );
 
         ui->T_Live->setChecked( true );
-
+        m_Type = 11;
         break;
     }
 
@@ -544,7 +552,14 @@ void DialogAjouterPhys::RecupererType( int id )
     {
         m_Type = 11;
     }
-
+    if ( m_Type == 5 )
+    {
+        ui->Nom_Artiste->setText("BOF");
+    }
+    if ( m_Support == 2)
+    {
+        m_Type = 2;
+    }
 }
 
 
@@ -573,8 +588,15 @@ void DialogAjouterPhys::on_ViderAlbum_clicked()
 
 void DialogAjouterPhys::RecupererAlbum()
 {
-    //   m_album.titres.clear();
-    m_album->setnom_artiste(ui->Nom_Artiste->text().replace( "'", "$" ));
+    //Si c'est une compil, on récupère la bonne valeur
+    if ( m_Support == 2)
+    {
+        m_album->setnom_artiste(ui->Nom_Artiste_Compil->currentText().replace( "'", "$" ));
+
+    } else
+    {
+        m_album->setnom_artiste(ui->Nom_Artiste->text().replace( "'", "$" ));
+    }
     m_album->setnom_album(ui->Nom_Album->text().replace( "'", "$" ));
     m_album->setannee(ui->Annee->text().toInt());
     m_album->setid_type(m_Type);

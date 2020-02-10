@@ -34,6 +34,7 @@ Meta_Titre::Meta_Titre(const QString& nom_album, const QString& nom_artiste, con
   , m_id_support_m ( id_support_m )
   , m_id_mp3 ( id_mp3 )
 {
+    m_nom_artiste_compilphys="";
     Q_UNUSED ( parent )
 }
 Meta_Titre* Meta_Titre::RecupererBDD(const int id)
@@ -248,7 +249,10 @@ void Meta_Titre::setnom_album( QString nom )
 {
     m_nom_album = nom;
 }
-
+void Meta_Titre::setnom_artiste_compilphys(QString nom)
+{
+    m_nom_artiste_compilphys = nom;
+}
 void Meta_Titre::setnom_artiste(QString nom)
 {
     m_nom_artiste = nom;
@@ -343,7 +347,7 @@ void Meta_Titre::UpdateBDD()
     QString tempartpoch ;
     if ( m_id_support_p == 2 )
     {
-        tempartpoch = "Artistes Divers";
+        tempartpoch = m_nom_artiste_compilphys.replace( "'", "$" );
     } else {
         tempartpoch = m_nom_artiste.replace( "'", "$" );
     }
@@ -357,9 +361,9 @@ void Meta_Titre::UpdateBDD()
     art->updateBDD();
     m_id_artiste = art->id();
 
-    Handle<BDDArtiste> artdef = BDDArtiste::recupererBDD (1 );
+    Handle<BDDArtiste> artdef = BDDArtiste::recupererBDD( tempartpoch );
 
-    Handle<BDDAlbum> alb= BDDAlbum::recupererBDD( m_nom_album.replace( "'", "$" ),  poch, m_annee, BDDType::RecupererType( m_id_type ), m_id_support_p==2 ?artdef : art  );
+    Handle<BDDAlbum> alb= BDDAlbum::recupererBDD( m_nom_album.replace( "'", "$" ),  poch, m_annee, BDDType::RecupererType( m_id_type ), m_id_type==2 ?artdef : art  );
     alb->updateBDD();
     m_id_album = alb->id();
 

@@ -145,6 +145,55 @@
           </widget>
          </item>
          <item>
+          <widget class="QComboBox" name="Nom_Artiste_Compil">
+           <item>
+            <property name="text">
+             <string>Annees 60</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Annees 80</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Annees 90</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Annees 2000</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Annees 2010</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Annees 2020</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Rock</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Slows</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Periodes Diverses</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
           <widget class="QLineEdit" name="Nom_Artiste">
            <property name="text">
             <string>NOM ARTISTE</string>
@@ -485,7 +534,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroup"/>
   <buttongroup name="buttonGroup_2"/>
+  <buttongroup name="buttonGroup"/>
  </buttongroups>
 </ui>

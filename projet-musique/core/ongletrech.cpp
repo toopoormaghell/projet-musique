@@ -262,18 +262,7 @@ void OngletRech::affichageTitresParAlbum()
             item->setIcon( QIcon( phys ) );
         }
 
-        if ( alb->getid_support_p() != 2 )
-        {
-            ui->TitresResultats->addItem( item );
-        } else
-        {
-            if ( m_artiste == QString::number ( rel->getid_art() ))
-            {
-                ui->TitresResultats->addItem( item );
-            }
-        }
-
-
+        ui->TitresResultats->addItem( item );
 
     }
 

@@ -7,10 +7,9 @@ class ChangementVersion
 public:
     ChangementVersion();
     void Version();
-
+    void Version2();
     void Version3();
-    void Version4();
-    void Version5();
+
 };
 
 #endif // CHANGEMENTVERSION_H

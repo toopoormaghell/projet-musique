@@ -50,6 +50,7 @@ public:
     void setcheminmp3(QString chemin);
     void setid_support_m ( int id );
     void setPoch(QImage poch);
+    void setnom_artiste_compilphys(QString nom);
 
     virtual ~Meta_Titre();
 
@@ -64,8 +65,10 @@ public:
 
     void majTitre();
 
+
 private:
     QString m_nom_album;
+    QString m_nom_artiste_compilphys;
     QString m_nom_artiste;
     QString m_nom_titre;
     int m_annee;

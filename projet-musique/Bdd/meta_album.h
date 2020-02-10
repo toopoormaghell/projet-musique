@@ -31,6 +31,7 @@ public:
     int getid_poch();
     QString getean();
 
+
     //Changer entités
     void setnom_album(QString nom);
     void setnom_artiste( QString nom );
