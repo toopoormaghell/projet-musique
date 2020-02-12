@@ -419,7 +419,7 @@ void DialogAjouterPhys::AfficherAlbum()
     ui->Nom_Album->setText( m_album->getnom_album() );
     switch ( m_Type )
     {
-    case 4 : ui->Nom_Artiste->setText("BOF"); break;
+    case 5 : ui->Nom_Artiste->setText("BOF"); break;
     default:  ui->Nom_Artiste->setText( m_album->getnom_artiste() );
     }
 

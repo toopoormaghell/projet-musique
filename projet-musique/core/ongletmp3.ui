@@ -264,6 +264,58 @@
         <enum>QLayout::SetDefaultConstraint</enum>
        </property>
        <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_8">
+         <item>
+          <widget class="QLabel" name="Titre">
+           <property name="minimumSize">
+            <size>
+             <width>480</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>480</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="accessibleName">
+            <string>TitreWidget</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="LireMP3">
+           <property name="toolTip">
+            <string>Lire MP3 (Maj+L)</string>
+           </property>
+           <property name="accessibleName">
+            <string>raccourcis</string>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="IconesMenu.qrc">
+             <normaloff>:/MP3/lire</normaloff>:/MP3/lire</iconset>
+           </property>
+           <property name="shortcut">
+            <string>Shift+L</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <property name="sizeConstraint">
           <enum>QLayout::SetFixedSize</enum>
@@ -299,25 +351,6 @@
             <layout class="QHBoxLayout" name="horizontalLayout_6">
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_5">
-               <item>
-                <widget class="QLabel" name="Piste">
-                 <property name="minimumSize">
-                  <size>
-                   <width>50</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>50</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
                <item>
                 <widget class="QLabel" name="De">
                  <property name="minimumSize">
@@ -395,31 +428,6 @@
              </item>
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_2">
-               <item>
-                <widget class="QLabel" name="Titre">
-                 <property name="minimumSize">
-                  <size>
-                   <width>270</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>270</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="accessibleName">
-                  <string>TitreWidget</string>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
                <item>
                 <widget class="QLabel" name="NomArtiste">
                  <property name="minimumSize">
@@ -506,29 +514,6 @@
              </item>
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_9">
-               <item>
-                <widget class="QPushButton" name="LireMP3">
-                 <property name="toolTip">
-                  <string>Lire MP3 (Maj+L)</string>
-                 </property>
-                 <property name="accessibleName">
-                  <string>raccourcis</string>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true"/>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="IconesMenu.qrc">
-                   <normaloff>:/MP3/lire</normaloff>:/MP3/lire</iconset>
-                 </property>
-                 <property name="shortcut">
-                  <string>Shift+L</string>
-                 </property>
-                </widget>
-               </item>
                <item>
                 <widget class="QPushButton" name="LireArtiste">
                  <property name="toolTip">

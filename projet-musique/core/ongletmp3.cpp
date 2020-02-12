@@ -89,7 +89,7 @@ void OngletMP3::vider( QString Type )
     }
     if ( Type == "Titre" )
     {
-        ui->Piste->clear();
+
         ui->Titre->clear();
         ui->NomAlbum->clear();
         ui->NomArtiste->clear();
@@ -345,9 +345,9 @@ void OngletMP3::afficherInfosTitre()
 
     if ( mp3->getcheminmp3() != "" )
     {
-        ui->Piste->setText( QString::number( mp3->getnum_piste() ).rightJustified( 2, '0' ) + " - " );
 
-        QString temp = mp3->getnom_titre().toUpper() + "(" + mp3->getduree() + ")";
+
+        QString temp = QString::number( mp3->getnum_piste() ).rightJustified( 2, '0' ) + " - " + mp3->getnom_titre().toUpper() + "(" + mp3->getduree() + ")";
         ui->Titre->setText( temp );
 
         ui->NomAlbum->setText( mp3->getnom_album() );
@@ -548,7 +548,7 @@ void OngletMP3::afficherMP3ouAlbum( const QString& MouA )
         ui->Play->setVisible( false );
         ui->Simi->setVisible( false );
         ui->TitresAlb->setVisible( true );
-        ui->Piste->setText( " " );
+
         ui->AjouterAlbumPlaylist->setVisible( true );
         ui->AjoutListePlaylist->setVisible( false );
     }
