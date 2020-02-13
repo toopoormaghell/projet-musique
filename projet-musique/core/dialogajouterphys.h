@@ -65,11 +65,17 @@ private slots:
     void moveDown_clicked();
 
     void RecupererType(int id);
+    void RecupererSite(int id);
+    void RecupererEan_Or_Release( int id );
 private:
     void recupererEAN();
     void AfficherAlbum();
     void AfficherPoch();
     void ViderBoiteDialogue();
+
+
+
+
 
     Ui::DialogAjouterPhys* ui;
     Meta_Album* m_album;
@@ -78,6 +84,8 @@ private:
     QString m_EAN;
     int m_Type;
     int m_Support;
+    int m_Site;
+    int m_EAN_Or_Release;
 
     void RecupererAlbum();
 

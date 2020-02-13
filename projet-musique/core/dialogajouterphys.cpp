@@ -330,6 +330,8 @@ DialogAjouterPhys::DialogAjouterPhys( QWidget* parent ) :
     ui->tableView->setItemDelegate( new QCompletedLineEditDelegate(ui->tableView) );
 
     m_Type = 1;
+    m_Site = 1;
+    m_EAN_Or_Release = 1;
     AffichageListeArtistes( -2 );
 
     AjoutConnex();
@@ -350,6 +352,8 @@ DialogAjouterPhys::DialogAjouterPhys( int id_album, QWidget* parent ) :
     AffichageListeArtistes( -2 );
 
     m_album = Meta_Album::RecupererBDD( id_album );
+    m_Site = 1;
+    m_EAN_Or_Release = 1;
     AfficherAlbum();
     AjoutConnex();
 }
@@ -370,6 +374,8 @@ void DialogAjouterPhys::AjoutConnex()
     QObject::connect( ui->buttonUp, SIGNAL(clicked(bool)), this, SLOT(moveUp_clicked()));
     QObject::connect( ui->buttonDown, SIGNAL(clicked(bool)), this, SLOT(moveDown_clicked()));
 
+    QObject::connect( ui->Site, SIGNAL(buttonClicked( int ) ) , this, SLOT ( RecupererSite ( int ) ) );
+    QObject::connect( ui->TypeObjet, SIGNAL(buttonClicked( int ) ), this, SLOT (RecupererEan_Or_Release (int ) ) );
 
 }
 
@@ -393,28 +399,49 @@ void DialogAjouterPhys::recupererEAN()
 void DialogAjouterPhys::on_ChercherEAN_clicked()
 {
     recupererEAN();
-    if ( m_EAN.count() < 14 )
+    //On cherche le site en premier
+    switch ( m_Site )
     {
-        m_album = m_research.getAlbumFromEAN( m_EAN );
-
-        m_tableModel->clearLines();
-        int i = 0;
-        Q_FOREACH( auto titre, m_album->gettitres() )
+    //Correspond à Discogs
+    case 1 :
+        if ( m_EAN_Or_Release == 1)
         {
-            QString tit = titre->getnom_titre();
-            MajusuculeAChaqueMot ( tit );
-
-            m_tableModel->appendLine( LineModel( QString::number( titre->getnum_piste() ), tit, titre->getnom_artiste() ) );
-            i++;
+            if ( m_EAN.count() < 14 )  {
+                m_album =   m_research.getAlbumFromEAN( m_EAN );
+            } else {
+                AfficherInteraction( "L'EAN possède trop de chiffres." );
+            }
+        } else   {
+           m_album = m_research.getAlbumFromRelease( m_EAN );
         }
-        AfficherAlbum();
-    } else {
-        AfficherInteraction( "L'EAN possède trop de chiffres." );
+        break;
+        //Correspond à MusicBrainz
+    case 2 :
+        if ( m_EAN_Or_Release == 1 )  {
+            AfficherInteraction("A faire méthode MusiBrainz / EAN ");
+        } else {
+            AfficherInteraction("A faire méthode MusiBrainz / Release ");
+        }
+        break;
     }
+
+    AfficherAlbum();
+
 
 }
 void DialogAjouterPhys::AfficherAlbum()
 {
+    m_tableModel->clearLines();
+    int i = 0;
+    Q_FOREACH( auto titre, m_album->gettitres() )
+    {
+        QString tit = titre->getnom_titre();
+        MajusuculeAChaqueMot ( tit );
+
+        m_tableModel->appendLine( LineModel( QString::number( titre->getnum_piste() ), tit, titre->getnom_artiste() ) );
+        i++;
+    }
+
     ui->Annee->setText( QString::number( m_album->getannee() ) );
     ui->Nom_Album->setText( m_album->getnom_album() );
     switch ( m_Type )
@@ -560,6 +587,18 @@ void DialogAjouterPhys::RecupererType( int id )
     {
         m_Type = 2;
     }
+}
+
+void DialogAjouterPhys::RecupererSite(int id)
+{
+    m_Site = (id*-1)-1;
+
+}
+
+void DialogAjouterPhys::RecupererEan_Or_Release(int id)
+{
+    m_EAN_Or_Release = (id*-1)-1;
+
 }
 
 

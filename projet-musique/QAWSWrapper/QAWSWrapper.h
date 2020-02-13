@@ -34,7 +34,8 @@ public:
     // Return the album related to the given EAN
     Meta_Album* getAlbumFromEAN( const QString& ean );
 
-
+    //Retour l'album relatif à la release donnée
+    Meta_Album* getAlbumFromRelease( const QString& ean );
 
 private:
     // Notifier to emit signals

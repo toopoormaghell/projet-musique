@@ -13,15 +13,69 @@
   <property name="windowTitle">
    <string>Ajout d'un album physique</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_4">
+  <layout class="QHBoxLayout" name="horizontalLayout_8">
    <item>
-    <layout class="QVBoxLayout" name="InfosAlbum">
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <widget class="QRadioButton" name="Discogs">
+         <property name="text">
+          <string>Discogs</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">Site</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="Musicbrainz">
+         <property name="text">
+          <string>Musicbrainz</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">Site</string>
+         </attribute>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <item>
+        <widget class="QRadioButton" name="EANChoisi">
+         <property name="text">
+          <string>EAN</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">TypeObjet</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="ReleaseChoisi">
+         <property name="text">
+          <string>Release</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">TypeObjet</string>
+         </attribute>
+        </widget>
+       </item>
+      </layout>
+     </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>EAN : </string>
+          <string>Numero :</string>
          </property>
         </widget>
        </item>
@@ -94,19 +148,19 @@
      <item>
       <widget class="QPushButton" name="ChercherEAN">
        <property name="text">
-        <string>Chercher EAN</string>
+        <string>Chercher</string>
        </property>
       </widget>
      </item>
      <item>
-      <spacer name="verticalSpacer">
+      <spacer name="verticalSpacer_7">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>20</width>
-         <height>40</height>
+         <width>569</width>
+         <height>13</height>
         </size>
        </property>
       </spacer>
@@ -226,14 +280,14 @@
       </widget>
      </item>
      <item>
-      <spacer name="verticalSpacer_7">
+      <spacer name="verticalSpacer">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>20</width>
-         <height>40</height>
+         <width>569</width>
+         <height>13</height>
         </size>
        </property>
       </spacer>
@@ -377,7 +431,7 @@
        <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
-         <height>150</height>
+         <height>100</height>
         </size>
        </property>
       </spacer>
@@ -534,7 +588,9 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroup_2"/>
   <buttongroup name="buttonGroup"/>
+  <buttongroup name="buttonGroup_2"/>
+  <buttongroup name="TypeObjet"/>
+  <buttongroup name="Site"/>
  </buttongroups>
 </ui>

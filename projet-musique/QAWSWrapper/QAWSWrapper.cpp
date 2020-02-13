@@ -230,6 +230,7 @@ Meta_Album* QAWSWrapper::getAlbumFromEAN( const QString& ean )
     document = QJsonDocument::fromJson(response);
     object1 = document.object();
     QString uri;
+
     if (object1.contains("uri") && object1["uri"].isString())
     {
         uri = object1["uri"].toString();
@@ -237,6 +238,37 @@ Meta_Album* QAWSWrapper::getAlbumFromEAN( const QString& ean )
     getNotifier().emitStepAchieved("--- REQUETE SUPPLEMENTAIRE : " + uri);
 
     getNotifier().emitStepAchieved("FIN de recuperation de l'album a partir de son EAN.");
+
+    return parseXml( response, ean );
+}
+
+Meta_Album* QAWSWrapper::getAlbumFromRelease(const QString& ean)
+{
+
+    // Build the URL for the request
+    QUrl requestUrl("https://api.discogs.com/releases/" + ean);
+    QUrlQuery requestParameters;
+    requestParameters.addQueryItem("token", getToken());
+    requestUrl.setQuery(requestParameters);
+
+
+    getNotifier().emitStepAchieved("--- Requete : " + requestUrl.toString());
+
+    // Initiate the request
+    QNetworkRequest networkRequestApi (requestUrl);
+    QNetworkAccessManager* networkAccessManagerApi = new QNetworkAccessManager;
+    QNetworkReply* networkReplyApi = networkAccessManagerApi->get(networkRequestApi);
+
+    QEventLoop loop;
+    QObject::connect( networkReplyApi, SIGNAL( finished() ), &loop, SLOT( quit() ) );
+    loop.exec();
+
+
+    QByteArray response = networkReplyApi->readAll();
+    networkReplyApi->deleteLater();
+
+
+    getNotifier().emitStepAchieved("FIN de recuperation de l'album a partir de sa release.");
 
     return parseXml( response, ean );
 }
