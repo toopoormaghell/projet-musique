@@ -119,10 +119,7 @@ void OngletMP3::afficherListeType()
 
     for ( int cpt = 0; cpt < types.count(); cpt = cpt + 2 )
     {
-        QPixmap scaled( QPixmap::fromImage( image ) );
-        scaled = scaled.scaled( 150, 150 );
         QListWidgetItem* item = new QListWidgetItem;
-        item->setIcon( QIcon( scaled ) );
         item->setData( Qt::UserRole, types[cpt + 1] );
         item->setText( types[cpt] );
 
@@ -222,12 +219,12 @@ void OngletMP3::afficherAlbumSelectionne()
 
 
     QPixmap scaled( QPixmap::fromImage( album->getPoch() ) );
-    scaled = scaled.scaled( 150, 150 );
+    scaled = scaled.scaled( 100, 100 );
     ui->Pochette->setPixmap( scaled );
 
     if ( album->getid_support_p() != -1 )
     {
-        ui->Mp3Phys->setText( "L'album existe en album physique.");
+        ui->Mp3Phys->setText( "Existe en version physique.");
     } else
     {
         ui->Mp3Phys->setText("");
@@ -340,11 +337,11 @@ void OngletMP3::afficherInfosTitre()
 
         if ( mp3->getsupportmp3() !="Aucun" && mp3->getsupportphys() != "Aucun" )
         {
-            ui->Mp3Phys->setText( "Existe en MP3 et Phys" );
+            ui->Mp3Phys->setText( "Existe en version physique." );
         }
 
         QPixmap scaled( QPixmap::fromImage( mp3->getpoch() ) );
-        scaled = scaled.scaled( 150, 150 );
+        scaled = scaled.scaled( 100, 100 );
         ui->Pochette->setPixmap( scaled );
 
         Similaires( mp3->getid_titre() );
@@ -436,7 +433,7 @@ void OngletMP3::affichageartistes()
             {
                 QListWidgetItem* item = new  QListWidgetItem;
                 QPixmap scaled( QPixmap::fromImage( artiste->getPoch() ) );
-                scaled = scaled.scaled( 150, 150 );
+                scaled = scaled.scaled( 85, 85 );
                 item->setIcon( QIcon( scaled ) );
                 //On s'occupe du nom de l'artiste
                 item->setData( Qt::UserRole, artiste->get_id_artiste() );
@@ -471,7 +468,7 @@ void OngletMP3::afficherListeAnnees()
     {
         QListWidgetItem* item = new  QListWidgetItem;
         QPixmap scaled( QPixmap::fromImage( image ) );
-        scaled = scaled.scaled( 100, 100 );
+        scaled = scaled.scaled( 85, 85 );
         item->setIcon( QIcon( scaled ) );
         //On s'occupe d'afficher la liste de l'année en cours
         item->setData( Qt::UserRole, cpt );
@@ -845,3 +842,5 @@ void OngletMP3::on_Mode_Playlist_clicked(bool checked)
 
     }
 }
+
+
