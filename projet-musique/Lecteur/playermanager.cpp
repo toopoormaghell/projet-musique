@@ -121,7 +121,7 @@ void PlayerManager::afficherPlaylist()
     {
 
         QListWidgetItem* item = new QListWidgetItem;
-        item->setText(  ExtraireInfosMp3( playlist->media( cpt ).canonicalUrl().toString() ) );
+        item->setText(  ExtraireInfosMp3( playlist->media( cpt ).QMediaContent::request().url().toString() ) );
         item->setData( Qt::UserRole, cpt );
         ui->Playlist->addItem( item );
     }

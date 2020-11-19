@@ -99,7 +99,7 @@ QList<int> BDDAfficherMp3::listeAlbums( QString Id_Artiste, QString Categorie )
     {
         queryStr = "SELECT DISTINCT Al.Id_Album FROM Album Al, MP3 M, Relations R WHERE Al.Id_Album = R.Id_Album AND M.Support = 2 AND R.Id_Relation = M.Id_Relation AND " + AnneesSwitch( Id_Artiste.toInt() ) + " ORDER BY Al.Annee, Al.Album";
     }
-    if ( Categorie == "12" )
+    if ( Categorie == "4" )
     {
         queryStr = "SELECT DISTINCT Al.Id_Album FROM Album Al, Relations R, MP3 M WHERE R.Id_Artiste=" + Id_Artiste + " AND Al.Id_Album = R.Id_Album AND M.Id_Relation = R.Id_Relation AND M.Support=4 AND Al.Type='" + Categorie + "' ORDER BY Al.Type, Al.Annee DESC";
     }

@@ -690,7 +690,7 @@ void DialogAjouterPhys::on_Supprimer_Titre_clicked()
     if ( selection->hasSelection() )
     {
         QModelIndexList listeLignes = selection->selectedRows();
-        qSort( listeLignes.begin(), listeLignes.end() , qGreater<QModelIndex>() );
+        qSort( listeLignes.begin(), listeLignes.end() ,qGreater<QModelIndex>() );
         Q_FOREACH ( QModelIndex ligne,listeLignes )
         {
             m_tableModel->removeRow( ligne.row() );

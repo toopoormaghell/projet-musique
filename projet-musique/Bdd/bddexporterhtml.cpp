@@ -24,12 +24,12 @@ void BDDExporterHTML::exporterHTML()
     QString chemin = "H:\\Site\\pochettes";
     m_outils->removeDir( chemin, false );
 
-QStringList listeChemin = listeImages();
+    QStringList listeChemin = listeImages();
 
-for (int i =0 ; i< listeChemin.count() ; i++ )
-{
-    exporterImage( listeChemin[i] );
-}
+    for (int i =0 ; i< listeChemin.count() ; i++ )
+    {
+        exporterImage( listeChemin[i] );
+    }
 
 
 }

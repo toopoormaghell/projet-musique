@@ -405,13 +405,13 @@ void BDDErreurs::supprimer( int categorie, int id )
 {
     switch ( categorie )
     {
-    case 1 : return supprimerRelation( id ); break;
-    case 2 : return supprimerAlbum( id ); break;
-    case 3 : return supprimerArtiste( id ); break;
-    case 4 : return supprimerTitre( id ); break;
-    case 5 : return supprimerPoch( id );break;
-    case 6 : return supprimerPhys( id );break;
-    case 7 : return supprimerMP3( id );break;
+    case 1 : return supprimerRelation( id );
+    case 2 : return supprimerAlbum( id );
+    case 3 : return supprimerArtiste( id );
+    case 4 : return supprimerTitre( id );
+    case 5 : return supprimerPoch( id );
+    case 6 : return supprimerPhys( id );
+    case 7 : return supprimerMP3( id );
     default: return supprimerRelation( id );
     }
 }
@@ -458,3 +458,21 @@ QImage BDDErreurs::AfficherImagePoch( int id )
     QImage temp = poch->m_image;
     return temp;
 }
+QList<int> BDDErreurs::retrouverRelations()
+{
+    QList<int> liste;
+
+    QString queryStr = "SELECT DISTINCT Id_Relation FROM Relations WHERE MP3=1 ";
+    QSqlQuery query = madatabase.exec( queryStr );
+
+    while ( query.next() )
+    {
+        QSqlRecord rec = query.record();
+        int temp = rec.value("Id_Relation").toInt();
+
+        liste << temp;
+
+    }
+    return liste;
+}
+

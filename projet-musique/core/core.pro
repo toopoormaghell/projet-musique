@@ -55,6 +55,7 @@ HEADERS += \
     mainwindow.h \
     dialogconfigactu.h \
     ongletplaylist.h \
+    ongletproblemes.h \
       ongletstats.h \
      ongletrech.h \
        dialogchoixpochette.h \
@@ -89,6 +90,7 @@ SOURCES += main.cpp \
     mainwindow.cpp \
     dialogconfigactu.cpp \
     ongletplaylist.cpp \
+    ongletproblemes.cpp \
     ongletstats.cpp \
     ongletrech.cpp \
     dialogchoixpochette.cpp \
@@ -116,6 +118,7 @@ FORMS += \
     mainwindow.ui \
     dialogconfigactu.ui \
     ongletplaylist.ui \
+    ongletproblemes.ui \
     ongletstats.ui \
     ongletrech.ui \
     dialogchoixpochette.ui \

@@ -5,6 +5,7 @@
 #include "outilsbdd.h"
 #include "bdd_global.h"
 
+
 class BDDSHARED_EXPORT BDDErreurs : public QObject
 {
     Q_OBJECT
@@ -17,6 +18,8 @@ public:
     void supprimer(int categorie, int id);
 
     QImage AfficherImagePoch(int id);
+    QList<int> retrouverRelations();
+
 private:
 
     OutilsBDD* m_outils;

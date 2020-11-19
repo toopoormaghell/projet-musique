@@ -158,6 +158,7 @@ void BDDGestionMp3::actualiserMp3( QString chemin )
     SousCatParChemin( chemin );
 
     QString donnees_p = "";
+
     //On ajoute en BDD
     Meta_Titre* mp3 = Meta_Titre::CreerMeta_Titre( album , artist ,title , date , QString::number( min ) + ":" + QString::number( sec ).rightJustified( 2, '0' ) , track , fich.getPoch(), m_souscat, -1, m_support , chemin, donnees_p, donnees_p );
     mp3->UpdateBDD();
@@ -211,8 +212,8 @@ void BDDGestionMp3::supprstep()
             QTimer::singleShot( 0, this, SLOT( init() ) );
         else
         {
-OutilsBDD* temp = new OutilsBDD;
-        temp->SuppressionPochettes();
+            OutilsBDD* temp = new OutilsBDD;
+            temp->SuppressionPochettes();
             emit fin();
         }
     }
@@ -251,10 +252,7 @@ void BDDGestionMp3::SousCatParChemin( QString chemin )
     {
         m_souscat = 10;
     }
-    if ( chemin.contains( "F:/Albums Live" ) )
-    {
-        m_souscat = 4;
-    }
+
 }
 
 
@@ -272,6 +270,5 @@ void BDDGestionMp3::ViderBDD()
 
     if ( ! m_Chemins.isEmpty() )
         supprimerAnciensMP3();
-
 
 }

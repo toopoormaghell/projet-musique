@@ -39,7 +39,6 @@ Meta_Titre::Meta_Titre(const QString& nom_album, const QString& nom_artiste, con
 }
 Meta_Titre* Meta_Titre::RecupererBDD(const int id)
 {
-
     QString queryStr = "SELECT Id_Album, Id_Artiste, Id_Titre , Num_Piste, MP3 , Phys, Duree  FROM Relations WHERE Id_Relation='" + QString::number(id) + "'";
     QSqlQuery query = madatabase.exec(queryStr);
 
@@ -361,7 +360,7 @@ void Meta_Titre::UpdateBDD()
     art->updateBDD();
     m_id_artiste = art->id();
 
-    Handle<BDDArtiste> artdef = BDDArtiste::recupererBDD( tempartpoch );
+    Handle<BDDArtiste> artdef = BDDArtiste::recupererBDD( 1 );
 
     Handle<BDDAlbum> alb= BDDAlbum::recupererBDD( m_nom_album.replace( "'", "$" ),  poch, m_annee, BDDType::RecupererType( m_id_type ), m_id_type==2 ?artdef : art  );
     alb->updateBDD();

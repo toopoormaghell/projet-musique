@@ -1,21 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <author/>
- <comment/>
- <exportmacro/>
  <class>OngletProblemes</class>
- <widget name="OngletProblemes" class="QWidget">
+ <widget class="QWidget" name="OngletProblemes">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>1159</width>
+    <height>675</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <widget class="QTableWidget" name="TabProbl">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>120</y>
+     <width>1131</width>
+     <height>541</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text">
+     <string>Titre</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Album</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Artiste</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Chemin MP3</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Num Piste</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Type</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Annee</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Support Mp3</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Support Phys</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Commentaires</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QPushButton" name="Relations">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>70</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>MP3</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="Physiques">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>70</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Physiques</string>
+   </property>
+  </widget>
  </widget>
- <pixmapfunction/>
+ <resources/>
  <connections/>
 </ui>

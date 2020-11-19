@@ -131,7 +131,7 @@ void DialogControles::on_Lecture_clicked()
 
 void DialogControles::ChargerMp3()
 {
-    QString mp3 = test.canonicalUrl().toString();
+    QString mp3 = test.QMediaContent::request().url().toString();
     mp3 = mp3.remove("file:///");
 
    AfficherInfos( mp3 );

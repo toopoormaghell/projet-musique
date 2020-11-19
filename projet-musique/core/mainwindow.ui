@@ -84,6 +84,11 @@
         <string>Erreurs</string>
        </attribute>
       </widget>
+      <widget class="OngletProblemes" name="tab_7">
+       <attribute name="title">
+        <string>Problemes</string>
+       </attribute>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -92,7 +97,7 @@
    <property name="minimumSize">
     <size>
      <width>0</width>
-     <height>102</height>
+     <height>0</height>
     </size>
    </property>
    <property name="maximumSize">
@@ -345,6 +350,12 @@
    <class>OngletPlaylist</class>
    <extends>QWidget</extends>
    <header>ongletplaylist.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>OngletProblemes</class>
+   <extends>QWidget</extends>
+   <header>ongletproblemes.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

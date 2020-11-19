@@ -73,7 +73,7 @@ void OngletMP3::ActualiserOnglet()
     connect(ui->Categories,SIGNAL(activated(QModelIndex)),this,SLOT(on_Categories_clicked(QModelIndex)));
     connect(ui->AlbumsTitres,SIGNAL(activated(QModelIndex)),this,SLOT(on_AlbumsTitres_clicked(QModelIndex)));
 
-on_Mode_Playlist_clicked( false );
+    on_Mode_Playlist_clicked( false );
 }
 
 void OngletMP3::suppplaylist(QStringList temp)
@@ -135,7 +135,7 @@ void OngletMP3::afficherListeType()
 //Affiche les albums selon l'artiste (ou les années) et la catégorie
 void OngletMP3::afficheralbumsettitres()
 {
-    if ( m_artiste > 0 || m_categorie ==2 )
+    if ( m_artiste > 0  )
     {
         Meta_Artiste* artiste = Meta_Artiste::RecupererBDD( m_artiste );
         ui->Artiste->setText( artiste->getNom_Artiste() );
@@ -158,10 +158,9 @@ void OngletMP3::afficheralbumsettitres()
 
             m_album = album->getid_alb();
 
-
             if ( album->getid_alb() > 0 )
             {
-                if ( ( m_categorie != 2 && cpt > 0 ) || ( m_categorie == 2 && cpt % 2 == 0  && cpt > 0 ) )
+                if ( (  cpt > 0 ) )
                 {
 
                     // Ajout d'une ligne de séparation
@@ -193,29 +192,13 @@ void OngletMP3::afficheralbumsettitres()
                 //On appelle la fonction chargée d'afficher les titres
                 afficherTitresAlbum(  album->gettitres()  , m_categorie, m_lignestitres );
 
-                if ( m_categorie == 2 )
-                {
-                    if ( cpt % 2 == 1 )
-                    {
-                        m_colonnetitre = 0;
-                        m_lignestitres += 7;
-                    }
-                    else
-                    {
-                        m_colonnetitre = 2;
-                    }
-                }
+                m_lignestitres += 7;
+
+
             }
             delete album;
 
-            if ( cpt + 1 < albums.count() && m_categorie != 2 )
-            {
-                m_lignestitres += m_ajoutlignes;
-            }
-        }
-        if ( m_categorie == 2 )
-        {
-            ui->AlbumsTitres->setColumnCount( 4 );
+
         }
         //On retaille tout à la fin
         ui->AlbumsTitres->setRowCount( m_lignestitres );
@@ -292,7 +275,7 @@ void OngletMP3::afficherTitresAlbum( QList<Meta_Titre*> titres, int Cate, int ro
 {
     int col = 1;
     int ligne = 0;
-
+    Cate =1;
     int temp = 0;
 
     for ( int cpt = 0; cpt < titres.count(); cpt ++ )
@@ -331,11 +314,11 @@ void OngletMP3::afficherTitresAlbum( QList<Meta_Titre*> titres, int Cate, int ro
             }
         }
     }
-    if ( Cate != 2 )
+    /*    if ( Cate != 2 )
     {
         m_lignestitres = std::max( row + 6, row + maxlignes );
     }
-
+*/
 }
 void OngletMP3::afficherInfosTitre()
 {
@@ -453,7 +436,7 @@ void OngletMP3::affichageartistes()
             {
                 QListWidgetItem* item = new  QListWidgetItem;
                 QPixmap scaled( QPixmap::fromImage( artiste->getPoch() ) );
-                scaled = scaled.scaled( 100, 100 );
+                scaled = scaled.scaled( 150, 150 );
                 item->setIcon( QIcon( scaled ) );
                 //On s'occupe du nom de l'artiste
                 item->setData( Qt::UserRole, artiste->get_id_artiste() );

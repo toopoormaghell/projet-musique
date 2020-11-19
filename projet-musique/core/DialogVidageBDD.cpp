@@ -42,3 +42,8 @@ void DialogVidageBDD::on_buttonBox_accepted()
     Config = ui->Config->isChecked();
     emit vidage();
 }
+
+void DialogVidageBDD::on_buttonBox_rejected()
+{
+
+}

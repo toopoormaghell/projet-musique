@@ -296,8 +296,8 @@ QStringList FenetrePrincipale::choixCouleurs()
     case 8 : m_couleurs << "#5FF269" << "#727063" << "#B8F2BC" << "#727063" << "#FEE500" << "#1A7620"; break;
     case 9 : m_couleurs << "#EFECCA" << "#EFECCA" << "#40A497" << "#1D625E" << "#046380" << "#002F2F"; break;
     case 10: m_couleurs << "#A97BE6" << "#19003B" << "#E4D2FB" << "#4F2586" << "#9E5BF7" << "#19003B"; break;
-    case 11: m_couleurs << "#cccccc" << "#bbbbbb" << "#FFFFFF" << "#000000" << "#bbbbbb" << "#000000"; break;
-    default : m_couleurs << "#EFECCA" << "#EFECCA" << "#40A497" << "#1D625E" << "#046380" << "#002F2F"; break;
+    case 11: m_couleurs << "#cccccc" << "#000000" << "#FFFFFF" << "#000000" << "#bbbbbb" << "#000000"; break;
+    default : m_couleurs << "#EFECCA" << "#EFECCA" << "#40A497" << "#1D625E" << "#046380" << "#002F2F";
 
     }
 

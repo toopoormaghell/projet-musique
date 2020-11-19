@@ -3,7 +3,6 @@
 
 #include <QWidget>
 #include "bdderreurs.h"
-#include "ongleterreurs.h"
 #include <QListWidgetItem>
 
 namespace Ui {

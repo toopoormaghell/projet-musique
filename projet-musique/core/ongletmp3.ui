@@ -35,13 +35,13 @@
       <widget class="QListWidget" name="Categories">
        <property name="minimumSize">
         <size>
-         <width>250</width>
+         <width>210</width>
          <height>150</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>250</width>
+         <width>210</width>
          <height>150</height>
         </size>
        </property>
@@ -94,7 +94,7 @@
        <property name="iconSize">
         <size>
          <width>105</width>
-         <height>107</height>
+         <height>105</height>
         </size>
        </property>
        <property name="movement">

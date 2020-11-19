@@ -351,7 +351,6 @@ void OutilsBDD::SuppressionPochettes()
         int position = filelist.indexOf ( Chemins[cpt] ) ;
         if( position != -1)
         {
-
             filelist.removeAt(position);
         } else
         {

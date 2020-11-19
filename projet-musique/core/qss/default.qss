@@ -31,7 +31,7 @@ max-width: 80px;
 min-height: 13px;
 max-height: 13px;
 }
-QLabel {
+QLabel, QRadioButton {
 font-size: 15px;
 color : %6;
 }
