@@ -1,6 +1,6 @@
 #ifndef MAINWINDOWLECTEUR_H
 #define MAINWINDOWLECTEUR_H
-
+/*
 #include <QWidget>
 #include "dialogcontroles.h"
 #include <QMediaPlaylist>
@@ -33,5 +33,5 @@ private:
     DialogControles* m_controles;
 
 };
-
+*/
 #endif // MAINWINDOWLECTEUR_H

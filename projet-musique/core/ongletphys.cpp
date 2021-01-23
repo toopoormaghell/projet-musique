@@ -56,14 +56,10 @@ void OngletPhys::AfficherCategories()
 
     types << m_bddInterface.RecupererListeTypes();
 
-    QImage image( "./Pochettes/def.jpg" );
-
     for ( int cpt = 0; cpt < types.count(); cpt = cpt + 2 )
     {
-        QPixmap scaled( QPixmap::fromImage( image ) );
-        scaled = scaled.scaled( 150, 150 );
+
         QListWidgetItem* item = new QListWidgetItem;
-        item->setIcon( QIcon( scaled ) );
         item->setData( Qt::UserRole, types[cpt + 1] );
         item->setText( types[cpt] );
 
@@ -105,6 +101,7 @@ void OngletPhys::afficherListeArtiste()
 
     ui->Artistes->setCurrentRow( 0 );
     m_artiste = ui->Artistes->currentIndex().data( Qt::UserRole ).toString();
+
 
 }
 void OngletPhys::afficherListeAlbum()
@@ -159,10 +156,8 @@ void OngletPhys::afficherListeLive()
         if ( album->getid_alb() > 0 )
         {
             QListWidgetItem* item = new QListWidgetItem;
-            QImage temp = album->getPoch();
-            temp.scaled(150,150);
-            QPixmap scaled( QPixmap::fromImage( temp ) );
-
+            QPixmap scaled( QPixmap::fromImage( album->getPoch() ) );
+            scaled = scaled.scaled(150,150);
             item->setIcon( QIcon( scaled ) );
 
             //On s'occupe du nom de l'album
@@ -211,6 +206,7 @@ void OngletPhys::afficherListeSingles()
 }
 void OngletPhys::AfficherArtisteSelectionne()
 {
+
     switch ( m_categorie )
     {
     case ( 2 ) : ui->Artiste->setText( "Compils" ); break;

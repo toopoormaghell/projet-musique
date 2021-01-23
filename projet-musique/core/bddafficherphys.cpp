@@ -168,7 +168,7 @@ QList<int> BDDAfficherPhys::TitresParArtistes( QString Id_Artiste )
 
     QString queryStr;
 
-    if ( Id_Artiste == "-1" && Id_Artiste == 1 && Id_Artiste.isEmpty() )
+    if ( Id_Artiste == "-1" && Id_Artiste == "1" && Id_Artiste.isEmpty() )
     {
         queryStr = "SELECT COUNT (*) AS 'NbTitres' FROM Phys P, Relations R WHERE P.Id_Album = R.Id_Album AND P.Support='2' ";
     } else
@@ -187,7 +187,7 @@ QList<int> BDDAfficherPhys::TitresParArtistes( QString Id_Artiste )
 
     queryStr = "SELECT COUNT (*) AS 'NbTitres' FROM Phys P, Relations R WHERE R.Id_Artiste=" + Id_Artiste + " AND P.Id_Album=R.Id_Album AND R.MP3='1'";
 
-    if ( Id_Artiste == "-1" && Id_Artiste == 1  && Id_Artiste.isEmpty() )
+    if ( Id_Artiste == "-1" && Id_Artiste == "1"  && Id_Artiste.isEmpty() )
     {
         queryStr = "SELECT COUNT (*) AS 'NbTitres' FROM Relations Rel2, MP3 M WHERE M.Id_Relation = Rel2.Id_Relation  AND Rel2.Id_Titre IN ( SELECT R.Id_Titre FROM Phys P, Relations R WHERE P.Id_Album = R.Id_Album AND P.Support ='2' AND Rel2.Id_Artiste = R.Id_Artiste)  ";
     }

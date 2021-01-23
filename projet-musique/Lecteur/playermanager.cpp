@@ -1,4 +1,4 @@
-#include "playermanager.h"
+/*#include "playermanager.h"
 #include "ui_playermanager.h"
 #include <QStringList>
 #include "dialogcontroles.h"
@@ -187,3 +187,4 @@ void PlayerManager::FinMP3()
     ui->Nb->setText( QString::number( playlist->currentIndex()+1 ) + "/" + QString::number( playlist->mediaCount() ) );
     emit changerMp3( playlist->currentMedia() );
 }
+*/

@@ -25,6 +25,12 @@ private slots:
 
     void on_Physiques_clicked();
 
+    void on_Ok_Titre_clicked();
+
+    void on_Ok_Album_clicked();
+
+    void on_TabProbl_cellClicked(int row, int column);
+
 private:
     Ui::OngletProblemes *ui;
     BDDErreurs* m_bddinterface;

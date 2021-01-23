@@ -1,4 +1,4 @@
-#include "mainwindowlecteur.h"
+/* #include "mainwindowlecteur.h"
 #include "ui_mainwindowlecteur.h"
 #include <QStringList>
 #include <QFile>
@@ -72,3 +72,4 @@ void MainWindowLecteur::SupprimerdansPlaylist( QStringList temp )
     emit suppplaylist( m_playlist );
 
 }
+*/

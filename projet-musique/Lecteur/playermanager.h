@@ -1,6 +1,6 @@
 #ifndef PLAYERMANAGER_H
 #define PLAYERMANAGER_H
-
+/*
 #include <QWidget>
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
@@ -49,5 +49,5 @@ private:
     void afficherIcones();
     QStringList m_listechemins;
 };
-
+*/
 #endif // PLAYERMANAGER_H

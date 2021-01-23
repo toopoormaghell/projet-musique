@@ -642,8 +642,8 @@ void DialogAjouterPhys::RecupererAlbum()
     m_album->setsupport_p(m_Support);
 
     //On récupère la pochette
-    const QPixmap* pixmap = ui->Pochette->pixmap();
-    QImage image = pixmap->toImage();
+    const QPixmap pixmap = ui->Pochette->pixmap();
+    QImage image = pixmap.toImage();
     m_album->setPoch(image);
 
     //On récupère les titres
@@ -690,7 +690,7 @@ void DialogAjouterPhys::on_Supprimer_Titre_clicked()
     if ( selection->hasSelection() )
     {
         QModelIndexList listeLignes = selection->selectedRows();
-        qSort( listeLignes.begin(), listeLignes.end() ,qGreater<QModelIndex>() );
+        std::sort( listeLignes.begin(), listeLignes.end() , [](const QModelIndex& a, const QModelIndex& b) -> bool { return a.row() > b.row(); } );
         Q_FOREACH ( QModelIndex ligne,listeLignes )
         {
             m_tableModel->removeRow( ligne.row() );
@@ -754,7 +754,7 @@ void DialogAjouterPhys::moveUp_clicked()
     if (selection->hasSelection())
     {
         QModelIndexList listeLignes = selection->selectedRows();
-        qSort( listeLignes.begin(), listeLignes.end() , qGreater<QModelIndex>() );
+        std::sort( listeLignes.begin(), listeLignes.end() , [](const QModelIndex& a, const QModelIndex& b) -> bool { return a.row() > b.row(); } );
         Q_FOREACH( QModelIndex ligne, listeLignes )
         {
             if (ligne.row() > 0)
@@ -783,12 +783,13 @@ void DialogAjouterPhys::moveUp_clicked()
 
 void DialogAjouterPhys::moveDown_clicked()
 {
+
     QItemSelectionModel* selection = ui->tableView->selectionModel();
 
     if ( selection->hasSelection() )
     {
         QModelIndexList listeLignes = selection->selectedRows();
-        qSort( listeLignes.begin(), listeLignes.end() , qGreater<QModelIndex>() );
+        std::sort( listeLignes.begin(), listeLignes.end() , [](const QModelIndex& a, const QModelIndex& b) -> bool { return a.row() > b.row(); } );
         Q_FOREACH(QModelIndex ligne, listeLignes)
         {
             if (ligne.row() < m_tableModel->rowCount()-1)

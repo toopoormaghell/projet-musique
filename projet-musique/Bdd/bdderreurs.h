@@ -20,6 +20,9 @@ public:
     QImage AfficherImagePoch(int id);
     QList<int> retrouverRelations();
 
+    QList<int> AfficherListeTitresAlbum(int id);
+
+    void supprimerRelParTitre(int id_alb, int id_tit);
 private:
 
     OutilsBDD* m_outils;

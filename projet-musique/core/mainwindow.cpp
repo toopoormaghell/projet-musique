@@ -9,8 +9,8 @@
 #include <QPushButton>
 #include <QRadioButton>
 #ifdef Q_OS_WIN
-#include <QWinTaskbarButton>
-#include <QWinTaskbarProgress>
+//#include <QWinTaskbarButton>
+//#include <QWinTaskbarProgress>
 #endif
 #include <QShowEvent>
 
@@ -33,13 +33,13 @@ FenetrePrincipale::FenetrePrincipale( QWidget* parent ) :
     m_gestionMP3( new BDDGestionMp3 ),
     m_interaction( new QLabel ),
     m_ongletMP3 (  ),
-    m_lecteur (  ),
+ //  m_lecteur (  ),
     m_dialogajouterphys( nullptr ),
     m_vidage( this ),
     stop( new QPushButton( "Stop" ) )
 
   #ifdef Q_OS_WIN
-  , m_taskbarButton ( nullptr )
+ // , m_taskbarButton ( nullptr )
   #endif
 {
 
@@ -66,9 +66,9 @@ void FenetrePrincipale::ActualiserFenetre()
     //Si uune action est faite dans l'onglet MP3, la barre de status l'affiche
     connect ( m_ongletMP3, SIGNAL( EnvoyerTexte() ), this, SLOT( AfficherTexte() ) );
     //Si un titre est ajouté dans la playlist du lecteur
-    connect( m_ongletMP3,SIGNAL(modifplaylist(QStringList)),m_lecteur,SLOT(modifplaylist(QStringList)));
+ //   connect( m_ongletMP3,SIGNAL(modifplaylist(QStringList)),m_lecteur,SLOT(modifplaylist(QStringList)));
     //Si un titre est supprimé dans la playlist du lecteur
-    connect ( m_lecteur,SIGNAL(suppplaylist(QStringList)),m_ongletMP3,SLOT(suppplaylist(QStringList)));
+ //   connect ( m_lecteur,SIGNAL(suppplaylist(QStringList)),m_ongletMP3,SLOT(suppplaylist(QStringList)));
 
 
 }
@@ -104,13 +104,13 @@ void FenetrePrincipale::ajouterToolbar()
     empty->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
 
     ui->toolBar->addWidget( empty);
-    m_lecteur = new MainWindowLecteur(m_couleurs, this);
+/*    m_lecteur = new MainWindowLecteur(m_couleurs, this);
     m_lecteur->setMinimumHeight( 90 );
     m_lecteur->setMaximumHeight( 90 );
     m_lecteur->setMinimumWidth( 700 );
     m_lecteur->setMaximumWidth( 700 );
     ui->toolBar->addWidget( m_lecteur);
-
+*/
 
 }
 void FenetrePrincipale::ajouterStatusBar()
@@ -223,7 +223,7 @@ void FenetrePrincipale::changerPourcentage()
     m_progressbar->setValue( m_gestionMP3->m_pourcentage );
     m_progressbar->setFormat( "%p%" );
 #ifdef Q_OS_WIN
-    m_taskbarButton->progress()->setValue( m_gestionMP3->m_pourcentage );
+ //   m_taskbarButton->progress()->setValue( m_gestionMP3->m_pourcentage );
 #endif
 
     m_interaction->clear();
@@ -239,7 +239,7 @@ void FenetrePrincipale::ActualiserOngletMP3()
 {
     m_progressbar->setValue( 100 );
 #ifdef Q_OS_WIN
-    m_taskbarButton->progress()->setValue( 100 );
+  //  m_taskbarButton->progress()->setValue( 100 );
 #endif
     m_progressbar->setFormat( "%p%" );
     m_interaction->setText( "Fin de l'actualisation." );
@@ -254,6 +254,7 @@ void FenetrePrincipale::ActualiserOngletStats()
 
 void FenetrePrincipale::showEvent(QShowEvent *e)
 {
+    /*
 #ifdef Q_OS_WIN
     m_taskbarButton = new QWinTaskbarButton(this);
     QWindow* toto = windowHandle();
@@ -263,7 +264,7 @@ void FenetrePrincipale::showEvent(QShowEvent *e)
     m_taskbarButton->progress()->setValue( 0 );
     m_taskbarButton->progress()->show();
 #endif
-    e->accept();
+ */   e->accept();
 }
 
 void FenetrePrincipale::actionExporterBDD()
@@ -336,7 +337,6 @@ void FenetrePrincipale::changercouleur()
     ui->tab->appliquerstyle( stylesheetcoul );
     ui->tab_3->appliquerstyle( stylesheetcoul );
     ui->tab_4->appliquerstyle( stylesheetcoul );
-    ui->tab_5->appliquerstyle(stylesheetcoul );
     ui->tab_6->appliquerstyle( stylesheetcoul );
     ui->Erreurs->appliquerstyle( stylesheetcoul );
 
@@ -351,8 +351,8 @@ void FenetrePrincipale::changercouleur()
     ui->tabWidget->setStyleSheet( stylesheetcoul );
     ui->tabWidget->update();
 
-    m_lecteur->setCouleur( m_couleurs );
-    m_lecteur->appliquerStyle();
+   // m_lecteur->setCouleur( m_couleurs );
+  //  m_lecteur->appliquerStyle();
 
     m_dialogajouterphys->appliquerstyle( stylesheetcoul );
 }

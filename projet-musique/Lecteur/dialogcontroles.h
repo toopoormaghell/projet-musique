@@ -1,6 +1,6 @@
-#ifndef DIALOGCONTROLES_H
+ #ifndef DIALOGCONTROLES_H
 #define DIALOGCONTROLES_H
-
+/*
 #include <QWidget>
 #include <QMediaPlayer>
 #include <fileref.h>
@@ -48,5 +48,6 @@ private:
     void AfficherInfos( QString mp3 );
     QPixmap ImageAlbum( const TagLib::FileRef &f );
 };
-
+*/
 #endif // DIALOGCONTROLES_H
+

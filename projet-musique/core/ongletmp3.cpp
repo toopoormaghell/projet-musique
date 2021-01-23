@@ -115,9 +115,7 @@ void OngletMP3::afficherListeType()
 
     types << m_bddInterface.RecupererListeTypes() ;
 
-    QImage image( "./Pochettes/def.jpg" );
-
-    for ( int cpt = 0; cpt < types.count(); cpt = cpt + 2 )
+   for ( int cpt = 0; cpt < types.count(); cpt = cpt + 2 )
     {
         QListWidgetItem* item = new QListWidgetItem;
         item->setData( Qt::UserRole, types[cpt + 1] );

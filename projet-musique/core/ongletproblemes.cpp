@@ -88,6 +88,12 @@ void OngletProblemes::lireErreurRelation(Meta_Titre* temp, int ligne)
     item= new QTableWidgetItem;
     item->setText( temp->getcommentaires() );
     ui->TabProbl->setItem(ligne, 10, item );
+
+    item= new QTableWidgetItem;
+    item->setText( QString::number( temp->getid_titre() ) );
+    item->setData(Qt::UserRole, QString::number( temp->getid_titre() ) );
+    ui->TabProbl->setItem(ligne, 10, item );
+
 }
 
 void OngletProblemes::on_Relations_clicked()
@@ -98,4 +104,34 @@ void OngletProblemes::on_Relations_clicked()
 void OngletProblemes::on_Physiques_clicked()
 {
 
+}
+
+void OngletProblemes::on_Ok_Titre_clicked()
+{
+    int id_alb = ui->Id_Album->text().toInt();
+    int id_tit = ui->Id_Titre->text().toInt();
+
+    m_bddinterface->supprimerRelParTitre(id_alb,id_tit);
+}
+
+void OngletProblemes::on_Ok_Album_clicked()
+{
+    int id = ui->Id_Album->text().toInt();
+    QList<int> liste  = m_bddinterface->AfficherListeTitresAlbum( id );
+
+    for (int i =0 ; i< liste.count(); i++ )
+    {
+        Meta_Titre* temp = Meta_Titre::RecupererBDD( liste[i ] );
+        ui->TabProbl->setRowCount( liste.count() );
+        ui->TabProbl->setColumnCount( 11 );
+        lireErreurRelation( temp, i );
+    }
+}
+
+void OngletProblemes::on_TabProbl_cellClicked(int row, int column)
+{
+    if (column==10)
+    {
+        ui->Id_Titre->setText( ui->TabProbl->item(row,column)->data(Qt::UserRole).toString() );
+    }
 }

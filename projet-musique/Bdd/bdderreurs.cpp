@@ -452,6 +452,22 @@ void BDDErreurs::supprimerPhys ( int id )
 {
     madatabase.exec("DELETE FROM Phys WHERE Id_Phys='"+  QString::number( id ) +"'");
 }
+void BDDErreurs::supprimerRelParTitre( int id_alb, int id_tit)
+{
+    //On supprime le titre en trop
+    madatabase.exec("DELETE FROM Relations WHERE Id_Album = '"+  QString::number( id_alb ) +"' AND Id_Titre ='"+  QString::number( id_tit ) +"'");
+
+    //on vérifie si le titre est encore utilisé quelque part avant de le supprimer si non.
+    QSqlQuery query;
+    int recCount = query.prepare("SELECT count(*) FROM Relations WHERE Id_Titre ='"+  QString::number( id_tit ) +"'");
+    query.exec();
+
+    if ( recCount == 0 )
+    {
+        madatabase.exec("DELETE FROM Titre WHERE Id_Titre ='"+  QString::number( id_tit ) +"'");
+    }
+
+}
 QImage BDDErreurs::AfficherImagePoch( int id )
 {
     Handle<BDDPoch> poch = BDDPoch::recupererBDD( id );
@@ -463,6 +479,24 @@ QList<int> BDDErreurs::retrouverRelations()
     QList<int> liste;
 
     QString queryStr = "SELECT DISTINCT Id_Relation FROM Relations WHERE MP3=1 ";
+    QSqlQuery query = madatabase.exec( queryStr );
+
+    while ( query.next() )
+    {
+        QSqlRecord rec = query.record();
+        int temp = rec.value("Id_Relation").toInt();
+
+        liste << temp;
+
+    }
+    return liste;
+}
+
+QList<int> BDDErreurs::AfficherListeTitresAlbum(int id)
+{
+    QList<int> liste;
+
+    QString queryStr = "SELECT * FROM Relations R WHERE R.Id_Album ='"+  QString::number( id ) +"' ORDER BY R.Num_Piste";
     QSqlQuery query = madatabase.exec( queryStr );
 
     while ( query.next() )

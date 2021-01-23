@@ -1,4 +1,4 @@
-#include "dialogcontroles.h"
+/*#include "dialogcontroles.h"
 #include "ui_dialogcontroles.h"
 #include <QMediaPlayer>
 #include <QAudioDeviceInfo>
@@ -170,3 +170,4 @@ void DialogControles::on_Position_sliderReleased()
 {
     player->setPosition( ui->Position->value() );
 }
+*/

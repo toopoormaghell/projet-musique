@@ -1,5 +1,4 @@
-QT       += core gui sql network multimedia
-win32:QT += winextras
+QT       += core gui sql network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = core
@@ -69,7 +68,6 @@ HEADERS += \
        ongletartiste.h \
     bddafficherartiste.h \
     dialogalbumssmp3.h \
-    ongletliste.h \
     bddafficherliste.h \
     ongleterreurs.h
 
@@ -104,7 +102,6 @@ SOURCES += main.cpp \
     ongletartiste.cpp \
     bddafficherartiste.cpp \
     dialogalbumssmp3.cpp \
-    ongletliste.cpp \
     bddafficherliste.cpp \
     ongleterreurs.cpp
 
@@ -131,7 +128,6 @@ FORMS += \
     dialogverifications.ui \
     ongletartiste.ui \
     dialogalbumssmp3.ui \
-    ongletliste.ui \
     ongleterreurs.ui
 
 

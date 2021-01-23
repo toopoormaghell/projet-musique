@@ -11,7 +11,8 @@
 #include "ongletmp3.h"
 #include "mainwindowlecteur.h"
 #ifdef Q_OS_WIN
-#include <QWinTaskbarButton>
+
+// #include <QWinTaskbarButton>
 #endif
 
 namespace Ui
@@ -63,13 +64,13 @@ private:
     BDDGestionMp3* m_gestionMP3;
     QLabel* m_interaction;
     OngletMP3* m_ongletMP3;
-    MainWindowLecteur* m_lecteur;
+//    MainWindowLecteur* m_lecteur;
     DialogAjouterPhys* m_dialogajouterphys;
     DialogVidageBDD m_vidage;
     QPushButton* stop;
 
 #ifdef Q_OS_WIN
-    QWinTaskbarButton* m_taskbarButton;
+//    QWinTaskbarButton* m_taskbarButton;
 #endif
 };
 

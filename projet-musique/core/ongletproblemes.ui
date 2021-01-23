@@ -13,92 +13,159 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QTableWidget" name="TabProbl">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>120</y>
-     <width>1131</width>
-     <height>541</height>
-    </rect>
-   </property>
-   <column>
-    <property name="text">
-     <string>Titre</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Album</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Artiste</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Chemin MP3</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Num Piste</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Type</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Annee</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Support Mp3</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Support Phys</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Commentaires</string>
-    </property>
-   </column>
-  </widget>
-  <widget class="QPushButton" name="Relations">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>70</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>MP3</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="Physiques">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>70</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Physiques</string>
-   </property>
-  </widget>
+  <layout class="QVBoxLayout" name="verticalLayout_3">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPushButton" name="Relations">
+         <property name="text">
+          <string>MP3</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="Physiques">
+         <property name="text">
+          <string>Physiques</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Id Album</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="Id_Album"/>
+           </item>
+           <item>
+            <widget class="QPushButton" name="Ok_Album">
+             <property name="text">
+              <string>Ok</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <item>
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>Id Titre</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="Id_Titre"/>
+           </item>
+           <item>
+            <widget class="QPushButton" name="Ok_Titre">
+             <property name="text">
+              <string>Ok</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QLabel" name="Resultat">
+           <property name="text">
+            <string>Résultat</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTableWidget" name="TabProbl">
+     <property name="columnCount">
+      <number>12</number>
+     </property>
+     <column>
+      <property name="text">
+       <string>Titre</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Album</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Artiste</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Chemin MP3</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Num Piste</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Type</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Annee</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Support Mp3</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Support Phys</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Commentaires</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Id_Titre</string>
+      </property>
+     </column>
+     <column/>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

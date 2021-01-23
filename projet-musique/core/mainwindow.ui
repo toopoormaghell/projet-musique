@@ -74,11 +74,6 @@
         <string>Playlists</string>
        </attribute>
       </widget>
-      <widget class="OngletListe" name="tab_5">
-       <attribute name="title">
-        <string>Liste Boites</string>
-       </attribute>
-      </widget>
       <widget class="OngletErreurs" name="Erreurs">
        <attribute name="title">
         <string>Erreurs</string>
@@ -332,12 +327,6 @@
    <class>OngletArtiste</class>
    <extends>QWidget</extends>
    <header>ongletartiste.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>OngletListe</class>
-   <extends>QWidget</extends>
-   <header location="global">ongletliste.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
